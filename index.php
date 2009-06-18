@@ -46,22 +46,79 @@ if ( !$result ) {
     $errno = @ldap_errno($ldap);
     if ( $errno ) {
         $result = "ldaperror";
-        @error_log("LDAP - Bind error $errno");
+        @error_log("LDAP - Bind error $errno  (".@ldap_error($ldap).")");
     } else {
     
     # Search for user
-    @str_replace("{login}", $login, $ldap_filter);
+    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
     $search = @ldap_search($ldap, $ldap_base, $ldap_filter);
 
     $errno = @ldap_errno($ldap);
     if ( $errno ) {
         $result = "ldaperror";
-        @error_log("LDAP - Search error $errno");
+        @error_log("LDAP - Search error $errno  (".@ldap_error($ldap).")");
     } else {
 
-    $result = "passwordchanged";
+    # Get user DN
+    $entry = @ldap_first_entry($ldap, $search);
+    $userdn = @ldap_get_dn($ldap, $entry);
 
-    }}
+    if( !$userdn ) {
+        $result = "ldaperror";
+        @error_log("LDAP - User $login not found");
+    } else {
+    
+    # Bind with old password
+    $bind = @ldap_bind($ldap, $userdn, $oldpassword);
+    $errno = @ldap_errno($ldap);
+    if ( $errno ) {
+        $result = "badcredentials";
+        @error_log("LDAP - Bind user error $errno  (".@ldap_error($ldap).")");
+    } else {
+
+    # AD mode : transform password value
+    if ( $ad_mode == "on" ) {
+        $newpassword = "\"" . $newpassword . "\"";
+        $len = strlen($newpassword);
+        for ($i = 0; $i < $len; $i++){
+            $password .= "{$newpassword{$i}}\000";
+        }
+        $newpassword = $password;
+    }
+
+    # Rebind as Manager if needed
+    if ( $who_change_password == "manager" ) {
+        $bind = @ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+    }
+
+    # Change password
+    if ( $ad_mode == "on" ) {
+        $userdata["unicodePwd"] = $newpassword;
+        $replace = @ldap_mod_replace($ldap, $userdn , $userdata);
+
+        $errno = @ldap_errno($ldap);
+        if ( $errno ) {
+            $result = "passworderror";
+            @error_log("LDAP - Modify password error $errno (".@ldap_error($ldap).")");
+        } else {
+            $result = "passwordchanged";
+        }
+    } else {
+        $userdata["userPassword"] = $newpassword;
+        $replace = @ldap_mod_replace($ldap, $userdn , $userdata);
+
+        $errno = @ldap_errno($ldap);
+        if ( $errno ) {
+            $result = "passworderror";
+            @error_log("LDAP - Modify password error $errno (".@ldap_error($ldap).")");
+        } else {
+            $result = "passwordchanged";
+        }
+    }
+    
+    }}}}
+
+    @ldap_close($ldap);
 }
 
 #==============================================================================

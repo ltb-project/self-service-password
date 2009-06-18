@@ -12,4 +12,7 @@ $messages['fr']['oldpasswordrequired'] = "Vous devez indiquer votre ancien mot d
 $messages['fr']['newpasswordrequired'] = "Vous devez indiquer votre nouveau mot de passe";
 $messages['fr']['confirmpasswordrequired'] = "Vous devez confirmer votre nouveau mot de passe";
 $messages['fr']['passwordchanged'] = "Votre mot de passe a &eacute;t&eacute; chang&eacute;";
+$messages['fr']['nomatch'] = "Les mots de passe ne correspondent pas";
+$messages['fr']['badcredentials'] = "Identifiant ou mot de passe incorrect";
+$messages['fr']['passworderror'] = "Le mot de passe a &eacute;t&eacute; refus&eacute;";
 ?>
