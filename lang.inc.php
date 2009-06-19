@@ -15,4 +15,10 @@ $messages['fr']['passwordchanged'] = "Votre mot de passe a &eacute;t&eacute; cha
 $messages['fr']['nomatch'] = "Les mots de passe ne correspondent pas";
 $messages['fr']['badcredentials'] = "Identifiant ou mot de passe incorrect";
 $messages['fr']['passworderror'] = "Le mot de passe a &eacute;t&eacute; refus&eacute;";
+$messages['fr']['title'] = "Gestion du mot de passe";
+$messages['fr']['login'] = "Identifiant";
+$messages['fr']['oldpassword'] = "Ancien mot de passe";
+$messages['fr']['newpassword'] = "Nouveau mot de passe";
+$messages['fr']['confirmpassword'] = "Confirmation";
+$messages['fr']['submit'] = "Envoyer";
 ?>

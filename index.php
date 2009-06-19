@@ -126,21 +126,38 @@ if ( !$result ) {
 #==============================================================================
 ?>
 
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>LTB Self Service Password</title>
+    <title><?php echo $messages[$lang]["title"]; ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <link rel="stylesheet" type="text/css" href="style/styles.css" />
+    <link href="style/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="style/favicon.ico" rel="shortcut icon" />
 </head>
 <body>
 
-<h1>Self Service Password</h1>
+<div id="content">
+<h1><?php echo $messages[$lang]["title"]; ?></h1>
+<img src="<?php echo $logo; ?>" alt="Logo" />
 <h2><?php echo $messages[$lang][$result]; ?></h2>
-<form method="post">
-    <input type="text" name="login" />
-    <input type="oldpassword" name="oldpassword" />
-    <input type="newpassword" name="newpassword" />
-    <input type="confirmpassword" name="confirmpassword" />
-    <input type="submit" value="OK" />
+<form action="#" method="post">
+    <table>
+    <tr><th><?php echo $messages[$lang]["login"]; ?></th>
+    <td><input type="text" name="login" /></td></tr>
+    <tr><th><?php echo $messages[$lang]["oldpassword"]; ?></th>
+    <td><input type="password" name="oldpassword" /></td></tr>
+    <tr><th><?php echo $messages[$lang]["newpassword"]; ?></th>
+    <td><input type="password" name="newpassword" /></td></tr>
+    <tr><th><?php echo $messages[$lang]["confirmpassword"]; ?></th>
+    <td><input type="password" name="confirmpassword" /></td></tr>
+    <tr><td colspan="2">
+    <input type="submit" value="<?php echo $messages[$lang]['submit']; ?>" /></td></tr>
+    </table>
 </form>
+</div>
 
 </body>
 </html>

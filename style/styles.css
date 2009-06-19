@@ -1,0 +1,66 @@
+body {
+font-family:Arial, Helvetica, Verdana;
+font-size:11pt;
+color:#000;
+background:#eee;
+margin:0;
+padding:0;
+}
+
+h1, h2, h3, h4 {
+margin:0;
+padding:0 0 5px 0;
+}
+
+a img,:link img,:visited img {
+border:none
+}
+
+a, a:link, a:visited {
+text-decoration:none;
+color:#336699;
+}
+
+#content {
+margin:20px 40px;
+padding:10px;
+background:#fff;
+border:1px solid #C6D880;
+text-align:center;
+}
+
+form {
+display:block;
+overflow:visible;
+padding:0;
+margin:10px 30%;
+text-align:center;
+background-color:#dff4ff;
+border:1px solid #c2e1ef;
+color:#336699;
+}
+
+form table {
+border:0;
+margin:0 auto;
+}
+
+form th {
+text-align: right;
+}
+
+form input {
+border:1px solid #c2e1ef;
+padding:5px;
+width: 200px;
+}
+
+form input[name=login] {
+background:#FFFFFF url("user_suit.png") 5px 5px no-repeat;
+padding-left:25px;
+}
+
+form input[type=password] {
+background:#FFFFFF url("key.png") 5px 5px no-repeat;
+padding-left: 25px;
+}
