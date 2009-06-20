@@ -1,13 +1,29 @@
 <?php
 #==============================================================================
 # LTB Self Service Password
+#
+# Copyright (C) 2009 Clement OUDOT
+# Copyright (C) 2009 LTB-project.org
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# GPL License: http://www.gnu.org/licenses/gpl.txt
+#
 #==============================================================================
 
 #==============================================================================
 # Configuration
 #==============================================================================
 # LDAP
-$ldap_url = "ldaps://localhost";
+$ldap_url = "ldap://localhost";
 $ldap_binddn = "cn=manager,dc=example,dc=com";
 $ldap_bindpw = "secret";
 $ldap_base = "dc=example,dc=com";
@@ -16,7 +32,7 @@ $ldap_filter = "(&(objectClass=person)(uid={login})";
 # Active Directory mode
 # on: use unicodePwd as password field
 # off: LDAPv3 standard behavior
-$ad_mode = "on";
+$ad_mode = "off";
 
 # Who changes the password?
 # user: the user itself
@@ -24,6 +40,6 @@ $ad_mode = "on";
 $who_change_password = "user";
 
 # Display
-$lang ="fr";
-$logo = "ltb-logo.png";
+$lang ="en";
+$logo = "style/ltb-logo.png";
 ?>
