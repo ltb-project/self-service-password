@@ -27,7 +27,7 @@ $ldap_url = "ldap://localhost";
 $ldap_binddn = "cn=manager,dc=example,dc=com";
 $ldap_bindpw = "secret";
 $ldap_base = "dc=example,dc=com";
-$ldap_filter = "(&(objectClass=person)(uid={login})";
+$ldap_filter = "(&(objectClass=person)(uid={login}))";
 
 # Active Directory mode
 # on: use unicodePwd as password field
