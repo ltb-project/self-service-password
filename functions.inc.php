@@ -19,33 +19,22 @@
 #
 #==============================================================================
 
-#==============================================================================
-# Configuration
-#==============================================================================
-# LDAP
-$ldap_url = "ldap://localhost";
-$ldap_binddn = "cn=manager,dc=example,dc=com";
-$ldap_bindpw = "secret";
-$ldap_base = "dc=example,dc=com";
-$ldap_filter = "(&(objectClass=person)(uid={login}))";
+# Create SSHA password
+function make_ssha_password($password){
+    mt_srand((double)microtime()*1000000);
+    $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
+    $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
+    return $hash;
+}
 
-# Active Directory mode
-# on: use unicodePwd as password field
-# off: LDAPv3 standard behavior
-$ad_mode = "off";
+# Strip slashes added by PHP
+# Only if magic_quote_gpc is not set to off in php.ini
+function stripslashes_if_gpc_magic_quotes( $string ) {
+    if(get_magic_quotes_gpc()) {
+        return stripslashes($string);
+    } else {
+        return $string;
+    }
+}
 
-# Hash mechanism for password:
-# SSHA
-# clear (the default)
-# This option is not used with ad_mode = on
-$hash = "clear";
-
-# Who changes the password?
-# user: the user itself
-# manager: the above binddn
-$who_change_password = "user";
-
-# Display
-$lang ="en";
-$logo = "style/ltb-logo.png";
 ?>
