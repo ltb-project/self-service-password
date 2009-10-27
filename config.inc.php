@@ -48,4 +48,5 @@ $who_change_password = "user";
 # Display
 $lang ="en";
 $logo = "style/ltb-logo.png";
+$debug = false;
 ?>

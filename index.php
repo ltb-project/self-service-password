@@ -27,17 +27,28 @@ require_once("lang.inc.php");
 require_once("functions.inc.php");
 
 #==============================================================================
+# Error reporting
+#==============================================================================
+error_reporting(0);
+if($debug) error_reporting(E_ALL);
+
+#==============================================================================
 # POST parameters
 #==============================================================================
+# Initiate vars
 $result = "";
+$login = "";
+$confirmpassword = "";
+$newpassword = "";
+$oldpassword = "";
 
-if ($_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
+if (isset($_POST["confirmpassword"])) { $confirmpassword = $_POST["confirmpassword"]; }
  else { $result = "confirmpasswordrequired"; }
-if ($_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
+if (isset($_POST["newpassword"])) { $newpassword = $_POST["newpassword"]; }
  else { $result = "newpasswordrequired"; }
-if ($_POST["oldpassword"]) { $oldpassword = $_POST["oldpassword"]; }
+if (isset($_POST["oldpassword"])) { $oldpassword = $_POST["oldpassword"]; }
  else { $result = "oldpasswordrequired"; }
-if ($_POST["login"] or $_GET["login"]) { $login = $_GET["login"] ? $_GET["login"] : $_POST["login"]; }
+if (isset($_REQUEST["login"])) { $login = $_REQUEST["login"]; }
  else { $result = "loginrequired"; }
 
 # Strip slashes added by PHP
@@ -49,54 +60,57 @@ $confirmpassword = stripslashes_if_gpc_magic_quotes($confirmpassword);
 # Match new and confirm password
 if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 
+# Check PHP-LDAP presence
+if( ! function_exists('ldap_connect') ) { $result="nophpldap"; }
+
 #==============================================================================
 # Change password
 #==============================================================================
-if ( !$result ) {
+if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap = @ldap_connect($ldap_url);
-    @ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-    @ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    $ldap = ldap_connect($ldap_url);
+    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
     # Bind
     if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = @ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     } else {
-        $bind = @ldap_bind($ldap);
+        $bind = ldap_bind($ldap);
     }
 
-    $errno = @ldap_errno($ldap);
+    $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "ldaperror";
-        @error_log("LDAP - Bind error $errno  (".@ldap_error($ldap).")");
+        error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
     } else {
     
     # Search for user
     $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = @ldap_search($ldap, $ldap_base, $ldap_filter);
+    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
 
-    $errno = @ldap_errno($ldap);
+    $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "ldaperror";
-        @error_log("LDAP - Search error $errno  (".@ldap_error($ldap).")");
+        error_log("LDAP - Search error $errno  (".ldap_error($ldap).")");
     } else {
 
     # Get user DN
-    $entry = @ldap_first_entry($ldap, $search);
-    $userdn = @ldap_get_dn($ldap, $entry);
+    $entry = ldap_first_entry($ldap, $search);
+    $userdn = ldap_get_dn($ldap, $entry);
 
     if( !$userdn ) {
         $result = "badcredentials";
-        @error_log("LDAP - User $login not found");
+        error_log("LDAP - User $login not found");
     } else {
     
     # Bind with old password
-    $bind = @ldap_bind($ldap, $userdn, $oldpassword);
-    $errno = @ldap_errno($ldap);
+    $bind = ldap_bind($ldap, $userdn, $oldpassword);
+    $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "badcredentials";
-        @error_log("LDAP - Bind user error $errno  (".@ldap_error($ldap).")");
+        error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
     } else {
 
     # Transform password value
@@ -116,7 +130,7 @@ if ( !$result ) {
 
     # Rebind as Manager if needed
     if ( $who_change_password == "manager" ) {
-        $bind = @ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     }
 
     # Set password value
@@ -127,12 +141,12 @@ if ( !$result ) {
     }
 
     # Commit modification on directory
-    $replace = @ldap_mod_replace($ldap, $userdn , $userdata);
+    $replace = ldap_mod_replace($ldap, $userdn , $userdata);
 
-    $errno = @ldap_errno($ldap);
+    $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "passworderror";
-        @error_log("LDAP - Modify password error $errno (".@ldap_error($ldap).")");
+        error_log("LDAP - Modify password error $errno (".ldap_error($ldap).")");
     } else {
         $result = "passwordchanged";
     }
@@ -164,6 +178,7 @@ if ( !$result ) {
 <h1><?php echo $messages[$lang]["title"]; ?></h1>
 <img src="<?php echo $logo; ?>" alt="Logo" />
 <h2><?php echo $messages[$lang][$result]; ?></h2>
+<?php if ( $result !== "passwordchanged" ) { ?>
 <form action="#" method="post">
     <table>
     <tr><th><?php echo $messages[$lang]["login"]; ?></th>
@@ -178,6 +193,7 @@ if ( !$result ) {
     <input type="submit" value="<?php echo $messages[$lang]['submit']; ?>" /></td></tr>
     </table>
 </form>
+<?php } ?>
 </div>
 
 </body>
