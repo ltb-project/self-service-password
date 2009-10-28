@@ -42,7 +42,7 @@ $messages['en']['submit'] = "Send";
 #==============================================================================
 # French
 #==============================================================================
-$messages['en']['nophpldap'] = "Vous devriez installer PHP-Ldap pour utiliser cet outil";
+$messages['fr']['nophpldap'] = "Vous devriez installer PHP-Ldap pour utiliser cet outil";
 $messages['fr']['ldaperror'] = "Erreur d'acc&egrave;s &agrave; l'annuaire";
 $messages['fr']['loginrequired'] = "Vous devez indiquer votre identifiant";
 $messages['fr']['oldpasswordrequired'] = "Vous devez indiquer votre ancien mot de passe";
