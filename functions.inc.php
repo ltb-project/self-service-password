@@ -20,10 +20,30 @@
 #==============================================================================
 
 # Create SSHA password
-function make_ssha_password($password){
+function make_ssha_password($password) {
     mt_srand((double)microtime()*1000000);
     $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
     $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
+    return $hash;
+}
+
+# Create SHA password
+function make_sha_password($password) {
+    $hash = "{SHA}" . base64_encode(pack("H*", sha1($password)));
+    return $hash;
+}
+
+# Create SMD5 password
+function make_smd5_password($password) {
+    mt_srand((double)microtime()*1000000);
+    $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
+    $hash = "{SMD5}" . base64_encode(pack("H*", md5($password . $salt)) . $salt);
+    return $hash;
+}
+
+# Create MD5 password
+function make_md5_password($password) {
+    $hash = "{MD5}" . base64_encode(pack("H*", md5($password)));
     return $hash;
 }
 

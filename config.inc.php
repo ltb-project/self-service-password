@@ -36,6 +36,9 @@ $ad_mode = "off";
 
 # Hash mechanism for password:
 # SSHA
+# SHA
+# SMD5
+# MD5
 # clear (the default)
 # This option is not used with ad_mode = on
 $hash = "clear";

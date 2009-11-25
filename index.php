@@ -126,6 +126,15 @@ if ( $result === "" ) {
         if ( $hash == "SSHA" ) {
             $newpassword = make_ssha_password($newpassword);
         }
+        if ( $hash == "SHA" ) {
+            $newpassword = make_sha_password($newpassword);
+        }
+        if ( $hash == "SMD5" ) {
+            $newpassword = make_smd5_password($newpassword);
+        }
+        if ( $hash == "MD5" ) {
+            $newpassword = make_md5_password($newpassword);
+        }
     }
 
     # Rebind as Manager if needed
