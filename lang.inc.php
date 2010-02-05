@@ -58,4 +58,24 @@ $messages['fr']['oldpassword'] = "Ancien mot de passe";
 $messages['fr']['newpassword'] = "Nouveau mot de passe";
 $messages['fr']['confirmpassword'] = "Confirmation";
 $messages['fr']['submit'] = "Envoyer";
+
+#==============================================================================
+# German
+#==============================================================================
+$messages['de']['nophpldap'] = "Sie benötigen die PHP-Ldap Erweiterung um dieses Tool zu nutzen";
+$messages['de']['ldaperror'] = "Kein Zugriff auf das LDAP möglich";
+$messages['de']['loginrequired'] = "Ihr Login wird benötigt";
+$messages['de']['oldpasswordrequired'] = "Ihr altes Passwort wird benötigt";
+$messages['de']['newpasswordrequired'] = "Ihr neues Passwort wird benötigt";
+$messages['de']['confirmpasswordrequired'] = "Bitte bestätigen Sie Ihr neues Passwort";
+$messages['de']['passwordchanged'] = "Ihr Passwort wurde erfolgreich geändert";
+$messages['de']['nomatch'] = "Passwörters stimmen nicht überein";
+$messages['de']['badcredentials'] = "Login oder Passwort inkorrekt";
+$messages['de']['passworderror'] = "Passwort wurde vom LDAP nicht akzeptiert";
+$messages['de']['title'] = "Self service password";
+$messages['de']['login'] = "Login";
+$messages['de']['oldpassword'] = "Altes Passwort";
+$messages['de']['newpassword'] = "Neues Passwort";
+$messages['de']['confirmpassword'] = "Bestätigen";
+$messages['de']['submit'] = "Senden";
 ?>
