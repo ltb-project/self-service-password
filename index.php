@@ -186,7 +186,7 @@ if ( $result === "" ) {
 <div id="content">
 <h1><?php echo $messages[$lang]["title"]; ?></h1>
 <img src="<?php echo $logo; ?>" alt="Logo" />
-<h2><?php echo $messages[$lang][$result]; ?></h2>
+<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$lang][$result]; ?></h2>
 <?php if ( $result !== "passwordchanged" ) { ?>
 <form action="#" method="post">
     <table>

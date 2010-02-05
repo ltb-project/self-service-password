@@ -52,8 +52,8 @@ text-align:center;
 form {
 display:block;
 overflow:visible;
-padding:0;
-margin:10px 30%;
+padding:20px 0;
+margin:10px 20%;
 text-align:center;
 background-color:#dff4ff;
 border:1px solid #c2e1ef;
@@ -84,3 +84,29 @@ form input[type=password] {
 background:#FFFFFF url("key.png") 5px 5px no-repeat;
 padding-left: 25px;
 }
+
+/* Message criticity */
+h2 {
+padding:5px;
+margin:10px 20%;
+font-size:12pt;
+}
+
+h2.ok {
+background-color:#E6EFC2;
+border:1px solid #C6D880;
+color:#529214;
+}
+
+h2.warning {
+background-color:#ffe17a;
+border:1px solid #ffca10;
+color:#a03400
+}
+
+h2.critical {
+background:#fbe3e4;
+border:1px solid #fbc2c4;
+color:#d12f19;
+}
+
