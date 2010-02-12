@@ -113,6 +113,11 @@ if ( $result === "" ) {
         error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
     } else {
 
+    # Set Samba password value
+    if ( $samba_mode == "on" ) {
+	$userdata["sambaNTPassword"] = make_md4_password($newpassword);
+    }
+
     # Transform password value
     if ( $ad_mode == "on" ) {
         $newpassword = "\"" . $newpassword . "\"";

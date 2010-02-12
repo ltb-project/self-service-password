@@ -34,6 +34,12 @@ $ldap_filter = "(&(objectClass=person)(uid={login}))";
 # off: LDAPv3 standard behavior
 $ad_mode = "off";
 
+# Samba mode
+# on: update sambaNTpassword attribute too
+# off: just update the password
+# Warning: this require mhash() to be installed on your system
+$samba_mode = "off";
+
 # Hash mechanism for password:
 # SSHA
 # SHA

@@ -66,6 +66,13 @@ function make_crypt_password($password) {
     return $hash;
 }
 
+# Create MD4 password (Microsoft NT password format)
+# Require mhash() function
+function make_md4_password($password) {
+    $hash = strtoupper( bin2hex( mhash( MHASH_MD4, iconv( "UTF-8", "UTF-16LE", $password ) ) ) );
+    return $hash;
+}
+
 # Strip slashes added by PHP
 # Only if magic_quote_gpc is not set to off in php.ini
 function stripslashes_if_gpc_magic_quotes( $string ) {
