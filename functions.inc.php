@@ -47,6 +47,25 @@ function make_md5_password($password) {
     return $hash;
 }
 
+# Create CRYPT password
+function make_crypt_password($password) {
+
+    // Generate salt
+    $possible = '0123456789'.
+		'abcdefghijklmnopqrstuvwxyz'.
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
+		'./';
+    $salt = "";
+
+    mt_srand((double)microtime() * 1000000);
+
+    while( strlen( $salt ) < 2 )
+		$salt .= substr( $possible, ( rand() % strlen( $possible ) ), 1 );
+
+    $hash = '{CRYPT}' . crypt( $password,  $salt);
+    return $hash;
+}
+
 # Strip slashes added by PHP
 # Only if magic_quote_gpc is not set to off in php.ini
 function stripslashes_if_gpc_magic_quotes( $string ) {

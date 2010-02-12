@@ -135,6 +135,9 @@ if ( $result === "" ) {
         if ( $hash == "MD5" ) {
             $newpassword = make_md5_password($newpassword);
         }
+        if ( $hash == "CRYPT" ) {
+            $newpassword = make_crypt_password($newpassword);
+        }
     }
 
     # Rebind as Manager if needed
