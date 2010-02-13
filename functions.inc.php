@@ -86,7 +86,7 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 	
-	if ( ereg( "nophpldap|ldaperror|nomatch|badcredentials|passworderror" , $msg ) ) {
+	if ( ereg( "nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror" , $msg ) ) {
 		return "critical";
 	}
 	

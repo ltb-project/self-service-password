@@ -23,6 +23,7 @@
 # English
 #==============================================================================
 $messages['en']['nophpldap'] = "You should install PHP-Ldap to use this tool";
+$messages['en']['nophpmhash'] = "You should install PHP mhash to use Samba mode";
 $messages['en']['ldaperror'] = "Cannot access to LDAP directory";
 $messages['en']['loginrequired'] = "Your login is required";
 $messages['en']['oldpasswordrequired'] = "Your old password is required";
@@ -43,6 +44,7 @@ $messages['en']['submit'] = "Send";
 # French
 #==============================================================================
 $messages['fr']['nophpldap'] = "Vous devriez installer PHP-Ldap pour utiliser cet outil";
+$messages['fr']['nophpmhash'] = "Vous devriez installer PHP mhash pour utiliser le mode Samba";
 $messages['fr']['ldaperror'] = "Erreur d'acc&egrave;s &agrave; l'annuaire";
 $messages['fr']['loginrequired'] = "Vous devez indiquer votre identifiant";
 $messages['fr']['oldpasswordrequired'] = "Vous devez indiquer votre ancien mot de passe";
@@ -63,6 +65,7 @@ $messages['fr']['submit'] = "Envoyer";
 # German
 #==============================================================================
 $messages['de']['nophpldap'] = "Sie benötigen die PHP-Ldap Erweiterung um dieses Tool zu nutzen";
+$messages['de']['nophpmash'] = "Sie benötigen die PHP mhash Erweiterung um Samba mode zu nutzen";
 $messages['de']['ldaperror'] = "Kein Zugriff auf das LDAP möglich";
 $messages['de']['loginrequired'] = "Ihr Login wird benötigt";
 $messages['de']['oldpasswordrequired'] = "Ihr altes Passwort wird benötigt";

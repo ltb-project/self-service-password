@@ -63,6 +63,9 @@ if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 # Check PHP-LDAP presence
 if( ! function_exists('ldap_connect') ) { $result="nophpldap"; }
 
+# Check PHP mhash presence if Samba mode on
+if( $samba_mode == "on" and ! function_exists('mhash') ) { $result="nophpmhash"; }
+
 #==============================================================================
 # Change password
 #==============================================================================
@@ -115,7 +118,8 @@ if ( $result === "" ) {
 
     # Set Samba password value
     if ( $samba_mode == "on" ) {
-	$userdata["sambaNTPassword"] = make_md4_password($newpassword);
+        $userdata["sambaNTPassword"] = make_md4_password($newpassword);
+        $userdata["sambaPwdLastSet"] = time();
     }
 
     # Transform password value
