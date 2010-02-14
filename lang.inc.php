@@ -39,6 +39,17 @@ $messages['en']['oldpassword'] = "Old password";
 $messages['en']['newpassword'] = "New password";
 $messages['en']['confirmpassword'] = "Confirm";
 $messages['en']['submit'] = "Send";
+$messages['en']['tooshort'] = "Your password is too short";
+$messages['en']['toobig'] = "Your password is too big";
+$messages['en']['minlower'] = "Your password has not enough lower characters";
+$messages['en']['minupper'] = "Your password has not enough upper characters";
+$messages['en']['mindigit'] = "Your password has not enough digits";
+$messages['en']['policy'] = "Your password should respect the following constraints:";
+$messages['en']['policyminlength'] = "Minimal length:";
+$messages['en']['policymaxlength'] = "Maximal length:";
+$messages['en']['policyminlower'] = "Minimal lower characters:";
+$messages['en']['policyminupper'] = "Minimal upper characters:";
+$messages['en']['policymindigit'] = "Minimal digits:";
 
 #==============================================================================
 # French
@@ -60,6 +71,17 @@ $messages['fr']['oldpassword'] = "Ancien mot de passe";
 $messages['fr']['newpassword'] = "Nouveau mot de passe";
 $messages['fr']['confirmpassword'] = "Confirmation";
 $messages['fr']['submit'] = "Envoyer";
+$messages['fr']['tooshort'] = "Votre mot de passe est trop court";
+$messages['fr']['toobig'] = "Votre mot de passe est trop long";
+$messages['fr']['minlower'] = "Votre mot de passe n'a pas assez de minuscules";
+$messages['fr']['minupper'] = "Votre mot de passe n'a pas assez de majuscules";
+$messages['fr']['mindigit'] = "Votre mot de passe n'a pas assez de chiffres";
+$messages['fr']['policy'] = "Votre mot de passe doit respecter les contraintes suivantes&nbsp;:";
+$messages['fr']['policyminlength'] = "Nombre minimum de caractères&nbsp;:";
+$messages['fr']['policymaxlength'] = "Nombre maximum de caractères&nbsp;:";
+$messages['fr']['policyminlower'] = "Nombre minimum de minuscules&nbsp;:";
+$messages['fr']['policyminupper'] = "Nombre minimum de majuscules&nbsp;:";
+$messages['fr']['policymindigit'] = "Nombre minimum de chiffres&nbsp;:";
 
 #==============================================================================
 # German
@@ -81,4 +103,16 @@ $messages['de']['oldpassword'] = "Altes Passwort";
 $messages['de']['newpassword'] = "Neues Passwort";
 $messages['de']['confirmpassword'] = "Bestätigen";
 $messages['de']['submit'] = "Senden";
+$messages['de']['tooshort'] = "Ihr Passwort ist zu kurz";
+$messages['de']['toobig'] = "Ihr Password ist zu lang";
+$messages['de']['minlower'] = "Ihr Passwort hast nicht genug Kleinbuchstaben";
+$messages['de']['minupper'] = "Ihr Passwort hast nicht genug Großbuchstaben";
+$messages['de']['mindigit'] = "Ihr Passwort hast nicht genug Ziffern";
+$messages['de']['policy'] = "Ihr Passwort darf diese Regeln achten:";
+$messages['de']['policyminlength'] = "Minimal Länge:";
+$messages['de']['policymaxlength'] = "Maximal Länge:";
+$messages['de']['policyminlower'] = "Minimal Kleinbuchstaben:";
+$messages['de']['policyminupper'] = "Minimal Großbuchstaben:";
+$messages['de']['policymindigit'] = "Minimal Ziffern:";
+
 ?>

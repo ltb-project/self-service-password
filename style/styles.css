@@ -20,7 +20,7 @@
 
 body {
 font-family:Arial, Helvetica, Verdana;
-font-size:11pt;
+font-size:12pt;
 color:#000;
 background:#eee;
 margin:0;
@@ -41,11 +41,26 @@ text-decoration:none;
 color:#336699;
 }
 
+/* Rounded corner */
+form, div, h1, h2 {
+-moz-border-radius:10px;
+-webkit-border-radius:10px;
+}
+
+h1 {
+padding:5px;
+margin:10px 20%;
+font-size:20pt;
+background-color:#E6EFC2;
+border:2px solid #C6D880;
+color:#529214;
+}
+
 #content {
 margin:20px 40px;
 padding:10px;
 background:#fff;
-border:1px solid #C6D880;
+border:2px solid #C6D880;
 text-align:center;
 }
 
@@ -56,7 +71,7 @@ padding:20px 0;
 margin:10px 20%;
 text-align:center;
 background-color:#dff4ff;
-border:1px solid #c2e1ef;
+border:2px solid #c2e1ef;
 color:#336699;
 }
 
@@ -85,28 +100,48 @@ background:#FFFFFF url("key.png") 5px 5px no-repeat;
 padding-left: 25px;
 }
 
+form input[type=submit] {
+margin-top:20px;
+font-weight:bold;
+font-size:10pt;
+}
+
 /* Message criticity */
 h2 {
 padding:5px;
 margin:10px 20%;
-font-size:12pt;
+font-size:14pt;
 }
 
 h2.ok {
-background-color:#E6EFC2;
-border:1px solid #C6D880;
+background:#e6efc2 url("accept.png") 20px 7px no-repeat;
+border:2px solid #C6D880;
 color:#529214;
 }
 
 h2.warning {
-background-color:#ffe17a;
-border:1px solid #ffca10;
+background:#ffe17a url("error.png") 20px 7px no-repeat;
+border:2px solid #ffca10;
 color:#a03400
 }
 
 h2.critical {
-background:#fbe3e4;
-border:1px solid #fbc2c4;
+background:#fbe3e4 url("exclamation.png") 20px 7px no-repeat;
+border:2px solid #fbc2c4;
 color:#d12f19;
 }
 
+/* Policy */
+div.policy {
+padding:10px;
+margin:10px 20%;
+background-color:#ffe17a;
+border:2px solid #ffca10;
+color:#a03400;
+text-align:left;
+}
+
+div.policy p {
+margin:0;
+font-weight:bold;
+}

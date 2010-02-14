@@ -42,13 +42,13 @@ $confirmpassword = "";
 $newpassword = "";
 $oldpassword = "";
 
-if (isset($_POST["confirmpassword"])) { $confirmpassword = $_POST["confirmpassword"]; }
+if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
  else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"])) { $newpassword = $_POST["newpassword"]; }
+if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
  else { $result = "newpasswordrequired"; }
-if (isset($_POST["oldpassword"])) { $oldpassword = $_POST["oldpassword"]; }
+if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) { $oldpassword = $_POST["oldpassword"]; }
  else { $result = "oldpasswordrequired"; }
-if (isset($_REQUEST["login"])) { $login = $_REQUEST["login"]; }
+if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
  else { $result = "loginrequired"; }
 
 # Strip slashes added by PHP
@@ -61,10 +61,40 @@ $confirmpassword = stripslashes_if_gpc_magic_quotes($confirmpassword);
 if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 
 # Check PHP-LDAP presence
-if( ! function_exists('ldap_connect') ) { $result="nophpldap"; }
+if ( ! function_exists('ldap_connect') ) { $result="nophpldap"; }
 
-# Check PHP mhash presence if Samba mode on
-if( $samba_mode == "on" and ! function_exists('mhash') ) { $result="nophpmhash"; }
+# Check PHP mhash presence if Samba mode active
+if ( $samba_mode and ! function_exists('mhash') ) { $result="nophpmhash"; }
+
+#==============================================================================
+# Check password strenght
+#==============================================================================
+if ( $result === "" ) {
+
+    $length = strlen($newpassword);
+    preg_match_all("/[a-z]/", $newpassword, $lower_res);
+    $lower = count( $lower_res[0] );
+    preg_match_all("/[A-Z]/", $newpassword, $upper_res);
+    $upper = count( $upper_res[0] );
+    preg_match_all("/[0-9]/", $newpassword, $digit_res);
+    $digit = count( $digit_res[0] );
+
+    # Minimal lenght
+    if ( $pwd_min_length and $length < $pwd_min_length ) { $result="tooshort"; }
+
+    # Maximal lenght
+    if ( $pwd_max_length and $length > $pwd_max_length ) { $result="toobig"; }
+
+    # Minimal lower chars
+    if ( $pwd_min_lower and $lower < $pwd_min_lower ) { $result="minlower"; }
+
+    # Minimal upper chars
+    if ( $pwd_min_upper and $upper < $pwd_min_upper ) { $result="minupper"; }
+
+    # Minimal digit chars
+    if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $result="mindigit"; }
+
+}
 
 #==============================================================================
 # Change password
@@ -117,13 +147,13 @@ if ( $result === "" ) {
     } else {
 
     # Set Samba password value
-    if ( $samba_mode == "on" ) {
+    if ( $samba_mode ) {
         $userdata["sambaNTPassword"] = make_md4_password($newpassword);
         $userdata["sambaPwdLastSet"] = time();
     }
 
     # Transform password value
-    if ( $ad_mode == "on" ) {
+    if ( $ad_mode ) {
         $newpassword = "\"" . $newpassword . "\"";
         $len = strlen($newpassword);
         for ($i = 0; $i < $len; $i++){
@@ -155,7 +185,7 @@ if ( $result === "" ) {
     }
 
     # Set password value
-    if ( $ad_mode == "on" ) {
+    if ( $ad_mode ) {
         $userdata["unicodePwd"] = $newpassword;
     } else {
         $userdata["userPassword"] = $newpassword;
@@ -200,6 +230,20 @@ if ( $result === "" ) {
 <img src="<?php echo $logo; ?>" alt="Logo" />
 <h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$lang][$result]; ?></h2>
 <?php if ( $result !== "passwordchanged" ) { ?>
+<?php
+if ( $pwd_show_policy ) {
+    echo "<div class=\"policy\">\n";
+    echo "<p>".$messages[$lang]["policy"]."</p>\n";
+    echo "<ul>\n";
+    if ( $pwd_min_length ) { echo "<li>".$messages[$lang]["policyminlength"]." $pwd_min_length</li>\n"; }
+    if ( $pwd_max_length ) { echo "<li>".$messages[$lang]["policymaxlength"]." $pwd_max_length</li>\n"; }
+    if ( $pwd_min_lower  ) { echo "<li>".$messages[$lang]["policyminlower"] ." $pwd_min_lower </li>\n"; }
+    if ( $pwd_min_upper  ) { echo "<li>".$messages[$lang]["policyminupper"] ." $pwd_min_upper </li>\n"; }
+    if ( $pwd_min_digit  ) { echo "<li>".$messages[$lang]["policymindigit"] ." $pwd_min_digit </li>\n"; }
+    echo "</ul>\n";
+    echo "</div>\n";
+}
+?>
 <form action="#" method="post">
     <table>
     <tr><th><?php echo $messages[$lang]["login"]; ?></th>

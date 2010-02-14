@@ -30,15 +30,15 @@ $ldap_base = "dc=example,dc=com";
 $ldap_filter = "(&(objectClass=person)(uid={login}))";
 
 # Active Directory mode
-# on: use unicodePwd as password field
-# off: LDAPv3 standard behavior
-$ad_mode = "off";
+# true: use unicodePwd as password field
+# false: LDAPv3 standard behavior
+$ad_mode = false;
 
 # Samba mode
-# on: update sambaNTpassword attribute too
-# off: just update the password
+# true: update sambaNTpassword and sambaPwdLastSet attributes too
+# false: just update the password
 # Warning: this require mhash() to be installed on your system
-$samba_mode = "off";
+$samba_mode = false;
 
 # Hash mechanism for password:
 # SSHA
@@ -47,16 +47,35 @@ $samba_mode = "off";
 # MD5
 # CRYPT
 # clear (the default)
-# This option is not used with ad_mode = on
+# This option is not used with ad_mode = true
 $hash = "clear";
+
+# Local password policy
+# This is applied before directory password policy
+# Minimal length
+$pwd_min_length = 0;
+# Maximal length
+$pwd_max_length = 0;
+# Minimal lower characters
+$pwd_min_lower = 0;
+# Minimal upper characters
+$pwd_min_upper = 0;
+# Minimal digit characters
+$pwd_min_digit = 0;
+# Show policy constraints message
+$pwd_show_policy = false;
 
 # Who changes the password?
 # user: the user itself
 # manager: the above binddn
 $who_change_password = "user";
 
-# Display
+# Language
 $lang ="en";
+
+# Logo
 $logo = "style/ltb-logo.png";
+
+# Debug mode
 $debug = false;
 ?>
