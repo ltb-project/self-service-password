@@ -86,33 +86,33 @@ $messages['fr']['policymindigit'] = "Nombre minimum de chiffres&nbsp;:";
 #==============================================================================
 # German
 #==============================================================================
-$messages['de']['nophpldap'] = "Sie benötigen die PHP-Ldap Erweiterung um dieses Tool zu nutzen";
-$messages['de']['nophpmash'] = "Sie benötigen die PHP mhash Erweiterung um Samba mode zu nutzen";
-$messages['de']['ldaperror'] = "Kein Zugriff auf das LDAP möglich";
-$messages['de']['loginrequired'] = "Ihr Login wird benötigt";
-$messages['de']['oldpasswordrequired'] = "Ihr altes Passwort wird benötigt";
-$messages['de']['newpasswordrequired'] = "Ihr neues Passwort wird benötigt";
-$messages['de']['confirmpasswordrequired'] = "Bitte bestätigen Sie Ihr neues Passwort";
-$messages['de']['passwordchanged'] = "Ihr Passwort wurde erfolgreich geändert";
-$messages['de']['nomatch'] = "Passwörters stimmen nicht überein";
+$messages['de']['nophpldap'] = "Sie ben&ouml;tigen die PHP-Ldap Erweiterung um dieses Tool zu nutzen";
+$messages['de']['nophpmash'] = "Sie ben&ouml;tigen die PHP mhash Erweiterung um den Samba Modus zu nutzen";
+$messages['de']['ldaperror'] = "Kein Zugriff auf das LDAP m&ouml;glich";
+$messages['de']['loginrequired'] = "Ihr Login wird ben&ouml;tigt";
+$messages['de']['oldpasswordrequired'] = "Ihr altes Passwort wird ben&ouml;tigt";
+$messages['de']['newpasswordrequired'] = "Ihr neues Passwort wird ben&ouml;tigt";
+$messages['de']['confirmpasswordrequired'] = "Bitte best&auml;tigen Sie Ihr neues Passwort";
+$messages['de']['passwordchanged'] = "Ihr Passwort wurde erfolgreich ge&auml;ndert";
+$messages['de']['nomatch'] = "Passw&ouml;rters stimmen nicht &uuml;berein";
 $messages['de']['badcredentials'] = "Login oder Passwort inkorrekt";
 $messages['de']['passworderror'] = "Passwort wurde vom LDAP nicht akzeptiert";
 $messages['de']['title'] = "Self service password";
 $messages['de']['login'] = "Login";
 $messages['de']['oldpassword'] = "Altes Passwort";
 $messages['de']['newpassword'] = "Neues Passwort";
-$messages['de']['confirmpassword'] = "Bestätigen";
+$messages['de']['confirmpassword'] = "Best&auml;tigen";
 $messages['de']['submit'] = "Senden";
 $messages['de']['tooshort'] = "Ihr Passwort ist zu kurz";
 $messages['de']['toobig'] = "Ihr Password ist zu lang";
-$messages['de']['minlower'] = "Ihr Passwort hast nicht genug Kleinbuchstaben";
-$messages['de']['minupper'] = "Ihr Passwort hast nicht genug Großbuchstaben";
-$messages['de']['mindigit'] = "Ihr Passwort hast nicht genug Ziffern";
-$messages['de']['policy'] = "Ihr Passwort darf diese Regeln achten:";
-$messages['de']['policyminlength'] = "Minimal Länge:";
-$messages['de']['policymaxlength'] = "Maximal Länge:";
-$messages['de']['policyminlower'] = "Minimal Kleinbuchstaben:";
-$messages['de']['policyminupper'] = "Minimal Großbuchstaben:";
-$messages['de']['policymindigit'] = "Minimal Ziffern:";
+$messages['de']['minlower'] = "Ihr Passwort hat nicht genug Kleinbuchstaben";
+$messages['de']['minupper'] = "Ihr Passwort hat nicht genug Großbuchstaben";
+$messages['de']['mindigit'] = "Ihr Passwort hat nicht genug Ziffern";
+$messages['de']['policy'] = "Ihr Passwort muss diese Regeln beachten:";
+$messages['de']['policyminlength'] = "Minimale L&auml;nge:";
+$messages['de']['policymaxlength'] = "Maximale L&auml;nge:";
+$messages['de']['policyminlower'] = "Minimale Anzahl Kleinbuchstaben:";
+$messages['de']['policyminupper'] = "Minimale Anzahl Gro&szlig;buchstaben:";
+$messages['de']['policymindigit'] = "Minimale Anzahl Ziffern:";
 
 ?>
