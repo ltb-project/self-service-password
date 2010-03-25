@@ -50,6 +50,8 @@ $messages['en']['policymaxlength'] = "Maximal length:";
 $messages['en']['policyminlower'] = "Minimal lower characters:";
 $messages['en']['policyminupper'] = "Minimal upper characters:";
 $messages['en']['policymindigit'] = "Minimal digits:";
+$messages['en']['forbiddenchars'] = "You password contains forbidden characters";
+$messages['en']['policyforbiddenchars'] = "Forbidden characters:";
 
 #==============================================================================
 # French
@@ -82,6 +84,8 @@ $messages['fr']['policymaxlength'] = "Nombre maximum de caractères&nbsp;:";
 $messages['fr']['policyminlower'] = "Nombre minimum de minuscules&nbsp;:";
 $messages['fr']['policyminupper'] = "Nombre minimum de majuscules&nbsp;:";
 $messages['fr']['policymindigit'] = "Nombre minimum de chiffres&nbsp;:";
+$messages['fr']['forbiddenchars'] = "Votre mot de passe contient des caractères interdits";
+$messages['fr']['policyforbiddenchars'] = "Caractères interdits&nbsp;:";
 
 #==============================================================================
 # German
@@ -114,5 +118,7 @@ $messages['de']['policymaxlength'] = "Maximale L&auml;nge:";
 $messages['de']['policyminlower'] = "Minimale Anzahl Kleinbuchstaben:";
 $messages['de']['policyminupper'] = "Minimale Anzahl Gro&szlig;buchstaben:";
 $messages['de']['policymindigit'] = "Minimale Anzahl Ziffern:";
+$messages['de']['forbiddenchars'] = "";
+$messages['de']['policyforbiddenchars'] = "";
 
 ?>

@@ -41,6 +41,7 @@ $login = "";
 $confirmpassword = "";
 $newpassword = "";
 $oldpassword = "";
+if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
  else { $result = "confirmpasswordrequired"; }
@@ -78,6 +79,8 @@ if ( $result === "" ) {
     $upper = count( $upper_res[0] );
     preg_match_all("/[0-9]/", $newpassword, $digit_res);
     $digit = count( $digit_res[0] );
+    preg_match_all("/[$pwd_forbidden_chars]/", $newpassword, $forbidden_res);
+    $forbidden = count( $forbidden_res[0] );
 
     # Minimal lenght
     if ( $pwd_min_length and $length < $pwd_min_length ) { $result="tooshort"; }
@@ -93,6 +96,9 @@ if ( $result === "" ) {
 
     # Minimal digit chars
     if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $result="mindigit"; }
+
+    # Forbidden chars
+    if ( $forbidden > 0 ) { $result="forbiddenchars"; }
 
 }
 
@@ -240,6 +246,7 @@ if ( $pwd_show_policy ) {
     if ( $pwd_min_lower  ) { echo "<li>".$messages[$lang]["policyminlower"] ." $pwd_min_lower </li>\n"; }
     if ( $pwd_min_upper  ) { echo "<li>".$messages[$lang]["policyminupper"] ." $pwd_min_upper </li>\n"; }
     if ( $pwd_min_digit  ) { echo "<li>".$messages[$lang]["policymindigit"] ." $pwd_min_digit </li>\n"; }
+    if ( $pwd_forbidden_chars ) { echo "<li>".$messages[$lang]["policyforbiddenchars"] ." $pwd_forbidden_chars </li>\n"; }
     echo "</ul>\n";
     echo "</div>\n";
 }
