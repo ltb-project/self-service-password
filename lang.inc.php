@@ -118,7 +118,7 @@ $messages['de']['policymaxlength'] = "Maximale L&auml;nge:";
 $messages['de']['policyminlower'] = "Minimale Anzahl Kleinbuchstaben:";
 $messages['de']['policyminupper'] = "Minimale Anzahl Gro&szlig;buchstaben:";
 $messages['de']['policymindigit'] = "Minimale Anzahl Ziffern:";
-$messages['de']['forbiddenchars'] = "";
-$messages['de']['policyforbiddenchars'] = "";
+$messages['de']['forbiddenchars'] = "Ihr Passwort enth&auml;lt nicht erlaubte Zeichen";
+$messages['de']['policyforbiddenchars'] = "Nicht erlaubte Zeichen:";
 
 ?>
