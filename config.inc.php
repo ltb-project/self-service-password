@@ -62,6 +62,10 @@ $pwd_min_lower = 0;
 $pwd_min_upper = 0;
 # Minimal digit characters
 $pwd_min_digit = 0;
+# Minimal special characters
+$pwd_min_special = 0;
+# Definition of special characters
+$pwd_special_chars = "^a-zA-Z0-9";
 # Forbidden characters
 #$pwd_forbidden_chars = "@%";
 # Show policy constraints message

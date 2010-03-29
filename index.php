@@ -79,6 +79,8 @@ if ( $result === "" ) {
     $upper = count( $upper_res[0] );
     preg_match_all("/[0-9]/", $newpassword, $digit_res);
     $digit = count( $digit_res[0] );
+    preg_match_all("/[$pwd_special_chars]/", $newpassword, $special_res);
+    $special = count( $special_res[0] );
     preg_match_all("/[$pwd_forbidden_chars]/", $newpassword, $forbidden_res);
     $forbidden = count( $forbidden_res[0] );
 
@@ -97,9 +99,11 @@ if ( $result === "" ) {
     # Minimal digit chars
     if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $result="mindigit"; }
 
+    # Minimal special chars
+    if ( $pwd_min_special and $special < $pwd_min_special ) { $result="minspecial"; }
+
     # Forbidden chars
     if ( $forbidden > 0 ) { $result="forbiddenchars"; }
-
 }
 
 #==============================================================================
@@ -241,12 +245,13 @@ if ( $pwd_show_policy ) {
     echo "<div class=\"policy\">\n";
     echo "<p>".$messages[$lang]["policy"]."</p>\n";
     echo "<ul>\n";
-    if ( $pwd_min_length ) { echo "<li>".$messages[$lang]["policyminlength"]." $pwd_min_length</li>\n"; }
-    if ( $pwd_max_length ) { echo "<li>".$messages[$lang]["policymaxlength"]." $pwd_max_length</li>\n"; }
-    if ( $pwd_min_lower  ) { echo "<li>".$messages[$lang]["policyminlower"] ." $pwd_min_lower </li>\n"; }
-    if ( $pwd_min_upper  ) { echo "<li>".$messages[$lang]["policyminupper"] ." $pwd_min_upper </li>\n"; }
-    if ( $pwd_min_digit  ) { echo "<li>".$messages[$lang]["policymindigit"] ." $pwd_min_digit </li>\n"; }
-    if ( $pwd_forbidden_chars ) { echo "<li>".$messages[$lang]["policyforbiddenchars"] ." $pwd_forbidden_chars </li>\n"; }
+    if ( $pwd_min_length      ) { echo "<li>".$messages[$lang]["policyminlength"]      ." $pwd_min_length</li>\n"; }
+    if ( $pwd_max_length      ) { echo "<li>".$messages[$lang]["policymaxlength"]      ." $pwd_max_length</li>\n"; }
+    if ( $pwd_min_lower       ) { echo "<li>".$messages[$lang]["policyminlower"]       ." $pwd_min_lower</li>\n"; }
+    if ( $pwd_min_upper       ) { echo "<li>".$messages[$lang]["policyminupper"]       ." $pwd_min_upper</li>\n"; }
+    if ( $pwd_min_digit       ) { echo "<li>".$messages[$lang]["policymindigit"]       ." $pwd_min_digit</li>\n"; }
+    if ( $pwd_min_special     ) { echo "<li>".$messages[$lang]["policyminspecial"]     ." $pwd_min_special</li>\n"; }
+    if ( $pwd_forbidden_chars ) { echo "<li>".$messages[$lang]["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
     echo "</ul>\n";
     echo "</div>\n";
 }
