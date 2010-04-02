@@ -42,9 +42,16 @@ color:#336699;
 }
 
 /* Rounded corner */
-form, div, h1, h2 {
+form, div, h1 {
 -moz-border-radius:10px;
 -webkit-border-radius:10px;
+}
+
+/* Shadow and light */
+form, div, h1 {
+-webkit-box-shadow:0 3px 6px rgba(0,0,0,.25);
+-moz-box-shadow:0 3px 6px rgba(0,0,0,.25);
+background: url("light.png") no-repeat;
 }
 
 h1 {
@@ -84,10 +91,14 @@ form th {
 text-align: right;
 }
 
-form input {
+form input, form select {
 border:1px solid #c2e1ef;
 padding:5px;
 width: 200px;
+}
+
+form select {
+width: 230px;
 }
 
 form input[name=login] {
@@ -100,6 +111,11 @@ background:#FFFFFF url("key.png") 5px 5px no-repeat;
 padding-left: 25px;
 }
 
+form input[name=answer] {
+background:#FFFFFF url("help.png") 5px 5px no-repeat;
+padding-left: 25px;
+}
+
 form input[type=submit] {
 margin-top:20px;
 font-weight:bold;
@@ -107,32 +123,48 @@ font-size:10pt;
 }
 
 /* Message criticity */
-h2 {
-padding:5px;
+div.result {
 margin:10px 20%;
-font-size:14pt;
 }
 
-h2.ok {
-background:#e6efc2 url("accept.png") 20px 7px no-repeat;
+div.ok {
+background-color:#e6efc2;
 border:2px solid #C6D880;
 color:#529214;
 }
 
-h2.warning {
-background:#ffe17a url("error.png") 20px 7px no-repeat;
+div.warning {
+background-color:#ffe17a;
 border:2px solid #ffca10;
 color:#a03400
 }
 
-h2.critical {
-background:#fbe3e4 url("exclamation.png") 20px 7px no-repeat;
+div.critical {
+background-color:#fbe3e4;
 border:2px solid #fbc2c4;
 color:#d12f19;
 }
 
+
+h2 {
+padding:5px;
+font-size:14pt;
+}
+
+h2.ok {
+background:url("accept.png") 20px 7px no-repeat;
+}
+
+h2.warning {
+background:url("error.png") 20px 7px no-repeat;
+}
+
+h2.critical {
+background:url("exclamation.png") 20px 7px no-repeat;
+}
+
 /* Policy */
-div.policy {
+div.help {
 padding:10px;
 margin:10px 20%;
 background-color:#ffe17a;
@@ -141,7 +173,7 @@ color:#a03400;
 text-align:left;
 }
 
-div.policy p {
+div.help p {
 margin:0;
 font-weight:bold;
 }
