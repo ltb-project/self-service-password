@@ -54,6 +54,17 @@ $messages['en']['policymindigit'] = "Minimal digits:";
 $messages['en']['policyminspecial'] = "Minimal special characters:";
 $messages['en']['forbiddenchars'] = "You password contains forbidden characters";
 $messages['en']['policyforbiddenchars'] = "Forbidden characters:";
+$messages['en']['questions']['birthday'] = "What is your birthday?";
+$messages['en']['questions']['color'] = "What is your favorite color?";
+$messages['en']['password'] = "Password";
+$messages['en']['question'] = "Question";
+$messages['en']['answer'] = "Answer";
+$messages['en']['setquestionshelp'] = "Initialize or change your password reset question/answer";
+$messages['en']['answerrequired'] = "No answer given";
+$messages['en']['questionrequired'] = "No question selected";
+$messages['en']['passwordrequired'] = "Your password is required";
+$messages['en']['answermoderror'] = "Your answer has not been registered";
+$messages['en']['answerchanged'] = "Your answer has been registered";
 
 #==============================================================================
 # French
@@ -90,6 +101,17 @@ $messages['fr']['policymindigit'] = "Nombre minimum de chiffres&nbsp;:";
 $messages['fr']['policyminspecial'] = "Nombre minimum de caractères spéciaux&nbsp;:";
 $messages['fr']['forbiddenchars'] = "Votre mot de passe contient des caractères interdits";
 $messages['fr']['policyforbiddenchars'] = "Caractères interdits&nbsp;:";
+$messages['fr']['questions']['birthday'] = "Quelle est votre date de naissance ?";
+$messages['fr']['questions']['color'] = "Quelle est votre couleur préférée ?";
+$messages['fr']['password'] = "Mot de passe";
+$messages['fr']['question'] = "Question";
+$messages['fr']['answer'] = "Réponse";
+$messages['fr']['setquestionshelp'] = "Initialisez ou changez votre question/réponse pour la réinitialisation de votre mot de passe";
+$messages['fr']['answerrequired'] = "Pas de réponse donnée";
+$messages['fr']['questionrequired'] = "Pas de question sélectionnée";
+$messages['fr']['passwordrequired'] = "Vous devez indiquer votre mot de passe";
+$messages['fr']['answermoderror'] = "Votre réponse n'a pas été enregistrée";
+$messages['fr']['answerchanged'] = "Votre réponse a été enregistrée";
 
 #==============================================================================
 # German
@@ -126,5 +148,16 @@ $messages['de']['policymindigit'] = "Minimale Anzahl Ziffern:";
 $messages['de']['policyminspecial'] = "Minimale Anzahl Sonderzeichen:";
 $messages['de']['forbiddenchars'] = "Ihr Passwort enth&auml;lt nicht erlaubte Zeichen";
 $messages['de']['policyforbiddenchars'] = "Nicht erlaubte Zeichen:";
+$messages['de']['questions']['birthday'] = "";
+$messages['de']['questions']['color'] = "";
+$messages['de']['password'] = "Passwort";
+$messages['de']['question'] = "";
+$messages['de']['answer'] = "";
+$messages['de']['setquestionshelp'] = "";
+$messages['de']['answerrequired'] = "";
+$messages['de']['questionrequired'] = "";
+$messages['de']['passwordrequired'] = "";
+$messages['de']['answermoderror'] = "";
+$messages['de']['answerchanged'] = "";
 
 ?>

@@ -76,6 +76,11 @@ $pwd_show_policy = false;
 # manager: the above binddn
 $who_change_password = "user";
 
+# Questions/answers
+# Answer attribute should be hidden to users!
+$answer_objectClass = "extensibleObject";
+$answer_attribute = "info";
+
 # Language
 $lang ="en";
 
