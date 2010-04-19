@@ -59,12 +59,15 @@ $messages['en']['questions']['color'] = "What is your favorite color?";
 $messages['en']['password'] = "Password";
 $messages['en']['question'] = "Question";
 $messages['en']['answer'] = "Answer";
-$messages['en']['setquestionshelp'] = "Initialize or change your password reset question/answer";
+$messages['en']['setquestionshelp'] = "Initialize or change your password reset question/answer. You can then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
 $messages['en']['answerrequired'] = "No answer given";
 $messages['en']['questionrequired'] = "No question selected";
 $messages['en']['passwordrequired'] = "Your password is required";
 $messages['en']['answermoderror'] = "Your answer has not been registered";
 $messages['en']['answerchanged'] = "Your answer has been registered";
+$messages['en']['answernomatch'] = "Your answer is not correct";
+$messages['en']['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires to have already <a href=\"?action=setquestions\">register an answer</a>.";
+$messages['en']['changehelp'] = "Enter your old password and choose a new one. If you forgot your old password, you can try to <a href=\"?action=resetbyquestions\">reset your password by answering questions</a>.";
 
 #==============================================================================
 # French
@@ -106,12 +109,15 @@ $messages['fr']['questions']['color'] = "Quelle est votre couleur préférée ?"
 $messages['fr']['password'] = "Mot de passe";
 $messages['fr']['question'] = "Question";
 $messages['fr']['answer'] = "Réponse";
-$messages['fr']['setquestionshelp'] = "Initialisez ou changez votre question/réponse pour la réinitialisation de votre mot de passe";
+$messages['fr']['setquestionshelp'] = "Initialisez ou changez votre question/réponse pour la réinitialisation de votre mot de passe. Vous pourrez ensuite changer votre mot de passe <a href=\"?action=resetbyquestions\">ici</a>.";
 $messages['fr']['answerrequired'] = "Pas de réponse donnée";
 $messages['fr']['questionrequired'] = "Pas de question sélectionnée";
 $messages['fr']['passwordrequired'] = "Vous devez indiquer votre mot de passe";
 $messages['fr']['answermoderror'] = "Votre réponse n'a pas été enregistrée";
 $messages['fr']['answerchanged'] = "Votre réponse a été enregistrée";
+$messages['fr']['answernomatch'] = "Votre réponse est incorrecte";
+$messages['fr']['resetbyquestionshelp'] = "Choisissez une question et répondez-y pour réinitialiser pour votre mot de passe. Vous devez avoir au préalable <a href=\"?action=setquestions\">enregistré une réponse</a>.";
+$messages['fr']['changehelp'] = "Entrez votre ancien mot de passe et choisissez-en un nouveau. Si vous avez oublié votre ancien mot de passen vous pouvez essayer de le <a href=\"?action=resetbyquestions\">réinitialiser en répondant aux questions</a>.";
 
 #==============================================================================
 # German
@@ -151,13 +157,16 @@ $messages['de']['policyforbiddenchars'] = "Nicht erlaubte Zeichen:";
 $messages['de']['questions']['birthday'] = "";
 $messages['de']['questions']['color'] = "";
 $messages['de']['password'] = "Passwort";
-$messages['de']['question'] = "";
-$messages['de']['answer'] = "";
+$messages['de']['question'] = "Frage";
+$messages['de']['answer'] = "Antwort";
 $messages['de']['setquestionshelp'] = "";
 $messages['de']['answerrequired'] = "";
 $messages['de']['questionrequired'] = "";
 $messages['de']['passwordrequired'] = "";
 $messages['de']['answermoderror'] = "";
 $messages['de']['answerchanged'] = "";
+$messages['de']['answernomatch'] = "";
+$messages['de']['resetbyquestionshelp'] = "";
+$messages['de']['changehelp'] = "";
 
 ?>

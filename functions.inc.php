@@ -86,7 +86,7 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 	
-	if ( ereg( "nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|answermoderror" , $msg ) ) {
+	if ( ereg( "nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|answermoderror|answernomatch" , $msg ) ) {
 		return "critical";
 	}
 	
@@ -95,6 +95,125 @@ function get_criticity( $msg ) {
 	}
 
 	return "ok";
+}
+
+# Display policy bloc
+# @return HTML code
+function show_policy( $lang, $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars ) {
+        echo "<div class=\"help\">\n";
+        echo "<p>".$messages[$lang]["policy"]."</p>\n";
+        echo "<ul>\n";
+        if ( $pwd_min_length      ) { echo "<li>".$messages[$lang]["policyminlength"]      ." $pwd_min_length</li>\n"; }
+        if ( $pwd_max_length      ) { echo "<li>".$messages[$lang]["policymaxlength"]      ." $pwd_max_length</li>\n"; }
+        if ( $pwd_min_lower       ) { echo "<li>".$messages[$lang]["policyminlower"]       ." $pwd_min_lower</li>\n"; }
+        if ( $pwd_min_upper       ) { echo "<li>".$messages[$lang]["policyminupper"]       ." $pwd_min_upper</li>\n"; }
+        if ( $pwd_min_digit       ) { echo "<li>".$messages[$lang]["policymindigit"]       ." $pwd_min_digit</li>\n"; }
+        if ( $pwd_min_special     ) { echo "<li>".$messages[$lang]["policyminspecial"]     ." $pwd_min_special</li>\n"; }
+        if ( $pwd_forbidden_chars ) { echo "<li>".$messages[$lang]["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
+        echo "</ul>\n";
+        echo "</div>\n";
+}
+
+# Check password strength
+# @return result code
+function check_password_strength( $password, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special ) {
+
+    $result = "";
+
+    $length = strlen($password);
+    preg_match_all("/[a-z]/", $password, $lower_res);
+    $lower = count( $lower_res[0] );
+    preg_match_all("/[A-Z]/", $password, $upper_res);
+    $upper = count( $upper_res[0] );
+    preg_match_all("/[0-9]/", $password, $digit_res);
+    $digit = count( $digit_res[0] );
+    preg_match_all("/[$pwd_special_chars]/", $password, $special_res);
+    $special = count( $special_res[0] );
+    preg_match_all("/[$pwd_forbidden_chars]/", $password, $forbidden_res);
+    $forbidden = count( $forbidden_res[0] );
+
+    # Minimal lenght
+    if ( $pwd_min_length and $length < $pwd_min_length ) { $result="tooshort"; }
+
+    # Maximal lenght
+    if ( $pwd_max_length and $length > $pwd_max_length ) { $result="toobig"; }
+
+    # Minimal lower chars
+    if ( $pwd_min_lower and $lower < $pwd_min_lower ) { $result="minlower"; }
+
+    # Minimal upper chars
+    if ( $pwd_min_upper and $upper < $pwd_min_upper ) { $result="minupper"; }
+
+    # Minimal digit chars
+    if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $result="mindigit"; }
+
+    # Minimal special chars
+    if ( $pwd_min_special and $special < $pwd_min_special ) { $result="minspecial"; }
+
+    # Forbidden chars
+    if ( $forbidden > 0 ) { $result="forbiddenchars"; }
+
+    return $result;
+}
+
+# Change password
+# @return result code
+function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash ) {
+
+    $result = "";
+
+    # Set Samba password value
+    if ( $samba_mode ) {
+        $userdata["sambaNTPassword"] = make_md4_password($password);
+        $userdata["sambaPwdLastSet"] = time();
+    }
+
+    # Transform password value
+    if ( $ad_mode ) {
+        $password = "\"" . $password . "\"";
+        $len = strlen($password);
+        for ($i = 0; $i < $len; $i++){
+            $password .= "{$password{$i}}\000";
+        }
+        $password = $password;
+    } else {
+        # Hash password if needed
+        if ( $hash == "SSHA" ) {
+            $password = make_ssha_password($password);
+        }
+        if ( $hash == "SHA" ) {
+            $password = make_sha_password($password);
+        }
+        if ( $hash == "SMD5" ) {
+            $password = make_smd5_password($password);
+        }
+        if ( $hash == "MD5" ) {
+            $password = make_md5_password($password);
+        }
+        if ( $hash == "CRYPT" ) {
+            $password = make_crypt_password($password);
+        }
+    }
+
+    # Set password value
+    if ( $ad_mode ) {
+        $userdata["unicodePwd"] = $password;
+    } else {
+        $userdata["userPassword"] = $password;
+    }
+
+    # Commit modification on directory
+    $replace = ldap_mod_replace($ldap, $dn, $userdata);
+
+    $errno = ldap_errno($ldap);
+    if ( $errno ) {
+        $result = "passworderror";
+        error_log("LDAP - Modify password error $errno (".ldap_error($ldap).")");
+    } else {
+        $result = "passwordchanged";
+    }
+
+    return $result;
 }
 
 ?>

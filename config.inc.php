@@ -72,6 +72,7 @@ $pwd_special_chars = "^a-zA-Z0-9";
 $pwd_show_policy = false;
 
 # Who changes the password?
+# Also applicable for question/answer save
 # user: the user itself
 # manager: the above binddn
 $who_change_password = "user";
@@ -80,6 +81,9 @@ $who_change_password = "user";
 # Answer attribute should be hidden to users!
 $answer_objectClass = "extensibleObject";
 $answer_attribute = "info";
+
+# Display help messages
+$show_help = true;
 
 # Language
 $lang ="en";
