@@ -169,4 +169,54 @@ $messages['de']['answernomatch'] = "";
 $messages['de']['resetbyquestionshelp'] = "";
 $messages['de']['changehelp'] = "";
 
+#==============================================================================
+# Spanish
+#==============================================================================
+$messages['es']['nophpldap'] = "Debe instalar PHP-Ldap para utilizar esta herramienta";
+$messages['es']['nophpmhash'] = "Debe instalar PHP mhash para utilizar el modo Samba";
+$messages['es']['ldaperror'] = "No es posible acceder al directorio LDAP";
+$messages['es']['loginrequired'] = "Su nombre de cuenta es requerida";            
+$messages['es']['oldpasswordrequired'] = "Su contraseña anterior es requerida";
+$messages['es']['newpasswordrequired'] = "Su contraseña actual es requerida";
+$messages['es']['confirmpasswordrequired'] = "Por favor confirme su nueva contraseña";
+$messages['es']['passwordchanged'] = "Su contraseña ha cambiado";
+$messages['es']['nomatch'] = "Las contraseñas difieren";
+$messages['es']['badcredentials'] = "Su cuenta o su contraseña es incorrecta";
+$messages['es']['passworderror'] = "Su contraseña fue rechazada";
+$messages['es']['title'] = "Autoservicio de Reseteo de Contraseñas";
+$messages['es']['login'] = "Cuenta";
+$messages['es']['oldpassword'] = "Contraseña anterior";
+$messages['es']['newpassword'] = "Contraseña nueva";
+$messages['es']['confirmpassword'] = "Confirme contraseña nueva";
+$messages['es']['submit'] = "Enviar";
+$messages['es']['tooshort'] = "Su contraseña es demasiado corta";
+$messages['es']['toobig'] = "Su contraseña es demasiado larga";
+$messages['es']['minlower'] = "Su contraseña no tiene suficientes minúsculas";
+$messages['es']['minupper'] = "Su contraseña no tiene suficientes mayúsculas";
+$messages['es']['mindigit'] = "Su contraseña no tiene suficientes números";
+$messages['es']['minspecial'] = "Su contraseña no tiene suficientes caracteres especiales";
+$messages['es']['policy'] = "Su contraseña debe respetar las siguientes normas";
+$messages['es']['policyminlength'] = "Longitud mínima";
+$messages['es']['policymaxlength'] = "Longitud máxima";
+$messages['es']['policyminlower'] = "Mínima cantidad de minúsculas";
+$messages['es']['policyminupper'] = "Mínima cantidad de mayúsculas";
+$messages['es']['policymindigit'] = "Mínima cantidad de números";
+$messages['es']['policyminspecial'] = "Mínima cantidad de caracteres especiales";
+$messages['es']['forbiddenchars'] = "Su contraseña posee caracteres prohibidos";
+$messages['es']['policyforbiddenchars'] = "Caracteres prohibidos";
+$messages['es']['questions']['birthday'] = "Cuando es su cumpleaños?";
+$messages['es']['questions']['color'] = "Cual es su color favorito?";
+$messages['es']['password'] = "Contraseña";
+$messages['es']['question'] = "Pregunta";
+$messages['es']['answer'] = "Respuesta";
+$messages['es']['setquestionshelp'] = "Setee o modifique su pregunta y respuesta secreta. Luego será capaz de resetear su contraseña <a href=\"?action=resetbyquestions\">aqui</a>.";
+$messages['es']['answerrequired'] = "No ha dado una respuesta";
+$messages['es']['questionrequired'] = "No ha seleccionado una pregunta";
+$messages['es']['passwordrequired'] = "Su contraseña es requerida";
+$messages['es']['answermoderror'] = "Su respuesta no ha sido registrada";
+$messages['es']['answerchanged'] = "Su respuesta ha sido registrada";
+$messages['es']['answernomatch'] = "Su respuesta no es correcta";
+$messages['es']['resetbyquestionshelp'] = "Elija una pregunta y respondala para resetear su contraseña. Esto requiere <a href=\"?action=setquestions\">haber registrado una respuesta</a>.";
+$messages['es']['changehelp'] = "Ingrese su contraseña anterior y elija una nueva. Si usted olvidó su contraseña anterior, puede <a href=\"?action=resetbyquestions\">resetear su contraseña respondiendo preguntas</a>.";
+
 ?>
