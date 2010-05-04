@@ -154,7 +154,7 @@ if ( $result === "" ) {
 ?>
 
 <div class="result <?php echo get_criticity($result) ?>">
-<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$lang][$result]; ?></h2>
+<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 
 <?php if ( $result !== "answerchanged" ) { ?>
@@ -162,34 +162,34 @@ if ( $result === "" ) {
 <?php
 if ( $show_help ) {
     echo "<div class=\"help\"><p>";
-    echo $messages[$lang]["setquestionshelp"];
+    echo $messages["setquestionshelp"];
     echo "</p></div>\n";
 }
 ?>
 
 <form action="#" method="post">
     <table>
-    <tr><th><?php echo $messages[$lang]["login"]; ?></th>
+    <tr><th><?php echo $messages["login"]; ?></th>
     <td><input type="text" name="login" value="<?php echo htmlentities($login) ?>" /></td></tr>
-    <tr><th><?php echo $messages[$lang]["password"]; ?></th>
+    <tr><th><?php echo $messages["password"]; ?></th>
     <td><input type="password" name="password" /></td></tr>
-    <tr><th><?php echo $messages[$lang]["question"]; ?></th>
+    <tr><th><?php echo $messages["question"]; ?></th>
     <td>
     <select name="question">
 
 <?php
 # Build options
-foreach ( $messages[$lang]["questions"] as $value => $text ) {
+foreach ( $messages["questions"] as $value => $text ) {
     echo "<option value=\"$value\">$text</option>";
 }
 ?>
 
     </select>
     </td></tr>
-    <tr><th><?php echo $messages[$lang]["answer"]; ?></th>
+    <tr><th><?php echo $messages["answer"]; ?></th>
     <td><input type="text" name="answer" /></td></tr>
     <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages[$lang]['submit']; ?>" /></td></tr>
+    <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
     </table>
 </form>
 

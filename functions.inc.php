@@ -86,11 +86,11 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 	
-	if ( ereg( "nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|answermoderror|answernomatch" , $msg ) ) {
+	if ( ereg( "nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|answermoderror|answernomatch|mailnomatch|tokennotsent" , $msg ) ) {
 		return "critical";
 	}
 	
-	if ( ereg( "(login|oldpassword|newpassword|confirmpassword|answer|question|password)required" , $msg ) ) {
+	if ( ereg( "(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail)required" , $msg ) ) {
 		return "warning";
 	}
 
@@ -99,17 +99,17 @@ function get_criticity( $msg ) {
 
 # Display policy bloc
 # @return HTML code
-function show_policy( $lang, $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars ) {
+function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars ) {
         echo "<div class=\"help\">\n";
-        echo "<p>".$messages[$lang]["policy"]."</p>\n";
+        echo "<p>".$messages["policy"]."</p>\n";
         echo "<ul>\n";
-        if ( $pwd_min_length      ) { echo "<li>".$messages[$lang]["policyminlength"]      ." $pwd_min_length</li>\n"; }
-        if ( $pwd_max_length      ) { echo "<li>".$messages[$lang]["policymaxlength"]      ." $pwd_max_length</li>\n"; }
-        if ( $pwd_min_lower       ) { echo "<li>".$messages[$lang]["policyminlower"]       ." $pwd_min_lower</li>\n"; }
-        if ( $pwd_min_upper       ) { echo "<li>".$messages[$lang]["policyminupper"]       ." $pwd_min_upper</li>\n"; }
-        if ( $pwd_min_digit       ) { echo "<li>".$messages[$lang]["policymindigit"]       ." $pwd_min_digit</li>\n"; }
-        if ( $pwd_min_special     ) { echo "<li>".$messages[$lang]["policyminspecial"]     ." $pwd_min_special</li>\n"; }
-        if ( $pwd_forbidden_chars ) { echo "<li>".$messages[$lang]["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
+        if ( $pwd_min_length      ) { echo "<li>".$messages["policyminlength"]      ." $pwd_min_length</li>\n"; }
+        if ( $pwd_max_length      ) { echo "<li>".$messages["policymaxlength"]      ." $pwd_max_length</li>\n"; }
+        if ( $pwd_min_lower       ) { echo "<li>".$messages["policyminlower"]       ." $pwd_min_lower</li>\n"; }
+        if ( $pwd_min_upper       ) { echo "<li>".$messages["policyminupper"]       ." $pwd_min_upper</li>\n"; }
+        if ( $pwd_min_digit       ) { echo "<li>".$messages["policymindigit"]       ." $pwd_min_digit</li>\n"; }
+        if ( $pwd_min_special     ) { echo "<li>".$messages["policyminspecial"]     ." $pwd_min_special</li>\n"; }
+        if ( $pwd_forbidden_chars ) { echo "<li>".$messages["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
         echo "</ul>\n";
         echo "</div>\n";
 }

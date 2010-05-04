@@ -23,7 +23,7 @@
 # Includes
 #==============================================================================
 require_once("config.inc.php");
-require_once("lang.inc.php");
+require_once("lang/$lang.inc.php");
 require_once("functions.inc.php");
 
 #==============================================================================
@@ -53,7 +53,7 @@ if (isset($_GET["action"]) and $_GET["action"]) { $action = $_GET["action"]; }
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title><?php echo $messages[$lang]["title"]; ?></title>
+    <title><?php echo $messages["title"]; ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <meta http-equiv="cache-control" content="no-cache" />
@@ -64,7 +64,7 @@ if (isset($_GET["action"]) and $_GET["action"]) { $action = $_GET["action"]; }
 <body>
 
 <div id="content">
-<h1><?php echo $messages[$lang]["title"]; ?></h1>
+<h1><?php echo $messages["title"]; ?></h1>
 <img src="<?php echo $logo; ?>" alt="Logo" />
 
 <?php include("pages/$action.php") ?>

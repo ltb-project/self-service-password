@@ -129,7 +129,7 @@ if ( $result === "" ) {
 ?>
 
 <div class="result <?php echo get_criticity($result) ?>">
-<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$lang][$result]; ?></h2>
+<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 
 <?php if ( $result !== "passwordchanged" ) { ?>
@@ -137,14 +137,14 @@ if ( $result === "" ) {
 <?php
 if ( $show_help ) {
     echo "<div class=\"help\"><p>";
-    echo $messages[$lang]["changehelp"];
+    echo $messages["changehelp"];
     echo "</p></div>\n";
 }
 ?>
 
 <?php
 if ( $pwd_show_policy ) {
-    show_policy($lang, $messages,
+    show_policy($messages,
         $pwd_min_length, $pwd_max_length,
         $pwd_min_lower, $pwd_min_upper,
         $pwd_min_digit, $pwd_min_special,
@@ -155,16 +155,16 @@ if ( $pwd_show_policy ) {
 
 <form action="#" method="post">
     <table>
-    <tr><th><?php echo $messages[$lang]["login"]; ?></th>
+    <tr><th><?php echo $messages["login"]; ?></th>
     <td><input type="text" name="login" value="<?php echo htmlentities($login) ?>" /></td></tr>
-    <tr><th><?php echo $messages[$lang]["oldpassword"]; ?></th>
+    <tr><th><?php echo $messages["oldpassword"]; ?></th>
     <td><input type="password" name="oldpassword" /></td></tr>
-    <tr><th><?php echo $messages[$lang]["newpassword"]; ?></th>
+    <tr><th><?php echo $messages["newpassword"]; ?></th>
     <td><input type="password" name="newpassword" /></td></tr>
-    <tr><th><?php echo $messages[$lang]["confirmpassword"]; ?></th>
+    <tr><th><?php echo $messages["confirmpassword"]; ?></th>
     <td><input type="password" name="confirmpassword" /></td></tr>
     <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages[$lang]['submit']; ?>" /></td></tr>
+    <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
     </table>
 </form>
 
