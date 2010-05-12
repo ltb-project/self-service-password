@@ -1,0 +1,14 @@
+Package: self-service-password
+Version: 0.4
+Architecture: all
+Maintainer: Felix Bartels <felix@host-consultants.de>
+Section: free/web
+Priority: optional
+Description: Self-Service-Password
+ Self Service Password is a PHP  application that allows users to change their password. 
+ 
+ The application can be used on standard LDAPv3 directories (OpenLDAP, OpenDS, ApacheDS, SUN, Novell, etc.) and also on Active Directory.
+ 
+ Samba mode can be activated to change Samba password.
+ 
+ A local password policy can be applied before password is sent to directory. 

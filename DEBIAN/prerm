@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+# disable self-service-password for apache
+if [ -x "`which a2dissite`" ]; then
+  a2dissite self-service-password || true
+fi
+
+if [ -x "`which a2dissite`" ]; then
+  a2dissite self-service-password-ssl || true
+fi
+
+exit 0
