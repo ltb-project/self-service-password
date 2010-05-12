@@ -59,14 +59,18 @@ $messages['questions']['color'] = "Wie lautet Ihre Lieblingsfarbe?";
 $messages['password'] = "Passwort";
 $messages['question'] = "Frage";
 $messages['answer'] = "Antwort";
-$messages['setquestionshelp'] = "";
+$messages['setquestionshelp'] = "Richten Sie f&uuml;r die Passwort zur&uuml;cksetzung eine Sicherheitsfrage ein.
+Sie k&ouml;nnen anschlie&szlig;end ihr Passwort <a href=\"?action=resetbyquestions\">hier</a> &auml;ndern.";
 $messages['answerrequired'] = "Es wurde keine Antwort eingegeben";
 $messages['questionrequired'] = "Es wurde keine Frage ausgew&auml;hlt";
 $messages['passwordrequired'] = "Bitte geben Sie Ihre Passwort ein";
 $messages['answermoderror'] = "Ihre Antwort wurde nicht gespeichert";
 $messages['answerchanged'] = "Ihre Antwort wurde gespeichert";
 $messages['answernomatch'] = "Ihr Antwort war nicht korrekt";
-$messages['resetbyquestionshelp'] = "";
-$messages['changehelp'] = "";
+$messages['resetbyquestionshelp'] = "W&auml;hlen Sie eine Frage Sicherheitsfrage aus und beantworten diese ansch&szlig;end.
+Hierzu m&uuml;ssen Sie vorher eine <a href=\"?action=setquestions\">Antwort festgelegt</a> haben.";
+$messages['changehelp'] = "Um ein neues Passwort festzulegen m&uuml;ssen Sie zuerst Ihr Altes eingeben. 
+Falls Sie Ihr altes Passwort vergessen haben können Sie Ihr Passwort<a href=\"?action=resetbyquestions\">zur&uuml;cksetzen durch Beantwortung 
+einer Sicherheitsfrage</a>.";
 
 ?>
