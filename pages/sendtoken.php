@@ -19,7 +19,7 @@
 #
 #==============================================================================
 
-# This page is called to reset a password trusting question/anwser
+# This page is called to send a reset token by mail
 
 #==============================================================================
 # POST parameters
@@ -27,34 +27,21 @@
 # Initiate vars
 $result = "";
 $login = "";
-$question = "";
-$answer = "";
-$newpassword = "";
-$confirmpassword = "";
+$mail = "";
 $ldap = "";
 $userdn = "";
-if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 
-if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
- else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
-  else { $result = "newpasswordrequired"; }
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = $_POST["answer"]; }
- else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = $_POST["question"]; }
- else { $result = "questionrequired"; }
+if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
+ else { $result = "mailrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
  else { $result = "loginrequired"; }
 
 # Strip slashes added by PHP
 $login = stripslashes_if_gpc_magic_quotes($login);
-$question = stripslashes_if_gpc_magic_quotes($question);
-$answer = stripslashes_if_gpc_magic_quotes($answer);
-$newpassword = stripslashes_if_gpc_magic_quotes($newpassword);
-$confirmpassword = stripslashes_if_gpc_magic_quotes($confirmpassword);
+$mail = stripslashes_if_gpc_magic_quotes($mail);
 
 #==============================================================================
-# Check question/answer
+# Check mail
 #==============================================================================
 if ( $result === "" ) {
 
@@ -95,41 +82,64 @@ if ( $result === "" ) {
         error_log("LDAP - User $login not found");
     } else {
     
-    # Get question/answer values
-    $questionValues = ldap_get_values($ldap, $entry, $answer_attribute);
-    unset($questionValues["count"]);
+    # Compare mail values
+    $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+    unset($mailValues["count"]);
     $match = 0;
 
     # Match with user submitted values
-    foreach ($questionValues as $questionValue) {
-        if (preg_match("/^\{$question\}$answer$/i", $questionValue)) {
+    foreach ($mailValues as $mailValue) {
+        if (preg_match("/^$mail$/i", $mailValue)) {
             $match = 1;
         }
     }
 
     if (!$match) {
-        $result = "answernomatch";
-        error_log("Answer does not match question for user $login");
+        $result = "mailnomatch";
+        error_log("Mail $mail does not match for user $login");
     }
 
 }}}}
 
 #==============================================================================
-# Check and register new passord
+# Build and store token
 #==============================================================================
-# Match new and confirm password
 if ( $result === "" ) {
-    if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
+
+    # Use PHP session to register token
+    # We do not generate cookie, we just use SID to generate URL
+    session_name("token");
+    session_start();
+    $_SESSION['login'] = $login;
+
 }
 
-# Check password strength
+#==============================================================================
+# Send token by mail
+#==============================================================================
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special );
-}
 
-# Change password
-if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash);
+    # Build reset by token URL
+    $method = "http";
+    if ( $_SERVER['HTTPS'] ) { $method .= "s"; }
+    $server_name = $_SERVER['SERVER_NAME'];
+    $script_name = $_SERVER['SCRIPT_NAME'];
+
+    $reset_url = $method."://".$server_name.$script_name."?action=resetbytoken&".SID;
+error_log($reset_url);
+    # Replace some values in reset message
+    $reset_message = $messages["resetmessage"];
+    $reset_message = str_replace("{login}", $login, $reset_message);
+    $reset_message = str_replace("{mail}", $mail, $reset_message);
+    $reset_message = str_replace("{url}", $reset_url, $reset_message);
+
+    # Send message
+    if ( mail($mail, $messages["resetsubject"], $reset_message) ) {
+        $result = "tokensent";
+    } else {
+        $result = "tokennotsent";
+        error_log("Error while sending token to $mail (user $login)");
+    }
 }
 
 #==============================================================================
@@ -141,24 +151,13 @@ if ($result === "") {
 <h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 
-<?php if ( $result !== "passwordchanged" ) { ?>
+<?php if ( $result !== "tokensent" ) { ?>
 
 <?php
 if ( $show_help ) {
     echo "<div class=\"help\"><p>";
-    echo $messages["resetbyquestionshelp"];
+    echo $messages["sendtokenhelp"];
     echo "</p></div>\n";
-}
-?>
-
-<?php
-if ( $pwd_show_policy ) {
-    show_policy($messages,
-        $pwd_min_length, $pwd_max_length,
-        $pwd_min_lower, $pwd_min_upper,
-        $pwd_min_digit, $pwd_min_special,
-        $pwd_forbidden_chars
-    );
 }
 ?>
 
@@ -166,25 +165,8 @@ if ( $pwd_show_policy ) {
     <table>
     <tr><th><?php echo $messages["login"]; ?></th>
     <td><input type="text" name="login" value="<?php echo htmlentities($login) ?>" /></td></tr>
-    <tr><th><?php echo $messages["question"]; ?></th>
-    <td>
-    <select name="question">
-
-<?php
-# Build options
-foreach ( $messages["questions"] as $value => $text ) {
-    echo "<option value=\"$value\">$text</option>";
-}
-?>
-
-    </select>
-    </td></tr>
-    <tr><th><?php echo $messages["answer"]; ?></th>
-    <td><input type="text" name="answer" /></td></tr>
-    <tr><th><?php echo $messages["newpassword"]; ?></th>
-    <td><input type="password" name="newpassword" /></td></tr>
-    <tr><th><?php echo $messages["confirmpassword"]; ?></th>
-    <td><input type="password" name="confirmpassword" /></td></tr>
+    <tr><th><?php echo $messages["mail"]; ?></th>
+    <td><input type="text" name="mail" /></td></tr>
     <tr><td colspan="2">
     <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
     </table>

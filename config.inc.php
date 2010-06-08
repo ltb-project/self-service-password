@@ -82,6 +82,9 @@ $who_change_password = "user";
 $answer_objectClass = "extensibleObject";
 $answer_attribute = "info";
 
+# Token
+$mail_attribute = "mail";
+
 # Display help messages
 $show_help = true;
 

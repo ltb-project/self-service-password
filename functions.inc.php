@@ -86,11 +86,11 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 	
-	if ( ereg( "nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|answermoderror|answernomatch|mailnomatch|tokennotsent" , $msg ) ) {
+	if ( ereg( "nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid" , $msg ) ) {
 		return "critical";
 	}
 	
-	if ( ereg( "(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail)required" , $msg ) ) {
+	if ( ereg( "(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token)required" , $msg ) ) {
 		return "warning";
 	}
 

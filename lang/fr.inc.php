@@ -68,5 +68,16 @@ $messages['answerchanged'] = "Votre réponse a été enregistrée";
 $messages['answernomatch'] = "Votre réponse est incorrecte";
 $messages['resetbyquestionshelp'] = "Choisissez une question et répondez-y pour réinitialiser pour votre mot de passe. Vous devez avoir au préalable <a href=\"?action=setquestions\">enregistré une réponse</a>.";
 $messages['changehelp'] = "Entrez votre ancien mot de passe et choisissez-en un nouveau. Si vous avez oublié votre ancien mot de passen vous pouvez essayer de le <a href=\"?action=resetbyquestions\">réinitialiser en répondant aux questions</a>.";
+$messages['resetmessage'] = "Bonjour {login},\n\nCliquez ici pour réinitialiser votre mot de passe :\n{url}\n\nSi vous n'êtes pas à l'origine de cette demande, merci de l'ignorer.";
+$messages['resetsubject'] = "Réinitialisation de votre mot de passe";
+$messages['sendtokenhelp'] = "Entrez votre identifiant et votre adresse mail pour réinitialiser votre mot de passe. Cliquez ensuite sur le lien transmis par mail.";
+$messages['mail'] = "Adresse mail";
+$messages['mailrequired'] = "Vous devez indiquer votre adresse mail";
+$messages['mailnomatch'] = "L'adresse mail ne correspond pas à l'identifiant donné";
+$messages['tokensent'] = "Un mail de confirmation a été envoyé";
+$messages['tokennotsent'] = "Erreur lors de l'envoi du mail de confirmation";
+$messages['tokenrequired'] = "Le jeton de réinitialisation est requis";
+$messages['tokennotvalid'] = "Le jeton n'est pas valide";
+$messages['resetbytokenhelp'] = "Le jeton envoyé par mail vous permet de réinitialiser votre mot de passe. Pour recevoir un nouveau jeton, <a href=\"?action=sendtoken\">cliquez ici</a>.";
 
 ?>

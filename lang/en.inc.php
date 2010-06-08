@@ -68,5 +68,17 @@ $messages['answerchanged'] = "Your answer has been registered";
 $messages['answernomatch'] = "Your answer is not correct";
 $messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires to have already <a href=\"?action=setquestions\">register an answer</a>.";
 $messages['changehelp'] = "Enter your old password and choose a new one. If you forgot your old password, you can try to <a href=\"?action=resetbyquestions\">reset your password by answering questions</a>.";
+$messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf your are not the issuer of this request, please ignore it.";
+$messages['resetsubject'] = "Reset your password";
+$messages['sendtokenhelp'] = "Enter your login and your password to reset your password. Then click on the link in sent mail.";
+$messages['mail'] = "Mail";
+$messages['mailrequired'] = "Your mail is required";
+$messages['mailnomatch'] = "The mail does not match the submitted login";
+$messages['tokensent'] = "A confirmation mail has been sent";
+$messages['tokennotsent'] = "Error when sending confirmation mail";
+$messages['tokenrequired'] = "Token is required";
+$messages['tokennotvalid'] = "Token is not valid";
+$messages['resetbytokenhelp'] = "The token sent by mail allows you to reset your password. To get a new token, <a href=\"?action=sendtoken\">click here</a>.";
+
 
 ?>
