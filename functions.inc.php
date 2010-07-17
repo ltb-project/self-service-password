@@ -128,7 +128,7 @@ function check_password_strength( $password, $pwd_special_chars, $pwd_forbidden_
 
     $result = "";
 
-    $length = strlen($password);
+    $length = strlen(utf8_decode($password));
     preg_match_all("/[a-z]/", $password, $lower_res);
     $lower = count( $lower_res[0] );
     preg_match_all("/[A-Z]/", $password, $upper_res);
@@ -179,7 +179,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash ) 
     # Transform password value
     if ( $ad_mode ) {
         $password = "\"" . $password . "\"";
-        $len = strlen($password);
+        $len = strlen(utf8_decode($password));
         for ($i = 0; $i < $len; $i++){
             $password .= "{$password{$i}}\000";
         }
