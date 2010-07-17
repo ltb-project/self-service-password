@@ -68,8 +68,11 @@ $pwd_min_special = 0;
 $pwd_special_chars = "^a-zA-Z0-9";
 # Forbidden characters
 #$pwd_forbidden_chars = "@%";
-# Show policy constraints message
-$pwd_show_policy = false;
+# Show policy constraints message:
+# always
+# never
+# onerror
+$pwd_show_policy = "never";
 
 # Who changes the password?
 # Also applicable for question/answer save

@@ -30,6 +30,8 @@ $login = "";
 $confirmpassword = "";
 $newpassword = "";
 $oldpassword = "";
+$ldap = "";
+$userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
@@ -50,16 +52,9 @@ $confirmpassword = stripslashes_if_gpc_magic_quotes($confirmpassword);
 # Match new and confirm password
 if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 
-#==============================================================================
-# Check password strength
-#==============================================================================
-if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special );
-}
-
 
 #==============================================================================
-# Change password
+# Check old password
 #==============================================================================
 if ( $result === "" ) {
 
@@ -113,14 +108,23 @@ if ( $result === "" ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     }
 
-    # Change password
-    if ($result === "") {
-        $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash);
-    }
-
     }}}}
 
-    @ldap_close($ldap);
+}
+
+#==============================================================================
+# Check password strength
+#==============================================================================
+if ( $result === "" ) {
+    $result = check_password_strength( $newpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special );
+}
+
+
+#==============================================================================
+# Change password
+#==============================================================================
+if ( $result === "" ) {
+    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash);
 }
 
 #==============================================================================
@@ -143,14 +147,13 @@ if ( $show_help ) {
 ?>
 
 <?php
-if ( $pwd_show_policy ) {
-    show_policy($messages,
-        $pwd_min_length, $pwd_max_length,
-        $pwd_min_lower, $pwd_min_upper,
-        $pwd_min_digit, $pwd_min_special,
-        $pwd_forbidden_chars
-    );
-}
+show_policy($messages,
+    $pwd_min_length, $pwd_max_length,
+    $pwd_min_lower, $pwd_min_upper,
+    $pwd_min_digit, $pwd_min_special,
+    $pwd_forbidden_chars,
+    $pwd_show_policy, $result
+);
 ?>
 
 <form action="#" method="post">

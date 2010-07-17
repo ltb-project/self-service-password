@@ -151,14 +151,13 @@ if ( $show_help ) {
 ?>
 
 <?php
-if ( $pwd_show_policy ) {
-    show_policy($messages,
-        $pwd_min_length, $pwd_max_length,
-        $pwd_min_lower, $pwd_min_upper,
-        $pwd_min_digit, $pwd_min_special,
-        $pwd_forbidden_chars
-    );
-}
+show_policy($messages,
+    $pwd_min_length, $pwd_max_length,
+    $pwd_min_lower, $pwd_min_upper,
+    $pwd_min_digit, $pwd_min_special,
+    $pwd_forbidden_chars,
+    $pwd_show_policy, $result
+);
 ?>
 
 <form action="#" method="post">
