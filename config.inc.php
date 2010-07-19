@@ -68,6 +68,8 @@ $pwd_min_special = 0;
 $pwd_special_chars = "^a-zA-Z0-9";
 # Forbidden characters
 #$pwd_forbidden_chars = "@%";
+# Don't reuse the same password as currently
+$pwd_no_reuse = true;
 # Show policy constraints message:
 # always
 # never

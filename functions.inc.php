@@ -99,12 +99,12 @@ function get_criticity( $msg ) {
 
 # Display policy bloc
 # @return HTML code
-function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars, $pwd_show_policy, $result ) {
+function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars, $pwd_no_reuse, $pwd_show_policy, $result ) {
 
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars/" , $result) ) { return; }
+        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold/" , $result) ) { return; }
     }
 
     # Display bloc
@@ -118,13 +118,14 @@ function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lowe
     if ( $pwd_min_digit       ) { echo "<li>".$messages["policymindigit"]       ." $pwd_min_digit</li>\n"; }
     if ( $pwd_min_special     ) { echo "<li>".$messages["policyminspecial"]     ." $pwd_min_special</li>\n"; }
     if ( $pwd_forbidden_chars ) { echo "<li>".$messages["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
+    if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."\n"; }
     echo "</ul>\n";
     echo "</div>\n";
 }
 
 # Check password strength
 # @return result code
-function check_password_strength( $password, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special ) {
+function check_password_strength( $password, $oldpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_no_reuse ) {
 
     $result = "";
 
@@ -160,6 +161,9 @@ function check_password_strength( $password, $pwd_special_chars, $pwd_forbidden_
 
     # Forbidden chars
     if ( $forbidden > 0 ) { $result="forbiddenchars"; }
+
+    # Same as old password?
+    if ( $pwd_no_reuse and $password === $oldpassword ) { $result="sameasold"; }
 
     return $result;
 }
