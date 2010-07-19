@@ -82,12 +82,21 @@ $pwd_show_policy = "never";
 # manager: the above binddn
 $who_change_password = "user";
 
-# Questions/answers
+## Questions/answers
+# Use questions/answers?
+# true (default)
+# false
+$use_questions = true;
+
 # Answer attribute should be hidden to users!
 $answer_objectClass = "extensibleObject";
 $answer_attribute = "info";
 
-# Token
+## Token
+# Use tokens?
+# true (default)
+# false
+$use_tokens = true;
 $mail_attribute = "mail";
 
 # Display help messages

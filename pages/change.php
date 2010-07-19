@@ -142,6 +142,9 @@ if ( $result === "" ) {
 if ( $show_help ) {
     echo "<div class=\"help\"><p>";
     echo $messages["changehelp"];
+    if ( $use_questions ) {
+        echo " " . $messages["changehelpquestions"];
+    }
     echo "</p></div>\n";
 }
 ?>
