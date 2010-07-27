@@ -116,6 +116,11 @@ background:#FFFFFF url("help.png") 5px 5px no-repeat;
 padding-left: 25px;
 }
 
+form input[name=mail] {
+background:#FFFFFF url("email.png") 5px 5px no-repeat;
+padding-left: 25px;
+}
+
 form input[type=submit] {
 margin-top:20px;
 font-weight:bold;
