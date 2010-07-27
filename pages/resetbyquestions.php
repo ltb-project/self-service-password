@@ -157,6 +157,7 @@ show_policy($messages,
     $pwd_min_lower, $pwd_min_upper,
     $pwd_min_digit, $pwd_min_special,
     $pwd_forbidden_chars,
+    $pwd_no_reuse,
     $pwd_show_policy, $result
 );
 ?>
