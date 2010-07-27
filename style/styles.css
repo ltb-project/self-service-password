@@ -178,7 +178,7 @@ color:#a03400;
 text-align:left;
 }
 
-div.help p {
-margin:0;
+div.help p, div.help ul {
+margin: 2px 0;
 font-weight:bold;
 }

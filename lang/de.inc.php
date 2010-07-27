@@ -69,8 +69,10 @@ $messages['answerchanged'] = "Ihre Antwort wurde gespeichert";
 $messages['answernomatch'] = "Ihr Antwort war nicht korrekt";
 $messages['resetbyquestionshelp'] = "W&auml;hlen Sie eine Frage Sicherheitsfrage aus und beantworten diese ansch&szlig;end.
 Hierzu m&uuml;ssen Sie vorher eine <a href=\"?action=setquestions\">Antwort festgelegt</a> haben.";
-$messages['changehelp'] = "Um ein neues Passwort festzulegen m&uuml;ssen Sie zuerst Ihr Altes eingeben. 
-Falls Sie Ihr altes Passwort vergessen haben können Sie Ihr Passwort<a href=\"?action=resetbyquestions\">zur&uuml;cksetzen durch Beantwortun einer Sicherheitsfrage</a>.";
+$messages['changehelp'] = "Um ein neues Passwort festzulegen m&uuml;ssen Sie zuerst Ihr Altes eingeben.";
+$messages['changehelpreset'] = "Forgot your password?";
+$messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
+$messages['changehelptoken'] = "<a href=\"?action=resetbytoken\">Reset your password with a mail challenge</a>";
 $messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf your are not the issuer of this request, please ignore it.";
 $messages['resetsubject'] = "Reset your password";
 $messages['sendtokenhelp'] = "Enter your login and your password to reset your password. Then click on the link in sent mail.";

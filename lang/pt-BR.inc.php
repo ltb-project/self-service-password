@@ -49,3 +49,6 @@ $messages['policymaxlength'] = "Tamanho máximo:";
 $messages['policyminlower'] = "Mínimo de letras min&uacutes;sculas:";
 $messages['policyminupper'] = "Míaximo de letras maisúsculas:";
 $messages['policymindigit'] = "Caracteres mínimos:";
+$messages['changehelpreset'] = "Forgot your password?";
+$messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
+$messages['changehelptoken'] = "<a href=\"?action=resetbytoken\">Reset your password with a mail challenge</a>";
