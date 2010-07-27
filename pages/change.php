@@ -142,10 +142,19 @@ if ( $result === "" ) {
 if ( $show_help ) {
     echo "<div class=\"help\"><p>";
     echo $messages["changehelp"];
-    if ( $use_questions ) {
-        echo " " . $messages["changehelpquestions"];
+    echo "</p>";
+    if ( $use_questions or $use_tokens ) {
+        echo "<p>".  $messages["changehelpreset"] . "</p>";
+        echo "<ul>";
+        if ( $use_questions ) {
+            echo "<li>" . $messages["changehelpquestions"] ."</li>";
+        }
+        if ( $use_tokens ) {
+            echo "<li>" . $messages["changehelptoken"] ."</li>";
+        }
+        echo "</ul>";
     }
-    echo "</p></div>\n";
+    echo "</div>\n";
 }
 ?>
 
