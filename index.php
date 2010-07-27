@@ -45,6 +45,7 @@ if ( $samba_mode and ! function_exists('mhash') ) { $result="nophpmhash"; }
 # Action (default: change password)
 #==============================================================================
 if (isset($_GET["action"]) and $_GET["action"]) { $action = $_GET["action"]; }
+else { $action = "change"; }
 
 # Available actions
 $available_actions = array( "change" );
