@@ -1,0 +1,9 @@
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Name: self-service-password
+Maintainer: Clement Oudot <clem@ltb-project.org>
+Source: http://ltb-project.org/wiki/documentation/self-service-password
+
+Files: *
+Copyright: 2009-2012, LTB-Project
+License: GPL
+
