@@ -1,12 +1,13 @@
-Package: self-service-password
-Version: 0.4
+Source: self-service-password
 Architecture: all
-Maintainer: Felix Bartels <felix@host-consultants.de>
+Maintainer: Clement Oudot <clem@ltb-project.org>
+Uploaders: Felix Bartels <felix@host-consultants.de>
 Section: free/web
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.2.2
 Priority: optional
 Depends: php5, php5-ldap
 Homepage: http://ltb-project.org/wiki/documentation/self-service-password
 Description: LDAP password change interface
  Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory.
-
  Self Service Password is provided by LDAP Tool Box project: http://ltb-project.org
