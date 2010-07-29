@@ -4,6 +4,13 @@ Maintainer: Clement Oudot <clem@ltb-project.org>
 Source: http://ltb-project.org/wiki/documentation/self-service-password
 
 Files: *
-Copyright: 2009-2012, LTB-Project
+Copyright: 2009-2012, LTB-Project, Clement Oudot, Jonathan Clarke, Felix Bartels
+
 License: GPL
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 1, or (at your option)
+    any later version.
+    On Debian GNU/Linux systems, the complete text of the GNU General
+    Public License can be found in `/usr/share/common-licenses/GPL'
 

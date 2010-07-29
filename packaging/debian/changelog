@@ -1,4 +1,4 @@
-self-service-pasword (0.4) unstable; urgency=low
+ltb-project-self-service-password (0.4-1) unstable; urgency=low
 
     * Bug #183: Corrected german translations
     * Bug #189: Accentued characters in passwords are not well managed

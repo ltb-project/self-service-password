@@ -1,3 +1,2 @@
 /usr/share/self-service-password/config.inc.php
 /etc/apache2/sites-available/self-service-password
-/etc/apache2/sites-available/self-service-password-ssl
