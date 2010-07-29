@@ -75,7 +75,7 @@ install -m 644 %{SOURCE1} %{buildroot}/etc/httpd/conf.d/self-service-password.co
 #=================================================
 
 # Change owner
-/bin/chown -R httpd:httpd %{ssp_destdir}
+/bin/chown -R apache:apache %{ssp_destdir}
 
 #=================================================
 # Cleaning
