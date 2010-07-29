@@ -1,4 +1,4 @@
-Source: self-service-password
+Source: ltb-project-self-service-password
 Section: web
 Priority: extra
 Maintainer: Clement Oudot <clem@ltb-project.org>
