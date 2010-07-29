@@ -1,0 +1,25 @@
+#==============================================================================
+# Some notes on packaging Self Service Password
+#==============================================================================
+
+# 1 - Archive tar.gz
+#==============================================================================
+
+From current directory, do:
+$ ./makedist VERSION
+
+with VERSION the current verion of the package
+
+For example:
+$ ./makedist 0.4
+
+
+# 2 - Debian
+#==============================================================================
+
+Form current directory, do:
+$ dpkg-buildpackage -b -kLTB
+
+If you do not have LTB GPG secret key, do:
+$ dpkg-buildpackage -b -us -uc
+
