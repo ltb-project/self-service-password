@@ -1,3 +1,4 @@
+<?php
 #==============================================================================
 # LTB Self Service Password
 #
@@ -43,12 +44,45 @@ $messages['toobig'] = "A sua senha é muito grande";
 $messages['minlower'] = "A sua senha não contém letras minúsculas suficientes";
 $messages['minupper'] = "A sua senha não contém letras maiúsculas suficientes";
 $messages['mindigit'] = "A sua senha não contém caracteres suficientes";
+$messages['minspecial'] = "Your password has not enough special characters";
+$messages['sameasold'] = "Your new password is identical to your old password";
 $messages['policy'] = "A sua senha deve respeitar as regras de restrição:";
 $messages['policyminlength'] = "Tamanho mínimo:";
 $messages['policymaxlength'] = "Tamanho máximo:";
 $messages['policyminlower'] = "Mínimo de letras min&uacutes;sculas:";
 $messages['policyminupper'] = "Míaximo de letras maisúsculas:";
 $messages['policymindigit'] = "Caracteres mínimos:";
+$messages['policyminspecial'] = "Minimal special characters:";
+$messages['forbiddenchars'] = "You password contains forbidden characters";
+$messages['policyforbiddenchars'] = "Forbidden characters:";
+$messages['policynoreuse'] = "Your new password may not be the same as your old password";
+$messages['questions']['birthday'] = "What is your birthday?";
+$messages['questions']['color'] = "What is your favorite color?";
+$messages['password'] = "Password";
+$messages['question'] = "Question";
+$messages['answer'] = "Answer";
+$messages['setquestionshelp'] = "Initialize or change your password reset question/answer. You can then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
+$messages['answerrequired'] = "No answer given";
+$messages['questionrequired'] = "No question selected";
+$messages['passwordrequired'] = "Your password is required";
+$messages['answermoderror'] = "Your answer has not been registered";
+$messages['answerchanged'] = "Your answer has been registered";
+$messages['answernomatch'] = "Your answer is not correct";
+$messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires to have already <a href=\"?action=setquestions\">register an answer</a>.";
+$messages['changehelp'] = "Enter your old password and choose a new one.";
 $messages['changehelpreset'] = "Forgot your password?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
 $messages['changehelptoken'] = "<a href=\"?action=resetbytoken\">Reset your password with a mail challenge</a>";
+$messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf your are not the issuer of this request, please ignore it.";
+$messages['resetsubject'] = "Reset your password";
+$messages['sendtokenhelp'] = "Enter your login and your password to reset your password. Then click on the link in sent mail.";
+$messages['mail'] = "Mail";
+$messages['mailrequired'] = "Your mail is required";
+$messages['mailnomatch'] = "The mail does not match the submitted login";
+$messages['tokensent'] = "A confirmation mail has been sent";
+$messages['tokennotsent'] = "Error when sending confirmation mail";
+$messages['tokenrequired'] = "Token is required";
+$messages['tokennotvalid'] = "Token is not valid";
+$messages['resetbytokenhelp'] = "The token sent by mail allows you to reset your password. To get a new token, <a href=\"?action=sendtoken\">click here</a>.";
+
+?>

@@ -45,6 +45,7 @@ $messages['minlower'] = "Ihr Passwort hat nicht genug Kleinbuchstaben";
 $messages['minupper'] = "Ihr Passwort hat nicht genug Großbuchstaben";
 $messages['mindigit'] = "Ihr Passwort hat nicht genug Ziffern";
 $messages['minspecial'] = "Ihr Passwort hat nicht genug Sonderzeichen";
+$messages['sameasold'] = "Your new password is identical to your old password";
 $messages['policy'] = "Ihr Passwort muss diese Regeln beachten:";
 $messages['policyminlength'] = "Minimale L&auml;nge:";
 $messages['policymaxlength'] = "Maximale L&auml;nge:";
@@ -54,6 +55,7 @@ $messages['policymindigit'] = "Minimale Anzahl Ziffern:";
 $messages['policyminspecial'] = "Minimale Anzahl Sonderzeichen:";
 $messages['forbiddenchars'] = "Ihr Passwort enth&auml;lt nicht erlaubte Zeichen";
 $messages['policyforbiddenchars'] = "Nicht erlaubte Zeichen:";
+$messages['policynoreuse'] = "Your new password may not be the same as your old password";
 $messages['questions']['birthday'] = "Wie lautet Ihr Geburtstag?";
 $messages['questions']['color'] = "Wie lautet Ihre Lieblingsfarbe?";
 $messages['password'] = "Passwort";
@@ -84,6 +86,5 @@ $messages['tokennotsent'] = "Error when sending confirmation mail";
 $messages['tokenrequired'] = "Token is required";
 $messages['tokennotvalid'] = "Token is not valid";
 $messages['resetbytokenhelp'] = "The token sent by mail allows you to reset your password. To get a new token, <a href=\"?action=sendtoken\">click here</a>.";
-
 
 ?>

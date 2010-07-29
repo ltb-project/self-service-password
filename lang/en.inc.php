@@ -85,5 +85,4 @@ $messages['tokenrequired'] = "Token is required";
 $messages['tokennotvalid'] = "Token is not valid";
 $messages['resetbytokenhelp'] = "The token sent by mail allows you to reset your password. To get a new token, <a href=\"?action=sendtoken\">click here</a>.";
 
-
 ?>
