@@ -96,10 +96,11 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
-* Thu Jul 29 2010 - Clement Oudot <clem@ltc-project.org> - 0.4-1
+* Fri Jul 30 2010 - Clement Oudot <clem@ltb-project.org> - 0.4-1
 - Bug #183: Corrected german translations
 - Bug #189: Accentued characters in passwords are not well managed
 - Bug #258: LTB advertises features even if not configured
+- Bug #269: Bad link to token page
 - Feature #146: Lost Password
 - Feature #178: Reject some special characters from passwords
 - Feature #181: Secret Question feature to reset/set your own password

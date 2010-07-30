@@ -3,6 +3,7 @@ ltb-project-self-service-password (0.4-1) unstable; urgency=low
     * Bug #183: Corrected german translations
     * Bug #189: Accentued characters in passwords are not well managed
     * Bug #258: LTB advertises features even if not configured
+    * Bug #269: Bad link to token page
     * Feature #146: Lost Password
     * Feature #178: Reject some special characters from passwords
     * Feature #181: Secret Question feature to reset/set your own password
@@ -14,5 +15,5 @@ ltb-project-self-service-password (0.4-1) unstable; urgency=low
     * Feature #259: Check that user doesn't reuse the same password
     * Feature #266: Add pt-BR lang
 
- -- Clement Oudot <clem@ltb-project.org>  Wed, 28 Jul 2010 12:00:00 +0200
+ -- Clement Oudot <clem@ltb-project.org>  Fri, 30 Jul 2010 12:00:00 +0200
 
