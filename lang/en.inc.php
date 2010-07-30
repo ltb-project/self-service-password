@@ -72,7 +72,7 @@ $messages['resetbyquestionshelp'] = "Choose a question and answer it to reset yo
 $messages['changehelp'] = "Enter your old password and choose a new one.";
 $messages['changehelpreset'] = "Forgot your password?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
-$messages['changehelptoken'] = "<a href=\"?action=resetbytoken\">Reset your password with a mail challenge</a>";
+$messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Reset your password with a mail challenge</a>";
 $messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf your are not the issuer of this request, please ignore it.";
 $messages['resetsubject'] = "Reset your password";
 $messages['sendtokenhelp'] = "Enter your login and your password to reset your password. Then click on the link in sent mail.";
