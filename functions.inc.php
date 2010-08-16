@@ -185,9 +185,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash ) 
         $password = "\"" . $password . "\"";
         $len = strlen(utf8_decode($password));
         for ($i = 0; $i < $len; $i++){
-            $password .= "{$password{$i}}\000";
+            $adpassword .= "{$password{$i}}\000";
         }
-        $password = $password;
+        $password = $adpassword;
     } else {
         # Hash password if needed
         if ( $hash == "SSHA" ) {
