@@ -124,7 +124,7 @@ if ( $result === "" ) {
 # Change password
 #==============================================================================
 if ( $result === "" ) {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash);
+    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash, $who_change_password, $oldpassword);
 }
 
 #==============================================================================

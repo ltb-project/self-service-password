@@ -73,6 +73,17 @@ function make_md4_password($password) {
     return $hash;
 }
 
+# Create AD password (Microsoft Active Directory password format)
+function make_ad_password($password) {
+    $password = "\"" . $password . "\"";
+    $len = strlen(utf8_decode($password));
+    $adpassword = "";
+    for ($i = 0; $i < $len; $i++){
+        $adpassword .= "{$password{$i}}\000";
+    }
+    return $adpassword;
+}
+
 # Strip slashes added by PHP
 # Only if magic_quote_gpc is not set to off in php.ini
 function stripslashes_if_gpc_magic_quotes( $string ) {
@@ -170,7 +181,7 @@ function check_password_strength( $password, $oldpassword, $pwd_special_chars, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash, $who_change_password, $oldpassword ) {
 
     $result = "";
 
@@ -182,13 +193,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash ) 
 
     # Transform password value
     if ( $ad_mode ) {
-        $password = "\"" . $password . "\"";
-        $len = strlen(utf8_decode($password));
-        $adpassword = "";
-        for ($i = 0; $i < $len; $i++){
-            $adpassword .= "{$password{$i}}\000";
-        }
-        $password = $adpassword;
+        $password = make_ad_password($password);
     } else {
         # Hash password if needed
         if ( $hash == "SSHA" ) {
@@ -216,7 +221,30 @@ function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash ) 
     }
 
     # Commit modification on directory
-    $replace = ldap_mod_replace($ldap, $dn, $userdata);
+    
+    # Special case: AD mode with password changed as user
+    # Need remove of old password value and add of new value
+    if ( $ad_mode and $who_change_password === "user" ) {
+        if (!$oldpassword) {
+            $result = "passworderror";
+            error_log("Cannot modify AD password as user without old password");
+            return $result;
+	} else {
+            # Delete old password
+            $oldpassword = make_ad_password($oldpassword);
+            $userdata["unicodePwd"] = $oldpassword;
+
+            $delete = ldap_mod_del($ldap, $dn, $userdata);
+
+            # Add new password
+            $userdata["unicodePwd"] = $password;
+
+            $add = ldap_mod_add($ldap, $dn, $userdata);
+        }
+    # Else just replace with new password
+    } else {
+        $replace = ldap_mod_replace($ldap, $dn, $userdata);
+    }
 
     $errno = ldap_errno($ldap);
     if ( $errno ) {
