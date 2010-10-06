@@ -123,7 +123,7 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special );
+    $result = check_password_strength( $newpassword, '', $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special );
 }
 
 # Change password
