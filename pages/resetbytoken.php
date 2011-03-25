@@ -160,6 +160,8 @@ if ( $show_help ) {
 }
 ?>
 
+<?php if ( $result !== "tokenrequired" and $result !== "tokennotvalid"  ) { ?>
+
 <?php
 show_policy($messages,
     $pwd_min_length, $pwd_max_length,
@@ -184,5 +186,7 @@ show_policy($messages,
     <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
     </table>
 </form>
+
+<?php } ?>
 
 <?php } ?>
