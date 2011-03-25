@@ -98,6 +98,10 @@ $answer_attribute = "info";
 # false
 $use_tokens = true;
 $mail_attribute = "mail";
+# Crypt tokens?
+# true (default)
+# false
+$crypt_tokens = true;
 
 # Display help messages
 $show_help = true;
@@ -110,4 +114,8 @@ $logo = "style/ltb-logo.png";
 
 # Debug mode
 $debug = false;
+
+# Encryption, decryption keyphrase
+$keyphrase = "secret";
+
 ?>

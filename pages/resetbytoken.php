@@ -28,6 +28,7 @@
 $result = "";
 $login = "";
 $token = "";
+$tokenid = "";
 $newpassword = "";
 $confirmpassword = "";
 $ldap = "";
@@ -42,16 +43,25 @@ if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = $_REQUEST["toke
 #==============================================================================
 if ( $result === "" ) {
 
-    # Open session with URL SID
+    # Open session with the token
     # Warning, set session.use_only_cookies = 0 in php.ini 
+
+    if ( $crypt_tokens ) {
+        $tokenid = decrypt($token);
+    } else {
+        $tokenid = $token;
+    }
+
+    session_id($tokenid);
     session_name("token");
     session_start();
     $login = $_SESSION['login'];
 
     if ( !$login ) {
         $result = "tokennotvalid";
-	error_log("Unable to open session with ".SID);
+	error_log("Unable to open session $tokenid");
     }
+
 }
 
 #==============================================================================

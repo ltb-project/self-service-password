@@ -30,6 +30,7 @@ $login = "";
 $mail = "";
 $ldap = "";
 $userdn = "";
+$token = "";
 
 if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
  else { $result = "mailrequired"; }
@@ -112,6 +113,12 @@ if ( $result === "" ) {
     session_start();
     $_SESSION['login'] = $login;
 
+    if ( $crypt_tokens ) {
+        $token = encrypt(session_id());
+    } else {
+        $token = session_id();
+    }
+
 }
 
 #==============================================================================
@@ -125,8 +132,10 @@ if ( $result === "" ) {
     $server_name = $_SERVER['SERVER_NAME'];
     $script_name = $_SERVER['SCRIPT_NAME'];
 
-    $reset_url = $method."://".$server_name.$script_name."?action=resetbytoken&".SID;
-error_log($reset_url);
+    $reset_url = $method."://".$server_name.$script_name."?action=resetbytoken&token=$token";
+    
+    error_log("Send reset URL $reset_url");
+
     # Replace some values in reset message
     $reset_message = $messages["resetmessage"];
     $reset_message = str_replace("{login}", $login, $reset_message);
