@@ -246,4 +246,85 @@ function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash, $
     return $result;
 }
 
+/* @function encrypt(string $data)
+ * Encrypt a data
+ * @param data
+ * @return encrypted data
+ * @author Matthias Ganzinger
+ */ 
+function encrypt($data) {
+
+    /* Open the cipher (AES-256)*/
+    $td = mcrypt_module_open('rijndael-256', '', 'ofb', '');
+
+    /* Create the IV and determine the keysize length, use MCRYPT_RAND
+     * on Windows instead */
+    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_DEV_URANDOM);
+    $ks = mcrypt_enc_get_key_size($td);
+
+    /* Create key */
+    $key = substr(md5($keyphrase), 0, $ks);
+
+    /* Intialize encryption */
+    mcrypt_generic_init($td, $key, $iv);
+
+    /* Encrypt data */
+    $encrypted = mcrypt_generic($td, $data);
+
+    /* Terminate encryption handler */
+    mcrypt_generic_deinit($td);
+
+    /* Terminate decryption handle and close module */
+    mcrypt_module_close($td);
+
+    /* base64 encode iv and message */
+    $iv = base64_encode($iv);
+    $encrypted = base64_encode($encrypted);
+
+    /* return data nn:ivencrypted */
+    return strlen($iv). ":" . $iv . $encrypted;
+}
+
+
+/* @function decrypt(string $data)
+ * Decrypt a data
+ * @param data
+ * @return decrypted data
+ * @author Matthias Ganzinger
+ */
+function decrypt($data) {
+
+    /* get iv */
+
+    /* replace spaces with +, otherwise base64_decode will fail */
+    $data = str_replace(" ", "+", $data);
+    $ivcount = strstr($data, ':', true);
+    $message = strstr($data, ':');
+    $iv = substr($message, 1, $ivcount);
+    $iv =  base64_decode($iv);
+
+    /* get data */
+    $encrypted = base64_decode(substr($message, $ivcount+1));
+
+    /* Open the cipher */
+    $td = mcrypt_module_open('rijndael-256', '', 'ofb', '');
+    $ks = mcrypt_enc_get_key_size($td);
+
+    /* Create key */
+    $key = substr(md5($keyphrase), 0, $ks);
+
+    /* Intialize encryption */
+    mcrypt_generic_init($td, $key, $iv);
+
+    /* Decrypt encrypted string */
+    $decrypted = mdecrypt_generic($td, $encrypted);
+
+    /* Terminate decryption handle and close module */
+    mcrypt_generic_deinit($td);
+    mcrypt_module_close($td);
+
+    /* Show string */
+    return trim($decrypted);
+}
+
 ?>
