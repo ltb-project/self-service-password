@@ -79,7 +79,9 @@ if ( ! in_array($action, $available_actions) ) { $action = "change"; }
 
 <div id="content">
 <h1><?php echo $messages["title"]; ?></h1>
+<a href="index.php" alt="Home">
 <img src="<?php echo $logo; ?>" alt="Logo" />
+</a>
 
 <?php include("pages/$action.php") ?>
 
