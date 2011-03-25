@@ -223,30 +223,19 @@ function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash, $
     # Commit modification on directory
     
     # Special case: AD mode with password changed as user
-    # Need remove of old password value and add of new value
+    # Not possible with PHP, because requires add/delete modification
+    # in a single operation
     if ( $ad_mode and $who_change_password === "user" ) {
-        if (!$oldpassword) {
-            $result = "passworderror";
-            error_log("Cannot modify AD password as user without old password");
-            return $result;
-	} else {
-            # Delete old password
-            $oldpassword = make_ad_password($oldpassword);
-            $userdata["unicodePwd"] = $oldpassword;
+        $result = "passworderror";
+        error_log("Cannot modify AD password as user");
+        return $result;
+    } 
 
-            $delete = ldap_mod_del($ldap, $dn, $userdata);
-
-            # Add new password
-            $userdata["unicodePwd"] = $password;
-
-            $add = ldap_mod_add($ldap, $dn, $userdata);
-        }
     # Else just replace with new password
-    } else {
-        $replace = ldap_mod_replace($ldap, $dn, $userdata);
-    }
+    $replace = ldap_mod_replace($ldap, $dn, $userdata);
 
     $errno = ldap_errno($ldap);
+
     if ( $errno ) {
         $result = "passworderror";
         error_log("LDAP - Modify password error $errno (".ldap_error($ldap).")");
