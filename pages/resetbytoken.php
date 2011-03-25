@@ -141,6 +141,12 @@ if ($result === "") {
     $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash);
 }
 
+# Delete token if all is ok
+if ( $result === "passwordchanged" ) {
+    $_SESSION = array();
+    session_destroy();
+}
+
 #==============================================================================
 # HTML
 #==============================================================================
