@@ -102,6 +102,8 @@ $mail_attribute = "mail";
 # true (default)
 # false
 $crypt_tokens = true;
+# Token lifetime in seconds
+$token_lifetime = "3600";
 
 # Display help messages
 $show_help = true;

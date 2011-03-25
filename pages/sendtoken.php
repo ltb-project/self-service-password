@@ -108,10 +108,14 @@ if ( $result === "" ) {
 if ( $result === "" ) {
 
     # Use PHP session to register token
-    # We do not generate cookie, we just use SID to generate URL
+    # We do not generate cookie
+    ini_set("session.use_cookies",0);
+    ini_set("session.use_only_cookies",1);
+
     session_name("token");
     session_start();
     $_SESSION['login'] = $login;
+    $_SESSION['time']  = time();
 
     if ( $crypt_tokens ) {
         $token = encrypt(session_id());

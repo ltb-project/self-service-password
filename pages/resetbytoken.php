@@ -44,14 +44,22 @@ if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = $_REQUEST["toke
 if ( $result === "" ) {
 
     # Open session with the token
-    # Warning, set session.use_only_cookies = 0 in php.ini 
-
     if ( $crypt_tokens ) {
         $tokenid = decrypt($token);
     } else {
         $tokenid = $token;
     }
 
+    ini_set("session.use_cookies",0);
+    ini_set("session.use_only_cookies",1);
+
+    # Manage lifetime with sessions properties
+    if (isset($token_lifetime)) {
+        ini_set("session.gc_maxlifetime", $token_lifetime);
+        ini_set("session.gc_probability",1);
+        ini_set("session.gc_divisor",1);
+    }
+    
     session_id($tokenid);
     session_name("token");
     session_start();
@@ -60,6 +68,15 @@ if ( $result === "" ) {
     if ( !$login ) {
         $result = "tokennotvalid";
 	error_log("Unable to open session $tokenid");
+    } else {
+        if (isset($token_lifetime)) {
+            # Manage lifetime with session content
+            $tokentime = $_SESSION['time'];
+            if ( time() - $tokentime > $token_lifetime ) {
+                $result = "tokennotvalid";
+                error_log("Token lifetime expired");
+	    }
+        }
     }
 
 }
