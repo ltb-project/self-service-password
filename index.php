@@ -33,6 +33,12 @@ error_reporting(0);
 if($debug) error_reporting(E_ALL);
 
 #==============================================================================
+# PHP configuration tuning
+#==============================================================================
+# Disable output_buffering, to not send cookie information after headers
+ini_set('output_buffering', '0');
+
+#==============================================================================
 # PHP modules
 #==============================================================================
 # Check PHP-LDAP presence
