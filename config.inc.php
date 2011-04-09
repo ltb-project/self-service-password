@@ -92,6 +92,9 @@ $use_questions = true;
 $answer_objectClass = "extensibleObject";
 $answer_attribute = "info";
 
+# Extra questions (built-in questions are in lang/$lang.inc.php)
+#$messages['questions']['ice'] = "What is your favorite ice cream flavor?";
+
 ## Token
 # Use tokens?
 # true (default)
