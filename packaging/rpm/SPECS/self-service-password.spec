@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	0.4
+%define ssp_version	0.5
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -96,6 +96,21 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Sat Apr 09 2011 - Clement Oudot <clem@ltb-project.org> - 0.5-1
+- Bug #273: Canoot change password on Active Directory
+- Bug #274: Cannot change password on Active Directory as user
+- Bug #276: Canot change AD Password as User or Manager
+- Bug #288: Problems with 'Reset your password with a mail challenge'
+- Bug #298: security issue in email password reset
+- Bug #300: Warning Ldap_get_dn
+- Bug #304: LDAP Tool Box
+- Bug #305: LDAP Tool Box
+- Bug #309: Password reset via email token fails to send in a parameter
+- Feature #272: Dutch translation
+- Feature #275: Added a couple of features
+- Feature #289: Delete token if password change is ok
+- Feature #290: Configure token lifetime
+- Feature #307: Token reset form should be hidden if token is missing or invalid
 * Fri Jul 30 2010 - Clement Oudot <clem@ltb-project.org> - 0.4-1
 - Bug #183: Corrected german translations
 - Bug #189: Accentued characters in passwords are not well managed
