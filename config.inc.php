@@ -100,13 +100,18 @@ $answer_attribute = "info";
 # true (default)
 # false
 $use_tokens = true;
-$mail_attribute = "mail";
 # Crypt tokens?
 # true (default)
 # false
 $crypt_tokens = true;
 # Token lifetime in seconds
 $token_lifetime = "3600";
+
+## Mail
+# LDAP mail attribute
+$mail_attribute = "mail";
+# Who the email should come from
+$mail_from = "admin@example.com";
 
 # Display help messages
 $show_help = true;

@@ -327,4 +327,45 @@ function decrypt($data) {
     return trim($decrypted);
 }
 
+/* @function boolean send_mail(string $mail, string $mail_from, string $subject, string $body, array $data)
+ * Send a mail, replace strings in body
+ * @param mail Destination
+ * @param mail_from Sender
+ * @param subject Subject
+ * @param body Body
+ * @param data Data for string replacement
+ * @return result
+ */
+function send_mail($mail, $mail_from, $subject, $body, $data) {
+
+    $result = false;
+
+    if (!$mail) {
+        error_log("send_mail: no mail given, exiting...");
+        return $result;
+    }
+
+    /* Replace data in subject and body */
+    foreach($data as $key => $value ) { 
+        $subject = str_replace('{'.$key.'}', $value, $subject);
+        $body = str_replace('{'.$key.'}', $value, $body);
+    }
+
+    /* Encode the subject */
+    $subject = mb_encode_mimeheader(utf8_decode($subject), "UTF-8", "Q");
+
+    /* Set encoding for the body */
+    $header = "MIME-Version: 1.0\r\nContent-type: text/plain; charset=UTF-8\r\n";
+
+    /* Send the mail */
+    if ($mail_from) {
+        $result = mail($mail, $subject, $body, $header."From: $mail_from\r\n");
+    } else {
+        $result = mail($mail, $subject, $body, $header);
+    }
+
+    return $result;
+
+}
+
 ?>

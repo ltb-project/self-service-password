@@ -140,14 +140,10 @@ if ( $result === "" ) {
     
     error_log("Send reset URL $reset_url");
 
-    # Replace some values in reset message
-    $reset_message = $messages["resetmessage"];
-    $reset_message = str_replace("{login}", $login, $reset_message);
-    $reset_message = str_replace("{mail}", $mail, $reset_message);
-    $reset_message = str_replace("{url}", $reset_url, $reset_message);
+    $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
 
     # Send message
-    if ( mail($mail, $messages["resetsubject"], $reset_message) ) {
+    if ( send_mail($mail, $mail_from, $messages["resetsubject"], $messages["resetmessage"], $data) ) {
         $result = "tokensent";
     } else {
         $result = "tokennotsent";
