@@ -359,7 +359,7 @@ function send_mail($mail, $mail_from, $subject, $body, $data) {
 
     /* Send the mail */
     if ($mail_from) {
-        $result = mail($mail, $subject, $body, $header."From: $mail_from\r\n");
+        $result = mail($mail, $subject, $body, $header."From: $mail_from\r\n","-f$mail_from");
     } else {
         $result = mail($mail, $subject, $body, $header);
     }
