@@ -45,7 +45,7 @@ if ( $result === "" ) {
 
     # Open session with the token
     if ( $crypt_tokens ) {
-        $tokenid = decrypt($token);
+        $tokenid = decrypt($token, $keyphrase);
     } else {
         $tokenid = $token;
     }
@@ -150,12 +150,12 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, '', $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special );
+    $result = check_password_strength( $newpassword, '', $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_no_reuse );
 }
 
 # Change password
 if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash);
+    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $samba_mode, $hash, $who_change_password);
 }
 
 # Delete token if all is ok

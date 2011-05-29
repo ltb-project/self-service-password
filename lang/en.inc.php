@@ -75,7 +75,7 @@ $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset y
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Reset your password with a mail challenge</a>";
 $messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf your are not the issuer of this request, please ignore it.";
 $messages['resetsubject'] = "Reset your password";
-$messages['sendtokenhelp'] = "Enter your login and your password to reset your password. Then click on the link in sent mail.";
+$messages['sendtokenhelp'] = "Enter your login and your email address to reset your password. Then click on the link in sent mail.";
 $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Your mail is required";
 $messages['mailnomatch'] = "The mail does not match the submitted login";

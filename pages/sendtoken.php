@@ -118,7 +118,7 @@ if ( $result === "" ) {
     $_SESSION['time']  = time();
 
     if ( $crypt_tokens ) {
-        $token = encrypt(session_id());
+        $token = encrypt(session_id(), $keyphrase);
     } else {
         $token = session_id();
     }
@@ -132,13 +132,17 @@ if ( $result === "" ) {
 
     # Build reset by token URL
     $method = "http";
-    if ( $_SERVER['HTTPS'] ) { $method .= "s"; }
+    if ( !empty($_SERVER['HTTPS']) ) { $method .= "s"; }
     $server_name = $_SERVER['SERVER_NAME'];
     $script_name = $_SERVER['SCRIPT_NAME'];
 
     $reset_url = $method."://".$server_name.$script_name."?action=resetbytoken&token=$token";
     
-    error_log("Send reset URL $reset_url");
+    if ( !empty($reset_request_log) ) {
+        error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+    } else {
+        error_log("Send reset URL $reset_url");
+    }
 
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
 

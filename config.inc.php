@@ -128,4 +128,8 @@ $debug = false;
 # Encryption, decryption keyphrase
 $keyphrase = "secret";
 
+# Where to log password resets - Make sure apache has write permission
+# By default, they are logged in Apache log
+#$reset_request_log = "/var/log/self-service-password";
+
 ?>

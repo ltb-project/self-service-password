@@ -181,7 +181,7 @@ function check_password_strength( $password, $oldpassword, $pwd_special_chars, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash, $who_change_password, $oldpassword ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash, $who_change_password ) {
 
     $result = "";
 
@@ -252,7 +252,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $samba_mode, $hash, $
  * @return encrypted data
  * @author Matthias Ganzinger
  */ 
-function encrypt($data) {
+function encrypt($data, $keyphrase) {
 
     /* Open the cipher (AES-256)*/
     $td = mcrypt_module_open('rijndael-256', '', 'ofb', '');
@@ -292,7 +292,7 @@ function encrypt($data) {
  * @return decrypted data
  * @author Matthias Ganzinger
  */
-function decrypt($data) {
+function decrypt($data, $keyphrase) {
 
     /* get iv */
 
