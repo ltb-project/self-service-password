@@ -294,14 +294,14 @@ function encrypt($data, $keyphrase) {
  */
 function decrypt($data, $keyphrase) {
 
-    /* get iv */
-
     /* replace spaces with +, otherwise base64_decode will fail */
     $data = str_replace(" ", "+", $data);
-    $ivcount = strstr($data, ':', true);
+
+    /* get iv */
+    $ivcount = substr($data, 0, strpos($data, ':'));
     $message = strstr($data, ':');
     $iv = substr($message, 1, $ivcount);
-    $iv =  base64_decode($iv);
+    $iv = base64_decode($iv);
 
     /* get data */
     $encrypted = base64_decode(substr($message, $ivcount+1));
