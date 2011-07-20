@@ -84,5 +84,7 @@ $messages['tokennotsent'] = "Erro durante o envio do e-mail de confirmação";
 $messages['tokenrequired'] = "O código é necessário";
 $messages['tokennotvalid'] = "Código inválido";
 $messages['resetbytokenhelp'] = "O código enviado por e-mail permite que você redefina A senha. Para enviar um novo código, <a href=\"?action=sendtoken\">Clique aqui</a>.";
+$messages['changemessage'] = "Hello {login},\n\nYour password has been changed.\n\nIf your are not the issuer of this request, please contact your administrator immediately.";
+$messages['changesubject'] = "Your password has been changed";
 
 ?>

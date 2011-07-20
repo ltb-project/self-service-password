@@ -34,6 +34,7 @@ $confirmpassword = "";
 $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
+$mail = "";
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
  else { $result = "confirmpasswordrequired"; }
@@ -94,7 +95,15 @@ if ( $result === "" ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
-    
+
+    # Get user email for notification
+    if ( $notify_on_change ) {
+        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+        if ( $mailValues["count"] > 0 ) {
+            $mail = $mailValues[0];
+        }
+    } 
+
     # Get question/answer values
     $questionValues = ldap_get_values($ldap, $entry, $answer_attribute);
     unset($questionValues["count"]);
@@ -124,7 +133,7 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, '', $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special );
+    $result = check_password_strength( $newpassword, '', $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_no_reuse );
 }
 
 # Change password
@@ -190,4 +199,16 @@ foreach ( $messages["questions"] as $value => $text ) {
     </table>
 </form>
 
-<?php } ?>
+<?php } else {
+
+    # Notify password change
+    if ($mail and $notify_on_change) {
+        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+        if ( !send_mail($mail, $mail_from, $messages["changesubject"], $messages["changemessage"], $data) ) {
+            error_log("Error while sending change email to $mail (user $login)");
+        }
+    }
+
+}
+?>
+

@@ -112,6 +112,8 @@ $token_lifetime = "3600";
 $mail_attribute = "mail";
 # Who the email should come from
 $mail_from = "admin@example.com";
+# Notify users anytime their password is changed
+$notify_on_change = false;
 
 # Display help messages
 $show_help = true;

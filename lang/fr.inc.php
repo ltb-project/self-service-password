@@ -84,5 +84,7 @@ $messages['tokennotsent'] = "Erreur lors de l'envoi du mail de confirmation";
 $messages['tokenrequired'] = "Le jeton de réinitialisation est requis";
 $messages['tokennotvalid'] = "Le jeton n'est pas valide";
 $messages['resetbytokenhelp'] = "Le jeton envoyé par mail vous permet de réinitialiser votre mot de passe. Pour recevoir un nouveau jeton, <a href=\"?action=sendtoken\">cliquez ici</a>.";
+$messages['changemessage'] = "Bonjour {login},\n\nVotre mot de passe a été changé.\n\nSi vous n'êtes pas à l'orgine de cette demande, contactez votre administrateur immédiatement.";
+$messages['changesubject'] = "Votre mot de passe a été changé";
 
 ?>

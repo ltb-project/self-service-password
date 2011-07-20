@@ -34,6 +34,7 @@ $confirmpassword = "";
 $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
+$mail = "";
 
 if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = $_REQUEST["token"]; }
  else { $result = "tokenrequired"; }
@@ -138,6 +139,14 @@ if ( $result === "" ) {
         error_log("LDAP - User $login not found");
     }
 
+    # Get user email for notification
+    if ( $notify_on_change ) {
+        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+        if ( $mailValues["count"] > 0 ) {
+            $mail = $mailValues[0];
+        }
+    }
+
 }}}
 
 #==============================================================================
@@ -212,4 +221,16 @@ show_policy($messages,
 
 <?php } ?>
 
-<?php } ?>
+<?php } else {
+
+    # Notify password change
+    if ($mail and $notify_on_change) {
+        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+        if ( !send_mail($mail, $mail_from, $messages["changesubject"], $messages["changemessage"], $data) ) {
+            error_log("Error while sending change email to $mail (user $login)");
+        }
+    }
+
+}
+?>
+
