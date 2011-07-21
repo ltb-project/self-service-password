@@ -134,4 +134,11 @@ $keyphrase = "secret";
 # By default, they are logged in Apache log
 #$reset_request_log = "/var/log/self-service-password";
 
+## CAPTCHA
+# Use Google reCAPTCHA (http://www.google.com/recaptcha)
+# Go on the site to get public and private key
+$use_recaptcha = false;
+$recaptcha_publickey = "";
+$recaptcha_privatekey = "";
+
 ?>
