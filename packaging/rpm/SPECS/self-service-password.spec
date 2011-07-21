@@ -55,7 +55,9 @@ rm -rf %{buildroot}
 
 # Create directories
 mkdir -p %{buildroot}/%{ssp_destdir}
+mkdir -p %{buildroot}/%{ssp_destdir}/conf
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
+mkdir -p %{buildroot}/%{ssp_destdir}/lib
 mkdir -p %{buildroot}/%{ssp_destdir}/pages
 mkdir -p %{buildroot}/%{ssp_destdir}/style
 mkdir -p %{buildroot}/etc/httpd/conf.d
@@ -63,7 +65,9 @@ mkdir -p %{buildroot}/etc/httpd/conf.d
 # Copy files
 ## PHP
 install -m 644 *.php %{buildroot}/%{ssp_destdir}
+install -m 644 conf/* %{buildroot}/%{ssp_destdir}/conf
 install -m 644 lang/* %{buildroot}/%{ssp_destdir}/lang
+install -m 644 lib/* %{buildroot}/%{ssp_destdir}/lib
 install -m 644 pages/* %{buildroot}/%{ssp_destdir}/pages
 install -m 644 style/* %{buildroot}/%{ssp_destdir}/style
 ## Apache configuration
@@ -88,7 +92,7 @@ rm -rf %{buildroot}
 #=================================================
 %files
 %defattr(-, root, root, 0755)
-%config(noreplace) %{ssp_destdir}/config.inc.php
+%config(noreplace) %{ssp_destdir}/conf/config.inc.php
 %config(noreplace) /etc/httpd/conf.d/self-service-password.conf
 %{ssp_destdir}
 

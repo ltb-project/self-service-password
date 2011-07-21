@@ -22,9 +22,9 @@
 #==============================================================================
 # Includes
 #==============================================================================
-require_once("config.inc.php");
+require_once("conf/config.inc.php");
 require_once("lang/$lang.inc.php");
-require_once("functions.inc.php");
+require_once("lib/functions.inc.php");
 
 #==============================================================================
 # Error reporting
