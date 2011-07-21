@@ -18,13 +18,17 @@ rm -f $NAME*
 
 # Create dist dir
 mkdir -p $NAME-$VERSION
+mkdir -p $NAME-$VERSION/conf
 mkdir -p $NAME-$VERSION/lang
+mkdir -p $NAME-$VERSION/lib
 mkdir -p $NAME-$VERSION/pages
 mkdir -p $NAME-$VERSION/style
 
 # Copy files
 cp ../*.php $NAME-$VERSION
+cp ../conf/* $NAME-$VERSION/conf
 cp ../lang/* $NAME-$VERSION/lang
+cp ../lib/* $NAME-$VERSION/lib
 cp ../pages/* $NAME-$VERSION/pages
 cp ../style/* $NAME-$VERSION/style
 

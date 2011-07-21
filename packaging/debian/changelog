@@ -1,3 +1,16 @@
+ltb-project-self-service-password (0.6-1) unstable; urgency=low
+
+    * Bug #320: Token crypt function does not wotk with PHP 5.2 and inferior
+    * Bug #322: Several PHP bugs and logging feature added (PATCH included)
+    * Feature #310: Add a password complexity points check
+    * Feature #311: Notify user by mail after password change
+    * Feature #317: Set content-type header for mail
+    * Feature #319: Change password with a mail challenge - add oprions -f to
+      see correct FROM header
+    * Feature #323: Added support for reCAPTCHA (patches included)
+
+ -- Clement Oudot <clem@ltb-project.org>  Sat, 09 Apr 2011 12:00:00 +0200
+
 ltb-project-self-service-password (0.5-1) unstable; urgency=low
 
     * Bug #273: Canoot change password on Active Directory

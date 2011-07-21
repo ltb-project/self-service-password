@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	0.5
+%define ssp_version	0.6
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -81,6 +81,11 @@ install -m 644 %{SOURCE1} %{buildroot}/etc/httpd/conf.d/self-service-password.co
 # Change owner
 /bin/chown -R apache:apache %{ssp_destdir}
 
+# Move configuration for older version
+if [ -r "%{ssp_destdir}/config.inc.php" ]; then
+    mv %{ssp_destdir}/config.inc.php %{ssp_destdir}/conf/config.inc.php
+fi
+
 #=================================================
 # Cleaning
 #=================================================
@@ -100,6 +105,14 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Thu Jul 21 2011 - Clement Oudot <clem@ltb-project.org> - 0.6-1
+- Bug #320: Token crypt function does not wotk with PHP 5.2 and inferior
+- Bug #322: Several PHP bugs and logging feature added (PATCH included)
+- Feature #310: Add a password complexity points check
+- Feature #311: Notify user by mail after password change
+- Feature #317: Set content-type header for mail
+- Feature #319: Change password with a mail challenge - add oprions -f to see correct FROM header
+- Feature #323: Added support for reCAPTCHA (patches included)
 * Sat Apr 09 2011 - Clement Oudot <clem@ltb-project.org> - 0.5-1
 - Bug #273: Canoot change password on Active Directory
 - Bug #274: Cannot change password on Active Directory as user
