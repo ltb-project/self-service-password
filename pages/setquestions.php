@@ -49,6 +49,22 @@ $question = stripslashes_if_gpc_magic_quotes($question);
 $answer = stripslashes_if_gpc_magic_quotes($answer);
 
 #==============================================================================
+# Check reCAPTCHA
+#==============================================================================
+if ( $result === "" ) {
+    if ( $use_recaptcha ) {
+        $resp = recaptcha_check_answer ($recaptcha_privatekey,
+                                $_SERVER["REMOTE_ADDR"],
+                                $_POST["recaptcha_challenge_field"],
+                                $_POST["recaptcha_response_field"]);
+        if (!$resp->is_valid) {
+            $result = "badcaptcha";
+            error_log("Bad reCAPTCHA attempt with user $login");
+        }
+    }
+}
+
+#==============================================================================
 # Check password
 #==============================================================================
 if ( $result === "" ) {
@@ -188,6 +204,11 @@ foreach ( $messages["questions"] as $value => $text ) {
     </td></tr>
     <tr><th><?php echo $messages["answer"]; ?></th>
     <td><input type="text" name="answer" /></td></tr>
+<?php if ($use_recaptcha) { ?>
+    <tr><td colspan="2">
+<?php echo recaptcha_get_html($recaptcha_publickey); ?>
+    </td></tr>
+<?php } ?>
     <tr><td colspan="2">
     <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
     </table>

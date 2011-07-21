@@ -96,16 +96,16 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 
 # Get message criticity
 function get_criticity( $msg ) {
-	
-	if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid/" , $msg ) ) {
-		return "critical";
-	}
-	
-	if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token)required/" , $msg ) ) {
-		return "warning";
-	}
 
-	return "ok";
+    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid/" , $msg ) ) {
+    return "critical";
+    }
+	
+    if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token)required|badcaptcha/" , $msg ) ) {
+        return "warning";
+    }
+
+    return "ok";
 }
 
 # Display policy bloc

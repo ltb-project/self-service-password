@@ -86,5 +86,6 @@ $messages['tokennotvalid'] = "Token is ongeldig";
 $messages['resetbytokenhelp'] = "De token die per email verstuurd is, stelt u in staat uw wachtwoord te wijzigen. Om een nieuwe token te verkrijgen kunt u <a href=\"?action=sendtoken\">hier klikken</a>.";
 $messages['changemessage'] = "Hello {login},\n\nYour password has been changed.\n\nIf your are not the issuer of this request, please contact your administrator immediately.";
 $messages['changesubject'] = "Your password has been changed";
+$messages['badcaptcha'] = "De reCAPTCHA was niet correct ingevuld. Probeer het opnieuw.";
 
 ?>

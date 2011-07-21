@@ -182,3 +182,11 @@ div.help p, div.help ul {
 margin: 2px 0;
 font-weight:bold;
 }
+
+/* reCAPTCHA */
+div#recaptcha_widget_div {
+box-shadow:0 0 0;
+width: 318px;
+margin: 5px auto;
+}
+

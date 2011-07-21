@@ -86,5 +86,6 @@ $messages['tokennotvalid'] = "Token is not valid";
 $messages['resetbytokenhelp'] = "The token sent by mail allows you to reset your password. To get a new token, <a href=\"?action=sendtoken\">click here</a>.";
 $messages['changemessage'] = "Hello {login},\n\nYour password has been changed.\n\nIf your are not the issuer of this request, please contact your administrator immediately.";
 $messages['changesubject'] = "Your password has been changed";
+$messages['badcaptcha'] = "El reCAPTCHA no se ha introducido correctamente. Inténtelo de nuevo.";
 
 ?>
