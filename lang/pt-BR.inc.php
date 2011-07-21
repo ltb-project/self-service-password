@@ -87,5 +87,8 @@ $messages['resetbytokenhelp'] = "O código enviado por e-mail permite que você 
 $messages['changemessage'] = "Hello {login},\n\nYour password has been changed.\n\nIf your are not the issuer of this request, please contact your administrator immediately.";
 $messages['changesubject'] = "Your password has been changed";
 $messages['badcaptcha'] = "O reCAPTCHA não foi digitado corretamente. Tente novamente.";
+$messages['notcomplex'] = "Your password does not have enough different class of characters";
+$messages['policycomplex'] = "Minimal different class of characters:";
+
 
 ?>

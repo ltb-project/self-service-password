@@ -87,5 +87,8 @@ $messages['resetbytokenhelp'] = "Le jeton envoyé par mail vous permet de réini
 $messages['changemessage'] = "Bonjour {login},\n\nVotre mot de passe a été changé.\n\nSi vous n'êtes pas à l'orgine de cette demande, contactez votre administrateur immédiatement.";
 $messages['changesubject'] = "Votre mot de passe a été changé";
 $messages['badcaptcha'] = "Le reCAPTCHA n'a pas été entré correctement. Essayez à nouveau.";
+$messages['notcomplex'] = "Votre mot de passe n'a pas assez de classes de caractères différentes.";
+$messages['policycomplex'] = "Nombre minimun de classes de caractères :";
+
 
 ?>

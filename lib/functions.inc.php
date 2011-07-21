@@ -97,7 +97,7 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex/" , $msg ) ) {
     return "critical";
     }
 	
@@ -110,12 +110,12 @@ function get_criticity( $msg ) {
 
 # Display policy bloc
 # @return HTML code
-function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars, $pwd_no_reuse, $pwd_show_policy, $result ) {
+function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars, $pwd_no_reuse, $pwd_complexity, $pwd_show_policy, $result ) {
 
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold/" , $result) ) { return; }
+        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex/" , $result) ) { return; }
     }
 
     # Display bloc
@@ -128,6 +128,7 @@ function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lowe
     if ( $pwd_min_upper       ) { echo "<li>".$messages["policyminupper"]       ." $pwd_min_upper</li>\n"; }
     if ( $pwd_min_digit       ) { echo "<li>".$messages["policymindigit"]       ." $pwd_min_digit</li>\n"; }
     if ( $pwd_min_special     ) { echo "<li>".$messages["policyminspecial"]     ." $pwd_min_special</li>\n"; }
+    if ( $pwd_complexity      ) { echo "<li>".$messages["policycomplex"]        ." $pwd_complexity</li>\n"; }
     if ( $pwd_forbidden_chars ) { echo "<li>".$messages["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
     if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."\n"; }
     echo "</ul>\n";
@@ -136,7 +137,7 @@ function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lowe
 
 # Check password strength
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_no_reuse ) {
+function check_password_strength( $password, $oldpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_no_reuse, $pwd_complexity ) {
 
     $result = "";
 
@@ -151,6 +152,16 @@ function check_password_strength( $password, $oldpassword, $pwd_special_chars, $
     $special = count( $special_res[0] );
     preg_match_all("/[$pwd_forbidden_chars]/", $password, $forbidden_res);
     $forbidden = count( $forbidden_res[0] );
+
+    # Complexity: checks for lower, upper, special, digits
+    if ( $pwd_complexity ) {
+        $complex = 0;
+        if ( $special > 0 ) { $complex++; }
+        if ( $digit > 0 ) { $complex++; }
+        if ( $lower > 0 ) { $complex++; }
+        if ( $upper > 0 ) { $complex++; }
+        if ( $complex < $pwd_complexity ) { $result="notcomplex"; }
+    }
 
     # Minimal lenght
     if ( $pwd_min_length and $length < $pwd_min_length ) { $result="tooshort"; }
