@@ -222,6 +222,7 @@ show_policy($messages,
 ?>
 
 <form action="#" method="post">
+<?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <input type="hidden" name="token" value="<?php echo htmlentities($token) ?>" />
     <table>
     <tr><th><?php echo $messages["login"]; ?></th>

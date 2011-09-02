@@ -379,4 +379,19 @@ function send_mail($mail, $mail_from, $subject, $body, $data) {
 
 }
 
+/* @function void recaptcha_get_conf(string $recaptcha_theme, string $lang)
+ * Prints javascript code to configure recaptcha
+ * @param recaptcha_theme theme for recaptcha
+ * @param lang language
+ */
+function recaptcha_get_conf($recaptcha_theme, $lang) {
+    printf('
+    <script type="text/javascript">
+    var RecaptchaOptions = {
+    lang: \'%s\',
+    theme: \'%s\',
+    };
+    </script>', $lang, $recaptcha_theme);
+}
+
 ?>

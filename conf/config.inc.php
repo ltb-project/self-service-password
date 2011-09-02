@@ -142,5 +142,8 @@ $keyphrase = "secret";
 $use_recaptcha = false;
 $recaptcha_publickey = "";
 $recaptcha_privatekey = "";
+# Customize theme (see http://code.google.com/intl/de-DE/apis/recaptcha/docs/customization.html)
+# Examples: red, white, blackglass, clean
+$recaptcha_theme = "white";
 
 ?>

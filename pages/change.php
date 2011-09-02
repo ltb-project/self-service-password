@@ -194,6 +194,7 @@ show_policy($messages,
 ?>
 
 <form action="#" method="post">
+<?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <table>
     <tr><th><?php echo $messages["login"]; ?></th>
     <td><input type="text" name="login" value="<?php echo htmlentities($login) ?>" /></td></tr>
