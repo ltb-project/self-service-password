@@ -23,11 +23,19 @@
 # Includes
 #==============================================================================
 require_once("conf/config.inc.php");
-require_once("lang/$lang.inc.php");
 require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
     require_once("lib/recaptchalib.php");
 }
+require_once("lib/detectbrowserlanguage.php");
+
+#==============================================================================
+# Language
+#==============================================================================
+# Available languages
+$languages = array('en', 'de', 'es', 'fr', 'nl', 'pt-BR');
+$lang = detectLanguage($lang, $languages);
+require_once("lang/$lang.inc.php");
 
 #==============================================================================
 # Error reporting
