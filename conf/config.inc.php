@@ -33,6 +33,8 @@ $ldap_filter = "(&(objectClass=person)(uid={login}))";
 # true: use unicodePwd as password field
 # false: LDAPv3 standard behavior
 $ad_mode = false;
+# Force account unlock when password is changed
+$ad_force_unlock = false;
 
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
