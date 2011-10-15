@@ -52,6 +52,9 @@ ini_set('output_buffering', '0');
 #==============================================================================
 # PHP modules
 #==============================================================================
+# Init result variable
+$result = "";
+
 # Check PHP-LDAP presence
 if ( ! function_exists('ldap_connect') ) { $result="nophpldap"; }
 
@@ -97,7 +100,13 @@ if ( ! in_array($action, $available_actions) ) { $action = "change"; }
 <img src="<?php echo $logo; ?>" alt="Logo" />
 </a>
 
-<?php include("pages/$action.php") ?>
+<?php if ( $result ) { ?>
+<div class="result <?php echo get_criticity($result) ?>">
+<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
+</div>
+<?php } else {
+    include("pages/$action.php");
+} ?>
 
 </div>
 
