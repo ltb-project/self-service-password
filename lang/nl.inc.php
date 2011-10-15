@@ -22,7 +22,7 @@
 #==============================================================================
 # Dutch
 #==============================================================================
-$messages['nophpldap'] = "PHP-Ldap moet geinstalleerd zijn om deze tool te kunnen gebruiken";
+$messages['nophpldap'] = "PHP LDAP moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['nophpmhash'] = "PHP mhash moet geinstalleerd zijn om Samba mode te kunnen gebruiken";
 $messages['ldaperror'] = "Kan geen toegang tot de LDAP directory verkrijgen";
 $messages['loginrequired'] = "Gebruikersnaam is vereist";
@@ -89,6 +89,6 @@ $messages['changesubject'] = "Your password has been changed";
 $messages['badcaptcha'] = "De reCAPTCHA was niet correct ingevuld. Probeer het opnieuw.";
 $messages['notcomplex'] = "Your password does not have enough different class of characters";
 $messages['policycomplex'] = "Minimal different class of characters:";
-
+$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 
 ?>

@@ -58,6 +58,9 @@ if ( ! function_exists('ldap_connect') ) { $result="nophpldap"; }
 # Check PHP mhash presence if Samba mode active
 if ( $samba_mode and ! function_exists('mhash') ) { $result="nophpmhash"; }
 
+# Check PHP mycrypt presence if token are used
+if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $result="nophpmcrypt"; }
+
 #==============================================================================
 # Action (default: change password)
 #==============================================================================

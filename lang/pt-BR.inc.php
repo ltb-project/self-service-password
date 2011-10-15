@@ -22,7 +22,7 @@
 #==============================================================================
 # Pt-BR
 #==============================================================================
-$messages['nophpldap'] = "Você deve instalar o PHP-Ldap para utilizar esta ferramenta";
+$messages['nophpldap'] = "Você deve instalar o PHP LDAP para utilizar esta ferramenta";
 $messages['nophpmhash'] = "Você deve instalar o PHP mhash para utilizar o Samba mode";
 $messages['ldaperror'] = "Não foi possível acessar o diretório LDAP";
 $messages['loginrequired'] = "O seu login é necessário";
@@ -89,6 +89,6 @@ $messages['changesubject'] = "Your password has been changed";
 $messages['badcaptcha'] = "O reCAPTCHA não foi digitado corretamente. Tente novamente.";
 $messages['notcomplex'] = "Your password does not have enough different class of characters";
 $messages['policycomplex'] = "Minimal different class of characters:";
-
+$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 
 ?>
