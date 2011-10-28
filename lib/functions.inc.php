@@ -192,7 +192,7 @@ function check_password_strength( $password, $oldpassword, $pwd_special_chars, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_force_unlock, $samba_mode, $hash, $who_change_password ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $hash, $who_change_password ) {
 
     $result = "";
 
@@ -227,8 +227,11 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_force_unlock, $sa
     # Set password value
     if ( $ad_mode ) {
         $userdata["unicodePwd"] = $password;
-        if ( $ad_force_unlock ) {
+        if ( $ad_options['force_unlock'] ) {
             $userdata["lockoutTime"] = 0;
+        }
+        if ( $ad_options['force_pwd_change'] ) {
+            $userdata["pwdLastSet"] = 0;
         }
     } else {
         $userdata["userPassword"] = $password;

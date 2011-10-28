@@ -180,7 +180,7 @@ if ( $result === "" ) {
 
 # Change password
 if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_force_unlock, $samba_mode, $hash, $who_change_password);
+    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $hash, $who_change_password);
 }
 
 # Delete token if all is ok

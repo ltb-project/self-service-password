@@ -34,7 +34,9 @@ $ldap_filter = "(&(objectClass=person)(uid={login}))";
 # false: LDAPv3 standard behavior
 $ad_mode = false;
 # Force account unlock when password is changed
-$ad_force_unlock = false;
+$ad_options['force_unlock'] = false;
+# Force user change password at next login
+$ad_options['force_pwd_change'] = false;
 
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
