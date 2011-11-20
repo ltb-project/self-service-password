@@ -127,6 +127,7 @@ if ( $result === "" ) {
 
     # Match with user submitted values
     foreach ($questionValues as $questionValue) {
+        $answer = preg_quote("$answer","/");
         if (preg_match("/^\{$question\}$answer$/i", $questionValue)) {
             $match = 1;
         }
