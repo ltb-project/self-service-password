@@ -44,6 +44,10 @@ $ad_options['force_pwd_change'] = false;
 # Warning: this require mhash() to be installed on your system
 $samba_mode = false;
 
+# Shadow options - require shadowAccount objectClass
+# Update shadowLastChange
+$shadow_options['update_shadowLastChange'] = false;
+
 # Hash mechanism for password:
 # SSHA
 # SHA

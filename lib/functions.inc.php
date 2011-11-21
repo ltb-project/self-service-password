@@ -192,7 +192,7 @@ function check_password_strength( $password, $oldpassword, $pwd_special_chars, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $hash, $who_change_password ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $shadow_options, $hash, $who_change_password ) {
 
     $result = "";
 
@@ -235,6 +235,11 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         }
     } else {
         $userdata["userPassword"] = $password;
+    }
+
+    # Shadow options
+    if ( $shadow_options['update_shadowLastChange'] ) {
+        $userdata["shadowLastChange"] = floor(time() / 86400);
     }
 
     # Commit modification on directory
