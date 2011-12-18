@@ -374,7 +374,8 @@ function send_mail($mail, $mail_from, $subject, $body, $data) {
     }
 
     /* Encode the subject */
-    $subject = mb_encode_mimeheader(utf8_decode($subject), "UTF-8", "Q");
+    mb_internal_encoding("UTF-8");
+    $subject = mb_encode_mimeheader($subject);
 
     /* Set encoding for the body */
     $header = "MIME-Version: 1.0\r\nContent-type: text/plain; charset=UTF-8\r\n";
