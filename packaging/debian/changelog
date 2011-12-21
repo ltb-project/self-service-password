@@ -1,3 +1,21 @@
+ltb-project-self-service-password (0.7-1) unstable; urgency=low
+
+    * Bug #343: Crypt tokens needs php5-mcrypt
+    * Bug #346: DIsabled accounts
+    * Bug #347: PHP libraries test are bypassed
+    * Bug #361: Self Service Password - wrong link in mail notification
+    * Bug #362: Self Service Password - register an answer, error with date
+    * Bug #378: Wrong mb_encode_mimeheader in send_mail function - SSP
+    * Feature #329: automatic Language detection
+    * Feature #330: Configuration for reCAPTCHA
+    * Feature #340: Catalan translation
+    * Feature #345: Account unlock
+    * Feature #352: Add shadowLastChange configuration
+    * Feature #358: Option to force password change in AD
+    * Feature #376: Polish translation
+
+ -- Clement Oudot <clem@ltb-project.org>  Wed, 21 Dec 2011 12:00:00 +0200
+
 ltb-project-self-service-password (0.6-1) unstable; urgency=low
 
     * Bug #320: Token crypt function does not wotk with PHP 5.2 and inferior
