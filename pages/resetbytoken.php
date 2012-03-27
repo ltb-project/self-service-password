@@ -35,9 +35,12 @@ $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
+$source = "";
 
 if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = $_REQUEST["token"]; }
  else { $result = "tokenrequired"; }
+
+if (isset($_REQUEST["source"]) and $_REQUEST["source"]) { $source = $_REQUEST["source"]; }
 
 #==============================================================================
 # Get token
@@ -201,9 +204,13 @@ if ( $result === "passwordchanged" ) {
 <?php if ( $result !== "passwordchanged" ) { ?>
 
 <?php
-if ( $show_help ) {
+if ( $show_help and ($source !== "sms") ) {
     echo "<div class=\"help\"><p>";
     echo $messages["resetbytokenhelp"];
+    echo "</p></div>\n";
+} elseif ( $show_help and ($source === "sms") ) {
+    echo "<div class=\"help\"><p>";
+    echo $messages["resetbysmshelp"];
     echo "</p></div>\n";
 }
 ?>

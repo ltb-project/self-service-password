@@ -74,9 +74,16 @@ else { $action = "change"; }
 $available_actions = array( "change" );
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
+if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = "change"; }
+
+#==============================================================================
+# Other default values
+#==============================================================================
+if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }
+if (!isset($ldap_fullname_attribute)) { $ldap_fullname_attribute = "cn"; }
 
 #==============================================================================
 ?>

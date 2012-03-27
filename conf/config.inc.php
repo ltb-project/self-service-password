@@ -27,7 +27,9 @@ $ldap_url = "ldap://localhost";
 $ldap_binddn = "cn=manager,dc=example,dc=com";
 $ldap_bindpw = "secret";
 $ldap_base = "dc=example,dc=com";
-$ldap_filter = "(&(objectClass=person)(uid={login}))";
+$ldap_login_attribute = "uid";
+$ldap_fullname_attribute = "cn";
+$ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
 
 # Active Directory mode
 # true: use unicodePwd as password field
@@ -124,6 +126,23 @@ $mail_attribute = "mail";
 $mail_from = "admin@example.com";
 # Notify users anytime their password is changed
 $notify_on_change = false;
+
+## SMS
+# Use sms
+$use_sms = true;
+# GSM number attribute
+$sms_attribute = "mobile";
+# Send SMS mail to address
+$smsmailto = "{sms_attribute}@service.provider.com";
+# Subject when sending email to SMTP to SMS provider
+$smsmail_subject = "SMS token";
+# Message
+$sms_message = "username:user1\n" .
+       "password:passwd\n" .
+       "numberfrom:1234\n" .
+       "text:{smsresetmessage} {smstoken}";
+# SMS token length
+$sms_token_length = 6;
 
 # Display help messages
 $show_help = true;

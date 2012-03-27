@@ -167,7 +167,7 @@ if ( $show_help ) {
     echo "<div class=\"help\"><p>";
     echo $messages["changehelp"];
     echo "</p>";
-    if ( $use_questions or $use_tokens ) {
+    if ( $use_questions or $use_tokens or $use_sms ) {
         echo "<p>".  $messages["changehelpreset"] . "</p>";
         echo "<ul>";
         if ( $use_questions ) {
@@ -175,6 +175,9 @@ if ( $show_help ) {
         }
         if ( $use_tokens ) {
             echo "<li>" . $messages["changehelptoken"] ."</li>";
+        }
+        if ( $use_sms ) {
+            echo "<li>" . $messages["changehelpsms"] ."</li>";
         }
         echo "</ul>";
     }

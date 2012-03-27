@@ -84,6 +84,19 @@ function make_ad_password($password) {
     return $adpassword;
 }
 
+# Generate SMS token
+function generate_sms_token( $sms_token_length ) {
+    $Range=explode(',','48-57');
+    $NumRanges=count($Range);
+    $smstoken='';
+    for ($i = 1; $i <= $sms_token_length; $i++){
+        $r=mt_rand(0,$NumRanges-1);
+        list($min,$max)=explode('-',$Range[$r]);
+        $smstoken.=chr(mt_rand($min,$max));
+    }
+    return $smstoken;
+}
+
 # Strip slashes added by PHP
 # Only if magic_quote_gpc is not set to off in php.ini
 function stripslashes_if_gpc_magic_quotes( $string ) {
@@ -97,7 +110,7 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired/" , $msg ) ) {
     return "critical";
     }
 	
@@ -404,6 +417,45 @@ function recaptcha_get_conf($recaptcha_theme, $lang) {
     theme: \'%s\',
     };
     </script>', $lang, $recaptcha_theme);
+}
+
+/* @function boolean send_sms(string $sms, string $mail_from, string $sms_message, array $data)
+ * Send a mail to sms service provider, replace strings in sms_message
+ * @param smsmailto SMS service provider address
+ * @param mail_from Sender
+ * @param sms_message SMS message
+ * @param data Data for string replacement
+ * @return result
+ */
+function send_sms($smsmailto, $mail_from, $smsmail_subject, $sms_message, $data) {
+
+    $result = false;
+
+    if (!$smsmailto) {
+        error_log("send_sms: no sms service provider given, exiting...");
+        return $result;
+    }
+
+    /* Replace data in sms_message */
+   foreach($data as $key => $value ) {
+        $sms_message = str_replace('{'.$key.'}', $value, $sms_message);
+        $smsmailto = str_replace('{'.$key.'}', $value, $smsmailto);
+    }
+
+    /* Encode the subject */
+    $subject = mb_encode_mimeheader(utf8_decode($smsmail_subject), "UTF-8", "Q");
+
+    /* Set encoding for the body */
+    $header = "MIME-Version: 1.0\r\nContent-type: text/plain; charset=UTF-8\r\n";
+
+    /* Send the sms using email */
+    if ($mail_from) {
+        $result = mail($smsmailto, $subject, $sms_message, $header."From: $mail_from\r\n","-f$mail_from");
+    } else {
+        $result = mail($smsmailto, $subject, $sms_message, $header);
+    }
+
+    return $result;
 }
 
 ?>

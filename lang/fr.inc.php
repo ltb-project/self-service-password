@@ -73,6 +73,7 @@ $messages['changehelp'] = "Entrez votre ancien mot de passe et choisissez-en un 
 $messages['changehelpreset'] = "Mot de passe oublié ?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Réinitialisez votre mot de passe en répondant à des questions</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Réinitialisez votre mot de passe via un challenge par mail</a>";
+$messages['changehelpsms'] = "<a href=\"?action=sendsms\">Réinitialisez votre mot de passe par SMS</a>";
 $messages['resetmessage'] = "Bonjour {login},\n\nCliquez ici pour réinitialiser votre mot de passe :\n{url}\n\nSi vous n'êtes pas à l'origine de cette demande, merci de l'ignorer.";
 $messages['resetsubject'] = "Réinitialisation de votre mot de passe";
 $messages['sendtokenhelp'] = "Entrez votre identifiant et votre adresse mail pour réinitialiser votre mot de passe. Cliquez ensuite sur le lien transmis par mail.";
@@ -84,11 +85,23 @@ $messages['tokennotsent'] = "Erreur lors de l'envoi du mail de confirmation";
 $messages['tokenrequired'] = "Le jeton de réinitialisation est requis";
 $messages['tokennotvalid'] = "Le jeton n'est pas valide";
 $messages['resetbytokenhelp'] = "Le jeton envoyé par mail vous permet de réinitialiser votre mot de passe. Pour recevoir un nouveau jeton, <a href=\"?action=sendtoken\">cliquez ici</a>.";
+$messages['resetbysmshelp'] = "Le jeton envoyé par SMS vous permet de réinitialiser votre mot de passe. Pour recevoir un nouveau jeton, <a href=\"?action=sendsms\">cliquez ici</a>.";
 $messages['changemessage'] = "Bonjour {login},\n\nVotre mot de passe a été changé.\n\nSi vous n'êtes pas à l'orgine de cette demande, contactez votre administrateur immédiatement.";
 $messages['changesubject'] = "Votre mot de passe a été changé";
 $messages['badcaptcha'] = "Le reCAPTCHA n'a pas été entré correctement. Essayez à nouveau.";
 $messages['notcomplex'] = "Votre mot de passe n'a pas assez de classes de caractères différentes.";
 $messages['policycomplex'] = "Nombre minimun de classes de caractères :";
 $messages['nophpmcrypt'] = "Vous devriez installer PHP mcrypt pour utiliser les fonctions cryptographiques";
+$messages['sms'] = "Numéro SMS";
+$messages['smsresetmessage'] = "Votre jeton est:";
+$messages['sendsmshelp'] = "Entrez votre identifiant pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";
+$messages['smssent'] = "Le code de confirmation a été envoyé par SMS.";
+$messages['smsnotsent'] = "Erreur lors de l'envoi du SMS";
+$messages['smsnonumber'] = "Le numéro de mobile n'a pas été trouvé.";
+$messages['userfullname'] = "Nom complet";
+$messages['username'] = "Identifiant";
+$messages['smscrypttokensrequired'] = "L'option crypt_tokens est nécessaire pour utiliser la fonction SMS.";
+$messages['smsuserfound'] = "Vérifiez que les informations ci-dessous sont correctes et cliquez sur Envoyer pour recevoir votre code de confirmation.";
+$messages['smstoken'] = "Code de confirmation";
 
 ?>

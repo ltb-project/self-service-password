@@ -75,6 +75,7 @@ $messages['changehelp'] = "Um ein neues Passwort festzulegen m&uuml;ssen Sie zue
 $messages['changehelpreset'] = "Forgot your password?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Reset your password with a mail challenge</a>";
+$messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
 $messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf your are not the issuer of this request, please ignore it.";
 $messages['resetsubject'] = "Reset your password";
 $messages['sendtokenhelp'] = "Enter your login and your password to reset your password. Then click on the link in sent mail.";
@@ -86,11 +87,23 @@ $messages['tokennotsent'] = "Error when sending confirmation mail";
 $messages['tokenrequired'] = "Token is required";
 $messages['tokennotvalid'] = "Token is not valid";
 $messages['resetbytokenhelp'] = "The token sent by mail allows you to reset your password. To get a new token, <a href=\"?action=sendtoken\">click here</a>.";
+$messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['changemessage'] = "Hello {login},\n\nYour password has been changed.\n\nIf your are not the issuer of this request, please contact your administrator immediately.";
 $messages['changesubject'] = "Your password has been changed";
 $messages['badcaptcha'] = "Die reCAPTCHA wurde nicht richtig eingegeben. Versuchen Sie es erneut.";
 $messages['notcomplex'] = "Your password does not have enough different class of characters";
 $messages['policycomplex'] = "Minimal different class of characters:";
 $messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
+$messages['sms'] = "SMS number";
+$messages['smsresetmessage'] = "Your password reset token is:";
+$messages['sendsmshelp'] = "Enter your login to get password reset token. Then type token in sent SMS.";
+$messages['smssent'] = "A confirmation code has been send by SMS";
+$messages['smsnotsent'] = "Error when sending SMS";
+$messages['smsnonumber'] = "Can't find mobile number";
+$messages['userfullname'] = "User full name";
+$messages['username'] = "Username";
+$messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
+$messages['smsuserfound'] = "Check that user information are correct and press Send to get SMS token";
+$messages['smstoken'] = "SMS token";
 
 ?>

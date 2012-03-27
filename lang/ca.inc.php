@@ -75,9 +75,11 @@ $messages['changehelp'] = "Escriviu la contrasenya anterior i trieu la nova.";
 $messages['changehelpreset'] = "Heu oblidat la contrasenya?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Restaurar la contrasenya responent preguntes</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Restaurar la contrasenya amb confirmaciÃ³ per correu</a>";
+$messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
 $messages['resetmessage'] = "Hola {login},\n\nFer clic aquÃ­ per restaurar la vostra contrasenya:\n{url}\n\nSi no heu demanat aquest servei, si us plau ignoreu-lo.";
 $messages['resetsubject'] = "Restaurar la contrasenya";
 $messages['sendtokenhelp'] = "Escriviu el vostre usuari i correu per restaurar la contrasenya. Rebreu un correu per confirmar-ho.";
+$messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['mail'] = "Correu";
 $messages['mailrequired'] = "Cal el vostre correu";
 $messages['mailnomatch'] = "El correu no coincideix amb el registrat per l'usuari";
@@ -92,5 +94,16 @@ $messages['badcaptcha'] = "El reCAPTCHA no Ã©s correcte. Torneu a provar-ho.";
 $messages['notcomplex'] = "La vostra contrasenya no tÃ© prou classes diferents de carÃ cters";
 $messages['policycomplex'] = "MÃ­nim de classes de carÃ cters diferents:";
 $messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
+$messages['sms'] = "SMS number";
+$messages['smsresetmessage'] = "Your password reset token is:";
+$messages['sendsmshelp'] = "Enter your login to get password reset token. Then type token in sent SMS.";
+$messages['smssent'] = "A confirmation code has been send by SMS";
+$messages['smsnotsent'] = "Error when sending SMS";
+$messages['smsnonumber'] = "Can't find mobile number";
+$messages['userfullname'] = "User full name";
+$messages['username'] = "Username";
+$messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
+$messages['smsuserfound'] = "Check that user information are correct and press Send to get SMS token";
+$messages['smstoken'] = "SMS token";
 
 ?>
