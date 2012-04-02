@@ -419,43 +419,4 @@ function recaptcha_get_conf($recaptcha_theme, $lang) {
     </script>', $lang, $recaptcha_theme);
 }
 
-/* @function boolean send_sms(string $sms, string $mail_from, string $sms_message, array $data)
- * Send a mail to sms service provider, replace strings in sms_message
- * @param smsmailto SMS service provider address
- * @param mail_from Sender
- * @param sms_message SMS message
- * @param data Data for string replacement
- * @return result
- */
-function send_sms($smsmailto, $mail_from, $smsmail_subject, $sms_message, $data) {
-
-    $result = false;
-
-    if (!$smsmailto) {
-        error_log("send_sms: no sms service provider given, exiting...");
-        return $result;
-    }
-
-    /* Replace data in sms_message */
-   foreach($data as $key => $value ) {
-        $sms_message = str_replace('{'.$key.'}', $value, $sms_message);
-        $smsmailto = str_replace('{'.$key.'}', $value, $smsmailto);
-    }
-
-    /* Encode the subject */
-    $subject = mb_encode_mimeheader(utf8_decode($smsmail_subject), "UTF-8", "Q");
-
-    /* Set encoding for the body */
-    $header = "MIME-Version: 1.0\r\nContent-type: text/plain; charset=UTF-8\r\n";
-
-    /* Send the sms using email */
-    if ($mail_from) {
-        $result = mail($smsmailto, $subject, $sms_message, $header."From: $mail_from\r\n","-f$mail_from");
-    } else {
-        $result = mail($smsmailto, $subject, $sms_message, $header);
-    }
-
-    return $result;
-}
-
 ?>
