@@ -65,10 +65,11 @@ if ( $samba_mode and ! function_exists('mhash') ) { $result="nophpmhash"; }
 if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $result="nophpmcrypt"; }
 
 #==============================================================================
-# Action (default: change password)
+# Action
 #==============================================================================
+if (!isset($default_action)) { $default_action = "change"; }
 if (isset($_GET["action"]) and $_GET["action"]) { $action = $_GET["action"]; }
-else { $action = "change"; }
+else { $action = $default_action; }
 
 # Available actions
 $available_actions = array( "change" );

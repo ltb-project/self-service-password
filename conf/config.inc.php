@@ -173,4 +173,10 @@ $recaptcha_privatekey = "";
 # Examples: red, white, blackglass, clean
 $recaptcha_theme = "white";
 
+## Default action
+# change
+# sendtoken
+# sendsms
+$default_action = "change";
+
 ?>
