@@ -158,6 +158,15 @@ if ( $result === "" ) {
         error_log("LDAP - User $login not found");
     }
 
+    # Check objectClass to allow samba and shadow updates
+    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
+    if ( !in_array( 'sambaSamAccount', $ocValues ) ) {
+        $samba_mode = false;
+    }
+    if ( !in_array( 'shadowAccount', $ocValues ) ) {
+        $shadow_options['update_shadowLastChange'] = false;
+    }
+
     # Get user email for notification
     if ( $notify_on_change ) {
         $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);

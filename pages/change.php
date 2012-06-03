@@ -119,6 +119,15 @@ if ( $result === "" ) {
         }
     }
 
+    # Check objectClass to allow samba and shadow updates
+    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
+    if ( !in_array( 'sambaSamAccount', $ocValues ) ) {
+        $samba_mode = false;
+    }
+    if ( !in_array( 'shadowAccount', $ocValues ) ) {
+        $shadow_options['update_shadowLastChange'] = false;
+    }
+
     # Bind with old password
     $bind = ldap_bind($ldap, $userdn, $oldpassword);
     $errno = ldap_errno($ldap);
