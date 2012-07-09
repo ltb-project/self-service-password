@@ -123,8 +123,9 @@ function get_criticity( $msg ) {
 
 # Display policy bloc
 # @return HTML code
-function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_forbidden_chars, $pwd_no_reuse, $pwd_complexity, $pwd_show_policy, $result ) {
-
+function show_policy( $messages, $pwd_policy_config, $result ) {
+    extract( $pwd_policy_config );
+    
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
@@ -150,8 +151,9 @@ function show_policy( $messages, $pwd_min_length, $pwd_max_length, $pwd_min_lowe
 
 # Check password strength
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_no_reuse, $pwd_complexity ) {
-
+function check_password_strength( $password, $oldpassword, $pwd_policy_config ) {
+    extract( $pwd_policy_config );
+    
     $result = "";
 
     $length = strlen(utf8_decode($password));

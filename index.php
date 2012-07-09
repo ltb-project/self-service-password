@@ -86,6 +86,21 @@ if ( ! in_array($action, $available_actions) ) { $action = "change"; }
 if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }
 if (!isset($ldap_fullname_attribute)) { $ldap_fullname_attribute = "cn"; }
 
+# Password policy array
+$pwd_policy_config = array(
+    "pwd_show_policy"         => $pwd_show_policy,
+    "pwd_min_length"          => $pwd_min_length,
+    "pwd_max_length"          => $pwd_max_length,
+    "pwd_min_lower"           => $pwd_min_lower,
+    "pwd_min_upper"           => $pwd_min_upper,
+    "pwd_min_digit"           => $pwd_min_digit,
+    "pwd_min_special"         => $pwd_min_special,
+    "pwd_special_chars"       => $pwd_special_chars,
+    "pwd_forbidden_chars"     => $pwd_forbidden_chars,
+    "pwd_no_reuse"            => $pwd_no_reuse,
+    "pwd_complexity"          => $pwd_complexity
+);
+
 #==============================================================================
 ?>
 

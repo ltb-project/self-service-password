@@ -187,7 +187,7 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, '', $pwd_special_chars, $pwd_forbidden_chars, $pwd_min_length, $pwd_max_length, $pwd_min_lower, $pwd_min_upper, $pwd_min_digit, $pwd_min_special, $pwd_no_reuse, $pwd_complexity );
+    $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config );
 }
 
 # Change password
@@ -227,14 +227,7 @@ if ( $show_help and ($source !== "sms") ) {
 <?php if ( $result !== "tokenrequired" and $result !== "tokennotvalid"  ) { ?>
 
 <?php
-show_policy($messages,
-    $pwd_min_length, $pwd_max_length,
-    $pwd_min_lower, $pwd_min_upper,
-    $pwd_min_digit, $pwd_min_special,
-    $pwd_forbidden_chars,
-    $pwd_no_reuse, $pwd_complexity,
-    $pwd_show_policy, $result
-);
+show_policy($messages, $pwd_policy_config, $result);
 ?>
 
 <form action="#" method="post">
