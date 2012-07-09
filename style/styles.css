@@ -45,12 +45,14 @@ color:#336699;
 form, div, h1 {
 -moz-border-radius:10px;
 -webkit-border-radius:10px;
+border-radius:10px;
 }
 
 /* Shadow and light */
 form, div, h1 {
 -webkit-box-shadow:0 3px 6px rgba(0,0,0,.25);
 -moz-box-shadow:0 3px 6px rgba(0,0,0,.25);
+box-shadow:0 3px 6px rgba(0,0,0,.25);
 background: url("light.png") no-repeat;
 }
 
