@@ -23,7 +23,7 @@
 # German
 #==============================================================================
 $messages['nophpldap'] = "Sie ben&ouml;tigen die PHP LDAP Erweiterung um dieses Tool zu nutzen";
-$messages['nophpmash'] = "Sie ben&ouml;tigen die PHP mhash Erweiterung um den Samba Modus zu nutzen";
+$messages['nophpmhash'] = "Sie ben&ouml;tigen die PHP mhash Erweiterung um den Samba Modus zu nutzen";
 $messages['ldaperror'] = "Kein Zugriff auf das LDAP m&ouml;glich";
 $messages['loginrequired'] = "Ihr Login wird ben&ouml;tigt";
 $messages['oldpasswordrequired'] = "Ihr altes Passwort wird ben&ouml;tigt";
