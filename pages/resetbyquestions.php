@@ -216,7 +216,7 @@ foreach ( $messages["questions"] as $value => $text ) {
     <td><input type="password" name="confirmpassword" /></td></tr>
 <?php if ($use_recaptcha) { ?>
     <tr><td colspan="2">
-<?php echo recaptcha_get_html($recaptcha_publickey); ?>
+<?php echo recaptcha_get_html($recaptcha_publickey, null, $recaptcha_ssl); ?>
     </td></tr>
 <?php } ?>
     <tr><td colspan="2">
