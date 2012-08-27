@@ -101,6 +101,9 @@ $pwd_policy_config = array(
     "pwd_complexity"          => $pwd_complexity
 );
 
+# Force reCaptcha SSL if HTTPS
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') { $recaptcha_ssl = true; }
+
 #==============================================================================
 ?>
 
