@@ -195,7 +195,9 @@ if ( $show_help ) {
 ?>
 
 <?php
-show_policy($messages, $pwd_policy_config, $result);
+if ($pwd_show_policy_pos === 'above') {
+    show_policy($messages, $pwd_policy_config, $result);
+}
 ?>
 
 <form action="#" method="post">
@@ -218,6 +220,12 @@ show_policy($messages, $pwd_policy_config, $result);
     <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
     </table>
 </form>
+
+<?php
+if ($pwd_show_policy_pos === 'below') {
+    show_policy($messages, $pwd_policy_config, $result);
+}
+?>
 
 <?php } else {
 

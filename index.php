@@ -104,6 +104,8 @@ $pwd_policy_config = array(
 # Force reCaptcha SSL if HTTPS
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') { $recaptcha_ssl = true; }
 
+if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
+
 #==============================================================================
 ?>
 

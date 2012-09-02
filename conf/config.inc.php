@@ -87,6 +87,10 @@ $pwd_complexity = 0;
 # never
 # onerror
 $pwd_show_policy = "never";
+# Position of password policy constraints message:
+# above - the form
+# below - the form
+$pwd_show_policy_pos = "above";
 
 # Who changes the password?
 # Also applicable for question/answer save
