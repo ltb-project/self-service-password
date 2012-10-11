@@ -67,9 +67,12 @@ function make_crypt_password($password) {
 }
 
 # Create MD4 password (Microsoft NT password format)
-# Require mhash() function
 function make_md4_password($password) {
-    $hash = strtoupper( bin2hex( mhash( MHASH_MD4, iconv( "UTF-8", "UTF-16LE", $password ) ) ) );
+    if (function_exists('hash')) {
+        $hash = strtoupper( hash( "md4", iconv( "UTF-8", "UTF-16LE", $password ) ) );
+    } else {
+        $hash = strtoupper( bin2hex( mhash( MHASH_MD4, iconv( "UTF-8", "UTF-16LE", $password ) ) ) );
+    }
     return $hash;
 }
 

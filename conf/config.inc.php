@@ -43,7 +43,6 @@ $ad_options['force_pwd_change'] = false;
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
 # false: just update the password
-# Warning: this require mhash() to be installed on your system
 $samba_mode = false;
 
 # Shadow options - require shadowAccount objectClass
