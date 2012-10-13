@@ -48,6 +48,11 @@ $password = stripslashes_if_gpc_magic_quotes($password);
 $question = stripslashes_if_gpc_magic_quotes($question);
 $answer = stripslashes_if_gpc_magic_quotes($answer);
 
+# Check the entered username for characters that our installation doesn't support
+if ( $result === "" ) {
+    $result = check_username_validity($login,$login_forbidden_chars);
+}
+
 #==============================================================================
 # Check reCAPTCHA
 #==============================================================================

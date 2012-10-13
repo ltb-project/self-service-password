@@ -50,6 +50,11 @@ $oldpassword = stripslashes_if_gpc_magic_quotes($oldpassword);
 $newpassword = stripslashes_if_gpc_magic_quotes($newpassword);
 $confirmpassword = stripslashes_if_gpc_magic_quotes($confirmpassword);
 
+# Check the entered username for characters that our installation doesn't support
+if ( $result === "" ) {
+    $result = check_username_validity($login,$login_forbidden_chars);
+}
+
 # Match new and confirm password
 if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 

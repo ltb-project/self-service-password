@@ -56,6 +56,11 @@ if (!$crypt_tokens ) {
 # Strip slashes added by PHP
 $login = stripslashes_if_gpc_magic_quotes($login);
 
+# Check the entered username for characters that our installation doesn't support
+if ( $result === "" ) {
+    $result = check_username_validity($login,$login_forbidden_chars);
+}
+
 #==============================================================================
 # Check reCAPTCHA
 #==============================================================================

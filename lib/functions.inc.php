@@ -423,5 +423,31 @@ function recaptcha_get_conf($recaptcha_theme, $lang) {
     };
     </script>', $lang, $recaptcha_theme);
 }
+/* @function string check_username_validity(string $username, string $login_forbidden_chars)
+ * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
+ * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
+ * @param username the user name to test against
+ * @param optional login_forbidden_chars invalid characters
+ * @return $result
+ */
+function check_username_validity($username,$login_forbidden_chars) {
+    $result = "";
+
+    if (!$login_forbidden_chars) {
+        if (!ctype_alnum($username)) {
+            $result = "badcredentials";
+            error_log("Non alphanumeric characters in username $username");
+        }
+    }
+    else {
+        preg_match_all("/[$login_forbidden_chars]/", $username, $forbidden_res);
+        if (count($forbidden_res[0])) {
+            $result = "badcredentials";
+            error_log("Illegal characters in username $username (list of forbidden characters: $login_forbidden_chars)");
+        }
+    }
+
+    return $result;
+}
 
 ?>

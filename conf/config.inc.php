@@ -166,6 +166,11 @@ $keyphrase = "secret";
 # By default, they are logged in Apache log
 #$reset_request_log = "/var/log/self-service-password";
 
+# Invalid characters in login
+# Set at least "*()&|" to prevent LDAP injection
+# If empty, only alphanumeric characters are accepted
+$login_forbidden_chars = "*()&|";
+
 ## CAPTCHA
 # Use Google reCAPTCHA (http://www.google.com/recaptcha)
 # Go on the site to get public and private key

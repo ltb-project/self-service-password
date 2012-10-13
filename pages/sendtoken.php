@@ -41,6 +41,11 @@ if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["logi
 $login = stripslashes_if_gpc_magic_quotes($login);
 $mail = stripslashes_if_gpc_magic_quotes($mail);
 
+# Check the entered username for characters that our installation doesn't support
+if ( $result === "" ) {
+    $result = check_username_validity($login,$login_forbidden_chars);
+}
+
 #==============================================================================
 # Check reCAPTCHA
 #==============================================================================
