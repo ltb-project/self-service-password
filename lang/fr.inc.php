@@ -103,5 +103,6 @@ $messages['username'] = "Identifiant";
 $messages['smscrypttokensrequired'] = "L'option crypt_tokens est nécessaire pour utiliser la fonction SMS.";
 $messages['smsuserfound'] = "Vérifiez que les informations ci-dessous sont correctes et cliquez sur Envoyer pour recevoir votre code de confirmation.";
 $messages['smstoken'] = "Code de confirmation";
+$messages['getuser'] = "Trouver l'utilisateur";
 
 ?>

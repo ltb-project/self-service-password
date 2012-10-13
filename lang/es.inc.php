@@ -103,6 +103,7 @@ $messages['username'] = "Nombre de usuario";
 $messages['smscrypttokensrequired'] = "Usted no puede usar reseteo por SMS sin ajustarvcrypt_tokens";
 $messages['smsuserfound'] = "Chequee que la informaci'on del usaurio es correcta y presione Enviar para obtener una señal por SMS";
 $messages['smstoken'] = "Señal SMS";
-
+$messages['loginrequired'] = "Your login is required";
+$messages['getuser'] = "Get user";
 
 ?>

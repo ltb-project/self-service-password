@@ -90,5 +90,19 @@ $messages['badcaptcha'] = "Il codice CAPTCHA non e' corretto. Riprova.";
 $messages['notcomplex'] = "La tua password non e' abbastanza complessa";
 $messages['policycomplex'] = "Numero minimo di tipi di carattere:";
 $messages['nophpmcrypt'] = "Devi installare PHP mcrypt per usare le funzioni crittografiche";
+$messages['smsresetmessage'] = "Your password reset token is:";
+$messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
+$messages['smsnotsent'] = "Error when sending SMS";
+$messages['sms'] = "SMS number";
+$messages['smstoken'] = "SMS token";
+$messages['smsnonumber'] = "Can't find mobile number";
+$messages['username'] = "Username";
+$messages['sendsmshelp'] = "Enter your login to get password reset token. Then type token in sent SMS.";
+$messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
+$messages['userfullname'] = "User full name";
+$messages['getuser'] = "Get user";
+$messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
+$messages['smssent'] = "A confirmation code has been send by SMS";
+$messages['smsuserfound'] = "Check that user information are correct and press Send to get SMS token";
 
 ?>

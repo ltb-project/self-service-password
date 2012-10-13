@@ -101,5 +101,8 @@ $messages['username'] = "Nome";
 $messages['smscrypttokensrequired'] = "Você não pode utilizar redefinição via SMS sem a configuração crypt_tokens";
 $messages['smsuserfound'] = "Verifique se as informações do usuário estão corretas e pressione Enviar para obter o código SMS";
 $messages['smstoken'] = "Código SMS";
+$messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
+$messages['getuser'] = "Get user";
+$messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 
 ?>

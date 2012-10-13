@@ -105,5 +105,8 @@ $messages['username'] = "Username";
 $messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
 $messages['smsuserfound'] = "Check that user information are correct and press Send to get SMS token";
 $messages['smstoken'] = "SMS token";
+$messages['getuser'] = "Get user";
+$messages['setquestionshelp'] = "Initialize or change your password reset question/answer. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
+$messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires that you have already <a href=\"?action=setquestions\">register an answer</a>.";
 
 ?>

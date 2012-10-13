@@ -105,5 +105,8 @@ $messages['username'] = "Username";
 $messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
 $messages['smsuserfound'] = "Check that user information are correct and press Send to get SMS token";
 $messages['smstoken'] = "SMS token";
+$messages['loginrequired'] = "Your login is required";
+$messages['minspecial'] = "Your password does not have enough special characters";
+$messages['getuser'] = "Get user";
 
 ?>
