@@ -385,8 +385,10 @@ function send_mail($mail, $mail_from, $subject, $body, $data) {
         return $result;
     }
 
-    /* Replace data in subject and body */
+    /* Replace data in mail, subject and body */
     foreach($data as $key => $value ) { 
+        $mail = str_replace('{'.$key.'}', $value, $mail);
+        $mail_from = str_replace('{'.$key.'}', $value, $mail_from);
         $subject = str_replace('{'.$key.'}', $value, $subject);
         $body = str_replace('{'.$key.'}', $value, $body);
     }
