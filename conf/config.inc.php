@@ -138,12 +138,10 @@ $sms_attribute = "mobile";
 # Send SMS mail to address
 $smsmailto = "{sms_attribute}@service.provider.com";
 # Subject when sending email to SMTP to SMS provider
-$smsmail_subject = "SMS token";
+$smsmail_subject = "Provider code";
 # Message
-$sms_message = "username:user1\n" .
-       "password:passwd\n" .
-       "numberfrom:1234\n" .
-       "text:{smsresetmessage} {smstoken}";
+$sms_message = "{smsresetmessage} {smstoken}";
+
 # SMS token length
 $sms_token_length = 6;
 
