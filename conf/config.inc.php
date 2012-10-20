@@ -189,4 +189,9 @@ $recaptcha_ssl = false;
 # sendsms
 $default_action = "change";
 
+## Extra messages
+# They can also be defined in lang/ files
+#$messages['passwordchangedextramessage'] = NULL;
+#$messages['changehelpextramessage'] = NULL;
+
 ?>

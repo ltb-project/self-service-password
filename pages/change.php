@@ -181,6 +181,9 @@ if ( $show_help ) {
     echo "<div class=\"help\"><p>";
     echo $messages["changehelp"];
     echo "</p>";
+    if (strlen($messages['changehelpextramessage']) > 0) {
+        echo "<p>" . $messages['changehelpextramessage'] . "</p>";
+    }
     if ( $use_questions or $use_tokens or $use_sms ) {
         echo "<p>".  $messages["changehelpreset"] . "</p>";
         echo "<ul>";
@@ -240,6 +243,12 @@ if ($pwd_show_policy_pos === 'below') {
         if ( !send_mail($mail, $mail_from, $messages["changesubject"], $messages["changemessage"], $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
+    }
+
+    if (strlen($messages['passwordchangedextramessage']) > 0) {
+        echo "<div class=\"result " . get_criticity($result) . "\">";
+        echo $messages['passwordchangedextramessage'];
+        echo "</div>\n";
     }
 
 }
