@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	0.7
+%define ssp_version	0.8
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -105,6 +105,25 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Sat Oct 20 2012 - Clement Oudot <clem@ltb-project.org> - 0.8-1
+- Bug #399: Mistakes in the English translation
+- Bug #479: Self-Service-Password in Sapnish
+- Bug #503: Typo in german language file "phpmhash"
+- Bug #515: reCaptcha does not use HTTPS
+- Feature #354: Send random generated password by SMS
+- Feature #359: Use hash() function instead of mhash() when possible
+- Feature #379: I'd like to add SSP to FreeBSD ports
+- Feature #452: Change samba password only if there is an objectClass=sambaSamAccount in the users profile
+- Feature #463: Set default action from configuration file
+- Feature #491: Group local password policy configs in an array to pass around
+- Feature #492: Add config to choose where show password policy
+- Feature #493: Brazilian portuguese translation/improvements
+- Feature #499: Add extra messages
+- Feature #504: Use CSS3 variable name
+- Feature #516: Russian translation
+- Feature #522: Italian translation
+- Feature #537: Detect all missing translation
+- Feature #538: Check login input string to prevent LDAP injection
 * Wed Dec 21 2011 - Clement Oudot <clem@ltb-project.org> - 0.7-1
 - Bug #343: Crypt tokens needs php5-mcrypt
 - Bug #346: DIsabled accounts
