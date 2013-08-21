@@ -77,7 +77,7 @@ $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Email a password r
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
 $messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf you didn't request a password reset, please ignore this email.";
 $messages['resetsubject'] = "Reset your password";
-$messages['sendtokenhelp'] = "Enter your user name and your email address to reset your password. When you receive the email, click the link inside to comlpete the password reset.";
+$messages['sendtokenhelp'] = "Enter your user name and your email address to reset your password. When you receive the email, click the link inside to complete the password reset.";
 $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Your email address is required";
 $messages['mailnomatch'] = "The email address does not match the submitted user name";
