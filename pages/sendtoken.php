@@ -111,7 +111,7 @@ if ( $result === "" ) {
 
     # Match with user submitted values
     foreach ($mailValues as $mailValue) {
-        if (preg_match("/^$mail$/i", $mailValue)) {
+        if ("$mail" === "$mailValue") {
             $match = 1;
         }
     }
