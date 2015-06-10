@@ -119,7 +119,7 @@ if ( $result === "" ) {
 
     # Check objectClass to allow samba and shadow updates
     $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
-    if ( !in_array( 'sambaSamAccount', $ocValues ) ) {
+    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
         $samba_mode = false;
     }
     if ( !in_array( 'shadowAccount', $ocValues ) ) {
