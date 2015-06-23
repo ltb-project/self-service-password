@@ -135,6 +135,8 @@ $notify_on_change = false;
 $use_sms = true;
 # GSM number attribute
 $sms_attribute = "mobile";
+# Partially hide number
+$sms_partially_hide_number = true;
 # Send SMS mail to address
 $smsmailto = "{sms_attribute}@service.provider.com";
 # Subject when sending email to SMTP to SMS provider

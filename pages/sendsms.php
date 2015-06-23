@@ -230,7 +230,7 @@ if ( $result == "smscrypttokensrequired" ) {
     <tr><th><?php echo $messages["login"] . ": "; ?></th>
     <td><?php echo $login; ?></td></tr>
     <tr><th><?php echo $messages["sms"] . ": "; ?></th>
-    <td><?php echo $sms; ?></td></tr>
+    <td><?php if ($sms_partially_hide_number) echo (substr_replace($sms, '****', 4 , 4)); else echo $sms;?></td></tr>
     <input type="hidden" name="login" value="<?php echo htmlentities($login) ?>" />
     <input type="hidden" name="sms" value="<?php echo htmlentities($smsnum) ?>" />
     <tr><td colspan="2">
