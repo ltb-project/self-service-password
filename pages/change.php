@@ -181,7 +181,7 @@ if ( $show_help ) {
     echo "<div class=\"help\"><p>";
     echo $messages["changehelp"];
     echo "</p>";
-    if (strlen($messages['changehelpextramessage']) > 0) {
+    if (isset($messages['changehelpextramessage'])) {
         echo "<p>" . $messages['changehelpextramessage'] . "</p>";
     }
     if ( $use_questions or $use_tokens or $use_sms ) {
@@ -245,7 +245,7 @@ if ($pwd_show_policy_pos === 'below') {
         }
     }
 
-    if (strlen($messages['passwordchangedextramessage']) > 0) {
+    if (isset($messages['passwordchangedextramessage'])) {
         echo "<div class=\"result " . get_criticity($result) . "\">";
         echo $messages['passwordchangedextramessage'];
         echo "</div>\n";

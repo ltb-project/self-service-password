@@ -166,10 +166,18 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config ) 
     $upper = count( $upper_res[0] );
     preg_match_all("/[0-9]/", $password, $digit_res);
     $digit = count( $digit_res[0] );
-    preg_match_all("/[$pwd_special_chars]/", $password, $special_res);
-    $special = count( $special_res[0] );
-    preg_match_all("/[$pwd_forbidden_chars]/", $password, $forbidden_res);
-    $forbidden = count( $forbidden_res[0] );
+
+    $special = 0;
+    if ( isset($pwd_special_chars) && !empty($pwd_special_chars) ) {
+        preg_match_all("/[$pwd_special_chars]/", $password, $special_res);
+        $special = count( $special_res[0] );
+    }
+
+    $forbidden = 0;
+    if ( isset($pwd_forbidden_chars) && !empty($pwd_forbidden_chars) ) {
+        preg_match_all("/[$pwd_forbidden_chars]/", $password, $forbidden_res);
+        $forbidden = count( $forbidden_res[0] );
+    }
 
     # Complexity: checks for lower, upper, special, digits
     if ( $pwd_complexity ) {
