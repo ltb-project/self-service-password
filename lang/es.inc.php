@@ -104,5 +104,6 @@ $messages['smscrypttokensrequired'] = "Usted no puede usar reseteo por SMS sin a
 $messages['smsuserfound'] = "Chequee que la informaci'on del usaurio es correcta y presione Enviar para obtener una señal por SMS";
 $messages['smstoken'] = "Señal SMS";
 $messages['getuser'] = "Get user";
+$messages['nophpmbstring'] = "Usted debe instala PHP mbstring";
 
 ?>

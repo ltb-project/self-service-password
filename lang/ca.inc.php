@@ -108,5 +108,6 @@ $messages['smstoken'] = "SMS token";
 $messages['loginrequired'] = "Your login is required";
 $messages['minspecial'] = "Your password does not have enough special characters";
 $messages['getuser'] = "Get user";
+$messages['nophpmbstring'] = "You should install PHP mbstring";
 
 ?>

@@ -104,5 +104,6 @@ $messages['username'] = "Uporabniško ime";
 $messages['smscrypttokensrequired'] = "Brez nastavitve crypt_tokens setting ne morete uporabiti ponastavitve gesla preko SMS";
 $messages['smsuserfound'] = "Preverite podatke in kliknite Pošlji, da dobite žeton SMS";
 $messages['smstoken'] = "Žeton SMS";
+$messages['nophpmbstring'] = "Namestiti morate PHP mbstring";
 
 ?>

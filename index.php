@@ -64,6 +64,9 @@ if ( $samba_mode and ! function_exists('hash') and  ! function_exists('mhash') )
 # Check PHP mcrypt presence if token are used
 if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $result="nophpmcrypt"; }
 
+# Check PHP mbstring presence
+if ( ! function_exists('mb_internal_encoding') ) { $result="nophpmbstring"; }
+
 #==============================================================================
 # Action
 #==============================================================================

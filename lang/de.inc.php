@@ -108,5 +108,6 @@ $messages['smstoken'] = "SMS token";
 $messages['getuser'] = "Get user";
 $messages['setquestionshelp'] = "Initialize or change your password reset question/answer. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
 $messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires that you have already <a href=\"?action=setquestions\">register an answer</a>.";
+$messages['nophpmbstring'] = "You should install PHP mbstring";
 
 ?>

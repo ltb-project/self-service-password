@@ -104,5 +104,6 @@ $messages['smscrypttokensrequired'] = "L'option crypt_tokens est nécessaire pou
 $messages['smsuserfound'] = "Vérifiez que les informations ci-dessous sont correctes et cliquez sur Envoyer pour recevoir votre code de confirmation.";
 $messages['smstoken'] = "Code de confirmation";
 $messages['getuser'] = "Trouver l'utilisateur";
+$messages['nophpmbstring'] = "Vous devriez installer PHP mbstring";
 
 ?>

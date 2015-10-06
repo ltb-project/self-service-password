@@ -104,5 +104,6 @@ $messages['getuser'] = "Get user";
 $messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['smssent'] = "A confirmation code has been send by SMS";
 $messages['smsuserfound'] = "Check that user information are correct and press Send to get SMS token";
+$messages['nophpmbstring'] = "Devi installare PHP mbstring";
 
 ?>

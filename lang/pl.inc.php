@@ -107,5 +107,6 @@ $messages['smsuserfound'] = "Check that user information are correct and press S
 $messages['smstoken'] = "SMS token";
 $messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['getuser'] = "Get user";
+$messages['nophpmbstring'] = "You should install PHP mbstring";
 
 ?>
