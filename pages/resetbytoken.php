@@ -227,7 +227,7 @@ if ( $show_help and ($source !== "sms") ) {
 <?php if ( $result !== "tokenrequired" and $result !== "tokennotvalid"  ) { ?>
 
 <?php
-if ($pwd_show_policy_pos === 'below') {
+if ($pwd_show_policy_pos === 'above') {
     show_policy($messages, $pwd_policy_config, $result);
 }
 ?>
