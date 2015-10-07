@@ -99,6 +99,7 @@ if (!isset($ldap_fullname_attribute)) { $ldap_fullname_attribute = "cn"; }
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars = ""; }
 if (!isset($hash_options)) { $hash_options = array(); }
 if (!isset($samba_options)) { $samba_options = array(); }
+if (!isset($ldap_starttls)) { $ldap_starttls = false; }
 
 # Password policy array
 $pwd_policy_config = array(
