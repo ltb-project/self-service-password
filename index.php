@@ -97,6 +97,7 @@ if ( ! in_array($action, $available_actions) ) { $action = "change"; }
 if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }
 if (!isset($ldap_fullname_attribute)) { $ldap_fullname_attribute = "cn"; }
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars = ""; }
+if (!isset($hash_options)) { $hash_options = array(); }
 
 # Password policy array
 $pwd_policy_config = array(

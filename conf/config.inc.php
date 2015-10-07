@@ -61,6 +61,9 @@ $shadow_options['update_shadowLastChange'] = false;
 # This option is not used with ad_mode = true
 $hash = "clear";
 
+# Prefix to use for salt with CRYPT
+$hash_options['crypt_salt_prefix'] = "$6$";
+
 # Local password policy
 # This is applied before directory password policy
 # Minimal length

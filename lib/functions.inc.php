@@ -48,7 +48,7 @@ function make_md5_password($password) {
 }
 
 # Create CRYPT password
-function make_crypt_password($password) {
+function make_crypt_password($password, $hash_options) {
 
     // Generate salt
     $possible = '0123456789'.
@@ -59,8 +59,13 @@ function make_crypt_password($password) {
 
     mt_srand((double)microtime() * 1000000);
 
-    while( strlen( $salt ) < 2 )
-		$salt .= substr( $possible, ( rand() % strlen( $possible ) ), 1 );
+    while( strlen( $salt ) < 2 ) {
+        $salt .= substr( $possible, ( rand() % strlen( $possible ) ), 1 );
+    }
+
+    if ( isset($hash_options['crypt_salt_prefix']) ) {
+        $salt = $hash_options['crypt_salt_prefix'] . $salt;
+    }
 
     $hash = '{CRYPT}' . crypt( $password,  $salt);
     return $hash;
@@ -218,7 +223,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config ) 
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $shadow_options, $hash, $who_change_password ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $shadow_options, $hash, $hash_options, $who_change_password ) {
 
     $result = "";
 
@@ -246,7 +251,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
             $password = make_md5_password($password);
         }
         if ( $hash == "CRYPT" ) {
-            $password = make_crypt_password($password);
+            $password = make_crypt_password($password, $hash_options);
         }
     }
 
