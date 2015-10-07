@@ -142,9 +142,13 @@ if ( $result === "" ) {
             $extended_error = explode(', ', $extended_error);
             if( strpos($extended_error[2], '773') ) {
                 error_log("LDAP - Bind user password needs to be changed");
-                unset($extended_error);
                 $errno = 0;
             }
+            if( strpos($extended_error[2], '532') and $ad_options['change_expired_password'] ) {
+                error_log("LDAP - Bind user password is expired");
+                $errno = 0;
+            }
+            unset($extended_error);
         }
     }
     if ( $errno ) {
