@@ -83,6 +83,10 @@ if ( $result === "" ) {
     $ldap = ldap_connect($ldap_url);
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
+        $result = "ldaperror";
+        error_log("LDAP - Unable to use StartTLS");
+    } else {
 
     # Bind
     if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
@@ -161,7 +165,7 @@ if ( $result === "" ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     }
 
-    }}}}
+    }}}}}
 
 }
 
