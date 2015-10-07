@@ -33,7 +33,15 @@ require_once("lib/detectbrowserlanguage.php");
 # Language
 #==============================================================================
 # Available languages
-$languages = array('en', 'de', 'es', 'fr', 'nl', 'pt-BR', 'pt-PT', 'ca', 'pl', 'ru', 'it', 'sk', 'sl');
+$languages = array();
+if ($handle = opendir('lang')) {
+    while (false !== ($entry = readdir($handle))) {
+        if ($entry != "." && $entry != "..") {
+             array_push($languages, str_replace(".inc.php", "", $entry));
+        }
+    }
+    closedir($handle);
+}
 $lang = detectLanguage($lang, $languages);
 require_once("lang/$lang.inc.php");
 
