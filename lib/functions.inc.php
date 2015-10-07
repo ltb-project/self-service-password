@@ -223,7 +223,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config ) 
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword ) {
 
     $result = "";
 
@@ -242,7 +242,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     }
 
     # Get hash type if hash is set to auto
-    if ( $hash == "auto" ) {
+    if ( !$ad_mode && $hash == "auto" ) {
         $search_userpassword = ldap_read( $ldap, $dn, "(objectClass=*)", array("userPassword") );
         if ( $search_userpassword ) {
             $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap,$search_userpassword), "userPassword");
@@ -297,16 +297,30 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     # Commit modification on directory
     
     # Special case: AD mode with password changed as user
-    # Not possible with PHP, because requires add/delete modification
-    # in a single operation
     if ( $ad_mode and $who_change_password === "user" ) {
-        $result = "passworderror";
-        error_log("Cannot modify AD password as user");
-        return $result;
-    } 
+        # The AD password change procedure is modifying the attribute unicodePwd by
+        # first deleting unicodePwd with the old password and them adding it with the
+        # the new password
+        $oldpassword = make_ad_password($oldpassword);
 
-    # Else just replace with new password
-    $replace = ldap_mod_replace($ldap, $dn, $userdata);
+        $modifications = array(
+            array(
+                "attrib" => "unicodePwd",
+                "modtype" => LDAP_MODIFY_BATCH_REMOVE,
+                "values" => array($oldpassword),
+            ),
+            array(
+                "attrib" => "unicodePwd",
+                "modtype" => LDAP_MODIFY_BATCH_ADD,
+                "values" => array($password),
+            ),
+        );
+
+        $bmod = ldap_modify_batch($ldap, $dn, $modifications);
+    } else {
+        # Else just replace with new password
+        $replace = ldap_mod_replace($ldap, $dn, $userdata);
+    }
 
     $errno = ldap_errno($ldap);
 
