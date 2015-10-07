@@ -105,5 +105,6 @@ $messages['smsuserfound'] = "Chequee que la informaci'on del usaurio es correcta
 $messages['smstoken'] = "Señal SMS";
 $messages['getuser'] = "Get user";
 $messages['nophpmbstring'] = "Usted debe instala PHP mbstring";
+$messages['loginrequired'] = "Your login is required";
 
 ?>
