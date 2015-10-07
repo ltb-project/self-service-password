@@ -136,6 +136,17 @@ if ( $result === "" ) {
     # Bind with old password
     $bind = ldap_bind($ldap, $userdn, $oldpassword);
     $errno = ldap_errno($ldap);
+    if ( ($errno == 49) && $ad_mode ) {
+        if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
+            error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
+            $extended_error = explode(', ', $extended_error);
+            if( strpos($extended_error[2], '773') ) {
+                error_log("LDAP - Bind user password needs to be changed");
+                unset($extended_error);
+                $errno = 0;
+            }
+        }
+    }
     if ( $errno ) {
         $result = "badcredentials";
         error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
