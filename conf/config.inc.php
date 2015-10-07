@@ -47,6 +47,9 @@ $ad_options['change_expired_password'] = false;
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
 # false: just update the password
 $samba_mode = false;
+# Set password min/max age in Samba attributes
+#$samba_options['min_age'] = 5;
+#$samba_options['max_age'] = 45;
 
 # Shadow options - require shadowAccount objectClass
 # Update shadowLastChange

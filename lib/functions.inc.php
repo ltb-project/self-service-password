@@ -223,14 +223,22 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config ) 
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $shadow_options, $hash, $hash_options, $who_change_password ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password ) {
 
     $result = "";
+
+    $time = time();
 
     # Set Samba password value
     if ( $samba_mode ) {
         $userdata["sambaNTPassword"] = make_md4_password($password);
-        $userdata["sambaPwdLastSet"] = time();
+        $userdata["sambaPwdLastSet"] = $time;
+        if ( isset($samba_options['min_age']) && $samba_options['min_age'] > 0 ) {
+             $userdata["sambaPwdCanChange"] = $time + ( $samba_options['min_age'] * 86400 );
+        }
+        if ( isset($samba_options['max_age']) && $samba_options['max_age'] > 0 ) {
+             $userdata["sambaPwdMustChange"] = $time + ( $samba_options['max_age'] * 86400 );
+        }
     }
 
     # Get hash type if hash is set to auto
@@ -283,7 +291,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
     # Shadow options
     if ( $shadow_options['update_shadowLastChange'] ) {
-        $userdata["shadowLastChange"] = floor(time() / 86400);
+        $userdata["shadowLastChange"] = floor($time / 86400);
     }
 
     # Commit modification on directory
