@@ -204,4 +204,7 @@ $default_action = "change";
 #$messages['passwordchangedextramessage'] = NULL;
 #$messages['changehelpextramessage'] = NULL;
 
+# Launch a posthook script after successful password change
+#$posthook = "/usr/share/self-service-password/posthook.sh";
+
 ?>

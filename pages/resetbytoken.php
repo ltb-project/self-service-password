@@ -197,6 +197,9 @@ if ( $result === "" ) {
 # Change password
 if ($result === "") {
     $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password);
+    if ( $result === "passwordchanged" && isset($posthook) ) {
+        exec(escapeshellcmd("$posthook $login $newpassword"));
+    }
 }
 
 # Delete token if all is ok
