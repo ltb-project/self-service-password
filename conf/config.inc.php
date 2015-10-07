@@ -58,6 +58,7 @@ $shadow_options['update_shadowLastChange'] = false;
 # MD5
 # CRYPT
 # clear (the default)
+# auto (will check the hash of current password)
 # This option is not used with ad_mode = true
 $hash = "clear";
 

@@ -233,6 +233,19 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         $userdata["sambaPwdLastSet"] = time();
     }
 
+    # Get hash type if hash is set to auto
+    if ( $hash == "auto" ) {
+        $search_userpassword = ldap_read( $ldap, $dn, "(objectClass=*)", array("userPassword") );
+        if ( $search_userpassword ) {
+            $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap,$search_userpassword), "userPassword");
+            if ( isset($userpassword) ) {
+                if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
+                    $hash = strtoupper($matches[1]);
+		}
+            }
+        }
+    }
+
     # Transform password value
     if ( $ad_mode ) {
         $password = make_ad_password($password);
