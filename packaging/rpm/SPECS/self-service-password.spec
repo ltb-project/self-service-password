@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	0.8
+%define ssp_version	0.9
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -105,6 +105,32 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Thu Oct 8 2015 - Clement Oudot <clem@ltb-project.org> - 0.9-1
+- Bug #351: Allow binddn to be one that is not a manager
+- Bug #393: Warning in logs if no forbidden caracters defined
+- Bug #556: If password in Active Directory is expired, user cannot change their password
+- Bug #557: Duplicate index in spanish translation file
+- Bug #563: PHP Fatal error: Call to undefined function mb_internal_encoding()
+- Bug #571: Show policy above in resetByToken
+- Bug #611: Small typo in lang/en.inc.php
+- Bug #719: Add option for algorythm selection for crypt hashes
+- Bug #767: Adresse email with a + don’t match
+- Bug #776: self-service-password may fail to detect a samba account
+- Bug #787: Bug on password policy display in "resetbytoken"
+- Feature #381: Check mb_string extension
+- Feature #587: Slovak translation
+- Feature #595: Self Service Password translation for Portuguese (Portugal) pt-PT
+- Feature #627: Move supported languages to the config file
+- Feature #628: Corrections for german language
+- Feature #632: Simplified Chinese translation for self-service-password
+- Feature #640: New german translation
+- Feature #659: Partially hide mobile phone number, to prevent username to phone number lookups (privacy)
+- Feature #699: set hash type based on stored password
+- Feature #705: starttls functionality
+- Feature #714: Add some attibutes sambaSamAccount/shadowAccount
+- Feature #724: Self Service Password: custom hooks / external scripts
+- Feature #728: Slovenian translation
+- Feature #798: Change password as user in AD
 * Sat Oct 20 2012 - Clement Oudot <clem@ltb-project.org> - 0.8-1
 - Bug #399: Mistakes in the English translation
 - Bug #479: Self-Service-Password in Sapnish
