@@ -27,3 +27,7 @@ It has the following features:
 ## Documentation
 
 Documentation is available on http://ltb-project.org/wiki/documentation/self-service-password
+
+## Download
+
+Tarballs and packages for Debian and Red Hat are available on http://ltb-project.org/wiki/download#self_service_password
