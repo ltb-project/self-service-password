@@ -193,7 +193,7 @@ if ( $result === "" ) {
 #==============================================================================
 ?>
 
-<div class="result <?php echo get_criticity($result) ?>">
+<div class="result alert alert-<?php echo get_criticity($result) ?>">
 <h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 
@@ -201,27 +201,39 @@ if ( $result === "" ) {
 
 <?php
 if ( $show_help ) {
-    echo "<div class=\"help\"><p>";
+    echo "<div class=\"help alert alert-warning\"><p>";
     echo $messages["sendtokenhelp"];
     echo "</p></div>\n";
 }
 ?>
 
-<form action="#" method="post">
+<div class="alert alert-info">
+<form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
-    <table>
-    <tr><th><?php echo $messages["login"]; ?></th>
-    <td><input type="text" name="login" value="<?php echo htmlentities($login) ?>" /></td></tr>
-    <tr><th><?php echo $messages["mail"]; ?></th>
-    <td><input type="text" name="mail" /></td></tr>
+    <div class="form-group">
+        <label for"login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <div class="col-sm-8">
+            <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for"mail" class="col-sm-4 control-label"><?php echo $messages["mail"]; ?></label>
+        <div class="col-sm-8">
+            <input type="email" name="mail" id="mail" class="form-control" placeholder="<?php echo $messages["mail"]; ?>" />
+        </div>
+    </div>
 <?php if ($use_recaptcha) { ?>
-    <tr><td colspan="2">
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
 <?php echo recaptcha_get_html($recaptcha_publickey, null, $recaptcha_ssl); ?>
-    </td></tr>
+        </div>
+    </div>
 <?php } ?>
-    <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
-    </table>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" /></td></tr>
+        </div>
+    </div>
 </form>
 
 <?php } ?>

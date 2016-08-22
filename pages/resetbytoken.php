@@ -213,7 +213,7 @@ if ( $result === "passwordchanged" ) {
 #==============================================================================
 ?>
 
-<div class="result <?php echo get_criticity($result) ?>">
+<div class="result alert alert-<?php echo get_criticity($result) ?>">
 <h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 
@@ -221,11 +221,11 @@ if ( $result === "passwordchanged" ) {
 
 <?php
 if ( $show_help and ($source !== "sms") ) {
-    echo "<div class=\"help\"><p>";
+    echo "<div class=\"help alert alert-info\"><p>";
     echo $messages["resetbytokenhelp"];
     echo "</p></div>\n";
 } elseif ( $show_help and ($source === "sms") ) {
-    echo "<div class=\"help\"><p>";
+    echo "<div class=\"help alert alert-info\"><p>";
     echo $messages["resetbysmshelp"];
     echo "</p></div>\n";
 }
@@ -239,24 +239,40 @@ if ($pwd_show_policy_pos === 'above') {
 }
 ?>
 
-<form action="#" method="post">
+<div class="alert alert-info">
+<form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <input type="hidden" name="token" value="<?php echo htmlentities($token) ?>" />
-    <table>
-    <tr><th><?php echo $messages["login"]; ?></th>
-    <td><p><?php echo htmlentities($login) ?></p></td></tr>
-    <tr><th><?php echo $messages["newpassword"]; ?></th>
-    <td><input type="password" name="newpassword" /></td></tr>
-    <tr><th><?php echo $messages["confirmpassword"]; ?></th>
-    <td><input type="password" name="confirmpassword" /></td></tr>
+    <div class="form-group">
+        <label for"login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <div class="col-sm-8">
+            <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for"newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
+        <div class="col-sm-8">
+            <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="<?php echo $messages["newpassword"]; ?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for"confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
+        <div class="col-sm-8">
+            <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="<?php echo $messages["confirmpassword"]; ?>" />
+        </div>
+    </div>
 <?php if ($use_recaptcha) { ?>
-    <tr><td colspan="2">
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
 <?php echo recaptcha_get_html($recaptcha_publickey, null, $recaptcha_ssl); ?>
-    </td></tr>
+        </div>
+    </div>
 <?php } ?>
-    <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
-    </table>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" /></td></tr>
+        </div>
+    </div>
 </form>
 
 <?php 
