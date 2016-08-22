@@ -178,7 +178,7 @@ if ( $result === "" ) {
 #==============================================================================
 ?>
 
-<div class="result <?php echo get_criticity($result) ?>">
+<div class="result alert alert-<?php echo get_criticity($result) ?>">
 <h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 
@@ -186,42 +186,59 @@ if ( $result === "" ) {
 
 <?php
 if ( $show_help ) {
-    echo "<div class=\"help\"><p>";
+    echo "<div class=\"help alert alert-warning\"><p>";
     echo $messages["setquestionshelp"];
     echo "</p></div>\n";
 }
 ?>
 
-<form action="#" method="post">
+<div class="alert alert-info">
+<form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
-    <table>
-    <tr><th><?php echo $messages["login"]; ?></th>
-    <td><input type="text" name="login" value="<?php echo htmlentities($login) ?>" /></td></tr>
-    <tr><th><?php echo $messages["password"]; ?></th>
-    <td><input type="password" name="password" /></td></tr>
-    <tr><th><?php echo $messages["question"]; ?></th>
-    <td>
-    <select name="question">
-
+    <div class="form-group">
+        <label for"login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <div class="col-sm-8">
+            <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for"password" class="col-sm-4 control-label"><?php echo $messages["password"]; ?></label>
+        <div class="col-sm-8">
+            <input type="password" name="password" id="password" class="form-control" placeholder="<?php echo $messages["password"]; ?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for"question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
+        <div class="col-sm-8">
+            <select name="question" id="question" class="form-control">
 <?php
 # Build options
 foreach ( $messages["questions"] as $value => $text ) {
     echo "<option value=\"$value\">$text</option>";
 }
 ?>
-
-    </select>
-    </td></tr>
-    <tr><th><?php echo $messages["answer"]; ?></th>
-    <td><input type="text" name="answer" /></td></tr>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for"answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
+        <div class="col-sm-8">
+            <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" />
+        </div>
+    </div>
 <?php if ($use_recaptcha) { ?>
-    <tr><td colspan="2">
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
 <?php echo recaptcha_get_html($recaptcha_publickey, null, $recaptcha_ssl); ?>
-    </td></tr>
+        </div>
+    </div>
 <?php } ?>
-    <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
-    </table>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" /></td></tr>
+        </div>
+    </div>
 </form>
+</div>
 
 <?php } ?>
