@@ -208,13 +208,13 @@ if ($pwd_show_policy_pos === 'above') {
 <form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <div class="form-group">
-        <label for"login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
             <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
         </div>
     </div>
     <div class="form-group">
-        <label for"question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
+        <label for="question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
         <div class="col-sm-8">
             <select name="question" id="question" class="form-control">
 <?php
@@ -227,19 +227,19 @@ foreach ( $messages["questions"] as $value => $text ) {
         </div>
     </div>
     <div class="form-group">
-        <label for"answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
+        <label for="answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
         <div class="col-sm-8">
             <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" />
         </div>
     </div>
     <div class="form-group">
-        <label for"newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
+        <label for="newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
         <div class="col-sm-8">
             <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="<?php echo $messages["newpassword"]; ?>" />
         </div>
     </div>
     <div class="form-group">
-        <label for"confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
+        <label for="confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
         <div class="col-sm-8">
             <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="<?php echo $messages["confirmpassword"]; ?>" />
         </div>

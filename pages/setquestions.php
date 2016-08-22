@@ -196,19 +196,19 @@ if ( $show_help ) {
 <form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <div class="form-group">
-        <label for"login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
             <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
         </div>
     </div>
     <div class="form-group">
-        <label for"password" class="col-sm-4 control-label"><?php echo $messages["password"]; ?></label>
+        <label for="password" class="col-sm-4 control-label"><?php echo $messages["password"]; ?></label>
         <div class="col-sm-8">
             <input type="password" name="password" id="password" class="form-control" placeholder="<?php echo $messages["password"]; ?>" />
         </div>
     </div>
     <div class="form-group">
-        <label for"question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
+        <label for="question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
         <div class="col-sm-8">
             <select name="question" id="question" class="form-control">
 <?php
@@ -221,7 +221,7 @@ foreach ( $messages["questions"] as $value => $text ) {
         </div>
     </div>
     <div class="form-group">
-        <label for"answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
+        <label for="answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
         <div class="col-sm-8">
             <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" />
         </div>

@@ -211,13 +211,13 @@ if ( $show_help ) {
 <form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <div class="form-group">
-        <label for"login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
             <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
         </div>
     </div>
     <div class="form-group">
-        <label for"mail" class="col-sm-4 control-label"><?php echo $messages["mail"]; ?></label>
+        <label for="mail" class="col-sm-4 control-label"><?php echo $messages["mail"]; ?></label>
         <div class="col-sm-8">
             <input type="email" name="mail" id="mail" class="form-control" placeholder="<?php echo $messages["mail"]; ?>" />
         </div>
@@ -235,5 +235,6 @@ if ( $show_help ) {
         </div>
     </div>
 </form>
+</div>
 
 <?php } ?>
