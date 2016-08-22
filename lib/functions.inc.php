@@ -119,14 +119,14 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 function get_criticity( $msg ) {
 
     if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring/" , $msg ) ) {
-    return "critical";
+    return "danger";
     }
 	
     if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token)required|badcaptcha/" , $msg ) ) {
         return "warning";
     }
 
-    return "ok";
+    return "success";
 }
 
 # Display policy bloc
@@ -141,7 +141,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     }
 
     # Display bloc
-    echo "<div class=\"help\">\n";
+    echo "<div class=\"help alert alert-info\">\n";
     echo "<p>".$messages["policy"]."</p>\n";
     echo "<ul>\n";
     if ( $pwd_min_length      ) { echo "<li>".$messages["policyminlength"]      ." $pwd_min_length</li>\n"; }
