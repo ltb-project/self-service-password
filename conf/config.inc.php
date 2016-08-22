@@ -164,7 +164,7 @@ $show_help = true;
 $lang ="en";
 
 # Logo
-$logo = "style/ltb-logo.png";
+$logo = "images/ltb-logo.png";
 
 # Debug mode
 $debug = false;

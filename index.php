@@ -124,27 +124,35 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 #==============================================================================
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html lang="<?php echo $lang ?>">
 <head>
     <title><?php echo $messages["title"]; ?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <link rel="stylesheet" type="text/css" href="style/styles.css" />
-    <link href="style/favicon.ico" rel="icon" type="image/x-icon" />
-    <link href="style/favicon.ico" rel="shortcut icon" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="LDAP Tool Box" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/self-service-password.css" />
+    <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="images/favicon.ico" rel="shortcut icon" />
 </head>
 <body>
 
-<div id="content">
-<h1><?php echo $messages["title"]; ?></h1>
+<div class="container">
+
+<div class="panel panel-success">
+<div class="panel-body">
+
+<div class="title alert alert-success text-center"><h1><?php echo $messages["title"]; ?></h1></div>
+
 <a href="index.php" alt="Home">
-<img src="<?php echo $logo; ?>" alt="Logo" />
+<img src="<?php echo $logo; ?>" alt="Logo" class="logo img-responsive center-block" />
 </a>
 
 <?php if ( $result ) { ?>
-<div class="result <?php echo get_criticity($result) ?>">
+<div class="result alert alert-<?php echo get_criticity($result) ?>">
 <h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 <?php } else {
@@ -152,6 +160,12 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 } ?>
 
 </div>
+</div>
+
+</div>
+
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>
