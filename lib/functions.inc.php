@@ -141,7 +141,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     }
 
     # Display bloc
-    echo "<div class=\"help alert alert-info\">\n";
+    echo "<div class=\"help alert alert-warning\">\n";
     echo "<p>".$messages["policy"]."</p>\n";
     echo "<ul>\n";
     if ( $pwd_min_length      ) { echo "<li>".$messages["policyminlength"]      ." $pwd_min_length</li>\n"; }

@@ -200,7 +200,7 @@ if ( $result === "" ) {
 
 <?php
 if ( $show_help ) {
-    echo "<div class=\"help alert alert-info\"><p>";
+    echo "<div class=\"help alert alert-warning\"><p>";
     echo $messages["changehelp"];
     echo "</p>";
     if (isset($messages['changehelpextramessage'])) {
@@ -230,8 +230,7 @@ if ($pwd_show_policy_pos === 'above') {
 }
 ?>
 
-<div class="panel panel-success">
-<div class="panel-body">
+<div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <div class="form-group">
@@ -271,7 +270,6 @@ if ($pwd_show_policy_pos === 'above') {
         </div>
     </div>
 </form>
-</div>
 </div>
 
 <?php
