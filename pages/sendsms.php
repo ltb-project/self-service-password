@@ -219,7 +219,7 @@ if ( $result === "redirect" ) {
 #==============================================================================
 ?>
 
-<div class="result <?php echo get_criticity($result) ?>">
+<div class="result alert alert-<?php echo get_criticity($result) ?>">
 <h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
 </div>
 
@@ -227,55 +227,89 @@ if ( $result === "redirect" ) {
 if ( $result == "smscrypttokensrequired" ) {
 } elseif ( $result == "smsuserfound" ) {
 ?>
-<form action="#" method="post">
-    <table>
-    <tr><th><?php echo $messages["userfullname"] . ": "; ?></th>
-    <td><?php echo $displayname[0]; ?></td></tr>  
-    <tr><th><?php echo $messages["login"] . ": "; ?></th>
-    <td><?php echo $login; ?></td></tr>
-    <tr><th><?php echo $messages["sms"] . ": "; ?></th>
-    <td><?php if ($sms_partially_hide_number) echo (substr_replace($sms, '****', 4 , 4)); else echo $sms;?></td></tr>
+
+<div class="alert alert-info">
+<form action="#" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-4 control-label"><?php echo $messages["userfullname"]; ?></label>
+        <div class="col-sm-8">
+            <p class="form-control-static"><?php echo $displayname[0]; ?></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <div class="col-sm-8">
+            <p class="form-control-static"><?php echo $login; ?></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label"><?php echo $messages["sms"]; ?></label>
+        <div class="col-sm-8">
+            <p class="form-control-static"><?php if ($sms_partially_hide_number) echo (substr_replace($sms, '****', 4 , 4)); else echo $sms;?></p>
+        </div>
+    </div>
     <input type="hidden" name="login" value="<?php echo htmlentities($login) ?>" />
     <input type="hidden" name="sms" value="<?php echo htmlentities($smsnum) ?>" />
-    <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
-    </table>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" />
+        </div>
+    </div>
 </form>
+</div>
 
 <?php
 } elseif ( $result == "smssent" ) { ?>
-<form action="#" method="post">
-    <table>
-    <tr><th><?php echo $messages["smstoken"] . ": "; ?></th>
-    <td><input type="text" name="smstoken" value="" /></td></tr>
+
+<div class="alert alert-info">
+<form action="#" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label for="smstoken" class="col-sm-4 control-label"><?php echo $messages["smstoken"]; ?></label>
+        <div class="col-sm-8">
+            <input type="text" name="smstoken" id="smstoken" class="form-control" placeholder="<?php echo $messages["smstoken"]; ?>" />
+        </div>
+    </div>
     <input type="hidden" name="token" value=<?php echo htmlentities($token) ?> />
     <input type="hidden" name="login" value=<?php echo htmlentities($login) ?> />
-    <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages['submit']; ?>" /></td></tr>
-    </table>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" />
+        </div>
+    </div>
 </form>
+</div>
 
 <?php } else{
 
 if ( $show_help ) {
-    echo "<div class=\"help\"><p>";
+    echo "<div class=\"help alert alert-warning\"><p>";
     echo $messages["sendsmshelp"];
     echo "</p></div>\n";
 }
 ?>
-<form action="#" method="post">
+
+<div class="alert alert-info">
+<form action="#" method="post" class="form-horizontal">
 <?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
-    <table>
-    <tr><th><?php echo $messages["login"]; ?></th>
-    <td><input type="text" name="login" value="<?php echo htmlentities($login) ?>" /></td></tr>
+    <div class="form-group">
+        <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <div class="col-sm-8">
+            <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+        </div>
+    </div>
 <?php if ($use_recaptcha) { ?>
-    <tr><td colspan="2">
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
 <?php echo recaptcha_get_html($recaptcha_publickey, null, $recaptcha_ssl); ?>
-    </td></tr>
+        </div>
+    </div>
 <?php } ?>
-    <tr><td colspan="2">
-    <input type="submit" value="<?php echo $messages['getuser']; ?>" /></td></tr>
-    </table>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" value="<?php echo $messages['getuser']; ?>" class="btn btn-default" />
+        </div>
+    </div>
 </form>
+</div>
 
 <?php } ?>
