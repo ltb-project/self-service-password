@@ -115,7 +115,7 @@ if ( $result === "" ) {
 
     # Match with user submitted values
     foreach ($mailValues as $mailValue) {
-        if ("$mail" === "$mailValue") {
+        if (strcasecmp($mail, $mailValue) == 0) {
             $match = 1;
         }
     }
