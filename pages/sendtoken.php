@@ -115,6 +115,9 @@ if ( $result === "" ) {
 
     # Match with user submitted values
     foreach ($mailValues as $mailValue) {
+        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+            $mailValue = str_ireplace("smtp:", "", $mailValue);
+        }
         if (strcasecmp($mail, $mailValue) == 0) {
             $match = 1;
         }
