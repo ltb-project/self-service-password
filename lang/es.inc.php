@@ -25,16 +25,16 @@
 $messages['nophpldap'] = "Debe instalar PHP LDAP para utilizar esta herramienta";
 $messages['nophpmhash'] = "Debe instalar PHP mhash para utilizar el modo Samba";
 $messages['ldaperror'] = "No es posible acceder al directorio LDAP";
-$messages['loginrequired'] = "Su nombre de cuenta es requerida";            
+$messages['loginrequired'] = "Su nombre de usuario es requerido";
 $messages['oldpasswordrequired'] = "Su contraseña anterior es requerida";
 $messages['newpasswordrequired'] = "Su contraseña actual es requerida";
 $messages['confirmpasswordrequired'] = "Por favor confirme su nueva contraseña";
 $messages['passwordchanged'] = "Su contraseña ha sido cambiada";
 $messages['nomatch'] = "Las contraseñas difieren";
-$messages['badcredentials'] = "Su cuenta o su contraseña es incorrecta";
+$messages['badcredentials'] = "Su nombre de usuario o su contraseña es incorrecta";
 $messages['passworderror'] = "Su contraseña fue rechazada";
-$messages['title'] = "Autoservicio de Reseteo de Contraseñas";
-$messages['login'] = "Cuenta";
+$messages['title'] = "Autoservicio de cambio de contraseñas";
+$messages['login'] = "Nombre de usuario";
 $messages['oldpassword'] = "Contraseña anterior";
 $messages['newpassword'] = "Contraseña nueva";
 $messages['confirmpassword'] = "Confirme contraseña nueva";
@@ -76,7 +76,7 @@ $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Resetee su contras
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Resetee su contraseña con un SMS</a>";
 $messages['resetmessage'] = "Hello {login},\n\nClick aquí para restear su contraseña:\n{url}\n\n Si usted no es el emisor de esta petición, por favor ignórela.";
 $messages['resetsubject'] = "Reinicie su contraseña";
-$messages['sendtokenhelp'] = "Entre su nombre de usaurio y contraseña para reiniciar su contraseña. Luego haga click en el link correo.";
+$messages['sendtokenhelp'] = "Entre su nombre de usaurio y contraseña para reiniciar su contraseña. Luego haga click en el enlace del correo.";
 $messages['mail'] = "Correo";
 $messages['mailrequired'] = "Su correo es requerido";
 $messages['mailnomatch'] = "El correo no coincide con el inicio de sesión presentado";
@@ -100,11 +100,11 @@ $messages['smsnotsent'] = "Error al enviar el SMS";
 $messages['smsnonumber'] = "No se pudo encontrar el número del móvil";
 $messages['userfullname'] = "Nombre completo del usuario";
 $messages['username'] = "Nombre de usuario";
-$messages['smscrypttokensrequired'] = "Usted no puede usar reseteo por SMS sin ajustarvcrypt_tokens";
+$messages['smscrypttokensrequired'] = "Usted no puede usar reseteo por SMS sin ajustar los crypt_tokens";
 $messages['smsuserfound'] = "Chequee que la informaci'on del usaurio es correcta y presione Enviar para obtener una señal por SMS";
 $messages['smstoken'] = "Señal SMS";
 $messages['getuser'] = "Get user";
 $messages['nophpmbstring'] = "Usted debe instala PHP mbstring";
-$messages['loginrequired'] = "Your login is required";
+$messages['loginrequired'] = "Se requiere su nombre de usuario";
 
 ?>
