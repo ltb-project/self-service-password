@@ -222,10 +222,12 @@ if ( $result === "passwordchanged" ) {
 <?php
 if ( $show_help and ($source !== "sms") ) {
     echo "<div class=\"help alert alert-info\"><p>";
+    echo "<i class=\"fa fa-info-circle\"></i> ";
     echo $messages["resetbytokenhelp"];
     echo "</p></div>\n";
 } elseif ( $show_help and ($source === "sms") ) {
     echo "<div class=\"help alert alert-info\"><p>";
+    echo "<i class=\"fa fa-info-circle\"></i> ";
     echo $messages["resetbysmshelp"];
     echo "</p></div>\n";
 }

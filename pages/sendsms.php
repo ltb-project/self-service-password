@@ -283,6 +283,7 @@ if ( $result == "smscrypttokensrequired" ) {
 
 if ( $show_help ) {
     echo "<div class=\"help alert alert-warning\"><p>";
+    echo "<i class=\"fa fa-info-circle\"></i> ";
     echo $messages["sendsmshelp"];
     echo "</p></div>\n";
 }
