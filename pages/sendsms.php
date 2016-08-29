@@ -252,7 +252,9 @@ if ( $result == "smscrypttokensrequired" ) {
     <input type="hidden" name="sms" value="<?php echo htmlentities($smsnum) ?>" />
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" />
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+            </button>
         </div>
     </div>
 </form>
@@ -266,14 +268,19 @@ if ( $result == "smscrypttokensrequired" ) {
     <div class="form-group">
         <label for="smstoken" class="col-sm-4 control-label"><?php echo $messages["smstoken"]; ?></label>
         <div class="col-sm-8">
-            <input type="text" name="smstoken" id="smstoken" class="form-control" placeholder="<?php echo $messages["smstoken"]; ?>" />
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                <input type="text" name="smstoken" id="smstoken" class="form-control" placeholder="<?php echo $messages["smstoken"]; ?>" />
+            </div>
         </div>
     </div>
     <input type="hidden" name="token" value=<?php echo htmlentities($token) ?> />
     <input type="hidden" name="login" value=<?php echo htmlentities($login) ?> />
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" />
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+            </button>
         </div>
     </div>
 </form>
@@ -295,7 +302,10 @@ if ( $show_help ) {
     <div class="form-group">
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
-            <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+            </div>
         </div>
     </div>
 <?php if ($use_recaptcha) { ?>
@@ -307,7 +317,9 @@ if ( $show_help ) {
 <?php } ?>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <input type="submit" value="<?php echo $messages['getuser']; ?>" class="btn btn-default" />
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-search"></i> <?php echo $messages['getuser']; ?>
+            </button>
         </div>
     </div>
 </form>

@@ -217,13 +217,19 @@ if ( $show_help ) {
     <div class="form-group">
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
-            <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+            </div>
         </div>
     </div>
     <div class="form-group">
         <label for="mail" class="col-sm-4 control-label"><?php echo $messages["mail"]; ?></label>
         <div class="col-sm-8">
-            <input type="email" name="mail" id="mail" class="form-control" placeholder="<?php echo $messages["mail"]; ?>" />
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                <input type="email" name="mail" id="mail" class="form-control" placeholder="<?php echo $messages["mail"]; ?>" />
+            </div>
         </div>
     </div>
 <?php if ($use_recaptcha) { ?>
@@ -235,7 +241,9 @@ if ( $show_help ) {
 <?php } ?>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" /></td></tr>
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+            </button>
         </div>
     </div>
 </form>

@@ -199,32 +199,44 @@ if ( $show_help ) {
     <div class="form-group">
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
-            <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+            </div>
         </div>
     </div>
     <div class="form-group">
         <label for="password" class="col-sm-4 control-label"><?php echo $messages["password"]; ?></label>
         <div class="col-sm-8">
-            <input type="password" name="password" id="password" class="form-control" placeholder="<?php echo $messages["password"]; ?>" />
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input type="password" name="password" id="password" class="form-control" placeholder="<?php echo $messages["password"]; ?>" />
+            </div>
         </div>
     </div>
     <div class="form-group">
         <label for="question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
         <div class="col-sm-8">
-            <select name="question" id="question" class="form-control">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-question"></i></span>
+                <select name="question" id="question" class="form-control">
 <?php
 # Build options
 foreach ( $messages["questions"] as $value => $text ) {
     echo "<option value=\"$value\">$text</option>";
 }
 ?>
-            </select>
+                </select>
+            </div>
         </div>
     </div>
     <div class="form-group">
         <label for="answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
         <div class="col-sm-8">
-            <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" />
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" />
+            </div>
         </div>
     </div>
 <?php if ($use_recaptcha) { ?>
@@ -236,7 +248,9 @@ foreach ( $messages["questions"] as $value => $text ) {
 <?php } ?>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <input type="submit" value="<?php echo $messages['submit']; ?>" class="btn btn-default" /></td></tr>
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+            </button>
         </div>
     </div>
 </form>
