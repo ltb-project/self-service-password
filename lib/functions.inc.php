@@ -129,6 +129,17 @@ function get_criticity( $msg ) {
     return "success";
 }
 
+# Get FontAwesome class icon
+function get_fa_class( $msg) {
+
+    $criticity = get_criticity( $msg );
+
+    if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
+    if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
+    if ( $criticity === "success" ) { return "fa-check-square"; }
+
+}
+
 # Display policy bloc
 # @return HTML code
 function show_policy( $messages, $pwd_policy_config, $result ) {

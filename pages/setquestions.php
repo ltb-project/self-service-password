@@ -179,7 +179,7 @@ if ( $result === "" ) {
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
+<p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 
 <?php if ( $result !== "answerchanged" ) { ?>

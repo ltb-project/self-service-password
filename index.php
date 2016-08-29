@@ -153,7 +153,7 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
 <?php if ( $result ) { ?>
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<h2 class="<?php echo get_criticity($result) ?>"><?php echo $messages[$result]; ?></h2>
+<p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 <?php } else {
     include("pages/$action.php");
