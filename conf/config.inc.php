@@ -169,6 +169,9 @@ $lang ="en";
 # Logo
 $logo = "images/ltb-logo.png";
 
+# Background image
+$background_image = "images/unsplash-space.jpeg";
+
 # Debug mode
 $debug = false;
 

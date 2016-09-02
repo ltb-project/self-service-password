@@ -137,6 +137,14 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
     <link rel="stylesheet" type="text/css" href="css/self-service-password.css" />
     <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
     <link href="images/favicon.ico" rel="shortcut icon" />
+<?php if (isset($background_image)) { ?>
+     <style>
+       html, body {
+         background: url("<?php echo $background_image ?>") no-repeat center fixed;
+         background-size: cover;
+       }
+  </style>
+<?php } ?>
 </head>
 <body>
 
