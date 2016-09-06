@@ -105,5 +105,8 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password wi
 $messages['getuser'] = "Get user";
 $messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['nophpmbstring'] = "Você deve instalar a biblioteca PHP mbstring";
+$messages['menuquestions'] = "Pergunta";
+$messages['menutoken'] = "E-mail";
+$messages['menusms'] = "SMS";
 
 ?>

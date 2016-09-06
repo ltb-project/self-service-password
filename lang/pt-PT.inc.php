@@ -105,5 +105,8 @@ $messages['smstoken'] = "Código SMS";
 $messages['getuser'] = "Obter utilizador";
 $messages['resetbysmshelp'] = "O token enviado por SMS permite reinicializar a tua password. Para obteres novo token, <a href=\"?action=sendsms\">clica aqui</a>.";
 $messages['nophpmbstring'] = "Deves instalar a biblioteca PHP mbstring.";
+$messages['menuquestions'] = "Pergunta";
+$messages['menutoken'] = "E-mail";
+$messages['menusms'] = "SMS";
 
 ?>

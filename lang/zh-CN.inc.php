@@ -105,5 +105,8 @@ $messages['smscrypttokensrequired'] = "未设置crypt_tokens不能使用短信�
 $messages['smsuserfound'] = "确认用户信息是否正确，点击发送获取短信";
 $messages['smstoken'] = "短信口令";
 $messages['nophpmbstring'] = "You should install PHP mbstring";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "Email";
+$messages['menusms'] = "SMS";
 
 ?>

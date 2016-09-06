@@ -108,5 +108,8 @@ $messages['smstoken'] = "SMS token";
 $messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['getuser'] = "Get user";
 $messages['nophpmbstring'] = "You should install PHP mbstring";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "Email";
+$messages['menusms'] = "SMS";
 
 ?>

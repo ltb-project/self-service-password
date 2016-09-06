@@ -105,5 +105,8 @@ $messages['smsuserfound'] = "Vérifiez que les informations ci-dessous sont corr
 $messages['smstoken'] = "Code de confirmation";
 $messages['getuser'] = "Trouver l'utilisateur";
 $messages['nophpmbstring'] = "Vous devriez installer PHP mbstring";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "Mail";
+$messages['menusms'] = "SMS";
 
 ?>

@@ -106,4 +106,7 @@ $messages['resetbysmshelp'] = "Жетон який дозволяє скинут
 $messages['smssent'] = "Код підтвердження був відправлений через SMS";
 $messages['smsuserfound'] = "Перевірте, що інформація про користувача вірна та натисніть «Відправити SMS», щоб отримати жетон";
 $messages['nophpmbstring'] = "Ви повинні встановити PHP mbstring";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "Email";
+$messages['menusms'] = "SMS";
 ?>

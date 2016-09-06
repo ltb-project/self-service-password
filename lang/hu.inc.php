@@ -105,5 +105,8 @@ $messages['smscrypttokensrequired'] = "A crypt_tokens beállítás nélül nem h
 $messages['smsuserfound'] = "Kérem, ellenőrizze a beírt adatok helyességét, majd kattintson a küldés gombra.";
 $messages['smstoken'] = "SMS kód";
 $messages['nophpmbstring'] = "Telepítse fel a PHP mbstring-et";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "E-mail";
+$messages['menusms'] = "SMS";
 
 ?>

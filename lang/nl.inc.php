@@ -107,5 +107,8 @@ $messages['smsresetmessage'] = "Uw wachtwoord reset token is:";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset uw wachtwoord door middel van een SMS</a>";
 $messages['nophpmbstring'] = "'PHP mbstring' moet geinstalleerd zijn";
 $messages['getuser'] = "Haal gebruiker op";
+$messages['menuquestions'] = "Vraag";
+$messages['menutoken'] = "Email";
+$messages['menusms'] = "SMS";
 
 ?>

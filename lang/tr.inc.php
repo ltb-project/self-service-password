@@ -105,5 +105,8 @@ $messages['smscrypttokensrequired'] = "crypt_tokens ayarı yapılmadan SMS ile s
 $messages['smsuserfound'] = "Bilgilerin doğru olduğundan emin olduktan sonra SMS almak için Gönder'e basın";
 $messages['smstoken'] = "SMS belirteci";
 $messages['nophpmbstring'] = "PHP mbstring yüklemelisiniz";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "Email";
+$messages['menusms'] = "SMS";
 
 ?>

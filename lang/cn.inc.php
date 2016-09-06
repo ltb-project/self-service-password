@@ -105,5 +105,8 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password wi
 $messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['smsresetmessage'] = "Your password reset token is:";
 $messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "Email";
+$messages['menusms'] = "SMS";
 
 ?>

@@ -105,5 +105,8 @@ $messages['smscrypttokensrequired'] = "Nemôžete použiť zmenu cez SMS bez cry
 $messages['smsuserfound'] = "Skontrolujte, či informácie o používateľovi sú správne a stlačte poslať pre získanie SMS tokenu";
 $messages['smstoken'] = "SMS token";
 $messages['nophpmbstring'] = "Mali by ste nainštalovať PHP mbstring";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "Email";
+$messages['menusms'] = "SMS";
 
 ?>

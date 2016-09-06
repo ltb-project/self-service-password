@@ -109,5 +109,8 @@ $messages['loginrequired'] = "Es requereix el seu nom d'usuari";
 $messages['minspecial'] = "La teva contrasenya no té prou caràcters especials";
 $messages['getuser'] = "Obtenir usuari";
 $messages['nophpmbstring'] = "Ha d'instal·lar PHP mbstring";
+$messages['menuquestions'] = "Pregunte";
+$messages['menutoken'] = "Correu";
+$messages['menusms'] = "SMS";
 
 ?>

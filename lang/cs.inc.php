@@ -105,5 +105,8 @@ $messages['smscrypttokensrequired'] = "Nemůžete použít SMS reset bez použit
 $messages['smsuserfound'] = "Zkontrolujte, že uživatelské údaje jsou správně, a stiskněte Odeslat k získání SMS řetězce";
 $messages['smstoken'] = "SMS řetězec";
 $messages['nophpmbstring'] = "Nainstalujte PHP mbstring";
+$messages['menuquestions'] = "Question";
+$messages['menutoken'] = "E-mailová";
+$messages['menusms'] = "SMS";
 
 ?>
