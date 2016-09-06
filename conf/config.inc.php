@@ -166,6 +166,9 @@ $show_help = true;
 # Language
 $lang ="en";
 
+# Display menu on top
+$show_menu = true;
+
 # Logo
 $logo = "images/ltb-logo.png";
 

@@ -153,11 +153,17 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 <div class="panel panel-success">
 <div class="panel-body">
 
+<?php if ( $show_menu ) {
+    include("menu.php");
+} else { ?>
 <div class="title alert alert-success text-center"><h1><?php echo $messages["title"]; ?></h1></div>
+<?php } ?>
 
+<?php if ( $logo ) { ?>
 <a href="index.php" alt="Home">
 <img src="<?php echo $logo; ?>" alt="Logo" class="logo img-responsive center-block" />
 </a>
+<?php } ?>
 
 <?php if ( $result ) { ?>
 <div class="result alert alert-<?php echo get_criticity($result) ?>">

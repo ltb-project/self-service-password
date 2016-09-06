@@ -207,7 +207,7 @@ if ( $show_help ) {
     if (isset($messages['changehelpextramessage'])) {
         echo "<p>" . $messages['changehelpextramessage'] . "</p>";
     }
-    if ( $use_questions or $use_tokens or $use_sms ) {
+    if ( !$show_menu and ( $use_questions or $use_tokens or $use_sms ) ) {
         echo "<p>".  $messages["changehelpreset"] . "</p>";
         echo "<ul>";
         if ( $use_questions ) {
