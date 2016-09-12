@@ -26,8 +26,8 @@ It has the following features:
 
 ## Prerequisite
 * PHP extensions required:
-  * php-mcrypt
-  * php-mbstring
+  * php-mcrypt (token crypt)
+  * php-mbstring (reset mail)
   * php-ldap
 * valid PHP mail server configuration (reset mail)
 * valid PHP session configuration (reset mail)
