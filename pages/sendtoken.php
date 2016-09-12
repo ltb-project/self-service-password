@@ -165,6 +165,7 @@ if ( $result === "" ) {
         if ( !empty($_SERVER['HTTPS']) ) { $method .= "s"; }
         $server_name = $_SERVER['SERVER_NAME'];
         $server_port = $_SERVER['SERVER_PORT'];
+        $dir_name = dirname($_SERVER["REQUEST_URI"]);
         $script_name = $_SERVER['SCRIPT_NAME'];
 
         # Force server port if non standard port
@@ -174,7 +175,7 @@ if ( $result === "" ) {
             $server_name .= ":".$server_port;
         }
 
-        $reset_url = $method."://".$server_name.dirname($_SERVER["REQUEST_URI"]).$script_name;
+        $reset_url = $method."://".$server_name.$dir_name.$script_name;
     }
 
     $reset_url .= "?action=resetbytoken&token=$token";
