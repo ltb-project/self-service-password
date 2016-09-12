@@ -24,6 +24,14 @@ It has the following features:
 * reCAPTCHA (Google API)
 * Mail notification after password change
 
+## Prerequisite
+* PHP extensions required:
+  * php-mcrypt
+  * php-mbstring
+  * php-ldap
+* valid PHP mail server configuration (reset mail)
+* valid PHP session configuration (reset mail)
+
 ## Documentation
 
 Documentation is available on http://ltb-project.org/wiki/documentation/self-service-password
