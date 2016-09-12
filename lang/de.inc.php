@@ -106,7 +106,7 @@ $messages['smstoken'] = "SMS token";
 $messages['getuser'] = "Hole Benutzer";
 $messages['setquestionshelp'] = "Initialisieren oder &auml;ndern Sie die Sicherheitsfrage/-antwort. Sie k&ouml;nnen dann Ihr Passwort <a href=\"?action=resetbyquestions\">hier</a> zur&uuml;cksetzen.";
 $messages['resetbyquestionshelp'] = "W&auml;hlen Sie eine Frage und Antwort, um Ihr Passwort zur&uuml;ckzusetzen. Dazu m&uuml;ssen Sie bereits eine <a href=\"?action=setquestions\">Antwort</a> erfasst haben.";
-$messages['nophpmbstring'] = "Sie m&uuml;ssen PHP mcrypt installieren";
+$messages['nophpmbstring'] = "Sie m&uuml;ssen PHP mbstring installieren";
 $messages['menuquestions'] = "Frage";
 $messages['menutoken'] = "Mail";
 $messages['menusms'] = "SMS";
