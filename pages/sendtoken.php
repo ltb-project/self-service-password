@@ -174,7 +174,7 @@ if ( $result === "" ) {
             $server_name .= ":".$server_port;
         }
 
-        $reset_url = $method."://".$server_name.$script_name;
+        $reset_url = $method."://".$server_name.dirname($_SERVER["REQUEST_URI"]).$script_name;
     }
 
     $reset_url .= "?action=resetbytoken&token=$token";
