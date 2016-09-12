@@ -1,5 +1,7 @@
 # LDAP Tool Box Self Service Password
 
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/372/badge)](https://bestpractices.coreinfrastructure.org/projects/372)
+
 ## Presentation
 
 Self Service Password is a PHP application that allows users to change their password in an LDAP directory.
