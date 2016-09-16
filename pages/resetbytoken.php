@@ -191,12 +191,12 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config );
+    $result = check_password_strength( $newpassword, "", $pwd_policy_config );
 }
 
 # Change password
 if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password);
+    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
     if ( $result === "passwordchanged" && isset($posthook) ) {
         exec(escapeshellcmd("$posthook $login $newpassword"));
     }
