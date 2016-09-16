@@ -75,6 +75,9 @@ if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $result="noph
 # Check PHP mbstring presence
 if ( ! function_exists('mb_internal_encoding') ) { $result="nophpmbstring"; }
 
+# Check PHP xml presence
+if ( ! function_exists('utf8_decode') ) { $result="nophpxml"; }
+
 #==============================================================================
 # Action
 #==============================================================================

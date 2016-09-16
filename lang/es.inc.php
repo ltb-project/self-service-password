@@ -109,5 +109,6 @@ $messages['loginrequired'] = "Se requiere su nombre de usuario";
 $messages['menuquestions'] = "Pregunta";
 $messages['menutoken'] = "Correo";
 $messages['menusms'] = "SMS";
+$messages['nophpxml'] = "Debe instalar PHP XML para utilizar esta herramienta";
 
 ?>

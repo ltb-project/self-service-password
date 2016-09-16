@@ -110,5 +110,6 @@ $messages['getuser'] = "Haal gebruiker op";
 $messages['menuquestions'] = "Vraag";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['nophpxml'] = "PHP XML moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 
 ?>

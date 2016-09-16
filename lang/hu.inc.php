@@ -108,5 +108,6 @@ $messages['nophpmbstring'] = "Telepítse fel a PHP mbstring-et";
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "E-mail";
 $messages['menusms'] = "SMS";
+$messages['nophpxml'] = "A program használatához telepíteni kell a PHP XML csomagot";
 
 ?>

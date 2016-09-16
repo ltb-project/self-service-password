@@ -108,5 +108,6 @@ $messages['nophpmbstring'] = "You should install PHP mbstring";
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['nophpxml'] = "Для использования данной программы Вам необходимо установить PHP-xml";
 
 ?>

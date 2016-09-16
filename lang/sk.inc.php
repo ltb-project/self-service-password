@@ -108,5 +108,6 @@ $messages['nophpmbstring'] = "Mali by ste nainštalovať PHP mbstring";
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['nophpxml'] = "Mali by ste nainštalovať PHP XML";
 
 ?>
