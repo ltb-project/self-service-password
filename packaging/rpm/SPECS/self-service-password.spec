@@ -56,20 +56,26 @@ rm -rf %{buildroot}
 # Create directories
 mkdir -p %{buildroot}/%{ssp_destdir}
 mkdir -p %{buildroot}/%{ssp_destdir}/conf
+mkdir -p %{buildroot}/%{ssp_destdir}/css
+mkdir -p %{buildroot}/%{ssp_destdir}/fonts
+mkdir -p %{buildroot}/%{ssp_destdir}/images
+mkdir -p %{buildroot}/%{ssp_destdir}/js
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
 mkdir -p %{buildroot}/%{ssp_destdir}/pages
-mkdir -p %{buildroot}/%{ssp_destdir}/style
 mkdir -p %{buildroot}/etc/httpd/conf.d
 
 # Copy files
 ## PHP
-install -m 644 *.php %{buildroot}/%{ssp_destdir}
-install -m 644 conf/* %{buildroot}/%{ssp_destdir}/conf
-install -m 644 lang/* %{buildroot}/%{ssp_destdir}/lang
-install -m 644 lib/* %{buildroot}/%{ssp_destdir}/lib
-install -m 644 pages/* %{buildroot}/%{ssp_destdir}/pages
-install -m 644 style/* %{buildroot}/%{ssp_destdir}/style
+install -m 644 *.php    %{buildroot}/%{ssp_destdir}
+install -m 644 conf/*   %{buildroot}/%{ssp_destdir}/conf
+install -m 644 css/*    %{buildroot}/%{ssp_destdir}/css
+install -m 644 fonts/*  %{buildroot}/%{ssp_destdir}/fonts
+install -m 644 images/* %{buildroot}/%{ssp_destdir}/images
+install -m 644 js/*     %{buildroot}/%{ssp_destdir}/js
+install -m 644 lang/*   %{buildroot}/%{ssp_destdir}/lang
+install -m 644 lib/*    %{buildroot}/%{ssp_destdir}/lib
+install -m 644 pages/*  %{buildroot}/%{ssp_destdir}/pages
 ## Apache configuration
 install -m 644 %{SOURCE1} %{buildroot}/etc/httpd/conf.d/self-service-password.conf
 
