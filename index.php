@@ -25,7 +25,7 @@
 require_once("conf/config.inc.php");
 require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
-    require_once("lib/recaptchalib.php");
+    require_once("lib/vendor/autoload.php");
 }
 require_once("lib/detectbrowserlanguage.php");
 
@@ -118,9 +118,6 @@ $pwd_policy_config = array(
     "pwd_no_reuse"            => $pwd_no_reuse,
     "pwd_complexity"          => $pwd_complexity
 );
-
-# Force reCaptcha SSL if HTTPS
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') { $recaptcha_ssl = true; }
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 

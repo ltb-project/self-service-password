@@ -192,15 +192,14 @@ $login_forbidden_chars = "*()&|";
 
 ## CAPTCHA
 # Use Google reCAPTCHA (http://www.google.com/recaptcha)
-# Go on the site to get public and private key
 $use_recaptcha = false;
+# Go on the site to get public and private key
 $recaptcha_publickey = "";
 $recaptcha_privatekey = "";
-# Customize theme (see http://code.google.com/intl/de-DE/apis/recaptcha/docs/customization.html)
-# Examples: red, white, blackglass, clean
-$recaptcha_theme = "white";
-# Force HTTPS for recaptcha HTML code
-$recaptcha_ssl = false;
+# Customization (see https://developers.google.com/recaptcha/docs/display)
+$recaptcha_theme = "light";
+$recaptcha_type = "image";
+$recaptcha_size = "normal";
 
 ## Default action
 # change

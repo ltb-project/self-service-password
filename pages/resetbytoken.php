@@ -105,13 +105,14 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
     if ( $use_recaptcha ) {
-        $resp = recaptcha_check_answer ($recaptcha_privatekey,
-                                $_SERVER["REMOTE_ADDR"],
-                                $_POST["recaptcha_challenge_field"],
-                                $_POST["recaptcha_response_field"]);
-        if (!$resp->is_valid) {
+        $recaptcha = new \ReCaptcha\ReCaptcha($recaptcha_privatekey);
+        $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+        if (!$resp->isSuccess()) {
             $result = "badcaptcha";
             error_log("Bad reCAPTCHA attempt with user $login");
+            foreach ($resp->getErrorCodes() as $code) {
+                error_log("reCAPTCHA error: $code");
+            }
         }
     }
 }
@@ -243,7 +244,6 @@ if ($pwd_show_policy_pos === 'above') {
 
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
-<?php if ($use_recaptcha) recaptcha_get_conf($recaptcha_theme, $lang); ?>
     <input type="hidden" name="token" value="<?php echo htmlentities($token) ?>" />
     <div class="form-group">
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
@@ -275,7 +275,8 @@ if ($pwd_show_policy_pos === 'above') {
 <?php if ($use_recaptcha) { ?>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-<?php echo recaptcha_get_html($recaptcha_publickey, null, $recaptcha_ssl); ?>
+            <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_publickey; ?>" data-theme="<?php echo $recaptcha_theme; ?>" data-type="<?php echo $recaptcha_type; ?>" data-size="<?php echo $recaptcha_size; ?>"></div>
+            <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=<?php echo $lang; ?>"></script>
         </div>
     </div>
 <?php } ?>

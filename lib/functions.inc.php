@@ -470,20 +470,6 @@ function send_mail($mail, $mail_from, $subject, $body, $data) {
 
 }
 
-/* @function void recaptcha_get_conf(string $recaptcha_theme, string $lang)
- * Prints javascript code to configure recaptcha
- * @param recaptcha_theme theme for recaptcha
- * @param lang language
- */
-function recaptcha_get_conf($recaptcha_theme, $lang) {
-    printf('
-    <script type="text/javascript">
-    var RecaptchaOptions = {
-    lang: \'%s\',
-    theme: \'%s\',
-    };
-    </script>', $lang, $recaptcha_theme);
-}
 /* @function string check_username_validity(string $username, string $login_forbidden_chars)
  * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
  * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
