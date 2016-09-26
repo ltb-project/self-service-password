@@ -32,21 +32,22 @@ $ldap = "";
 $userdn = "";
 $smstoken = "";
 
-if (!$crypt_tokens ) {
+if (!$crypt_tokens) {
     $result = "crypttokensrequired";
-} elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"]) and isset($_REQUEST["login"])) {
+} elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
     $token = $_REQUEST["token"];
     $smstoken = $_REQUEST["smstoken"];
-    $login = $_REQUEST["login"];
     $decrypted_token = explode(':', decrypt($token, $keyphrase));
     if ( $decrypted_token[0] == $smstoken and time() - $token_lifetime < $decrypted_token[1] ) {
+         $login = $decrypted_token[2];
          $result = "buildtoken";
     } else {
          $result = "tokennotvalid";
     }
-} elseif (isset($_REQUEST["sms"]) and isset($_REQUEST["login"])) {
-    $sms = decrypt($_REQUEST["sms"], $keyphrase);
-    $login = $_REQUEST["login"];
+} elseif (isset($_REQUEST["encrypted_sms_login"])) {
+    $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
+    $sms = $decrypted_sms_login[0];
+    $login = $decrypted_sms_login[1];
     $result = "sendsms";
 } elseif (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
     $login = $_REQUEST["login"];
@@ -137,7 +138,7 @@ if ( $result === "" ) {
         error_log("No SMS number found for user $login");
     } else {
         $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
-        $smsnum = encrypt($sms, $keyphrase);
+        $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
         $result = "smsuserfound";
     }
 
@@ -161,7 +162,7 @@ if ( $result === "sendsms" ) {
     # Send message
     if ( send_mail($smsmailto, $mail_from, $smsmail_subject, $sms_message, $data) ) {
         $time   = time();
-        $token  = encrypt("$smstoken:$time", $keyphrase);
+        $token  = encrypt("$smstoken:$time:$login", $keyphrase);
         $result = "smssent";
         if ( !empty($reset_request_log) ) {
             error_log("Send SMS code $smstoken to $sms\n\n", 3, $reset_request_log);
@@ -267,8 +268,7 @@ if ( $result == "smscrypttokensrequired" ) {
             <p class="form-control-static"><?php if ($sms_partially_hide_number) echo (substr_replace($sms, '****', 4 , 4)); else echo $sms;?></p>
         </div>
     </div>
-    <input type="hidden" name="login" value="<?php echo htmlentities($login) ?>" />
-    <input type="hidden" name="sms" value="<?php echo htmlentities($smsnum) ?>" />
+    <input type="hidden" name="encrypted_sms_login" value="<?php echo htmlentities($encrypted_sms_login) ?>" />
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">
@@ -294,7 +294,6 @@ if ( $result == "smscrypttokensrequired" ) {
         </div>
     </div>
     <input type="hidden" name="token" value=<?php echo htmlentities($token) ?> />
-    <input type="hidden" name="login" value=<?php echo htmlentities($login) ?> />
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">
