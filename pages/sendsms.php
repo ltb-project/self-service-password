@@ -38,7 +38,8 @@ if (!$crypt_tokens ) {
     $token = $_REQUEST["token"];
     $smstoken = $_REQUEST["smstoken"];
     $login = $_REQUEST["login"];
-    if ( decrypt($token, $keyphrase) == $smstoken ) {
+    $decrypted_token = explode(':', decrypt($token, $keyphrase));
+    if ( $decrypted_token[0] == $smstoken and time() - $token_lifetime < $decrypted_token[1] ) {
          $result = "buildtoken";
     } else {
          $result = "tokennotvalid";
@@ -159,8 +160,14 @@ if ( $result === "sendsms" ) {
 
     # Send message
     if ( send_mail($smsmailto, $mail_from, $smsmail_subject, $sms_message, $data) ) {
-        $token = encrypt($smstoken, $keyphrase);
+        $time   = time();
+        $token  = encrypt("$smstoken:$time", $keyphrase);
         $result = "smssent";
+        if ( !empty($reset_request_log) ) {
+            error_log("Send SMS code $smstoken to $sms\n\n", 3, $reset_request_log);
+        } else {
+            error_log("Send SMS code $smstoken to $sms");
+        }
     } else {
         $result = "smsnotsent";
         error_log("Error while sending sms to $sms (user $login)");
@@ -214,6 +221,12 @@ if ( $result === "redirect" ) {
     }
 
     $reset_url .= "?action=resetbytoken&token=$token&source=sms";
+
+    if ( !empty($reset_request_log) ) {
+        error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+    } else {
+        error_log("Send reset URL $reset_url");
+    }
 
     # Redirect
     header("Location: " . $reset_url);
