@@ -84,7 +84,7 @@ function make_md4_password($password) {
 # Create AD password (Microsoft Active Directory password format)
 function make_ad_password($password) {
     $password = "\"" . $password . "\"";
-    $adpassword=mb_convert_encoding($password, "UTF-16LE","UTF-8");
+    $adpassword = mb_convert_encoding($password, "UTF-16LE","UTF-8");
     return $adpassword;
 }
 
