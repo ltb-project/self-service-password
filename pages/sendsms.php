@@ -31,18 +31,54 @@ $sms = "";
 $ldap = "";
 $userdn = "";
 $smstoken = "";
+$token = "";
+$sessiontoken = "";
 
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
 } elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
     $token = $_REQUEST["token"];
     $smstoken = $_REQUEST["smstoken"];
-    $decrypted_token = explode(':', decrypt($token, $keyphrase));
-    if ( $decrypted_token[0] == $smstoken and time() - $token_lifetime < $decrypted_token[1] ) {
-         $login = $decrypted_token[2];
-         $result = "buildtoken";
-    } else {
+
+    # Open session with the token
+    $tokenid = decrypt($token, $keyphrase);
+
+    ini_set("session.use_cookies",0);
+    ini_set("session.use_only_cookies",1);
+
+    # Manage lifetime with sessions properties
+    if (isset($token_lifetime)) {
+        ini_set("session.gc_maxlifetime", $token_lifetime);
+        ini_set("session.gc_probability",1);
+        ini_set("session.gc_divisor",1);
+    }
+
+    session_id($tokenid);
+    session_name("smstoken");
+    session_start();
+    $login        = $_SESSION['login'];
+    $sessiontoken = $_SESSION['smstoken'];
+
+    if ( !$login or !$sessiontoken) {
+        $result = "tokennotvalid";
+        error_log("Unable to open session $smstokenid");
+    } elseif ($sessiontoken != $smstoken) {
          $result = "tokennotvalid";
+         error_log("SMS token $smstoken not valid");
+    } elseif (isset($token_lifetime)) {
+        # Manage lifetime with session content
+        $tokentime = $_SESSION['time'];
+        if ( time() - $tokentime > $token_lifetime ) {
+            $result = "tokennotvalid";
+            error_log("Token lifetime expired");
+        }
+    }
+
+    # Delete token if all is ok
+    if ( $result === "" ) {
+        $_SESSION = array();
+        session_destroy();
+        $result = "buildtoken";
     }
 } elseif (isset($_REQUEST["encrypted_sms_login"])) {
     $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
@@ -154,6 +190,16 @@ if ( $result === "sendsms" ) {
     # Generate sms token
     $smstoken = generate_sms_token($sms_token_length);
 
+    # Create temporary session to avoid token replay
+    ini_set("session.use_cookies",0);
+    ini_set("session.use_only_cookies",1);
+
+    session_name("smstoken");
+    session_start();
+    $_SESSION['login']    = $login;
+    $_SESSION['smstoken'] = $smstoken;
+    $_SESSION['time']     = time();
+
     # Remove plus and spaces from sms number
     $sms = str_replace('+', '', $sms);
     $sms = str_replace(' ', '', $sms);
@@ -162,8 +208,7 @@ if ( $result === "sendsms" ) {
 
     # Send message
     if ( send_mail($smsmailto, $mail_from, $smsmail_subject, $sms_message, $data) ) {
-        $time   = time();
-        $token  = encrypt("$smstoken:$time:$login", $keyphrase);
+        $token  = encrypt(session_id(), $keyphrase);
         $result = "smssent";
         if ( !empty($reset_request_log) ) {
             error_log("Send SMS code $smstoken to $sms\n\n", 3, $reset_request_log);
