@@ -94,6 +94,9 @@ if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = "change"; }
 
+# Get source for menu
+if (isset($_REQUEST["source"]) and $_REQUEST["source"]) { $source = $_REQUEST["source"]; }
+
 #==============================================================================
 # Other default values
 #==============================================================================

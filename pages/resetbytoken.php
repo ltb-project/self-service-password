@@ -40,8 +40,6 @@ $source = "";
 if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = $_REQUEST["token"]; }
  else { $result = "tokenrequired"; }
 
-if (isset($_REQUEST["source"]) and $_REQUEST["source"]) { $source = $_REQUEST["source"]; }
-
 #==============================================================================
 # Get token
 #==============================================================================

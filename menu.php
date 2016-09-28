@@ -19,12 +19,12 @@
                 </li>
                 <?php } ?>
                 <?php if ( $use_tokens ) { ?>
-                <li class="<?php if ( $action === "resetbytoken" or $action === "sendtoken" ) { echo "active"; } ?>">
+                <li class="<?php if ( ( $action === "resetbytoken" and $source !== "sms" ) or $action === "sendtoken" ) { echo "active"; } ?>">
                   <a href="?action=sendtoken"><i class="fa fa-envelope"></i> <?php echo $messages["menutoken"]; ?></a>
                 </li>
                 <?php } ?>
                 <?php if ( $use_sms ) { ?>
-                <li class="<?php if ( $action === "sendsms" ) { echo "active"; } ?>">
+                <li class="<?php if ( ( $action === "resetbytoken" and $source === "sms" ) or $action === "sendsms" ) { echo "active"; } ?>">
                   <a href="?action=sendsms"><i class="fa fa-mobile"></i> <?php echo $messages["menusms"]; ?></a>
                 </li>
                 <?php } ?>
