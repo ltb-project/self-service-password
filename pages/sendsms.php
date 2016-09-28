@@ -59,9 +59,8 @@ if (!$crypt_tokens) {
     session_start();
     $login        = $_SESSION['login'];
     $sessiontoken = $_SESSION['smstoken'];
-    $attempts = $_SESSION['attempts'];
-	
-	
+    $attempts     = $_SESSION['attempts'];
+
     if ( !$login or !$sessiontoken) {
         $result = "tokennotvalid";
         error_log("Unable to open session $smstokenid");
@@ -70,7 +69,7 @@ if (!$crypt_tokens) {
 	    $_SESSION['attempts'] = $attempts + 1;
 	    $result = "smssent";
 	}
-	else{
+	else {
  	    $result = "tokennotvalid";
 	    error_log("SMS token $smstoken not valid");
 	}
@@ -80,14 +79,13 @@ if (!$crypt_tokens) {
         if ( time() - $tokentime > $token_lifetime ) {
             $result = "tokennotvalid";
             error_log("Token lifetime expired");
-        } 
-        
+        }
     }
-    if ( $result === "tokennotvalid"){
+    # Delete token if not valid or all is ok
+    if ( $result === "tokennotvalid" ) {
 	$_SESSION = array();
         session_destroy();
     }
-    # Delete token if all is ok
     if ( $result === "" ) {
         $_SESSION = array();
         session_destroy();
