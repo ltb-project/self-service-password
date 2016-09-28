@@ -65,7 +65,7 @@ if (!$crypt_tokens) {
     if ( !$login or !$sessiontoken) {
         $result = "tokennotvalid";
         error_log("Unable to open session $smstokenid");
-    } elseif (($sessiontoken != $smstoken) {
+    } elseif ($sessiontoken != $smstoken) {
          if ($attempts < $max_attempts) {
 			 $_SESSION['attempts'] = $attempts + 1;
 			 $result = "smssent";
