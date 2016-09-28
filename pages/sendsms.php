@@ -59,21 +59,21 @@ if (!$crypt_tokens) {
     session_start();
     $login        = $_SESSION['login'];
     $sessiontoken = $_SESSION['smstoken'];
-	$attempts = $_SESSION['attempts'];
+    $attempts = $_SESSION['attempts'];
 	
 	
     if ( !$login or !$sessiontoken) {
         $result = "tokennotvalid";
         error_log("Unable to open session $smstokenid");
     } elseif ($sessiontoken != $smstoken) {
-         if ($attempts < $max_attempts) {
-			 $_SESSION['attempts'] = $attempts + 1;
-			 $result = "smssent";
-		 }
-		 else{
-			 $result = "tokennotvalid";
-			 error_log("SMS token $smstoken not valid");
-		 }
+    	if ($attempts < $max_attempts) {
+	    $_SESSION['attempts'] = $attempts + 1;
+	    $result = "smssent";
+	}
+	else{
+ 	    $result = "tokennotvalid";
+	    error_log("SMS token $smstoken not valid");
+	}
     } elseif (isset($token_lifetime)) {
         # Manage lifetime with session content
         $tokentime = $_SESSION['time'];
@@ -83,8 +83,8 @@ if (!$crypt_tokens) {
         } 
         
     }
-	if ( $result === "tokennotvalid"){
-		$_SESSION = array();
+    if ( $result === "tokennotvalid"){
+	$_SESSION = array();
         session_destroy();
     }
     # Delete token if all is ok
@@ -212,7 +212,7 @@ if ( $result === "sendsms" ) {
     $_SESSION['login']    = $login;
     $_SESSION['smstoken'] = $smstoken;
     $_SESSION['time']     = time();
-	$_SESSION['attempts'] = 0;
+    $_SESSION['attempts'] = 0;
 	
     # Remove plus and spaces from sms number
     $sms = str_replace('+', '', $sms);
