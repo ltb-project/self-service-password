@@ -113,5 +113,6 @@ $messages['menuquestions'] = "Pregunte";
 $messages['menutoken'] = "Correu";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "Cal instal·lar PHP XML per fer servir aquesta eina";
+$messages['tokenattempts'] = "Invalid token, try again";
 
 ?>

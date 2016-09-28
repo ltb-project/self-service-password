@@ -109,5 +109,6 @@ $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "E-mail";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "A program használatához telepíteni kell a PHP XML csomagot";
+$messages['tokenattempts'] = "Invalid token, try again";
 
 ?>

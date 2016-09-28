@@ -67,7 +67,8 @@ if (!$crypt_tokens) {
     } elseif ($sessiontoken != $smstoken) {
     	if ($attempts < $max_attempts) {
 	    $_SESSION['attempts'] = $attempts + 1;
-	    $result = "smssent";
+	    $result = "tokenattempts";
+	    error_log("SMS token $smstoken not valid, attempt $attempts");
 	}
 	else {
  	    $result = "tokennotvalid";
@@ -337,7 +338,7 @@ if ( $result == "smscrypttokensrequired" ) {
 </div>
 
 <?php
-} elseif ( $result == "smssent" ) { ?>
+} elseif ( ( $result == "smssent" ) or ( $result == "tokenattempts" ) ) { ?>
 
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">

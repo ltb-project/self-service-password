@@ -109,5 +109,6 @@ $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "Bu aracı kullanabilmek için PHP XML yüklemelisiniz";
+$messages['tokenattempts'] = "Invalid token, try again";
 
 ?>
