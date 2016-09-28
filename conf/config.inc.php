@@ -157,6 +157,9 @@ $sms_message = "{smsresetmessage} {smstoken}";
 # SMS token length
 $sms_token_length = 6;
 
+# Max attempts allowed for SMS token
+$max_attempts = 3;
+
 # Reset URL (if behind a reverse proxy)
 #$reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
 
