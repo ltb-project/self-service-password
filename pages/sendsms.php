@@ -278,7 +278,7 @@ if ( $result === "redirect" ) {
             $server_name .= ":".$server_port;
         }
 
-        $reset_url = $method."://".$server_name.$dir_name.$script_name;
+        $reset_url = $method."://".$server_name.$script_name;
     }
 
     $reset_url .= "?action=resetbytoken&token=$token&source=sms";
