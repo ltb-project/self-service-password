@@ -28,6 +28,7 @@ if ($use_recaptcha) {
     require_once("lib/vendor/autoload.php");
 }
 require_once("lib/detectbrowserlanguage.php");
+require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 
 #==============================================================================
 # Language
@@ -123,6 +124,28 @@ $pwd_policy_config = array(
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
+
+#==============================================================================
+# Email Config
+#==============================================================================
+$mailer = new PHPMailer;
+$mailer->Priority      = $mail_priority;
+$mailer->CharSet       = $mail_charset;
+$mailer->ContentType   = $mail_contenttype;
+$mailer->WordWrap      = $mail_wordwrap;
+$mailer->SendMail      = $mail_sendmailpath;
+$mailer->Mailer        = $mail_protocol;
+$mailer->SMTPDebug     = $mail_smtp_debug;
+$mailer->Debugoutput   = $mail_debug_format;
+$mailer->Host          = $mail_smtp_host;
+$mailer->Port          = $mail_smtp_port;
+$mailer->SMTPSecure    = $mail_smtp_secure;
+$mailer->SMTPAuth      = $mail_smtp_auth;
+$mailer->Username      = $mail_smtp_user;
+$mailer->Password      = $mail_smtp_pass;
+$mailer->SMTPKeepAlive = $mail_smtp_keepalive;
+$mailer->Timeout       = $mail_smtp_timeout;
+$mailer->LE            = $mail_newline;
 
 #==============================================================================
 ?>
