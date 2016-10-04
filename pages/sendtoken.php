@@ -36,6 +36,8 @@ if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
  else { $result = "mailrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
  else { $result = "loginrequired"; }
+if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
+ { $result = "emptysendtokenform"; }
 
 # Strip slashes added by PHP
 $login = stripslashes_if_gpc_magic_quotes($login);
