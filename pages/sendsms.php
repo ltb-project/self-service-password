@@ -100,7 +100,7 @@ if (!$crypt_tokens) {
 } elseif (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
     $login = $_REQUEST["login"];
 } else {
-    $result = "loginrequired";
+    $result = "emptysendsmsform";
 }
 
 # Strip slashes added by PHP

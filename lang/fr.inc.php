@@ -114,5 +114,6 @@ $messages['emptychangeform'] = "Changez votre mot de passe";
 $messages['emptysendtokenform'] = "Recevez un lien pour changer votre mot de passe";
 $messages['emptyresetbyquestionsform'] = "Réinitialisez votre mot de passe";
 $messages['emptysetquestionsform'] = "Enregistrez votre réponse";
+$messages['emptysendsmsform'] = "Obtenez un code de réinitialisation";
 
 ?>
