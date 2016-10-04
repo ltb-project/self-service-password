@@ -220,7 +220,7 @@ if ( $result === "sendsms" ) {
     $data = array( "sms_attribute" => $sms, "smsresetmessage" => $messages['smsresetmessage'], "smstoken" => $smstoken) ;
 
     # Send message
-    if ( send_mail($smsmailto, $mail_from, $smsmail_subject, $sms_message, $data) ) {
+    if ( send_mail($mailer, $smsmailto, $mail_from, $mail_from_name, $smsmail_subject, $sms_message, $data) ) {
         $token  = encrypt(session_id(), $keyphrase);
         $result = "smssent";
         if ( !empty($reset_request_log) ) {

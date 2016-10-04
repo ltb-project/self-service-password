@@ -422,8 +422,9 @@ function decrypt($data, $keyphrase) {
     return trim($decrypted);
 }
 
-/* @function boolean send_mail(string $mail, string $mail_from, string $subject, string $body, array $data)
+/* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)
  * Send a mail, replace strings in body
+ * @param mailer PHPMailer object
  * @param mail Destination
  * @param mail_from Sender
  * @param subject Subject
@@ -431,9 +432,14 @@ function decrypt($data, $keyphrase) {
  * @param data Data for string replacement
  * @return result
  */
-function send_mail($mail, $mail_from, $subject, $body, $data) {
+function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body, $data) {
 
     $result = false;
+
+    if(!is_a($mailer, 'PHPMailer')) {
+        error_log("send_mail: PHPMailer object required!");
+        return $result;
+    }
 
     if (!$mail) {
         error_log("send_mail: no mail given, exiting...");
@@ -448,18 +454,16 @@ function send_mail($mail, $mail_from, $subject, $body, $data) {
         $body = str_replace('{'.$key.'}', $value, $body);
     }
 
-    /* Encode the subject */
-    mb_internal_encoding("UTF-8");
-    $subject = mb_encode_mimeheader($subject);
+    $mailer->setFrom($mail_from, $mail_from_name);
+    $mailer->addReplyTo($mail_from, $mail_from_name);
+    $mailer->addAddress($mail);
+    $mailer->Subject = $subject;
+    $mailer->Body = $body;
 
-    /* Set encoding for the body */
-    $header = "MIME-Version: 1.0\r\nContent-type: text/plain; charset=UTF-8\r\n";
+    $result = $mailer->send();
 
-    /* Send the mail */
-    if ($mail_from) {
-        $result = mail($mail, $subject, $body, $header."From: $mail_from".PHP_EOL,"-f$mail_from");
-    } else {
-        $result = mail($mail, $subject, $body, $header);
+    if (!$result) {
+        error_log("send_mail: ".$mailer->ErrorInfo);
     }
 
     return $result;
