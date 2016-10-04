@@ -107,6 +107,10 @@ $pwd_show_policy_pos = "above";
 # manager: the above binddn
 $who_change_password = "user";
 
+## Standard change
+# Use standard change form?
+$use_change = true;
+
 ## Questions/answers
 # Use questions/answers?
 # true (default)
