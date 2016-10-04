@@ -41,6 +41,8 @@ if (isset($_POST["password"]) and $_POST["password"]) { $password = $_POST["pass
  else { $result = "passwordrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
  else { $result = "loginrequired"; }
+if (! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_POST["password"]) and ! isset($_REQUEST["login"]))
+ { $result = "emptysetquestionsform"; }
 
 # Strip slashes added by PHP
 $login = stripslashes_if_gpc_magic_quotes($login);
