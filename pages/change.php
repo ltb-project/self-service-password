@@ -145,11 +145,11 @@ if ( $result === "" ) {
         if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
             error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
             $extended_error = explode(', ', $extended_error);
-            if( strpos($extended_error[2], '773') ) {
+            if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
                 error_log("LDAP - Bind user password needs to be changed");
                 $errno = 0;
             }
-            if( strpos($extended_error[2], '532') and $ad_options['change_expired_password'] ) {
+            if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
                 error_log("LDAP - Bind user password is expired");
                 $errno = 0;
             }
