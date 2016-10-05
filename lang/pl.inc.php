@@ -93,7 +93,6 @@ $messages['changesubject'] = "Twoje hasło zostało zmienione";
 $messages['badcaptcha'] = "Wprowadzono błędny kod z obrazka reCAPTCHA. Spróbuj ponownie.";
 $messages['notcomplex'] = "Twoje hasło nie posiada wystarczającej liczby różnych rodzajów znaków";
 $messages['policycomplex'] = "Hasło musi się składać z (minimalna liczba) następujących rodzajów znaków:";
-$messages['resetfrom'] = "Zmiana hasła";
 $messages['sms'] = "SMS number";
 $messages['smsresetmessage'] = "Your password reset token is:";
 $messages['sendsmshelp'] = "Enter your login to get password reset token. Then type token in sent SMS.";
