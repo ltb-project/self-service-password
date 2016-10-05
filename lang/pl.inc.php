@@ -113,5 +113,10 @@ $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "Wymagane jest zainstalowanie PHP-XML zanim użyjesz tego narzędzia";
 $messages['tokenattempts'] = "Invalid token, try again";
+$messages['emptychangeform'] = "Change your password";
+$messages['emptysendtokenform'] = "Email a password reset link";
+$messages['emptyresetbyquestionsform'] = "Reset your password";
+$messages['emptysetquestionsform'] = "Set your password reset questions";
+$messages['emptysendsmsform'] = "Get a reset code";
 
 ?>
