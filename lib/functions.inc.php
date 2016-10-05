@@ -114,7 +114,7 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring|smsnotsent/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring|smsnotsent|sameaslogin/" , $msg ) ) {
     return "danger";
     }
 	
@@ -144,7 +144,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex/" , $result) ) { return; }
+        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin/" , $result) ) { return; }
     }
 
     # Display bloc
@@ -160,13 +160,14 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     if ( $pwd_complexity      ) { echo "<li>".$messages["policycomplex"]        ." $pwd_complexity</li>\n"; }
     if ( $pwd_forbidden_chars ) { echo "<li>".$messages["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
     if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."\n"; }
+    if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."\n"; }
     echo "</ul>\n";
     echo "</div>\n";
 }
 
 # Check password strength
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login ) {
     extract( $pwd_policy_config );
     
     $result = "";
@@ -224,6 +225,9 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config ) 
 
     # Same as old password?
     if ( $pwd_no_reuse and $password === $oldpassword ) { $result="sameasold"; }
+
+    # Same as login?
+    if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
 
     return $result;
 }

@@ -89,6 +89,8 @@ $pwd_special_chars = "^a-zA-Z0-9";
 #$pwd_forbidden_chars = "@%";
 # Don't reuse the same password as currently
 $pwd_no_reuse = true;
+# Check that password is different than login
+$pwd_diff_login = true;
 # Complexity: number of different class of character required
 $pwd_complexity = 0;
 # Show policy constraints message:
