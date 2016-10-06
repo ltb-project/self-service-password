@@ -19,6 +19,7 @@ It has the following features:
   * Forbidden characters
   * Upper, Lower, Digit or Special characters counters
   * Reuse old password check
+  * Password same as login
   * Complexity (different class of characters)
 * Help messages
 * Reset by questions
@@ -26,6 +27,7 @@ It has the following features:
 * Reset by SMS (trough external Email 2 SMS service)
 * reCAPTCHA (Google API)
 * Mail notification after password change
+* Hook script after password chage
 
 ## Prerequisite
 * PHP extensions required:
