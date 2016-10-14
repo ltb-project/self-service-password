@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	0.9
+%define ssp_version	1.0
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -111,6 +111,36 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Fri Oct 14 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-1
+- gh#1: Use bootstrap CSS framework
+- gh#2: Typos in german language
+- gh#3: Czech language
+- gh#4: Case in-sensitive lookup e-mail address (When used with ldap/Windows AD)
+- gh#5: CRLF Issue when sending mail
+- gh#6: Hungarian translation
+- gh#7: Create tr.inc.php
+- gh#8: Add Ukrainian language support
+- gh#9: Full Spanish and Catalan translations
+- gh#10: Allow to define a custom reset URL
+- gh#11: Possibility to set a background image
+- gh#12: Add a menu
+- gh#13: NL language file addition (typos and duplicates removed)
+- gh#14: Update it.inc.php
+- gh#17: fix german translation of message nophpmbstring
+- gh#19: add prerequisite to readme
+- gh#20: Call to undefined function utf8_decode()
+- gh#21: Bad call to change_password in resetbytoken.php
+- gh#22: Remove dependency on php5 in Debian package
+- gh#23: SMS token always valid
+- gh#24: Reset by SMS token can be used to change another account password
+- gh#25: Update reCAPTCHA code
+- gh#26: request: facilitate by-email when SMTP auth is required
+- gh#28: Updated make_ad_password
+- gh#29: Use .conf extension for Apache configuration
+- gh#31: request: disable password change?
+- gh#32: Password policy - same as login
+- gh#34: Handle LDAP bind extended error format incompatibility with Samba4
+- gh#35: All empty forms display a warning message
 * Thu Oct 8 2015 - Clement Oudot <clem@ltb-project.org> - 0.9-1
 - Bug #351: Allow binddn to be one that is not a manager
 - Bug #393: Warning in logs if no forbidden caracters defined
