@@ -1,3 +1,9 @@
+ltb-project-self-service-password (1.0-2) unstable; urgency=low
+
+    * Fix packaging of lib/ directory
+
+ -- Clement Oudot <clem@ltb-project.org>  Mon, 17 Oct 2016 12:00:00 +0200
+
 ltb-project-self-service-password (1.0-1) unstable; urgency=low
 
     * gh#1: Use bootstrap CSS framework

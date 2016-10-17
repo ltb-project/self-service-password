@@ -23,7 +23,7 @@
 Summary: LDAP password change web interface
 Name: %{ssp_name}
 Version: %{ssp_version}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 BuildArch: noarch
 
@@ -67,15 +67,16 @@ mkdir -p %{buildroot}/etc/httpd/conf.d
 
 # Copy files
 ## PHP
-install -m 644 *.php    %{buildroot}/%{ssp_destdir}
-install -m 644 conf/*   %{buildroot}/%{ssp_destdir}/conf
-install -m 644 css/*    %{buildroot}/%{ssp_destdir}/css
-install -m 644 fonts/*  %{buildroot}/%{ssp_destdir}/fonts
-install -m 644 images/* %{buildroot}/%{ssp_destdir}/images
-install -m 644 js/*     %{buildroot}/%{ssp_destdir}/js
-install -m 644 lang/*   %{buildroot}/%{ssp_destdir}/lang
-install -m 644 lib/*    %{buildroot}/%{ssp_destdir}/lib
-install -m 644 pages/*  %{buildroot}/%{ssp_destdir}/pages
+install -m 644 *.php     %{buildroot}/%{ssp_destdir}
+install -m 644 conf/*    %{buildroot}/%{ssp_destdir}/conf
+install -m 644 css/*     %{buildroot}/%{ssp_destdir}/css
+install -m 644 fonts/*   %{buildroot}/%{ssp_destdir}/fonts
+install -m 644 images/*  %{buildroot}/%{ssp_destdir}/images
+install -m 644 js/*      %{buildroot}/%{ssp_destdir}/js
+install -m 644 lang/*    %{buildroot}/%{ssp_destdir}/lang
+install -m 644 lib/*.php %{buildroot}/%{ssp_destdir}/lib
+cp -a lib/vendor         %{buildroot}/%{ssp_destdir}/lib
+install -m 644 pages/*   %{buildroot}/%{ssp_destdir}/pages
 ## Apache configuration
 install -m 644 %{SOURCE1} %{buildroot}/etc/httpd/conf.d/self-service-password.conf
 
@@ -111,6 +112,8 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Mon Oct 17 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-2
+- Fix packaging of lib/ directory
 * Fri Oct 14 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-1
 - gh#1: Use bootstrap CSS framework
 - gh#2: Typos in german language

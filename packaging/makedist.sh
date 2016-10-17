@@ -37,7 +37,7 @@ cp ../fonts/*   $NAME-$VERSION/fonts
 cp ../images/*  $NAME-$VERSION/images
 cp ../js/*      $NAME-$VERSION/js
 cp ../lang/*    $NAME-$VERSION/lang
-cp ../lib/*     $NAME-$VERSION/lib
+cp -a ../lib/*     $NAME-$VERSION/lib
 cp ../pages/*   $NAME-$VERSION/pages
 
 # Create archive
