@@ -23,7 +23,7 @@
 use strict;
 use utf8;
 
-my @lang = qw/ca cn cs de es fr hu it nl pl pt-BR pt-PT ru sk sl tr uk zh-CN/;
+my @lang = qw/ca cn cs de es fr hu it ja nl pl pt-BR pt-PT ru sk sl tr uk zh-CN/;
 my $strings;
 
 # Scan english file
