@@ -236,9 +236,6 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 # Change password
 # @return result code
 function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword ) {
-
-    $result = "";
-
     $time = time();
 
     # Set Samba password value
@@ -328,10 +325,10 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
             ),
         );
 
-        $bmod = ldap_modify_batch($ldap, $dn, $modifications);
+        ldap_modify_batch($ldap, $dn, $modifications);
     } else {
         # Else just replace with new password
-        $replace = ldap_mod_replace($ldap, $dn, $userdata);
+        ldap_mod_replace($ldap, $dn, $userdata);
     }
 
     $errno = ldap_errno($ldap);

@@ -164,7 +164,7 @@ if ( $result === "" ) {
     $userdata[$answer_attribute] = '{'.$question.'}'.$answer;
 
     # Commit modification on directory
-    $replace = ldap_mod_replace($ldap, $userdn , $userdata);
+    ldap_mod_replace($ldap, $userdn , $userdata);
     
     $errno = ldap_errno($ldap);
     if ( $errno ) {
