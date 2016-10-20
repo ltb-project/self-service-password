@@ -181,7 +181,7 @@ if ( $result === "" ) {
 #==============================================================================
 ?>
 
-<div class="result alert alert-<?php echo get_criticity($result) ?>">
+<div class="result alert alert-<?php echo get_criticality($result) ?>">
 <p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 

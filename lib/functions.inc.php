@@ -111,8 +111,8 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
     }
 }
 
-# Get message criticity
-function get_criticity( $msg ) {
+# Get message criticality
+function get_criticality( $msg ) {
 
     if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring|smsnotsent|sameaslogin/" , $msg ) ) {
     return "danger";
@@ -128,12 +128,13 @@ function get_criticity( $msg ) {
 # Get FontAwesome class icon
 function get_fa_class( $msg) {
 
-    $criticity = get_criticity( $msg );
+    $criticality = get_criticality( $msg );
 
-    if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
-    if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
-    if ( $criticity === "success" ) { return "fa-check-square"; }
+    if ( $criticality === "danger" ) { return "fa-exclamation-circle"; }
+    if ( $criticality === "warning" ) { return "fa-exclamation-triangle"; }
+    if ( $criticality === "success" ) { return "fa-check-square"; }
 
+    return "fa-check-square"; // default
 }
 
 # Display policy bloc
