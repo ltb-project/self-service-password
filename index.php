@@ -61,23 +61,23 @@ ini_set('output_buffering', '0');
 #==============================================================================
 # PHP modules
 #==============================================================================
-# Init result variable
-$result = "";
+# Init dependency check results variable
+$dependency_check_results = [];
 
 # Check PHP-LDAP presence
-if ( ! function_exists('ldap_connect') ) { $result="nophpldap"; }
+if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }
 
 # Check PHP mhash presence if Samba mode active
-if ( $samba_mode and ! function_exists('hash') and  ! function_exists('mhash') ) { $result="nophpmhash"; }
+if ( $samba_mode and ! function_exists('hash') and ! function_exists('mhash') ) { $dependency_check_results[] = "nophpmhash"; }
 
 # Check PHP mcrypt presence if token are used
-if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $result="nophpmcrypt"; }
+if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $dependency_check_results[] = "nophpmcrypt"; }
 
 # Check PHP mbstring presence
-if ( ! function_exists('mb_internal_encoding') ) { $result="nophpmbstring"; }
+if ( ! function_exists('mb_internal_encoding') ) { $dependency_check_results[] = "nophpmbstring"; }
 
 # Check PHP xml presence
-if ( ! function_exists('utf8_decode') ) { $result="nophpxml"; }
+if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxml"; }
 
 #==============================================================================
 # Action
@@ -193,13 +193,19 @@ $mailer->LE            = $mail_newline;
 </a>
 <?php } ?>
 
-<?php if ( $result ) { ?>
-<div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
-</div>
-<?php } else {
-    include("pages/$action.php");
-} ?>
+<?php
+    if ( count($dependency_check_results) > 0 ) {
+        foreach($dependency_check_results as $result) {
+            ?>
+            <div class="result alert alert-<?php echo get_criticity($result) ?>">
+                <p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+            </div>
+            <?php
+        }
+    } else {
+        include("pages/$action.php");
+    }
+?>
 
 </div>
 </div>
