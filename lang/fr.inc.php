@@ -117,5 +117,3 @@ $messages['emptysetquestionsform'] = "Enregistrez votre réponse";
 $messages['emptysendsmsform'] = "Obtenez un code de réinitialisation";
 $messages['sameaslogin'] = "Votre mot de passe est identique à votre identifiant";
 $messages['policydifflogin'] = "Votre nouveau mot de passe ne doit pas être identique à votre identifant";
-
-?>

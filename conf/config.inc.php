@@ -241,5 +241,3 @@ $default_action = "change";
 
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
-
-?>

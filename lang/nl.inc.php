@@ -119,5 +119,3 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
-
-?>

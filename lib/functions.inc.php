@@ -501,5 +501,3 @@ function check_username_validity($username,$login_forbidden_chars) {
 
     return $result;
 }
-
-?>
