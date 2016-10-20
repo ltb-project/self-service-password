@@ -348,8 +348,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
 /* @function encrypt(string $data)
  * Encrypt a data
- * @param data
- * @return encrypted data
+ * @param string $data Data to encrypt
+ * @param string $keyphrase
+ * @return string Encrypted data
  * @author Matthias Ganzinger
  */ 
 function encrypt($data, $keyphrase) {
@@ -388,8 +389,9 @@ function encrypt($data, $keyphrase) {
 
 /* @function decrypt(string $data)
  * Decrypt a data
- * @param data
- * @return decrypted data
+ * @param string $data Data to decrypt
+ * @param string $keyphrase
+ * @return string Decrypted data
  * @author Matthias Ganzinger
  */
 function decrypt($data, $keyphrase) {
@@ -429,13 +431,15 @@ function decrypt($data, $keyphrase) {
 
 /* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)
  * Send a mail, replace strings in body
- * @param mailer PHPMailer object
- * @param mail Destination
- * @param mail_from Sender
- * @param subject Subject
- * @param body Body
- * @param data Data for string replacement
- * @return result
+ * @param \PHPMailer $mailer PHPMailer object
+ * @param string $mail Destination
+ * @param string $mail_from Sender
+ * @param string $mail_from_name Sender name
+ * @param string $subject Subject
+ * @param string $body Body
+ * @param array $data Data for string replacement
+ * @throws phpmailerException
+ * @return boolean false on error - See the ErrorInfo property for details of the error.
  */
 function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body, $data) {
 
@@ -478,11 +482,11 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
 /* @function string check_username_validity(string $username, string $login_forbidden_chars)
  * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
  * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
- * @param username the user name to test against
- * @param optional login_forbidden_chars invalid characters
- * @return $result
+ * @param string $username the user name to test against
+ * @param string|null $login_forbidden_chars invalid characters
+ * @return string $result empty or "badcredentials" if credentials are invalid
  */
-function check_username_validity($username,$login_forbidden_chars) {
+function check_username_validity($username, $login_forbidden_chars = null) {
     $result = "";
 
     if (!$login_forbidden_chars) {
