@@ -195,7 +195,7 @@ if ( $result === "" ) {
 #==============================================================================
 ?>
 
-<div class="result alert alert-<?php echo get_criticity($result) ?>">
+<div class="result alert alert-<?php echo get_criticality($result) ?>">
 <p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 
@@ -307,7 +307,7 @@ if ($pwd_show_policy_pos === 'below') {
     }
 
     if (isset($messages['passwordchangedextramessage'])) {
-        echo "<div class=\"result alert alert-" . get_criticity($result) . "\">";
+        echo "<div class=\"result alert alert-" . get_criticality($result) . "\">";
         echo "<p><i class=\"fa " . get_fa_class($result) . "\" aria-hidden=\"true\"></i> " . $messages['passwordchangedextramessage'] . "</p>";
         echo "</div>\n";
     }

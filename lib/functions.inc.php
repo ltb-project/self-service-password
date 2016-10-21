@@ -111,10 +111,10 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
     }
 }
 
-# Get message criticity
-function get_criticity( $msg ) {
+# Get message criticality
+function get_criticality( $msg ) {
 
-    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring|smsnotsent|sameaslogin/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin/" , $msg ) ) {
     return "danger";
     }
 	
@@ -128,12 +128,13 @@ function get_criticity( $msg ) {
 # Get FontAwesome class icon
 function get_fa_class( $msg) {
 
-    $criticity = get_criticity( $msg );
+    $criticality = get_criticality( $msg );
 
-    if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
-    if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
-    if ( $criticity === "success" ) { return "fa-check-square"; }
+    if ( $criticality === "danger" ) { return "fa-exclamation-circle"; }
+    if ( $criticality === "warning" ) { return "fa-exclamation-triangle"; }
+    if ( $criticality === "success" ) { return "fa-check-square"; }
 
+    return "fa-check-square"; // default
 }
 
 # Display policy bloc
@@ -235,9 +236,6 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 # Change password
 # @return result code
 function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword ) {
-
-    $result = "";
-
     $time = time();
 
     # Set Samba password value
@@ -327,10 +325,10 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
             ),
         );
 
-        $bmod = ldap_modify_batch($ldap, $dn, $modifications);
+        ldap_modify_batch($ldap, $dn, $modifications);
     } else {
         # Else just replace with new password
-        $replace = ldap_mod_replace($ldap, $dn, $userdata);
+        ldap_mod_replace($ldap, $dn, $userdata);
     }
 
     $errno = ldap_errno($ldap);
@@ -347,8 +345,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
 /* @function encrypt(string $data)
  * Encrypt a data
- * @param data
- * @return encrypted data
+ * @param string $data Data to encrypt
+ * @param string $keyphrase
+ * @return string Encrypted data
  * @author Matthias Ganzinger
  */ 
 function encrypt($data, $keyphrase) {
@@ -387,8 +386,9 @@ function encrypt($data, $keyphrase) {
 
 /* @function decrypt(string $data)
  * Decrypt a data
- * @param data
- * @return decrypted data
+ * @param string $data Data to decrypt
+ * @param string $keyphrase
+ * @return string Decrypted data
  * @author Matthias Ganzinger
  */
 function decrypt($data, $keyphrase) {
@@ -428,13 +428,15 @@ function decrypt($data, $keyphrase) {
 
 /* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)
  * Send a mail, replace strings in body
- * @param mailer PHPMailer object
- * @param mail Destination
- * @param mail_from Sender
- * @param subject Subject
- * @param body Body
- * @param data Data for string replacement
- * @return result
+ * @param \PHPMailer $mailer PHPMailer object
+ * @param string $mail Destination
+ * @param string $mail_from Sender
+ * @param string $mail_from_name Sender name
+ * @param string $subject Subject
+ * @param string $body Body
+ * @param array $data Data for string replacement
+ * @throws phpmailerException
+ * @return boolean false on error - See the ErrorInfo property for details of the error.
  */
 function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body, $data) {
 
@@ -477,11 +479,11 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
 /* @function string check_username_validity(string $username, string $login_forbidden_chars)
  * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
  * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
- * @param username the user name to test against
- * @param optional login_forbidden_chars invalid characters
- * @return $result
+ * @param string $username the user name to test against
+ * @param string|null $login_forbidden_chars invalid characters
+ * @return string $result empty or "badcredentials" if credentials are invalid
  */
-function check_username_validity($username,$login_forbidden_chars) {
+function check_username_validity($username, $login_forbidden_chars = null) {
     $result = "";
 
     if (!$login_forbidden_chars) {
@@ -500,5 +502,3 @@ function check_username_validity($username,$login_forbidden_chars) {
 
     return $result;
 }
-
-?>

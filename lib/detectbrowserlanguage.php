@@ -7,10 +7,11 @@
  */
 
 /**
- * split request header Accept-Language to determine the UserAgent's 
+ * split request header Accept-Language to determine the UserAgent's
  * prefered language
  *
  * @param string $defaultLanguage preselected default language
+ * @param string[] $availableLanguages
  * @return string returns the default language or a match from $availableLanguages
  */
 function detectLanguage($defaultLanguage, $availableLanguages) 

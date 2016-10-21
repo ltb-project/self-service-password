@@ -69,7 +69,7 @@ $messages['passwordrequired'] = "Jelszó megadás kötelező";
 $messages['answermoderror'] = "A válasz nem lett elmentve";
 $messages['answerchanged'] = "A válasz elmentve";
 $messages['answernomatch'] = "Nem megfelelő válasz";
-$messages['resetbyquestionshelp'] = "Új jelszó megadásához válasszon egy kérdést és adja meg a megfelelő választ. A funkció csak akkor működik, ha korábban <ahref=\"?action=setquestions\">beállított legalább egy kérdést</a>.";
+$messages['resetbyquestionshelp'] = "Új jelszó megadásához válasszon egy kérdést és adja meg a megfelelő választ. A funkció csak akkor működik, ha korábban <a href=\"?action=setquestions\">beállított legalább egy kérdést</a>.";
 $messages['changehelp'] = "Kérem, írja be régi jelszavát és adjon meg egy újat.";
 $messages['changehelpreset'] = "Elfelejtett jelszó?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Jelszó megváltoztatásához válaszoljon a kérdésre</a>";
@@ -117,5 +117,3 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
-
-?>
