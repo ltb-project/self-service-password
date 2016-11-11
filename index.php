@@ -62,7 +62,7 @@ ini_set('output_buffering', '0');
 # PHP modules
 #==============================================================================
 # Init dependency check results variable
-$dependency_check_results = [];
+$dependency_check_results = array();
 
 # Check PHP-LDAP presence
 if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }
