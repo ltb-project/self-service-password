@@ -68,6 +68,7 @@ $hash = "clear";
 
 # Prefix to use for salt with CRYPT
 $hash_options['crypt_salt_prefix'] = "$6$";
+$hash_options['crypt_salt_length'] = "6";
 
 # Local password policy
 # This is applied before directory password policy

@@ -50,6 +50,11 @@ function make_md5_password($password) {
 # Create CRYPT password
 function make_crypt_password($password, $hash_options) {
 
+    $salt_length = 2;
+    if ( isset($hash_options['crypt_salt_length']) ) {
+        $salt_length = $hash_options['crypt_salt_length'];
+    }
+
     // Generate salt
     $possible = '0123456789'.
 		'abcdefghijklmnopqrstuvwxyz'.
@@ -59,7 +64,7 @@ function make_crypt_password($password, $hash_options) {
 
     mt_srand((double)microtime() * 1000000);
 
-    while( strlen( $salt ) < 2 ) {
+    while( strlen( $salt ) < $salt_length ) {
         $salt .= substr( $possible, ( rand() % strlen( $possible ) ), 1 );
     }
 
