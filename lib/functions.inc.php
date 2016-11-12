@@ -65,7 +65,7 @@ function make_crypt_password($password, $hash_options) {
     mt_srand((double)microtime() * 1000000);
 
     while( strlen( $salt ) < $salt_length ) {
-        $salt .= substr( $possible, ( rand() % strlen( $possible ) ), 1 );
+        $salt .= substr( $possible, ( mt_rand() % strlen( $possible ) ), 1 );
     }
 
     if ( isset($hash_options['crypt_salt_prefix']) ) {
