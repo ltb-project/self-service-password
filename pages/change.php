@@ -196,7 +196,7 @@ if ( $result === "" ) {
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 
 <?php if ( $result !== "passwordchanged" ) { ?>
@@ -204,7 +204,7 @@ if ( $result === "" ) {
 <?php
 if ( $show_help ) {
     echo "<div class=\"help alert alert-warning\"><p>";
-    echo "<i class=\"fa fa-info-circle\"></i> ";
+    echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
     echo $messages["changehelp"];
     echo "</p>";
     if (isset($messages['changehelpextramessage'])) {
@@ -240,7 +240,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
                 <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
             </div>
         </div>
@@ -249,7 +249,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="oldpassword" class="col-sm-4 control-label"><?php echo $messages["oldpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
                 <input type="password" name="oldpassword" id="oldpassword" class="form-control" placeholder="<?php echo $messages["oldpassword"]; ?>" />
             </div>
         </div>
@@ -258,7 +258,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
                 <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="<?php echo $messages["newpassword"]; ?>" />
             </div>
         </div>
@@ -267,7 +267,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
                 <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="<?php echo $messages["confirmpassword"]; ?>" />
             </div>
         </div>
@@ -283,7 +283,7 @@ if ($pwd_show_policy_pos === 'above') {
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">
-                <i class="fa fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+                <i class="fa fa-fw fa-check-square-o"></i> <?php echo $messages['submit']; ?>
             </button>
         </div>
     </div>
@@ -308,7 +308,7 @@ if ($pwd_show_policy_pos === 'below') {
 
     if (isset($messages['passwordchangedextramessage'])) {
         echo "<div class=\"result alert alert-" . get_criticity($result) . "\">";
-        echo "<p><i class=\"fa " . get_fa_class($result) . "\" aria-hidden=\"true\"></i> " . $messages['passwordchangedextramessage'] . "</p>";
+        echo "<p><i class=\"fa fa-fw " . get_fa_class($result) . "\" aria-hidden=\"true\"></i> " . $messages['passwordchangedextramessage'] . "</p>";
         echo "</div>\n";
     }
 

@@ -198,7 +198,7 @@ $mailer->LE            = $mail_newline;
         foreach($dependency_check_results as $result) {
             ?>
             <div class="result alert alert-<?php echo get_criticity($result) ?>">
-                <p><i class="fa <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+                <p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
             </div>
             <?php
         }
