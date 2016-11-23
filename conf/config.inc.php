@@ -54,6 +54,7 @@ $samba_mode = false;
 # Shadow options - require shadowAccount objectClass
 # Update shadowLastChange
 $shadow_options['update_shadowLastChange'] = false;
+$shadow_options['update_shadowExpire'] = false;
 
 # Hash mechanism for password:
 # SSHA

@@ -138,6 +138,7 @@ if ( $result === "" ) {
     }
     if ( !in_array( 'shadowAccount', $ocValues ) ) {
         $shadow_options['update_shadowLastChange'] = false;
+        $shadow_options['update_shadowExpire'] = false;
     }
 
     # Bind with old password
