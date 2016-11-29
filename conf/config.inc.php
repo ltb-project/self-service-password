@@ -56,6 +56,9 @@ $samba_mode = false;
 $shadow_options['update_shadowLastChange'] = false;
 $shadow_options['update_shadowExpire'] = false;
 
+# Default to -1, never expire
+$shadow_options['shadow_expire_days'] = -1;
+
 # Hash mechanism for password:
 # SSHA
 # SHA
