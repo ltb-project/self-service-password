@@ -310,6 +310,14 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         $userdata["shadowLastChange"] = floor($time / 86400);
     }
 
+    if ( $shadow_options['update_shadowExpire'] ) {
+        if ( $shadow_options['shadow_expire_days'] > 0) {
+          $userdata["shadowExpire"] = floor(($time / 86400) + $shadow_options['shadow_expire_days']);
+        } else {
+          $userdata["shadowExpire"] = $shadow_options['shadow_expire_days'];
+        }
+    }
+
     # Commit modification on directory
     
     # Special case: AD mode with password changed as user
