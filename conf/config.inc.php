@@ -149,6 +149,8 @@ $mail_attribute = "mail";
 # Who the email should come from
 $mail_from = "admin@example.com";
 $mail_from_name = "Self Service Password";
+# Signature is appended at every mail sent
+$mail_signature = "";
 # Notify users anytime their password is changed
 $notify_on_change = false;
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
