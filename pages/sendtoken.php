@@ -127,6 +127,7 @@ if ( $result === "" ) {
             if (strcasecmp($mail, $mailValue) == 0) {
                 $match = 1;
             }
+        }
     } else {
         # Use first available mail adress in ldap
         if(count($mailValues) > 0) {
@@ -209,7 +210,7 @@ if ( $result === "" ) {
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
 
     # Send message
-    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
+    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"], $data) ) {
         $result = "tokensent";
     } else {
         $result = "tokennotsent";
