@@ -127,6 +127,7 @@ if ( $result === "" ) {
             if (strcasecmp($mail, $mailValue) == 0) {
                 $match = 1;
             }
+        }
     } else {
         # Use first available mail adress in ldap
         if(count($mailValues) > 0) {
