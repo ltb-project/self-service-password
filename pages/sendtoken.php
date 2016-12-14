@@ -116,13 +116,26 @@ if ( $result === "" ) {
     unset($mailValues["count"]);
     $match = 0;
 
-    # Match with user submitted values
-    foreach ($mailValues as $mailValue) {
-        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-            $mailValue = str_ireplace("smtp:", "", $mailValue);
+
+    if (!$mail_address_use_ldap) {
+        # Match with user submitted values
+        foreach ($mailValues as $mailValue) {
+            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                $mailValue = str_ireplace("smtp:", "", $mailValue);
+            }
+            if (strcasecmp($mail, $mailValue) == 0) {
+                $match = 1;
+            }
         }
-        if (strcasecmp($mail, $mailValue) == 0) {
-            $match = 1;
+    } else {
+        # Use first available mail adress in ldap
+        if(count($mailValues) > 0) {
+            $mailValue = $mailValues[0];
+            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                $mailValue = str_ireplace("smtp:", "", $mailValue);
+            }
+            $mail = $mailValue;
+            $match = true;
         }
     }
 
