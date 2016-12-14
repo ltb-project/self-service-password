@@ -32,10 +32,8 @@ $ldap = "";
 $userdn = "";
 $token = "";
 
-if (!$mail_address_use_ldap) {
-    if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
-     else { $result = "mailrequired"; }
-}
+if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
+ else { $result = "mailrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
  else { $result = "loginrequired"; }
 if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
@@ -118,35 +116,19 @@ if ( $result === "" ) {
     unset($mailValues["count"]);
     $match = 0;
 
-    if (!$mail_address_use_ldap) {
-        # Match with user submitted values
-        foreach ($mailValues as $mailValue) {
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                $mailValue = str_ireplace("smtp:", "", $mailValue);
-            }
-            if (strcasecmp($mail, $mailValue) == 0) {
-                $match = 1;
-            }
-    } else {
-        # Use first available mail adress in ldap
-        if(count($mailValues) > 0) {
-            $mailValue = $mailValues[0];
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                $mailValue = str_ireplace("smtp:", "", $mailValue);
-            }
-            $mail = $mailValue;
-            $match = true;
+    # Match with user submitted values
+    foreach ($mailValues as $mailValue) {
+        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+            $mailValue = str_ireplace("smtp:", "", $mailValue);
+        }
+        if (strcasecmp($mail, $mailValue) == 0) {
+            $match = 1;
         }
     }
 
     if (!$match) {
-        if (!$mail_address_use_ldap) {
-            $result = "mailnomatch";
-            error_log("Mail $mail does not match for user $login");
-        } else {
-            $result = "mailnomatch";
-            error_log("Mail not found for user $login");
-        }
+        $result = "mailnomatch";
+        error_log("Mail $mail does not match for user $login");
     }
 
 }}}}}
@@ -248,7 +230,6 @@ if ( $show_help ) {
             </div>
         </div>
     </div>
-<?php if (!$mail_address_use_ldap) { ?>
     <div class="form-group">
         <label for="mail" class="col-sm-4 control-label"><?php echo $messages["mail"]; ?></label>
         <div class="col-sm-8">
@@ -258,7 +239,6 @@ if ( $show_help ) {
             </div>
         </div>
     </div>
-<?php } ?>
 <?php if ($use_recaptcha) { ?>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
