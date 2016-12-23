@@ -146,9 +146,14 @@ $token_lifetime = "3600";
 ## Mail
 # LDAP mail attribute
 $mail_attribute = "mail";
+# Get mail address directly from LDAP (only first mail entry) 
+# and hide mail input field
+# default = false
+$mail_address_use_ldap = false;
 # Who the email should come from
 $mail_from = "admin@example.com";
 $mail_from_name = "Self Service Password";
+$mail_signature = "";
 # Notify users anytime their password is changed
 $notify_on_change = false;
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
