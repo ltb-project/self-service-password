@@ -31,6 +31,8 @@ $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
+# DN that is the parent of all users
+$ldap_userparentdn = "cn=Users,dc=example,dc=com";
 
 # Active Directory mode
 # true: use unicodePwd as password field
