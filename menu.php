@@ -28,6 +28,11 @@
                   <a href="?action=sendsms"><i class="fa fa-fw fa-mobile"></i> <?php echo $messages["menusms"]; ?></a>
                 </li>
                 <?php } ?>
+                <?php if ( $use_mail_tokens ) { ?>
+                <li class="<?php if ( ( $action === "resetmailbytoken" and $source !== "sms" ) or $action === "sendmailtoken" ) { echo "active"; } ?>">
+                  <a href="?action=sendmailtoken"><i class="fa fa-fw fa-envelope"></i> <?php echo $messages["menumailtoken"]; ?></a>
+                </li>
+                <?php } ?>
               </ul>
             </div>
           </div>
