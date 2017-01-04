@@ -233,7 +233,7 @@ if ( $result === "" ) {
 if ( $show_help ) {
     echo "<div class=\"help alert alert-warning\"><p>";
     echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
-    echo $messages["sendtokenhelp"];
+    echo $messages["sendmailtokenhelp"];
     echo "</p></div>\n";
 }
 ?>

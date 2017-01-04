@@ -87,9 +87,9 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
 
-    if (isset($_POST["confirmmail"]) and $_POST["confirmmail"]) { $confirmpassword = $_POST["confirmmail"]; }
+    if (isset($_POST["confirmmail"]) and $_POST["confirmmail"]) { $confirmmail = $_POST["confirmmail"]; }
      else { $result = "confirmmailrequired"; }
-    if (isset($_POST["newmail"]) and $_POST["newmail"]) { $newpassword = $_POST["newmail"]; }
+    if (isset($_POST["newmail"]) and $_POST["newmail"]) { $newmail = $_POST["newmail"]; }
      else { $result = "newmailrequired"; }
 
     # Strip slashes added by PHP
@@ -171,19 +171,19 @@ if ( $result === "" ) {
 }}}}
 
 #==============================================================================
-# Check and register new passord
+# Check and register new mail
 #==============================================================================
-# Match new and confirm password
+# Match new and confirm mail
 if ( $result === "" ) {
-    if ( $newmail != $confirmmail ) { $result="mailnomatch"; }
+    if ( $newmail != $confirmmail ) { $result="nomatchmail"; }
 }
 
-# Check password strength
+# Check mail validity
 if ( $result === "" ) {
     $result = check_mail_validity( $newmail);
 }
 
-# Change password
+# Change mail
 if ($result === "") {
     $result = change_mail($ldap, $userdn, $newmail);
 }
@@ -234,7 +234,7 @@ if ( $show_help ) {
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                <input type="text" name="newmail" id="newmail" class="form-control" placeholder="<?php echo $messages["newmail"]; ?>" />
+                <input type="email" name="newmail" id="newmail" class="form-control" placeholder="<?php echo $messages["newmail"]; ?>" />
             </div>
         </div>
     </div>
@@ -243,7 +243,7 @@ if ( $show_help ) {
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                <input type="text" name="confirmmail" id="confirmmail" class="form-control" placeholder="<?php echo $messages["confirmmail"]; ?>" />
+                <input type="email" name="confirmmail" id="confirmmail" class="form-control" placeholder="<?php echo $messages["confirmmail"]; ?>" />
             </div>
         </div>
     </div>
@@ -269,7 +269,7 @@ if ( $show_help ) {
 
 <?php } else {
 
-    # Notify password change
+    # Notify mail change
     if ($mail and $notify_on_change) {
         $data = array( "login" => $login, "mail" => $mail, "newmail" => $newmail);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changemailsubject"], $messages["changemailmessage"].$mail_signature, $data) ) {
