@@ -22,7 +22,9 @@
 #==============================================================================
 # Includes
 #==============================================================================
-require_once("conf/config.inc.php");
+$config_found = (file_exists("conf/config.inc.php"));
+if ($config_found)
+    require_once("conf/config.inc.php");
 require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
     require_once("lib/vendor/autoload.php");
@@ -63,6 +65,9 @@ ini_set('output_buffering', '0');
 #==============================================================================
 # Init dependency check results variable
 $dependency_check_results = array();
+
+# Check config.inc.php presence
+if ( !$config_found ) { $dependency_check_results[] = "noltbconfig"; }
 
 # Check PHP-LDAP presence
 if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }

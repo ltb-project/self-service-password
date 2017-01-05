@@ -22,6 +22,7 @@
 #==============================================================================
 # Japanese
 #==============================================================================
+$messages['noltbconfig'] = "You must copy conf/config.inc-sample.php to conf/config.inc.php to configure LTB Self Service Password";
 $messages['nophpldap'] = "このツールを使うにはPHP LDAPをインストールしてください";
 $messages['nophpmhash'] = "Sambaモードを使うにはPHP mhashをインストールしてください";
 $messages['ldaperror'] = "LDAPディレクトリーにアクセスできません";

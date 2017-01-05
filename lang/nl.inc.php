@@ -22,6 +22,7 @@
 #==============================================================================
 # Dutch
 #==============================================================================
+$messages['noltbconfig'] = "You must copy conf/config.inc-sample.php to conf/config.inc.php to configure LTB Self Service Password";
 $messages['nophpldap'] = "PHP LDAP moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['nophpmhash'] = "PHP mhash moet geinstalleerd zijn om Samba mode te kunnen gebruiken";
 $messages['ldaperror'] = "Kan geen toegang tot de LDAP directory verkrijgen";

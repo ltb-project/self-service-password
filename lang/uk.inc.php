@@ -23,6 +23,7 @@
 #==============================================================================
 # Український
 #==============================================================================
+$messages['noltbconfig'] = "You must copy conf/config.inc-sample.php to conf/config.inc.php to configure LTB Self Service Password";
 $messages['nophpldap'] = "Для використання цієї програми Вам потрібно встановити PHP ldap";
 $messages['nophpmhash'] = "Для використання Samba режиму, спочатку встановіть PHP mhash";
 $messages['ldaperror'] = "Немає доступу до LDAP директорії";

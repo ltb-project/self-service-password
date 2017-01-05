@@ -22,6 +22,7 @@
 #==============================================================================
 # Turkish
 #==============================================================================
+$messages['noltbconfig'] = "You must copy conf/config.inc-sample.php to conf/config.inc.php to configure LTB Self Service Password";
 $messages['nophpldap'] = "Bu aracı kullanabilmek için PHP LDAP yüklemelisiniz";
 $messages['nophpmhash'] = "Samba modunu kullanmak için PHP mhash yüklemelisiniz";
 $messages['ldaperror'] = "LDAP dizinine ulaşılamıyor";
