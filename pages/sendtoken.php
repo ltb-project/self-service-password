@@ -141,10 +141,30 @@ if ( $result === "" ) {
         }
     }
 
-    $display_name_lookup["login"] = ldap_get_values($ldap, $entry, $ldap_login_attribute);
-    $display_name_lookup["givenname"] = ldap_get_values($ldap, $entry, $ldap_givenname_attribute);
-    $display_name_lookup["fullname"] = ldap_get_values($ldap, $entry, $ldap_fullname_attribute); 
+    # Get user names for email  
+    $login_values = ldap_get_values($ldap, $entry, $ldap_login_attribute);
+    $givenname_values = ldap_get_values($ldap, $entry, $ldap_givenname_attribute);
+    $fullname_values = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
 
+    if ( $login_values["count"] > 0 ) {
+        $display_name_lookup["login"] = $login_values[0];
+    } else {
+        # fallback to login provided by user
+        $display_name_lookup["login"] = $login;
+    }
+    if ( $givenname_values["count"] > 0 ) {
+        $display_name_lookup["givenname"] = $givenname_values[0];
+    } else {
+        # fallback to login provided by user
+        $display_name_lookup["givenname"] = $login;
+    }
+    if ( $fullname_values["count"] > 0 ) {
+        $display_name_lookup["fullname"] = $fullname_values[0];
+    } else {
+        # fallback to login provided by user
+        $display_name_lookup["fullname"] = $login;
+    }       
+    
     if (!$match) {
         if (!$mail_address_use_ldap) {
             $result = "mailnomatch";
