@@ -22,6 +22,7 @@
 #==============================================================================
 # Slovak
 #==============================================================================
+$messages['noltbconfig'] = "You must copy conf/config.inc-sample.php to conf/config.inc.php to configure LTB Self Service Password";
 $messages['nophpldap'] = "Mali by ste nainštalovať PHP LDAP";
 $messages['nophpmhash'] = "Mali by ste nainštalovať PHP mhash pri používaní Samba režimu";
 $messages['ldaperror'] = "Nemožno získať prístup k adresáru LDAP";

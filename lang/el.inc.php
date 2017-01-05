@@ -22,6 +22,7 @@
 #==============================================================================
 # Greek
 #==============================================================================
+$messages['noltbconfig'] = "You must copy conf/config.inc-sample.php to conf/config.inc.php to configure LTB Self Service Password";
 $messages['nophpldap'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP LDAP για τη λειτουργία αυτής της εφαρμογής";
 $messages['nophpmhash'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP mhash για τη χρήση Samba";
 $messages['ldaperror'] = "Αδυναμία πρόσβασης στην υπηρεσία καταλόγου";
