@@ -30,6 +30,7 @@ $ldap_bindpw = "secret";
 $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
+$ldap_givenname_attribue = "givenName";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
 
 # Active Directory mode
@@ -154,6 +155,11 @@ $mail_address_use_ldap = false;
 $mail_from = "admin@example.com";
 $mail_from_name = "Self Service Password";
 $mail_signature = "";
+# Which Anrede is used in mails?
+# login (default)
+# fullname
+# givenname
+$mail_display_name = "login";
 # Notify users anytime their password is changed
 $notify_on_change = false;
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)

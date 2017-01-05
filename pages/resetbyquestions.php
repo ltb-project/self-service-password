@@ -33,6 +33,7 @@ $newpassword = "";
 $confirmpassword = "";
 $ldap = "";
 $userdn = "";
+$display_name_lookup = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
@@ -140,6 +141,9 @@ if ( $result === "" ) {
         if ( $mailValues["count"] > 0 ) {
             $mail = $mailValues[0];
         }
+        $display_name_lookup["login"] = ldap_get_values($ldap, $entry, $ldap_login_attribute);
+        $display_name_lookup["givenname"] = ldap_get_values($ldap, $entry, $ldap_givenname_attribute);
+        $display_name_lookup["fullname"] = ldap_get_values($ldap, $entry, $ldap_fullname_attribute); 
     } 
 
     # Get question/answer values
@@ -292,7 +296,7 @@ if ($pwd_show_policy_pos === 'below') {
 
     # Notify password change
     if ($mail and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+        $data = array( "login" => $display_name_lookup[$mail_display_name], "mail" => $mail, "password" => $newpassword);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }

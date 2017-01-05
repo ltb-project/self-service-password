@@ -31,6 +31,7 @@ $mail = "";
 $ldap = "";
 $userdn = "";
 $token = "";
+$display_name_lookup = "";
 
 if (!$mail_address_use_ldap) {
     if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
@@ -140,6 +141,10 @@ if ( $result === "" ) {
         }
     }
 
+    $display_name_lookup["login"] = ldap_get_values($ldap, $entry, $ldap_login_attribute);
+    $display_name_lookup["givenname"] = ldap_get_values($ldap, $entry, $ldap_givenname_attribute);
+    $display_name_lookup["fullname"] = ldap_get_values($ldap, $entry, $ldap_fullname_attribute); 
+
     if (!$match) {
         if (!$mail_address_use_ldap) {
             $result = "mailnomatch";
@@ -207,7 +212,7 @@ if ( $result === "" ) {
         error_log("Send reset URL $reset_url");
     }
 
-    $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+    $data = array( "login" => $display_name_lookup[$mail_display_name], "mail" => $mail, "url" => $reset_url ) ;
 
     # Send message
     if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
