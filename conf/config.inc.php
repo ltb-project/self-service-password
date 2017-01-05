@@ -155,7 +155,7 @@ $mail_address_use_ldap = false;
 $mail_from = "admin@example.com";
 $mail_from_name = "Self Service Password";
 $mail_signature = "";
-# Which Anrede is used in mails?
+# Which display name is used in mails?
 # login (default)
 # fullname
 # givenname
