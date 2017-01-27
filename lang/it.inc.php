@@ -109,13 +109,13 @@ $messages['menuquestions'] = "Domande";
 $messages['menutoken'] = "Mail";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "Devi installare PHP XML per usare questo strumento";
-$messages['tokenattempts'] = "Invalid token, try again";
-$messages['emptychangeform'] = "Change your password";
+$messages['tokenattempts'] = "Token non valido, riprova";
+$messages['emptychangeform'] = "Cambia la tua password";
 $messages['emptysendtokenform'] = "Email a password reset link";
-$messages['emptyresetbyquestionsform'] = "Reset your password";
-$messages['emptysetquestionsform'] = "Set your password reset questions";
-$messages['emptysendsmsform'] = "Get a reset code";
-$messages['sameaslogin'] = "Your new password is identical to your login";
-$messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['emptyresetbyquestionsform'] = "Reimposta la tua password";
+$messages['emptysetquestionsform'] = "Imposta la domanda per il reset della password";
+$messages['emptysendsmsform'] = "Ottieni un codice di reset";
+$messages['sameaslogin'] = "La nuova password è identica all'utente di login";
+$messages['policydifflogin'] = "La nuova password non può essere uguale all'utente di login";
 
 ?>
