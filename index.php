@@ -89,6 +89,7 @@ else { $action = $default_action; }
 # Available actions
 $available_actions = array();
 if ( $use_change ) { array_push( $available_actions, "change"); }
+if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }

@@ -122,7 +122,7 @@ function get_criticity( $msg ) {
     if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin/" , $msg ) ) {
     return "danger";
     }
-	
+
     if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token)required|badcaptcha|tokenattempts/" , $msg ) ) {
         return "warning";
     }
@@ -145,7 +145,7 @@ function get_fa_class( $msg) {
 # @return HTML code
 function show_policy( $messages, $pwd_policy_config, $result ) {
     extract( $pwd_policy_config );
-    
+
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
@@ -174,7 +174,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
 # @return result code
 function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login ) {
     extract( $pwd_policy_config );
-    
+
     $result = "";
 
     $length = strlen(utf8_decode($password));
@@ -319,7 +319,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     }
 
     # Commit modification on directory
-    
+
     # Special case: AD mode with password changed as user
     if ( $ad_mode and $who_change_password === "user" ) {
         # The AD password change procedure is modifying the attribute unicodePwd by
@@ -358,12 +358,37 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     return $result;
 }
 
+
+# Change sshPublicKey attribute
+# @return result code
+function change_sshkey( $ldap, $userdn, $sshkey ) {
+
+    $result = "";
+
+    $userdata["sshPublicKey"] = $sshkey;
+
+    # Commit modification on directory
+    $replace = ldap_mod_replace($ldap, $dn, $userdata);
+
+    $errno = ldap_errno($ldap);
+
+    if ( $errno ) {
+        $result = "sshkeyerror";
+        error_log("LDAP - Modify sshPublicKey error $errno (".ldap_error($ldap).")");
+    } else {
+        $result = "sshkeychanged";
+    }
+
+    return $result;
+}
+
+
 /* @function encrypt(string $data)
  * Encrypt a data
  * @param data
  * @return encrypted data
  * @author Matthias Ganzinger
- */ 
+ */
 function encrypt($data, $keyphrase) {
 
     /* Open the cipher (AES-256)*/
@@ -464,7 +489,7 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
     }
 
     /* Replace data in mail, subject and body */
-    foreach($data as $key => $value ) { 
+    foreach($data as $key => $value ) {
         $mail = str_replace('{'.$key.'}', $value, $mail);
         $mail_from = str_replace('{'.$key.'}', $value, $mail_from);
         $subject = str_replace('{'.$key.'}', $value, $subject);

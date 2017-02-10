@@ -118,6 +118,20 @@ $who_change_password = "user";
 # Use standard change form?
 $use_change = true;
 
+## SSH Key Change
+# Allow changing of sshPublicKey?
+$change_sshkey = true;
+
+# Who changes the sshPublicKey attribute?
+# Also applicable for question/answer save
+# user: the user itself
+# manager: the above binddn
+$who_change_sshkey = "user";
+
+# Notify users anytime their sshPublicKey is changed
+## Requires mail configuration below
+$notify_on_sshkey_change = false;
+
 ## Questions/answers
 # Use questions/answers?
 # true (default)
@@ -146,7 +160,7 @@ $token_lifetime = "3600";
 ## Mail
 # LDAP mail attribute
 $mail_attribute = "mail";
-# Get mail address directly from LDAP (only first mail entry) 
+# Get mail address directly from LDAP (only first mail entry)
 # and hide mail input field
 # default = false
 $mail_address_use_ldap = false;
