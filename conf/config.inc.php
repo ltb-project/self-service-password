@@ -120,7 +120,7 @@ $use_change = true;
 
 ## SSH Key Change
 # Allow changing of sshPublicKey?
-$change_sshkey = true;
+$change_sshkey = false;
 
 # Who changes the sshPublicKey attribute?
 # Also applicable for question/answer save
