@@ -30,7 +30,7 @@
                 </li>
                 <?php } ?>
                 <?php if ( $change_sshkey ) { ?>
-                <li class="<?php if ( ( $action === "changesshkey" and $source === "changesshkey" ) or $action === "changesshkey" ) { echo "active"; } ?>">
+                <li class="<?php if ( $action === "changesshkey" ) { echo "active"; } ?>">
                   <a href="?action=changesshkey"><i class="fa fa-fw fa-terminal"></i> <?php echo $messages["menusshkey"]; ?></a>
                 </li>
                 <?php } ?>
