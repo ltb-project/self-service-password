@@ -361,7 +361,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
 # Change sshPublicKey attribute
 # @return result code
-function change_sshkey( $ldap, $userdn, $sshkey ) {
+function change_sshkey( $ldap, $dn, $sshkey ) {
 
     $result = "";
 
