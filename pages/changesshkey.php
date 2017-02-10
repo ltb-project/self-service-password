@@ -44,8 +44,8 @@ if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_PO
 
 # Strip slashes added by PHP
 $login = stripslashes_if_gpc_magic_quotes($login);
-$password = stripslashes_if_gpc_magic_quotes($oldpassword);
-$sshkey = stripslashes_if_gpc_magic_quotes($newpassword);
+$password = stripslashes_if_gpc_magic_quotes($password);
+$sshkey = stripslashes_if_gpc_magic_quotes($sshkey);
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
