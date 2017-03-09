@@ -46,7 +46,7 @@ $messages['toobig'] = "La vostra contrasenya és massa llarga";
 $messages['minlower'] = "La vostra contrasenya no té prou minúscules";
 $messages['minupper'] = "La vostra contrasenya no té prou majúscules";
 $messages['mindigit'] = "La vostra contrasenya no té prou xifres";
-$messages['minspecial'] = "La vostra contrasenya no té prou caràcters especials";	
+$messages['minspecial'] = "La vostra contrasenya no té prou caràcters especials";
 $messages['sameasold'] = "La nova contrasenya és igual a la antiga";
 $messages['policy'] = "Cal que la contrasenya respecti les següents normes";
 $messages['policyminlength'] = "Longitud mínima";
@@ -121,5 +121,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['sshkeyrequired'] = "Es requereix SSH Key";
+$messages['changesshkeysubject'] = "La seva clau de SSH s'ha canviat";
+$messages['emptysshkeychangeform'] = "Canviar la clau d'SSH";
+$messages['sshkey'] = "claus SSH";
+$messages['sshkeychanged'] = "La seva clau de SSH es va canviar";
+$messages['sshkeyerror'] = "SSH Key was refused by the LDAP directory";
+$messages['menusshkey'] = "claus SSH";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Canviar la clau d'SSH</a>";
+$messages['changesshkeyhelp'] = "Introduïu la contrasenya i la clau SSH.";
+$messages['changesshkeymessage'] = "Hola {login},\n\nLa claus SSH s'ha canviat.\n\nSi no va iniciar aquest canvi, poseu-vos en contacte amb l'administrador immediatament.";
 
 ?>

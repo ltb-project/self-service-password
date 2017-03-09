@@ -117,5 +117,14 @@ $messages['emptysetquestionsform'] = "Imposta la domanda per il reset della pass
 $messages['emptysendsmsform'] = "Ottieni un codice di reset";
 $messages['sameaslogin'] = "La nuova password è identica all'utente di login";
 $messages['policydifflogin'] = "La nuova password non può essere uguale all'utente di login";
-
+$messages['changesshkeymessage'] = "Ciao {login}, \n\nIl SSH Key è stato modificato. \n\nSe non sei l'autore questo cambiamento, contattare immediatamente l'amministratore.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Cambia la tua chiave SSH</a>";
+$messages['sshkeychanged'] = "La vostra chiave SSH è stata cambiata";
+$messages['sshkeyrequired'] = "è richiesto SSH Key";
+$messages['changesshkeysubject'] = "La vostra chiave SSH è stata modificata";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Cambia la tua chiave SSH";
+$messages['changesshkeyhelp'] = "Inserire la password e la nuova chiave SSH.";
+$messages['sshkeyerror'] = "SSH Key è stata rifiutata dalla directory LDAP";
 ?>

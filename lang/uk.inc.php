@@ -118,5 +118,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Привіт, {login} \n\nyour SSH ключ був змінений. \n\nЕслі ви не ініціювали ці зміни, зверніться до адміністратора негайно.";
+$messages['menusshkey'] = "SSH ключ";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Змінити SSH Key</a>";
+$messages['sshkeychanged'] = "Ваш SSH ключ був змінений";
+$messages['sshkeyrequired'] = "SSH ключ необхідний";
+$messages['changesshkeysubject'] = "Ваш SSH ключ був змінений";
+$messages['sshkey'] = "SSH ключ";
+$messages['emptysshkeychangeform'] = "Змінити ключ SSH";
+$messages['changesshkeyhelp'] = "Введіть свій пароль і новий ключ SSH.";
+$messages['sshkeyerror'] = "SSH Key була відхилена каталогом LDAP";
 
 ?>

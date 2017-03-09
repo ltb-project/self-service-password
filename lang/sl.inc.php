@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Pozdravljeni {login}, \n\nKo SSH ključ je bil spremenjen. \n\nČe ni sprožila te spremembe, se takoj obrnite na skrbnika.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Spreminjanje SSH Key</a>";
+$messages['sshkeychanged'] = "Vaš SSH ključ je bil spremenjen";
+$messages['sshkeyrequired'] = "SSH Key je potrebno";
+$messages['changesshkeysubject'] = "Vaš SSH ključ je bil spremenjen";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Spreminjanje SSH ključ";
+$messages['changesshkeyhelp'] = "Vnesite geslo in nov ključ SSH.";
+$messages['sshkeyerror'] = "SSH Ključna je bila zavrnjena z imeniku LDAP";
 
 ?>

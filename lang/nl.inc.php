@@ -119,5 +119,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Hallo {login}, \n\nUw SSH Key is gewijzigd. \n\nAls u heeft deze verandering niet te starten, neem dan direct contact op met de beheerder.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Wijzig uw SSH Key</a>";
+$messages['sshkeychanged'] = "Uw SSH Key is gewijzigd";
+$messages['sshkeyrequired'] = "SSH Key is nodig";
+$messages['changesshkeysubject'] = "Uw SSH Key is gewijzigd";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Verander je SSH Key";
+$messages['changesshkeyhelp'] = "Voer uw wachtwoord in en nieuwe SSH sleutel.";
+$messages['sshkeyerror'] = "SSH Key werd geweigerd door de LDAP-directory";
 
 ?>
