@@ -1,5 +1,5 @@
 <?php
-class CheckPasswordTest extends PHPUnit_Framework_TestCase
+class CheckPasswordTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test check_password_strength function
