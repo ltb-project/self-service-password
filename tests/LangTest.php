@@ -1,8 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+require_once 'PHPUnit/Autoload.php';
 
-class LangTest extends TestCase
+class LangTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test language files for missing and excess translations

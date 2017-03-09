@@ -1,8 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+require_once 'PHPUnit/Autoload.php';
 
-class CheckPasswordTest extends TestCase
+class CheckPasswordTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test check_password_strength function
