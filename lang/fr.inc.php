@@ -55,7 +55,7 @@ $messages['policymindigit'] = "Nombre minimum de chiffres&nbsp;:";
 $messages['policyminspecial'] = "Nombre minimum de caractères spéciaux&nbsp;:";
 $messages['forbiddenchars'] = "Votre mot de passe contient des caractères interdits";
 $messages['policyforbiddenchars'] = "Caractères interdits&nbsp;:";
-$messages['policynoreuse'] = "Votre nouveau mot de passe de doit pas être identique à l'ancien";
+$messages['policynoreuse'] = "Votre nouveau mot de passe ne doit pas être identique à l'ancien";
 $messages['questions']['birthday'] = "Quelle est votre date de naissance ?";
 $messages['questions']['color'] = "Quelle est votre couleur préférée ?";
 $messages['password'] = "Mot de passe";
@@ -116,6 +116,6 @@ $messages['emptyresetbyquestionsform'] = "Réinitialisez votre mot de passe";
 $messages['emptysetquestionsform'] = "Enregistrez votre réponse";
 $messages['emptysendsmsform'] = "Obtenez un code de réinitialisation";
 $messages['sameaslogin'] = "Votre mot de passe est identique à votre identifiant";
-$messages['policydifflogin'] = "Votre nouveau mot de passe ne doit pas être identique à votre identifant";
+$messages['policydifflogin'] = "Votre nouveau mot de passe ne doit pas être identique à votre identifiant";
 
 ?>
