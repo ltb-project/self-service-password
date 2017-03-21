@@ -93,7 +93,6 @@ $messages['policycomplex'] = "Мінімальна кількість симво
 $messages['smsresetmessage'] = "Ваш жетон скидання пароля:";
 $messages['smscrypttokensrequired'] = "Ви не можете використовувати скидання по SMS, без налаштування crypt_tokens";
 $messages['smsnotsent'] = "Помилка надсилання SMS";
-$messages['nophpmcrypt'] = "Ви повинні встановити PHP mcrypt, щоб використовувати криптографічні функції";
 $messages['sms'] = "SMS номер";
 $messages['smstoken'] = "SMS жетон";
 $messages['smsnonumber'] = "Не можу знайти номер мобільного телефону";

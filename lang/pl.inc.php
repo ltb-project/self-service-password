@@ -104,7 +104,6 @@ $messages['username'] = "Username";
 $messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
 $messages['smsuserfound'] = "Check that user information are correct and press Send to get SMS token";
 $messages['smstoken'] = "SMS token";
-$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['getuser'] = "Get user";
 $messages['nophpmbstring'] = "You should install PHP mbstring";
 $messages['menuquestions'] = "Question";

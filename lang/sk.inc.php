@@ -92,7 +92,6 @@ $messages['changesubject'] = "Vaše heslo bolo zmenené";
 $messages['badcaptcha'] = "ReCAPTCHA nebola zadaná správne. Skúste ešte raz.";
 $messages['notcomplex'] = "Vaše heslo neobsahuje dostatok rôznych druhov znakov";
 $messages['policycomplex'] = "Minimálny počet rôznych druhov znakov:";
-$messages['nophpmcrypt'] = "Mali by ste nainštalovať PHP mcrypt pre použitie šifrovacích funkcií";
 $messages['sms'] = "SMS číslo";
 $messages['smsresetmessage'] = "Váš token pre zmenu hesla je:";
 $messages['sendsmshelp'] = "Zadajte Vaše prihlasovacie meno pre získanie tokenu pre zmenu hesla. Potom zadajte token v odoslanej SMS.";

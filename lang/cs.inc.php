@@ -92,7 +92,6 @@ $messages['changesubject'] = "Vaše heslo bylo změněno";
 $messages['badcaptcha'] = "Kód reCAPTCHA nebyl zadán správně. Zadejte jej prosím znovu.";
 $messages['notcomplex'] = "Heslo neobsahuje dostatek skupin znaků";
 $messages['policycomplex'] = "Minimální počet různých skupin znaků:";
-$messages['nophpmcrypt'] = "Pro použití šifrovacích funkcí nainstalujte PHP mcrypt";
 $messages['sms'] = "Telefonní číslo";
 $messages['smsresetmessage'] = "Řetezec pro obnovu hesla je:";
 $messages['sendsmshelp'] = "Vložte své uživatelské jméno pro získání kódu pro obnovu hesla. Poté přepište kód z doručené SMS.";

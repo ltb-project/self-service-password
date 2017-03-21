@@ -92,7 +92,6 @@ $messages['changesubject'] = "Your password has been changed";
 $messages['badcaptcha'] = "The reCAPTCHA was not entered correctly. Try again.";
 $messages['notcomplex'] = "Your password does not have enough different classes of characters";
 $messages['policycomplex'] = "Minimum number of different classes of characters:";
-$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['sms'] = "SMS number";
 $messages['smsresetmessage'] = "Your password reset token is:";
 $messages['sendsmshelp'] = "Enter your login to get password reset token. Then type token in sent SMS.";

@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../lib/defuse-crypto.phar';
+
 class CheckPasswordTest extends \PHPUnit_Framework_TestCase
 {
     /**

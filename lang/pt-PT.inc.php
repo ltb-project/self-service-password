@@ -90,7 +90,6 @@ $messages['changesubject'] = "A tua password foi alterada.";
 $messages['badcaptcha'] = "O reCAPTCHA nao foi digitado corretamente. Tenta de novo.";
 $messages['notcomplex'] = "A tua password não possui diferentes tipos de carácteres suficientes para torná-la complexa.";
 $messages['policycomplex'] = "Quantidade mínima de tipos de carácteres: ";
-$messages['nophpmcrypt'] = "Deves instalar a biblioteca PHP mcrypt para usar funcoes de criptografia.";
 $messages['sms'] = "Número SMS";
 $messages['smsresetmessage'] = "O teu código para redefinir a password é:";
 $messages['sendsmshelp'] = "Indica o teu username para obteres o código para redefinir a tua password. Depois digita o código enviado por SMS.";
