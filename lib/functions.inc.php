@@ -33,6 +33,12 @@ function make_sha_password($password) {
     return $hash;
 }
 
+# Create SHA512 password
+function make_sha512_password($password) {
+    $hash = "{SHA512}" . base64_encode(pack("H*", hash('sha512', $password)));
+    return $hash;
+}
+
 # Create SMD5 password
 function make_smd5_password($password) {
     mt_srand((double)microtime()*1000000);
@@ -280,6 +286,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         }
         if ( $hash == "SHA" ) {
             $password = make_sha_password($password);
+        }
+        if ( $hash == "SHA512" ) {
+            $password = make_sha512_password($password);
         }
         if ( $hash == "SMD5" ) {
             $password = make_smd5_password($password);
