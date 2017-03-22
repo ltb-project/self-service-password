@@ -371,7 +371,12 @@ function encrypt($data, $keyphrase) {
  * @return string Decrypted data
  */
 function decrypt($data, $keyphrase) {
-    return \Defuse\Crypto\Crypto::decryptWithPassword(base64_decode($data), $keyphrase, true);
+    try {
+        return \Defuse\Crypto\Crypto::decryptWithPassword(base64_decode($data), $keyphrase, true);
+    } catch (\Defuse\Crypto\Exception\CryptoException $e) {
+        error_log("crypto: decryption error " . $e->getMessage());
+        return '';
+    }
 }
 
 /* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)

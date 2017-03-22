@@ -31,5 +31,23 @@ class CryptoTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($plaintext2, $encrypted2);
         $this->assertEquals($plaintext2, $decrypted2);
     }
+
+    /**
+     * Test decrypt gives empty string if token is invalid
+     */
+    public function testDecryptionWithIncorrectTokenGivesEmptyString()
+    {
+        // second encrypt use case : session_id
+        $plaintext1 = "azAZ09,-";
+        $passphrase = "secret";
+        $token = encrypt($plaintext1, $passphrase);
+
+        // corrupted token, baddly copy pasted
+        // base64 has 0, 1 or 2 "=" padding, it does not affect decryption
+        $token = substr($token, 0, -3);
+
+        $decrypted = decrypt($token, $passphrase);
+        $this->assertEquals("", $decrypted);
+    }
 }
 
