@@ -89,7 +89,6 @@ $messages['changesubject'] = "La tua password e' stata cambiata";
 $messages['badcaptcha'] = "Il codice CAPTCHA non e' corretto. Riprova.";
 $messages['notcomplex'] = "La tua password non e' abbastanza complessa";
 $messages['policycomplex'] = "Numero minimo di tipi di carattere:";
-$messages['nophpmcrypt'] = "Devi installare PHP mcrypt per usare le funzioni crittografiche";
 $messages['smsresetmessage'] = "Il tuo codice per il reset della password e':";
 $messages['smscrypttokensrequired'] = "Non puoi utilizzare il reset via SMS senza crypt_tokens";
 $messages['smsnotsent'] = "Errore durante l'invio dell'SMS";

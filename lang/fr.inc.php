@@ -91,7 +91,6 @@ $messages['changesubject'] = "Votre mot de passe a été changé";
 $messages['badcaptcha'] = "Le reCAPTCHA n'a pas été entré correctement. Essayez à nouveau.";
 $messages['notcomplex'] = "Votre mot de passe n'a pas assez de classes de caractères différentes.";
 $messages['policycomplex'] = "Nombre minimun de classes de caractères :";
-$messages['nophpmcrypt'] = "Vous devriez installer PHP mcrypt pour utiliser les fonctions cryptographiques";
 $messages['sms'] = "Numéro SMS";
 $messages['smsresetmessage'] = "Votre jeton est:";
 $messages['sendsmshelp'] = "Entrez votre identifiant pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";

@@ -23,6 +23,7 @@
 # Includes
 #==============================================================================
 require_once("conf/config.inc.php");
+require_once("lib/vendor/defuse-crypto.phar");
 require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
     require_once("lib/vendor/autoload.php");
@@ -69,9 +70,6 @@ if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpl
 
 # Check PHP mhash presence if Samba mode active
 if ( $samba_mode and ! function_exists('hash') and ! function_exists('mhash') ) { $dependency_check_results[] = "nophpmhash"; }
-
-# Check PHP mcrypt presence if token are used
-if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $dependency_check_results[] = "nophpmcrypt"; }
 
 # Check PHP mbstring presence
 if ( ! function_exists('mb_internal_encoding') ) { $dependency_check_results[] = "nophpmbstring"; }

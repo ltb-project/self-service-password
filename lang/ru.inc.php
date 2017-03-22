@@ -92,7 +92,6 @@ $messages['policycomplex'] = "Минимальное количество сим
 $messages['smsresetmessage'] = "Your password reset token is:";
 $messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
 $messages['smsnotsent'] = "Error when sending SMS";
-$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['sms'] = "SMS number";
 $messages['smstoken'] = "SMS token";
 $messages['smsnonumber'] = "Can't find mobile number";
