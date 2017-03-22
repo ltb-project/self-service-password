@@ -23,7 +23,7 @@
 # Includes
 #==============================================================================
 require_once("conf/config.inc.php");
-require_once("lib/defuse-crypto.phar");
+require_once("lib/vendor/defuse-crypto.phar");
 require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
     require_once("lib/vendor/autoload.php");
