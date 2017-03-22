@@ -358,7 +358,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
  * Encrypt a data
  * @param string $data Data to encrypt
  * @param string $keyphrase Password for encryption
- * @return string Encrypted data, base64 encode
+ * @return string Encrypted data, base64 encoded
  */
 function encrypt($data, $keyphrase) {
     return base64_encode(\Defuse\Crypto\Crypto::encryptWithPassword($data, $keyphrase, true));

@@ -42,7 +42,7 @@ class CryptoTest extends \PHPUnit_Framework_TestCase
         $passphrase = "secret";
         $token = encrypt($plaintext1, $passphrase);
 
-        // corrupted token, baddly copy pasted
+        // corrupted token, badly copy pasted
         // base64 has 0, 1 or 2 "=" padding, it does not affect decryption
         $token = substr($token, 0, -3);
 
