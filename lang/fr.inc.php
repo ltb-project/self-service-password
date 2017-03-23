@@ -22,6 +22,7 @@
 #==============================================================================
 # French
 #==============================================================================
+$messages['phpupgraderequired'] = "Use mise à jour de PHP est requise";
 $messages['nophpldap'] = "Vous devriez installer PHP LDAP pour utiliser cet outil";
 $messages['nophpmhash'] = "Vous devriez installer PHP mhash pour utiliser le mode Samba";
 $messages['ldaperror'] = "Erreur d'acc&egrave;s &agrave; l'annuaire";

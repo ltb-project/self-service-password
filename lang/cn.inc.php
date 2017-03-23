@@ -22,6 +22,7 @@
 #==============================================================================
 # English
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "使用该工具需要安装PHP-Ldap";
 $messages['nophpmhash'] = "使用Samba模式需要安装PHP mhash";
 $messages['ldaperror'] = "无法访问LDAP目录";

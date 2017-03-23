@@ -22,6 +22,7 @@
 #==============================================================================
 # pt-PT
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Necessitas de instalar o PHP LDAP para utilizares esta ferramenta.";
 $messages['nophpmhash'] = "Necessitas de instalar o PHP mhash para utilizares o Samba mode.";
 $messages['ldaperror'] = "Não foi possivel aceder à pasta LDAP.";

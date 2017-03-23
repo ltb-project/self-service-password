@@ -22,6 +22,7 @@
 #==============================================================================
 # Simplified Chinese
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "您需要安装PHP LDAP才能使用本工具";
 $messages['nophpmhash'] = "您需要安装PHP mhash才能使用Samba模式";
 $messages['ldaperror'] = "不能访问LDAP服务器";

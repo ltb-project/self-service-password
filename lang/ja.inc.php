@@ -22,6 +22,7 @@
 #==============================================================================
 # Japanese
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "このツールを使うにはPHP LDAPをインストールしてください";
 $messages['nophpmhash'] = "Sambaモードを使うにはPHP mhashをインストールしてください";
 $messages['ldaperror'] = "LDAPディレクトリーにアクセスできません";

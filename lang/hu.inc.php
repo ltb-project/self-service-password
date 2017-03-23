@@ -22,6 +22,7 @@
 #==============================================================================
 # Hungarian
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "A program használatához telepíteni kell a PHP LDAP csomagot";
 $messages['nophpmhash'] = "A Samba üzemmód használatához telepíteni kell a PHP mhash csomagot";
 $messages['ldaperror'] = "Nem érhető el az LDAP szolgáltatás";

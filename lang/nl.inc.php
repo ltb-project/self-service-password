@@ -22,6 +22,7 @@
 #==============================================================================
 # Dutch
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "PHP LDAP moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['nophpmhash'] = "PHP mhash moet geinstalleerd zijn om Samba mode te kunnen gebruiken";
 $messages['ldaperror'] = "Kan geen toegang tot de LDAP directory verkrijgen";

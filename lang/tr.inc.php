@@ -22,6 +22,7 @@
 #==============================================================================
 # Turkish
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Bu aracı kullanabilmek için PHP LDAP yüklemelisiniz";
 $messages['nophpmhash'] = "Samba modunu kullanmak için PHP mhash yüklemelisiniz";
 $messages['ldaperror'] = "LDAP dizinine ulaşılamıyor";
