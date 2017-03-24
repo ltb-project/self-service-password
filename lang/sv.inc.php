@@ -22,6 +22,7 @@
 #==============================================================================
 # Swedish
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Du borde installera PHP LDAP för att använda detta verktyg";
 $messages['nophpmhash'] = "Du borde installera PHP mhash för att använda Samba mode";
 $messages['ldaperror'] = "Kan inte komma åt LDAPkatalogen";

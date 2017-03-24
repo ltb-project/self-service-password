@@ -22,6 +22,7 @@
 #==============================================================================
 # Slovenian
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Namestiti morate PHP LDAP";
 $messages['nophpmhash'] = "Za način Samba morate namestiti PHP mhash";
 $messages['ldaperror'] = "Dostop do LDAP ni mogoč";
