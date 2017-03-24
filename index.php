@@ -46,6 +46,9 @@ if ($handle = opendir('lang')) {
 }
 $lang = detectLanguage($lang, $languages);
 require_once("lang/$lang.inc.php");
+if (file_exists("conf/$lang.inc.php")) {
+    require_once("conf/$lang.inc.php");
+}
 
 #==============================================================================
 # Error reporting
