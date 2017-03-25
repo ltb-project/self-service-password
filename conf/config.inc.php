@@ -137,6 +137,11 @@ $answer_attribute = "info";
 # true (default)
 # false
 $use_tokens = true;
+# Use change mail token?
+# Use tokens?
+# true
+# false (default)
+$use_tokens = false;
 # Crypt tokens?
 # true (default)
 # false
