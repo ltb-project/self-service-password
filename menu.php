@@ -28,6 +28,11 @@
                   <a href="?action=sendsms"><i class="fa fa-fw fa-mobile"></i> <?php echo $messages["menusms"]; ?></a>
                 </li>
                 <?php } ?>
+                <?php if ( $change_sshkey ) { ?>
+                <li class="<?php if ( $action === "changesshkey" ) { echo "active"; } ?>">
+                  <a href="?action=changesshkey"><i class="fa fa-fw fa-terminal"></i> <?php echo $messages["menusshkey"]; ?></a>
+                </li>
+                <?php } ?>
               </ul>
             </div>
           </div>

@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "秘密の質問の設定";
 $messages['emptysendsmsform'] = "SMSによるパスワードのリセット";
 $messages['sameaslogin'] = "パスワードとログインIDが同じです";
 $messages['policydifflogin'] = "ログインIDと異なる";
+$messages['changesshkeymessage'] = "こんにちは{login}、\n\nSSHキーが変更されました。\n\nこの変更を開始していない場合は、すぐに管理者に連絡してください。";
+$messages['menusshkey'] = "SSHキー";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSHキーを変更する</a>";
+$messages['sshkeychanged'] = "あなたのSSHキーが変更されました";
+$messages['sshkeyrequired'] = "SSHキーが必要です";
+$messages['changesshkeysubject'] = "あなたのSSHキーが変更されました";
+$messages['sshkey'] = "SSHキー";
+$messages['emptysshkeychangeform'] = "SSHキーを変更する";
+$messages['changesshkeyhelp'] = "パスワードと新しいSSHキーを入力してください。";
+$messages['sshkeyerror'] = "SSHキーがLDAPディレクトリによって拒否されました";
 
 ?>

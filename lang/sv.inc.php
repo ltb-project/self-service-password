@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Ange dina säkerhetsfrågor";
 $messages['emptysendsmsform'] = "Skicka en lösenkod";
 $messages['sameaslogin'] = "Ditt nya lösenord är lika som ditt användarnamn";
 $messages['policydifflogin'] = "Ditt nya lösenord får inte vara lika som ditt användarnamn";
+$messages['changesshkeymessage'] = "Hej {login} \n\nDin SSH Key har ändrats. \n\nOm du inte initiera denna förändring, kontakta administratören omedelbart.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Ändra SSH Key</a>";
+$messages['sshkeychanged'] = "Din SSH Key ändrades";
+$messages['sshkeyrequired'] = "SSH nyckel krävs";
+$messages['changesshkeysubject'] = "Din SSH Key har ändrats";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Ändra din SSH Key";
+$messages['changesshkeyhelp'] = "Ange ditt lösenord och ny SSH-nyckel.";
+$messages['sshkeyerror'] = "SSH Key avslogs av LDAP-katalogen";
 
 ?>

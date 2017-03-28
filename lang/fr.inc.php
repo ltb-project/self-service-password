@@ -117,5 +117,14 @@ $messages['emptysetquestionsform'] = "Enregistrez votre réponse";
 $messages['emptysendsmsform'] = "Obtenez un code de réinitialisation";
 $messages['sameaslogin'] = "Votre mot de passe est identique à votre identifiant";
 $messages['policydifflogin'] = "Votre nouveau mot de passe ne doit pas être identique à votre identifiant";
-
+$messages['changesshkeymessage'] = "Bonjour {login}, \n\nVotre clé SSH a été changée. \n\nSi vous n'avez pas initié cette modification, veuillez contacter votre administrateur immédiatement.";
+$messages['menusshkey'] = "Clé SSH";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Changez votre clé SSH</a>";
+$messages['sshkeychanged'] = "Votre clé SSH a été modifiée";
+$messages['sshkeyrequired'] = "La clé SSH est requise";
+$messages['changesshkeysubject'] = "Votre clé SSH a été modifiée";
+$messages['sshkey'] = "Clé SSH";
+$messages['emptysshkeychangeform'] = "Changer votre clé SSH";
+$messages['changesshkeyhelp'] = "Entrez votre mot de passe et la nouvelle clé SSH.";
+$messages['sshkeyerror'] = "La clé SSH a été refusée par le répertoire LDAP";
 ?>

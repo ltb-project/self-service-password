@@ -119,5 +119,15 @@ $messages['emptysetquestionsform'] = "Wählen Sie Ihre Sicherheitsfrage";
 $messages['emptysendsmsform'] = "Erhalte einen Reset-Code";
 $messages['sameaslogin'] = "Ihr neues Passwort ist identisch mit Ihrem Loginnamen";
 $messages['policydifflogin'] = "Ihr neues Passwort darf nicht dasselbe wie Ihr Loginname";
+$messages['changesshkeyhelp'] = "Geben Sie Ihr Passwort und den neuen SSH-Schlüssel ein.";
+$messages['sshkeyerror'] = "SSH-Schlüssel wurde durch das LDAP-Verzeichnis abgelehnt";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Ändern Sie Ihren SSH-Schlüssel</a>";
+$messages['sshkeyrequired'] = "SSH-Schlüssel ist erforderlich";
+$messages['sshkey'] = "SSH Schlüssel";
+$messages['sshkeychanged'] = "Ihr SSH Key wurde geändert";
+$messages['emptysshkeychangeform'] = "Ändern Sie Ihren SSH-Schlüssel";
+$messages['changesshkeymessage'] = "Hallo {login}, \n\nDer SSH-Schlüssel wurde geändert.\n\nWenn Sie diese Änderung nicht eingeleitet haben, wenden Sie sich bitte umgehend an Ihren Administrator.";
+$messages['menusshkey'] = "SSH Schlüssel";
+$messages['changesshkeysubject'] = "Ihr SSH-Schlüssel wurde geändert";
 
 ?>

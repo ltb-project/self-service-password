@@ -119,5 +119,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Witaj {login}, \n\nTwoja SSH Key została zmieniona. \n\nW przypadku nie zainicjować tę zmianę, należy natychmiast skontaktować się z administratorem.";
+$messages['menusshkey'] = "Klucz SSH";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Zmień swój klucz SSH</a>";
+$messages['sshkeychanged'] = "Twój klucz SSH został zmieniony";
+$messages['sshkeyrequired'] = "SSH Key jest wymagane";
+$messages['changesshkeysubject'] = "Twój klucz SSH został zmieniony";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Zmień swój klucz SSH";
+$messages['changesshkeyhelp'] = "Wprowadź swoje hasło i nowy klucz SSH.";
+$messages['sshkeyerror'] = "SSH Key został odrzucony przez katalogu LDAP";
 
 ?>

@@ -19,7 +19,7 @@
 #
 #==============================================================================
 
-# This page is called to change password
+# This page is called to change sshPublicKey
 
 #==============================================================================
 # POST parameters
@@ -27,38 +27,30 @@
 # Initiate vars
 $result = "";
 $login = "";
-$confirmpassword = "";
-$newpassword = "";
-$oldpassword = "";
+$password = "";
+$sshkey = "";
 $ldap = "";
 $userdn = "";
-if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
-if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
- else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
- else { $result = "newpasswordrequired"; }
-if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) { $oldpassword = $_POST["oldpassword"]; }
- else { $result = "oldpasswordrequired"; }
+if (isset($_POST["password"]) and $_POST["password"]) { $password = $_POST["password"]; }
+ else { $result = "passwordrequired"; }
+if (isset($_POST["sshkey"]) and $_POST["sshkey"]) { $sshkey = $_POST["sshkey"]; }
+ else { $result = "sshkeyrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
  else { $result = "loginrequired"; }
-if (! isset($_REQUEST["login"]) and ! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["oldpassword"]))
- { $result = "emptychangeform"; }
+if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_POST["sshkey"]))
+ { $result = "emptysshkeychangeform"; }
 
 # Strip slashes added by PHP
 $login = stripslashes_if_gpc_magic_quotes($login);
-$oldpassword = stripslashes_if_gpc_magic_quotes($oldpassword);
-$newpassword = stripslashes_if_gpc_magic_quotes($newpassword);
-$confirmpassword = stripslashes_if_gpc_magic_quotes($confirmpassword);
+$password = stripslashes_if_gpc_magic_quotes($password);
+$sshkey = stripslashes_if_gpc_magic_quotes($sshkey);
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
 }
-
-# Match new and confirm password
-if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 
 #==============================================================================
 # Check reCAPTCHA
@@ -78,7 +70,7 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Check old password
+# Check password
 #==============================================================================
 if ( $result === "" ) {
 
@@ -124,25 +116,15 @@ if ( $result === "" ) {
     } else {
 
     # Get user email for notification
-    if ( $notify_on_change ) {
+    if ( $notify_on_sshkey_change ) {
         $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
         if ( $mailValues["count"] > 0 ) {
             $mail = $mailValues[0];
         }
     }
 
-    # Check objectClass to allow samba and shadow updates
-    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
-    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
-        $samba_mode = false;
-    }
-    if ( !in_array( 'shadowAccount', $ocValues ) ) {
-        $shadow_options['update_shadowLastChange'] = false;
-        $shadow_options['update_shadowExpire'] = false;
-    }
-
     # Bind with old password
-    $bind = ldap_bind($ldap, $userdn, $oldpassword);
+    $bind = ldap_bind($ldap, $userdn, $password);
     $errno = ldap_errno($ldap);
     if ( ($errno == 49) && $ad_mode ) {
         if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
@@ -165,7 +147,7 @@ if ( $result === "" ) {
     } else {
 
     # Rebind as Manager if needed
-    if ( $who_change_password == "manager" ) {
+    if ( $who_change_sshkey == "manager" ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     }
 
@@ -173,23 +155,12 @@ if ( $result === "" ) {
 
 }
 
-#==============================================================================
-# Check password strength
-#==============================================================================
-if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login );
-}
-
 
 #==============================================================================
-# Change password
+# Change sshPublicKey
 #==============================================================================
 if ( $result === "" ) {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword);
-    if ( $result === "passwordchanged" && isset($posthook) ) {
-        $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword).' '.escapeshellarg($oldpassword);
-        exec($command);
-    }
+    $result = change_sshkey($ldap, $userdn, $change_sshkey_attribute, $sshkey);
 }
 
 #==============================================================================
@@ -207,35 +178,8 @@ if ( $result === "" ) {
 if ( $show_help ) {
     echo "<div class=\"help alert alert-warning\"><p>";
     echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
-    echo $messages["changehelp"];
-    echo "</p>";
-    if (isset($messages['changehelpextramessage'])) {
-        echo "<p>" . $messages['changehelpextramessage'] . "</p>";
-    }
-    if ( !$show_menu and ( $use_questions or $use_tokens or $use_sms or $change_sshkey ) ) {
-        echo "<p>".  $messages["changehelpreset"] . "</p>";
-        echo "<ul>";
-        if ( $use_questions ) {
-            echo "<li>" . $messages["changehelpquestions"] ."</li>";
-        }
-        if ( $use_tokens ) {
-            echo "<li>" . $messages["changehelptoken"] ."</li>";
-        }
-        if ( $use_sms ) {
-            echo "<li>" . $messages["changehelpsms"] ."</li>";
-        }
-        if ( $change_sshkey ) {
-            echo "<li>" . $messages["changehelpsshkey"] . "</li>";
-        }
-        echo "</ul>";
-    }
-    echo "</div>\n";
-}
-?>
-
-<?php
-if ($pwd_show_policy_pos === 'above') {
-    show_policy($messages, $pwd_policy_config, $result);
+    echo $messages["changesshkeyhelp"];
+    echo "</p></div>\n";
 }
 ?>
 
@@ -251,29 +195,20 @@ if ($pwd_show_policy_pos === 'above') {
         </div>
     </div>
     <div class="form-group">
-        <label for="oldpassword" class="col-sm-4 control-label"><?php echo $messages["oldpassword"]; ?></label>
+        <label for="password" class="col-sm-4 control-label"><?php echo $messages["password"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                <input type="password" name="oldpassword" id="oldpassword" class="form-control" placeholder="<?php echo $messages["oldpassword"]; ?>" />
+                <input type="password" name="password" id="password" class="form-control" placeholder="<?php echo $messages["password"]; ?>" />
             </div>
         </div>
     </div>
     <div class="form-group">
-        <label for="newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
+        <label for="sshkey" class="col-sm-4 control-label"><?php echo $messages["sshkey"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="<?php echo $messages["newpassword"]; ?>" />
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
-        <div class="col-sm-8">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="<?php echo $messages["confirmpassword"]; ?>" />
+                <span class="input-group-addon"><i class="fa fa-fw fa-terminal"></i></span>
+                <textarea type="text" name="sshkey" id="sshkey" class="form-control" rows="2" placeholder="<?php echo $messages["sshkey"]; ?>"></textarea>
             </div>
         </div>
     </div>
@@ -295,26 +230,14 @@ if ($pwd_show_policy_pos === 'above') {
 </form>
 </div>
 
-<?php
-if ($pwd_show_policy_pos === 'below') {
-    show_policy($messages, $pwd_policy_config, $result);
-}
-?>
-
 <?php } else {
 
     # Notify password change
-    if ($mail and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+    if ($mail and $notify_on_sshkey_change) {
+        $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
+        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
-    }
-
-    if (isset($messages['passwordchangedextramessage'])) {
-        echo "<div class=\"result alert alert-" . get_criticity($result) . "\">";
-        echo "<p><i class=\"fa fa-fw " . get_fa_class($result) . "\" aria-hidden=\"true\"></i> " . $messages['passwordchangedextramessage'] . "</p>";
-        echo "</div>\n";
     }
 
 }

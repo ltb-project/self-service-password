@@ -118,5 +118,15 @@ $messages['emptysetquestionsform'] = "Cambie las preguntas de reseteo de su cont
 $messages['emptysendsmsform'] = "Obtener un código de reseteo";
 $messages['sameaslogin'] = "Su nueva contraseña es igual a su login";
 $messages['policydifflogin'] = "Su nueva contraseña no puede ser igual a su login";
+$messages['changesshkeymessage'] = "Hola {login}, \n\nSu clave SSH ha cambiado. \n\nSi no ha iniciado este cambio, comuníquese de inmediato con su administrador.";
+$messages['menusshkey'] = "Clave SSH";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Cambie su clave SSH</a>";
+$messages['sshkeychanged'] = "Su clave SSH se ha cambiado";
+$messages['sshkeyrequired'] = "Se requiere clave SSH";
+$messages['changesshkeysubject'] = "Se ha cambiado su clave SSH";
+$messages['sshkey'] = "Clave SSH";
+$messages['emptysshkeychangeform'] = "Cambiar su clave SSH";
+$messages['changesshkeyhelp'] = "Introduzca su contraseña y la nueva clave SSH.";
+$messages['sshkeyerror'] = "La clave SSH fue rechazada por el directorio LDAP";
 
 ?>
