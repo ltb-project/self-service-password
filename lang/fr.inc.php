@@ -22,6 +22,7 @@
 #==============================================================================
 # French
 #==============================================================================
+$messages['phpupgraderequired'] = "Use mise à jour de PHP est requise";
 $messages['nophpldap'] = "Vous devriez installer PHP LDAP pour utiliser cet outil";
 $messages['nophpmhash'] = "Vous devriez installer PHP mhash pour utiliser le mode Samba";
 $messages['ldaperror'] = "Erreur d'acc&egrave;s &agrave; l'annuaire";
@@ -55,7 +56,7 @@ $messages['policymindigit'] = "Nombre minimum de chiffres&nbsp;:";
 $messages['policyminspecial'] = "Nombre minimum de caractères spéciaux&nbsp;:";
 $messages['forbiddenchars'] = "Votre mot de passe contient des caractères interdits";
 $messages['policyforbiddenchars'] = "Caractères interdits&nbsp;:";
-$messages['policynoreuse'] = "Votre nouveau mot de passe de doit pas être identique à l'ancien";
+$messages['policynoreuse'] = "Votre nouveau mot de passe ne doit pas être identique à l'ancien";
 $messages['questions']['birthday'] = "Quelle est votre date de naissance ?";
 $messages['questions']['color'] = "Quelle est votre couleur préférée ?";
 $messages['password'] = "Mot de passe";
@@ -91,7 +92,6 @@ $messages['changesubject'] = "Votre mot de passe a été changé";
 $messages['badcaptcha'] = "Le reCAPTCHA n'a pas été entré correctement. Essayez à nouveau.";
 $messages['notcomplex'] = "Votre mot de passe n'a pas assez de classes de caractères différentes.";
 $messages['policycomplex'] = "Nombre minimun de classes de caractères :";
-$messages['nophpmcrypt'] = "Vous devriez installer PHP mcrypt pour utiliser les fonctions cryptographiques";
 $messages['sms'] = "Numéro SMS";
 $messages['smsresetmessage'] = "Votre jeton est:";
 $messages['sendsmshelp'] = "Entrez votre identifiant pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";
@@ -116,7 +116,7 @@ $messages['emptyresetbyquestionsform'] = "Réinitialisez votre mot de passe";
 $messages['emptysetquestionsform'] = "Enregistrez votre réponse";
 $messages['emptysendsmsform'] = "Obtenez un code de réinitialisation";
 $messages['sameaslogin'] = "Votre mot de passe est identique à votre identifiant";
-$messages['policydifflogin'] = "Votre nouveau mot de passe ne doit pas être identique à votre identifant";
+$messages['policydifflogin'] = "Votre nouveau mot de passe ne doit pas être identique à votre identifiant";
 $messages['changesshkeymessage'] = "Bonjour {login}, \n\nVotre clé SSH a été changée. \n\nSi vous n'avez pas initié cette modification, veuillez contacter votre administrateur immédiatement.";
 $messages['menusshkey'] = "Clé SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Changez votre clé SSH</a>";

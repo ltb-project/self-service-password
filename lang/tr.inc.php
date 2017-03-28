@@ -22,6 +22,7 @@
 #==============================================================================
 # Turkish
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Bu aracı kullanabilmek için PHP LDAP yüklemelisiniz";
 $messages['nophpmhash'] = "Samba modunu kullanmak için PHP mhash yüklemelisiniz";
 $messages['ldaperror'] = "LDAP dizinine ulaşılamıyor";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Parolanız değiştirildi";
 $messages['badcaptcha'] = "Girilen güvenlik kodu hatalı, tekrar deneyin.";
 $messages['notcomplex'] = "Parolanız yeterli sayıda değişik sınıf karaktere sahip değil";
 $messages['policycomplex'] = "Minimum değişik karakter sınıfı sayısı:";
-$messages['nophpmcrypt'] = "Kriptografik fonksiyonları kullanabilmek için PHP mcrypt yüklemelisiniz";
 $messages['sms'] = "SMS numarası";
 $messages['smsresetmessage'] = "Parola sıfırlama belirteciniz:";
 $messages['sendsmshelp'] = "SMS almak için kullanıcı adınızı, sonrasında da SMS ile yollanan belirteci girin.";

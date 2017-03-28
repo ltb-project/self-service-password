@@ -22,6 +22,7 @@
 #==============================================================================
 # Spanish
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Debe instalar PHP LDAP para utilizar esta herramienta";
 $messages['nophpmhash'] = "Debe instalar PHP mhash para utilizar el modo Samba";
 $messages['ldaperror'] = "No es posible acceder al directorio LDAP";
@@ -91,7 +92,6 @@ $messages['changesubject'] = "Su contraseña ha sido cambiada";
 $messages['badcaptcha'] = "El reCAPTCHA no se ha introducido correctamente. Inténtelo de nuevo.";
 $messages['notcomplex'] = "Su contraseña no tiene suficientes  clases de caracteres diferentes";
 $messages['policycomplex'] = "Mínimo de clases de caracteres diferentes:";
-$messages['nophpmcrypt'] = "Usted debe instala PHP mcrypt para usar las funciones criptográficas";
 $messages['sms'] = "Número SMS";
 $messages['smsresetmessage'] = "Su código para resetear su contraseña es:";
 $messages['sendsmshelp'] = "Introduzca su nombre de usuario para obtener un reseteo de contraseña por código. Luego teclee el código y enviéela en un SMS.";

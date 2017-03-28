@@ -21,8 +21,7 @@
 
 # Create SSHA password
 function make_ssha_password($password) {
-    mt_srand((double)microtime()*1000000);
-    $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
+    $salt = random_bytes(4);
     $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
     return $hash;
 }
@@ -33,10 +32,15 @@ function make_sha_password($password) {
     return $hash;
 }
 
+# Create SHA512 password
+function make_sha512_password($password) {
+    $hash = "{SHA512}" . base64_encode(pack("H*", hash('sha512', $password)));
+    return $hash;
+}
+
 # Create SMD5 password
 function make_smd5_password($password) {
-    mt_srand((double)microtime()*1000000);
-    $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
+    $salt = random_bytes(4);
     $hash = "{SMD5}" . base64_encode(pack("H*", md5($password . $salt)) . $salt);
     return $hash;
 }
@@ -62,10 +66,8 @@ function make_crypt_password($password, $hash_options) {
 		'./';
     $salt = "";
 
-    mt_srand((double)microtime() * 1000000);
-
     while( strlen( $salt ) < $salt_length ) {
-        $salt .= substr( $possible, ( mt_rand() % strlen( $possible ) ), 1 );
+        $salt .= substr( $possible, random_int( 0, strlen( $possible ) - 1 ), 1 );
     }
 
     if ( isset($hash_options['crypt_salt_prefix']) ) {
@@ -99,9 +101,9 @@ function generate_sms_token( $sms_token_length ) {
     $NumRanges=count($Range);
     $smstoken='';
     for ($i = 1; $i <= $sms_token_length; $i++){
-        $r=mt_rand(0,$NumRanges-1);
+        $r=random_int(0,$NumRanges-1);
         list($min,$max)=explode('-',$Range[$r]);
-        $smstoken.=chr(mt_rand($min,$max));
+        $smstoken.=chr(random_int($min,$max));
     }
     return $smstoken;
 }
@@ -119,7 +121,7 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|nophpmcrypt|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin/" , $msg ) ) {
     return "danger";
     }
 
@@ -281,6 +283,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         if ( $hash == "SHA" ) {
             $password = make_sha_password($password);
         }
+        if ( $hash == "SHA512" ) {
+            $password = make_sha512_password($password);
+        }
         if ( $hash == "SMD5" ) {
             $password = make_smd5_password($password);
         }
@@ -385,83 +390,27 @@ function change_sshkey( $ldap, $dn, $sshkey ) {
 
 /* @function encrypt(string $data)
  * Encrypt a data
- * @param data
- * @return encrypted data
- * @author Matthias Ganzinger
+ * @param string $data Data to encrypt
+ * @param string $keyphrase Password for encryption
+ * @return string Encrypted data, base64 encoded
  */
 function encrypt($data, $keyphrase) {
-
-    /* Open the cipher (AES-256)*/
-    $td = mcrypt_module_open('rijndael-256', '', 'ofb', '');
-
-    /* Create the IV and determine the keysize length, use MCRYPT_RAND
-     * on Windows instead */
-    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_DEV_URANDOM);
-    $ks = mcrypt_enc_get_key_size($td);
-
-    /* Create key */
-    $key = substr(md5($keyphrase), 0, $ks);
-
-    /* Intialize encryption */
-    mcrypt_generic_init($td, $key, $iv);
-
-    /* Encrypt data */
-    $encrypted = mcrypt_generic($td, $data);
-
-    /* Terminate encryption handler */
-    mcrypt_generic_deinit($td);
-
-    /* Terminate decryption handle and close module */
-    mcrypt_module_close($td);
-
-    /* base64 encode iv and message */
-    $iv = base64_encode($iv);
-    $encrypted = base64_encode($encrypted);
-
-    /* return data nn:ivencrypted */
-    return strlen($iv). ":" . $iv . $encrypted;
+    return base64_encode(\Defuse\Crypto\Crypto::encryptWithPassword($data, $keyphrase, true));
 }
-
 
 /* @function decrypt(string $data)
  * Decrypt a data
- * @param data
- * @return decrypted data
- * @author Matthias Ganzinger
+ * @param string $data Encrypted data, base64 encoded
+ * @param string $keyphrase Password for decryption
+ * @return string Decrypted data
  */
 function decrypt($data, $keyphrase) {
-
-    /* replace spaces with +, otherwise base64_decode will fail */
-    $data = str_replace(" ", "+", $data);
-
-    /* get iv */
-    $ivcount = substr($data, 0, strpos($data, ':'));
-    $message = strstr($data, ':');
-    $iv = substr($message, 1, $ivcount);
-    $iv = base64_decode($iv);
-
-    /* get data */
-    $encrypted = base64_decode(substr($message, $ivcount+1));
-
-    /* Open the cipher */
-    $td = mcrypt_module_open('rijndael-256', '', 'ofb', '');
-    $ks = mcrypt_enc_get_key_size($td);
-
-    /* Create key */
-    $key = substr(md5($keyphrase), 0, $ks);
-
-    /* Intialize encryption */
-    mcrypt_generic_init($td, $key, $iv);
-
-    /* Decrypt encrypted string */
-    $decrypted = mdecrypt_generic($td, $encrypted);
-
-    /* Terminate decryption handle and close module */
-    mcrypt_generic_deinit($td);
-    mcrypt_module_close($td);
-
-    /* Show string */
-    return trim($decrypted);
+    try {
+        return \Defuse\Crypto\Crypto::decryptWithPassword(base64_decode($data), $keyphrase, true);
+    } catch (\Defuse\Crypto\Exception\CryptoException $e) {
+        error_log("crypto: decryption error " . $e->getMessage());
+        return '';
+    }
 }
 
 /* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)

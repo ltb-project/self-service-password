@@ -62,6 +62,7 @@ $shadow_options['shadow_expire_days'] = -1;
 # Hash mechanism for password:
 # SSHA
 # SHA
+# SHA512
 # SMD5
 # MD5
 # CRYPT

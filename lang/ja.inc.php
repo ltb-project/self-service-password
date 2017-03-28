@@ -22,6 +22,7 @@
 #==============================================================================
 # Japanese
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "このツールを使うにはPHP LDAPをインストールしてください";
 $messages['nophpmhash'] = "Sambaモードを使うにはPHP mhashをインストールしてください";
 $messages['ldaperror'] = "LDAPディレクトリーにアクセスできません";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "パスワードが変更されました";
 $messages['badcaptcha'] = "reCAPTCHAが正しく入力されませんでした。もう一度入力してください。";
 $messages['notcomplex'] = "パスワードに含まれる文字種が少なすぎます";
 $messages['policycomplex'] = "最低限必要な異なる文字種の数:";
-$messages['nophpmcrypt'] = "暗号化の機能を使うにはPHP mcryptをインストールしてください";
 $messages['sms'] = "SMS番号";
 $messages['smsresetmessage'] = "パスワードリセット用のトークン:";
 $messages['sendsmshelp'] = "パスワードリセット用のトークンを取得するにはログインIDを入力してください。その後、SMSで送信されたトークンを入力してください。";

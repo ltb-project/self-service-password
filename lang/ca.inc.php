@@ -24,6 +24,7 @@
 #==============================================================================
 # Catalan
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Cal instal·lar PHP LDAP per fer servir aquesta eina";
 $messages['nophpmhash'] = "Cal instal·lar PHP mhash per fer servir el mode Samba";
 $messages['ldaperror'] = "No es pot accedir al servidor LDAP";
@@ -93,7 +94,6 @@ $messages['changesubject'] = "Heu canviat la vostra contrasenya";
 $messages['badcaptcha'] = "El reCAPTCHA no és correcte. Torneu a provar-ho.";
 $messages['notcomplex'] = "La vostra contrasenya no tÃ© prou classes diferents de caràcters";
 $messages['policycomplex'] = "Mínim de classes de caràcters diferents:";
-$messages['nophpmcrypt'] = "Has d'instal·lar la llibreria PHP mcrypt per usar les funcions criptorgràfiquess";
 $messages['sms'] = "SMS Numero";
 $messages['smsresetmessage'] = "El token de restabliment de contrasenya és:";
 $messages['sendsmshelp'] = "Introdueixi el seu nom d'usuari per obtenir testimoni de restabliment de contrasenya. A continuació, escriviu token en els SMS enviats.";

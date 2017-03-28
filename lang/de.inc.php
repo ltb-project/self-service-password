@@ -22,6 +22,7 @@
 #==============================================================================
 # German
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Sie benötigen die PHP LDAP Erweiterung um dieses Tool zu nutzen";
 $messages['nophpmhash'] = "Sie benötigen die PHP mhash Erweiterung um den Samba Modus zu nutzen";
 $messages['ldaperror'] = "Kein Zugriff auf das LDAP möglich";
@@ -91,7 +92,6 @@ $messages['changesubject'] = "Ihr Passwort wurde geändert";
 $messages['badcaptcha'] = "Die reCAPTCHA wurde nicht richtig eingegeben. Versuchen Sie es erneut.";
 $messages['notcomplex'] = "Ihr Passwort hat nicht genug verschiedene Klassen von Zeichen";
 $messages['policycomplex'] = "Minimum verschiedener Klassen von Zeichen:";
-$messages['nophpmcrypt'] = "Sie müssen PHP mcrypt installieren, um kryptographische Funktionen nutzen zu können";
 $messages['sms'] = "Handynummer";
 $messages['smsresetmessage'] = "Ihr Passwort-Rücksetzungstoken lautet:";
 $messages['sendsmshelp'] = "Geben Sie Ihren Benutzernamen ein, um ein Rücksetzungstoken zu erhalten. Geben Sie dann das per SMS erhaltene Token ein.";

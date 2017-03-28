@@ -22,6 +22,7 @@
 #==============================================================================
 # Simplified Chinese
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "您需要安装PHP LDAP才能使用本工具";
 $messages['nophpmhash'] = "您需要安装PHP mhash才能使用Samba模式";
 $messages['ldaperror'] = "不能访问LDAP服务器";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "您的密码已修改";
 $messages['badcaptcha'] = "验证码输入错误。请重试。";
 $messages['notcomplex'] = "您的密码没有包含足够的字符类型";
 $messages['policycomplex'] = "最少字符类型:";
-$messages['nophpmcrypt'] = "您需要安装PHP mcrypt使用加密功能";
 $messages['sms'] = "短信号码";
 $messages['smsresetmessage'] = "您的密码重置口令:";
 $messages['sendsmshelp'] = "输入您的用户名获取密码重置短信。然后输入短信中的口令。";

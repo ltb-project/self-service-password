@@ -22,6 +22,7 @@
 #==============================================================================
 # Pt-BR
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Você deve instalar o PHP LDAP para utilizar esta ferramenta";
 $messages['nophpmhash'] = "Você deve instalar o PHP mhash para utilizar o Samba mode";
 $messages['ldaperror'] = "Não foi possível acessar o diretório LDAP";
@@ -89,7 +90,6 @@ $messages['changesubject'] = "Sua senha foi alterada";
 $messages['badcaptcha'] = "O reCAPTCHA não foi digitado corretamente. Tente novamente.";
 $messages['notcomplex'] = "Sua senha não possui diferentes tipos de caracteres suficientes para torná-la complexa";
 $messages['policycomplex'] = "Quantidade mínima de tipos de caracteres: ";
-$messages['nophpmcrypt'] = "Você deve instalar a biblioteca PHP mcrypt para usar funções de criptografia";
 $messages['sms'] = "Número SMS";
 $messages['smsresetmessage'] = "Seu código para redefinir a senha é:";
 $messages['sendsmshelp'] = "Informe seu login para obter o código para redefinir sua senha. Depois digite o código enviado no SMS.";

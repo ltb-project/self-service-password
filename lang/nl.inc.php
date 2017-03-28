@@ -22,6 +22,7 @@
 #==============================================================================
 # Dutch
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "PHP LDAP moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['nophpmhash'] = "PHP mhash moet geinstalleerd zijn om Samba mode te kunnen gebruiken";
 $messages['ldaperror'] = "Kan geen toegang tot de LDAP directory verkrijgen";
@@ -91,7 +92,6 @@ $messages['changesubject'] = "Uw wachtwoord is aangepast";
 $messages['badcaptcha'] = "De reCAPTCHA was niet correct ingevuld. Probeer het opnieuw.";
 $messages['notcomplex'] = "Uw wachtwoord bestaat niet uit genoeg verschillende tekens";
 $messages['policycomplex'] = "Minimum aantal verschillende type tekens benodigd:";
-$messages['nophpmcrypt'] = "PHP mcrypt moet geinstalleerd zijn om de cryptografische functies te kunnen gebruiken";
 $messages['sms'] = "Mobiele telefoon";
 $messages['smsresetmessage'] = "Uw wachtwoord reset token is:";
 $messages['sendsmshelp'] = "Voer uw login informatie in om uw wachtwoord reset token te ontvangen. Voer vervolgens het token in wat toegestuurd is via SMS.";

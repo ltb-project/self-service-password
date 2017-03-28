@@ -22,6 +22,7 @@
 #==============================================================================
 # English
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "使用该工具需要安装PHP-Ldap";
 $messages['nophpmhash'] = "使用Samba模式需要安装PHP mhash";
 $messages['ldaperror'] = "无法访问LDAP目录";
@@ -92,7 +93,6 @@ $messages['policycomplex'] = "最少的不同类型字符数:";
 $messages['username'] = "Username";
 $messages['smsnonumber'] = "Can't find mobile number";
 $messages['smstoken'] = "SMS token";
-$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['sms'] = "SMS number";
 $messages['getuser'] = "Get user";
 $messages['userfullname'] = "User full name";

@@ -22,6 +22,7 @@
 #==============================================================================
 # Hungarian
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "A program használatához telepíteni kell a PHP LDAP csomagot";
 $messages['nophpmhash'] = "A Samba üzemmód használatához telepíteni kell a PHP mhash csomagot";
 $messages['ldaperror'] = "Nem érhető el az LDAP szolgáltatás";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Jelszava sikeresen módosítva.";
 $messages['badcaptcha'] = "A reCAPTCHA helytelen. Kérem, próbálja meg újra.";
 $messages['notcomplex'] = "A jelszó nem elég komplex. Kérem, használjon kis- és nagybetűket, számokat vagy speciális karaktereket.";
 $messages['policycomplex'] = "A jelszó a következő karaktertípusokat tartalmazhatja: kisbetű, nagybetű, szám vagy speciális karakter. Ezek közül válasszon ki legalább ennyit:";
-$messages['nophpmcrypt'] = "A PHP mcrypt telepítése nélkül nem használhatod ezt a funckiót.";
 $messages['sms'] = "SMS szám";
 $messages['smsresetmessage'] = "Jelszava megváltoztatásához írja be az alábbi kódot:";
 $messages['sendsmshelp'] = "Írja be felhasználónevét, majd az SMS-ben kapott aktiváló kódot.";

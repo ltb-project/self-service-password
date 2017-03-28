@@ -22,6 +22,7 @@
 #==============================================================================
 # Swedish
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Du borde installera PHP LDAP för att använda detta verktyg";
 $messages['nophpmhash'] = "Du borde installera PHP mhash för att använda Samba mode";
 $messages['ldaperror'] = "Kan inte komma åt LDAPkatalogen";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Ditt lösenord har ändrats";
 $messages['badcaptcha'] = "reCAPTCHA är felaktiget angivet. Försök igen.";
 $messages['notcomplex'] = "Ditt lösenord innehåller inte tillräckligt många olika klasser av tecken";
 $messages['policycomplex'] = "Minst antal olika klasser av tecken:";
-$messages['nophpmcrypt'] = "Du borde installera PHP mcrypt för att använda kryptografiska funktioner";
 $messages['sms'] = "Mobilnummer";
 $messages['smsresetmessage'] = "Lösenkod:";
 $messages['sendsmshelp'] = "Ange användarnamn för att får en lösenkod. Ange sedan Lösenkoden som står i SMSet.";

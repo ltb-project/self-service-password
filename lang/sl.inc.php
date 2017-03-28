@@ -22,6 +22,7 @@
 #==============================================================================
 # Slovenian
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Namestiti morate PHP LDAP";
 $messages['nophpmhash'] = "Za način Samba morate namestiti PHP mhash";
 $messages['ldaperror'] = "Dostop do LDAP ni mogoč";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Vaše geslo je bilo spremenjeno";
 $messages['badcaptcha'] = "reCAPTCHA ni bila pravilno vnesena. Poskusite ponovno.";
 $messages['notcomplex'] = "Vaše geslo nima dovolj različnih vrst znakov";
 $messages['policycomplex'] = "Najmanjše število različnih vrst znakov:";
-$messages['nophpmcrypt'] = "Za uporabo kriptografskih funkcij morate namestiti PHP mcrypt";
 $messages['sms'] = "Številka SMS";
 $messages['smsresetmessage'] = "Žeton za ponastavitev gesla je:";
 $messages['sendsmshelp'] = "Vnesite uporabniško ime, da dobite žeton za ponastavitev gesla. Potem vnesite žeton v poslani SMS.";
