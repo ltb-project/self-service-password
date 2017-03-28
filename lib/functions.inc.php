@@ -370,7 +370,7 @@ function change_sshkey( $ldap, $dn, $sshkey ) {
 
     $result = "";
 
-    $userdata["sshPublicKey"] = $sshkey;
+    $userdata[$change_sshkey_attribute] = $sshkey;
 
     # Commit modification on directory
     $replace = ldap_mod_replace($ldap, $dn, $userdata);

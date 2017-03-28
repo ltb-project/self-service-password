@@ -123,6 +123,9 @@ $use_change = true;
 # Allow changing of sshPublicKey?
 $change_sshkey = false;
 
+# What attribute should be changed by the changesshkey action?
+$change_sshkey_attribute = "sshPublicKey"
+
 # Who changes the sshPublicKey attribute?
 # Also applicable for question/answer save
 # user: the user itself
