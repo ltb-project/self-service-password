@@ -208,7 +208,7 @@ if ( $show_help ) {
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-terminal"></i></span>
-                <input type="text" name="sshkey" id="sshkey" class="form-control" placeholder="<?php echo $messages["sshkey"]; ?>" />
+                <textarea type="text" name="sshkey" id="sshkey" class="form-control" rows="2" placeholder="<?php echo $messages["sshkey"]; ?>"></textarea>
             </div>
         </div>
     </div>
