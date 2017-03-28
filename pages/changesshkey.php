@@ -160,7 +160,7 @@ if ( $result === "" ) {
 # Change sshPublicKey
 #==============================================================================
 if ( $result === "" ) {
-    $result = change_sshkey($ldap, $userdn, $sshkey);
+    $result = change_sshkey($ldap, $userdn, $change_sshkey_attribute, $sshkey);
 }
 
 #==============================================================================

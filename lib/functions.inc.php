@@ -366,11 +366,11 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
 # Change sshPublicKey attribute
 # @return result code
-function change_sshkey( $ldap, $dn, $sshkey ) {
+function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
 
     $result = "";
 
-    $userdata[$change_sshkey_attribute] = $sshkey;
+    $userdata[$attribute] = $sshkey;
 
     # Commit modification on directory
     $replace = ldap_mod_replace($ldap, $dn, $userdata);
