@@ -147,7 +147,7 @@ if ( $result === "" ) {
     } else {
 
     # Rebind as Manager if needed
-    if ( $who_change_password == "manager" ) {
+    if ( $who_change_sshkey == "manager" ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     }
 
