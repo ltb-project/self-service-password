@@ -119,7 +119,7 @@ $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
 $messages['changesshkeymessage'] = "{login}，您好：\n\n您的SSH金钥已变更。\n\n如果您没有启动这项变更，请立即与您的管理员联络。";
 $messages['menusshkey'] = "SSH密钥";
-$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\"更改SSH密钥/>";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">更改SSH密钥</a>";
 $messages['sshkeychanged'] = "您的SSH密钥已更改";
 $messages['sshkeyrequired'] = "需要SSH密钥";
 $messages['changesshkeysubject'] = "您的SSH密钥已更改";
