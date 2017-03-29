@@ -379,7 +379,7 @@ function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
 
     if ( $errno ) {
         $result = "sshkeyerror";
-        error_log("LDAP - Modify sshPublicKey error $errno (".ldap_error($ldap).")");
+        error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
     } else {
         $result = "sshkeychanged";
     }
