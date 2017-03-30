@@ -129,5 +129,6 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Verander je SSH Key";
 $messages['changesshkeyhelp'] = "Voer uw wachtwoord in en nieuwe SSH sleutel.";
 $messages['sshkeyerror'] = "SSH Key werd geweigerd door de LDAP-directory";
+$messages['passwordused'] = "You already used this password";
 
 ?>

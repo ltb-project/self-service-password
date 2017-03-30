@@ -131,5 +131,6 @@ $messages['menusshkey'] = "claus SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Canviar la clau d'SSH</a>";
 $messages['changesshkeyhelp'] = "Introduïu la contrasenya i la clau SSH.";
 $messages['changesshkeymessage'] = "Hola {login},\n\nLa claus SSH s'ha canviat.\n\nSi no va iniciar aquest canvi, poseu-vos en contacte amb l'administrador immediatament.";
+$messages['passwordused'] = "You already used this password";
 
 ?>

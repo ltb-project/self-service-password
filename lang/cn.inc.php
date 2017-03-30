@@ -127,5 +127,6 @@ $messages['sshkeyerror'] = "LDAP目录拒绝了SSH密钥";
 $messages['sshkeyrequired'] = "需要SSH密钥";
 $messages['changesshkeymessage'] = "您好{login},\n\n您的SSH金钥已变更。\n\n如果您没有启动这项变更，请立即与您的管理员联络。";
 $messages['changesshkeyhelp'] = "输入您的密码和新的SSH密钥。";
+$messages['passwordused'] = "You already used this password";
 
 ?>

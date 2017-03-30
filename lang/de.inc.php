@@ -129,5 +129,6 @@ $messages['emptysshkeychangeform'] = "Ändern Sie Ihren SSH-Schlüssel";
 $messages['changesshkeymessage'] = "Hallo {login}, \n\nDer SSH-Schlüssel wurde geändert.\n\nWenn Sie diese Änderung nicht eingeleitet haben, wenden Sie sich bitte umgehend an Ihren Administrator.";
 $messages['menusshkey'] = "SSH Schlüssel";
 $messages['changesshkeysubject'] = "Ihr SSH-Schlüssel wurde geändert";
+$messages['passwordused'] = "You already used this password";
 
 ?>

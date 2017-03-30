@@ -35,6 +35,7 @@ $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
+$pwdHistory = array ();
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
  else { $result = "confirmpasswordrequired"; }
@@ -140,7 +141,15 @@ if ( $result === "" ) {
         if ( $mailValues["count"] > 0 ) {
             $mail = $mailValues[0];
         }
-    } 
+    }
+
+    if ( $check_password_history ) {
+        $values = ldap_get_values($ldap, $entry, $password_history_attribute);
+        if(isset($values[0])) {
+            unset($values['count']);
+            $pwdHistory = $values;
+        }
+    }
 
     # Get question/answer values
     $questionValues = ldap_get_values($ldap, $entry, $answer_attribute);
@@ -173,6 +182,11 @@ if ( $result === "" ) {
 # Check password strength
 if ( $result === "" ) {
     $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login );
+}
+
+# Check password history
+if ( $check_password_history && $result === "" ) {
+    $result = check_password_history( $newpassword, $pwdHistory );
 }
 
 # Change password

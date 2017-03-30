@@ -34,6 +34,7 @@ $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
+$pwdHistory = array ();
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
  else { $result = "confirmpasswordrequired"; }
@@ -131,6 +132,14 @@ if ( $result === "" ) {
         }
     }
 
+    if ( $check_password_history ) {
+        $values = ldap_get_values($ldap, $entry, $password_history_attribute);
+        if(isset($values[0])) {
+            unset($values['count']);
+            $pwdHistory = $values;
+        }
+    }
+
     # Check objectClass to allow samba and shadow updates
     $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
     if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
@@ -180,6 +189,12 @@ if ( $result === "" ) {
     $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login );
 }
 
+#==============================================================================
+# Check password history
+#==============================================================================
+if ( $check_password_history && $result === "" ) {
+    $result = check_password_history( $newpassword, $pwdHistory );
+}
 
 #==============================================================================
 # Change password

@@ -20,8 +20,8 @@
 #==============================================================================
 
 # Create SSHA password
-function make_ssha_password($password) {
-    $salt = random_bytes(4);
+function make_ssha_password($password, $salt = null) {
+    $salt = null === $salt ? random_bytes(4) : $salt ;
     $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
     return $hash;
 }
@@ -39,8 +39,8 @@ function make_sha512_password($password) {
 }
 
 # Create SMD5 password
-function make_smd5_password($password) {
-    $salt = random_bytes(4);
+function make_smd5_password($password, $salt = null) {
+    $salt = null === $salt ? random_bytes(4) : $salt ;
     $hash = "{SMD5}" . base64_encode(pack("H*", md5($password . $salt)) . $salt);
     return $hash;
 }
@@ -52,7 +52,10 @@ function make_md5_password($password) {
 }
 
 # Create CRYPT password
-function make_crypt_password($password, $hash_options) {
+function make_crypt_password($password, $hash_options, $salt = null) {
+    if ( $salt != null ) {
+        return '{CRYPT}' . crypt($password, $salt);
+    }
 
     $salt_length = 2;
     if ( isset($hash_options['crypt_salt_length']) ) {
@@ -93,6 +96,93 @@ function make_ad_password($password) {
     $password = "\"" . $password . "\"";
     $adpassword = mb_convert_encoding($password, "UTF-16LE", "UTF-8");
     return $adpassword;
+}
+
+# Returns an array with "scheme" and "salt"
+function user_password_analyzer( $user_password_value ) {
+    $matches = array ();
+    if ( !preg_match('/{(\S+)}(\S+)/', $user_password_value, $matches) ) {
+        throw new InvalidArgumentException('Hashed password does not validate LDAP format');
+    }
+
+    $scheme = strtoupper($matches[1]);
+    $base64_hash_and_salt = $matches[2];
+
+    if ($scheme == 'CRYPT') {
+        # crypt is actually easier, we do not extract the salt, we use the hash as the salt for crypt()
+        return array (
+            'user_password_value' => $user_password_value,
+            'scheme'              => $scheme,
+            'password_hash'       => $base64_hash_and_salt,
+            'salt'                => $base64_hash_and_salt, # hash can be used as salt
+        );
+    }
+
+    $schemes = array (
+        'MD5'    => array('size' => 32, 'salted' => false),
+        'SMD5'   => array('size' => 32, 'salted' => true),
+        'SSHA'   => array('size' => 40, 'salted' => true),
+        'SHA'    => array('size' => 40, 'salted' => false),
+        'SHA512' => array('size' => 40, 'salted' => false),
+    );
+
+    if(!array_key_exists($scheme, $schemes)) {
+        throw new InvalidArgumentException("Password hashing scheme '$scheme' is not supported");
+    }
+
+    $hash_and_salt = base64_decode($base64_hash_and_salt);
+
+    $unpacked = unpack("H{$schemes[$scheme]['size']}hash/a*salt", $hash_and_salt);
+
+    $password_hash = $unpacked['hash'];
+    $salt          = $schemes[$scheme]['salted'] ? $unpacked['salt'] : false;
+
+    return array (
+        'user_password_value' => $user_password_value,
+        'scheme'              => $scheme,
+        'password_hash'       => $password_hash,
+        'salt'                => $salt,
+    );
+}
+
+# Create password in $scheme
+function make_generic_password( $password, $scheme, $salt ) {
+    switch ($scheme) {
+        case "MD5":
+            return make_md5_password($password);
+        case "SMD5":
+            return make_smd5_password($password, $salt);
+        case "SSHA":
+            return make_ssha_password($password, $salt);
+        case "SHA":
+            return make_sha_password($password);
+        case "SHA512":
+            return make_sha512_password($password);
+        case "CRYPT":
+            return make_crypt_password($password, array(), $salt);
+        default:
+            throw new InvalidArgumentException("Scheme $scheme not supported");
+    }
+}
+
+# Returns true if $cleartext verifies $user_password_value
+function ldap_password_verify( $cleartext, $user_password_value ) {
+    $hash_details = user_password_analyzer($user_password_value);
+
+    $password = make_generic_password($cleartext, $hash_details['scheme'], $hash_details['salt']);
+
+    return $user_password_value == $password;
+}
+
+# Returns 'passwordused' if a hash for the $cleartext is present in $pwdHistory
+function check_password_history( $cleartext, $pwdHistory ) {
+    foreach ($pwdHistory as $oldPassword) {
+        if(ldap_password_verify($cleartext, $oldPassword)) {
+            return 'passwordused';
+        }
+    }
+
+    return '';
 }
 
 # Generate SMS token

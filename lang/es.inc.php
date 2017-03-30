@@ -128,5 +128,6 @@ $messages['sshkey'] = "Clave SSH";
 $messages['emptysshkeychangeform'] = "Cambiar su clave SSH";
 $messages['changesshkeyhelp'] = "Introduzca su contraseña y la nueva clave SSH.";
 $messages['sshkeyerror'] = "La clave SSH fue rechazada por el directorio LDAP";
+$messages['passwordused'] = "You already used this password";
 
 ?>
