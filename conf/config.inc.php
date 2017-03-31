@@ -76,9 +76,7 @@ $hash_options['crypt_salt_prefix'] = "$6$";
 $hash_options['crypt_salt_length'] = "6";
 
 # Check password history, refuse password change if password is in password history
-$check_password_history = false;
-# Attribute with password history
-$password_history_attribute = "pwdHistory";
+$ppolicy_options['check_password_history'] = false;
 
 # Local password policy
 # This is applied before directory password policy

@@ -132,8 +132,8 @@ if ( $result === "" ) {
         }
     }
 
-    if ( $check_password_history ) {
-        $values = ldap_get_values($ldap, $entry, $password_history_attribute);
+    if ( $ppolicy_options['check_password_history'] ) {
+        $values = ldap_get_values($ldap, $entry, 'pwdHistory');
         if(isset($values[0])) {
             unset($values['count']);
             $pwdHistory = $values;
@@ -192,7 +192,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Check password history
 #==============================================================================
-if ( $check_password_history && $result === "" ) {
+if ( $ppolicy_options['check_password_history'] && $result === "" ) {
     $result = check_password_history( $newpassword, $pwdHistory );
 }
 
