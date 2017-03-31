@@ -178,10 +178,13 @@ function ldap_password_verify( $cleartext, $user_password_value ) {
     return $user_password_value == $password;
 }
 
-# Returns 'passwordused' if a hash for the $cleartext is present in $pwdHistory
-function check_password_history( $cleartext, $pwdHistory ) {
-    foreach ($pwdHistory as $oldPassword) {
-        if(ldap_password_verify($cleartext, $oldPassword)) {
+# Returns 'passwordused' if a hash for the $cleartext is present in $pwdHistoryList
+function check_password_history( $cleartext, $pwdHistoryList ) {
+    foreach ($pwdHistoryList as $value) {
+        # example value 20170213101453Z#1.3.6.1.4.1.1466.115.121.1.40#4#test
+        $pwdHistory = explode('#', $value, 4);
+
+        if(ldap_password_verify($cleartext, $pwdHistory[3])) {
             return 'passwordused';
         }
     }
