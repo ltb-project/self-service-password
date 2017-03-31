@@ -127,7 +127,8 @@ function user_password_analyzer( $user_password_value ) {
     );
 
     if(!array_key_exists($scheme, $schemes)) {
-        throw new InvalidArgumentException("Password hashing scheme '$scheme' is not supported");
+        error_log("user_password_analyzer: password hashing scheme '$scheme' is not supported");
+        return false;
     }
 
     $hash_and_salt = base64_decode($base64_hash_and_salt);
@@ -168,6 +169,9 @@ function make_generic_password( $password, $scheme, $salt ) {
 # Returns true if $cleartext verifies $user_password_value
 function ldap_password_verify( $cleartext, $user_password_value ) {
     $hash_details = user_password_analyzer($user_password_value);
+
+    # return false if the ldap password could not be analyzed (unknown scheme)
+    if ( false === $hash_details ) return false;
 
     $password = make_generic_password($cleartext, $hash_details['scheme'], $hash_details['salt']);
 
