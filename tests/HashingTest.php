@@ -87,5 +87,20 @@ class HashingTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(ldap_password_verify($password, $hash));
         $this->assertFalse(ldap_password_verify($wrongpassword, $hash));
     }
+
+    /**
+     * Test check password history function
+     */
+    public function testCheckPasswordHistory() {
+        $pwdHistory = array (
+            '20170217112113Z#1.3.6.1.4.1.1466.115.121.1.40#38#{SSHA}m7Be77fKQfm32blISCpzEMFNkRxUKW8A',
+            '20170127181243Z#1.3.6.1.4.1.1466.115.121.1.40#38#{SSHA}+H+T7c7YN2MiGaczxjVjODnOKmNzUGx7',
+            '20170113144233Z#1.3.6.1.4.1.1466.115.121.1.40#24#{SMD5}BTKHjNdmNzmouyA7+8Pwl7rjyqY=',
+        );
+
+        $this->assertSame('', check_password_history('A new password', $pwdHistory));
+        $this->assertSame('passwordused', check_password_history('luna', $pwdHistory));
+        $this->assertSame('passwordused', check_password_history('p4ssw0rd', $pwdHistory));
+    }
 }
 
