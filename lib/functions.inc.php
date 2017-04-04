@@ -133,10 +133,15 @@ function user_password_analyzer( $user_password_value ) {
 
     $hash_and_salt = base64_decode($base64_hash_and_salt);
 
-    $unpacked = unpack("H{$schemes[$scheme]['size']}hash/a*salt", $hash_and_salt);
+    # salt may contain null bytes
+    $unpacked = unpack("H{$schemes[$scheme]['size']}hash/C*salt", $hash_and_salt);
 
     $password_hash = $unpacked['hash'];
-    $salt          = $schemes[$scheme]['salted'] ? $unpacked['salt'] : false;
+
+    # remove hash to keep only the salt bytes
+    unset($unpacked['hash']);
+    $salt = join('', array_map('chr', $unpacked));
+    $salt = $schemes[$scheme]['salted'] ? $salt : false;
 
     return array (
         'user_password_value' => $user_password_value,
