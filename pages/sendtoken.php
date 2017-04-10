@@ -93,7 +93,7 @@ if ( $result === "" ) {
         $result = "ldaperror";
         error_log("LDAP - Bind error $errno (".ldap_error($ldap).")");
     } else {
-    
+
     # Search for user
     $ldap_filter = str_replace("{login}", $login, $ldap_filter);
     $search = ldap_search($ldap, $ldap_base, $ldap_filter);
@@ -112,7 +112,7 @@ if ( $result === "" ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
-    
+
     # Compare mail values
     $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
     unset($mailValues["count"]);
@@ -199,8 +199,8 @@ if ( $result === "" ) {
         $reset_url = $method."://".$server_name.$script_name;
     }
 
-    $reset_url .= "?action=resetbytoken&token=$token";
-    
+    $reset_url .= "?action=resetbytoken&token=".urlencode($token);
+
     if ( !empty($reset_request_log) ) {
         error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
     } else {
