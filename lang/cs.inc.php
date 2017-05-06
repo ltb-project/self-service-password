@@ -127,5 +127,10 @@ $messages['sshkeychanged'] = "Váš SSH klíč byl změněn";
 $messages['sshkeyerror'] = "SSH klíč byl odmítnut v adresáři LDAP";
 $messages['sshkey'] = "SSH klíč";
 $messages['menusshkey'] = "SSH klíč";
-
+$messages['keyinvalid'] = "Klíč SSH je neplatný";
+$messages['keytoosmall'] = "Velikost bitů klíče SSH je příliš malá";
+$messages['sshkeypolicy'] = "Váš klíč SSH musí splňovat následující omezení:";
+$messages['sshkeypolicyminbits'] = "Minimální velikost bitového klíče SSH:";
+$messages['sshpubkey'] = "SSH veřejný klíč";
+$messages['sshkeyexample'] = "Klíč SSH (musí začínat s: ssh-rsa AAAA ...)";
 ?>

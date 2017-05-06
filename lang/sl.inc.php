@@ -127,5 +127,10 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Spreminjanje SSH ključ";
 $messages['changesshkeyhelp'] = "Vnesite geslo in nov ključ SSH.";
 $messages['sshkeyerror'] = "SSH Ključna je bila zavrnjena z imeniku LDAP";
-
+$messages['keyinvalid'] = "ključ SSH je neveljaven";
+$messages['keytoosmall'] = "SSH ključ bit velikost je premajhna";
+$messages['sshkeypolicy'] = "Vaš SSH ključ mora biti v skladu z naslednjimi omejitvami:";
+$messages['sshkeypolicyminbits'] = "Minimalna velikost malo ključa SSH:";
+$messages['sshpubkey'] = "SSH javnih ključev";
+$messages['sshkeyexample'] = "SSH Key (mora začeti z: ssh-RSA AAAA ...)";
 ?>

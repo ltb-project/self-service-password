@@ -128,5 +128,10 @@ $messages['sshkey'] = "Clave SSH";
 $messages['emptysshkeychangeform'] = "Cambiar su clave SSH";
 $messages['changesshkeyhelp'] = "Introduzca su contraseña y la nueva clave SSH.";
 $messages['sshkeyerror'] = "La clave SSH fue rechazada por el directorio LDAP";
-
+$messages['keyinvalid'] = "La clave SSH no es válida";
+$messages['keytoosmall'] = "Tamaño de bit de clave SSH es demasiado pequeño";
+$messages['sshkeypolicy'] = "Su clave SSH debe cumplir con las siguientes restricciones:";
+$messages['sshkeypolicyminbits'] = "Tamaño de bit mínimo de la clave SSH:";
+$messages['sshpubkey'] = "Clave pública SSH";
+$messages['sshkeyexample'] = "Clave SSH (debe comenzar con: ssh-rsa AAAA ...)";
 ?>

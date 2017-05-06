@@ -129,5 +129,10 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Verander je SSH Key";
 $messages['changesshkeyhelp'] = "Voer uw wachtwoord in en nieuwe SSH sleutel.";
 $messages['sshkeyerror'] = "SSH Key werd geweigerd door de LDAP-directory";
-
+$messages['keyinvalid'] = "SSH-sleutel is ongeldig";
+$messages['keytoosmall'] = "SSH-sleutelbitsgrootte is te klein";
+$messages['sshkeypolicy'] = "Uw SSH-sleutel moet voldoen aan de volgende beperkingen:";
+$messages['sshkeypolicyminbits'] = "Minimum bitmaat van SSH-sleutel:";
+$messages['sshpubkey'] = "SSH Public Key";
+$messages['sshkeyexample'] = "SSH Key (moet beginnen met: ssh-rsa AAAA ...)";
 ?>

@@ -127,5 +127,10 @@ $messages['sshkey'] = "SSH kľúč";
 $messages['emptysshkeychangeform'] = "Zmeňte svoj SSH kľúč";
 $messages['changesshkeyhelp'] = "Zadajte heslo a nové SSH kľúč.";
 $messages['sshkeyerror'] = "SSH kľúč bol odmietnutý v adresári LDAP";
-
+$messages['keyinvalid'] = "Kľúč SSH je neplatný";
+$messages['keytoosmall'] = "Veľkosť bitového kľúča SSH je príliš malá";
+$messages['sshkeypolicy'] = "Váš kľúč SSH musí spĺňať nasledujúce obmedzenia:";
+$messages['sshkeypolicyminbits'] = "Minimálna veľkosť bitov SSH kľúča:";
+$messages['sshpubkey'] = "SSH verejný kľúč";
+$messages['sshkeyexample'] = "SSH kľúč (musí začínať s: ssh-rsa AAAA ...)";
 ?>

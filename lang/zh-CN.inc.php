@@ -127,5 +127,10 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "您的新密码与您的用户名相同";
 $messages['policydifflogin'] = "您的新密码不能与您的用户名相同";
-
+$messages['keyinvalid'] = "SSH密钥无效";
+$messages['keytoosmall'] = "SSH密钥位的大小太小";
+$messages['sshkeypolicy'] = "您的SSH密钥必须符合以下约束：";
+$messages['sshkeypolicyminbits'] = "SSH密钥的最小位大小：";
+$messages['sshpubkey'] = "SSH公钥";
+$messages['sshkeyexample'] = "SSH密钥（必须以：ssh-rsa AAAA ...）";
 ?>

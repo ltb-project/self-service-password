@@ -127,5 +127,10 @@ $messages['sshkey'] = "SSH kulcs";
 $messages['emptysshkeychangeform'] = "Változás az SSH kulcs";
 $messages['changesshkeyhelp'] = "Írja be a jelszót és az új SSH kulcs.";
 $messages['sshkeyerror'] = "SSH kulcs elutasította az LDAP címtár";
-
+$messages['keyinvalid'] = "Az SSH kulcs érvénytelen";
+$messages['keytoosmall'] = "Az SSH kulcs bitmérete túl kicsi";
+$messages['sshkeypolicy'] = "Az SSH kulcsnak meg kell felelnie az alábbi korlátozásoknak:";
+$messages['sshkeypolicyminbits'] = "Az SSH kulcs legkisebb bites mérete:";
+$messages['sshpubkey'] = "SSH nyilvános kulcs";
+$messages['sshkeyexample'] = "SSH kulcs (meg kell kezdeni: ssh-rsa AAAA ...)";
 ?>
