@@ -155,6 +155,12 @@ if ( $result === "" ) {
 
 }
 
+#==============================================================================
+# Check SSH key
+#==============================================================================
+if ( $result === "" ) {
+    $result = check_sshkey( $sshkey, $sshkey_policy_config );
+}
 
 #==============================================================================
 # Change sshPublicKey
@@ -183,6 +189,12 @@ if ( $show_help ) {
 }
 ?>
 
+<?php
+if ($sshkey_show_policy_pos === 'above') {
+    show_sshkey_policy($messages, $sshkey_policy_config, $result);
+}
+?>
+
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
     <div class="form-group">
@@ -204,11 +216,11 @@ if ( $show_help ) {
         </div>
     </div>
     <div class="form-group">
-        <label for="sshkey" class="col-sm-4 control-label"><?php echo $messages["sshkey"]; ?></label>
+        <label for="sshkey" class="col-sm-4 control-label"><?php echo $messages["sshpubkey"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-terminal"></i></span>
-                <textarea type="text" name="sshkey" id="sshkey" class="form-control" rows="2" placeholder="<?php echo $messages["sshkey"]; ?>"></textarea>
+                <textarea type="text" name="sshkey" id="sshkey" class="form-control" rows="2" placeholder="<?php echo $messages["sshkeyexample"]; ?>"></textarea>
             </div>
         </div>
     </div>
@@ -229,6 +241,12 @@ if ( $show_help ) {
     </div>
 </form>
 </div>
+
+<?php
+if ($sshkey_show_policy_pos === 'below') {
+    show_sshkey_policy($messages, $sshkey_policy_config, $result);
+}
+?>
 
 <?php } else {
 
