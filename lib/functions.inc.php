@@ -172,6 +172,27 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     echo "</div>\n";
 }
 
+# Display SSH key policy bloc
+# @return HTML code
+function show_sshkey_policy( $messages, $sshkey_policy_config, $result ) {
+    extract( $sshkey_policy_config );
+
+    # Should we display it?
+    if ( !$sshkey_show_policy or $sshkey_show_policy === "never" ) { return; }
+    if ( $sshkey_show_policy === "onerror" ) {
+        if ( !preg_match( "/keyinvalid|keytoosmall/" , $result) ) { return; }
+    }
+
+    # Display bloc
+    echo "<div class=\"help alert alert-warning\">\n";
+    echo "<p>".$messages["sshkeypolicy"]."</p>\n";
+    echo "<ul>\n";
+    if ( $sshkey_min_bits     ) { echo "<li>".$messages["sshkeypolicyminbits"]   ." $sshkey_min_bits</li>\n"; }
+    echo "</ul>\n";
+    echo "</div>\n";
+}
+
+
 # Check password strength
 # @return result code
 function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login ) {
@@ -237,6 +258,29 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
 
     return $result;
+}
+
+function check_sshkey( $ssh_pubkey, $sshkey_policy_config ) {
+    extract( $sshkey_policy_config );
+
+    # Split up the SSH key
+    $parts = explode(' ', $ssh_pubkey);
+
+    # Check this gave us at least two parts, and SSH key type is valid
+    if (count($parts) < 2 || $parts[0] != 'ssh-rsa') { return "keyinvalid"; }
+
+    # Unpack the SSH public key and get the bits from headers [19,22]
+    $hex = base64_decode($parts[1]);
+    $hexstr = unpack('H44', $hex);
+    $bits = ((hexdec(substr($hexstr[1], -8))-1)*8);
+
+    # Length is a valid number?
+    if ($bits != 1024 && $bits != 2048 && $bits != 4096) { return "keyinvalid"; }
+
+    # Length is at least our minimum size?
+    if ($sshkey_min_bits > $bits) { return "keytoosmall"; }
+
+    return "";
 }
 
 # Change password
