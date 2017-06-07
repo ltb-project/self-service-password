@@ -22,6 +22,13 @@
 # Create SSHA password
 function make_ssha_password($password) {
     $salt = random_bytes(4);
+    $hash = make_ssha_password_with_salt($password, $salt);
+    return $hash;
+}
+
+# Creates SSHA password using custom salt
+# Notes: use ONLY for verification purpose, security issue when using this function to encode a password into a LDAP with a fixed salt.
+function make_ssha_password_with_salt($password, $salt) {
     $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
     return $hash;
 }
@@ -41,6 +48,13 @@ function make_sha512_password($password) {
 # Create SMD5 password
 function make_smd5_password($password) {
     $salt = random_bytes(4);
+    $hash = make_smd5_password_with_salt($password, $hash);
+    return $hash;
+}
+
+# Creates SMD5 password using custom salt
+# Notes: use ONLY for verification purpose, security issue when using this function to encode a password into a LDAP with a fixed salt.
+function make_smd5_password_with_salt($password, $salt) {
     $hash = "{SMD5}" . base64_encode(pack("H*", md5($password . $salt)) . $salt);
     return $hash;
 }
@@ -61,9 +75,9 @@ function make_crypt_password($password, $hash_options) {
 
     // Generate salt
     $possible = '0123456789'.
-		'abcdefghijklmnopqrstuvwxyz'.
-		'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
-		'./';
+        'abcdefghijklmnopqrstuvwxyz'.
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
+        './';
     $salt = "";
 
     while( strlen( $salt ) < $salt_length ) {
@@ -74,6 +88,13 @@ function make_crypt_password($password, $hash_options) {
         $salt = $hash_options['crypt_salt_prefix'] . $salt;
     }
 
+    $hash = make_crypt_password_with_salt( $password,  $salt);
+    return $hash;
+}
+
+# Creates CRYPT password using custom salt
+# Notes: use ONLY for verification purpose, security issue when using this function to encode a password into a LDAP with a fixed salt.
+function make_crypt_password_with_salt($password, $salt) {
     $hash = '{CRYPT}' . crypt( $password,  $salt);
     return $hash;
 }
@@ -238,6 +259,84 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
     return $result;
 }
+# Hash old password using same method and salt as ldap password
+# @return the old password, hashed
+function hash_old_password($ldap_password, $old_password) {
+    if ( preg_match( '/^\{(\w+)\}/', $ldap_password, $matches ) ) {
+        $current_hash_method = strtoupper($matches[1]);
+
+        # Check old password using current hash
+        if ( $current_hash_method == "SSHA" ) {
+            #Get salt of ldap_password
+            $sha1_len = 20;
+            $ldap_bytes = base64_decode(str_replace("{SSHA}", "", str_replace("{ssha}", "", $ldap_password)));
+            $ldap_salt = substr($ldap_bytes, $sha1_len);
+            $old_password_hash = make_ssha_password_with_salt($old_password, $ldap_salt);
+        }
+        if ( $current_hash_method == "SHA" ) {
+            $old_password_hash = make_sha_password($old_password);
+        }
+        if ( $current_hash_method == "SHA512" ) {
+            $old_password_hash = make_sha512_password($old_password);
+        }
+        if ( $current_hash_method == "SMD5" ) {
+            $md5_len = 16;
+            $ldap_bytes = base64_decode(str_replace("{SMD5}", "", str_replace("{smd5}", "", $ldap_password)));
+            $ldap_salt = substr($ldap_bytes, $md5_len);
+            $old_password_hash = make_smd5_password_with_salt($old_password, $ldap_salt);
+        }
+        if ( $current_hash_method == "MD5" ) {
+            $old_password_hash = make_md5_password($old_password);
+        }
+        if ( $current_hash_method == "CRYPT" ) {
+            # salt value and length may vary. Checking values for a recognizable form. They are all described in php crypt method online description
+            $ldap_bytes = str_replace("{CRYPT}", "", str_replace("{crypt}", "", $ldap_password));
+            if ( substr($ldap_bytes, 0, 1) == '_' ) {
+                # [NOT TESTED]if $ldap_password starts with '_': Extended DES hash, salt starts with '_' and is 9 bytes long
+                $ldap_salt = substr($ldap_bytes, 0, 9);
+            }
+            elseif ( substr($ldap_bytes, 0, 3) == '$1$' ) {
+                # if $ldap_password starts with '$1$': MD5 hashing, salt starts with $1$ and ends with '$'
+                $exploded = explode('$', $ldap_bytes, 4);
+                $ldap_salt = '$1$' . $exploded[2] . '$';
+            }
+            elseif ( substr($ldap_bytes, 0, 2) == '$2' ) {
+                # [NOT TESTABLE]if $ldap_password starts with '$2': Blowfish hash
+                $exploded = explode('$', $ldap_bytes, 4);
+                $ldap_salt = '$' . $exploded[1] . '$' . $exploded[2] . '$' . substr($exploded[3], 0, 22);
+            }
+            elseif ( substr($ldap_bytes, 0, 3) == '$5$' ) {
+                # if $ldap_password starts with '$5$': sha256 sum
+                $exploded = explode('$', $ldap_bytes, 5);
+                if ( substr($exploded[2], 0, 7) == 'rounds=' ) {
+                    $ldap_salt = '$5$' . $exploded[2] . '$' . $exploded[3] . '$';
+                } else {
+                    $ldap_salt = '$5$' . $exploded[2] . '$';
+                }
+            }
+            # if $ldap_password starts with '$6$': sha512 sum, salt is 16 char long
+            elseif ( substr($ldap_bytes, 0, 3) == '$6$' ) {
+                # if $ldap_password starts with '$6$': sha512 sum
+                $exploded = explode('$', $ldap_bytes, 5);
+                if ( substr($exploded[2], 0, 7) == 'rounds=' ) {
+                    $ldap_salt = '$6$' . $exploded[2] . '$' . $exploded[3] . '$';
+                } else {
+                    $ldap_salt = '$6$' . $exploded[2] . '$';
+                }
+            }
+            else {
+                # if  $ldap password doesn't start with '$': DES hash, salt = two first letters
+                $ldap_salt = substr($ldap_bytes, 0, 2);
+            }
+            $old_password_hash = make_crypt_password_with_salt($old_password, $ldap_salt);
+        }
+    }
+    else {
+        # Could not get the hash type, empty value for old_password_hash so that it fails
+        $old_password_hash = "";
+    }
+    return $old_password_hash;
+}
 
 # Change password
 # @return result code
@@ -267,7 +366,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
             if ( isset($userpassword) ) {
                 if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
                     $hash = strtoupper($matches[1]);
-		}
+                }
             }
         }
     }
