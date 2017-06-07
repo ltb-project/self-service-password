@@ -44,7 +44,9 @@ if ($handle = opendir('lang')) {
     }
     closedir($handle);
 }
-$lang = detectLanguage($lang, $languages);
+if(!isset($lang) or $lang == "auto") {
+    $lang = detectLanguage($lang, $languages);
+}
 require_once("lang/$lang.inc.php");
 if (file_exists("conf/$lang.inc.php")) {
     require_once("conf/$lang.inc.php");

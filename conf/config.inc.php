@@ -220,7 +220,7 @@ $max_attempts = 3;
 $show_help = true;
 
 # Language
-$lang ="en";
+$lang ="auto";
 
 # Display menu on top
 $show_menu = true;
