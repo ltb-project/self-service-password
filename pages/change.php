@@ -167,22 +167,21 @@ if ( $result === "" ) {
         $search_password_info = ldap_read( $ldap, $userdn, "(objectClass=*)", array("pwdAccountLockedTime", "userPassword") );
 
         # Read LDAP password value
-        #$search_password_info = ldap_read( $ldap, $userdn, "(objectClass=*)", array("userPassword") );
         if ( $search_password_info ) {
             $first_entry = ldap_first_entry($ldap, $search_password_info);
             $pwd_locked = ldap_get_values($ldap, $first_entry, "pwdAccountLockedTime");
-            if ( isset($pwd_locked) ) {
+            if ( $pwd_locked && $pwd_locked["count"] > 0 ) {
                 #LDAP attribute pwdAccountLockedTime is still set after our earlier ldap_bind attempt: user is locked out
                 error_log("LDAP - denying password change - user ". $login ." is locked out");
             }
             else {
                 $password_val = ldap_get_values($ldap, $first_entry, "userPassword");
-                if ( isset($password_val) ) {
+                if ( $password_val && $password_val["count"] > 0 ) {
                     $old_pwd_hashed = hash_old_password($password_val[0], $oldpassword);
 
                     if ( hash_equals($password_val[0], $old_pwd_hashed)) {
                         # Hashes match: user can't log in for some reason (expired, most likely) but we should allow a password change
-                        error_log("LDAP - Allowing password change for user " . $login . "despite bind unsuccessful");
+                        error_log("LDAP - Allowing password change for user " . $login . " despite bind unsuccessful");
                         $errno = 0;
                     }
                     else {
