@@ -38,16 +38,24 @@ require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 $languages = array();
 if ($handle = opendir('lang')) {
     while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
-             array_push($languages, str_replace(".inc.php", "", $entry));
+        if ($entry != "." && $entry != ".." ) {
+            $entry_lang = str_replace(".inc.php", "", $entry);
+            # Only add language to possibilities if it is the default language or part of the allowed languages 
+            # empty $allowed_lang <=> all languages are allowed
+            if ($entry_lang == $lang || empty($allowed_lang) || in_array($entry_lang, $allowed_lang) ) {
+                array_push($languages, $entry_lang);
+            }
         }
     }
     closedir($handle);
 }
-if(!isset($lang) or $lang == "auto") {
-    $lang = detectLanguage($lang, $languages);
+$lang = detectLanguage($lang, $languages);
+if (file_exists("lang/$lang.inc.php")) {
+    require_once("lang/$lang.inc.php");
+} else {
+    # Fall back to english if default $lang does not actually exist
+    require_once("lang/en.inc.php");
 }
-require_once("lang/$lang.inc.php");
 if (file_exists("conf/$lang.inc.php")) {
     require_once("conf/$lang.inc.php");
 }
