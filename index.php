@@ -55,6 +55,7 @@ if (file_exists("lang/$lang.inc.php")) {
 } else {
     # Fall back to english if default $lang does not actually exist
     require_once("lang/en.inc.php");
+    error_log('Invalid configuration file, no language file associated with $lang value ' . $lang . '. Switching to english.');
 }
 if (file_exists("conf/$lang.inc.php")) {
     require_once("conf/$lang.inc.php");
