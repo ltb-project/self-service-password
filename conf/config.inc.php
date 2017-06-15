@@ -222,7 +222,7 @@ $show_help = true;
 # Default language
 $lang = "en";
 
-# List of authorized languages. If empty, all language are allowed. 
+# List of authorized languages. If empty, all language are allowed.
 # If not empty and the user's browser language setting is not in that list, language from $lang will be used.
 $allowed_lang = array();
 

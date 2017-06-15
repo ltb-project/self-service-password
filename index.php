@@ -32,6 +32,12 @@ require_once("lib/detectbrowserlanguage.php");
 require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 
 #==============================================================================
+# Error reporting
+#==============================================================================
+error_reporting(0);
+if($debug) error_reporting(E_ALL);
+
+#==============================================================================
 # Language
 #==============================================================================
 # Available languages
@@ -40,7 +46,7 @@ if ($handle = opendir('lang')) {
     while (false !== ($entry = readdir($handle))) {
         if ($entry != "." && $entry != ".." ) {
             $entry_lang = str_replace(".inc.php", "", $entry);
-            # Only add language to possibilities if it is the default language or part of the allowed languages 
+            # Only add language to possibilities if it is the default language or part of the allowed languages
             # empty $allowed_lang <=> all languages are allowed
             if ($entry_lang == $lang || empty($allowed_lang) || in_array($entry_lang, $allowed_lang) ) {
                 array_push($languages, $entry_lang);
@@ -50,22 +56,10 @@ if ($handle = opendir('lang')) {
     closedir($handle);
 }
 $lang = detectLanguage($lang, $languages);
-if (file_exists("lang/$lang.inc.php")) {
-    require_once("lang/$lang.inc.php");
-} else {
-    # Fall back to english if default $lang does not actually exist
-    require_once("lang/en.inc.php");
-    error_log('Invalid configuration file, no language file associated with $lang value ' . $lang . '. Switching to english.');
-}
+require_once("lang/$lang.inc.php");
 if (file_exists("conf/$lang.inc.php")) {
     require_once("conf/$lang.inc.php");
 }
-
-#==============================================================================
-# Error reporting
-#==============================================================================
-error_reporting(0);
-if($debug) error_reporting(E_ALL);
 
 #==============================================================================
 # PHP configuration tuning
