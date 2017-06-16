@@ -32,14 +32,25 @@ require_once("lib/detectbrowserlanguage.php");
 require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 
 #==============================================================================
+# Error reporting
+#==============================================================================
+error_reporting(0);
+if($debug) error_reporting(E_ALL);
+
+#==============================================================================
 # Language
 #==============================================================================
 # Available languages
 $languages = array();
 if ($handle = opendir('lang')) {
     while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
-             array_push($languages, str_replace(".inc.php", "", $entry));
+        if ($entry != "." && $entry != ".." ) {
+            $entry_lang = str_replace(".inc.php", "", $entry);
+            # Only add language to possibilities if it is the default language or part of the allowed languages
+            # empty $allowed_lang <=> all languages are allowed
+            if ($entry_lang == $lang || empty($allowed_lang) || in_array($entry_lang, $allowed_lang) ) {
+                array_push($languages, $entry_lang);
+            }
         }
     }
     closedir($handle);
@@ -49,12 +60,6 @@ require_once("lang/$lang.inc.php");
 if (file_exists("conf/$lang.inc.php")) {
     require_once("conf/$lang.inc.php");
 }
-
-#==============================================================================
-# Error reporting
-#==============================================================================
-error_reporting(0);
-if($debug) error_reporting(E_ALL);
 
 #==============================================================================
 # PHP configuration tuning

@@ -219,8 +219,12 @@ $max_attempts = 3;
 # Display help messages
 $show_help = true;
 
-# Language
-$lang ="en";
+# Default language
+$lang = "en";
+
+# List of authorized languages. If empty, all language are allowed.
+# If not empty and the user's browser language setting is not in that list, language from $lang will be used.
+$allowed_lang = array();
 
 # Display menu on top
 $show_menu = true;
