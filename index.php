@@ -225,6 +225,15 @@ $mailer->LE            = $mail_newline;
 
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-
+<script>
+    $(document).ready(function(){
+        // Menu links popovers
+        $('[data-toggle="menu-popover"]').popover({
+            trigger: 'hover',
+            placement: 'bottom',
+            container: 'body' // Allows the popover to be larger than the menu button
+        });
+    });
+</script>
 </body>
 </html>
