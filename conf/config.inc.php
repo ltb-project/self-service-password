@@ -206,6 +206,11 @@ $smsmailto = "{sms_attribute}@service.provider.com";
 $smsmail_subject = "Provider code";
 # Message
 $sms_message = "{smsresetmessage} {smstoken}";
+# Remove non digit characters from GSM number
+$sms_sanitize_number = false;
+# Truncate GSM number
+$sms_truncate_number = false;
+$sms_truncate_number_length = 10;
 
 # SMS token length
 $sms_token_length = 6;

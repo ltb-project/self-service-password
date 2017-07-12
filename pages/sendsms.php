@@ -180,8 +180,12 @@ if ( $result === "" ) {
     # Check sms number
     if ( $smsValues["count"] > 0 ) {
         $sms = $smsValues[0];
-          $sms = preg_replace('/[^0-9]/','',$sms);
-          $sms = substr($sms, -10);
+        if ( $sms_sanitize_number ) {
+            $sms = preg_replace('/[^0-9]/', '', $sms);
+        }
+        if ( $sms_truncate_number ) {
+            $sms = substr($sms, -$sms_truncate_number_length);
+        }
     }
 
     if ( !$sms ) {
