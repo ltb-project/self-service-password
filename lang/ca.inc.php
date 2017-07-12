@@ -24,6 +24,7 @@
 #==============================================================================
 # Catalan
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Cal instal·lar PHP LDAP per fer servir aquesta eina";
 $messages['nophpmhash'] = "Cal instal·lar PHP mhash per fer servir el mode Samba";
 $messages['ldaperror'] = "No es pot accedir al servidor LDAP";
@@ -46,7 +47,7 @@ $messages['toobig'] = "La vostra contrasenya és massa llarga";
 $messages['minlower'] = "La vostra contrasenya no té prou minúscules";
 $messages['minupper'] = "La vostra contrasenya no té prou majúscules";
 $messages['mindigit'] = "La vostra contrasenya no té prou xifres";
-$messages['minspecial'] = "La vostra contrasenya no té prou caràcters especials";	
+$messages['minspecial'] = "La vostra contrasenya no té prou caràcters especials";
 $messages['sameasold'] = "La nova contrasenya és igual a la antiga";
 $messages['policy'] = "Cal que la contrasenya respecti les següents normes";
 $messages['policyminlength'] = "Longitud mínima";
@@ -93,7 +94,6 @@ $messages['changesubject'] = "Heu canviat la vostra contrasenya";
 $messages['badcaptcha'] = "El reCAPTCHA no és correcte. Torneu a provar-ho.";
 $messages['notcomplex'] = "La vostra contrasenya no tÃ© prou classes diferents de caràcters";
 $messages['policycomplex'] = "Mínim de classes de caràcters diferents:";
-$messages['nophpmcrypt'] = "Has d'instal·lar la llibreria PHP mcrypt per usar les funcions criptorgràfiquess";
 $messages['sms'] = "SMS Numero";
 $messages['smsresetmessage'] = "El token de restabliment de contrasenya és:";
 $messages['sendsmshelp'] = "Introdueixi el seu nom d'usuari per obtenir testimoni de restabliment de contrasenya. A continuació, escriviu token en els SMS enviats.";
@@ -121,5 +121,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['sshkeyrequired'] = "Es requereix SSH Key";
+$messages['changesshkeysubject'] = "La seva clau de SSH s'ha canviat";
+$messages['emptysshkeychangeform'] = "Canviar la clau d'SSH";
+$messages['sshkey'] = "claus SSH";
+$messages['sshkeychanged'] = "La seva clau de SSH es va canviar";
+$messages['sshkeyerror'] = "SSH Key was refused by the LDAP directory";
+$messages['menusshkey'] = "claus SSH";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Canviar la clau d'SSH</a>";
+$messages['changesshkeyhelp'] = "Introduïu la contrasenya i la clau SSH.";
+$messages['changesshkeymessage'] = "Hola {login},\n\nLa claus SSH s'ha canviat.\n\nSi no va iniciar aquest canvi, poseu-vos en contacte amb l'administrador immediatament.";
 
 ?>

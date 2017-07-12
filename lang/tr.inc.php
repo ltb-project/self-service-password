@@ -22,6 +22,7 @@
 #==============================================================================
 # Turkish
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Bu aracı kullanabilmek için PHP LDAP yüklemelisiniz";
 $messages['nophpmhash'] = "Samba modunu kullanmak için PHP mhash yüklemelisiniz";
 $messages['ldaperror'] = "LDAP dizinine ulaşılamıyor";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Parolanız değiştirildi";
 $messages['badcaptcha'] = "Girilen güvenlik kodu hatalı, tekrar deneyin.";
 $messages['notcomplex'] = "Parolanız yeterli sayıda değişik sınıf karaktere sahip değil";
 $messages['policycomplex'] = "Minimum değişik karakter sınıfı sayısı:";
-$messages['nophpmcrypt'] = "Kriptografik fonksiyonları kullanabilmek için PHP mcrypt yüklemelisiniz";
 $messages['sms'] = "SMS numarası";
 $messages['smsresetmessage'] = "Parola sıfırlama belirteciniz:";
 $messages['sendsmshelp'] = "SMS almak için kullanıcı adınızı, sonrasında da SMS ile yollanan belirteci girin.";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Sayın {login}, \n\nSSH Anahtarınız değiştirildi. \n\nBu değişikliği başlatmadıysanız lütfen derhal yöneticinize başvurun.";
+$messages['menusshkey'] = "SSH Anahtarı";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSH Anahtarınızı değiştirin</a>";
+$messages['sshkeychanged'] = "SSH Anahtarınız değiştirildi";
+$messages['sshkeyrequired'] = "SSH Anahtarı gerekiyor";
+$messages['changesshkeysubject'] = "SSH Anahtarınız değiştirildi";
+$messages['sshkey'] = "SSH Anahtarı";
+$messages['emptysshkeychangeform'] = "SSH Anahtarınızı Değiştirin";
+$messages['changesshkeyhelp'] = "Parolanızı ve yeni SSH anahtarınızı girin.";
+$messages['sshkeyerror'] = "SSH Anahtarı LDAP dizini tarafından reddedildi";
 
 ?>

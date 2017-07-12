@@ -22,6 +22,7 @@
 #==============================================================================
 # Greek
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP LDAP για τη λειτουργία αυτής της εφαρμογής";
 $messages['nophpmhash'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP mhash για τη χρήση Samba";
 $messages['ldaperror'] = "Αδυναμία πρόσβασης στην υπηρεσία καταλόγου";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Ο κωδικός σας άλλαξε";
 $messages['badcaptcha'] = "Το reCAPTCHA δεν καταχωρήθηκε σωστά. Δοκιμάστε πάλι.";
 $messages['notcomplex'] = "Ο κωδικός σας δεν περιέχει αρκετά διαφορετικά είδη χαρακτήρων";
 $messages['policycomplex'] = "Ελάχιστος αριθμός διαφορετικών ειδών χαρακτήρων:";
-$messages['nophpmcrypt'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP mcrypt για τη χρήση κρυπτογραφικών συναρτήσεων";
 $messages['sms'] = "Αριθμός SMS";
 $messages['smsresetmessage'] = "Το μοναδικό αναγνωριστικό αλλαγής του κωδικού σας είναι:";
 $messages['sendsmshelp'] = "Καταχωρήστε το όνομα χρήστη για να λάβετε μοναδικό αναγνωριστικό αλλαγής κωδικού. Στη συνέχεια καταχωρήστε το μοναδικό αναγνωριστικό που λάβατε μέσω SMS.";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Ορίστε τις ερωτήσεις α�
 $messages['emptysendsmsform'] = "Ζητήστε ένα μοναδικό αναγνωριστικό αλλαγής κωδικού";
 $messages['sameaslogin'] = "Ο νέος σας κωδικός είναι ίδιος με το όνομα χρήστη";
 $messages['policydifflogin'] = "Ο νέος σας κωδικός δεν πρέπει να είναι ίδιος με το όνομα χρήστη";
+$messages['changesshkeysubject'] = "SSH κλειδί σας έχει αλλάξει";
+$messages['changesshkeyhelp'] = "Εισάγετε τον κωδικό σας και νέο κλειδί SSH.";
+$messages['changesshkeymessage'] = "Γεια σας {login}, \n\nΤα αρχεία SSH Key έχει αλλάξει. \n\nΑν δεν ξεκινήσατε αυτήν την αλλαγή, επικοινωνήστε με το διαχειριστή σας αμέσως.";
+$messages['sshkeychanged'] = "SSH Key σας άλλαξε";
+$messages['sshkeyerror'] = "SSH Key απορρίφθηκε από τον κατάλογο LDAP";
+$messages['emptysshkeychangeform'] = "Αλλάξτε SSH Key σας";
+$messages['sshkeyrequired'] = "SSH Key απαιτείται";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Αλλάξτε SSH Key σας</a>";
+$messages['sshkey'] = "SSH Key";
 
 ?>

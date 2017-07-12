@@ -22,6 +22,7 @@
 #==============================================================================
 # Русский
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Для использования данной программы Вам необходимо установить PHP-Ldap";
 $messages['nophpmhash'] = "Для использования Samba mode установите сначала PHP mhash";
 $messages['ldaperror'] = "Нет доступа к LDAP directory";
@@ -92,7 +93,6 @@ $messages['policycomplex'] = "Минимальное количество сим
 $messages['smsresetmessage'] = "Your password reset token is:";
 $messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_tokens setting";
 $messages['smsnotsent'] = "Error when sending SMS";
-$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['sms'] = "SMS number";
 $messages['smstoken'] = "SMS token";
 $messages['smsnonumber'] = "Can't find mobile number";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Здравствуйте, {login}, \n\nВаш ключ SSH был изменен. \n\nЕсли вы не инициировали это изменение, немедленно обратитесь к администратору.";
+$messages['menusshkey'] = "Ключ SSH";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Изменение ключа SSH</a>";
+$messages['sshkeychanged'] = "Ваш SSH-ключ был изменен";
+$messages['sshkeyrequired'] = "Необходимо указать ключ SSH.";
+$messages['changesshkeysubject'] = "Ваш SSH-ключ был изменен";
+$messages['sshkey'] = "Ключ SSH";
+$messages['emptysshkeychangeform'] = "Изменение ключа SSH";
+$messages['changesshkeyhelp'] = "Введите свой пароль и новый ключ SSH.";
+$messages['sshkeyerror'] = "Ключ SSH был отклонен каталогом LDAP";
 
 ?>

@@ -63,6 +63,7 @@ $shadow_options['shadow_expire_days'] = -1;
 # Hash mechanism for password:
 # SSHA
 # SHA
+# SHA512
 # SMD5
 # MD5
 # CRYPT
@@ -119,6 +120,23 @@ $who_change_password = "user";
 # Use standard change form?
 $use_change = true;
 
+## SSH Key Change
+# Allow changing of sshPublicKey?
+$change_sshkey = false;
+
+# What attribute should be changed by the changesshkey action?
+$change_sshkey_attribute = "sshPublicKey";
+
+# Who changes the sshPublicKey attribute?
+# Also applicable for question/answer save
+# user: the user itself
+# manager: the above binddn
+$who_change_sshkey = "user";
+
+# Notify users anytime their sshPublicKey is changed
+## Requires mail configuration below
+$notify_on_sshkey_change = false;
+
 ## Questions/answers
 # Use questions/answers?
 # true (default)
@@ -147,7 +165,7 @@ $token_lifetime = "3600";
 ## Mail
 # LDAP mail attribute
 $mail_attribute = "mail";
-# Get mail address directly from LDAP (only first mail entry) 
+# Get mail address directly from LDAP (only first mail entry)
 # and hide mail input field
 # default = false
 $mail_address_use_ldap = false;
@@ -207,8 +225,12 @@ $max_attempts = 3;
 # Display help messages
 $show_help = true;
 
-# Language
-$lang ="en";
+# Default language
+$lang = "en";
+
+# List of authorized languages. If empty, all language are allowed.
+# If not empty and the user's browser language setting is not in that list, language from $lang will be used.
+$allowed_lang = array();
 
 # Display menu on top
 $show_menu = true;

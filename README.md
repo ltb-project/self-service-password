@@ -25,15 +25,17 @@ It has the following features:
 * Reset by questions
 * Reset by mail challenge (token sent by mail)
 * Reset by SMS (trough external Email 2 SMS service)
+* Change SSH Key in LDAP directory
 * reCAPTCHA (Google API)
 * Mail notification after password change
 * Hook script after password chage
 
 ## Prerequisite
 * PHP extensions required:
-  * php-mcrypt (token crypt)
+  * php-openssl (token crypt, probably built-in)
   * php-mbstring (reset mail)
   * php-ldap
+* strong cryptography functions available (for random_compat, php 7 or libsodium or /dev/urandom readable or php-mcrypt extension installed)
 * valid PHP mail server configuration (reset mail)
 * valid PHP session configuration (reset mail)
 

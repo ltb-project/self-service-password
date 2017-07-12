@@ -22,6 +22,7 @@
 #==============================================================================
 # Hungarian
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "A program használatához telepíteni kell a PHP LDAP csomagot";
 $messages['nophpmhash'] = "A Samba üzemmód használatához telepíteni kell a PHP mhash csomagot";
 $messages['ldaperror'] = "Nem érhető el az LDAP szolgáltatás";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Jelszava sikeresen módosítva.";
 $messages['badcaptcha'] = "A reCAPTCHA helytelen. Kérem, próbálja meg újra.";
 $messages['notcomplex'] = "A jelszó nem elég komplex. Kérem, használjon kis- és nagybetűket, számokat vagy speciális karaktereket.";
 $messages['policycomplex'] = "A jelszó a következő karaktertípusokat tartalmazhatja: kisbetű, nagybetű, szám vagy speciális karakter. Ezek közül válasszon ki legalább ennyit:";
-$messages['nophpmcrypt'] = "A PHP mcrypt telepítése nélkül nem használhatod ezt a funckiót.";
 $messages['sms'] = "SMS szám";
 $messages['smsresetmessage'] = "Jelszava megváltoztatásához írja be az alábbi kódot:";
 $messages['sendsmshelp'] = "Írja be felhasználónevét, majd az SMS-ben kapott aktiváló kódot.";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Tisztelt {login}, \n\nA SSH kulcs megváltozott. \n\nHa nem Ön kezdeményezte ezt a változást, kérje a rendszergazda azonnal.";
+$messages['menusshkey'] = "SSH kulcs";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Változtasd meg SSH kulcs</a>";
+$messages['sshkeychanged'] = "Az SSH kulcs megváltozott";
+$messages['sshkeyrequired'] = "SSH kulcs szükséges";
+$messages['changesshkeysubject'] = "Az SSH kulcs megváltozott";
+$messages['sshkey'] = "SSH kulcs";
+$messages['emptysshkeychangeform'] = "Változás az SSH kulcs";
+$messages['changesshkeyhelp'] = "Írja be a jelszót és az új SSH kulcs.";
+$messages['sshkeyerror'] = "SSH kulcs elutasította az LDAP címtár";
 
 ?>

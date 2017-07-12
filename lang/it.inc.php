@@ -22,6 +22,7 @@
 #==============================================================================
 # Italian
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Devi installare PHP LDAP per usare questo strumento";
 $messages['nophpmhash'] = "Devi installare PHP mhash per usare il modo Samba";
 $messages['ldaperror'] = "Non posso accedere alla directory LDAP";
@@ -89,7 +90,6 @@ $messages['changesubject'] = "La tua password e' stata cambiata";
 $messages['badcaptcha'] = "Il codice CAPTCHA non e' corretto. Riprova.";
 $messages['notcomplex'] = "La tua password non e' abbastanza complessa";
 $messages['policycomplex'] = "Numero minimo di tipi di carattere:";
-$messages['nophpmcrypt'] = "Devi installare PHP mcrypt per usare le funzioni crittografiche";
 $messages['smsresetmessage'] = "Il tuo codice per il reset della password e':";
 $messages['smscrypttokensrequired'] = "Non puoi utilizzare il reset via SMS senza crypt_tokens";
 $messages['smsnotsent'] = "Errore durante l'invio dell'SMS";
@@ -109,13 +109,22 @@ $messages['menuquestions'] = "Domande";
 $messages['menutoken'] = "Mail";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "Devi installare PHP XML per usare questo strumento";
-$messages['tokenattempts'] = "Invalid token, try again";
-$messages['emptychangeform'] = "Change your password";
+$messages['tokenattempts'] = "Token non valido, riprova";
+$messages['emptychangeform'] = "Cambia la tua password";
 $messages['emptysendtokenform'] = "Email a password reset link";
-$messages['emptyresetbyquestionsform'] = "Reset your password";
-$messages['emptysetquestionsform'] = "Set your password reset questions";
-$messages['emptysendsmsform'] = "Get a reset code";
-$messages['sameaslogin'] = "Your new password is identical to your login";
-$messages['policydifflogin'] = "Your new password may not be the same as your login";
-
+$messages['emptyresetbyquestionsform'] = "Reimposta la tua password";
+$messages['emptysetquestionsform'] = "Imposta la domanda per il reset della password";
+$messages['emptysendsmsform'] = "Ottieni un codice di reset";
+$messages['sameaslogin'] = "La nuova password è identica all'utente di login";
+$messages['policydifflogin'] = "La nuova password non può essere uguale all'utente di login";
+$messages['changesshkeymessage'] = "Ciao {login}, \n\nIl SSH Key è stato modificato. \n\nSe non sei l'autore questo cambiamento, contattare immediatamente l'amministratore.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Cambia la tua chiave SSH</a>";
+$messages['sshkeychanged'] = "La vostra chiave SSH è stata cambiata";
+$messages['sshkeyrequired'] = "è richiesto SSH Key";
+$messages['changesshkeysubject'] = "La vostra chiave SSH è stata modificata";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Cambia la tua chiave SSH";
+$messages['changesshkeyhelp'] = "Inserire la password e la nuova chiave SSH.";
+$messages['sshkeyerror'] = "SSH Key è stata rifiutata dalla directory LDAP";
 ?>

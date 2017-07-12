@@ -154,7 +154,7 @@ if ( $result === "" ) {
         $result = "ldaperror";
         error_log("LDAP - Bind error $errno (".ldap_error($ldap).")");
     } else {
-    
+
     # Search for user
     $ldap_filter = str_replace("{login}", $login, $ldap_filter);
     $search = ldap_search($ldap, $ldap_base, $ldap_filter);
@@ -172,7 +172,7 @@ if ( $result === "" ) {
     if( !$userdn ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
-    }  
+    }
 
     # Get sms values
     $smsValues = ldap_get_values($ldap, $entry, $sms_attribute);
@@ -212,7 +212,7 @@ if ( $result === "sendsms" ) {
     $_SESSION['smstoken'] = $smstoken;
     $_SESSION['time']     = time();
     $_SESSION['attempts'] = 0;
-	
+
     # Remove plus and spaces from sms number
     $sms = str_replace('+', '', $sms);
     $sms = str_replace(' ', '', $sms);
@@ -279,7 +279,7 @@ if ( $result === "redirect" ) {
         $reset_url = $method."://".$server_name.$script_name;
     }
 
-    $reset_url .= "?action=resetbytoken&token=$token&source=sms";
+    $reset_url .= "?action=resetbytoken&source=sms&token=".urlencode($token);
 
     if ( !empty($reset_request_log) ) {
         error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
@@ -301,7 +301,7 @@ if ( $result === "redirect" ) {
 <p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 
-<?php 
+<?php
 if ( $result == "smscrypttokensrequired" ) {
 } elseif ( $result == "smsuserfound" ) {
 ?>
@@ -351,7 +351,7 @@ if ( $result == "smscrypttokensrequired" ) {
             </div>
         </div>
     </div>
-    <input type="hidden" name="token" value=<?php echo htmlentities($token) ?> />
+    <input type="hidden" name="token" value="<?php echo htmlentities($token) ?>" />
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">

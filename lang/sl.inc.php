@@ -22,6 +22,7 @@
 #==============================================================================
 # Slovenian
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Namestiti morate PHP LDAP";
 $messages['nophpmhash'] = "Za način Samba morate namestiti PHP mhash";
 $messages['ldaperror'] = "Dostop do LDAP ni mogoč";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Vaše geslo je bilo spremenjeno";
 $messages['badcaptcha'] = "reCAPTCHA ni bila pravilno vnesena. Poskusite ponovno.";
 $messages['notcomplex'] = "Vaše geslo nima dovolj različnih vrst znakov";
 $messages['policycomplex'] = "Najmanjše število različnih vrst znakov:";
-$messages['nophpmcrypt'] = "Za uporabo kriptografskih funkcij morate namestiti PHP mcrypt";
 $messages['sms'] = "Številka SMS";
 $messages['smsresetmessage'] = "Žeton za ponastavitev gesla je:";
 $messages['sendsmshelp'] = "Vnesite uporabniško ime, da dobite žeton za ponastavitev gesla. Potem vnesite žeton v poslani SMS.";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Pozdravljeni {login}, \n\nKo SSH ključ je bil spremenjen. \n\nČe ni sprožila te spremembe, se takoj obrnite na skrbnika.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Spreminjanje SSH Key</a>";
+$messages['sshkeychanged'] = "Vaš SSH ključ je bil spremenjen";
+$messages['sshkeyrequired'] = "SSH Key je potrebno";
+$messages['changesshkeysubject'] = "Vaš SSH ključ je bil spremenjen";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Spreminjanje SSH ključ";
+$messages['changesshkeyhelp'] = "Vnesite geslo in nov ključ SSH.";
+$messages['sshkeyerror'] = "SSH Ključna je bila zavrnjena z imeniku LDAP";
 
 ?>

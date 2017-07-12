@@ -23,6 +23,7 @@
 # Includes
 #==============================================================================
 require_once("conf/config.inc.php");
+require_once("lib/vendor/defuse-crypto.phar");
 require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
     require_once("lib/vendor/autoload.php");
@@ -31,26 +32,34 @@ require_once("lib/detectbrowserlanguage.php");
 require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 
 #==============================================================================
+# Error reporting
+#==============================================================================
+error_reporting(0);
+if($debug) error_reporting(E_ALL);
+
+#==============================================================================
 # Language
 #==============================================================================
 # Available languages
 $languages = array();
 if ($handle = opendir('lang')) {
     while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
-             array_push($languages, str_replace(".inc.php", "", $entry));
+        if ($entry != "." && $entry != ".." ) {
+            $entry_lang = str_replace(".inc.php", "", $entry);
+            # Only add language to possibilities if it is the default language or part of the allowed languages
+            # empty $allowed_lang <=> all languages are allowed
+            if ($entry_lang == $lang || empty($allowed_lang) || in_array($entry_lang, $allowed_lang) ) {
+                array_push($languages, $entry_lang);
+            }
         }
     }
     closedir($handle);
 }
 $lang = detectLanguage($lang, $languages);
 require_once("lang/$lang.inc.php");
-
-#==============================================================================
-# Error reporting
-#==============================================================================
-error_reporting(0);
-if($debug) error_reporting(E_ALL);
+if (file_exists("conf/$lang.inc.php")) {
+    require_once("conf/$lang.inc.php");
+}
 
 #==============================================================================
 # PHP configuration tuning
@@ -66,12 +75,13 @@ $dependency_check_results = array();
 
 # Check PHP-LDAP presence
 if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }
+else {
+    # Check ldap_modify_batch presence if AD mode and password change as user
+    if ( $ad_mode and $who_change_password === "user" and ! function_exists('ldap_modify_batch') ) { $dependency_check_results[] = "phpupgraderequired"; }
+}
 
 # Check PHP mhash presence if Samba mode active
 if ( $samba_mode and ! function_exists('hash') and ! function_exists('mhash') ) { $dependency_check_results[] = "nophpmhash"; }
-
-# Check PHP mcrypt presence if token are used
-if ( $crypt_tokens and ! function_exists('mcrypt_module_open') ) { $dependency_check_results[] = "nophpmcrypt"; }
 
 # Check PHP mbstring presence
 if ( ! function_exists('mb_internal_encoding') ) { $dependency_check_results[] = "nophpmbstring"; }
@@ -89,6 +99,7 @@ else { $action = $default_action; }
 # Available actions
 $available_actions = array();
 if ( $use_change ) { array_push( $available_actions, "change"); }
+if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
@@ -214,6 +225,15 @@ $mailer->LE            = $mail_newline;
 
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-
+<script>
+    $(document).ready(function(){
+        // Menu links popovers
+        $('[data-toggle="menu-popover"]').popover({
+            trigger: 'hover',
+            placement: 'bottom',
+            container: 'body' // Allows the popover to be larger than the menu button
+        });
+    });
+</script>
 </body>
 </html>

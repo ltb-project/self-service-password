@@ -22,6 +22,7 @@
 #==============================================================================
 # Dutch
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "PHP LDAP moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['nophpmhash'] = "PHP mhash moet geinstalleerd zijn om Samba mode te kunnen gebruiken";
 $messages['ldaperror'] = "Kan geen toegang tot de LDAP directory verkrijgen";
@@ -91,7 +92,6 @@ $messages['changesubject'] = "Uw wachtwoord is aangepast";
 $messages['badcaptcha'] = "De reCAPTCHA was niet correct ingevuld. Probeer het opnieuw.";
 $messages['notcomplex'] = "Uw wachtwoord bestaat niet uit genoeg verschillende tekens";
 $messages['policycomplex'] = "Minimum aantal verschillende type tekens benodigd:";
-$messages['nophpmcrypt'] = "PHP mcrypt moet geinstalleerd zijn om de cryptografische functies te kunnen gebruiken";
 $messages['sms'] = "Mobiele telefoon";
 $messages['smsresetmessage'] = "Uw wachtwoord reset token is:";
 $messages['sendsmshelp'] = "Voer uw login informatie in om uw wachtwoord reset token te ontvangen. Voer vervolgens het token in wat toegestuurd is via SMS.";
@@ -119,5 +119,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['changesshkeymessage'] = "Hallo {login}, \n\nUw SSH Key is gewijzigd. \n\nAls u heeft deze verandering niet te starten, neem dan direct contact op met de beheerder.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Wijzig uw SSH Key</a>";
+$messages['sshkeychanged'] = "Uw SSH Key is gewijzigd";
+$messages['sshkeyrequired'] = "SSH Key is nodig";
+$messages['changesshkeysubject'] = "Uw SSH Key is gewijzigd";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Verander je SSH Key";
+$messages['changesshkeyhelp'] = "Voer uw wachtwoord in en nieuwe SSH sleutel.";
+$messages['sshkeyerror'] = "SSH Key werd geweigerd door de LDAP-directory";
 
 ?>

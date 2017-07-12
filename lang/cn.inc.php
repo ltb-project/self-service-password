@@ -22,6 +22,7 @@
 #==============================================================================
 # English
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "使用该工具需要安装PHP-Ldap";
 $messages['nophpmhash'] = "使用Samba模式需要安装PHP mhash";
 $messages['ldaperror'] = "无法访问LDAP目录";
@@ -92,7 +93,6 @@ $messages['policycomplex'] = "最少的不同类型字符数:";
 $messages['username'] = "Username";
 $messages['smsnonumber'] = "Can't find mobile number";
 $messages['smstoken'] = "SMS token";
-$messages['nophpmcrypt'] = "You should install PHP mcrypt to use cryptographic functions";
 $messages['sms'] = "SMS number";
 $messages['getuser'] = "Get user";
 $messages['userfullname'] = "User full name";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['menusshkey'] = "SSH密钥";
+$messages['changesshkeysubject'] = "您的SSH密钥已更改";
+$messages['sshkey'] = "SSH密钥";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">更改SSH密钥</a>";
+$messages['emptysshkeychangeform'] = "更改SSH密钥";
+$messages['sshkeychanged'] = "您的SSH密钥已更改";
+$messages['sshkeyerror'] = "LDAP目录拒绝了SSH密钥";
+$messages['sshkeyrequired'] = "需要SSH密钥";
+$messages['changesshkeymessage'] = "您好{login},\n\n您的SSH金钥已变更。\n\n如果您没有启动这项变更，请立即与您的管理员联络。";
+$messages['changesshkeyhelp'] = "输入您的密码和新的SSH密钥。";
 
 ?>

@@ -15,17 +15,34 @@
               <ul class="nav navbar-nav">
                 <?php if ( $use_questions ) { ?>
                 <li class="<?php if ( $action === "resetbyquestions" or $action === "setquestions" ) { echo "active"; } ?>">
-                  <a href="?action=resetbyquestions"><i class="fa fa-fw fa-question-circle"></i> <?php echo $messages["menuquestions"]; ?></a>
+                  <a href="?action=resetbyquestions"
+                     data-toggle="menu-popover"
+                     data-content="<?php echo htmlentities(strip_tags($messages["changehelpquestions"])); ?>"
+                  ><i class="fa fa-fw fa-question-circle"></i> <?php echo $messages["menuquestions"]; ?></a>
                 </li>
                 <?php } ?>
                 <?php if ( $use_tokens ) { ?>
                 <li class="<?php if ( ( $action === "resetbytoken" and $source !== "sms" ) or $action === "sendtoken" ) { echo "active"; } ?>">
-                  <a href="?action=sendtoken"><i class="fa fa-fw fa-envelope"></i> <?php echo $messages["menutoken"]; ?></a>
+                  <a href="?action=sendtoken"
+                     data-toggle="menu-popover"
+                     data-content="<?php echo htmlentities(strip_tags($messages["changehelptoken"])); ?>"
+                  ><i class="fa fa-fw fa-envelope"></i> <?php echo $messages["menutoken"]; ?></a>
                 </li>
                 <?php } ?>
                 <?php if ( $use_sms ) { ?>
                 <li class="<?php if ( ( $action === "resetbytoken" and $source === "sms" ) or $action === "sendsms" ) { echo "active"; } ?>">
-                  <a href="?action=sendsms"><i class="fa fa-fw fa-mobile"></i> <?php echo $messages["menusms"]; ?></a>
+                  <a href="?action=sendsms"
+                     data-toggle="menu-popover"
+                     data-content="<?php echo htmlentities(strip_tags($messages["changehelpsms"])); ?>"
+                  ><i class="fa fa-fw fa-mobile"></i> <?php echo $messages["menusms"]; ?></a>
+                </li>
+                <?php } ?>
+                <?php if ( $change_sshkey ) { ?>
+                <li class="<?php if ( $action === "changesshkey" ) { echo "active"; } ?>">
+                  <a href="?action=changesshkey"
+                     data-toggle="menu-popover"
+                     data-content="<?php echo htmlentities(strip_tags($messages["changehelpsshkey"])); ?>"
+                  ><i class="fa fa-fw fa-terminal"></i> <?php echo $messages["menusshkey"]; ?></a>
                 </li>
                 <?php } ?>
               </ul>

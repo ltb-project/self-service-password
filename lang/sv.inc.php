@@ -22,6 +22,7 @@
 #==============================================================================
 # Swedish
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Du borde installera PHP LDAP för att använda detta verktyg";
 $messages['nophpmhash'] = "Du borde installera PHP mhash för att använda Samba mode";
 $messages['ldaperror'] = "Kan inte komma åt LDAPkatalogen";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "Ditt lösenord har ändrats";
 $messages['badcaptcha'] = "reCAPTCHA är felaktiget angivet. Försök igen.";
 $messages['notcomplex'] = "Ditt lösenord innehåller inte tillräckligt många olika klasser av tecken";
 $messages['policycomplex'] = "Minst antal olika klasser av tecken:";
-$messages['nophpmcrypt'] = "Du borde installera PHP mcrypt för att använda kryptografiska funktioner";
 $messages['sms'] = "Mobilnummer";
 $messages['smsresetmessage'] = "Lösenkod:";
 $messages['sendsmshelp'] = "Ange användarnamn för att får en lösenkod. Ange sedan Lösenkoden som står i SMSet.";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "Ange dina säkerhetsfrågor";
 $messages['emptysendsmsform'] = "Skicka en lösenkod";
 $messages['sameaslogin'] = "Ditt nya lösenord är lika som ditt användarnamn";
 $messages['policydifflogin'] = "Ditt nya lösenord får inte vara lika som ditt användarnamn";
+$messages['changesshkeymessage'] = "Hej {login} \n\nDin SSH Key har ändrats. \n\nOm du inte initiera denna förändring, kontakta administratören omedelbart.";
+$messages['menusshkey'] = "SSH Key";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Ändra SSH Key</a>";
+$messages['sshkeychanged'] = "Din SSH Key ändrades";
+$messages['sshkeyrequired'] = "SSH nyckel krävs";
+$messages['changesshkeysubject'] = "Din SSH Key har ändrats";
+$messages['sshkey'] = "SSH Key";
+$messages['emptysshkeychangeform'] = "Ändra din SSH Key";
+$messages['changesshkeyhelp'] = "Ange ditt lösenord och ny SSH-nyckel.";
+$messages['sshkeyerror'] = "SSH Key avslogs av LDAP-katalogen";
 
 ?>

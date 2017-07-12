@@ -22,6 +22,7 @@
 #==============================================================================
 # Japanese
 #==============================================================================
+$messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "このツールを使うにはPHP LDAPをインストールしてください";
 $messages['nophpmhash'] = "Sambaモードを使うにはPHP mhashをインストールしてください";
 $messages['ldaperror'] = "LDAPディレクトリーにアクセスできません";
@@ -92,7 +93,6 @@ $messages['changesubject'] = "パスワードが変更されました";
 $messages['badcaptcha'] = "reCAPTCHAが正しく入力されませんでした。もう一度入力してください。";
 $messages['notcomplex'] = "パスワードに含まれる文字種が少なすぎます";
 $messages['policycomplex'] = "最低限必要な異なる文字種の数:";
-$messages['nophpmcrypt'] = "暗号化の機能を使うにはPHP mcryptをインストールしてください";
 $messages['sms'] = "SMS番号";
 $messages['smsresetmessage'] = "パスワードリセット用のトークン:";
 $messages['sendsmshelp'] = "パスワードリセット用のトークンを取得するにはログインIDを入力してください。その後、SMSで送信されたトークンを入力してください。";
@@ -117,5 +117,15 @@ $messages['emptysetquestionsform'] = "秘密の質問の設定";
 $messages['emptysendsmsform'] = "SMSによるパスワードのリセット";
 $messages['sameaslogin'] = "パスワードとログインIDが同じです";
 $messages['policydifflogin'] = "ログインIDと異なる";
+$messages['changesshkeymessage'] = "こんにちは{login}、\n\nSSHキーが変更されました。\n\nこの変更を開始していない場合は、すぐに管理者に連絡してください。";
+$messages['menusshkey'] = "SSHキー";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSHキーを変更する</a>";
+$messages['sshkeychanged'] = "あなたのSSHキーが変更されました";
+$messages['sshkeyrequired'] = "SSHキーが必要です";
+$messages['changesshkeysubject'] = "あなたのSSHキーが変更されました";
+$messages['sshkey'] = "SSHキー";
+$messages['emptysshkeychangeform'] = "SSHキーを変更する";
+$messages['changesshkeyhelp'] = "パスワードと新しいSSHキーを入力してください。";
+$messages['sshkeyerror'] = "SSHキーがLDAPディレクトリによって拒否されました";
 
 ?>
