@@ -127,5 +127,10 @@ $messages['sshkeyrequired'] = "SSH Key απαιτείται";
 $messages['menusshkey'] = "SSH Key";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Αλλάξτε SSH Key σας</a>";
 $messages['sshkey'] = "SSH Key";
-
+$messages['keyinvalid'] = "Το κλειδί SSH δεν είναι έγκυρο";
+$messages['keytoosmall'] = "Το μέγεθος του κομματιού του κλειδιού SSH είναι πολύ μικρό";
+$messages['sshkeypolicy'] = "Το κλειδί SSH πρέπει να συμμορφώνεται με τους ακόλουθους περιορισμούς:";
+$messages['sshkeypolicyminbits'] = "Ελάχιστο μέγεθος bit του κλειδιού SSH:";
+$messages['sshpubkey'] = "SSH δημόσιο κλειδί";
+$messages['sshkeyexample'] = "Κλειδί SSH (πρέπει να ξεκινήσετε με: ssh-rsa AAAA ...)";
 ?>

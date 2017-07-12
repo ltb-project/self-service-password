@@ -127,5 +127,10 @@ $messages['sshkey'] = "Ключ SSH";
 $messages['emptysshkeychangeform'] = "Изменение ключа SSH";
 $messages['changesshkeyhelp'] = "Введите свой пароль и новый ключ SSH.";
 $messages['sshkeyerror'] = "Ключ SSH был отклонен каталогом LDAP";
-
+$messages['keyinvalid'] = "Ключ SSH недействителен.";
+$messages['keytoosmall'] = "Размер ключа SSH слишком мал";
+$messages['sshkeypolicy'] = "Ключ SSH должен соответствовать следующим ограничениям:";
+$messages['sshkeypolicyminbits'] = "Минимальный размер ключа SSH:";
+$messages['sshpubkey'] = "Открытый ключ SSH";
+$messages['sshkeyexample'] = "Ключ SSH (должен начинаться с: ssh-rsa AAAA ...)";
 ?>

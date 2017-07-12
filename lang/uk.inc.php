@@ -128,5 +128,10 @@ $messages['sshkey'] = "SSH ключ";
 $messages['emptysshkeychangeform'] = "Змінити ключ SSH";
 $messages['changesshkeyhelp'] = "Введіть свій пароль і новий ключ SSH.";
 $messages['sshkeyerror'] = "SSH Key була відхилена каталогом LDAP";
-
+$messages['keyinvalid'] = "ключ SSH є недійсним";
+$messages['keytoosmall'] = "SSH біт ключа розмір занадто малий";
+$messages['sshkeypolicy'] = "Ваш ключ SSH повинен відповідати наступним обмеженням:";
+$messages['sshkeypolicyminbits'] = "Мінімальний розмір біт ключа SSH:";
+$messages['sshpubkey'] = "SSH Public Key";
+$messages['sshkeyexample'] = "SSH ключ (повинен починатися з: SSH-АААА ... RSA)";
 ?>

@@ -129,5 +129,10 @@ $messages['emptysshkeychangeform'] = "Ändern Sie Ihren SSH-Schlüssel";
 $messages['changesshkeymessage'] = "Hallo {login}, \n\nDer SSH-Schlüssel wurde geändert.\n\nWenn Sie diese Änderung nicht eingeleitet haben, wenden Sie sich bitte umgehend an Ihren Administrator.";
 $messages['menusshkey'] = "SSH Schlüssel";
 $messages['changesshkeysubject'] = "Ihr SSH-Schlüssel wurde geändert";
-
+$messages['keyinvalid'] = "SSH-Schlüssel ist ungültig";
+$messages['keytoosmall'] = "SSH-Key-Bit-Größe ist zu klein";
+$messages['sshkeypolicy'] = "Ihr SSH-Schlüssel muss den folgenden Einschränkungen entsprechen:";
+$messages['sshkeypolicyminbits'] = "Minimale Bitgröße der SSH-Taste:";
+$messages['sshpubkey'] = "SSH Öffentlicher Schlüssel";
+$messages['sshkeyexample'] = "SSH Key (muss mit: ssh-rsa AAAA beginnen ...)";
 ?>

@@ -138,6 +138,14 @@ $pwd_policy_config = array(
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
+# SSH key policy array
+$sshkey_policy_config = array(
+    "sshkey_show_policy"      => $sshkey_show_policy,
+    "sshkey_min_bits"         => $sshkey_min_bits,
+);
+
+if (!isset($sshkey_show_policy_pos)) { $sshkey_show_policy_pos = "above"; }
+
 #==============================================================================
 # Email Config
 #==============================================================================

@@ -127,5 +127,10 @@ $messages['sshkeyerror'] = "LDAP目录拒绝了SSH密钥";
 $messages['sshkeyrequired'] = "需要SSH密钥";
 $messages['changesshkeymessage'] = "您好{login},\n\n您的SSH金钥已变更。\n\n如果您没有启动这项变更，请立即与您的管理员联络。";
 $messages['changesshkeyhelp'] = "输入您的密码和新的SSH密钥。";
-
+$messages['keyinvalid'] = "SSH密鑰無效";
+$messages['keytoosmall'] = "SSH密鑰位的大小太小";
+$messages['sshkeypolicy'] = "您的SSH密鑰必須符合以下約束：";
+$messages['sshkeypolicyminbits'] = "SSH密鑰的最小位大小：";
+$messages['sshpubkey'] = "SSH公鑰";
+$messages['sshkeyexample'] = "SSH密鑰（必須以：ssh-rsa AAAA ...）";
 ?>

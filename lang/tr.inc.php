@@ -127,5 +127,10 @@ $messages['sshkey'] = "SSH Anahtarı";
 $messages['emptysshkeychangeform'] = "SSH Anahtarınızı Değiştirin";
 $messages['changesshkeyhelp'] = "Parolanızı ve yeni SSH anahtarınızı girin.";
 $messages['sshkeyerror'] = "SSH Anahtarı LDAP dizini tarafından reddedildi";
-
+$messages['keyinvalid'] = "SSH anahtarı geçersiz";
+$messages['keytoosmall'] = "SSH anahtar biti boyutu çok küçük";
+$messages['sshkeypolicy'] = "SSH anahtarınızın aşağıdaki sınırlamalara uyması gerekir:";
+$messages['sshkeypolicyminbits'] = "SSH anahtarının minimum bit boyutu:";
+$messages['sshpubkey'] = "SSH Genel Anahtarı";
+$messages['sshkeyexample'] = "SSH Anahtarı (başlama: ssh-rsa AAAA ...)";
 ?>

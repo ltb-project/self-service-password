@@ -129,5 +129,10 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Zmień swój klucz SSH";
 $messages['changesshkeyhelp'] = "Wprowadź swoje hasło i nowy klucz SSH.";
 $messages['sshkeyerror'] = "SSH Key został odrzucony przez katalogu LDAP";
-
+$messages['keyinvalid'] = "Klucz SSH jest nieprawidłowy";
+$messages['keytoosmall'] = "Rozmiar bitów klucza SSH jest za mały";
+$messages['sshkeypolicy'] = "Klucz SSH musi odpowiadać następującym ograniczeniom:";
+$messages['sshkeypolicyminbits'] = "Minimalna wielkość bitowa klucza SSH:";
+$messages['sshpubkey'] = "Klucz publiczny SSH";
+$messages['sshkeyexample'] = "Klucz SSH (musi zaczynać się od: ssh-rsa AAAA ...)";
 ?>

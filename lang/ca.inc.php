@@ -131,5 +131,10 @@ $messages['menusshkey'] = "claus SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Canviar la clau d'SSH</a>";
 $messages['changesshkeyhelp'] = "Introduïu la contrasenya i la clau SSH.";
 $messages['changesshkeymessage'] = "Hola {login},\n\nLa claus SSH s'ha canviat.\n\nSi no va iniciar aquest canvi, poseu-vos en contacte amb l'administrador immediatament.";
-
+$messages['keyinvalid'] = "clau SSH no és vàlid";
+$messages['keytoosmall'] = "SSH mida de bits clau és massa petita";
+$messages['sshkeypolicy'] = "La seva clau SSH s'ha d'ajustar a les següents limitacions:";
+$messages['sshkeypolicyminbits'] = "mida de bits mínima de clau SSH:";
+$messages['sshpubkey'] = "SSH de clau pública";
+$messages['sshkeyexample'] = "Claus SSH (ha de començar amb: AAAA ssh-rsa ...)";
 ?>

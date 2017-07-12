@@ -123,6 +123,19 @@ $use_change = true;
 # Allow changing of sshPublicKey?
 $change_sshkey = false;
 
+# Minimum bit setting
+# Set to 0 for no minimum
+$sshkey_min_bits = 2048;
+# Show SSH key policy constraints message:
+# always
+# never
+# onerror
+$sshkey_show_policy = "onerror";
+# Position of SSH key policy constraints message:
+# above - the form
+# below - the form
+$sshkey_show_policy_pos = "above";
+
 # What attribute should be changed by the changesshkey action?
 $change_sshkey_attribute = "sshPublicKey";
 

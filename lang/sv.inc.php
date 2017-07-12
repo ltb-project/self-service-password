@@ -127,5 +127,10 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Ändra din SSH Key";
 $messages['changesshkeyhelp'] = "Ange ditt lösenord och ny SSH-nyckel.";
 $messages['sshkeyerror'] = "SSH Key avslogs av LDAP-katalogen";
-
+$messages['keyinvalid'] = "SSH-tangenten är ogiltig";
+$messages['keytoosmall'] = "SSH-nyckelbitstorleken är för liten";
+$messages['sshkeypolicy'] = "Din SSH-nyckel måste överensstämma med följande begränsningar:";
+$messages['sshkeypolicyminbits'] = "Minsta bitstorlek för SSH-nyckel:";
+$messages['sshpubkey'] = "SSH Public Key";
+$messages['sshkeyexample'] = "SSH-nyckel (måste börja med: ssh-rsa AAAA ...)";
 ?>
