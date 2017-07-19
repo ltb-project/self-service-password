@@ -124,7 +124,7 @@ $messages['sshkeychanged'] = "Votre clé SSH a été modifiée";
 $messages['sshkeyrequired'] = "La clé SSH est requise";
 $messages['changesshkeysubject'] = "Votre clé SSH a été modifiée";
 $messages['sshkey'] = "Clé SSH";
-$messages['emptysshkeychangeform'] = "Changer votre clé SSH";
+$messages['emptysshkeychangeform'] = "Changez votre clé SSH";
 $messages['changesshkeyhelp'] = "Entrez votre mot de passe et la nouvelle clé SSH.";
-$messages['sshkeyerror'] = "La clé SSH a été refusée par le répertoire LDAP";
+$messages['sshkeyerror'] = "La clé SSH a été refusée par l'annuaire  LDAP";
 ?>
