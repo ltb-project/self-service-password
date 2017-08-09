@@ -265,6 +265,9 @@ $recaptcha_privatekey = "";
 $recaptcha_theme = "light";
 $recaptcha_type = "image";
 $recaptcha_size = "normal";
+# reCAPTCHA request method, null for default, Fully Qualified Class Name to override
+# Useful when allow_url_fopen=0 ex. $recaptcha_request_method = '\ReCaptcha\RequestMethod\Socket';
+$recaptcha_request_method = null;
 
 ## Default action
 # change

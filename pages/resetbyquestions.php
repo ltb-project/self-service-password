@@ -66,7 +66,7 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
     if ( $use_recaptcha ) {
-        $recaptcha = new \ReCaptcha\ReCaptcha($recaptcha_privatekey);
+        $recaptcha = new \ReCaptcha\ReCaptcha($recaptcha_privatekey, is_null($recaptcha_request_method) ? null : new $recaptcha_request_method());
         $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
         if (!$resp->isSuccess()) {
             $result = "badcaptcha";
