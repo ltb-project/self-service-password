@@ -199,6 +199,7 @@ if ( $result === "" ) {
     $ldap_extended_error = "" ;
     if ( $result === "passworderror" ) {
       ldap_get_option($ldap, LDAP_OPT_DIAGNOSTIC_MESSAGE, $ldap_extended_error);
+     $ldap_extended_error = "[" . $ldap_extended_error . "]";
    }
 
 }
@@ -209,7 +210,7 @@ if ( $result === "" ) {
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result] . ":" . $ldap_extended_error ;  ?></p>
+<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result] . " " . $ldap_extended_error ;  ?></p>
 </div>
 
 <?php if ( $result !== "passwordchanged" ) { ?>
