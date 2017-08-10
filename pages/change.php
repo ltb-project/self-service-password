@@ -19,7 +19,7 @@
 #
 #==============================================================================
 
-# define not available in php 5
+# missed defines in php 5
 define("LDAP_OPT_DIAGNOSTIC_MESSAGE", 0x0032);
 
 
