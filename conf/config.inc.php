@@ -277,6 +277,9 @@ $default_action = "change";
 #$messages['passwordchangedextramessage'] = NULL;
 #$messages['changehelpextramessage'] = NULL;
 
+## show ldap extended error
+#$show_extented_ldap_error=true;
+
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
 
