@@ -197,7 +197,7 @@ if ( $result === "" ) {
     }
  
     $ldap_extended_error = "" ;
-    if ( $result === "passworderror" ) {
+    if ( $result === "passworderror" && $show_extented_ldap_error  ) {
       ldap_get_option($ldap, LDAP_OPT_DIAGNOSTIC_MESSAGE, $ldap_extended_error);
      $ldap_extended_error = "[" . $ldap_extended_error . "]";
    }
