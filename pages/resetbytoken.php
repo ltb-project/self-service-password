@@ -203,6 +203,12 @@ if ($result === "") {
         $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
         exec($command);
     }
+
+    $ldap_extended_error = "" ;
+    if ( $result === "passworderror" && $show_extented_ldap_error  ) {
+      ldap_get_option($ldap, LDAP_OPT_DIAGNOSTIC_MESSAGE, $ldap_extended_error);
+     $ldap_extended_error = "[" . $ldap_extended_error . "]";
+   }
 }
 
 # Delete token if all is ok
@@ -217,7 +223,7 @@ if ( $result === "passwordchanged" ) {
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result] . " " . $ldap_extended_error ; ?></p>
 </div>
 
 <?php if ( $result !== "passwordchanged" ) { ?>
