@@ -100,18 +100,8 @@ if ( $result === "" ) {
 #==============================================================================
 # Check reCAPTCHA
 #==============================================================================
-if ( $result === "" ) {
-    if ( $use_recaptcha ) {
-        $recaptcha = new \ReCaptcha\ReCaptcha($recaptcha_privatekey);
-        $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-        if (!$resp->isSuccess()) {
-            $result = "badcaptcha";
-            error_log("Bad reCAPTCHA attempt with user $login");
-            foreach ($resp->getErrorCodes() as $code) {
-                error_log("reCAPTCHA error: $code");
-            }
-        }
-    }
+if ( $result === "" && $use_recaptcha ) {
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
 }
 
 #==============================================================================
