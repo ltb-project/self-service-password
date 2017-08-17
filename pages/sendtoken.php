@@ -184,7 +184,9 @@ if ( $result === "" ) {
 
         # Build reset by token URL
         $method = "http";
-        if ( !empty($_SERVER['HTTPS']) ) { $method .= "s"; }
+        if( !empty($_SERVER['HTTPS']) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')){
+           $method .= "s";
+        }
         $server_name = $_SERVER['SERVER_NAME'];
         $server_port = $_SERVER['SERVER_PORT'];
         $script_name = $_SERVER['SCRIPT_NAME'];
@@ -193,7 +195,12 @@ if ( $result === "" ) {
         if (   ( $method === "http"  and $server_port != "80"  )
             or ( $method === "https" and $server_port != "443" )
         ) {
-            $server_name .= ":".$server_port;
+           if( isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
+                $server_name .= ":".$_SERVER['HTTP_X_FORWARDED_PORT'];
+            } else {
+               $server_name .= ":".$server_port;
+            }
+
         }
 
         $reset_url = $method."://".$server_name.$script_name;
