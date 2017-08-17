@@ -194,7 +194,7 @@ if ( $result === "" ) {
 
 
         # change servername if HTTP_X_FORWARDED_HOST is set
-        if( isset($_SERVER['HTTP_X_FORWARDED_HOST']){
+        if( isset($_SERVER['HTTP_X_FORWARDED_HOST'])){
             $server_name = $_SERVER['HTTP_X_FORWARDED_HOST'];
         }
 
