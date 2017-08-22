@@ -284,6 +284,9 @@ $default_action = "change";
 ## config for checkexpiration batch
 # to batch it call the page with curl -F login=xxxx -F password=yyyy
 
+# allow this functionality
+$use_checkexpiration=true;
+
 $ldap_defaultpolicydn="cn=default,ou=policies," . $ldap_base;
 $ldap_admingroupdn="cn=administrators,ou=groups," . $ldap_base;
 
