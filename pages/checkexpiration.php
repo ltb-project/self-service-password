@@ -16,7 +16,7 @@
 # functions
 #==============================================================================
 
-function generate_url($action) {
+function generate_url($reset_url, $action) {
 
     if ( empty($reset_url) ) {
 
@@ -271,7 +271,7 @@ if ( $result === "" ) {
 
                                # notify the first day of expire
                                if(  $expire_always_mail || $expireInUnits == 1){
-                                      $url= generate_url("sendtoken");
+                                      $url= generate_url($reset_url, "sendtoken");
                                       $data = array( "login" => $login, "mail" => $mail, "url" => $url, "days" => $expireInUnits ) ;
                                       # Send message
                                       if ( ! send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["alertexpiresubject"], $messages["alertexpiremessage"].$mail_signature, $data) ) {
