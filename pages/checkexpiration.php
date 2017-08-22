@@ -80,7 +80,7 @@ $nb_expired_users=0;
 $nb_warning_users=0;
 
 
-$policy_expire_unit=86400;
+#$policy_expire_unit=86400;
 #$policy_expire_unit=60;
 
 
@@ -236,10 +236,11 @@ if ( $result === "" ) {
                        
                        #if password is in expire periode, send notify it the 1st day of warning, and the last day 
                         if( $nowDateTime >= $warningDateTime && $nowDateTime < $expireDateTime) {
-                               #error_log( "checkexpiration - user $login - warning, your password will expired in " . $warningDateTime->diff($nowDateTime)->format('%R%a days')); 
-
-                               $expireInUnits =  (int)(($expireDateTime->getTimestamp() - $nowDateTime->getTimestamp()) / $policy_expire_unit) ; 
-                               error_log( "checkexpiration - user $login - warning, your password will expired in " . $expireInUnits . " units - warning :" . (int)( $pwdExpireWarning/$policy_expire_unit)); 
+                               
+                               #$expireInUnits =  (int)ceil(($expireDateTime->getTimestamp() - $nowDateTime->getTimestamp()) / $policy_expire_unit) ;
+                               $expireInUnits =   DateTime::createFromFormat("Ymd",$nowDateTime->format("Ymd"))->diff(DateTime::createFromFormat("Ymd", $expireDateTime->format("Ymd")))->days;
+                            
+                               error_log( "checkexpiration - user $login - warning, your password will expired in " . $expireInUnits . " days - warning :" . (int)( $pwdExpireWarning/$policy_expire_unit)); 
                                $nb_warning_users=$nb_warning_users+1;
                                $warning_users[$login] = "password warning, ever emailed";
 
@@ -259,10 +260,11 @@ if ( $result === "" ) {
                         }else{ 
                          # if password is expired, the notify the 1st day of expiration
                              if ( $nowDateTime >= $expireDateTime) {
-                               #error_log( "checkexpiration - user $login - alert, your password is expired since " . $expireDateTime->diff($nowDateTime)->format('%R%a days')); 
 
-                               $expireInUnits =  (int)(($nowDateTime->getTimestamp() - $expireDateTime->getTimestamp()) / $policy_expire_unit); 
-                               error_log( "checkexpiration - user $login - alert, your password is expired since " .  $expireInUnits . " units"); 
+                               #$expireInUnits =  (int)ceil(($nowDateTime->getTimestamp() - $expireDateTime->getTimestamp()) / $policy_expire_unit); 
+                               $expireInUnits =   DateTime::createFromFormat("Ymd", $expireDateTime->format("Ymd"))->diff(DateTime::createFromFormat("Ymd", $nowDateTime->format("Ymd")))->days;
+                                 
+                               error_log( "checkexpiration - user $login - alert, your password is expired since " .  $expireInUnits . " days"); 
                                $nb_expired_users=$nb_expired_users+1;
                                $expired_users[$login] = "password expired, ever emailed";
 
