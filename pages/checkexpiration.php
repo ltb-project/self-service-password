@@ -80,8 +80,8 @@ $nb_expired_users=0;
 $nb_warning_users=0;
 
 
-#$policy_expire_unit=86400;
-$policy_expire_unit=60;
+$policy_expire_unit=86400;
+#$policy_expire_unit=60;
 
 
 
@@ -244,7 +244,7 @@ if ( $result === "" ) {
                                $warning_users[$login] = "password warning, ever emailed";
 
                                # notify the first day and the last day 
-                               if(  $$expire_always_mail || $expireInUnits == 1 || $expireInUnits == (int)( $pwdExpireWarning/$policy_expire_unit)+1 ) {
+                               if(  $expire_always_mail || $expireInUnits == 1 || $expireInUnits == (int)( $pwdExpireWarning/$policy_expire_unit)+1 ) {
                                       $url= generate_url($reset_url, "change");
                                       $data = array( "login" => $login, "mail" => $mail, "url" => $url, "days" => $expireInUnits ) ;
                                       # Send message
