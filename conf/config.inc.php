@@ -196,6 +196,9 @@ $mail_newline = PHP_EOL;
 ## SMS
 # Use sms
 $use_sms = true;
+# SMS method (mail, api)
+$sms_method = "mail";
+$sms_api_lib = "lib/smsapi.inc.php";
 # GSM number attribute
 $sms_attribute = "mobile";
 # Partially hide number
