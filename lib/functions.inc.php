@@ -26,9 +26,42 @@ function make_ssha_password($password) {
     return $hash;
 }
 
+# Create SSHA256 password
+function make_ssha256_password($password) {
+    $salt = random_bytes(4);
+    $hash = "{SSHA256}" . base64_encode(pack("H*", hash('sha256', $password . $salt)) . $salt);
+    return $hash;
+}
+
+# Create SSHA384 password
+function make_ssha384_password($password) {
+    $salt = random_bytes(4);
+    $hash = "{SSHA384}" . base64_encode(pack("H*", hash('sha384', $password . $salt)) . $salt);
+    return $hash;
+}
+
+# Create SSHA512 password
+function make_ssha512_password($password) {
+    $salt = random_bytes(4);
+    $hash = "{SSHA512}" . base64_encode(pack("H*", hash('sha512', $password . $salt)) . $salt);
+    return $hash;
+}
+
 # Create SHA password
 function make_sha_password($password) {
     $hash = "{SHA}" . base64_encode(pack("H*", sha1($password)));
+    return $hash;
+}
+
+# Create SHA256 password
+function make_sha256_password($password) {
+    $hash = "{SHA256}" . base64_encode(pack("H*", hash('sha256', $password)));
+    return $hash;
+}
+
+# Create SHA384 password
+function make_sha384_password($password) {
+    $hash = "{SHA384}" . base64_encode(pack("H*", hash('sha384', $password)));
     return $hash;
 }
 
@@ -280,8 +313,23 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         if ( $hash == "SSHA" ) {
             $password = make_ssha_password($password);
         }
+        if ( $hash == "SSHA256" ) {
+            $password = make_ssha256_password($password);
+        }
+        if ( $hash == "SSHA384" ) {
+            $password = make_ssha384_password($password);
+        }
+        if ( $hash == "SSHA512" ) {
+            $password = make_ssha512_password($password);
+        }
         if ( $hash == "SHA" ) {
             $password = make_sha_password($password);
+        }
+        if ( $hash == "SHA256" ) {
+            $password = make_sha256_password($password);
+        }
+        if ( $hash == "SHA384" ) {
+            $password = make_sha384_password($password);
         }
         if ( $hash == "SHA512" ) {
             $password = make_sha512_password($password);
