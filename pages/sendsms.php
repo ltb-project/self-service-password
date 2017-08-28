@@ -208,10 +208,6 @@ if ( $result === "sendsms" ) {
     $_SESSION['time']     = time();
     $_SESSION['attempts'] = 0;
 
-    # Remove plus and spaces from sms number
-    $sms = str_replace('+', '', $sms);
-    $sms = str_replace(' ', '', $sms);
-
     $data = array( "sms_attribute" => $sms, "smsresetmessage" => $messages['smsresetmessage'], "smstoken" => $smstoken) ;
 
     # Send message
