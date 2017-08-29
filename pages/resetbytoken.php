@@ -21,8 +21,6 @@
 
 # This page is called to reset a password when a valid token is found in URL
 
-# missed defines in php 5
-define("LDAP_OPT_DIAGNOSTIC_MESSAGE", 0x0032);
 
 #==============================================================================
 # POST parameters
