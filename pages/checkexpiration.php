@@ -197,7 +197,7 @@ if ( $result === "" ) {
 
                                # notify the first day and the last day 
                                if(  $expire_always_mail || $expireInUnits == 1 || $expireInUnits == (int)( $pwdExpireWarning/$policy_expire_unit)+1 ) {
-                                      $url= generate_url($reset_url, "change");
+                                      $url= generate_url($reset_url, "change") . "&login=" . $login;
                                       $data = array( "login" => $login, "mail" => $mail, "url" => $url, "days" => $expireInUnits ) ;
                                       # Send message
                                       if ( ! send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["warningexpiresubject"], $messages["warningexpiremessage"].$mail_signature, $data) ) {
@@ -221,7 +221,7 @@ if ( $result === "" ) {
 
                                # notify the first day of expire
                                if(  $expire_always_mail || $expireInUnits == 1){
-                                      $url= generate_url($reset_url, "sendtoken");
+                                      $url= generate_url($reset_url, "sendtoken") . "&login=" . $login ;
                                       $data = array( "login" => $login, "mail" => $mail, "url" => $url, "days" => $expireInUnits ) ;
                                       # Send message
                                       if ( ! send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["alertexpiresubject"], $messages["alertexpiremessage"].$mail_signature, $data) ) {
