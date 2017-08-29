@@ -18,6 +18,10 @@
 # GPL License: http://www.gnu.org/licenses/gpl.txt
 #
 #==============================================================================
+# missed defines in php 5
+if ( !defined("LDAP_OPT_DIAGNOSTIC_MESSAGE") ) {
+    define("LDAP_OPT_DIAGNOSTIC_MESSAGE", 0x0032);
+}
 
 # Generate URL according to the action
 function generate_url($reset_url, $action) {
