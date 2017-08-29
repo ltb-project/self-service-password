@@ -154,8 +154,11 @@ if ( $result === "" ) {
 
                     # if user as pwdChangedTime compare with now
                     if ( $pwdChangedTime ) {
-                        $changeDateTime = DateTime::createFromFormat('YmdHis', substr($pwdChangedTime, 0, -1));
-                        $nowDateTime = new DateTime();
+                        # any changeDateTime is reported to the day at 00h00
+                        $changeDateTime = DateTime::createFromFormat('YmdHis', substr($pwdChangedTime, 0, 8). "000000");
+                     
+                        # now is reported to the current day at 00h00
+                        $nowDateTime = DateTime::createFromFormat("YmdHis",(new DateTime())->format("Ymd")."000000");
 
                         $search_policy = ldap_search($ldap, $pwdPolicySubentry, "(cn=*)");
                         $ppolicy_entry = ldap_first_entry($ldap, $search_policy);
@@ -186,8 +189,7 @@ if ( $result === "" ) {
                        #if password is in expire periode, send notify it the 1st day of warning, and the last day 
                         if( $nowDateTime >= $warningDateTime && $nowDateTime < $expireDateTime) {
                                
-                               #$expireInUnits =  (int)ceil(($expireDateTime->getTimestamp() - $nowDateTime->getTimestamp()) / $policy_expire_unit) ;
-                               $expireInUnits =   DateTime::createFromFormat("Ymd",$nowDateTime->format("Ymd"))->diff(DateTime::createFromFormat("Ymd", $expireDateTime->format("Ymd")))->days;
+                                $expireInUnits =   $nowDateTime->diff($expireDateTime)->days;
                             
                                error_log( "checkexpiration - user $login - warning, your password will expired in " . $expireInUnits . " days - warning :" . (int)( $pwdExpireWarning/$policy_expire_unit)); 
                                $nb_warning_users=$nb_warning_users+1;
@@ -210,8 +212,7 @@ if ( $result === "" ) {
                          # if password is expired, the notify the 1st day of expiration
                              if ( $nowDateTime >= $expireDateTime) {
 
-                               #$expireInUnits =  (int)ceil(($nowDateTime->getTimestamp() - $expireDateTime->getTimestamp()) / $policy_expire_unit); 
-                               $expireInUnits =   DateTime::createFromFormat("Ymd", $expireDateTime->format("Ymd"))->diff(DateTime::createFromFormat("Ymd", $nowDateTime->format("Ymd")))->days;
+                               $expireInUnits =   $expireDateTime->diff($nowDateTime)->days;
                                  
                                error_log( "checkexpiration - user $login - alert, your password is expired since " .  $expireInUnits . " days"); 
                                $nb_expired_users=$nb_expired_users+1;
