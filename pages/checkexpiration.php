@@ -12,57 +12,6 @@
 
 # This page is called to batch email to all password in warning expiration or expired
 
-#==============================================================================
-# functions
-#==============================================================================
-
-function generate_url($reset_url, $action) {
-
-    if ( empty($reset_url) ) {
-
-        $server_name = $_SERVER['SERVER_NAME'];
-        $server_port = $_SERVER['SERVER_PORT'];
-        $script_name = $_SERVER['SCRIPT_NAME'];
-
-        # Build reset by token URL
-        $method = "http";
-        if( !empty($_SERVER['HTTPS']) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')){
-           $method .= "s";
-        }
-
-
-        # change servername if HTTP_X_FORWARDED_HOST is set
-        if( isset($_SERVER['HTTP_X_FORWARDED_HOST'])){
-            $server_name = $_SERVER['HTTP_X_FORWARDED_HOST'];
-        }
-
-        # Force server port if non standard port
-        if (   ( $method === "http"  and $server_port != "80"  )
-            or ( $method === "https" and $server_port != "443" )
-        ) {
-           if( isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
-                $server_name .= ":".$_SERVER['HTTP_X_FORWARDED_PORT'];
-            } else {
-               $server_name .= ":".$server_port;
-            }
-
-        }
-
-        $reset_url = $method."://".$server_name.$script_name;
-    }
-
-    $url = $reset_url . "?action=".$action;
-
-    if ( !empty($reset_request_log) ) {
-        error_log("Genrated URL $url \n\n", 3, $reset_request_log);
-    } else {
-        error_log("Genrated URL $url");
-    }
-
-    return $url;
-    
-}
-
 
 #==============================================================================
 # POST parameters
