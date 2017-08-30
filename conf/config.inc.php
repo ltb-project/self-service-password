@@ -163,6 +163,10 @@ $use_tokens = true;
 # true (default)
 # false
 $crypt_tokens = true;
+# Encryption, decryption keyphrase, required if $crypt_tokens = true
+# Please change it to anything long, random and complicated, you do not have to remember it
+# Changing it will also invalidate all previous tokens and SMS codes
+$keyphrase = "secret";
 # Token lifetime in seconds
 $token_lifetime = "3600";
 
@@ -247,9 +251,6 @@ $logo = "images/ltb-logo.png";
 
 # Background image
 $background_image = "images/unsplash-space.jpeg";
-
-# Encryption, decryption keyphrase
-$keyphrase = "secret";
 
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log

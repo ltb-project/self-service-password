@@ -25,6 +25,7 @@
 $messages['phpupgraderequired'] = "Use mise à jour de PHP est requise";
 $messages['nophpldap'] = "Vous devriez installer PHP LDAP pour utiliser cet outil";
 $messages['nophpmhash'] = "Vous devriez installer PHP mhash pour utiliser le mode Samba";
+$messages['nokeyphrase'] = "Vous devez configurer keyphrase pour que le chiffrement fonctionne";
 $messages['ldaperror'] = "Erreur d'acc&egrave;s &agrave; l'annuaire";
 $messages['loginrequired'] = "Vous devez indiquer votre identifiant";
 $messages['oldpasswordrequired'] = "Vous devez indiquer votre ancien mot de passe";

@@ -25,6 +25,7 @@
 $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Mali by ste nainštalovať PHP LDAP";
 $messages['nophpmhash'] = "Mali by ste nainštalovať PHP mhash pri používaní Samba režimu";
+$messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
 $messages['ldaperror'] = "Nemožno získať prístup k adresáru LDAP";
 $messages['loginrequired'] = "Zadanie prihlasovacieho mena je povinné";
 $messages['oldpasswordrequired'] = "Zadanie starého hesla je povinné";
