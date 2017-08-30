@@ -22,6 +22,12 @@
 #==============================================================================
 # Configuration
 #==============================================================================
+
+# Debug mode
+# true: log and display any errors or warnings (use this in configuration/testing)
+# false: log only errors and do not display them (use this in production)
+$debug = false;
+
 # LDAP
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
@@ -241,9 +247,6 @@ $logo = "images/ltb-logo.png";
 
 # Background image
 $background_image = "images/unsplash-space.jpeg";
-
-# Debug mode
-$debug = false;
 
 # Encryption, decryption keyphrase
 $keyphrase = "secret";
