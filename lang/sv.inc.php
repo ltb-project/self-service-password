@@ -128,5 +128,3 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Ändra din SSH Key";
 $messages['changesshkeyhelp'] = "Ange ditt lösenord och ny SSH-nyckel.";
 $messages['sshkeyerror'] = "SSH Key avslogs av LDAP-katalogen";
-
-?>

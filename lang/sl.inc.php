@@ -128,5 +128,3 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Spreminjanje SSH ključ";
 $messages['changesshkeyhelp'] = "Vnesite geslo in nov ključ SSH.";
 $messages['sshkeyerror'] = "SSH Ključna je bila zavrnjena z imeniku LDAP";
-
-?>

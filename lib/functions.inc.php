@@ -558,5 +558,3 @@ function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $resp
 
     return '';
 }
-
-?>

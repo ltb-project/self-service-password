@@ -128,5 +128,3 @@ $messages['sshkeyrequired'] = "SSH Key απαιτείται";
 $messages['menusshkey'] = "SSH Key";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Αλλάξτε SSH Key σας</a>";
 $messages['sshkey'] = "SSH Key";
-
-?>

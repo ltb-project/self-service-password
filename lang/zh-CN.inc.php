@@ -128,5 +128,3 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "您的新密码与您的用户名相同";
 $messages['policydifflogin'] = "您的新密码不能与您的用户名相同";
-
-?>
