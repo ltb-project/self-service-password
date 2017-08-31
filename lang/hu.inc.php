@@ -25,6 +25,7 @@
 $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "A program használatához telepíteni kell a PHP LDAP csomagot";
 $messages['nophpmhash'] = "A Samba üzemmód használatához telepíteni kell a PHP mhash csomagot";
+$messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
 $messages['ldaperror'] = "Nem érhető el az LDAP szolgáltatás";
 $messages['loginrequired'] = "A felhasználónév megadása kötelező!";
 $messages['oldpasswordrequired'] = "A régi jelszó megadása kötelező!";

@@ -25,6 +25,7 @@
 $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Bu aracı kullanabilmek için PHP LDAP yüklemelisiniz";
 $messages['nophpmhash'] = "Samba modunu kullanmak için PHP mhash yüklemelisiniz";
+$messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
 $messages['ldaperror'] = "LDAP dizinine ulaşılamıyor";
 $messages['loginrequired'] = "Kullanıcı adınız gereklidir";
 $messages['oldpasswordrequired'] = "Eski parolanız gereklidir";

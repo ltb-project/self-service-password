@@ -219,12 +219,15 @@ $sms_sanitize_number = false;
 # Truncate GSM number
 $sms_truncate_number = false;
 $sms_truncate_number_length = 10;
-
 # SMS token length
 $sms_token_length = 6;
-
 # Max attempts allowed for SMS token
 $max_attempts = 3;
+
+# Encryption, decryption keyphrase, required if $crypt_tokens = true
+# Please change it to anything long, random and complicated, you do not have to remember it
+# Changing it will also invalidate all previous tokens and SMS codes
+$keyphrase = "secret";
 
 # Reset URL (if behind a reverse proxy)
 #$reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
@@ -247,9 +250,6 @@ $logo = "images/ltb-logo.png";
 
 # Background image
 $background_image = "images/unsplash-space.jpeg";
-
-# Encryption, decryption keyphrase
-$keyphrase = "secret";
 
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log

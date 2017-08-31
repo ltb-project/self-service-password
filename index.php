@@ -89,6 +89,8 @@ if ( ! function_exists('mb_internal_encoding') ) { $dependency_check_results[] =
 # Check PHP xml presence
 if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxml"; }
 
+# Check keyphrase setting
+if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
 #==============================================================================
 # Action
 #==============================================================================
