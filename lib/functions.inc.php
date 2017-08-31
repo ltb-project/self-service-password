@@ -18,6 +18,48 @@
 # GPL License: http://www.gnu.org/licenses/gpl.txt
 #
 #==============================================================================
+# missed defines in php 5
+if ( !defined("LDAP_OPT_DIAGNOSTIC_MESSAGE") ) {
+    define("LDAP_OPT_DIAGNOSTIC_MESSAGE", 0x0032);
+}
+
+# Generate URL according to the action
+function generate_url($reset_url, $action) {
+    if ( empty($reset_url) ) {
+        $server_name = $_SERVER['SERVER_NAME'];
+        $server_port = $_SERVER['SERVER_PORT'];
+        $script_name = $_SERVER['SCRIPT_NAME'];
+        # Build reset by token URL
+        $method = "http";
+        if( !empty($_SERVER['HTTPS']) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')){
+           $method .= "s";
+        }
+        # change servername if HTTP_X_FORWARDED_HOST is set
+        if( isset($_SERVER['HTTP_X_FORWARDED_HOST'])){
+            $server_name = $_SERVER['HTTP_X_FORWARDED_HOST'];
+        }
+        # Force server port if non standard port
+        if (   ( $method === "http"  and $server_port != "80"  )
+            or ( $method === "https" and $server_port != "443" )
+        ) {
+           if( isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
+                $server_name .= ":".$_SERVER['HTTP_X_FORWARDED_PORT'];
+            } else {
+               $server_name .= ":".$server_port;
+            }
+        }
+        $reset_url = $method."://".$server_name.$script_name;
+    }
+    $url = $reset_url . "?action=".$action;
+    if ( !empty($reset_request_log) ) {
+        error_log("Genrated URL $url \n\n", 3, $reset_request_log);
+    } else {
+        error_log("Genrated URL $url");
+    }
+    return $url;
+    
+}
+
 
 # Create SSHA password
 function make_ssha_password($password) {
@@ -154,7 +196,7 @@ function stripslashes_if_gpc_magic_quotes( $string ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|sshkeyerror/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|sshkeyerror|notinadmingroup/" , $msg ) ) {
     return "danger";
     }
 
