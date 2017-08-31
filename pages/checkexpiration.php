@@ -220,7 +220,7 @@ if ( $result === "" ) {
 
 
                                # notify the first day of expire
-                               if(  $expire_always_mail || $expireInUnits == 1){
+                               if(  $expire_always_mail || $expireInUnits == 0){
                                       $url= generate_url($reset_url, "sendtoken") . "&login=" . $login ;
                                       $data = array( "login" => $login, "mail" => $mail, "url" => $url, "days" => $expireInUnits ) ;
                                       # Send message
