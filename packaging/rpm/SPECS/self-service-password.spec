@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.0
+%define ssp_version	1.1
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -23,7 +23,7 @@
 Summary: LDAP password change web interface
 Name: %{ssp_name}
 Version: %{ssp_version}
-Release: 2%{?dist}
+Release: 1%{?dist}
 License: GPL
 BuildArch: noarch
 
@@ -112,6 +112,73 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Thu Aug 31 2017 - Clement Oudot <clem@ltb-project.org> - 1.1-1
+- gh#33: Posthook does not work with apostrophes
+- gh#38: Add Japanese translation
+- gh#40: Add missing variable $mail_wordwrap in config.inc.php
+- gh#41: Show all missing dependencies instead of one and fix color of message
+- gh#42: Fix $mail_sendmailpath in config was ignored because of a typo
+- gh#43: Fix bad link in hungarian translation
+- gh#47: Allow for longer salts
+- gh#48: Corrections proposed to index.php and pages/* files
+- gh#49: Fix the usage of rand instead of mt_rand
+- gh#50: Use fixed width icons
+- gh#51: Apache configuration in RPM package
+- gh#54: Reset password layout
+- gh#55: shadowExpire in LDAP
+- gh#58: Escape shell args with escapeshellarg for posthook command (fixes #33)
+- gh#59: Weak entropy for password generation
+- gh#60: Encryption without authentication
+- gh#61: Greek translation
+- gh#63: German translation
+- gh#64: Mail from ldap
+- gh#65: Mail signature
+- gh#66: Get Mail from LDAP
+- gh#67: Mail signature
+- gh#68: Swedish translation
+- gh#73: Dependency check for function ldap_modify_batch()
+- gh#74: session token with nginx
+- gh#75: SHA512 in password encryption
+- gh#76: Fixing Czech translation
+- gh#77: Improved IT translation
+- gh#78: Allow sending SMS through web-based API instead of Email2SMS Gateway
+- gh#79: Improved ES translation
+- gh#81: Allow self service of sshPublicKey attribute in LDAP
+- gh#82: PHPMailer security update
+- gh#85: mcrypt is outdated
+- gh#87: Get Travis tests working again on PHP 7
+- gh#89: Erreurs de Francais
+- gh#90: Update fr.inc.php
+- gh#91: Can email reset use AD user's FirstName, instead of login ID?
+- gh#92: Implements strong cryptography with defuse-crypto 2.0.3
+- gh#93: Add SHA512 password hashing
+- gh#94: Update phpmailer from v5.2.16 to v5.5.23
+- gh#95: Dependency check for function ldap_modify_batch()
+- gh#97: Add an easy way to override messages
+- gh#98: Bug in resetbytoken.php
+- gh#99: Force use of phpunit 5.7 if php >= 7.0 for travis testing
+- gh#100: Fixes for things pointed out after #81 was merged
+- gh#102: Fix for base64 encoded strings that contain '+'
+- gh#104: Fix invalid html in sendsms.php
+- gh#105: SSHKey update  Insufficient access
+- gh#106: Update zh-CN translation
+- gh#107: Sanitize Mobile Number retrieved from LDAP
+- gh#111: "Email" name in menu is confusing
+- gh#115: Force specific language?
+- gh#116: Add possibility to force use of a specific set of languages
+- gh#117: SSHA-256 support for ldap user password
+- gh#118: Fix hhvm on travis, update travis config
+- gh#120: Fix debian packages/repository for debian stretch
+- gh#121: Add popovers to explain menu links (cf. issue #111)
+- gh#126: proxy support for ReCaptcha
+- gh#128: Reset token validation issue
+- gh#130: recaptcha uses file_get_contents to retrive data
+- gh#131: Allow override of reCAPTCHA request method (cf. issue #130)
+- gh#132: Fix travis builds for php 7.0 and 7.1
+- gh#138: sendtoken.php send http instead of https
+- gh#142: Move $debug config to the top of the file
+- gh#143: Warn when key phrase is not set
+- gh#144: Invalid Token error
 * Mon Oct 17 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-2
 - Fix packaging of lib/ directory
 * Fri Oct 14 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-1
