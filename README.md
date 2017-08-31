@@ -24,11 +24,11 @@ It has the following features:
 * Help messages
 * Reset by questions
 * Reset by mail challenge (token sent by mail)
-* Reset by SMS (trough external Email 2 SMS service)
+* Reset by SMS (trough external Email 2 SMS service or SMS API)
 * Change SSH Key in LDAP directory
 * reCAPTCHA (Google API)
 * Mail notification after password change
-* Hook script after password chage
+* Hook script after password change
 
 ## Prerequisite
 * PHP extensions required:
