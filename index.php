@@ -62,12 +62,6 @@ if (file_exists("conf/$lang.inc.php")) {
 }
 
 #==============================================================================
-# PHP configuration tuning
-#==============================================================================
-# Disable output_buffering, to not send cookie information after headers
-ini_set('output_buffering', '0');
-
-#==============================================================================
 # PHP modules
 #==============================================================================
 # Init dependency check results variable
