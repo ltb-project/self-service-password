@@ -162,7 +162,7 @@ if ( $result === "" ) {
 <p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 
-<?php if ( $result !== "passwordchanged" ) { ?>
+<?php if ( $result !== "sshkeychanged" ) { ?>
 
 <?php
 if ( $show_help ) {
