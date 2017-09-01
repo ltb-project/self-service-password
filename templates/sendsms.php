@@ -4,10 +4,13 @@
 </div>
 
 <?php
-if ( $result == "smscrypttokensrequired" ) {
-} elseif ( $result == "smsuserfound" ) {
-    ?>
 
+if ( $result == "smscrypttokensrequired" ) {
+    return;
+}
+?>
+
+<?php if ( $result == "smsuserfound" ) : ?>
     <div class="alert alert-info">
         <form action="#" method="post" class="form-horizontal">
             <div class="form-group">
@@ -38,10 +41,7 @@ if ( $result == "smscrypttokensrequired" ) {
             </div>
         </form>
     </div>
-
-    <?php
-} elseif ( ( $result == "smssent" ) or ( $result == "tokenattempts" ) ) { ?>
-
+<?php elseif ( $result == "smssent" or $result == "tokenattempts" ) : ?>
     <div class="alert alert-info">
         <form action="#" method="post" class="form-horizontal">
             <div class="form-group">
@@ -64,16 +64,16 @@ if ( $result == "smscrypttokensrequired" ) {
         </form>
     </div>
 
-<?php } else{
+<?php else: ?>
 
+<?php
     if ( $show_help ) {
         echo "<div class=\"help alert alert-warning\"><p>";
         echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
         echo $messages["sendsmshelp"];
         echo "</p></div>\n";
     }
-    ?>
-
+?>
     <div class="alert alert-info">
         <form action="#" method="post" class="form-horizontal">
             <div class="form-group">
@@ -103,4 +103,4 @@ if ( $result == "smscrypttokensrequired" ) {
         </form>
     </div>
 
-<?php }
+<?php endif; ?>
