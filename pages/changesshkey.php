@@ -42,11 +42,6 @@ if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["logi
 if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_POST["sshkey"]))
  { $result = "emptysshkeychangeform"; }
 
-# Strip slashes added by PHP
-$login = stripslashes_if_gpc_magic_quotes($login);
-$password = stripslashes_if_gpc_magic_quotes($password);
-$sshkey = stripslashes_if_gpc_magic_quotes($sshkey);
-
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);

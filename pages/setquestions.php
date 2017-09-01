@@ -44,12 +44,6 @@ if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["logi
 if (! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_POST["password"]) and ! isset($_REQUEST["login"]))
  { $result = "emptysetquestionsform"; }
 
-# Strip slashes added by PHP
-$login = stripslashes_if_gpc_magic_quotes($login);
-$password = stripslashes_if_gpc_magic_quotes($password);
-$question = stripslashes_if_gpc_magic_quotes($question);
-$answer = stripslashes_if_gpc_magic_quotes($answer);
-
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
