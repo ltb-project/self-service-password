@@ -128,4 +128,3 @@ $messages['sshkey'] = "Clé SSH";
 $messages['emptysshkeychangeform'] = "Changez votre clé SSH";
 $messages['changesshkeyhelp'] = "Entrez votre mot de passe et la nouvelle clé SSH.";
 $messages['sshkeyerror'] = "La clé SSH a été refusée par l'annuaire  LDAP";
-?>

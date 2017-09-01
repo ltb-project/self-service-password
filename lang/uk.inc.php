@@ -129,5 +129,3 @@ $messages['sshkey'] = "SSH ключ";
 $messages['emptysshkeychangeform'] = "Змінити ключ SSH";
 $messages['changesshkeyhelp'] = "Введіть свій пароль і новий ключ SSH.";
 $messages['sshkeyerror'] = "SSH Key була відхилена каталогом LDAP";
-
-?>

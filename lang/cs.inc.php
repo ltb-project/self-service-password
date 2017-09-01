@@ -128,5 +128,3 @@ $messages['sshkeychanged'] = "Váš SSH klíč byl změněn";
 $messages['sshkeyerror'] = "SSH klíč byl odmítnut v adresáři LDAP";
 $messages['sshkey'] = "SSH klíč";
 $messages['menusshkey'] = "SSH klíč";
-
-?>

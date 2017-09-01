@@ -128,5 +128,3 @@ $messages['sshkey'] = "SSH Anahtarı";
 $messages['emptysshkeychangeform'] = "SSH Anahtarınızı Değiştirin";
 $messages['changesshkeyhelp'] = "Parolanızı ve yeni SSH anahtarınızı girin.";
 $messages['sshkeyerror'] = "SSH Anahtarı LDAP dizini tarafından reddedildi";
-
-?>

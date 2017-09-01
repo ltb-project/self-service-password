@@ -36,5 +36,3 @@ function send_sms_by_api($mobile, $message) {
 
     return 1;
 }
-
-?>

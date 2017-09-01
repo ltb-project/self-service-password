@@ -128,5 +128,3 @@ $messages['sshkey'] = "SSH kulcs";
 $messages['emptysshkeychangeform'] = "Változás az SSH kulcs";
 $messages['changesshkeyhelp'] = "Írja be a jelszót és az új SSH kulcs.";
 $messages['sshkeyerror'] = "SSH kulcs elutasította az LDAP címtár";
-
-?>

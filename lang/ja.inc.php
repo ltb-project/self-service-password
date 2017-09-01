@@ -128,5 +128,3 @@ $messages['sshkey'] = "SSHキー";
 $messages['emptysshkeychangeform'] = "SSHキーを変更する";
 $messages['changesshkeyhelp'] = "パスワードと新しいSSHキーを入力してください。";
 $messages['sshkeyerror'] = "SSHキーがLDAPディレクトリによって拒否されました";
-
-?>
