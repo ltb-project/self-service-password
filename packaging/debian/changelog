@@ -66,8 +66,9 @@ ltb-project-self-service-password (1.1-1) unstable; urgency=low
     * gh#142: Move $debug config to the top of the file
     * gh#143: Warn when key phrase is not set
     * gh#144: Invalid Token error
+    * gh#148: Change key feature never notifies
 
- -- Clement Oudot <clem@ltb-project.org>  Thu, 31 Aug 2017 12:00:00 +0200
+ -- Clement Oudot <clem@ltb-project.org>  Fri, 01 Sep 2017 12:00:00 +0200
 
 ltb-project-self-service-password (1.0-2) unstable; urgency=low
 

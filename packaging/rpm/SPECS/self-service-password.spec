@@ -112,7 +112,7 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
-* Thu Aug 31 2017 - Clement Oudot <clem@ltb-project.org> - 1.1-1
+* Fri Sep 01 2017 - Clement Oudot <clem@ltb-project.org> - 1.1-1
 - gh#33: Posthook does not work with apostrophes
 - gh#38: Add Japanese translation
 - gh#40: Add missing variable $mail_wordwrap in config.inc.php
@@ -179,6 +179,7 @@ rm -rf %{buildroot}
 - gh#142: Move $debug config to the top of the file
 - gh#143: Warn when key phrase is not set
 - gh#144: Invalid Token error
+- gh#148: Change key feature never notifies
 * Mon Oct 17 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-2
 - Fix packaging of lib/ directory
 * Fri Oct 14 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-1
