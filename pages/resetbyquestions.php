@@ -168,7 +168,19 @@ if ( $result === "" ) {
 # Change password
 if ($result === "") {
     $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
-    if ( $result === "passwordchanged" && isset($posthook) ) {
+}
+
+if ( $result === "passwordchanged" ) {
+    # Notify password change
+    if ($mail and $notify_on_change) {
+        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+            error_log("Error while sending change email to $mail (user $login)");
+        }
+    }
+
+    # Posthook
+    if ( isset($posthook) ) {
         $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
         exec($command);
     }
@@ -278,16 +290,5 @@ if ($pwd_show_policy_pos === 'below') {
 }
 ?>
 
-<?php } else {
-
-    # Notify password change
-    if ($mail and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
-            error_log("Error while sending change email to $mail (user $login)");
-        }
-    }
-
+<?php
 }
-?>
-
