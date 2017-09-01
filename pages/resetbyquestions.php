@@ -187,4 +187,15 @@ if ( $result === "passwordchanged" ) {
 }
 
 # Render associated template
-require __DIR__ . '/../templates/resetbyquestions.php';
+echo $twig->render('resetbyquestions.twig', array(
+    'result' => $result,
+    'login' => $login,
+    'show_help' => $show_help,
+    'pwd_policy_config' => $pwd_policy_config,
+    'questions' => $messages["questions"],
+    'recaptcha_publickey' => $recaptcha_publickey,
+    'recaptcha_theme' => $recaptcha_theme,
+    'recaptcha_type' => $recaptcha_type,
+    'recaptcha_size' => $recaptcha_size,
+    'lang' => $lang,
+));

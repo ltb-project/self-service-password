@@ -208,6 +208,16 @@ if ( $result === "" ) {
     }
 }
 
-# Render associated template
-require __DIR__ . '/../templates/sendtoken.php';
 
+# Render associated template
+echo $twig->render('sendtoken.twig', array(
+    'result' => $result,
+    'show_help' => $show_help,
+    'login' => $login,
+    'mail_address_use_ldap' => $mail_address_use_ldap,
+    'recaptcha_publickey' => $recaptcha_publickey,
+    'recaptcha_theme' => $recaptcha_theme,
+    'recaptcha_type' => $recaptcha_type,
+    'recaptcha_size' => $recaptcha_size,
+    'lang' => $lang,
+));

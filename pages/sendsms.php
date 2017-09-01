@@ -314,4 +314,16 @@ if ( $result === "redirect" ) {
 }
 
 # Render associated template
-require __DIR__ . '/../templates/sendsms.php';
+echo $twig->render('sendsms.twig', array(
+    'result' => $result,
+    'displayname' => $displayname,
+    'login' => $login,
+    'encrypted_sms_login' => $encrypted_sms_login,
+    'token' => $token,
+    'sms' => $sms_partially_hide_number ? (substr_replace($sms, '****', 4 , 4)) : $sms,
+    'recaptcha_publickey' => $recaptcha_publickey,
+    'recaptcha_theme' => $recaptcha_theme,
+    'recaptcha_type' => $recaptcha_type,
+    'recaptcha_size' => $recaptcha_size,
+    'lang' => $lang,
+));

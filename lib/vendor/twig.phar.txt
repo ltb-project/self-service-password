@@ -1,0 +1,3 @@
+sha1sum b95264fbf7d1bd0d64964dc4ae0498b248009b33 twig.phar
+Twig v1.34.4 from https://github.com/twigphp/Twig/tree/v1.34.4
+Compiled using this procedure https://gist.github.com/brtriver/1653293

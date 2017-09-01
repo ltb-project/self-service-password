@@ -1,0 +1,97 @@
+
+<div class="result alert alert-{{ result|criticality }}">
+    <p><i class="fa fa-fw {{ result|fa_class }}" aria-hidden="true"></i> {{ result|trans }}</p>
+</div>
+
+{% if result == 'passwordchanged' %}
+    {% if has_password_changed_extra_message %}
+        <div class="result alert alert-success">
+            <p><i class="fa fa-fw fa-check-square" aria-hidden="true"></i> {{ 'passwordchangedextramessage'|trans|raw }}</p>
+        </div>
+    {% endif %}
+{% else %}
+    {% if show_help %}
+        <div class="help alert alert-warning">
+            <p><i class="fa fa-fw fa-info-circle"></i> {{ 'changehelp'|trans|raw }}</p>
+
+            {% if has_change_help_extra_message %}
+                <p>{{ 'changehelpextramessage'|trans|raw }}</p>
+            {% endif %}
+
+            {% if show_change_help_reset %}
+                <p>{{ 'changehelpreset'|trans|raw }}</p>
+                <ul>
+                    {% if use_questions %}<li>{{ 'changehelpquestions'|trans|raw }}</li>{% endif %}
+                    {% if use_tokens    %}<li>{{ 'changehelptoken'|trans|raw }}</li>{% endif %}
+                    {% if use_sms       %}<li>{{ 'changehelpsms'|trans|raw }}</li>{% endif %}
+                    {% if change_sshkey %}<li>{{ 'changehelpsshkey'|trans|raw }}</li>{% endif %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if show_policy and pwd_show_policy_pos == 'above' %}
+        {% include 'policy.twig' with {'config': pwd_policy_config} %}
+    {% endif %}
+
+    <div class="alert alert-info">
+        <form action="#" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label for="login" class="col-sm-4 control-label">{{ 'login'|trans }}</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                        <input type="text" name="login" id="login" value="{{ login }}" class="form-control" placeholder="{{ 'login'|trans }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="oldpassword" class="col-sm-4 control-label">{{ 'oldpassword'|trans }}</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                        <input type="password" name="oldpassword" id="oldpassword" class="form-control" placeholder="{{ 'oldpassword'|trans }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newpassword" class="col-sm-4 control-label">{{ 'newpassword'|trans }}</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                        <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="{{ 'newpassword'|trans }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirmpassword" class="col-sm-4 control-label">{{ 'confirmpassword'|trans }}</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                        <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="{{ 'confirmpassword'|trans }}" />
+                    </div>
+                </div>
+            </div>
+            {% if use_recaptcha %}
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-8">
+                        <div class="g-recaptcha" data-sitekey="{{ recaptcha_publickey }}" data-theme="{{ recaptcha_theme }}" data-type="{{ recaptcha_type }}" data-size="{{ recaptcha_size }}"></div>
+                        <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl={{ lang }}"></script>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-fw fa-check-square-o"></i> {{ 'submit'|trans }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% if show_policy and pwd_show_policy_pos == 'below' %}
+        {% include 'policy.twig' with {'config': pwd_policy_config} %}
+    {% endif %}
+
+{% endif %}

@@ -1,0 +1,17 @@
+<div class="help alert alert-warning">
+<p>{{ 'policy'|trans }}</p>
+
+<ul>
+    {% if config['pwd_min_length'] %}<li>{{ 'policyminlength'|trans }} {{ config['pwd_min_length'] }}</li>{% endif %}
+    {% if config['pwd_max_length'] %}<li>{{ 'policymaxlength'|trans }} {{ config['pwd_max_length'] }}</li>{% endif %}
+    {% if config['pwd_min_lower'] %}<li>{{ 'policyminlower'|trans }} {{ config['pwd_min_lower'] }}</li>{% endif %}
+    {% if config['pwd_min_upper'] %}<li>{{ 'policyminupper'|trans }} {{ config['pwd_min_upper'] }}</li>{% endif %}
+    {% if config['pwd_min_digit'] %}<li>{{ 'policymindigit'|trans }} {{ config['pwd_min_digit'] }}</li>{% endif %}
+    {% if config['pwd_min_special'] %}<li>{{ 'policyminspecial'|trans }} {{ config['pwd_min_special'] }}</li>{% endif %}
+    {% if config['pwd_complexity'] %}<li>{{ 'policycomplex'|trans }} {{ config['pwd_complexity'] }}</li>{% endif %}
+    {% if config['pwd_forbidden_chars'] %}<li>{{ 'policyforbiddenchars'|trans }} {{ config['pwd_forbidden_chars'] }}</li>{% endif %}
+
+    {% if config['pwd_no_reuse'] %}<li>{{ 'policynoreuse'|trans }}</li>{% endif %}
+    {% if config['pwd_diff_login'] %}<li>{{ 'policydifflogin'|trans }}</li>{% endif %}
+</ul>
+</div>
