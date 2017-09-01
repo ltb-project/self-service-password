@@ -4,46 +4,39 @@
 </div>
 
 <?php
-
 if ( $result === "passwordchanged" ) {
-    if (isset($messages['passwordchangedextramessage'])) {
-        echo "<div class=\"result alert alert-" . get_criticity($result) . "\">";
-        echo "<p><i class=\"fa fa-fw " . get_fa_class($result) . "\" aria-hidden=\"true\"></i> " . $messages['passwordchangedextramessage'] . "</p>";
-        echo "</div>\n";
-    }
+    if (isset($messages['passwordchangedextramessage'])) : ?>
+        <div class="result alert alert-success">
+            <p><i class="fa fa-fw fa-check-square" aria-hidden="true"></i> <?php echo $messages['passwordchangedextramessage'] ?></p>
+        </div>
+    <?php endif;
 
     # Password was changed, we do not need to process futher
     return;
 }
+?>
 
-if ( $show_help ) {
-    echo "<div class=\"help alert alert-warning\"><p>";
-    echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
-    echo $messages["changehelp"];
-    echo "</p>";
-    if (isset($messages['changehelpextramessage'])) {
-        echo "<p>" . $messages['changehelpextramessage'] . "</p>";
-    }
-    if ( !$show_menu and ( $use_questions or $use_tokens or $use_sms or $change_sshkey ) ) {
-        echo "<p>".  $messages["changehelpreset"] . "</p>";
-        echo "<ul>";
-        if ( $use_questions ) {
-            echo "<li>" . $messages["changehelpquestions"] ."</li>";
-        }
-        if ( $use_tokens ) {
-            echo "<li>" . $messages["changehelptoken"] ."</li>";
-        }
-        if ( $use_sms ) {
-            echo "<li>" . $messages["changehelpsms"] ."</li>";
-        }
-        if ( $change_sshkey ) {
-            echo "<li>" . $messages["changehelpsshkey"] . "</li>";
-        }
-        echo "</ul>";
-    }
-    echo "</div>\n";
-}
+<?php if ( $show_help ) { ?>
+    <div class="help alert alert-warning">
+        <p><i class="fa fa-fw fa-info-circle"></i> <?php echo $messages["changehelp"]; ?></p>
 
+        <?php if (isset($messages['changehelpextramessage'])) : ?>
+            <p><?php echo $messages['changehelpextramessage']; ?></p>
+        <?php endif; ?>
+
+        <?php if (!$show_menu and ( $use_questions or $use_tokens or $use_sms or $change_sshkey )) : ?>
+            <p><?php $messages["changehelpreset"]; ?></p>
+            <ul>
+                <?php if ( $use_questions ) { ?><li><?php echo $messages["changehelpquestions"]; ?></li><?php } ?>
+                <?php if ( $use_tokens ) { ?><li><?php echo $messages["changehelptoken"]; ?></li><?php } ?>
+                <?php if ( $use_sms ) { ?><li><?php echo $messages["changehelpsms"]; ?></li><?php } ?>
+                <?php if ( $change_sshkey ) { ?><li><?php echo $messages["changehelpsshkey"]; ?></li><?php } ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+<?php } ?>
+
+<?php
 if ($pwd_show_policy_pos === 'above') {
     show_policy($messages, $pwd_policy_config, $result);
 }
@@ -104,7 +97,6 @@ if ($pwd_show_policy_pos === 'above') {
         </div>
     </form>
 </div>
-
 <?php
 
 if ($pwd_show_policy_pos === 'below') {

@@ -4,23 +4,23 @@
 </div>
 
 <?php
-
 if ( $result === "passwordchanged" ) {
     return;
 }
+?>
 
-if ( $show_help ) {
-    echo "<div class=\"help alert alert-warning\"><p>";
-    echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
-    echo $messages["resetbyquestionshelp"];
-    echo "</p></div>\n";
-}
+<?php if ( $show_help ) { ?>
+    <div class="help alert alert-warning">
+        <p><i class="fa fa-fw fa-info-circle"></i> <?php echo $messages["resetbyquestionshelp"]; ?></p>
+    </div>
+<?php } ?>
 
+<?php
 if ($pwd_show_policy_pos === 'above') {
     show_policy($messages, $pwd_policy_config, $result);
 }
-
 ?>
+
 <div class="alert alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="form-group">
@@ -38,12 +38,9 @@ if ($pwd_show_policy_pos === 'above') {
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
                     <select name="question" id="question" class="form-control">
-                        <?php
-                        # Build options
-                        foreach ( $messages["questions"] as $value => $text ) {
-                            echo "<option value=\"$value\">$text</option>";
-                        }
-                        ?>
+                        <?php foreach ( $messages["questions"] as $value => $text ) { ?>
+                            <option value="<?php echo $value; ?>"><?php echo $text; ?></option>
+                        <?php } ?>
                     </select>
                 </div>
             </div>
