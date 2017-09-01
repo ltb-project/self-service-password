@@ -1,0 +1,51 @@
+<div class="navbar-wrapper">
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.php"><i class="fa fa-fw fa-home"></i> {{ 'title'|trans }}</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    {% if use_questions %}
+                        <li class="{{ action in ['resetbyquestions', 'setquestions'] ? 'active' }}">
+                            <a href="?action=resetbyquestions"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelpquestions'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-question-circle"></i> {{ 'menuquestions'|trans }}</a>
+                        </li>
+                    {% endif %}
+                    {% if use_tokens %}
+                        <li class="{{ ( ( action == 'resetbytoken' and source != 'sms' ) or action == 'sendtoken' ) ? 'active' }}">
+                            <a href="?action=sendtoken"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelptoken'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-envelope"></i> {{ 'menutoken'|trans }}</a>
+                        </li>
+                    {% endif %}
+                    {% if use_sms %}
+                        <li class="{{ ( ( action == 'resetbytoken' and source == 'sms' ) or action == 'sendsms' ) ? 'active' }}">
+                            <a href="?action=sendsms"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelpsms'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-mobile"></i> {{ 'menusms'|trans }}</a>
+                        </li>
+                    {% endif %}
+                    {% if change_sshkey %}
+                        <li class="{{ action == 'changesshkey' ? 'active' }}">
+                            <a href="?action=changesshkey"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelpsshkey'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-terminal"></i> {{ 'menusshkey'|trans }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
