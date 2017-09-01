@@ -220,4 +220,17 @@ echo $twig->render('sendtoken.twig', array(
     'recaptcha_type' => $recaptcha_type,
     'recaptcha_size' => $recaptcha_size,
     'lang' => $lang,
+
+
+    'background_image' => $background_image,
+    'show_menu' => $show_menu,
+    'logo' => $logo,
+    'dependency_check_results' => $dependency_check_results,
+
+    'use_questions' => $use_questions,
+    'use_tokens' => $use_tokens,
+    'use_sms' => $use_sms,
+    'change_sshkey' => $change_sshkey,
+    'action' => $action,
+    'source' => $source,
 ));

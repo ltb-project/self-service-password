@@ -209,7 +209,7 @@ if ( $result === "passwordchanged" ) {
 }
 
 # Render associated template
-echo $twig->render('resetbytoken_.twig', array(
+echo $twig->render('resetbytoken.twig', array(
     'result' => $result,
     'show_help' => $show_help,
     'source' => $source,
@@ -222,4 +222,17 @@ echo $twig->render('resetbytoken_.twig', array(
     'recaptcha_type' => $recaptcha_type,
     'recaptcha_size' => $recaptcha_size,
     'lang' => $lang,
+
+
+    'background_image' => $background_image,
+    'show_menu' => $show_menu,
+    'logo' => $logo,
+    'dependency_check_results' => $dependency_check_results,
+
+    'use_questions' => $use_questions,
+    'use_tokens' => $use_tokens,
+    'use_sms' => $use_sms,
+    'change_sshkey' => $change_sshkey,
+    'action' => $action,
+    'source' => $source,
 ));
