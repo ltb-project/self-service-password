@@ -29,6 +29,7 @@
                 {{ forms.row_button_submit() }}
             </form>
         </div>
+
         {% if show_policy and pwd_show_policy_pos == 'below' %}
             {% include 'policy.twig' with {'config': pwd_policy_config} %}
         {% endif %}

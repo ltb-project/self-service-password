@@ -5,6 +5,7 @@
 {% block main %}
     {{ parent() }}
 
+    {# Show help unless password was already changed #}
     {% if result != 'passwordchanged' %}
         {% if show_help %}
             <div class="help alert alert-warning">
@@ -16,10 +17,12 @@
         {% endif %}
     {% endif %}
 
-    {% if result != 'tokenrequired' and result != 'tokennotvalid' %}
+    {# Show form unless the password is already changed or there is a problem with the token #}
+    {% if result not in ['tokenrequired', 'tokennotvalid', 'passwordchanged'] %}
         {% if show_policy and pwd_show_policy_pos == 'above' %}
             {% include 'policy.twig' with {'config': pwd_policy_config} %}
         {% endif %}
+
         <div class="alert alert-info">
             <form action="#" method="post" class="form-horizontal">
                 <input type="hidden" name="token" value="{{ token }}" />
@@ -32,6 +35,7 @@
                 {{ forms.row_button_submit() }}
             </form>
         </div>
+
         {% if show_policy and pwd_show_policy_pos == 'below' %}
             {% include 'policy.twig' with {'config': pwd_policy_config} %}
         {% endif %}

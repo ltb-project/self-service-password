@@ -5,6 +5,7 @@
 {% block main %}
     {{ parent() }}
 
+    {# Show the form unless answer was already changed. #}
     {% if result != 'answerchanged' %}
         {% if show_help %}
             <div class="help alert alert-warning">
