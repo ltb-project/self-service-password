@@ -141,16 +141,6 @@ function generate_sms_token( $sms_token_length ) {
     return $smstoken;
 }
 
-# Strip slashes added by PHP
-# Only if magic_quote_gpc is not set to off in php.ini
-function stripslashes_if_gpc_magic_quotes( $string ) {
-    if(get_magic_quotes_gpc()) {
-        return stripslashes($string);
-    } else {
-        return $string;
-    }
-}
-
 # Get message criticity
 function get_criticity( $msg ) {
 

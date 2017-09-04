@@ -91,10 +91,6 @@ if ( $result === "" ) {
      else { $result = "confirmpasswordrequired"; }
     if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
      else { $result = "newpasswordrequired"; }
-
-    # Strip slashes added by PHP
-    $newpassword = stripslashes_if_gpc_magic_quotes($newpassword);
-    $confirmpassword = stripslashes_if_gpc_magic_quotes($confirmpassword);
 }
 
 #==============================================================================
