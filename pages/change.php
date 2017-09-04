@@ -26,25 +26,22 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
-$confirmpassword = "";
-$newpassword = "";
-$oldpassword = "";
-$ldap = "";
-$userdn = "";
+$login = $request->get("login", "");
+$oldpassword = $request->request->get("oldpassword", "");
+$newpassword = $request->request->get("newpassword", "");
+$confirmpassword = $request->request->get("confirmpassword", "");
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
-if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
- else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
- else { $result = "newpasswordrequired"; }
-if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) { $oldpassword = $_POST["oldpassword"]; }
- else { $result = "oldpasswordrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
- else { $result = "loginrequired"; }
-if (! isset($_REQUEST["login"]) and ! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["oldpassword"]))
- { $result = "emptychangeform"; }
+$missings = array();
+if (!$request->get("login")) { $missings[] = "loginrequired"; }
+if (!$request->request->has("newpassword")) { $missings[] = "newpasswordrequired"; }
+if (!$request->request->has("oldpassword")) { $missings[] = "oldpasswordrequired"; }
+if (!$request->request->has("confirmpassword")) { $missings[] = "confirmpasswordrequired"; }
+
+if(count($missings) > 0) {
+    $result = count($missings) == 4 ? 'emptychangeform' : $missings[0];
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -58,7 +55,7 @@ if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 # Check reCAPTCHA
 #==============================================================================
 if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
 }
 
 #==============================================================================

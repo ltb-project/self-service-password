@@ -92,11 +92,55 @@ if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxm
 # Check keyphrase setting
 if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
 #==============================================================================
+# Request
+#==============================================================================
+class ParameterBag {
+    private $parameters;
+
+    public function __construct(array $parameters = array())
+    {
+        $this->parameters = $parameters;
+    }
+
+    public function get($key, $default = null)
+    {
+        return array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+    }
+
+    public function has($key)
+    {
+        return array_key_exists($key, $this->parameters);
+    }
+}
+class Request {
+    public $query;
+    public $request;
+
+    public function __construct($query, $request) {
+        $this->query = new ParameterBag($query);
+        $this->request = new ParameterBag($request);
+    }
+
+    public function get($key, $default = null)
+    {
+        if ($this !== $result = $this->query->get($key, $this)) {
+            return $result;
+        }
+        if ($this !== $result = $this->request->get($key, $this)) {
+            return $result;
+        }
+        return $default;
+    }
+}
+
+$request = new Request($_GET, $_POST);
+
+#==============================================================================
 # Action
 #==============================================================================
 if (!isset($default_action)) { $default_action = "change"; }
-if (isset($_GET["action"]) and $_GET["action"]) { $action = $_GET["action"]; }
-else { $action = $default_action; }
+
+$action = $request->query->get("action", $default_action);
 
 # Available actions
 $available_actions = array();
@@ -110,7 +154,7 @@ if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
 # Get source for menu
-if (isset($_REQUEST["source"]) and $_REQUEST["source"]) { $source = $_REQUEST["source"]; }
+$source = $request->get("source", false);
 
 #==============================================================================
 # Other default values

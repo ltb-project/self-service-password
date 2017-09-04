@@ -26,21 +26,19 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
-$password = "";
-$sshkey = "";
-$ldap = "";
-$userdn = "";
+$login = $request->get("login", "");
+$password = $request->request->get("password", "");
+$sshkey = $request->request->get("sshkey", "");
 $mail = "";
 
-if (isset($_POST["password"]) and $_POST["password"]) { $password = $_POST["password"]; }
- else { $result = "passwordrequired"; }
-if (isset($_POST["sshkey"]) and $_POST["sshkey"]) { $sshkey = $_POST["sshkey"]; }
- else { $result = "sshkeyrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
- else { $result = "loginrequired"; }
-if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_POST["sshkey"]))
- { $result = "emptysshkeychangeform"; }
+$missings = array();
+if (!$request->get("login")) { $missings[] = "loginrequired"; }
+if (!$request->request->has("password")) { $missings[] = "passwordrequired"; }
+if (!$request->request->has("sshkey")) { $missings[] = "sshkeyrequired"; }
+
+if(count($missings) > 0) {
+    $result = count($missings) == 3 ? 'emptysshkeychangeform' : $missings[0];
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -51,7 +49,7 @@ if ( $result === "" ) {
 # Check reCAPTCHA
 #==============================================================================
 if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
 }
 
 #==============================================================================

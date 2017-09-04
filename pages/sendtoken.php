@@ -26,20 +26,16 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
-$mail = "";
-$ldap = "";
-$userdn = "";
+$login = $request->get('login');
+$mail = $request->request->get("mail");
 $token = "";
 
-if (!$mail_address_use_ldap) {
-    if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
-     else { $result = "mailrequired"; }
+if (empty($login)) { $result = "loginrequired"; }
+if (!$mail_address_use_ldap and empty($mail)) { $result = "mailrequired"; }
+
+if (empty($mail) and empty($login)) {
+    $result = "emptysendtokenform";
 }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
- else { $result = "loginrequired"; }
-if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
- { $result = "emptysendtokenform"; }
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -50,7 +46,7 @@ if ( $result === "" ) {
 # Check reCAPTCHA
 #==============================================================================
 if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
 }
 
 #==============================================================================

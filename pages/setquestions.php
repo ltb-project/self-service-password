@@ -26,23 +26,21 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
-$password = "";
-$question = "";
-$answer = "";
+$login = $request->get("login");
+$password = $request->request->get("password");;
+$question = $request->request->get("question");
+$answer = $request->request->get("answer");
 $ldap = "";
 $userdn = "";
 
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = $_POST["answer"]; }
- else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = $_POST["question"]; }
- else { $result = "questionrequired"; }
-if (isset($_POST["password"]) and $_POST["password"]) { $password = $_POST["password"]; }
- else { $result = "passwordrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
- else { $result = "loginrequired"; }
-if (! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_POST["password"]) and ! isset($_REQUEST["login"]))
- { $result = "emptysetquestionsform"; }
+if (empty($login)) { $result = "loginrequired"; }
+if (empty($password)) { $result = "passwordrequired"; }
+if (empty($question)) { $result = "questionrequired"; }
+if (empty($answer)) { $result = "answerrequired"; }
+
+if (empty($login) and empty($password) and empty($question) and empty($answer)) {
+    $result = "emptysetquestionsform";
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -53,7 +51,7 @@ if ( $result === "" ) {
 # Check reCAPTCHA
 #==============================================================================
 if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
 }
 
 #==============================================================================

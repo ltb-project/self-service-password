@@ -27,17 +27,15 @@
 # Initiate vars
 $result = "";
 $login = "";
-$token = "";
+$token = $request->get('token');
 $tokenid = "";
 $newpassword = "";
 $confirmpassword = "";
-$ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
-if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = $_REQUEST["token"]; }
- else { $result = "tokenrequired"; }
+if (!$token) { $result = "tokenrequired"; }
 
 #==============================================================================
 # Get token
@@ -87,17 +85,17 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
 
-    if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
-     else { $result = "confirmpasswordrequired"; }
-    if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
-     else { $result = "newpasswordrequired"; }
+    $confirmpassword = $request->request->get('confirmpassword');
+    if (!$confirmpassword) { $result = "confirmpasswordrequired"; }
+    $newpassword = $request->request->get("newpassword");
+    if (!$newpassword) { $result = "newpasswordrequired"; }
 }
 
 #==============================================================================
 # Check reCAPTCHA
 #==============================================================================
 if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
 }
 
 #==============================================================================

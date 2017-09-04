@@ -26,28 +26,25 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
-$question = "";
-$answer = "";
-$newpassword = "";
-$confirmpassword = "";
-$ldap = "";
+$login = $request->get("login", "");
+$question = $request->request->get("question", "");
+$answer = $request->request->get("answer", "");
+$newpassword = $request->request->get("newpassword", "");
+$confirmpassword = $request->request->get("confirmpassword", "");
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
-if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
- else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
-  else { $result = "newpasswordrequired"; }
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = $_POST["answer"]; }
- else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = $_POST["question"]; }
- else { $result = "questionrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
- else { $result = "loginrequired"; }
-if (! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_REQUEST["login"]))
- { $result = "emptyresetbyquestionsform"; }
+$missings = array();
+if (!$request->get("login")) { $missings[] = "loginrequired"; }
+if (!$request->request->has("question")) { $missings[] = "questionrequired"; }
+if (!$request->request->has("answer")) { $missings[] = "answerrequired"; }
+if (!$request->request->has("newpassword")) { $missings[] = "newpasswordrequired"; }
+if (!$request->request->has("confirmpassword")) { $missings[] = "confirmpasswordrequired"; }
+
+if(count($missings) > 0) {
+    $result = count($missings) == 5 ? 'emptyresetbyquestionsform' : $missings[0];
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -58,7 +55,7 @@ if ( $result === "" ) {
 # Check reCAPTCHA
 #==============================================================================
 if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
 }
 
 #==============================================================================

@@ -26,21 +26,18 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
+$login = $request->get("login");
 $sms = "";
-$ldap = "";
 $userdn = "";
-$smstoken = "";
-$token = "";
+$smstoken = $request->get("smstoken");
+$token = $request->get("token");
+$encrypted_sms_login = $request->get("encrypted_sms_login");
 $sessiontoken = "";
 $attempts = 0;
 
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
-} elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
-    $token = $_REQUEST["token"];
-    $smstoken = $_REQUEST["smstoken"];
-
+} elseif (!empty($token) and !empty($smstoken)) {
     # Open session with the token
     $tokenid = decrypt($token, $keyphrase);
 
@@ -92,14 +89,12 @@ if (!$crypt_tokens) {
         session_destroy();
         $result = "buildtoken";
     }
-} elseif (isset($_REQUEST["encrypted_sms_login"])) {
-    $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
+} elseif (!empty($encrypted_sms_login)) {
+    $decrypted_sms_login = explode(':', decrypt($encrypted_sms_login, $keyphrase));
     $sms = $decrypted_sms_login[0];
     $login = $decrypted_sms_login[1];
     $result = "sendsms";
-} elseif (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
-    $login = $_REQUEST["login"];
-} else {
+} elseif (empty($login)) {
     $result = "emptysendsmsform";
 }
 
@@ -111,7 +106,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Check reCAPTCHA
 if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
 }
 
 #==============================================================================
