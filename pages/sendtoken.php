@@ -159,27 +159,7 @@ class SendTokenController extends Controller {
 
         // Send token by mail
         if ( $result === "" ) {
-
-            if ( empty($reset_url) ) {
-
-                // Build reset by token URL
-                $method = "http";
-                if ( !empty($_SERVER['HTTPS']) ) { $method .= "s"; }
-                $server_name = $_SERVER['SERVER_NAME'];
-                $server_port = $_SERVER['SERVER_PORT'];
-                $script_name = $_SERVER['SCRIPT_NAME'];
-
-                // Force server port if non standard port
-                if (   ( $method === "http"  and $server_port != "80"  )
-                    or ( $method === "https" and $server_port != "443" )
-                ) {
-                    $server_name .= ":".$server_port;
-                }
-
-                $reset_url = $method."://".$server_name.$script_name;
-            }
-
-            $reset_url .= "?action=resetbytoken&token=".urlencode($token);
+            $reset_url = generate_reset_url($reset_url, array('token' => $token));
 
             if ( !empty($reset_request_log) ) {
                 error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
