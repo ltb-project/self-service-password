@@ -1135,3 +1135,16 @@ class PasswordStrengthChecker {
         return check_password_strength( $newpassword, $oldpassword, $this->pwd_policy_config, $login );
     }
 }
+
+class UsernameValidityChecker {
+    private $login_forbidden_chars;
+
+    public function __construct($login_forbidden_chars)
+    {
+        $this->login_forbidden_chars = $login_forbidden_chars;
+    }
+
+    public function evaluate($login) {
+        return check_username_validity($login, $this->login_forbidden_chars);
+    }
+}

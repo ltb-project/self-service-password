@@ -36,8 +36,6 @@ class SendSmsController extends Controller {
         $smstoken = $request->get("smstoken");
         $token = $request->get("token");
         $encrypted_sms_login = $request->get("encrypted_sms_login");
-        $sessiontoken = "";
-        $attempts = 0;
 
         if (!$crypt_tokens) {
             $result = "crypttokensrequired";
@@ -104,7 +102,8 @@ class SendSmsController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         if ( $result === "" ) {
-            $result = check_username_validity($login,$login_forbidden_chars);
+            $usernameValidityChecker = new UsernameValidityChecker($login_forbidden_chars);
+            $result = $usernameValidityChecker->evaluate($login);
         }
 
         // Check reCAPTCHA

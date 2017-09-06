@@ -35,8 +35,6 @@ class SetQuestionsController extends Controller {
         $password = $request->request->get("password");;
         $question = $request->request->get("question");
         $answer = $request->request->get("answer");
-        $ldap = "";
-        $userdn = "";
 
         if (empty($login)) { $result = "loginrequired"; }
         if (empty($password)) { $result = "passwordrequired"; }
@@ -49,7 +47,8 @@ class SetQuestionsController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         if ( $result === "" ) {
-            $result = check_username_validity($login,$login_forbidden_chars);
+            $usernameValidityChecker = new UsernameValidityChecker($login_forbidden_chars);
+            $result = $usernameValidityChecker->evaluate($login);
         }
 
         // Check reCAPTCHA
