@@ -76,7 +76,8 @@ class ChangeController extends Controller {
 
         // Check password strength
         if ( $result === "" ) {
-            $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login );
+            $passwordStrengthChecker = new PasswordStrengthChecker($pwd_policy_config);
+            $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
         }
 
         // Change password

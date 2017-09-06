@@ -1123,3 +1123,15 @@ class LdapClient {
         return change_sshkey($this->ldap, $dn, $this->config['change_sshkey_attribute'], $sshkey);
     }
 }
+
+class PasswordStrengthChecker {
+    private $pwd_policy_config;
+
+    public function __construct($pwd_policy_config) {
+        $this->pwd_policy_config = $pwd_policy_config;
+    }
+
+    public function evaluate($newpassword, $oldpassword, $login) {
+        return check_password_strength( $newpassword, $oldpassword, $this->pwd_policy_config, $login );
+    }
+}

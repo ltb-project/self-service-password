@@ -80,7 +80,8 @@ class ResetByQuestionsController extends Controller {
 
         // Check password strength
         if ( $result === "" ) {
-            $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login );
+            $passwordStrengthChecker = new PasswordStrengthChecker($pwd_policy_config);
+            $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
         }
 
         // Change password
