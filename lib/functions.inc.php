@@ -538,3 +538,18 @@ class PosthookExecutor {
         exec($command);
     }
 }
+
+class RecaptchaService {
+    private $privatekey;
+    private $request_method;
+
+    public function __construct($privatekey, $request_method)
+    {
+        $this->privatekey = $privatekey;
+        $this->request_method = $request_method;
+    }
+
+    public function verify($response, $login) {
+        return $result = check_recaptcha($this->privatekey, $this->request_method, $response, $login);
+    }
+}

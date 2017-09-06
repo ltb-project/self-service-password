@@ -54,7 +54,8 @@ class SetQuestionsController extends Controller {
 
         // Check reCAPTCHA
         if ( $result === "" && $use_recaptcha ) {
-            $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
+            $recaptchaService = new RecaptchaService($recaptcha_privatekey, $recaptcha_request_method);
+            $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
         }
 
         // Check password
