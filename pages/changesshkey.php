@@ -148,10 +148,9 @@ class SshKeyController extends Controller {
         if ( $result === "sshkeychanged") {
             // Notify password change
             if ($mail and $notify_on_sshkey_change) {
+                $mailNotificationService = new MailNotificationService($mailer);
                 $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
-                if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data) ) {
-                    error_log("Error while sending change email to $mail (user $login)");
-                }
+                $mailNotificationService->send($mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data);
             }
         }
 

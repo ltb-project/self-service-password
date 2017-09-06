@@ -576,3 +576,22 @@ function generate_reset_url($reset_url, $params) {
 
     return $reset_url . '?' . http_build_query(array ('action' => 'resetbytoken') + $params);
 }
+
+class MailNotificationService {
+    private $mailer;
+
+    public function __construct($mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
+    public function send($mail, $mail_from, $mail_from_name, $subject, $body, $data) {
+        $success = send_mail($this->mailer, $mail, $mail_from, $mail_from_name,$subject, $body, $data);
+
+        if(!$success) {
+            error_log("Error while sending email notification to $mail (user ${data['login']})");
+        }
+
+        return $success;
+    }
+}
