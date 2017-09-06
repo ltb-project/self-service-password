@@ -21,212 +21,198 @@
 
 # This page is called to reset a password when a valid token is found in URL
 
-#==============================================================================
-# POST parameters
-#==============================================================================
-# Initiate vars
-$result = "";
-$login = "";
-$token = $request->get('token');
-$tokenid = "";
-$newpassword = "";
-$confirmpassword = "";
-$userdn = "";
-if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
-$mail = "";
+class ResetByTokenController extends Controller {
+    /**
+     * @param $request Request
+     * @return string
+     */
+    public function indexAction($request) {
+        extract($this->config);
 
-if (!$token) { $result = "tokenrequired"; }
+        // Initiate vars
+        $result = "";
+        $login = "";
+        $token = $request->get('token');
+        $tokenid = "";
+        $newpassword = "";
+        $confirmpassword = "";
+        $userdn = "";
+        if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
+        $mail = "";
 
-#==============================================================================
-# Get token
-#==============================================================================
-if ( $result === "" ) {
+        if (!$token) { $result = "tokenrequired"; }
 
-    # Open session with the token
-    if ( $crypt_tokens ) {
-        $tokenid = decrypt($token, $keyphrase);
-    } else {
-        $tokenid = $token;
-    }
+        // Get token
+        if ( $result === "" ) {
 
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
+            // Open session with the token
+            if ( $crypt_tokens ) {
+                $tokenid = decrypt($token, $keyphrase);
+            } else {
+                $tokenid = $token;
+            }
 
-    # Manage lifetime with sessions properties
-    if (isset($token_lifetime)) {
-        ini_set("session.gc_maxlifetime", $token_lifetime);
-        ini_set("session.gc_probability",1);
-        ini_set("session.gc_divisor",1);
-    }
-    
-    session_id($tokenid);
-    session_name("token");
-    session_start();
-    $login = $_SESSION['login'];
+            ini_set("session.use_cookies",0);
+            ini_set("session.use_only_cookies",1);
 
-    if ( !$login ) {
-        $result = "tokennotvalid";
-	error_log("Unable to open session $tokenid");
-    } else {
-        if (isset($token_lifetime)) {
-            # Manage lifetime with session content
-            $tokentime = $_SESSION['time'];
-            if ( time() - $tokentime > $token_lifetime ) {
+            // Manage lifetime with sessions properties
+            if (isset($token_lifetime)) {
+                ini_set("session.gc_maxlifetime", $token_lifetime);
+                ini_set("session.gc_probability",1);
+                ini_set("session.gc_divisor",1);
+            }
+
+            session_id($tokenid);
+            session_name("token");
+            session_start();
+            $login = $_SESSION['login'];
+
+            if ( !$login ) {
                 $result = "tokennotvalid";
-                error_log("Token lifetime expired");
-	    }
+                error_log("Unable to open session $tokenid");
+            } else {
+                if (isset($token_lifetime)) {
+                    // Manage lifetime with session content
+                    $tokentime = $_SESSION['time'];
+                    if ( time() - $tokentime > $token_lifetime ) {
+                        $result = "tokennotvalid";
+                        error_log("Token lifetime expired");
+                    }
+                }
+            }
+
         }
-    }
 
-}
+        // Get passwords
+        if ( $result === "" ) {
 
-#==============================================================================
-# Get passwords
-#==============================================================================
-if ( $result === "" ) {
-
-    $confirmpassword = $request->request->get('confirmpassword');
-    if (!$confirmpassword) { $result = "confirmpasswordrequired"; }
-    $newpassword = $request->request->get("newpassword");
-    if (!$newpassword) { $result = "newpasswordrequired"; }
-}
-
-#==============================================================================
-# Check reCAPTCHA
-#==============================================================================
-if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
-}
-
-#==============================================================================
-# Find user
-#==============================================================================
-if ( $result === "" ) {
-
-    # Connect to LDAP
-    $ldap = ldap_connect($ldap_url);
-    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
-        $result = "ldaperror";
-        error_log("LDAP - Unable to use StartTLS");
-    } else {
-
-    # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    } else {
-        $bind = ldap_bind($ldap);
-    }
-
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Bind error $errno (".ldap_error($ldap).")");
-    } else {
-
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
-
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-    } else {
-
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
-
-    if( !$userdn ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    }
-
-    # Check objectClass to allow samba and shadow updates
-    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
-    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
-        $samba_mode = false;
-    }
-    if ( !in_array( 'shadowAccount', $ocValues ) ) {
-        $shadow_options['update_shadowLastChange'] = false;
-        $shadow_options['update_shadowExpire'] = false;
-    }
-
-    # Get user email for notification
-    if ( $notify_on_change ) {
-        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-        if ( $mailValues["count"] > 0 ) {
-            $mail = $mailValues[0];
+            $confirmpassword = $request->request->get('confirmpassword');
+            if (!$confirmpassword) { $result = "confirmpasswordrequired"; }
+            $newpassword = $request->request->get("newpassword");
+            if (!$newpassword) { $result = "newpasswordrequired"; }
         }
-    }
 
-}}}}
-
-#==============================================================================
-# Check and register new passord
-#==============================================================================
-# Match new and confirm password
-if ( $result === "" ) {
-    if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
-}
-
-# Check password strength
-if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login );
-}
-
-# Change password
-if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
-}
-
-if ( $result === "passwordchanged" ) {
-    # Delete token if all is ok
-    $_SESSION = array();
-    session_destroy();
-
-    # Notify password change
-    if ($mail and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
-            error_log("Error while sending change email to $mail (user $login)");
+        // Check reCAPTCHA
+        if ( $result === "" && $use_recaptcha ) {
+            $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $request->request->get('g-recaptcha-response'), $login);
         }
-    }
 
-    # Posthook
-    if ( isset($posthook) ) {
-        $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
-        exec($command);
+        // Find user
+        if ( $result === "" ) {
+
+            // Connect to LDAP
+            $ldap = ldap_connect($ldap_url);
+            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+            ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+            if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
+                $result = "ldaperror";
+                error_log("LDAP - Unable to use StartTLS");
+            } else {
+
+                // Bind
+                if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+                    $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+                } else {
+                    $bind = ldap_bind($ldap);
+                }
+
+                $errno = ldap_errno($ldap);
+                if ( $errno ) {
+                    $result = "ldaperror";
+                    error_log("LDAP - Bind error $errno (".ldap_error($ldap).")");
+                } else {
+
+                    // Search for user
+                    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+                    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+
+                    $errno = ldap_errno($ldap);
+                    if ( $errno ) {
+                        $result = "ldaperror";
+                        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+                    } else {
+
+                        // Get user DN
+                        $entry = ldap_first_entry($ldap, $search);
+                        $userdn = ldap_get_dn($ldap, $entry);
+
+                        if( !$userdn ) {
+                            $result = "badcredentials";
+                            error_log("LDAP - User $login not found");
+                        }
+
+                        // Check objectClass to allow samba and shadow updates
+                        $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
+                        if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
+                            $samba_mode = false;
+                        }
+                        if ( !in_array( 'shadowAccount', $ocValues ) ) {
+                            $shadow_options['update_shadowLastChange'] = false;
+                            $shadow_options['update_shadowExpire'] = false;
+                        }
+
+                        // Get user email for notification
+                        if ( $notify_on_change ) {
+                            $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+                            if ( $mailValues["count"] > 0 ) {
+                                $mail = $mailValues[0];
+                            }
+                        }
+
+                    }}}}
+
+        // Check and register new passord
+        // Match new and confirm password
+        if ( $result === "" ) {
+            if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
+        }
+
+        // Check password strength
+        if ( $result === "" ) {
+            $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login );
+        }
+
+        // Change password
+        if ($result === "") {
+            $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
+        }
+
+        if ( $result === "passwordchanged" ) {
+            // Delete token if all is ok
+            $_SESSION = array();
+            session_destroy();
+
+            // Notify password change
+            if ($mail and $notify_on_change) {
+                $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+                if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+                    error_log("Error while sending change email to $mail (user $login)");
+                }
+            }
+
+            // Posthook
+            if ( isset($posthook) ) {
+                $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
+                exec($command);
+            }
+        }
+
+        // Render associated template
+        return $this->render('resetbytoken.twig', array(
+            'result' => $result,
+            'show_help' => $show_help,
+            'source' => $source,
+            'show_policy' => $pwd_show_policy and ( $pwd_show_policy === "always" or ( $pwd_show_policy === "onerror" and is_error($result)) ),
+            'pwd_policy_config' => $pwd_policy_config,
+            'token' => $token,
+            'login' => $login,
+            'recaptcha_publickey' => $recaptcha_publickey,
+            'recaptcha_theme' => $recaptcha_theme,
+            'recaptcha_type' => $recaptcha_type,
+            'recaptcha_size' => $recaptcha_size,
+        ));
     }
 }
 
-# Render associated template
-echo $twig->render('resetbytoken.twig', array(
-    'result' => $result,
-    'show_help' => $show_help,
-    'source' => $source,
-    'show_policy' => $pwd_show_policy and ( $pwd_show_policy === "always" or ( $pwd_show_policy === "onerror" and is_error($result)) ),
-    'pwd_policy_config' => $pwd_policy_config,
-    'token' => $token,
-    'login' => $login,
-    'recaptcha_publickey' => $recaptcha_publickey,
-    'recaptcha_theme' => $recaptcha_theme,
-    'recaptcha_type' => $recaptcha_type,
-    'recaptcha_size' => $recaptcha_size,
-    'lang' => $lang,
-
-
-    'background_image' => $background_image,
-    'show_menu' => $show_menu,
-    'logo' => $logo,
-    'dependency_check_results' => $dependency_check_results,
-
-    'use_questions' => $use_questions,
-    'use_tokens' => $use_tokens,
-    'use_sms' => $use_sms,
-    'change_sshkey' => $change_sshkey,
-    'action' => $action,
-    'source' => $source,
-));
+$controller = new ResetByTokenController($config);
+return $controller->indexAction($request);

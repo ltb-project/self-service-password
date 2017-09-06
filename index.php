@@ -135,6 +135,37 @@ class Request {
 
 $request = new Request($_GET, $_POST);
 
+class Controller {
+    /** @var Twig_Environment */
+    private $twig;
+
+    /** @var array */
+    protected $config;
+
+    public function __construct($config) {
+        $this->twig = $config['twig'];
+        $this->config = $config;
+    }
+
+    protected function render($template, $vars) {
+        $vars1 = array (
+            'lang' => $this->config['lang'],
+            'background_image' => $this->config['background_image'],
+            'show_menu' => $this->config['show_menu'],
+            'logo' => $this->config['logo'],
+            'dependency_check_results' => $this->config['dependency_check_results'],
+            'use_questions' => $this->config['use_questions'],
+            'use_tokens' => $this->config['use_tokens'],
+            'use_sms' => $this->config['use_sms'],
+            'change_sshkey' => $this->config['change_sshkey'],
+            'action' => $this->config['action'],
+            'source' => $this->config['source'],
+        );
+
+        return $this->twig->render($template, $vars1 + $vars);
+    }
+}
+
 #==============================================================================
 # Action
 #==============================================================================
@@ -225,6 +256,8 @@ $twig->addFilter('criticality', new Twig_SimpleFilter('criticality', 'get_critic
 $twig->addFilter('trans', new Twig_SimpleFilter('trans', 'trans'));
 $twig->addFunction('show_policy', new Twig_SimpleFunction('show_policy', 'show_policy'));
 
-require_once __DIR__ . "/pages/$action.php";
+$config = get_defined_vars();
+
+echo require_once __DIR__ . "/pages/$action.php";
 
 ob_end_flush();
