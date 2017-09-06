@@ -33,7 +33,6 @@ class SendSmsController extends Controller {
         $result = "";
         $login = $request->get("login");
         $sms = "";
-        $userdn = "";
         $smstoken = $request->get("smstoken");
         $token = $request->get("token");
         $encrypted_sms_login = $request->get("encrypted_sms_login");
@@ -116,73 +115,19 @@ class SendSmsController extends Controller {
 
         // Check sms
         if ( $result === "" ) {
+            $ldapClient = new LdapClient($this->config);
+            $result = $ldapClient->connect();
+        }
 
-            // Connect to LDAP
-            $ldap = ldap_connect($ldap_url);
-            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-            ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-            if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
-                $result = "ldaperror";
-                error_log("LDAP - Unable to use StartTLS");
-            } else {
+        if ( $result === "" ) {
+            $context = array();
+            $result = $ldapClient->findUserSms($login, $context);
 
-                // Bind
-                if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-                    $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-                } else {
-                    $bind = ldap_bind($ldap);
-                }
-
-                $errno = ldap_errno($ldap);
-                if ( $errno ) {
-                    $result = "ldaperror";
-                    error_log("LDAP - Bind error $errno (".ldap_error($ldap).")");
-                } else {
-
-                    // Search for user
-                    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-                    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
-
-                    $errno = ldap_errno($ldap);
-                    if ( $errno ) {
-                        $result = "ldaperror";
-                        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-                    } else {
-
-                        // Get user DN
-                        $entry = ldap_first_entry($ldap, $search);
-                        $userdn = ldap_get_dn($ldap, $entry);
-
-                        if( !$userdn ) {
-                            $result = "badcredentials";
-                            error_log("LDAP - User $login not found");
-                        }
-
-                        // Get sms values
-                        $smsValues = ldap_get_values($ldap, $entry, $sms_attribute);
-
-                        // Check sms number
-                        if ( $smsValues["count"] > 0 ) {
-                            $sms = $smsValues[0];
-                            if ( $sms_sanitize_number ) {
-                                $sms = preg_replace('/[^0-9]/', '', $sms);
-                            }
-                            if ( $sms_truncate_number ) {
-                                $sms = substr($sms, -$sms_truncate_number_length);
-                            }
-                        }
-
-                        if ( !$sms ) {
-                            $result = "smsnonumber";
-                            error_log("No SMS number found for user $login");
-                        } else {
-                            $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
-                            $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
-                            $result = "smsuserfound";
-                        }
-
-
-                    }}}}
+            if($result == 'smsuserfound') {
+                $sms = $context['user_sms'];
+                $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
+            }
+        }
 
         // Generate sms token and send by sms
         if ( $result === "sendsms" ) {

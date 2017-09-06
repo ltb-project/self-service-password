@@ -55,86 +55,14 @@ class SendTokenController extends Controller {
 
         // Check mail
         if ( $result === "" ) {
+            $ldapClient = new LdapClient($this->config);
 
-            // Connect to LDAP
-            $ldap = ldap_connect($ldap_url);
-            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-            ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-            if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
-                $result = "ldaperror";
-                error_log("LDAP - Unable to use StartTLS");
-            } else {
+            $result = $ldapClient->connect();
+        }
 
-                // Bind
-                if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-                    $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-                } else {
-                    $bind = ldap_bind($ldap);
-                }
-
-                $errno = ldap_errno($ldap);
-                if ( $errno ) {
-                    $result = "ldaperror";
-                    error_log("LDAP - Bind error $errno (".ldap_error($ldap).")");
-                } else {
-
-                    // Search for user
-                    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-                    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
-
-                    $errno = ldap_errno($ldap);
-                    if ( $errno ) {
-                        $result = "ldaperror";
-                        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-                    } else {
-
-                        // Get user DN
-                        $entry = ldap_first_entry($ldap, $search);
-                        $userdn = ldap_get_dn($ldap, $entry);
-
-                        if( !$userdn ) {
-                            $result = "badcredentials";
-                            error_log("LDAP - User $login not found");
-                        } else {
-
-                            // Compare mail values
-                            $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-                            unset($mailValues["count"]);
-                            $match = 0;
-
-                            if (!$mail_address_use_ldap) {
-                                // Match with user submitted values
-                                foreach ($mailValues as $mailValue) {
-                                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                                        $mailValue = str_ireplace("smtp:", "", $mailValue);
-                                    }
-                                    if (strcasecmp($mail, $mailValue) == 0) {
-                                        $match = 1;
-                                    }
-                                }
-                            } else {
-                                // Use first available mail adress in ldap
-                                if(count($mailValues) > 0) {
-                                    $mailValue = $mailValues[0];
-                                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                                        $mailValue = str_ireplace("smtp:", "", $mailValue);
-                                    }
-                                    $mail = $mailValue;
-                                    $match = true;
-                                }
-                            }
-
-                            if (!$match) {
-                                if (!$mail_address_use_ldap) {
-                                    $result = "mailnomatch";
-                                    error_log("Mail $mail does not match for user $login");
-                                } else {
-                                    $result = "mailnomatch";
-                                    error_log("Mail not found for user $login");
-                                }
-                            }
-
-                        }}}}}
+        if ( $result === "" ) {
+            $result = $ldapClient->checkMail($login, $mail);
+        }
 
         // Build and store token
         if ( $result === "" ) {
