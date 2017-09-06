@@ -523,3 +523,18 @@ function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $resp
 
     return '';
 }
+
+class PosthookExecutor {
+    private $command;
+
+    public function __construct($command)
+    {
+        $this->command = $command;
+    }
+
+    public function execute($login, $newpassword, $oldpassword = null) {
+        $command = escapeshellcmd($this->command).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
+        if($oldpassword != null) $command .= ' '.escapeshellarg($oldpassword);
+        exec($command);
+    }
+}

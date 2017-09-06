@@ -171,8 +171,8 @@ class ResetByQuestionsController extends Controller {
 
             // Posthook
             if ( isset($posthook) ) {
-                $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
-                exec($command);
+                $posthookExecutor = new PosthookExecutor($posthook);
+                $posthookExecutor->execute($login, $newpassword);
             }
         }
 
