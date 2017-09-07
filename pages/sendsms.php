@@ -145,52 +145,20 @@ class SendSmsController extends Controller {
             $_SESSION['time']     = time();
             $_SESSION['attempts'] = 0;
 
-            $data = array( "sms_attribute" => $sms, "smsresetmessage" => $messages['smsresetmessage'], "smstoken" => $smstoken) ;
+            $data = array(
+                "sms_attribute" => $sms,
+                "smsresetmessage" => $messages['smsresetmessage'],
+                "smstoken" => $smstoken,
+            ) ;
+
+            $smsNotificationService = new SmsNotificationService($sms_method, $mailer, $smsmailto, $mail_from, $mail_from_name, $sms_api_lib, $messages);
 
             // Send message
+            $result = $smsNotificationService->send($sms, $login, $smsmail_subject, $sms_message, $data, $smstoken);
 
-            if( !$sms_method ) { $sms_method = "mail"; }
-
-            if ( $sms_method === "mail" ) {
-
-                if ( send_mail($mailer, $smsmailto, $mail_from, $mail_from_name, $smsmail_subject, $sms_message, $data) ) {
-                    $token  = encrypt(session_id(), $keyphrase);
-                    $result = "smssent";
-                    if ( !empty($reset_request_log) ) {
-                        error_log("Send SMS code $smstoken by $sms_method to $sms\n\n", 3, $reset_request_log);
-                    } else {
-                        error_log("Send SMS code $smstoken by $sms_method to $sms");
-                    }
-                } else {
-                    $result = "smsnotsent";
-                    error_log("Error while sending sms by $sms_method to $sms (user $login)");
-                }
-
+            if($result == 'smssent') {
+                $token  = encrypt(session_id(), $keyphrase);
             }
-
-            if ( $sms_method === "api" ) {
-                if (!$sms_api_lib) {
-                    $result = "smsnotsent";
-                    error_log('No API library found, set $sms_api_lib in configuration.');
-                } else {
-                    include_once($sms_api_lib);
-                    $sms_message = str_replace('{smsresetmessage}', $messages['smsresetmessage'], $sms_message);
-                    $sms_message = str_replace('{smstoken}', $smstoken, $sms_message);
-                    if ( send_sms_by_api($sms, $sms_message) ) {
-                        $token  = encrypt(session_id(), $keyphrase);
-                        $result = "smssent";
-                        if ( !empty($reset_request_log) ) {
-                            error_log("Send SMS code $smstoken by $sms_method to $sms\n\n", 3, $reset_request_log);
-                        } else {
-                            error_log("Send SMS code $smstoken by $sms_method to $sms");
-                        }
-                    } else {
-                        $result = "smsnotsent";
-                        error_log("Error while sending sms by $sms_method to $sms (user $login)");
-                    }
-                }
-            }
-
         }
 
         // Build and store token

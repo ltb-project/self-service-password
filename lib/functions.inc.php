@@ -1148,3 +1148,63 @@ class UsernameValidityChecker {
         return check_username_validity($login, $this->login_forbidden_chars);
     }
 }
+
+class SmsNotificationService {
+    private $sms_method;
+    private $mailer;
+    private $smsmailto;
+    private $mail_from;
+    private $mail_from_name;
+    private $sms_api_lib;
+    private $messages;
+
+    public function __construct($sms_method, $mailer, $smsmailto, $mail_from, $mail_from_name, $sms_api_lib, $messages)
+    {
+        $this->sms_method = $sms_method;
+        if( !$this->sms_method ) { $this->sms_method = "mail"; }
+        $this->mailer = $mailer;
+        $this->smsmailto = $smsmailto;
+        $this->mail_from = $mail_from;
+        $this->mail_from_name = $mail_from_name;
+        $this->sms_api_lib = $sms_api_lib;
+        $this->messages = $messages;
+    }
+
+    public function send($sms, $login, $smsmail_subject, $sms_message, $data, $smstoken) {
+        if ( $this->sms_method === "mail" ) {
+            if ( send_mail($this->mailer, $this->smsmailto, $this->mail_from, $this->mail_from_name, $smsmail_subject, $sms_message, $data) ) {
+                if ( !empty($reset_request_log) ) {
+                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms\n\n", 3, $reset_request_log);
+                } else {
+                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms");
+                }
+
+                return "smssent";
+            }
+        }
+
+        if ( $this->sms_method === "api" ) {
+            if (!$this->sms_api_lib) {
+                error_log('No API library found, set $sms_api_lib in configuration.');
+                return "smsnotsent";
+            }
+
+            include_once($this->sms_api_lib);
+            $sms_message = str_replace('{smsresetmessage}', $this->messages['smsresetmessage'], $sms_message);
+            $sms_message = str_replace('{smstoken}', $smstoken, $sms_message);
+            if ( send_sms_by_api($sms, $sms_message) ) {
+                if ( !empty($reset_request_log) ) {
+                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms\n\n", 3, $reset_request_log);
+                } else {
+                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms");
+                }
+
+                return "smssent";
+            }
+        }
+
+        error_log("Error while sending sms by " . $this->sms_method . " to $sms (user $login)");
+
+        return "smsnotsent";
+    }
+}
