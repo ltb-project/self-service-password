@@ -93,9 +93,9 @@ class ResetByQuestionsController extends Controller {
         if ( $result === "passwordchanged" ) {
             // Notify password change
             if ($notify_on_change and $context['user_mail']) {
-                $mailNotificationService = new MailNotificationService($mailer);
+                $mailNotificationService = new MailNotificationService($mailer, $mail_from, $mail_from_name);
                 $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-                $mailNotificationService->send($context['user_mail'], $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data);
+                $mailNotificationService->send($context['user_mail'], $messages["changesubject"], $messages["changemessage"].$mail_signature, $data);
             }
 
             // Posthook

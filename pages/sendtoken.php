@@ -96,9 +96,9 @@ class SendTokenController extends Controller {
                 error_log("Send reset URL $reset_url");
             }
 
-            $mailNotificationService = new MailNotificationService($mailer);
+            $mailNotificationService = new MailNotificationService($mailer, $mail_from, $mail_from_name);
             $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
-            $success = $mailNotificationService->send($mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data);
+            $success = $mailNotificationService->send($mail, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data);
 
             $result = $success ? "tokensent" : "tokennotsent";
         }

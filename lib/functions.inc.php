@@ -579,14 +579,18 @@ function generate_reset_url($reset_url, $params) {
 
 class MailNotificationService {
     private $mailer;
+    private $mail_from;
+    private $mail_from_name;
 
-    public function __construct($mailer)
+    public function __construct($mailer, $mail_from, $mail_from_name)
     {
         $this->mailer = $mailer;
+        $this->mail_from = $mail_from;
+        $this->mail_from_name = $mail_from_name;
     }
 
-    public function send($mail, $mail_from, $mail_from_name, $subject, $body, $data) {
-        $success = send_mail($this->mailer, $mail, $mail_from, $mail_from_name,$subject, $body, $data);
+    public function send($mail, $subject, $body, $data) {
+        $success = send_mail($this->mailer, $mail, $this->mail_from, $this->mail_from_name,$subject, $body, $data);
 
         if(!$success) {
             error_log("Error while sending email notification to $mail (user ${data['login']})");
