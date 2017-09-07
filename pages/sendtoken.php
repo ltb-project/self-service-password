@@ -120,6 +120,3 @@ class SendTokenController extends Controller {
         ));
     }
 }
-
-$controller = new SendTokenController($config, $container);
-return $controller->indexAction($request);

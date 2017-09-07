@@ -232,6 +232,9 @@ $config = get_defined_vars();
 
 $container['config'] = $config;
 
-echo require_once __DIR__ . "/pages/$action.php";
+require_once __DIR__ . "/pages/$action.php";
+
+$controller = $container[$action . '.controller'];
+echo $controller->indexAction($request);
 
 ob_end_flush();

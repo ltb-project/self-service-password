@@ -125,6 +125,3 @@ class ResetByQuestionsController extends Controller {
         ));
     }
 }
-
-$controller = new ResetByQuestionsController($config, $container);
-return $controller->indexAction($request);

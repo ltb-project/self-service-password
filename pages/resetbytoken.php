@@ -162,6 +162,3 @@ class ResetByTokenController extends Controller {
         ));
     }
 }
-
-$controller = new ResetByTokenController($config, $container);
-return $controller->indexAction($request);

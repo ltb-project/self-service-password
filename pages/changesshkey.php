@@ -21,7 +21,7 @@
 
 # This page is called to change sshPublicKey
 
-class SshKeyController extends Controller {
+class ChangeSshKeyController extends Controller {
     /**
      * @param $request Request
      * @return string
@@ -98,6 +98,3 @@ class SshKeyController extends Controller {
         ));
     }
 }
-
-$controller = new SshKeyController($config, $container);
-return $controller->indexAction($request);

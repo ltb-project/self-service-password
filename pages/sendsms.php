@@ -213,6 +213,3 @@ class SendSmsController extends Controller {
         ));
     }
 }
-
-$controller = new SendSmsController($config, $container);
-return $controller->indexAction($request);

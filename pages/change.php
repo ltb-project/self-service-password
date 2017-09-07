@@ -125,6 +125,3 @@ class ChangeController extends Controller {
         ));
     }
 }
-
-$controller = new ChangeController($config, $container);
-return $controller->indexAction($request);

@@ -95,4 +95,32 @@ $container['twig'] = function ($c) {
     return $twig;
 };
 
+$container['change.controller']  = function ($c) {
+    return new ChangeController($c['config'], $c);
+};
+
+$container['changesshkey.controller']  = function ($c) {
+    return new ChangeSshKeyController($c['config'], $c);
+};
+
+$container['resetbyquestions.controller']  = function ($c) {
+    return new ResetByQuestionsController($c['config'], $c);
+};
+
+$container['resetbytoken.controller']  = function ($c) {
+    return new ResetByTokenController($c['config'], $c);
+};
+
+$container['sendsms.controller']  = function ($c) {
+    return new SendSmsController($c['config'], $c);
+};
+
+$container['sendtoken.controller']  = function ($c) {
+    return new SendTokenController($c['config'], $c);
+};
+
+$container['setquestions.controller']  = function ($c) {
+    return new SetQuestionsController($c['config'], $c);
+};
+
 return $container;

@@ -90,6 +90,3 @@ class SetQuestionsController extends Controller {
         ));
     }
 }
-
-$controller = new SetQuestionsController($config, $container);
-return $controller->indexAction($request);
