@@ -26,6 +26,10 @@ ob_start();
 #==============================================================================
 require_once("conf/config.inc.php");
 require_once("lib/vendor/defuse-crypto.phar");
+require_once("lib/vendor/Psr/Container/ContainerInterface.php");
+require_once("lib/vendor/Psr/Container/ContainerExceptionInterface.php");
+require_once("lib/vendor/Psr/Container/NotFoundExceptionInterface.php");
+require_once("lib/vendor/pimple.phar");
 require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
     require_once("lib/vendor/autoload.php");
@@ -36,6 +40,8 @@ Twig_Autoloader::register();
 
 require_once("lib/detectbrowserlanguage.php");
 require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
+
+$container = require_once ("lib/container.inc.php");
 
 #==============================================================================
 # Error reporting
@@ -142,9 +148,12 @@ class Controller {
     /** @var array */
     protected $config;
 
-    public function __construct($config) {
-        $this->twig = $config['twig'];
+    protected $container;
+
+    public function __construct($config, $container) {
+        $this->twig = $container['twig'];
         $this->config = $config;
+        $this->container = $container;
     }
 
     protected function render($template, $vars) {
@@ -163,6 +172,10 @@ class Controller {
         );
 
         return $this->twig->render($template, $vars1 + $vars);
+    }
+
+    protected function get($id) {
+        return $this->container[$id];
     }
 }
 
@@ -215,48 +228,9 @@ $pwd_policy_config = array(
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
-#==============================================================================
-# Email Config
-#==============================================================================
-$mailer = new PHPMailer;
-$mailer->Priority      = $mail_priority;
-$mailer->CharSet       = $mail_charset;
-$mailer->ContentType   = $mail_contenttype;
-$mailer->WordWrap      = $mail_wordwrap;
-$mailer->Sendmail      = $mail_sendmailpath;
-$mailer->Mailer        = $mail_protocol;
-$mailer->SMTPDebug     = $mail_smtp_debug;
-$mailer->Debugoutput   = $mail_debug_format;
-$mailer->Host          = $mail_smtp_host;
-$mailer->Port          = $mail_smtp_port;
-$mailer->SMTPSecure    = $mail_smtp_secure;
-$mailer->SMTPAuth      = $mail_smtp_auth;
-$mailer->Username      = $mail_smtp_user;
-$mailer->Password      = $mail_smtp_pass;
-$mailer->SMTPKeepAlive = $mail_smtp_keepalive;
-$mailer->Timeout       = $mail_smtp_timeout;
-$mailer->LE            = $mail_newline;
-
-#==============================================================================
-# Template engine
-#==============================================================================
-$loader = new Twig_Loader_Filesystem(__DIR__.'/templates');
-$twig = new Twig_Environment($loader, array(
-    //'cache' => __DIR__ .'/templates_c',
-));
-
-function trans($id) {
-    global $messages;
-
-    return $messages[$id];
-}
-
-$twig->addFilter('fa_class', new Twig_SimpleFilter('fa_class', 'get_fa_class'));
-$twig->addFilter('criticality', new Twig_SimpleFilter('criticality', 'get_criticity'));
-$twig->addFilter('trans', new Twig_SimpleFilter('trans', 'trans'));
-$twig->addFunction('show_policy', new Twig_SimpleFunction('show_policy', 'show_policy'));
-
 $config = get_defined_vars();
+
+$container['config'] = $config;
 
 echo require_once __DIR__ . "/pages/$action.php";
 

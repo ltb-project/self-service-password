@@ -1,0 +1,3 @@
+sha1sum 63aab7befff8d05703c306e983bfeac8 pimple.phar
+Pimple v3.2.2 from https://github.com/silexphp/Pimple/tree/v3.2.2
+Compiled using a similar procedure to https://gist.github.com/brtriver/1653293

@@ -50,18 +50,21 @@ class ResetByQuestionsController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         if ( $result === "" ) {
-            $usernameValidityChecker = new UsernameValidityChecker($login_forbidden_chars);
+            /** @var UsernameValidityChecker $usernameValidityChecker */
+            $usernameValidityChecker = $this->get('username_validity_checker');
             $result = $usernameValidityChecker->evaluate($login);
         }
 
         // Check reCAPTCHA
         if ( $result === "" && $use_recaptcha ) {
-            $recaptchaService = new RecaptchaService($recaptcha_privatekey, $recaptcha_request_method);
+            /** @var RecaptchaService $recaptchaService */
+            $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
         }
 
         if ( $result === "" ) {
-            $ldapClient = new LdapClient($this->config);
+            /** @var LdapClient $ldapClient */
+            $ldapClient = $this->get('ldap_client');
 
             $result = $ldapClient->connect();
         }
@@ -81,7 +84,8 @@ class ResetByQuestionsController extends Controller {
 
         // Check password strength
         if ( $result === "" ) {
-            $passwordStrengthChecker = new PasswordStrengthChecker($pwd_policy_config);
+            /** @var PasswordStrengthChecker $passwordStrengthChecker */
+            $passwordStrengthChecker = $this->get('password_strength_checker');
             $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
         }
 
@@ -93,14 +97,16 @@ class ResetByQuestionsController extends Controller {
         if ( $result === "passwordchanged" ) {
             // Notify password change
             if ($notify_on_change and $context['user_mail']) {
-                $mailNotificationService = new MailNotificationService($mailer, $mail_from, $mail_from_name);
+                /** @var MailNotificationService $mailNotificationService */
+                $mailNotificationService = $this->get('mail_notification_service');
                 $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
                 $mailNotificationService->send($context['user_mail'], $messages["changesubject"], $messages["changemessage"].$mail_signature, $data);
             }
 
             // Posthook
             if ( isset($posthook) ) {
-                $posthookExecutor = new PosthookExecutor($posthook);
+                /** @var PosthookExecutor $posthookExecutor */
+                $posthookExecutor = $this->get('posthook_executor');
                 $posthookExecutor->execute($login, $newpassword);
             }
         }
@@ -120,5 +126,5 @@ class ResetByQuestionsController extends Controller {
     }
 }
 
-$controller = new ResetByQuestionsController($config);
+$controller = new ResetByQuestionsController($config, $container);
 return $controller->indexAction($request);

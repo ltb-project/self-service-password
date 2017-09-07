@@ -102,19 +102,22 @@ class SendSmsController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         if ( $result === "" ) {
-            $usernameValidityChecker = new UsernameValidityChecker($login_forbidden_chars);
+            /** @var UsernameValidityChecker $usernameValidityChecker */
+            $usernameValidityChecker = $this->get('username_validity_checker');
             $result = $usernameValidityChecker->evaluate($login);
         }
 
         // Check reCAPTCHA
         if ( $result === "" && $use_recaptcha ) {
-            $recaptchaService = new RecaptchaService($recaptcha_privatekey, $recaptcha_request_method);
+            /** @var RecaptchaService $recaptchaService */
+            $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
         }
 
         // Check sms
         if ( $result === "" ) {
-            $ldapClient = new LdapClient($this->config);
+            /** @var LdapClient $ldapClient */
+            $ldapClient = $this->get('ldap_client');
             $result = $ldapClient->connect();
         }
 
@@ -151,7 +154,8 @@ class SendSmsController extends Controller {
                 "smstoken" => $smstoken,
             ) ;
 
-            $smsNotificationService = new SmsNotificationService($sms_method, $mailer, $smsmailto, $mail_from, $mail_from_name, $sms_api_lib, $messages);
+            /** @var SmsNotificationService $smsNotificationService */
+            $smsNotificationService = $this->get('sms_notification_service');
 
             // Send message
             $result = $smsNotificationService->send($sms, $login, $smsmail_subject, $sms_message, $data, $smstoken);
@@ -210,5 +214,5 @@ class SendSmsController extends Controller {
     }
 }
 
-$controller = new SendSmsController($config);
+$controller = new SendSmsController($config, $container);
 return $controller->indexAction($request);

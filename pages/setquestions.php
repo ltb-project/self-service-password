@@ -47,19 +47,22 @@ class SetQuestionsController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         if ( $result === "" ) {
-            $usernameValidityChecker = new UsernameValidityChecker($login_forbidden_chars);
+            /** @var UsernameValidityChecker $usernameValidityChecker */
+            $usernameValidityChecker = $this->get('username_validity_checker');
             $result = $usernameValidityChecker->evaluate($login);
         }
 
         // Check reCAPTCHA
         if ( $result === "" && $use_recaptcha ) {
-            $recaptchaService = new RecaptchaService($recaptcha_privatekey, $recaptcha_request_method);
+            /** @var RecaptchaService $recaptchaService */
+            $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
         }
 
         // Check password
         if ( $result === "" ) {
-            $ldapClient = new LdapClient($this->config);
+            /** @var LdapClient $ldapClient */
+            $ldapClient = $this->get('ldap_client');
 
             $result = $ldapClient->connect();
         }
@@ -88,5 +91,5 @@ class SetQuestionsController extends Controller {
     }
 }
 
-$controller = new SetQuestionsController($config);
+$controller = new SetQuestionsController($config, $container);
 return $controller->indexAction($request);

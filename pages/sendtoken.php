@@ -44,19 +44,22 @@ class SendTokenController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         if ( $result === "" ) {
-            $usernameValidityChecker = new UsernameValidityChecker($login_forbidden_chars);
+            /** @var UsernameValidityChecker $usernameValidityChecker */
+            $usernameValidityChecker = $this->get('username_validity_checker');
             $result = $usernameValidityChecker->evaluate($login);
         }
 
         // Check reCAPTCHA
         if ( $result === "" && $use_recaptcha ) {
-            $recaptchaService = new RecaptchaService($recaptcha_privatekey, $recaptcha_request_method);
+            /** @var RecaptchaService $recaptchaService */
+            $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
         }
 
         // Check mail
         if ( $result === "" ) {
-            $ldapClient = new LdapClient($this->config);
+            /** @var LdapClient $ldapClient */
+            $ldapClient = $this->get('ldap_client');
 
             $result = $ldapClient->connect();
         }
@@ -96,7 +99,8 @@ class SendTokenController extends Controller {
                 error_log("Send reset URL $reset_url");
             }
 
-            $mailNotificationService = new MailNotificationService($mailer, $mail_from, $mail_from_name);
+            /** @var MailNotificationService $mailNotificationService */
+            $mailNotificationService = $this->get('mail_notification_service');
             $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
             $success = $mailNotificationService->send($mail, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data);
 
@@ -117,5 +121,5 @@ class SendTokenController extends Controller {
     }
 }
 
-$controller = new SendTokenController($config);
+$controller = new SendTokenController($config, $container);
 return $controller->indexAction($request);

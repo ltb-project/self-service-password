@@ -46,18 +46,21 @@ class SshKeyController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         if ( $result === "" ) {
-            $usernameValidityChecker = new UsernameValidityChecker($login_forbidden_chars);
+            /** @var UsernameValidityChecker $usernameValidityChecker */
+            $usernameValidityChecker = $this->get('username_validity_checker');
             $result = $usernameValidityChecker->evaluate($login);
         }
 
         // Check reCAPTCHA
         if ( $result === "" && $use_recaptcha ) {
-            $recaptchaService = new RecaptchaService($recaptcha_privatekey, $recaptcha_request_method);
+            /** @var RecaptchaService $recaptchaService */
+            $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
         }
 
         if ( $result === "" ) {
-            $ldapClient = new LdapClient($this->config);
+            /** @var LdapClient $ldapClient */
+            $ldapClient = $this->get('ldap_client');
 
             $result = $ldapClient->connect();
         }
@@ -76,7 +79,8 @@ class SshKeyController extends Controller {
         if ( $result === "sshkeychanged") {
             // Notify password change
             if ($notify_on_sshkey_change and $context['user_mail']) {
-                $mailNotificationService = new MailNotificationService($mailer, $mail_from, $mail_from_name);
+                /** @var MailNotificationService $mailNotificationService */
+                $mailNotificationService = $this->get('mail_notification_service');
                 $data = array( "login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey);
                 $mailNotificationService->send($context['user_mail'], $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data);
             }
@@ -95,5 +99,5 @@ class SshKeyController extends Controller {
     }
 }
 
-$controller = new SshKeyController($config);
+$controller = new SshKeyController($config, $container);
 return $controller->indexAction($request);
