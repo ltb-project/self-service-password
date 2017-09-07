@@ -232,6 +232,9 @@ $config = get_defined_vars();
 
 $container['config'] = $config;
 
+# Override container for fun and profit
+@include "conf/container.inc.php";
+
 require_once __DIR__ . "/pages/$action.php";
 
 $controller = $container[$action . '.controller'];
