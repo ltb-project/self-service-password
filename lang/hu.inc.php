@@ -22,10 +22,10 @@
 #==============================================================================
 # Hungarian
 #==============================================================================
-$messages['phpupgraderequired'] = "PHP upgrade required";
+$messages['phpupgraderequired'] = "PHP frissítés szükséges";
 $messages['nophpldap'] = "A program használatához telepíteni kell a PHP LDAP csomagot";
 $messages['nophpmhash'] = "A Samba üzemmód használatához telepíteni kell a PHP mhash csomagot";
-$messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['nokeyphrase'] = "A token titkosításához random stringre van szükség";
 $messages['ldaperror'] = "Nem érhető el az LDAP szolgáltatás";
 $messages['loginrequired'] = "A felhasználónév megadása kötelező!";
 $messages['oldpasswordrequired'] = "A régi jelszó megadása kötelező!";
@@ -35,7 +35,7 @@ $messages['passwordchanged'] = "A jelszó sikeresen megváltozott!";
 $messages['nomatch'] = "A beírt új jelszavak nem egyeznek meg!";
 $messages['badcredentials'] = "A felhasználónév vagy a jelszó nem megfelelő!";
 $messages['passworderror'] = "A jelszó megváltoztatását visszautasította az LDAP szolgáltatás";
-$messages['title'] = "Budapest Közút KAPU - Jelszókezelő";
+$messages['title'] = "Önkiszolgáló jelszókezelő";
 $messages['login'] = "Felhasználónév";
 $messages['oldpassword'] = "Régi jelszó";
 $messages['newpassword'] = "Új jelszó";
@@ -106,25 +106,25 @@ $messages['smscrypttokensrequired'] = "A crypt_tokens beállítás nélül nem h
 $messages['smsuserfound'] = "Kérem, ellenőrizze a beírt adatok helyességét, majd kattintson a küldés gombra.";
 $messages['smstoken'] = "SMS kód";
 $messages['nophpmbstring'] = "Telepítse fel a PHP mbstring-et";
-$messages['menuquestions'] = "Question";
+$messages['menuquestions'] = "Titkos kérdés";
 $messages['menutoken'] = "E-mail";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "A program használatához telepíteni kell a PHP XML csomagot";
-$messages['tokenattempts'] = "Invalid token, try again";
-$messages['emptychangeform'] = "Change your password";
-$messages['emptysendtokenform'] = "Email a password reset link";
-$messages['emptyresetbyquestionsform'] = "Reset your password";
-$messages['emptysetquestionsform'] = "Set your password reset questions";
-$messages['emptysendsmsform'] = "Get a reset code";
-$messages['sameaslogin'] = "Your new password is identical to your login";
-$messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['tokenattempts'] = "Érvénytelen token, próbálja újra";
+$messages['emptychangeform'] = "Változtasd meg a jelszavad";
+$messages['emptysendtokenform'] = "Jelszóemlékeztető email küldés";
+$messages['emptyresetbyquestionsform'] = "Állítsd vissza a jelszavad a titkos kérdések megválaszolásával";
+$messages['emptysetquestionsform'] = "Add meg a jelszóvisszaállításhoz a titkos kérdéseidet";
+$messages['emptysendsmsform'] = "Kérj egy visszaállító kódot SMS-ben";
+$messages['sameaslogin'] = "Az új jelszavad megegyezik a felhasználóddal";
+$messages['policydifflogin'] = "Az új jelszavad nem egyezhet meg az előzővel";
 $messages['changesshkeymessage'] = "Tisztelt {login}, \n\nA SSH kulcs megváltozott. \n\nHa nem Ön kezdeményezte ezt a változást, kérje a rendszergazda azonnal.";
 $messages['menusshkey'] = "SSH kulcs";
-$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Változtasd meg SSH kulcs</a>";
+$messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Változasd meg SSH kulcsot</a>";
 $messages['sshkeychanged'] = "Az SSH kulcs megváltozott";
 $messages['sshkeyrequired'] = "SSH kulcs szükséges";
 $messages['changesshkeysubject'] = "Az SSH kulcs megváltozott";
 $messages['sshkey'] = "SSH kulcs";
 $messages['emptysshkeychangeform'] = "Változás az SSH kulcs";
 $messages['changesshkeyhelp'] = "Írja be a jelszót és az új SSH kulcs.";
-$messages['sshkeyerror'] = "SSH kulcs elutasította az LDAP címtár";
+$messages['sshkeyerror'] = "Az LDAP könyvtár elutasította az SSH kulcsot";
