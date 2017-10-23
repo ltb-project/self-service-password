@@ -52,8 +52,8 @@ $container['mailer'] = function ($c) {
     $mailer->Username      = $c['config']['mail_smtp_user'];
     $mailer->Password      = $c['config']['mail_smtp_pass'];
     $mailer->SMTPKeepAlive = $c['config']['mail_smtp_keepalive'];
-    $mailer->Timeout       = $c['config']['$mail_smtp_timeout'];
-    $mailer->LE            = $c['config']['$mail_newline'];
+    $mailer->Timeout       = $c['config']['mail_smtp_timeout'];
+    $mailer->LE            = $c['config']['mail_newline'];
     return $mailer;
 };
 
