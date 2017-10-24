@@ -27,96 +27,138 @@ class SendTokenController extends Controller {
      * @return string
      */
     public function indexAction($request) {
-        extract($this->config);
-
-        // Initiate vars
-        $result = "";
-        $login = $request->get('login');
-        $mail = $request->request->get("mail");
-        $token = "";
-
-        if (empty($login)) { $result = "loginrequired"; }
-        if (!$mail_address_use_ldap and empty($mail)) { $result = "mailrequired"; }
-
-        if (empty($mail) and empty($login)) {
-            $result = "emptysendtokenform";
+        if($this->isFormSubmitted($request)) {
+            return $this->processFormData($request);
         }
 
+        return $this->renderFormEmpty($request);
+    }
+
+    private function isFormSubmitted(Request $request) {
+        return $request->get('login')
+            && ($this->config['mail_address_use_ldap'] || $request->request->get('mail'));
+    }
+
+    private function processFormData(Request $request) {
+        $login = $request->get('login');
+        $mail = $request->request->get("mail");
+
+        $result = '';
+        if (empty($login)) { $result = "loginrequired"; }
+        if (!$this->config['mail_address_use_ldap'] and empty($mail)) { $result = "mailrequired"; }
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        /** @var UsernameValidityChecker $usernameValidityChecker */
+        $usernameValidityChecker = $this->get('username_validity_checker');
+
         // Check the entered username for characters that our installation doesn't support
-        if ( $result === "" ) {
-            /** @var UsernameValidityChecker $usernameValidityChecker */
-            $usernameValidityChecker = $this->get('username_validity_checker');
-            $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameValidityChecker->evaluate($login);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Check reCAPTCHA
-        if ( $result === "" && $use_recaptcha ) {
+        if ( $this->config['use_recaptcha'] ) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
+
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
+            if($result != '') {
+                return $this->renderFormWithError($result, $request);
+            }
+        }
+
+        /** @var LdapClient $ldapClient */
+        $ldapClient = $this->get('ldap_client');
+
+        $result = $ldapClient->connect();
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Check mail
-        if ( $result === "" ) {
-            /** @var LdapClient $ldapClient */
-            $ldapClient = $this->get('ldap_client');
-
-            $result = $ldapClient->connect();
-        }
-
-        if ( $result === "" ) {
-            $result = $ldapClient->checkMail($login, $mail);
+        $result = $ldapClient->checkMail($login, $mail);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Build and store token
-        if ( $result === "" ) {
 
-            // Use PHP session to register token
-            // We do not generate cookie
-            ini_set("session.use_cookies",0);
-            ini_set("session.use_only_cookies",1);
+        // Use PHP session to register token
+        // We do not generate cookie
+        ini_set("session.use_cookies",0);
+        ini_set("session.use_only_cookies",1);
 
-            session_name("token");
-            session_start();
-            $_SESSION['login'] = $login;
-            $_SESSION['time']  = time();
+        session_name("token");
+        session_start();
+        $_SESSION['login'] = $login;
+        $_SESSION['time']  = time();
 
-            if ( $crypt_tokens ) {
-                $token = encrypt(session_id(), $keyphrase);
-            } else {
-                $token = session_id();
-            }
-
+        if ( $this->config['crypt_tokens'] ) {
+            $token = encrypt(session_id(), $this->config['keyphrase']);
+        } else {
+            $token = session_id();
         }
 
         // Send token by mail
-        if ( $result === "" ) {
-            $reset_url = generate_reset_url($reset_url, array('token' => $token));
+        $reset_url = generate_reset_url($this->config['reset_url'], array('token' => $token));
 
-            if ( !empty($reset_request_log) ) {
-                error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
-            } else {
-                error_log("Send reset URL $reset_url");
-            }
-
-            /** @var MailNotificationService $mailNotificationService */
-            $mailNotificationService = $this->get('mail_notification_service');
-            $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
-            $success = $mailNotificationService->send($mail, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data);
-
-            $result = $success ? "tokensent" : "tokennotsent";
+        if ( !empty($reset_request_log) ) {
+            error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+        } else {
+            error_log("Send reset URL $reset_url");
         }
 
-        // Render associated template
+        /** @var MailNotificationService $mailNotificationService */
+        $mailNotificationService = $this->get('mail_notification_service');
+        $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+        $success = $mailNotificationService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
+
+        if($success) {
+            return $this->renderPageSuccess($request);
+        } else {
+            return $this->renderFormWithError("tokennotsent", $request);
+        }
+    }
+
+    private function renderFormEmpty(Request $request) {
+        return $this->render('sendtoken.twig', array(
+            'result' => 'emptysendtokenform',
+            'show_help' => $this->config['show_help'],
+            'login' => $request->get('login'),
+            'mail_address_use_ldap' => $this->config['mail_address_use_ldap'],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderFormWithError($result, Request $request) {
         return $this->render('sendtoken.twig', array(
             'result' => $result,
-            'show_help' => $show_help,
-            'login' => $login,
-            'mail_address_use_ldap' => $mail_address_use_ldap,
-            'recaptcha_publickey' => $recaptcha_publickey,
-            'recaptcha_theme' => $recaptcha_theme,
-            'recaptcha_type' => $recaptcha_type,
-            'recaptcha_size' => $recaptcha_size,
+            'show_help' => $this->config['show_help'],
+            'login' => $request->get('login'),
+            'mail_address_use_ldap' => $this->config['mail_address_use_ldap'],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderPageSuccess(Request $request) {
+        return $this->render('sendtoken.twig', array(
+            'result' => 'tokensent',
+            'show_help' => $this->config['show_help'],
+            'login' => $request->get('login'),
+            'mail_address_use_ldap' => $this->config['mail_address_use_ldap'],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 }

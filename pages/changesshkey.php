@@ -27,74 +27,116 @@ class ChangeSshKeyController extends Controller {
      * @return string
      */
     public function indexAction($request) {
-        extract($this->config);
+        if($this->isFormSubmitted($request)) {
+            return $this->processFormData($request);
+        }
 
-        // Initiate vars
-        $result = "";
+        return $this->renderEmptyForm($request);
+    }
+
+    private function isFormSubmitted(Request $request) {
+        return $request->get("login")
+            && $request->request->has("password")
+            && $request->request->has("sshkey");
+    }
+
+    private function processFormData(Request $request) {
         $login = $request->get("login", "");
         $password = $request->request->get("password", "");
         $sshkey = $request->request->get("sshkey", "");
 
         $missings = array();
-        if (!$request->get("login")) { $missings[] = "loginrequired"; }
-        if (!$request->request->has("password")) { $missings[] = "passwordrequired"; }
-        if (!$request->request->has("sshkey")) { $missings[] = "sshkeyrequired"; }
+        if (!$login) { $missings[] = "loginrequired"; }
+        if (!$password) { $missings[] = "passwordrequired"; }
+        if (!$sshkey) { $missings[] = "sshkeyrequired"; }
 
         if(count($missings) > 0) {
-            $result = count($missings) == 3 ? 'emptysshkeychangeform' : $missings[0];
+            return $this->renderFormWithError($missings[0], $request);
         }
 
+        /** @var UsernameValidityChecker $usernameValidityChecker */
+
+        $usernameValidityChecker = $this->get('username_validity_checker');
         // Check the entered username for characters that our installation doesn't support
-        if ( $result === "" ) {
-            /** @var UsernameValidityChecker $usernameValidityChecker */
-            $usernameValidityChecker = $this->get('username_validity_checker');
-            $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameValidityChecker->evaluate($login);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
+
 
         // Check reCAPTCHA
-        if ( $result === "" && $use_recaptcha ) {
+        if ( $this->config['use_recaptcha'] ) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
+
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
-        }
-
-        if ( $result === "" ) {
-            /** @var LdapClient $ldapClient */
-            $ldapClient = $this->get('ldap_client');
-
-            $result = $ldapClient->connect();
-        }
-
-        // Check password
-        if ( $result === "" ) {
-            $context = array ();
-            $result = $ldapClient->checkOldPassword2($login, $password, $context);
-        }
-
-        // Change sshPublicKey
-        if ( $result === "" ) {
-            $result = $ldapClient->changeSshKey($context['user_dn'], $sshkey);
-        }
-
-        if ( $result === "sshkeychanged") {
-            // Notify password change
-            if ($notify_on_sshkey_change and $context['user_mail']) {
-                /** @var MailNotificationService $mailNotificationService */
-                $mailNotificationService = $this->get('mail_notification_service');
-                $data = array( "login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey);
-                $mailNotificationService->send($context['user_mail'], $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data);
+            if($result != '') {
+                return $this->renderFormWithError($result, $request);
             }
         }
 
-        // Render associated template
+        /** @var LdapClient $ldapClient */
+        $ldapClient = $this->get('ldap_client');
+
+        $result = $ldapClient->connect();
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        $context = array ();
+
+        // Check password{
+        $result = $ldapClient->checkOldPassword2($login, $password, $context);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        // Change sshPublicKey
+        $result = $ldapClient->changeSshKey($context['user_dn'], $sshkey);
+        if($result != 'sshkeychanged') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        // Notify password change
+        if ($this->config['notify_on_sshkey_change'] and $context['user_mail']) {
+            /** @var MailNotificationService $mailNotificationService */
+            $mailNotificationService = $this->get('mail_notification_service');
+
+            $data = array( "login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey);
+            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
+        }
+
+        return $this->renderSuccessPage($request);
+    }
+
+    private function renderEmptyForm(Request $request) {
         return $this->render('changesshkey.twig', array(
-            'result' => $result,
-            'show_help' => $show_help,
-            'login' => $login,
-            'recaptcha_publickey' => $recaptcha_publickey,
-            'recaptcha_theme' => $recaptcha_theme,
-            'recaptcha_type' => $recaptcha_type,
-            'recaptcha_size' => $recaptcha_size,
-        ));
+            'result' => 'emptysshkeychangeform',
+            'login' => $request->get('login'),
+        ) + $this->getTemplateVars());
+    }
+
+    private function renderFormWithError($error, Request $request) {
+        return $this->render('changesshkey.twig', array(
+            'result' => $error,
+            'login' => $request->get('login'),
+        ) + $this->getTemplateVars());
+    }
+
+    private function renderSuccesspage(Request $request) {
+        return $this->render('changesshkey.twig', array(
+            'result' => 'sshkeychanged',
+            'login' => $request->get('login'),
+        ) + $this->getTemplateVars());
+    }
+
+    private function getTemplateVars() {
+        return array (
+            'show_help' => $this->config['show_help'],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        );
     }
 }

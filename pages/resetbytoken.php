@@ -27,138 +27,173 @@ class ResetByTokenController extends Controller {
      * @return string
      */
     public function indexAction($request) {
-        extract($this->config);
-
-        // Initiate vars
-        $result = "";
-        $login = "";
         $token = $request->get('token');
-        $newpassword = "";
-        $confirmpassword = "";
 
-        if (!$token) { $result = "tokenrequired"; }
+        if (!$token) {
+            return $this->renderErrorPage('tokenrequired', $request);
+        }
+
+        $login = '';
 
         // Get token
-        if ( $result === "" ) {
-
-            // Open session with the token
-            if ( $crypt_tokens ) {
-                $tokenid = decrypt($token, $keyphrase);
-            } else {
-                $tokenid = $token;
-            }
-
-            ini_set("session.use_cookies",0);
-            ini_set("session.use_only_cookies",1);
-
-            // Manage lifetime with sessions properties
-            if (isset($token_lifetime)) {
-                ini_set("session.gc_maxlifetime", $token_lifetime);
-                ini_set("session.gc_probability",1);
-                ini_set("session.gc_divisor",1);
-            }
-
-            session_id($tokenid);
-            session_name("token");
-            session_start();
-            $login = $_SESSION['login'];
-
-            if ( !$login ) {
-                $result = "tokennotvalid";
-                error_log("Unable to open session $tokenid");
-            } else {
-                if (isset($token_lifetime)) {
-                    // Manage lifetime with session content
-                    $tokentime = $_SESSION['time'];
-                    if ( time() - $tokentime > $token_lifetime ) {
-                        $result = "tokennotvalid";
-                        error_log("Token lifetime expired");
-                    }
-                }
-            }
-
+        $result = $this->handleToken($token, $login);
+        if($result != '') {
+            return $this->renderErrorPage('tokennotvalid', $request);
         }
 
         // Get passwords
-        if ( $result === "" ) {
-            $confirmpassword = $request->request->get('confirmpassword');
-            if (!$confirmpassword) { $result = "confirmpasswordrequired"; }
-            $newpassword = $request->request->get("newpassword");
-            if (!$newpassword) { $result = "newpasswordrequired"; }
+        $newpassword = $request->request->get("newpassword");
+        $confirmpassword = $request->request->get('confirmpassword');
+        if (!$newpassword) {
+            return $this->renderErrorPage('newpasswordrequired', $request);
+        }
+        if (!$confirmpassword) {
+            return $this->renderErrorPage('confirmpasswordrequired', $request);
         }
 
         // Check reCAPTCHA
-        if ( $result === "" && $use_recaptcha ) {
+        if ( $this->config['use_recaptcha'] ) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
+            if($result != '') {
+                return $this->renderErrorPage($result, $request);
+            }
+        }
+
+        /** @var LdapClient $ldapClient */
+        $ldapClient = $this->get('ldap_client');
+
+        $result = $ldapClient->connect();
+        if($result != '') {
+            return $this->renderErrorPage($result, $request);
         }
 
         // Find user
-        if ( $result === "" ) {
-            /** @var LdapClient $ldapClient */
-            $ldapClient = $this->get('ldap_client');
-            $ldapClient->connect();
-        }
-
-        // Find user
-        if ( $result === "" ) {
-            $context = array();
-            $result = $ldapClient->findUser($login, $context);
+        $context = array();
+        $result = $ldapClient->findUser($login, $context);
+        if($result != '') {
+            return $this->renderErrorPage($result, $request);
         }
 
         // Check and register new passord
         // Match new and confirm password
-        if ( $result === "" ) {
-            if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
+        if ( $newpassword != $confirmpassword ) {
+            return $this->renderErrorPage("nomatch", $request);
         }
 
+        /** @var PasswordStrengthChecker $passwordStrengthChecker */
+        $passwordStrengthChecker = $this->get('password_strength_checker');
+
         // Check password strength
-        if ( $result === "" ) {
-            /** @var PasswordStrengthChecker $passwordStrengthChecker */
-            $passwordStrengthChecker = $this->get('password_strength_checker');
-            $result = $passwordStrengthChecker->evaluate( $newpassword, '', $login );
+        $result = $passwordStrengthChecker->evaluate( $newpassword, '', $login );
+        if($result != '') {
+            return $this->renderErrorPage($result, $request);
         }
 
         // Change password
-        if ($result === "") {
-            $result = $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
+        $result = $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
+        if($result != 'passwordchanged') {
+            return $this->renderErrorPage($result, $request);
         }
 
-        if ( $result === "passwordchanged" ) {
-            // Delete token if all is ok
-            $_SESSION = array();
-            session_destroy();
+        // Delete token if all is ok
+        $_SESSION = array();
+        session_destroy();
 
-            // Notify password change
-            if ($notify_on_change and $context['user_mail']) {
-                /** @var MailNotificationService $mailNotificationService */
-                $mailNotificationService = $this->get('mail_notification_service');
-                $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-                $mailNotificationService->send($context['user_mail'], $messages["changesubject"], $messages["changemessage"].$mail_signature, $data);
-            }
+        // Notify password change
+        if ($this->config['notify_on_change'] and $context['user_mail']) {
+            /** @var MailNotificationService $mailNotificationService */
+            $mailNotificationService = $this->get('mail_notification_service');
 
-            // Posthook
-            if ( isset($posthook) ) {
-                /** @var PosthookExecutor $posthookExecutor */
-                $posthookExecutor = $this->get('posthook_executor');
-                $posthookExecutor->execute($login, $newpassword);
+            $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
+            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
+        }
+
+        // Posthook
+        if ( isset($this->config['posthook']) ) {
+            /** @var PosthookExecutor $posthookExecutor */
+            $posthookExecutor = $this->get('posthook_executor');
+
+            $posthookExecutor->execute($login, $newpassword);
+        }
+
+        return $this->renderSuccessPage($request);
+    }
+
+    private function handleToken($token, &$login) {
+        $crypt_tokens = $this->config['crypt_tokens'];
+        $keyphrase = $this->config['keyphrase'];
+
+        // Open session with the token
+        if ( $crypt_tokens ) {
+            $tokenid = decrypt($token, $keyphrase);
+        } else {
+            $tokenid = $token;
+        }
+
+        ini_set("session.use_cookies",0);
+        ini_set("session.use_only_cookies",1);
+
+        // Manage lifetime with sessions properties
+        if (isset($this->config['token_lifetime'])) {
+            ini_set("session.gc_maxlifetime", $this->config['token_lifetime']);
+            ini_set("session.gc_probability",1);
+            ini_set("session.gc_divisor",1);
+        }
+
+        session_id($tokenid);
+        session_name("token");
+        session_start();
+        $login = $_SESSION['login'];
+
+        if ( !$login ) {
+            error_log("Unable to open session $tokenid");
+            return "tokennotvalid";
+        }
+
+        if (isset($this->config['token_lifetime'])) {
+            // Manage lifetime with session content
+            $tokentime = $_SESSION['time'];
+            if ( time() - $tokentime > $this->config['token_lifetime'] ) {
+                error_log("Token lifetime expired");
+                return "tokennotvalid";
             }
         }
 
+        return '';
+    }
+
+    private function renderSuccessPage(Request $request) {
         // Render associated template
         return $this->render('resetbytoken.twig', array(
+            'result' => 'passwordchanged',
+            'source' => $request->get('source'),
+            'token' => $request->get('token'),
+            'login' => $request->get('login'),
+            'show_help' => $this->config['show_help'],
+            'show_policy' => $this->config['pwd_show_policy'] and ( $this->config['pwd_show_policy'] === "always" or ( $this->config['pwd_show_policy'] === "onerror" and is_error('passwordchanged')) ),
+            'pwd_policy_config' => $this->config['pwd_policy_config'],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderErrorPage($result, Request $request) {
+        return $this->render('resetbytoken.twig', array(
             'result' => $result,
-            'show_help' => $show_help,
-            'source' => $source,
-            'show_policy' => $pwd_show_policy and ( $pwd_show_policy === "always" or ( $pwd_show_policy === "onerror" and is_error($result)) ),
-            'pwd_policy_config' => $pwd_policy_config,
-            'token' => $token,
-            'login' => $login,
-            'recaptcha_publickey' => $recaptcha_publickey,
-            'recaptcha_theme' => $recaptcha_theme,
-            'recaptcha_type' => $recaptcha_type,
-            'recaptcha_size' => $recaptcha_size,
+            'source' => $request->get('source'),
+            'token' => $request->get('token'),
+            'login' => $request->get('login'),
+            'show_help' => $this->config['show_help'],
+            'show_policy' => $this->config['pwd_show_policy'] and ( $this->config['pwd_show_policy'] === "always" or ( $this->config['pwd_show_policy'] === "onerror" and is_error($result)) ),
+            'pwd_policy_config' => $this->config['pwd_policy_config'],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 }

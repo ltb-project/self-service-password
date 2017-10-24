@@ -174,6 +174,11 @@ class Controller {
         return $this->twig->render($template, $vars1 + $vars);
     }
 
+    protected function redirect($url) {
+        header("Location: " . $url);
+        return '';
+    }
+
     protected function get($id) {
         return $this->container[$id];
     }

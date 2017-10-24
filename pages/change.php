@@ -26,102 +26,150 @@ class ChangeController extends Controller {
      * @param $request Request
      * @return string
      */
-    public function indexAction($request) {
-        extract($this->config);
+    public function indexAction(Request $request) {
+        if($this->isFormSubmitted($request)) {
+            return $this->processFormData($request);
+        }
 
-        // Initiate vars
-        $result = "";
+        return $this->renderFormEmpty($request);
+    }
+
+    private function isFormSubmitted(Request $request) {
+        return $request->get("login")
+            && $request->request->has("newpassword")
+            && $request->request->has("oldpassword")
+            && $request->request->has("confirmpassword");
+    }
+
+    private function processFormData(Request $request) {
         $login = $request->get("login", "");
         $oldpassword = $request->request->get("oldpassword", "");
         $newpassword = $request->request->get("newpassword", "");
         $confirmpassword = $request->request->get("confirmpassword", "");
 
         $missings = array();
-        if (!$request->get("login")) { $missings[] = "loginrequired"; }
-        if (!$request->request->has("newpassword")) { $missings[] = "newpasswordrequired"; }
-        if (!$request->request->has("oldpassword")) { $missings[] = "oldpasswordrequired"; }
-        if (!$request->request->has("confirmpassword")) { $missings[] = "confirmpasswordrequired"; }
+        if (!$login) { $missings[] = "loginrequired"; }
+        if (!$oldpassword) { $missings[] = "newpasswordrequired"; }
+        if (!$newpassword) { $missings[] = "oldpasswordrequired"; }
+        if (!$confirmpassword) { $missings[] = "confirmpasswordrequired"; }
 
         if(count($missings) > 0) {
-            $result = count($missings) == 4 ? 'emptychangeform' : $missings[0];
+            return $this->renderFormWithError($missings[0], $request);
         }
 
+        /** @var UsernameValidityChecker $usernameValidityChecker */
+        $usernameValidityChecker = $this->get('username_validity_checker');
+
         // Check the entered username for characters that our installation doesn't support
-        if ( $result === "" ) {
-            /** @var UsernameValidityChecker $usernameValidityChecker */
-            $usernameValidityChecker = $this->get('username_validity_checker');
-            $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameValidityChecker->evaluate($login);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Match new and confirm password
-        if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
-
-        // Check reCAPTCHA
-        if ( $result === "" && $use_recaptcha ) {
-            /** @var RecaptchaService $recaptchaService */
-            $recaptchaService = $this->get('recaptcha_service');
-            $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
+        if ( $newpassword != $confirmpassword ) {
+            return $this->renderFormWithError("nomatch", $request);
         }
 
-        // Ldap connect
-        // Check old password
-        if ( $result === "" ) {
-            /** @var LdapClient $ldapClient */
-            $ldapClient = $this->get('ldap_client');
-
-            $result = $ldapClient->connect();
-        }
-
-        // Check old password
-        if ( $result === "" ) {
-            $context = array ();
-            $result = $ldapClient->checkOldPassword($login, $oldpassword, $context);
-        }
+        /** @var PasswordStrengthChecker $passwordStrengthChecker */
+        $passwordStrengthChecker = $this->get('password_strength_checker');
 
         // Check password strength
-        if ( $result === "" ) {
-            /** @var PasswordStrengthChecker $passwordStrengthChecker */
-            $passwordStrengthChecker = $this->get('password_strength_checker');
-            $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
+        $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        // Check reCAPTCHA
+        if ( $this->config['use_recaptcha'] ) {
+            /** @var RecaptchaService $recaptchaService */
+            $recaptchaService = $this->get('recaptcha_service');
+
+            $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
+            if($result != '') {
+                return $this->renderFormWithError($result, $request);
+            }
+        }
+
+        /** @var LdapClient $ldapClient */
+        $ldapClient = $this->get('ldap_client');
+
+        // Ldap connect
+        $result = $ldapClient->connect();
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        $context = array ();
+
+        // Check old password
+        $result = $ldapClient->checkOldPassword($login, $oldpassword, $context);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Change password
-        if ( $result === "" ) {
-            $result = $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
+        $result = $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
+        if($result != 'passwordchanged') {
+            return $this->renderFormWithError($result, $request);
         }
 
-        if ( $result === "passwordchanged" ) {
-            // Notify password change
-            if ($notify_on_change and $context['user_mail']) {
-                /** @var MailNotificationService $mailNotificationService */
-                $mailNotificationService = $this->get('mail_notification_service');
-                $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-                $mailNotificationService->send($context['user_mail'], $messages["changesubject"], $messages["changemessage"].$mail_signature, $data);
-            }
-
-            // Posthook
-            if ( isset($posthook) ) {
-                /** @var PosthookExecutor $posthookExecutor */
-                $posthookExecutor = $this->get('posthook_executor');
-                $posthookExecutor->execute($login, $newpassword, $oldpassword);
-            }
+        // Notify password change
+        if ($this->config['notify_on_change'] and $context['user_mail']) {
+            /** @var MailNotificationService $mailNotificationService */
+            $mailNotificationService = $this->get('mail_notification_service');
+            $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
+            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
         }
 
-        // Render associated template
-        return $this->render('change.twig', array(
+        // Posthook
+        if ( isset($this->config['posthook']) ) {
+            /** @var PosthookExecutor $posthookExecutor */
+            $posthookExecutor = $this->get('posthook_executor');
+            $posthookExecutor->execute($login, $newpassword, $oldpassword);
+        }
+
+        return $this->renderSuccessPage($request);
+    }
+
+    private function getTemplateVars($result, Request $request) {
+        $use_questions = $this->config['use_questions'];
+        $use_tokens = $this->config['use_tokens'];
+        $use_sms = $this->config['use_sms'];
+        $change_sshkey = $this->config['change_sshkey'];
+
+        $vars = array(
             'result' => $result,
-            'has_password_changed_extra_message' => isset($messages['passwordchangedextramessage']),
-            'has_change_help_extra_message' => isset($messages['changehelpextramessage']),
-            'show_help' => $show_help,
-            'pwd_show_policy_pos' => $pwd_show_policy_pos,
-            'login' => $login,
-            'recaptcha_publickey' => $recaptcha_publickey,
-            'recaptcha_theme' => $recaptcha_theme,
-            'recaptcha_type' => $recaptcha_type,
-            'recaptcha_size' => $recaptcha_size,
-            'show_change_help_reset' => !$show_menu and ( $use_questions or $use_tokens or $use_sms or $change_sshkey ),
-            'show_policy' => $pwd_show_policy and ( $pwd_show_policy === "always" or ( $pwd_show_policy === "onerror" and is_error($result)) ),
-            'pwd_policy_config' => $pwd_policy_config,
-        ));
+            'login' => $request->get('login'),
+
+            'has_password_changed_extra_message' => isset($this->config['messages']['passwordchangedextramessage']),
+            'has_change_help_extra_message' => isset($this->config['messages']['changehelpextramessage']),
+            'show_help' => $this->config['show_help'],
+            'pwd_show_policy_pos' => $this->config['pwd_show_policy_pos'],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+            'show_change_help_reset' => !$this->config['show_menu'] and ( $use_questions or $use_tokens or $use_sms or $change_sshkey ),
+            'show_policy' => isset($this->config['pwd_show_policy']) and ( $this->config['pwd_show_policy'] === "always" or ( $this->config['pwd_show_policy'] === "onerror" and is_error($result)) ),
+            'pwd_policy_config' => $this->config['pwd_policy_config'],
+        );
+
+        return $vars;
+    }
+
+    private function renderFormEmpty($request) {
+        $templateVars = $this->getTemplateVars('emptychangeform', $request);
+        return $this->render('change.twig', $templateVars);
+    }
+
+    private function renderFormWithError($result, $request) {
+        $templateVars = $this->getTemplateVars($result, $request);
+        return $this->render('change.twig', $templateVars);
+    }
+
+    private function renderSuccessPage($request) {
+        $templateVars = $this->getTemplateVars('passwordchanged', $request);
+        return $this->render('change.twig', $templateVars);
     }
 }

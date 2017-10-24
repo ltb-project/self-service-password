@@ -27,66 +27,117 @@ class SetQuestionsController extends Controller {
      * @return string
      */
     public function indexAction($request) {
-        extract($this->config);
+        if($this->isFormSubmitted($request)) {
+            return $this->processFormData($request);
+        }
 
-        // Initiate vars
-        $result = "";
+        return $this->renderFormEmpty($request);
+    }
+
+    private function isFormSubmitted(Request $request) {
+        return $request->get('login')
+            && $request->request->get("password")
+            && $request->request->get("question")
+            && $request->request->get("answer");
+    }
+
+    private function processFormData(Request $request) {
         $login = $request->get("login");
         $password = $request->request->get("password");;
         $question = $request->request->get("question");
         $answer = $request->request->get("answer");
 
+        $result = '';
         if (empty($login)) { $result = "loginrequired"; }
         if (empty($password)) { $result = "passwordrequired"; }
         if (empty($question)) { $result = "questionrequired"; }
         if (empty($answer)) { $result = "answerrequired"; }
-
-        if (empty($login) and empty($password) and empty($question) and empty($answer)) {
-            $result = "emptysetquestionsform";
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
+        /** @var UsernameValidityChecker $usernameValidityChecker */
+        $usernameValidityChecker = $this->get('username_validity_checker');
+
         // Check the entered username for characters that our installation doesn't support
-        if ( $result === "" ) {
-            /** @var UsernameValidityChecker $usernameValidityChecker */
-            $usernameValidityChecker = $this->get('username_validity_checker');
-            $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameValidityChecker->evaluate($login);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Check reCAPTCHA
-        if ( $result === "" && $use_recaptcha ) {
+        if ( $this->config['use_recaptcha'] ) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
+
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
+            if($result != '') {
+                return $this->renderFormWithError($result, $request);
+            }
         }
+
+        /** @var LdapClient $ldapClient */
+        $ldapClient = $this->get('ldap_client');
+
+        $result = $ldapClient->connect();
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        $context = array();
 
         // Check password
-        if ( $result === "" ) {
-            /** @var LdapClient $ldapClient */
-            $ldapClient = $this->get('ldap_client');
-
-            $result = $ldapClient->connect();
-        }
-
-        if ( $result === "" ) {
-            $context = array();
-            $result = $ldapClient->checkOldPassword3($login, $password, $context);
+        $result = $ldapClient->checkOldPassword3($login, $password, $context);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Register answer
-        if ( $result === "" ) {
-            $result = $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
+        $result = $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
+        if($result != 'answerchanged') {
+            return $this->renderFormWithError($result, $request);
         }
 
+        return $this->renderPageSuccess($request);
+    }
+
+    private function renderFormEmpty(Request $request) {
         // Render associated template
         return $this->render('setquestions.twig', array(
+            'result' => 'emptysetquestionsform',
+            'show_help' => $this->config['show_help'],
+            'login' => $request->get('login'),
+            'questions' => $this->config['messages']["questions"],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderFormWithError($result, Request $request) {
+        return $this->render('setquestions.twig', array(
             'result' => $result,
-            'show_help' => $show_help,
-            'login' => $login,
-            'questions' => $messages["questions"],
-            'recaptcha_publickey' => $recaptcha_publickey,
-            'recaptcha_theme' => $recaptcha_theme,
-            'recaptcha_type' => $recaptcha_type,
-            'recaptcha_size' => $recaptcha_size,
+            'show_help' => $this->config['show_help'],
+            'login' => $request->get('login'),
+            'questions' => $this->config['messages']["questions"],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderPageSuccess(Request $request) {
+        return $this->render('setquestions.twig', array(
+            'result' => 'answerchanged',
+            'show_help' => $this->config['show_help'],
+            'login' => $request->get('login'),
+            'questions' => $this->config['messages']["questions"],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 }

@@ -27,146 +27,81 @@ class SendSmsController extends Controller {
      * @return string
      */
     public function indexAction($request) {
-        extract($this->config);
+        if (!$this->config['crypt_tokens']) {
+            return $this->renderErrorPage("crypttokensrequired");
+        }
 
-        // Initiate vars
-        $result = "";
         $login = $request->get("login");
-        $sms = "";
         $smstoken = $request->get("smstoken");
         $token = $request->get("token");
         $encrypted_sms_login = $request->get("encrypted_sms_login");
 
-        if (!$crypt_tokens) {
-            $result = "crypttokensrequired";
-        } elseif (!empty($token) and !empty($smstoken)) {
-            # Open session with the token
-            $tokenid = decrypt($token, $keyphrase);
-
-            ini_set("session.use_cookies",0);
-            ini_set("session.use_only_cookies",1);
-
-            # Manage lifetime with sessions properties
-            if (isset($token_lifetime)) {
-                ini_set("session.gc_maxlifetime", $token_lifetime);
-                ini_set("session.gc_probability",1);
-                ini_set("session.gc_divisor",1);
-            }
-
-            session_id($tokenid);
-            session_name("smstoken");
-            session_start();
-            $login        = $_SESSION['login'];
-            $sessiontoken = $_SESSION['smstoken'];
-            $attempts     = $_SESSION['attempts'];
-
-            if ( !$login or !$sessiontoken) {
-                $result = "tokennotvalid";
-                error_log("Unable to open session $smstokenid");
-            } elseif ($sessiontoken != $smstoken) {
-                if ($attempts < $max_attempts) {
-                    $_SESSION['attempts'] = $attempts + 1;
-                    $result = "tokenattempts";
-                    error_log("SMS token $smstoken not valid, attempt $attempts");
-                }
-                else {
-                    $result = "tokennotvalid";
-                    error_log("SMS token $smstoken not valid");
-                }
-            } elseif (isset($token_lifetime)) {
-                # Manage lifetime with session content
-                $tokentime = $_SESSION['time'];
-                if ( time() - $tokentime > $token_lifetime ) {
-                    $result = "tokennotvalid";
-                    error_log("Token lifetime expired");
-                }
-            }
-            # Delete token if not valid or all is ok
-            if ( $result === "tokennotvalid" ) {
-                $_SESSION = array();
-                session_destroy();
-            }
-            if ( $result === "" ) {
-                $_SESSION = array();
-                session_destroy();
-                $result = "buildtoken";
-            }
+        if (!empty($token) and !empty($smstoken)) {
+            return $this->processSmsTokenAttempt($request);
         } elseif (!empty($encrypted_sms_login)) {
-            $decrypted_sms_login = explode(':', decrypt($encrypted_sms_login, $keyphrase));
-            $sms = $decrypted_sms_login[0];
-            $login = $decrypted_sms_login[1];
-            $result = "sendsms";
-        } elseif (empty($login)) {
-            $result = "emptysendsmsform";
+            return $this->generateAndSendSmsToken($request);
+        } elseif (!empty($login)) {
+            return $this->processSearchUserFormData($request);
         }
 
-        // Check the entered username for characters that our installation doesn't support
-        if ( $result === "" ) {
-            /** @var UsernameValidityChecker $usernameValidityChecker */
-            $usernameValidityChecker = $this->get('username_validity_checker');
-            $result = $usernameValidityChecker->evaluate($login);
+        return $this->renderSearchUserFormEmpty($request);
+    }
+
+    private function processSmsTokenAttempt(Request $request) {
+        $result = "";
+
+        # Open session with the token
+        $tokenid = decrypt($request->get("token"), $this->config['keyphrase']);
+        $smstoken = $request->get("smstoken");
+
+        ini_set("session.use_cookies",0);
+        ini_set("session.use_only_cookies",1);
+
+        # Manage lifetime with sessions properties
+        if (isset($this->config['token_lifetime'])) {
+            ini_set("session.gc_maxlifetime", $this->config['token_lifetime']);
+            ini_set("session.gc_probability",1);
+            ini_set("session.gc_divisor",1);
         }
 
-        // Check reCAPTCHA
-        if ( $result === "" && $use_recaptcha ) {
-            /** @var RecaptchaService $recaptchaService */
-            $recaptchaService = $this->get('recaptcha_service');
-            $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
-        }
+        session_id($tokenid);
+        session_name("smstoken");
+        session_start();
+        $login        = $_SESSION['login'];
+        $sessiontoken = $_SESSION['smstoken'];
+        $attempts     = $_SESSION['attempts'];
 
-        // Check sms
-        if ( $result === "" ) {
-            /** @var LdapClient $ldapClient */
-            $ldapClient = $this->get('ldap_client');
-            $result = $ldapClient->connect();
-        }
-
-        if ( $result === "" ) {
-            $context = array();
-            $result = $ldapClient->findUserSms($login, $context);
-
-            if($result == 'smsuserfound') {
-                $sms = $context['user_sms'];
-                $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
+        if ( !$login or !$sessiontoken) {
+            error_log("Unable to open session $tokenid");
+            $result = "tokennotvalid";
+        } elseif ($sessiontoken != $smstoken) {
+            if ($attempts < $this->config['max_attempts']) {
+                $_SESSION['attempts'] = $attempts + 1;
+                error_log("SMS token $smstoken not valid, attempt $attempts");
+                $result = "tokenattempts";
+            }
+            else {
+                error_log("SMS token $smstoken not valid");
+                $result = "tokennotvalid";
+            }
+        } elseif (isset($this->config['token_lifetime'])) {
+            # Manage lifetime with session content
+            $tokentime = $_SESSION['time'];
+            if ( time() - $tokentime > $this->config['token_lifetime'] ) {
+                error_log("Token lifetime expired");
+                $result = "tokennotvalid";
             }
         }
-
-        // Generate sms token and send by sms
-        if ( $result === "sendsms" ) {
-
-            // Generate sms token
-            $smstoken = generate_sms_token($sms_token_length);
-
-            // Create temporary session to avoid token replay
-            ini_set("session.use_cookies",0);
-            ini_set("session.use_only_cookies",1);
-
-            session_name("smstoken");
-            session_start();
-            $_SESSION['login']    = $login;
-            $_SESSION['smstoken'] = $smstoken;
-            $_SESSION['time']     = time();
-            $_SESSION['attempts'] = 0;
-
-            $data = array(
-                "sms_attribute" => $sms,
-                "smsresetmessage" => $messages['smsresetmessage'],
-                "smstoken" => $smstoken,
-            ) ;
-
-            /** @var SmsNotificationService $smsNotificationService */
-            $smsNotificationService = $this->get('sms_notification_service');
-
-            // Send message
-            $result = $smsNotificationService->send($sms, $login, $smsmail_subject, $sms_message, $data, $smstoken);
-
-            if($result == 'smssent') {
-                $token  = encrypt(session_id(), $keyphrase);
-            }
+        # Delete token if not valid or all is ok
+        if ( $result === "tokennotvalid" ) {
+            $_SESSION = array();
+            session_destroy();
         }
+        if ( $result === "" ) {
+            $_SESSION = array();
+            session_destroy();
 
-        // Build and store token
-        if ( $result === "buildtoken" ) {
+            // Build and store token
 
             // Use PHP session to register token
             // We do not generate cookie
@@ -178,14 +113,10 @@ class SendSmsController extends Controller {
             $_SESSION['login'] = $login;
             $_SESSION['time']  = time();
 
-            $token = encrypt(session_id(), $keyphrase);
+            $token = encrypt(session_id(), $this->config['keyphrase']);
 
-            $result = "redirect";
-        }
-
-        // Redirect to resetbytoken page
-        if ( $result === "redirect" ) {
-            $reset_url = generate_reset_url($reset_url, array('source' => 'sms', 'token' => $token));
+            // Redirect to resetbytoken page
+            $reset_url = generate_reset_url($this->config['reset_url'], array('source' => 'sms', 'token' => $token));
 
             if ( !empty($reset_request_log) ) {
                 error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
@@ -193,23 +124,149 @@ class SendSmsController extends Controller {
                 error_log("Send reset URL $reset_url");
             }
 
-            // Redirect
-            header("Location: " . $reset_url);
-            exit;
+            return $this->redirect($reset_url);
         }
 
+        return $this->renderTokenForm($result, $request->get('token'));
+    }
+
+    private function generateAndSendSmsToken(Request $request) {
+        $encrypted_sms_login = $request->get("encrypted_sms_login");
+
+        $decrypted_sms_login = explode(':', decrypt($encrypted_sms_login, $this->config['keyphrase']));
+        $sms = $decrypted_sms_login[0];
+        $login = $decrypted_sms_login[1];
+
+        // Generate sms token and send by sms
+
+        // Generate sms token
+        $smstoken = generate_sms_token($this->config['sms_token_length']);
+
+        // Create temporary session to avoid token replay
+        ini_set("session.use_cookies",0);
+        ini_set("session.use_only_cookies",1);
+
+        session_name("smstoken");
+        session_start();
+        $_SESSION['login']    = $login;
+        $_SESSION['smstoken'] = $smstoken;
+        $_SESSION['time']     = time();
+        $_SESSION['attempts'] = 0;
+
+        $data = array(
+            "sms_attribute" => $sms,
+            "smsresetmessage" => $this->config['messages']['smsresetmessage'],
+            "smstoken" => $smstoken,
+        ) ;
+
+        /** @var SmsNotificationService $smsNotificationService */
+        $smsNotificationService = $this->get('sms_notification_service');
+
+        // Send message
+        $result = $smsNotificationService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $smstoken);
+
+        $token = '';
+        if($result == 'smssent') {
+            $token  = encrypt(session_id(), $this->config['keyphrase']);
+        }
+
+        return $this->renderTokenForm($result, $token);
+    }
+
+    private function processSearchUserFormData(Request $request) {
+        $login = $request->get('login');
+
+        // Check the entered username for characters that our installation doesn't support
+        /** @var UsernameValidityChecker $usernameValidityChecker */
+        $usernameValidityChecker = $this->get('username_validity_checker');
+
+        $result = $usernameValidityChecker->evaluate($login);
+        if($result != '') {
+            return $this->renderSearchUserFormWithError($result, $request);
+        }
+
+        // Check reCAPTCHA
+        if ( $this->config['use_recaptcha'] ) {
+            /** @var RecaptchaService $recaptchaService */
+            $recaptchaService = $this->get('recaptcha_service');
+
+            $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
+            if($result != '') {
+                return $this->renderSearchUserFormWithError($result, $request);
+            }
+        }
+
+        // Check sms
+        /** @var LdapClient $ldapClient */
+        $ldapClient = $this->get('ldap_client');
+
+        $result = $ldapClient->connect();
+        if($result != '') {
+            return $this->renderSearchUserFormWithError($result, $request);
+        }
+
+        $context = array();
+        $result = $ldapClient->findUserSms($login, $context);
+        if($result != 'smsuserfound') {
+            return $this->renderSearchUserFormWithError($result, $request);
+        }
+
+        $sms = $context['user_sms'];
+        $encrypted_sms_login = encrypt("$sms:$login", $this->config['keyphrase']);
+
+        // Render associated template
+        return $this->renderSearchUserFromEntry($result, $context, $login, $encrypted_sms_login, $sms);
+    }
+
+    private function renderSearchUserFromEntry($result, $context, $login, $encrypted_sms_login, $sms) {
+        return $this->render('sendsms.twig', array(
+            'result' => $result,
+            'displayname' => $context['user_displayname'],
+            'login' => $login,
+            'encrypted_sms_login' => $encrypted_sms_login,
+            'sms' => $this->config['sms_partially_hide_number'] ? (substr_replace($sms, '****', 4 , 4)) : $sms,
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderSearchUserFormEmpty(Request $request) {
+        // Render associated template
+        return $this->render('sendsms.twig', array(
+            'result' => 'emptysendsmsform',
+            'login' => $request->get('login'),
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderSearchUserFormWithError($result, Request $request) {
         // Render associated template
         return $this->render('sendsms.twig', array(
             'result' => $result,
-            'displayname' => $displayname,
-            'login' => $login,
-            'encrypted_sms_login' => $encrypted_sms_login,
+            'login' => $request->get('login'),
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderErrorPage($result) {
+        // Render associated template
+        return $this->render('sendsms.twig', array(
+            'result' => $result,
+        ));
+    }
+
+    private function renderTokenForm($result, $token) {
+        return $this->render('sendsms.twig', array(
+            'result' => $result,
             'token' => $token,
-            'sms' => $sms_partially_hide_number ? (substr_replace($sms, '****', 4 , 4)) : $sms,
-            'recaptcha_publickey' => $recaptcha_publickey,
-            'recaptcha_theme' => $recaptcha_theme,
-            'recaptcha_type' => $recaptcha_type,
-            'recaptcha_size' => $recaptcha_size,
         ));
     }
 }

@@ -26,11 +26,23 @@ class ResetByQuestionsController extends Controller {
      * @param $request Request
      * @return string
      */
-    public function indexAction($request) {
-        extract($this->config);
+    public function indexAction(Request $request) {
+        if($this->isFormSubmitted($request)) {
+            return $this->processFormData($request);
+        }
 
-        // Initiate vars
-        $result = "";
+        return $this->renderEmptyForm($request);
+    }
+
+    private function isFormSubmitted(Request $request) {
+        return $request->get("login")
+            && $request->request->has("question")
+            && $request->request->has("answer")
+            && $request->request->has("newpassword")
+            && $request->request->has("confirmpassword");
+    }
+
+    private function processFormData(Request $request) {
         $login = $request->get("login", "");
         $question = $request->request->get("question", "");
         $answer = $request->request->get("answer", "");
@@ -38,90 +50,123 @@ class ResetByQuestionsController extends Controller {
         $confirmpassword = $request->request->get("confirmpassword", "");
 
         $missings = array();
-        if (!$request->get("login")) { $missings[] = "loginrequired"; }
-        if (!$request->request->has("question")) { $missings[] = "questionrequired"; }
-        if (!$request->request->has("answer")) { $missings[] = "answerrequired"; }
-        if (!$request->request->has("newpassword")) { $missings[] = "newpasswordrequired"; }
-        if (!$request->request->has("confirmpassword")) { $missings[] = "confirmpasswordrequired"; }
+        if (!$login) { $missings[] = "loginrequired"; }
+        if (!$question) { $missings[] = "questionrequired"; }
+        if (!$answer) { $missings[] = "answerrequired"; }
+        if (!$newpassword) { $missings[] = "newpasswordrequired"; }
+        if (!$confirmpassword) { $missings[] = "confirmpasswordrequired"; }
 
         if(count($missings) > 0) {
-            $result = count($missings) == 5 ? 'emptyresetbyquestionsform' : $missings[0];
+            return $this->renderFormWithError($missings[0], $request);
         }
 
+        /** @var UsernameValidityChecker $usernameValidityChecker */
+        $usernameValidityChecker = $this->get('username_validity_checker');
+
         // Check the entered username for characters that our installation doesn't support
-        if ( $result === "" ) {
-            /** @var UsernameValidityChecker $usernameValidityChecker */
-            $usernameValidityChecker = $this->get('username_validity_checker');
-            $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameValidityChecker->evaluate($login);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
         // Check reCAPTCHA
-        if ( $result === "" && $use_recaptcha ) {
+        if ( $this->config['use_recaptcha'] ) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
+            if($result != '') {
+                return $this->renderFormWithError($result, $request);
+            }
         }
-
-        if ( $result === "" ) {
-            /** @var LdapClient $ldapClient */
-            $ldapClient = $this->get('ldap_client');
-
-            $result = $ldapClient->connect();
-        }
-
-        // Check question/answer
-        if ( $result === "" ) {
-            $context = array();
-            $result = $ldapClient->checkQuestionAnswer($login, $question, $answer, $context);
-        }
-
-        // Check and register new password
 
         // Match new and confirm password
-        if ( $result === "" ) {
-            if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
+        if ( $newpassword != $confirmpassword ) {
+            return $this->renderFormWithError('nomatch', $request);
         }
 
         // Check password strength
-        if ( $result === "" ) {
-            /** @var PasswordStrengthChecker $passwordStrengthChecker */
-            $passwordStrengthChecker = $this->get('password_strength_checker');
-            $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
+        /** @var PasswordStrengthChecker $passwordStrengthChecker */
+        $passwordStrengthChecker = $this->get('password_strength_checker');
+
+        $result = $passwordStrengthChecker->evaluate( $newpassword, '', $login );
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
-        // Change password
-        if ($result === "") {
-            $result = $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
+        /** @var LdapClient $ldapClient */
+        $ldapClient = $this->get('ldap_client');
+
+        $result = $ldapClient->connect();
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
-        if ( $result === "passwordchanged" ) {
-            // Notify password change
-            if ($notify_on_change and $context['user_mail']) {
-                /** @var MailNotificationService $mailNotificationService */
-                $mailNotificationService = $this->get('mail_notification_service');
-                $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-                $mailNotificationService->send($context['user_mail'], $messages["changesubject"], $messages["changemessage"].$mail_signature, $data);
-            }
+        $context = array();
 
-            // Posthook
-            if ( isset($posthook) ) {
-                /** @var PosthookExecutor $posthookExecutor */
-                $posthookExecutor = $this->get('posthook_executor');
-                $posthookExecutor->execute($login, $newpassword);
-            }
+        // Check question/answer
+        $result = $ldapClient->checkQuestionAnswer($login, $question, $answer, $context);
+        if($result != '') {
+            return $this->renderFormWithError($result, $request);
         }
 
+        $result = $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
+        if($result != 'passwordchanged') {
+            return $this->renderFormWithError($result, $request);
+        }
+
+        // Notify password change
+        if ($this->config['notify_on_change'] and $context['user_mail']) {
+            /** @var MailNotificationService $mailNotificationService */
+            $mailNotificationService = $this->get('mail_notification_service');
+
+            $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
+            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
+        }
+
+        // Posthook
+        if ( isset($this->config['posthook']) ) {
+            /** @var PosthookExecutor $posthookExecutor */
+            $posthookExecutor = $this->get('posthook_executor');
+
+            $posthookExecutor->execute($login, $newpassword);
+        }
+
+        return $this->renderSuccessPage($request);
+    }
+
+    private function renderEmptyForm(Request $request) {
+        // Render associated template
+        return $this->render('resetbyquestions.twig', array(
+            'result' => 'emptyresetbyquestionsform',
+            'login' => $request->get('login'),
+        ) + $this->getTemplateVars());
+    }
+
+    private function renderFormWithError($result, Request $request) {
         // Render associated template
         return $this->render('resetbyquestions.twig', array(
             'result' => $result,
-            'login' => $login,
-            'show_help' => $show_help,
-            'pwd_policy_config' => $pwd_policy_config,
-            'questions' => $messages["questions"],
-            'recaptcha_publickey' => $recaptcha_publickey,
-            'recaptcha_theme' => $recaptcha_theme,
-            'recaptcha_type' => $recaptcha_type,
-            'recaptcha_size' => $recaptcha_size,
-        ));
+            'login' => $request->get('login'),
+        ) + $this->getTemplateVars());
+    }
+
+    private function renderSuccessPage(Request $request) {
+        // Render associated template
+        return $this->render('resetbyquestions.twig', array(
+            'result' => 'passwordchanged',
+            'login' => $request->get('login'),
+        ) + $this->getTemplateVars());
+    }
+
+    private function getTemplateVars() {
+        return array (
+            'show_help' => $this->config['show_help'],
+            'pwd_policy_config' => $this->config['pwd_policy_config'],
+            'questions' => $this->config['messages']["questions"],
+            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
+            'recaptcha_theme' => $this->config['recaptcha_theme'],
+            'recaptcha_type' => $this->config['recaptcha_type'],
+            'recaptcha_size' => $this->config['recaptcha_size'],
+        );
     }
 }
