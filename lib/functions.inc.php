@@ -265,7 +265,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
             if ( isset($userpassword) ) {
                 if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
                     $hash = strtoupper($matches[1]);
-		}
+                }
             }
         }
     }
@@ -273,7 +273,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     # Transform password value
     if ( $ad_mode ) {
         $password = make_ad_password($password);
-    } else {
+    } elseif (!function_exists('ldap_exop_passwd')) {
         # Hash password if needed
         if ( $hash == "SSHA" ) {
             $password = make_ssha_password($password);
@@ -319,8 +319,6 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         if ( $ad_options['force_pwd_change'] ) {
             $userdata["pwdLastSet"] = 0;
         }
-    } else {
-        $userdata["userPassword"] = $password;
     }
 
     # Shadow options
@@ -359,9 +357,19 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         );
 
         $bmod = ldap_modify_batch($ldap, $dn, $modifications);
+    } elseif (function_exists('ldap_exop_passwd')) {
+        if (ldap_exop_passwd($ldap, $dn, $oldpassword, $password) === TRUE) {
+            # If password change works update shadow/samba values
+            if (!empty($userdata)) {
+                ldap_mod_replace($ldap, $dn, $userdata);
+            }
+        }
     } else {
         # Else just replace with new password
-        $replace = ldap_mod_replace($ldap, $dn, $userdata);
+        if (!$ad_mode) {
+            $userdata["userPassword"] = $password;
+        }
+        ldap_mod_replace($ldap, $dn, $userdata);
     }
 
     $errno = ldap_errno($ldap);
