@@ -19,7 +19,7 @@
 
     {# Show form unless the password is already changed or there is a problem with the token #}
     {% if result not in ['tokenrequired', 'tokennotvalid', 'passwordchanged'] %}
-        {% if show_policy and pwd_show_policy_pos == 'above' %}
+        {% if show_policy_for(result) and pwd_show_policy_pos == 'above' %}
             {% include 'policy.twig' with {'config': pwd_policy_config} %}
         {% endif %}
 
@@ -36,7 +36,7 @@
             </form>
         </div>
 
-        {% if show_policy and pwd_show_policy_pos == 'below' %}
+        {% if show_policy_for(result) and pwd_show_policy_pos == 'below' %}
             {% include 'policy.twig' with {'config': pwd_policy_config} %}
         {% endif %}
     {% endif %}

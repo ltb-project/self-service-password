@@ -129,30 +129,13 @@ class ChangeController extends Controller {
             $posthookExecutor->execute($login, $newpassword, $oldpassword);
         }
 
-        return $this->renderSuccessPage($request);
+        return $this->renderSuccessPage();
     }
 
     private function getTemplateVars($result, Request $request) {
-        $use_questions = $this->config['use_questions'];
-        $use_tokens = $this->config['use_tokens'];
-        $use_sms = $this->config['use_sms'];
-        $change_sshkey = $this->config['change_sshkey'];
-
         $vars = array(
             'result' => $result,
             'login' => $request->get('login'),
-
-            'has_password_changed_extra_message' => isset($this->config['messages']['passwordchangedextramessage']),
-            'has_change_help_extra_message' => isset($this->config['messages']['changehelpextramessage']),
-            'show_help' => $this->config['show_help'],
-            'pwd_show_policy_pos' => $this->config['pwd_show_policy_pos'],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
-            'show_change_help_reset' => !$this->config['show_menu'] and ( $use_questions or $use_tokens or $use_sms or $change_sshkey ),
-            'show_policy' => isset($this->config['pwd_show_policy']) and ( $this->config['pwd_show_policy'] === "always" or ( $this->config['pwd_show_policy'] === "onerror" and is_error($result)) ),
-            'pwd_policy_config' => $this->config['pwd_policy_config'],
         );
 
         return $vars;
@@ -168,8 +151,9 @@ class ChangeController extends Controller {
         return $this->render('change.twig', $templateVars);
     }
 
-    private function renderSuccessPage($request) {
-        $templateVars = $this->getTemplateVars('passwordchanged', $request);
-        return $this->render('change.twig', $templateVars);
+    private function renderSuccessPage() {
+        return $this->render('change.twig', array(
+            'result' => 'passwordchanged',
+        ));
     }
 }

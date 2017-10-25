@@ -131,7 +131,7 @@ class ResetByQuestionsController extends Controller {
             $posthookExecutor->execute($login, $newpassword);
         }
 
-        return $this->renderSuccessPage($request);
+        return $this->renderSuccessPage();
     }
 
     private function renderEmptyForm(Request $request) {
@@ -139,7 +139,8 @@ class ResetByQuestionsController extends Controller {
         return $this->render('resetbyquestions.twig', array(
             'result' => 'emptyresetbyquestionsform',
             'login' => $request->get('login'),
-        ) + $this->getTemplateVars());
+            'questions' => $this->config['messages']["questions"],
+        ));
     }
 
     private function renderFormWithError($result, Request $request) {
@@ -147,26 +148,14 @@ class ResetByQuestionsController extends Controller {
         return $this->render('resetbyquestions.twig', array(
             'result' => $result,
             'login' => $request->get('login'),
-        ) + $this->getTemplateVars());
+            'questions' => $this->config['messages']["questions"],
+        ));
     }
 
-    private function renderSuccessPage(Request $request) {
+    private function renderSuccessPage() {
         // Render associated template
         return $this->render('resetbyquestions.twig', array(
             'result' => 'passwordchanged',
-            'login' => $request->get('login'),
-        ) + $this->getTemplateVars());
-    }
-
-    private function getTemplateVars() {
-        return array (
-            'show_help' => $this->config['show_help'],
-            'pwd_policy_config' => $this->config['pwd_policy_config'],
-            'questions' => $this->config['messages']["questions"],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
-        );
+        ));
     }
 }

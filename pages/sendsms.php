@@ -225,39 +225,24 @@ class SendSmsController extends Controller {
             'login' => $login,
             'encrypted_sms_login' => $encrypted_sms_login,
             'sms' => $this->config['sms_partially_hide_number'] ? (substr_replace($sms, '****', 4 , 4)) : $sms,
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 
     private function renderSearchUserFormEmpty(Request $request) {
-        // Render associated template
         return $this->render('sendsms.twig', array(
             'result' => 'emptysendsmsform',
             'login' => $request->get('login'),
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 
     private function renderSearchUserFormWithError($result, Request $request) {
-        // Render associated template
         return $this->render('sendsms.twig', array(
             'result' => $result,
             'login' => $request->get('login'),
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 
     private function renderErrorPage($result) {
-        // Render associated template
         return $this->render('sendsms.twig', array(
             'result' => $result,
         ));

@@ -118,7 +118,7 @@ class ResetByTokenController extends Controller {
             $posthookExecutor->execute($login, $newpassword);
         }
 
-        return $this->renderSuccessPage($request);
+        return $this->renderSuccessPage();
     }
 
     private function handleToken($token, &$login) {
@@ -164,36 +164,18 @@ class ResetByTokenController extends Controller {
         return '';
     }
 
-    private function renderSuccessPage(Request $request) {
-        // Render associated template
-        return $this->render('resetbytoken.twig', array(
-            'result' => 'passwordchanged',
-            'source' => $request->get('source'),
-            'token' => $request->get('token'),
-            'login' => $request->get('login'),
-            'show_help' => $this->config['show_help'],
-            'show_policy' => $this->config['pwd_show_policy'] and ( $this->config['pwd_show_policy'] === "always" or ( $this->config['pwd_show_policy'] === "onerror" and is_error('passwordchanged')) ),
-            'pwd_policy_config' => $this->config['pwd_policy_config'],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
-        ));
-    }
-
     private function renderErrorPage($result, Request $request) {
         return $this->render('resetbytoken.twig', array(
             'result' => $result,
             'source' => $request->get('source'),
             'token' => $request->get('token'),
             'login' => $request->get('login'),
-            'show_help' => $this->config['show_help'],
-            'show_policy' => $this->config['pwd_show_policy'] and ( $this->config['pwd_show_policy'] === "always" or ( $this->config['pwd_show_policy'] === "onerror" and is_error($result)) ),
-            'pwd_policy_config' => $this->config['pwd_policy_config'],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
+        ));
+    }
+
+    private function renderSuccessPage() {
+        return $this->render('resetbytoken.twig', array(
+            'result' => 'passwordchanged',
         ));
     }
 }

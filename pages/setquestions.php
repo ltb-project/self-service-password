@@ -98,46 +98,28 @@ class SetQuestionsController extends Controller {
             return $this->renderFormWithError($result, $request);
         }
 
-        return $this->renderPageSuccess($request);
+        return $this->renderPageSuccess();
     }
 
     private function renderFormEmpty(Request $request) {
-        // Render associated template
-        return $this->render('setquestions.twig', array(
-            'result' => 'emptysetquestionsform',
-            'show_help' => $this->config['show_help'],
-            'login' => $request->get('login'),
-            'questions' => $this->config['messages']["questions"],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
-        ));
+        return $this->renderForm('emptysetquestionsform', $request);
     }
 
     private function renderFormWithError($result, Request $request) {
+        return $this->renderForm($result, $request);
+    }
+
+    private function renderForm($result, Request $request) {
         return $this->render('setquestions.twig', array(
             'result' => $result,
-            'show_help' => $this->config['show_help'],
             'login' => $request->get('login'),
             'questions' => $this->config['messages']["questions"],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 
-    private function renderPageSuccess(Request $request) {
+    private function renderPageSuccess() {
         return $this->render('setquestions.twig', array(
             'result' => 'answerchanged',
-            'show_help' => $this->config['show_help'],
-            'login' => $request->get('login'),
-            'questions' => $this->config['messages']["questions"],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 }

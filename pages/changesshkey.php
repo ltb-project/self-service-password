@@ -106,37 +106,26 @@ class ChangeSshKeyController extends Controller {
             $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
         }
 
-        return $this->renderSuccessPage($request);
+        return $this->renderSuccessPage();
     }
 
     private function renderEmptyForm(Request $request) {
         return $this->render('changesshkey.twig', array(
             'result' => 'emptysshkeychangeform',
             'login' => $request->get('login'),
-        ) + $this->getTemplateVars());
+        ));
     }
 
     private function renderFormWithError($error, Request $request) {
         return $this->render('changesshkey.twig', array(
             'result' => $error,
             'login' => $request->get('login'),
-        ) + $this->getTemplateVars());
+        ));
     }
 
-    private function renderSuccesspage(Request $request) {
+    private function renderSuccessPage() {
         return $this->render('changesshkey.twig', array(
             'result' => 'sshkeychanged',
-            'login' => $request->get('login'),
-        ) + $this->getTemplateVars());
-    }
-
-    private function getTemplateVars() {
-        return array (
-            'show_help' => $this->config['show_help'],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
-        );
+        ));
     }
 }

@@ -117,7 +117,7 @@ class SendTokenController extends Controller {
         $success = $mailNotificationService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
 
         if($success) {
-            return $this->renderPageSuccess($request);
+            return $this->renderPageSuccess();
         } else {
             return $this->renderFormWithError("tokennotsent", $request);
         }
@@ -126,39 +126,20 @@ class SendTokenController extends Controller {
     private function renderFormEmpty(Request $request) {
         return $this->render('sendtoken.twig', array(
             'result' => 'emptysendtokenform',
-            'show_help' => $this->config['show_help'],
             'login' => $request->get('login'),
-            'mail_address_use_ldap' => $this->config['mail_address_use_ldap'],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 
     private function renderFormWithError($result, Request $request) {
         return $this->render('sendtoken.twig', array(
             'result' => $result,
-            'show_help' => $this->config['show_help'],
             'login' => $request->get('login'),
-            'mail_address_use_ldap' => $this->config['mail_address_use_ldap'],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 
-    private function renderPageSuccess(Request $request) {
+    private function renderPageSuccess() {
         return $this->render('sendtoken.twig', array(
             'result' => 'tokensent',
-            'show_help' => $this->config['show_help'],
-            'login' => $request->get('login'),
-            'mail_address_use_ldap' => $this->config['mail_address_use_ldap'],
-            'recaptcha_publickey' => $this->config['recaptcha_publickey'],
-            'recaptcha_theme' => $this->config['recaptcha_theme'],
-            'recaptcha_type' => $this->config['recaptcha_type'],
-            'recaptcha_size' => $this->config['recaptcha_size'],
         ));
     }
 }

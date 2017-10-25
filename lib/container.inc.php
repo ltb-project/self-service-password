@@ -87,10 +87,29 @@ $container['twig'] = function ($c) {
         return $messages[$id];
     }
 
+    function show_policy_for($result) {
+        global $config;
+        return isset($config['pwd_show_policy']) and ( $config['pwd_show_policy'] === "always" or ( $config['pwd_show_policy'] === "onerror" and is_error($result)));
+    }
+
     $twig->addFilter('fa_class', new Twig_SimpleFilter('fa_class', 'get_fa_class'));
     $twig->addFilter('criticality', new Twig_SimpleFilter('criticality', 'get_criticity'));
     $twig->addFilter('trans', new Twig_SimpleFilter('trans', 'trans'));
-    $twig->addFunction('show_policy', new Twig_SimpleFunction('show_policy', 'show_policy'));
+    $twig->addFunction('show_policy_for', new Twig_SimpleFunction('show_policy_for', 'show_policy_for'));
+
+    $conf = $c['config'];
+
+    $twig->addGlobal('recaptcha_publickey', $conf['recaptcha_publickey']);
+    $twig->addGlobal('recaptcha_theme', $conf['recaptcha_theme']);
+    $twig->addGlobal('recaptcha_type', $conf['recaptcha_type']);
+    $twig->addGlobal('recaptcha_size', $conf['recaptcha_size']);
+    $twig->addGlobal('show_help', $conf['show_help']);
+    $twig->addGlobal('pwd_policy_config', $conf['pwd_policy_config']);
+    $twig->addGlobal('pwd_show_policy_pos', $conf['pwd_show_policy_pos']);
+    $twig->addGlobal('has_password_changed_extra_message', isset($conf['messages']['passwordchangedextramessage']));
+    $twig->addGlobal('has_change_help_extra_message', isset($conf['messages']['changehelpextramessage']));
+    $twig->addGlobal('show_change_help_reset', !$conf['show_menu'] and ( $conf['use_questions'] or $conf['use_tokens'] or $conf['use_sms'] or $conf['change_sshkey'] ));
+    $twig->addGlobal('mail_address_use_ldap', $conf['mail_address_use_ldap']);
 
     return $twig;
 };
