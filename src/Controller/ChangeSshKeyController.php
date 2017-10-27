@@ -19,66 +19,60 @@
 #
 #==============================================================================
 
-# This page is called to change password
+# This page is called to change sshPublicKey
 
-class ChangeController extends Controller {
+namespace App\Controller;
+
+use App\Framework\Controller;
+use App\Framework\Request;
+
+use App\Service\LdapClient;
+use App\Service\MailNotificationService;
+use App\Service\RecaptchaService;
+use App\Service\UsernameValidityChecker;
+
+class ChangeSshKeyController extends Controller {
     /**
      * @param $request Request
      * @return string
      */
-    public function indexAction(Request $request) {
+    public function indexAction($request) {
         if($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
 
-        return $this->renderFormEmpty($request);
+        return $this->renderEmptyForm($request);
     }
 
     private function isFormSubmitted(Request $request) {
         return $request->get("login")
-            && $request->request->has("newpassword")
-            && $request->request->has("oldpassword")
-            && $request->request->has("confirmpassword");
+            && $request->request->has("password")
+            && $request->request->has("sshkey");
     }
 
     private function processFormData(Request $request) {
         $login = $request->get("login", "");
-        $oldpassword = $request->request->get("oldpassword", "");
-        $newpassword = $request->request->get("newpassword", "");
-        $confirmpassword = $request->request->get("confirmpassword", "");
+        $password = $request->request->get("password", "");
+        $sshkey = $request->request->get("sshkey", "");
 
         $missings = array();
         if (!$login) { $missings[] = "loginrequired"; }
-        if (!$oldpassword) { $missings[] = "newpasswordrequired"; }
-        if (!$newpassword) { $missings[] = "oldpasswordrequired"; }
-        if (!$confirmpassword) { $missings[] = "confirmpasswordrequired"; }
+        if (!$password) { $missings[] = "passwordrequired"; }
+        if (!$sshkey) { $missings[] = "sshkeyrequired"; }
 
         if(count($missings) > 0) {
             return $this->renderFormWithError($missings[0], $request);
         }
 
         /** @var UsernameValidityChecker $usernameValidityChecker */
-        $usernameValidityChecker = $this->get('username_validity_checker');
 
+        $usernameValidityChecker = $this->get('username_validity_checker');
         // Check the entered username for characters that our installation doesn't support
         $result = $usernameValidityChecker->evaluate($login);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
 
-        // Match new and confirm password
-        if ( $newpassword != $confirmpassword ) {
-            return $this->renderFormWithError("nomatch", $request);
-        }
-
-        /** @var PasswordStrengthChecker $passwordStrengthChecker */
-        $passwordStrengthChecker = $this->get('password_strength_checker');
-
-        // Check password strength
-        $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
 
         // Check reCAPTCHA
         if ( $this->config['use_recaptcha'] ) {
@@ -94,7 +88,6 @@ class ChangeController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        // Ldap connect
         $result = $ldapClient->connect();
         if($result != '') {
             return $this->renderFormWithError($result, $request);
@@ -102,58 +95,47 @@ class ChangeController extends Controller {
 
         $context = array ();
 
-        // Check old password
-        $result = $ldapClient->checkOldPassword($login, $oldpassword, $context);
+        // Check password{
+        $result = $ldapClient->checkOldPassword2($login, $password, $context);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
 
-        // Change password
-        $result = $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
-        if($result != 'passwordchanged') {
+        // Change sshPublicKey
+        $result = $ldapClient->changeSshKey($context['user_dn'], $sshkey);
+        if($result != 'sshkeychanged') {
             return $this->renderFormWithError($result, $request);
         }
 
         // Notify password change
-        if ($this->config['notify_on_change'] and $context['user_mail']) {
+        if ($this->config['notify_on_sshkey_change'] and $context['user_mail']) {
             /** @var MailNotificationService $mailNotificationService */
             $mailNotificationService = $this->get('mail_notification_service');
-            $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
-        }
 
-        // Posthook
-        if ( isset($this->config['posthook']) ) {
-            /** @var PosthookExecutor $posthookExecutor */
-            $posthookExecutor = $this->get('posthook_executor');
-            $posthookExecutor->execute($login, $newpassword, $oldpassword);
+            $data = array( "login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey);
+            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
         }
 
         return $this->renderSuccessPage();
     }
 
-    private function getTemplateVars($result, Request $request) {
-        $vars = array(
-            'result' => $result,
+    private function renderEmptyForm(Request $request) {
+        return $this->render('changesshkey.twig', array(
+            'result' => 'emptysshkeychangeform',
             'login' => $request->get('login'),
-        );
-
-        return $vars;
+        ));
     }
 
-    private function renderFormEmpty($request) {
-        $templateVars = $this->getTemplateVars('emptychangeform', $request);
-        return $this->render('change.twig', $templateVars);
-    }
-
-    private function renderFormWithError($result, $request) {
-        $templateVars = $this->getTemplateVars($result, $request);
-        return $this->render('change.twig', $templateVars);
+    private function renderFormWithError($error, Request $request) {
+        return $this->render('changesshkey.twig', array(
+            'result' => $error,
+            'login' => $request->get('login'),
+        ));
     }
 
     private function renderSuccessPage() {
-        return $this->render('change.twig', array(
-            'result' => 'passwordchanged',
+        return $this->render('changesshkey.twig', array(
+            'result' => 'sshkeychanged',
         ));
     }
 }

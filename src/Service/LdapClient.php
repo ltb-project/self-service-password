@@ -19,6 +19,8 @@
 #
 #==============================================================================
 
+namespace App\Service;
+
 # Create SSHA password
 function make_ssha_password($password) {
     $salt = random_bytes(4);
@@ -94,9 +96,9 @@ function make_crypt_password($password, $hash_options) {
 
     // Generate salt
     $possible = '0123456789'.
-		'abcdefghijklmnopqrstuvwxyz'.
-		'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
-		'./';
+        'abcdefghijklmnopqrstuvwxyz'.
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
+        './';
     $salt = "";
 
     while( strlen( $salt ) < $salt_length ) {
@@ -128,115 +130,6 @@ function make_ad_password($password) {
     return $adpassword;
 }
 
-# Generate SMS token
-function generate_sms_token( $sms_token_length ) {
-    $Range=explode(',','48-57');
-    $NumRanges=count($Range);
-    $smstoken='';
-    for ($i = 1; $i <= $sms_token_length; $i++){
-        $r=random_int(0,$NumRanges-1);
-        list($min,$max)=explode('-',$Range[$r]);
-        $smstoken.=chr(random_int($min,$max));
-    }
-    return $smstoken;
-}
-
-# Get message criticity
-function get_criticity( $msg ) {
-
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|sshkeyerror/" , $msg ) ) {
-    return "danger";
-    }
-
-    if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token)required|badcaptcha|tokenattempts/" , $msg ) ) {
-        return "warning";
-    }
-
-    return "success";
-}
-
-# Get FontAwesome class icon
-function get_fa_class( $msg) {
-
-    $criticity = get_criticity( $msg );
-
-    if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
-    if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
-    if ( $criticity === "success" ) { return "fa-check-square"; }
-
-}
-
-function is_error ( $msg ) {
-    return preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin/" , $msg);
-}
-
-# Check password strength
-# @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login ) {
-    extract( $pwd_policy_config );
-
-    $result = "";
-
-    $length = strlen(utf8_decode($password));
-    preg_match_all("/[a-z]/", $password, $lower_res);
-    $lower = count( $lower_res[0] );
-    preg_match_all("/[A-Z]/", $password, $upper_res);
-    $upper = count( $upper_res[0] );
-    preg_match_all("/[0-9]/", $password, $digit_res);
-    $digit = count( $digit_res[0] );
-
-    $special = 0;
-    if ( isset($pwd_special_chars) && !empty($pwd_special_chars) ) {
-        preg_match_all("/[$pwd_special_chars]/", $password, $special_res);
-        $special = count( $special_res[0] );
-    }
-
-    $forbidden = 0;
-    if ( isset($pwd_forbidden_chars) && !empty($pwd_forbidden_chars) ) {
-        preg_match_all("/[$pwd_forbidden_chars]/", $password, $forbidden_res);
-        $forbidden = count( $forbidden_res[0] );
-    }
-
-    # Complexity: checks for lower, upper, special, digits
-    if ( $pwd_complexity ) {
-        $complex = 0;
-        if ( $special > 0 ) { $complex++; }
-        if ( $digit > 0 ) { $complex++; }
-        if ( $lower > 0 ) { $complex++; }
-        if ( $upper > 0 ) { $complex++; }
-        if ( $complex < $pwd_complexity ) { $result="notcomplex"; }
-    }
-
-    # Minimal lenght
-    if ( $pwd_min_length and $length < $pwd_min_length ) { $result="tooshort"; }
-
-    # Maximal lenght
-    if ( $pwd_max_length and $length > $pwd_max_length ) { $result="toobig"; }
-
-    # Minimal lower chars
-    if ( $pwd_min_lower and $lower < $pwd_min_lower ) { $result="minlower"; }
-
-    # Minimal upper chars
-    if ( $pwd_min_upper and $upper < $pwd_min_upper ) { $result="minupper"; }
-
-    # Minimal digit chars
-    if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $result="mindigit"; }
-
-    # Minimal special chars
-    if ( $pwd_min_special and $special < $pwd_min_special ) { $result="minspecial"; }
-
-    # Forbidden chars
-    if ( $forbidden > 0 ) { $result="forbiddenchars"; }
-
-    # Same as old password?
-    if ( $pwd_no_reuse and $password === $oldpassword ) { $result="sameasold"; }
-
-    # Same as login?
-    if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
-
-    return $result;
-}
-
 # Change password
 # @return result code
 function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword ) {
@@ -250,10 +143,10 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         $userdata["sambaNTPassword"] = make_md4_password($password);
         $userdata["sambaPwdLastSet"] = $time;
         if ( isset($samba_options['min_age']) && $samba_options['min_age'] > 0 ) {
-             $userdata["sambaPwdCanChange"] = $time + ( $samba_options['min_age'] * 86400 );
+            $userdata["sambaPwdCanChange"] = $time + ( $samba_options['min_age'] * 86400 );
         }
         if ( isset($samba_options['max_age']) && $samba_options['max_age'] > 0 ) {
-             $userdata["sambaPwdMustChange"] = $time + ( $samba_options['max_age'] * 86400 );
+            $userdata["sambaPwdMustChange"] = $time + ( $samba_options['max_age'] * 86400 );
         }
     }
 
@@ -265,7 +158,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
             if ( isset($userpassword) ) {
                 if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
                     $hash = strtoupper($matches[1]);
-		}
+                }
             }
         }
     }
@@ -330,9 +223,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
     if ( $shadow_options['update_shadowExpire'] ) {
         if ( $shadow_options['shadow_expire_days'] > 0) {
-          $userdata["shadowExpire"] = floor(($time / 86400) + $shadow_options['shadow_expire_days']);
+            $userdata["shadowExpire"] = floor(($time / 86400) + $shadow_options['shadow_expire_days']);
         } else {
-          $userdata["shadowExpire"] = $shadow_options['shadow_expire_days'];
+            $userdata["shadowExpire"] = $shadow_options['shadow_expire_days'];
         }
     }
 
@@ -376,7 +269,6 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     return $result;
 }
 
-
 # Change sshPublicKey attribute
 # @return result code
 function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
@@ -398,206 +290,6 @@ function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
     }
 
     return $result;
-}
-
-
-/* @function encrypt(string $data)
- * Encrypt a data
- * @param string $data Data to encrypt
- * @param string $keyphrase Password for encryption
- * @return string Encrypted data, base64 encoded
- */
-function encrypt($data, $keyphrase) {
-    return base64_encode(\Defuse\Crypto\Crypto::encryptWithPassword($data, $keyphrase, true));
-}
-
-/* @function decrypt(string $data)
- * Decrypt a data
- * @param string $data Encrypted data, base64 encoded
- * @param string $keyphrase Password for decryption
- * @return string Decrypted data
- */
-function decrypt($data, $keyphrase) {
-    try {
-        return \Defuse\Crypto\Crypto::decryptWithPassword(base64_decode($data), $keyphrase, true);
-    } catch (\Defuse\Crypto\Exception\CryptoException $e) {
-        error_log("crypto: decryption error " . $e->getMessage());
-        return '';
-    }
-}
-
-/* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)
- * Send a mail, replace strings in body
- * @param mailer PHPMailer object
- * @param mail Destination
- * @param mail_from Sender
- * @param subject Subject
- * @param body Body
- * @param data Data for string replacement
- * @return result
- */
-function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body, $data) {
-
-    $result = false;
-
-    if(!is_a($mailer, 'PHPMailer')) {
-        error_log("send_mail: PHPMailer object required!");
-        return $result;
-    }
-
-    if (!$mail) {
-        error_log("send_mail: no mail given, exiting...");
-        return $result;
-    }
-
-    /* Replace data in mail, subject and body */
-    foreach($data as $key => $value ) {
-        $mail = str_replace('{'.$key.'}', $value, $mail);
-        $mail_from = str_replace('{'.$key.'}', $value, $mail_from);
-        $subject = str_replace('{'.$key.'}', $value, $subject);
-        $body = str_replace('{'.$key.'}', $value, $body);
-    }
-
-    $mailer->setFrom($mail_from, $mail_from_name);
-    $mailer->addReplyTo($mail_from, $mail_from_name);
-    $mailer->addAddress($mail);
-    $mailer->Subject = $subject;
-    $mailer->Body = $body;
-
-    $result = $mailer->send();
-
-    if (!$result) {
-        error_log("send_mail: ".$mailer->ErrorInfo);
-    }
-
-    return $result;
-
-}
-
-/* @function string check_username_validity(string $username, string $login_forbidden_chars)
- * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
- * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
- * @param username the user name to test against
- * @param optional login_forbidden_chars invalid characters
- * @return $result
- */
-function check_username_validity($username,$login_forbidden_chars) {
-    $result = "";
-
-    if (!$login_forbidden_chars) {
-        if (!ctype_alnum($username)) {
-            $result = "badcredentials";
-            error_log("Non alphanumeric characters in username $username");
-        }
-    }
-    else {
-        preg_match_all("/[$login_forbidden_chars]/", $username, $forbidden_res);
-        if (count($forbidden_res[0])) {
-            $result = "badcredentials";
-            error_log("Illegal characters in username $username (list of forbidden characters: $login_forbidden_chars)");
-        }
-    }
-
-    return $result;
-}
-
-/* @function string check_recaptcha(string $recaptcha_privatekey, null|string $recaptcha_request_method, string $response, string $login)
- * Check if $response verifies the reCAPTCHA by asking the recaptcha server, logs if errors
- * @param $recaptcha_privatekey string shared secret with reCAPTCHA server
- * @param $recaptcha_request_method null|string FQCN of request method, null for default
- * @param $response string response provided by user
- * @param $login string for logging purposes only
- * @return string empty string if the response is verified successfully, else string 'badcaptcha'
- */
-function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $response, $login) {
-    $recaptcha = new \ReCaptcha\ReCaptcha($recaptcha_privatekey, is_null($recaptcha_request_method) ? null : new $recaptcha_request_method());
-    $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
-
-    if (!$resp->isSuccess()) {
-        error_log("Bad reCAPTCHA attempt with user $login");
-        foreach ($resp->getErrorCodes() as $code) {
-            error_log("reCAPTCHA error: $code");
-        }
-        return 'badcaptcha';
-    }
-
-    return '';
-}
-
-class PosthookExecutor {
-    private $command;
-
-    public function __construct($command)
-    {
-        $this->command = $command;
-    }
-
-    public function execute($login, $newpassword, $oldpassword = null) {
-        $command = escapeshellcmd($this->command).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
-        if($oldpassword != null) $command .= ' '.escapeshellarg($oldpassword);
-        exec($command);
-    }
-}
-
-class RecaptchaService {
-    private $privatekey;
-    private $request_method;
-
-    public function __construct($privatekey, $request_method)
-    {
-        $this->privatekey = $privatekey;
-        $this->request_method = $request_method;
-    }
-
-    public function verify($response, $login) {
-        return $result = check_recaptcha($this->privatekey, $this->request_method, $response, $login);
-    }
-}
-
-function generate_reset_url($reset_url, $params) {
-    if ( empty($reset_url) ) {
-
-        // Build reset by token URL
-        $method = "http";
-        if ( !empty($_SERVER['HTTPS']) ) { $method .= "s"; }
-        $server_name = $_SERVER['SERVER_NAME'];
-        $server_port = $_SERVER['SERVER_PORT'];
-        $script_name = $_SERVER['SCRIPT_NAME'];
-
-        // Force server port if non standard port
-        if (   ( $method === "http"  and $server_port != "80"  )
-            or ( $method === "https" and $server_port != "443" )
-        ) {
-            $server_name .= ":".$server_port;
-        }
-
-        $reset_url = $method."://".$server_name.$script_name;
-    }
-
-    return $reset_url . '?' . http_build_query(array ('action' => 'resetbytoken') + $params);
-}
-
-class MailNotificationService {
-    private $mailer;
-    private $mail_from;
-    private $mail_from_name;
-
-    public function __construct($mailer, $mail_from, $mail_from_name)
-    {
-        $this->mailer = $mailer;
-        $this->mail_from = $mail_from;
-        $this->mail_from_name = $mail_from_name;
-    }
-
-    public function send($mail, $subject, $body, $data) {
-        $success = send_mail($this->mailer, $mail, $this->mail_from, $this->mail_from_name,$subject, $body, $data);
-
-        if(!$success) {
-            error_log("Error while sending email notification to $mail (user ${data['login']})");
-        }
-
-        return $success;
-    }
 }
 
 class LdapClient {
@@ -1125,90 +817,5 @@ class LdapClient {
 
     public function changeSshKey( $dn, $sshkey ) {
         return change_sshkey($this->ldap, $dn, $this->config['change_sshkey_attribute'], $sshkey);
-    }
-}
-
-class PasswordStrengthChecker {
-    private $pwd_policy_config;
-
-    public function __construct($pwd_policy_config) {
-        $this->pwd_policy_config = $pwd_policy_config;
-    }
-
-    public function evaluate($newpassword, $oldpassword, $login) {
-        return check_password_strength( $newpassword, $oldpassword, $this->pwd_policy_config, $login );
-    }
-}
-
-class UsernameValidityChecker {
-    private $login_forbidden_chars;
-
-    public function __construct($login_forbidden_chars)
-    {
-        $this->login_forbidden_chars = $login_forbidden_chars;
-    }
-
-    public function evaluate($login) {
-        return check_username_validity($login, $this->login_forbidden_chars);
-    }
-}
-
-class SmsNotificationService {
-    private $sms_method;
-    private $mailer;
-    private $smsmailto;
-    private $mail_from;
-    private $mail_from_name;
-    private $sms_api_lib;
-    private $messages;
-
-    public function __construct($sms_method, $mailer, $smsmailto, $mail_from, $mail_from_name, $sms_api_lib, $messages)
-    {
-        $this->sms_method = $sms_method;
-        if( !$this->sms_method ) { $this->sms_method = "mail"; }
-        $this->mailer = $mailer;
-        $this->smsmailto = $smsmailto;
-        $this->mail_from = $mail_from;
-        $this->mail_from_name = $mail_from_name;
-        $this->sms_api_lib = $sms_api_lib;
-        $this->messages = $messages;
-    }
-
-    public function send($sms, $login, $smsmail_subject, $sms_message, $data, $smstoken) {
-        if ( $this->sms_method === "mail" ) {
-            if ( send_mail($this->mailer, $this->smsmailto, $this->mail_from, $this->mail_from_name, $smsmail_subject, $sms_message, $data) ) {
-                if ( !empty($reset_request_log) ) {
-                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms\n\n", 3, $reset_request_log);
-                } else {
-                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms");
-                }
-
-                return "smssent";
-            }
-        }
-
-        if ( $this->sms_method === "api" ) {
-            if (!$this->sms_api_lib) {
-                error_log('No API library found, set $sms_api_lib in configuration.');
-                return "smsnotsent";
-            }
-
-            include_once($this->sms_api_lib);
-            $sms_message = str_replace('{smsresetmessage}', $this->messages['smsresetmessage'], $sms_message);
-            $sms_message = str_replace('{smstoken}', $smstoken, $sms_message);
-            if ( send_sms_by_api($sms, $sms_message) ) {
-                if ( !empty($reset_request_log) ) {
-                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms\n\n", 3, $reset_request_log);
-                } else {
-                    error_log("Send SMS code $smstoken by " . $this->sms_method . " to $sms");
-                }
-
-                return "smssent";
-            }
-        }
-
-        error_log("Error while sending sms by " . $this->sms_method . " to $sms (user $login)");
-
-        return "smsnotsent";
     }
 }

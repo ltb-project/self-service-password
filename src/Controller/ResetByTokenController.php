@@ -21,6 +21,18 @@
 
 # This page is called to reset a password when a valid token is found in URL
 
+namespace App\Controller;
+
+use App\Framework\Controller;
+use App\Framework\Request;
+
+use App\Service\EncryptionService;
+use App\Service\LdapClient;
+use App\Service\MailNotificationService;
+use App\Service\PasswordStrengthChecker;
+use App\Service\PosthookExecutor;
+use App\Service\RecaptchaService;
+
 class ResetByTokenController extends Controller {
     /**
      * @param $request Request
@@ -123,11 +135,13 @@ class ResetByTokenController extends Controller {
 
     private function handleToken($token, &$login) {
         $crypt_tokens = $this->config['crypt_tokens'];
-        $keyphrase = $this->config['keyphrase'];
+
+        /** @var EncryptionService $encryptionService */
+        $encryptionService = $this->get('encryption_service');
 
         // Open session with the token
         if ( $crypt_tokens ) {
-            $tokenid = decrypt($token, $keyphrase);
+            $tokenid = $encryptionService->decrypt($token);
         } else {
             $tokenid = $token;
         }

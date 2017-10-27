@@ -19,20 +19,36 @@
 #
 #==============================================================================
 
+use App\Controller as Controller;
+use App\Service as Service;
+use App\Utils as Utils;
+
 use Pimple\Container;
 
 $container = new Container();
 
+$container['reset_url_generator'] = function ($c) {
+    return new Utils\ResetUrlGenerator($c['config']['reset_url']);
+};
+
+$container['encryption_service'] = function ($c) {
+    return new Service\EncryptionService($c['config']['keyphrase']);
+};
+
+$container['sms_token_generator'] = function ($c) {
+    return new Utils\SmsTokenGenerator($c['config']['sms_token_length']);
+};
+
 $container['username_validity_checker'] = function ($c) {
-    return new UsernameValidityChecker($c['config']['login_forbidden_chars']);
+    return new Service\UsernameValidityChecker($c['config']['login_forbidden_chars']);
 };
 
 $container['recaptcha_service'] = function ($c) {
-    return new RecaptchaService($c['config']['recaptcha_privatekey'], $c['config']['recaptcha_request_method']);
+    return new Service\RecaptchaService($c['config']['recaptcha_privatekey'], $c['config']['recaptcha_request_method']);
 };
 
 $container['password_strength_checker'] = function ($c) {
-    return new PasswordStrengthChecker($c['config']['pwd_policy_config']);
+    return new Service\PasswordStrengthChecker($c['config']['pwd_policy_config']);
 };
 
 $container['mailer'] = function ($c) {
@@ -57,22 +73,25 @@ $container['mailer'] = function ($c) {
     return $mailer;
 };
 
+$container['mail_sender'] = function ($c) {
+    return new Utils\MailSender($c['mailer']);
+};
 
 $container['mail_notification_service'] = function ($c) {
-    return new MailNotificationService($c['mailer'], $c['config']['mail_from'], $c['config']['mail_from_name']);
+    return new Service\MailNotificationService($c['mailer_sender'], $c['config']['mail_from'], $c['config']['mail_from_name']);
 };
 
 $container['sms_notification_service'] = function ($c) {
-    return new SmsNotificationService($c['config']['sms_method'], $c['mailer'], $c['config']['smsmailto'], $c['config']['mail_from'], $c['config']['mail_from_name'], $c['config']['sms_api_lib'], $c['config']['messages']);
+    return new Service\SmsNotificationService($c['config']['sms_method'], $c['mailer_sender'], $c['config']['smsmailto'], $c['config']['mail_from'], $c['config']['mail_from_name'], $c['config']['sms_api_lib'], $c['config']['messages']);
 };
 
 
 $container['ldap_client'] = function ($c) {
-    return new LdapClient($c['config']);
+    return new Service\LdapClient($c['config']);
 };
 
 $container['posthook_executor'] = function ($c) {
-    return new PosthookExecutor($c['config']['posthook']);
+    return new Service\PosthookExecutor($c['config']['posthook']);
 };
 
 $container['twig'] = function ($c) {
@@ -81,11 +100,38 @@ $container['twig'] = function ($c) {
         //'cache' => __DIR__ .'/templates_c',
     ));
 
-    function trans($id) {
-        global $messages;
+    # Get message criticity
+    function get_criticity( $msg ) {
 
-        return $messages[$id];
+        if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|sshkeyerror/" , $msg ) ) {
+            return "danger";
+        }
+
+        if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token)required|badcaptcha|tokenattempts/" , $msg ) ) {
+            return "warning";
+        }
+
+        return "success";
     }
+
+    # Get FontAwesome class icon
+    function get_fa_class( $msg) {
+
+        $criticity = get_criticity( $msg );
+
+        if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
+        if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
+        if ( $criticity === "success" ) { return "fa-check-square"; }
+
+    }
+
+    function is_error ( $msg ) {
+        return preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin/" , $msg);
+    }
+
+    $trans = function ($id) use ($c) {
+        return $c['config']['messages'][$id];
+    };
 
     function show_policy_for($result) {
         global $config;
@@ -94,7 +140,7 @@ $container['twig'] = function ($c) {
 
     $twig->addFilter('fa_class', new Twig_SimpleFilter('fa_class', 'get_fa_class'));
     $twig->addFilter('criticality', new Twig_SimpleFilter('criticality', 'get_criticity'));
-    $twig->addFilter('trans', new Twig_SimpleFilter('trans', 'trans'));
+    $twig->addFilter('trans', new Twig_SimpleFilter('trans', $trans));
     $twig->addFunction('show_policy_for', new Twig_SimpleFunction('show_policy_for', 'show_policy_for'));
 
     $conf = $c['config'];
@@ -115,31 +161,31 @@ $container['twig'] = function ($c) {
 };
 
 $container['change.controller']  = function ($c) {
-    return new ChangeController($c['config'], $c);
+    return new Controller\ChangeController($c['config'], $c);
 };
 
 $container['changesshkey.controller']  = function ($c) {
-    return new ChangeSshKeyController($c['config'], $c);
+    return new Controller\ChangeSshKeyController($c['config'], $c);
 };
 
 $container['resetbyquestions.controller']  = function ($c) {
-    return new ResetByQuestionsController($c['config'], $c);
+    return new Controller\ResetByQuestionsController($c['config'], $c);
 };
 
 $container['resetbytoken.controller']  = function ($c) {
-    return new ResetByTokenController($c['config'], $c);
+    return new Controller\ResetByTokenController($c['config'], $c);
 };
 
 $container['sendsms.controller']  = function ($c) {
-    return new SendSmsController($c['config'], $c);
+    return new Controller\SendSmsController($c['config'], $c);
 };
 
 $container['sendtoken.controller']  = function ($c) {
-    return new SendTokenController($c['config'], $c);
+    return new Controller\SendTokenController($c['config'], $c);
 };
 
 $container['setquestions.controller']  = function ($c) {
-    return new SetQuestionsController($c['config'], $c);
+    return new Controller\SetQuestionsController($c['config'], $c);
 };
 
 return $container;

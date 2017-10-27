@@ -19,14 +19,30 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Framework;
 
-use App\Application;
-use App\Framework\Request;
+class Request {
+    public $query;
+    public $request;
 
-$app = new Application(__DIR__ . '/conf/config.inc.php');
+    public function __construct($query, $request) {
+        $this->query = new ParameterBag($query);
+        $this->request = new ParameterBag($request);
+    }
 
-$request = Request::createFromGlobals();
+    public function get($key, $default = null)
+    {
+        if ($this !== $result = $this->query->get($key, $this)) {
+            return $result;
+        }
+        if ($this !== $result = $this->request->get($key, $this)) {
+            return $result;
+        }
+        return $default;
+    }
 
-$response = $app->handle($request);
-$response->send();
+    public static function createFromGlobals()
+    {
+        return new Request($_GET, $_POST);
+    }
+}

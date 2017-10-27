@@ -19,14 +19,19 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Framework;
 
-use App\Application;
-use App\Framework\Request;
+class Response {
+    private $content;
 
-$app = new Application(__DIR__ . '/conf/config.inc.php');
+    public function __construct($content)
+    {
+        $this->content = $content;
+    }
 
-$request = Request::createFromGlobals();
-
-$response = $app->handle($request);
-$response->send();
+    public function send() {
+        ob_start();
+        echo $this->content;
+        ob_end_flush();
+    }
+}

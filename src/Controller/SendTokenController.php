@@ -19,9 +19,20 @@
 #
 #==============================================================================
 
-# This page is called to set answers for a user
+# This page is called to send a reset token by mail
+namespace App\Controller;
 
-class SetQuestionsController extends Controller {
+use App\Framework\Controller;
+use App\Framework\Request;
+
+use App\Service\EncryptionService;
+use App\Service\LdapClient;
+use App\Service\MailNotificationService;
+use App\Service\RecaptchaService;
+use App\Service\UsernameValidityChecker;
+use App\Utils\ResetUrlGenerator;
+
+class SendTokenController extends Controller {
     /**
      * @param $request Request
      * @return string
@@ -36,22 +47,16 @@ class SetQuestionsController extends Controller {
 
     private function isFormSubmitted(Request $request) {
         return $request->get('login')
-            && $request->request->get("password")
-            && $request->request->get("question")
-            && $request->request->get("answer");
+            && ($this->config['mail_address_use_ldap'] || $request->request->get('mail'));
     }
 
     private function processFormData(Request $request) {
-        $login = $request->get("login");
-        $password = $request->request->get("password");;
-        $question = $request->request->get("question");
-        $answer = $request->request->get("answer");
+        $login = $request->get('login');
+        $mail = $request->request->get("mail");
 
         $result = '';
         if (empty($login)) { $result = "loginrequired"; }
-        if (empty($password)) { $result = "passwordrequired"; }
-        if (empty($question)) { $result = "questionrequired"; }
-        if (empty($answer)) { $result = "answerrequired"; }
+        if (!$this->config['mail_address_use_ldap'] and empty($mail)) { $result = "mailrequired"; }
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
@@ -84,42 +89,74 @@ class SetQuestionsController extends Controller {
             return $this->renderFormWithError($result, $request);
         }
 
-        $context = array();
-
-        // Check password
-        $result = $ldapClient->checkOldPassword3($login, $password, $context);
+        // Check mail
+        $result = $ldapClient->checkMail($login, $mail);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
 
-        // Register answer
-        $result = $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
-        if($result != 'answerchanged') {
-            return $this->renderFormWithError($result, $request);
+        // Build and store token
+
+        // Use PHP session to register token
+        // We do not generate cookie
+        ini_set("session.use_cookies",0);
+        ini_set("session.use_only_cookies",1);
+
+        session_name("token");
+        session_start();
+        $_SESSION['login'] = $login;
+        $_SESSION['time']  = time();
+
+        if ( $this->config['crypt_tokens'] ) {
+            /** @var EncryptionService $encryptionService */
+            $encryptionService = $this->get('encryption_service');
+
+            $token = $encryptionService->encrypt(session_id());
+        } else {
+            $token = session_id();
         }
 
-        return $this->renderPageSuccess();
+        /** @var ResetUrlGenerator $resetUrlGenerator */
+        $resetUrlGenerator = $this->get('reset_url_generator');
+
+        // Send token by mail
+        $reset_url = $resetUrlGenerator->generate_reset_url(array('token' => $token));
+
+        if ( !empty($reset_request_log) ) {
+            error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+        } else {
+            error_log("Send reset URL $reset_url");
+        }
+
+        /** @var MailNotificationService $mailNotificationService */
+        $mailNotificationService = $this->get('mail_notification_service');
+        $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+        $success = $mailNotificationService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
+
+        if($success) {
+            return $this->renderPageSuccess();
+        } else {
+            return $this->renderFormWithError("tokennotsent", $request);
+        }
     }
 
     private function renderFormEmpty(Request $request) {
-        return $this->renderForm('emptysetquestionsform', $request);
+        return $this->render('sendtoken.twig', array(
+            'result' => 'emptysendtokenform',
+            'login' => $request->get('login'),
+        ));
     }
 
     private function renderFormWithError($result, Request $request) {
-        return $this->renderForm($result, $request);
-    }
-
-    private function renderForm($result, Request $request) {
-        return $this->render('setquestions.twig', array(
+        return $this->render('sendtoken.twig', array(
             'result' => $result,
             'login' => $request->get('login'),
-            'questions' => $this->config['messages']["questions"],
         ));
     }
 
     private function renderPageSuccess() {
-        return $this->render('setquestions.twig', array(
-            'result' => 'answerchanged',
+        return $this->render('sendtoken.twig', array(
+            'result' => 'tokensent',
         ));
     }
 }

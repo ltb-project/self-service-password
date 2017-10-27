@@ -19,14 +19,23 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Framework;
 
-use App\Application;
-use App\Framework\Request;
+class ParameterBag {
+    private $parameters;
 
-$app = new Application(__DIR__ . '/conf/config.inc.php');
+    public function __construct(array $parameters = array())
+    {
+        $this->parameters = $parameters;
+    }
 
-$request = Request::createFromGlobals();
+    public function get($key, $default = null)
+    {
+        return array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+    }
 
-$response = $app->handle($request);
-$response->send();
+    public function has($key)
+    {
+        return array_key_exists($key, $this->parameters);
+    }
+}

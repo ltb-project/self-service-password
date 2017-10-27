@@ -19,14 +19,26 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Utils;
 
-use App\Application;
-use App\Framework\Request;
+class SmsTokenGenerator {
+    private $sms_token_length;
 
-$app = new Application(__DIR__ . '/conf/config.inc.php');
+    public function __construct($sms_token_length)
+    {
+        $this->sms_token_length = $sms_token_length;
+    }
 
-$request = Request::createFromGlobals();
-
-$response = $app->handle($request);
-$response->send();
+    # Generate SMS token
+    public function generate_sms_token() {
+        $Range=explode(',','48-57');
+        $NumRanges=count($Range);
+        $smstoken='';
+        for ($i = 1; $i <= $this->sms_token_length; $i++){
+            $r=random_int(0,$NumRanges-1);
+            list($min,$max)=explode('-',$Range[$r]);
+            $smstoken.=chr(random_int($min,$max));
+        }
+        return $smstoken;
+    }
+}

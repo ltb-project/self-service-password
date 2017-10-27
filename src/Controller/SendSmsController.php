@@ -20,6 +20,18 @@
 #==============================================================================
 
 # This page is called to send random generated password to user by SMS
+namespace App\Controller;
+
+use App\Framework\Controller;
+use App\Framework\Request;
+
+use App\Service\EncryptionService;
+use App\Service\LdapClient;
+use App\Service\RecaptchaService;
+use App\Service\SmsNotificationService;
+use App\Service\UsernameValidityChecker;
+use App\Utils\ResetUrlGenerator;
+use App\Utils\SmsTokenGenerator;
 
 class SendSmsController extends Controller {
     /**
@@ -50,8 +62,11 @@ class SendSmsController extends Controller {
     private function processSmsTokenAttempt(Request $request) {
         $result = "";
 
+        /** @var EncryptionService $encryptionService */
+        $encryptionService = $this->get('encryption_service');
+
         # Open session with the token
-        $tokenid = decrypt($request->get("token"), $this->config['keyphrase']);
+        $tokenid = $encryptionService->decrypt($request->get("token"));
         $smstoken = $request->get("smstoken");
 
         ini_set("session.use_cookies",0);
@@ -113,10 +128,16 @@ class SendSmsController extends Controller {
             $_SESSION['login'] = $login;
             $_SESSION['time']  = time();
 
-            $token = encrypt(session_id(), $this->config['keyphrase']);
+            /** @var EncryptionService $encryptionService */
+            $encryptionService = $this->get('encryption_service');
+
+            $token = $encryptionService->encrypt(session_id());
+
+            /** @var ResetUrlGenerator $resetUrlGenerator */
+            $resetUrlGenerator = $this->get('reset_url_generator');
 
             // Redirect to resetbytoken page
-            $reset_url = generate_reset_url($this->config['reset_url'], array('source' => 'sms', 'token' => $token));
+            $reset_url = $resetUrlGenerator->generate_reset_url(array('source' => 'sms', 'token' => $token));
 
             if ( !empty($reset_request_log) ) {
                 error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
@@ -131,16 +152,22 @@ class SendSmsController extends Controller {
     }
 
     private function generateAndSendSmsToken(Request $request) {
+        /** @var EncryptionService $encryptionService */
+        $encryptionService = $this->get('encryption_service');
+
         $encrypted_sms_login = $request->get("encrypted_sms_login");
 
-        $decrypted_sms_login = explode(':', decrypt($encrypted_sms_login, $this->config['keyphrase']));
+        $decrypted_sms_login = explode(':', $encryptionService->decrypt($encrypted_sms_login));
         $sms = $decrypted_sms_login[0];
         $login = $decrypted_sms_login[1];
 
         // Generate sms token and send by sms
 
+        /** @var SmsTokenGenerator $smsTokenGenerator */
+        $smsTokenGenerator = $this->get('sms_token_generator');
+
         // Generate sms token
-        $smstoken = generate_sms_token($this->config['sms_token_length']);
+        $smstoken = $smsTokenGenerator->generate_sms_token();
 
         // Create temporary session to avoid token replay
         ini_set("session.use_cookies",0);
@@ -167,7 +194,10 @@ class SendSmsController extends Controller {
 
         $token = '';
         if($result == 'smssent') {
-            $token  = encrypt(session_id(), $this->config['keyphrase']);
+            /** @var EncryptionService $encryptionService */
+            $encryptionService = $this->get('encryption_service');
+
+            $token  = $encryptionService->encrypt(session_id());
         }
 
         return $this->renderTokenForm($result, $token);
@@ -212,7 +242,11 @@ class SendSmsController extends Controller {
         }
 
         $sms = $context['user_sms'];
-        $encrypted_sms_login = encrypt("$sms:$login", $this->config['keyphrase']);
+
+        /** @var EncryptionService $encryptionService */
+        $encryptionService = $this->get('encryption_service');
+
+        $encrypted_sms_login = $encryptionService->encrypt("$sms:$login");
 
         // Render associated template
         return $this->renderSearchUserFromEntry($result, $context, $login, $encrypted_sms_login, $sms);

@@ -19,14 +19,18 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Framework;
 
-use App\Application;
-use App\Framework\Request;
+class RedirectResponse extends Response {
+    private $url;
 
-$app = new Application(__DIR__ . '/conf/config.inc.php');
+    public function __construct($url, $content = '')
+    {
+        parent::__construct($content);
+        $this->url = $url;
+    }
 
-$request = Request::createFromGlobals();
-
-$response = $app->handle($request);
-$response->send();
+    public function send() {
+        header("Location: " . $this->url);
+    }
+}

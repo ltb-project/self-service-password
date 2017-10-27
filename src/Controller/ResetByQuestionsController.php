@@ -20,6 +20,17 @@
 #==============================================================================
 
 # This page is called to reset a password trusting question/anwser
+namespace App\Controller;
+
+use App\Framework\Controller;
+use App\Framework\Request;
+
+use App\Service\LdapClient;
+use App\Service\MailNotificationService;
+use App\Service\PasswordStrengthChecker;
+use App\Service\PosthookExecutor;
+use App\Service\RecaptchaService;
+use App\Service\UsernameValidityChecker;
 
 class ResetByQuestionsController extends Controller {
     /**

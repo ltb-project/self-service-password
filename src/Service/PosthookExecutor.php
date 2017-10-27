@@ -19,14 +19,19 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Service;
 
-use App\Application;
-use App\Framework\Request;
+class PosthookExecutor {
+    private $command;
 
-$app = new Application(__DIR__ . '/conf/config.inc.php');
+    public function __construct($command)
+    {
+        $this->command = $command;
+    }
 
-$request = Request::createFromGlobals();
-
-$response = $app->handle($request);
-$response->send();
+    public function execute($login, $newpassword, $oldpassword = null) {
+        $command = escapeshellcmd($this->command).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
+        if($oldpassword != null) $command .= ' '.escapeshellarg($oldpassword);
+        exec($command);
+    }
+}
