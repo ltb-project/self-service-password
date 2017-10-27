@@ -108,4 +108,9 @@ class Application {
 
         return $container;
     }
+
+    public function getContainer()
+    {
+        return $this->container;
+    }
 }

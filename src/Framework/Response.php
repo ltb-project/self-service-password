@@ -34,4 +34,9 @@ class Response {
         echo $this->content;
         ob_end_flush();
     }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
 }
