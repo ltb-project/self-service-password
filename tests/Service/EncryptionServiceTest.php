@@ -1,9 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../lib/vendor/defuse-crypto.phar';
-require_once __DIR__ . '/../lib/functions.inc.php';
+namespace App\Tests\Service;
 
-class CryptoTest extends \PHPUnit_Framework_TestCase
+use App\Service\EncryptionService;
+
+class EncryptionServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test encrypt and decrypt functions
@@ -19,14 +20,16 @@ class CryptoTest extends \PHPUnit_Framework_TestCase
         // secret from config
         $passphrase = "secret";
 
-        $encrypted1 = encrypt($plaintext1, $passphrase);
-        $decrypted1 = decrypt($encrypted1, $passphrase);
+        $encryptionService = new EncryptionService($passphrase);
+
+        $encrypted1 = $encryptionService->encrypt($plaintext1);
+        $decrypted1 = $encryptionService->decrypt($encrypted1);
 
         $this->assertNotEquals($plaintext1, $encrypted1);
         $this->assertEquals($plaintext1, $decrypted1);
 
-        $encrypted2 = encrypt($plaintext2, $passphrase);
-        $decrypted2 = decrypt($encrypted2, $passphrase);
+        $encrypted2 = $encryptionService->encrypt($plaintext2);
+        $decrypted2 = $encryptionService->decrypt($encrypted2);
 
         $this->assertNotEquals($plaintext2, $encrypted2);
         $this->assertEquals($plaintext2, $decrypted2);
@@ -40,13 +43,16 @@ class CryptoTest extends \PHPUnit_Framework_TestCase
         // second encrypt use case : session_id
         $plaintext1 = "azAZ09,-";
         $passphrase = "secret";
-        $token = encrypt($plaintext1, $passphrase);
+
+        $encryptionService = new EncryptionService($passphrase);
+
+        $token = $encryptionService->encrypt($plaintext1);
 
         // corrupted token, badly copy pasted
         // base64 has 0, 1 or 2 "=" padding, it does not affect decryption
         $token = substr($token, 0, -3);
 
-        $decrypted = decrypt($token, $passphrase);
+        $decrypted = $encryptionService->decrypt($token);
         $this->assertEquals("", $decrypted);
     }
 }
