@@ -32,6 +32,11 @@ class PosthookExecutor {
     public function execute($login, $newpassword, $oldpassword = null) {
         $command = escapeshellcmd($this->command).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
         if($oldpassword != null) $command .= ' '.escapeshellarg($oldpassword);
-        exec($command);
+
+        $output = '';
+        $return_var = null;
+        exec($command, $output, $return_var);
+
+        return array('output' => $output, 'return_var' => $return_var);
     }
 }
