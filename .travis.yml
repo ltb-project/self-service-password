@@ -12,6 +12,19 @@ php:
 before_install:
   # If PHP >= 7.0, force use of PHPUnit 5.7
   - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.0', '>=' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-5.7.phar && chmod +x ~/bin/phpunit; fi
+  - curl https://ltb-project.org/lib/RPM-GPG-KEY-LTB-project | sudo apt-key add -
+  # Travis use ubuntu trusty. trusty is based on debian jessie but the deb for jessie does not work on trusty
+  # We use the wheezy deb instead which works fine on trusty.
+  # cf. http://ltb-dev.ltb-project.narkive.com/dxtCIWcW/ldap-tool-box-bug-804-new-ubuntu-trusty-slapd-doesn-t-start-with-default-install
+  - echo "deb [arch=amd64] https://ltb-project.org/debian/wheezy wheezy main" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get update -qq
+  - sudo mkdir -p /usr/local/openldap/etc/openldap/
+  - sudo cp tests/ldap_data/slapd.conf /usr/local/openldap/etc/openldap/slapd.conf
+  # Install and keep the old config file inserted previously
+  - sudo apt-get -y -o Dpkg::Options::=--force-confdef install openldap-ltb
+  # Sleep 3s just to be sure that slapd is ready
+  - sleep 3
+  - /usr/local/openldap/bin/ldapadd -x -D cn=Manager,dc=my-domain,dc=com -w secret -f tests/ldap_data/init.ldif
 
 script: phpunit tests
 
