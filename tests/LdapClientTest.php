@@ -39,7 +39,7 @@ class LdapClientTest extends \PHPUnit_Framework_TestCase
         $ad_options = array();
         $samba_mode = false;
         $samba_options = array();
-        $shadow_options = array();
+        $shadow_options = array('update_shadowLastChange' => false, 'update_shadowExpire' => false);
         $hash = 'sha';
         $hash_options = array();
         $who_change_password = 'manager';
