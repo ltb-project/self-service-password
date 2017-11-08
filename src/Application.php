@@ -29,7 +29,7 @@ class Application {
     private $config;
     private $container;
 
-    public function __construct($configPath)
+    public function __construct($configPath, $containerPath = null, $containerOverridePath = null)
     {
         $this->config = $this->loadConfig($configPath);
 
@@ -37,7 +37,7 @@ class Application {
 
         $this->config['messages'] = $this->loadLanguages($this->config['lang'], $this->config['allowed_lang'], $this->config['messages'] );
 
-        $this->container = $this->loadContainer();
+        $this->container = $this->loadContainer($containerPath, $containerOverridePath);
     }
 
     /**
@@ -92,19 +92,21 @@ class Application {
         # Available languages
         $languages = $languageSelector->findAvailableLanguages(__DIR__ . '/../lang', $lang, $allowed_lang);
         $lang = $languageSelector->detectLanguage($lang, $languages);
-        require_once __DIR__ . "/../lang/$lang.inc.php";
+        require __DIR__ . "/../lang/$lang.inc.php";
         if (file_exists(__DIR__ . "/../conf/$lang.inc.php")) {
-            require_once __DIR__ . "/../conf/$lang.inc.php";
+            require __DIR__ . "/../conf/$lang.inc.php";
         }
 
         return array_merge($old_messages, $messages);
     }
 
-    public function loadContainer() {
-        $container = require __DIR__ . '/container.php';
+    public function loadContainer($containerPath, $containerOverridePath) {
+        $container = require $containerPath ? $containerPath : __DIR__ . '/container.php';
 
         # Override container for fun and profit
-        @include "conf/container.inc.php";
+        if($containerOverridePath) {
+            include $containerOverridePath;
+        }
 
         return $container;
     }

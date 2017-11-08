@@ -101,7 +101,7 @@ $container['twig'] = function ($c) {
     ));
 
     # Get message criticity
-    function get_criticity( $msg ) {
+    $get_criticity = function ( $msg ) {
 
         if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|sshkeyerror/" , $msg ) ) {
             return "danger";
@@ -112,36 +112,34 @@ $container['twig'] = function ($c) {
         }
 
         return "success";
-    }
+    };
 
     # Get FontAwesome class icon
-    function get_fa_class( $msg) {
-
-        $criticity = get_criticity( $msg );
+    $get_fa_class = function ($msg) use ($get_criticity) {
+        $criticity = $get_criticity( $msg );
 
         if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
         if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
         if ( $criticity === "success" ) { return "fa-check-square"; }
+    };
 
-    }
-
-    function is_error ( $msg ) {
+    $is_error = function ( $msg ) {
         return preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin/" , $msg);
-    }
+    };
 
     $trans = function ($id) use ($c) {
         return $c['config']['messages'][$id];
     };
 
-    function show_policy_for($result) {
-        global $config;
-        return isset($config['pwd_show_policy']) and ( $config['pwd_show_policy'] === "always" or ( $config['pwd_show_policy'] === "onerror" and is_error($result)));
-    }
+    $show_policy_for = function ($result) use ($is_error, $c) {
+        $config = $c['config'];
+        return isset($config['pwd_show_policy']) and ( $config['pwd_show_policy'] === "always" or ( $config['pwd_show_policy'] === "onerror" and $is_error($result)));
+    };
 
-    $twig->addFilter('fa_class', new Twig_SimpleFilter('fa_class', 'get_fa_class'));
-    $twig->addFilter('criticality', new Twig_SimpleFilter('criticality', 'get_criticity'));
+    $twig->addFilter('fa_class', new Twig_SimpleFilter('fa_class', $get_fa_class));
+    $twig->addFilter('criticality', new Twig_SimpleFilter('criticality', $get_criticity));
     $twig->addFilter('trans', new Twig_SimpleFilter('trans', $trans));
-    $twig->addFunction('show_policy_for', new Twig_SimpleFunction('show_policy_for', 'show_policy_for'));
+    $twig->addFunction('show_policy_for', new Twig_SimpleFunction('show_policy_for', $show_policy_for));
 
     $conf = $c['config'];
 

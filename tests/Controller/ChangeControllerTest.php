@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controler;
+namespace App\Tests\Controller;
 
 use App\Application;
 use App\Framework\Request;
@@ -34,7 +34,7 @@ class ChangeControllerTest extends \PHPUnit_Framework_TestCase {
 
         $response = $app->handle($request);
 
-        $this->assertRegexp('/Your password was changed', $response->getContent());
+        $this->assertRegexp('/Your password was changed/', $response->getContent());
     }
 
     private function createFakeLdapClient() {

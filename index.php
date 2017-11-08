@@ -24,7 +24,11 @@ require_once __DIR__ . '/src/autoload.php';
 use App\Application;
 use App\Framework\Request;
 
-$app = new Application(__DIR__ . '/conf/config.inc.php');
+$configPath = __DIR__ . '/conf/config.inc.php';
+$containerPath = __DIR__ . '/src/container.php';
+$containerOverridePath = __DIR__ . '/conf/container.inc.php';
+
+$app = new Application($configPath, $containerPath, $containerOverridePath);
 
 $request = Request::createFromGlobals();
 
