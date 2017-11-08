@@ -28,7 +28,7 @@ class PosthookExecutorTest extends \PHPUnit_Framework_TestCase {
 
     public function testEchoPosthookWindows()
     {
-        if (!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if (strtoupper(substr(PHP_OS, 0, 3)) != 'WIN') {
             $this->markTestSkipped('Skip posthook test for windows because we are not on windows');
         }
 
