@@ -30,6 +30,12 @@ class Request {
         $this->request = new ParameterBag($request);
     }
 
+    /**
+     * Returns the data for $key from the query ($_GET) or the request ($_POST), null if not present
+     * @param $key
+     * @param null $default
+     * @return mixed|null
+     */
     public function get($key, $default = null)
     {
         if ($this !== $result = $this->query->get($key, $this)) {

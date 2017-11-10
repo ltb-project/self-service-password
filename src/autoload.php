@@ -19,19 +19,24 @@
 #
 #==============================================================================
 
+// this file do all the includes required + autoload config
+// this file will not be needed anymore if the project switch to composer
+
+// ecryption / decryption / random data generator
 require_once __DIR__ . "/../vendor/defuse-crypto.phar";
+
+// required for pimple
 require_once __DIR__ . "/../vendor/Psr/Container/ContainerInterface.php";
 require_once __DIR__ . "/../vendor/Psr/Container/ContainerExceptionInterface.php";
 require_once __DIR__ . "/../vendor/Psr/Container/NotFoundExceptionInterface.php";
 
 require_once __DIR__ . "/../vendor/autoload.php"; // recaptcha autoload
 require_once 'phar://'. __DIR__ . '/../vendor/twig.phar/Twig/Autoloader.php';
-// no autoloaded required, everything is preincluded in the phar
 Twig_Autoloader::register();
 require_once __DIR__ . "/../vendor/PHPMailer/PHPMailerAutoload.php";
-// no autoloaded required, everything is preincluded in the phar
 require_once __DIR__ . "/../vendor/pimple.phar";
 
+// autoload for our own classes
 spl_autoload_register(function ($class) {
     if (substr($class, 0, 4) !== 'App\\') {
         /* If the class does not lie under the "App" namespace,

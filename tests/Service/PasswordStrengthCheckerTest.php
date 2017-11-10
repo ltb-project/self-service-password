@@ -30,17 +30,17 @@ class PasswordStrengthCheckerTest extends \PHPUnit_Framework_TestCase
         $login = "coudot";
         $oldpassword = "secret";
 
-        $passwordStrengthChecker = new PasswordStrengthChecker($pwd_policy_config);
+        $passwordChecker = new PasswordStrengthChecker($pwd_policy_config);
 
-        $this->assertEquals("sameaslogin", $passwordStrengthChecker->evaluate( "coudot", $oldpassword, $login ) );
-        $this->assertEquals("sameasold", $passwordStrengthChecker->evaluate( "secret", $oldpassword, $login ) );
-        $this->assertEquals("forbiddenchars", $passwordStrengthChecker->evaluate( "p@ssword", $oldpassword, $login ) );
-        $this->assertEquals("minspecial", $passwordStrengthChecker->evaluate( "password", $oldpassword, $login ) );
-        $this->assertEquals("mindigit", $passwordStrengthChecker->evaluate( "!password", $oldpassword, $login ) );
-        $this->assertEquals("minupper", $passwordStrengthChecker->evaluate( "!1password", $oldpassword, $login ) );
-        $this->assertEquals("minlower", $passwordStrengthChecker->evaluate( "!1PASSWORD", $oldpassword, $login ) );
-        $this->assertEquals("toobig", $passwordStrengthChecker->evaluate( "!1verylongPassword", $oldpassword, $login ) );
-        $this->assertEquals("tooshort", $passwordStrengthChecker->evaluate( "!1Pa", $oldpassword, $login ) );
+        $this->assertEquals("sameaslogin", $passwordChecker->evaluate( "coudot", $oldpassword, $login ) );
+        $this->assertEquals("sameasold", $passwordChecker->evaluate( "secret", $oldpassword, $login ) );
+        $this->assertEquals("forbiddenchars", $passwordChecker->evaluate( "p@ssword", $oldpassword, $login ) );
+        $this->assertEquals("minspecial", $passwordChecker->evaluate( "password", $oldpassword, $login ) );
+        $this->assertEquals("mindigit", $passwordChecker->evaluate( "!password", $oldpassword, $login ) );
+        $this->assertEquals("minupper", $passwordChecker->evaluate( "!1password", $oldpassword, $login ) );
+        $this->assertEquals("minlower", $passwordChecker->evaluate( "!1PASSWORD", $oldpassword, $login ) );
+        $this->assertEquals("toobig", $passwordChecker->evaluate( "!1verylongPassword", $oldpassword, $login ) );
+        $this->assertEquals("tooshort", $passwordChecker->evaluate( "!1Pa", $oldpassword, $login ) );
 
         $pwd_policy_config = array(
             "pwd_show_policy"         => true,
@@ -57,10 +57,10 @@ class PasswordStrengthCheckerTest extends \PHPUnit_Framework_TestCase
             "pwd_complexity"          => 3
         );
 
-        $passwordStrengthChecker = new PasswordStrengthChecker($pwd_policy_config);
+        $passwordChecker = new PasswordStrengthChecker($pwd_policy_config);
 
-        $this->assertEquals("notcomplex", $passwordStrengthChecker->evaluate( "simple", $oldpassword, $login ) );
-        $this->assertEquals("", $passwordStrengthChecker->evaluate( "C0mplex", $oldpassword, $login ) );
+        $this->assertEquals("notcomplex", $passwordChecker->evaluate( "simple", $oldpassword, $login ) );
+        $this->assertEquals("", $passwordChecker->evaluate( "C0mplex", $oldpassword, $login ) );
 
     }
 }

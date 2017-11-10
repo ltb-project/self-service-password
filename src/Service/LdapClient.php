@@ -21,283 +21,32 @@
 
 namespace App\Service;
 
-# Create SSHA password
-function make_ssha_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SSHA256 password
-function make_ssha256_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA256}" . base64_encode(pack("H*", hash('sha256', $password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SSHA384 password
-function make_ssha384_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA384}" . base64_encode(pack("H*", hash('sha384', $password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SSHA512 password
-function make_ssha512_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA512}" . base64_encode(pack("H*", hash('sha512', $password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SHA password
-function make_sha_password($password) {
-    $hash = "{SHA}" . base64_encode(pack("H*", sha1($password)));
-    return $hash;
-}
-
-# Create SHA256 password
-function make_sha256_password($password) {
-    $hash = "{SHA256}" . base64_encode(pack("H*", hash('sha256', $password)));
-    return $hash;
-}
-
-# Create SHA384 password
-function make_sha384_password($password) {
-    $hash = "{SHA384}" . base64_encode(pack("H*", hash('sha384', $password)));
-    return $hash;
-}
-
-# Create SHA512 password
-function make_sha512_password($password) {
-    $hash = "{SHA512}" . base64_encode(pack("H*", hash('sha512', $password)));
-    return $hash;
-}
-
-# Create SMD5 password
-function make_smd5_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SMD5}" . base64_encode(pack("H*", md5($password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create MD5 password
-function make_md5_password($password) {
-    $hash = "{MD5}" . base64_encode(pack("H*", md5($password)));
-    return $hash;
-}
-
-# Create CRYPT password
-function make_crypt_password($password, $hash_options) {
-
-    $salt_length = 2;
-    if ( isset($hash_options['crypt_salt_length']) ) {
-        $salt_length = $hash_options['crypt_salt_length'];
-    }
-
-    // Generate salt
-    $possible = '0123456789'.
-        'abcdefghijklmnopqrstuvwxyz'.
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
-        './';
-    $salt = "";
-
-    while( strlen( $salt ) < $salt_length ) {
-        $salt .= substr( $possible, random_int( 0, strlen( $possible ) - 1 ), 1 );
-    }
-
-    if ( isset($hash_options['crypt_salt_prefix']) ) {
-        $salt = $hash_options['crypt_salt_prefix'] . $salt;
-    }
-
-    $hash = '{CRYPT}' . crypt( $password,  $salt);
-    return $hash;
-}
-
-# Create MD4 password (Microsoft NT password format)
-function make_md4_password($password) {
-    if (function_exists('hash')) {
-        $hash = strtoupper( hash( "md4", iconv( "UTF-8", "UTF-16LE", $password ) ) );
-    } else {
-        $hash = strtoupper( bin2hex( mhash( MHASH_MD4, iconv( "UTF-8", "UTF-16LE", $password ) ) ) );
-    }
-    return $hash;
-}
-
-# Create AD password (Microsoft Active Directory password format)
-function make_ad_password($password) {
-    $password = "\"" . $password . "\"";
-    $adpassword = mb_convert_encoding($password, "UTF-16LE", "UTF-8");
-    return $adpassword;
-}
-
-# Change password
-# @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword ) {
-
-    $result = "";
-
-    $time = time();
-
-    # Set Samba password value
-    if ( $samba_mode ) {
-        $userdata["sambaNTPassword"] = make_md4_password($password);
-        $userdata["sambaPwdLastSet"] = $time;
-        if ( isset($samba_options['min_age']) && $samba_options['min_age'] > 0 ) {
-            $userdata["sambaPwdCanChange"] = $time + ( $samba_options['min_age'] * 86400 );
-        }
-        if ( isset($samba_options['max_age']) && $samba_options['max_age'] > 0 ) {
-            $userdata["sambaPwdMustChange"] = $time + ( $samba_options['max_age'] * 86400 );
-        }
-    }
-
-    # Get hash type if hash is set to auto
-    if ( !$ad_mode && $hash == "auto" ) {
-        $search_userpassword = ldap_read( $ldap, $dn, "(objectClass=*)", array("userPassword") );
-        if ( $search_userpassword ) {
-            $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap,$search_userpassword), "userPassword");
-            if ( isset($userpassword) ) {
-                if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
-                    $hash = strtoupper($matches[1]);
-                }
-            }
-        }
-    }
-
-    # Transform password value
-    if ( $ad_mode ) {
-        $password = make_ad_password($password);
-    } else {
-        # Hash password if needed
-        if ( $hash == "SSHA" ) {
-            $password = make_ssha_password($password);
-        }
-        if ( $hash == "SSHA256" ) {
-            $password = make_ssha256_password($password);
-        }
-        if ( $hash == "SSHA384" ) {
-            $password = make_ssha384_password($password);
-        }
-        if ( $hash == "SSHA512" ) {
-            $password = make_ssha512_password($password);
-        }
-        if ( $hash == "SHA" ) {
-            $password = make_sha_password($password);
-        }
-        if ( $hash == "SHA256" ) {
-            $password = make_sha256_password($password);
-        }
-        if ( $hash == "SHA384" ) {
-            $password = make_sha384_password($password);
-        }
-        if ( $hash == "SHA512" ) {
-            $password = make_sha512_password($password);
-        }
-        if ( $hash == "SMD5" ) {
-            $password = make_smd5_password($password);
-        }
-        if ( $hash == "MD5" ) {
-            $password = make_md5_password($password);
-        }
-        if ( $hash == "CRYPT" ) {
-            $password = make_crypt_password($password, $hash_options);
-        }
-    }
-
-    # Set password value
-    if ( $ad_mode ) {
-        $userdata["unicodePwd"] = $password;
-        if ( $ad_options['force_unlock'] ) {
-            $userdata["lockoutTime"] = 0;
-        }
-        if ( $ad_options['force_pwd_change'] ) {
-            $userdata["pwdLastSet"] = 0;
-        }
-    } else {
-        $userdata["userPassword"] = $password;
-    }
-
-    # Shadow options
-    if ( $shadow_options['update_shadowLastChange'] ) {
-        $userdata["shadowLastChange"] = floor($time / 86400);
-    }
-
-    if ( $shadow_options['update_shadowExpire'] ) {
-        if ( $shadow_options['shadow_expire_days'] > 0) {
-            $userdata["shadowExpire"] = floor(($time / 86400) + $shadow_options['shadow_expire_days']);
-        } else {
-            $userdata["shadowExpire"] = $shadow_options['shadow_expire_days'];
-        }
-    }
-
-    # Commit modification on directory
-
-    # Special case: AD mode with password changed as user
-    if ( $ad_mode and $who_change_password === "user" ) {
-        # The AD password change procedure is modifying the attribute unicodePwd by
-        # first deleting unicodePwd with the old password and them adding it with the
-        # the new password
-        $oldpassword = make_ad_password($oldpassword);
-
-        $modifications = array(
-            array(
-                "attrib" => "unicodePwd",
-                "modtype" => LDAP_MODIFY_BATCH_REMOVE,
-                "values" => array($oldpassword),
-            ),
-            array(
-                "attrib" => "unicodePwd",
-                "modtype" => LDAP_MODIFY_BATCH_ADD,
-                "values" => array($password),
-            ),
-        );
-
-        $bmod = ldap_modify_batch($ldap, $dn, $modifications);
-    } else {
-        # Else just replace with new password
-        $replace = ldap_mod_replace($ldap, $dn, $userdata);
-    }
-
-    $errno = ldap_errno($ldap);
-
-    if ( $errno ) {
-        $result = "passworderror";
-        error_log("LDAP - Modify password error $errno (".ldap_error($ldap).")");
-    } else {
-        $result = "passwordchanged";
-    }
-
-    return $result;
-}
-
-# Change sshPublicKey attribute
-# @return result code
-function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
-
-    $result = "";
-
-    $userdata[$attribute] = $sshkey;
-
-    # Commit modification on directory
-    $replace = ldap_mod_replace($ldap, $dn, $userdata);
-
-    $errno = ldap_errno($ldap);
-
-    if ( $errno ) {
-        $result = "sshkeyerror";
-        error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
-    } else {
-        $result = "sshkeychanged";
-    }
-
-    return $result;
-}
+use App\Utils\PasswordEncoder;
 
 class LdapClient {
+    /**
+     * @var array
+     */
     private $config;
+
+    /**
+     * @var resource
+     */
     private $ldap;
 
-    public function __construct($config) {
+    /**
+     * @var PasswordEncoder
+     */
+    private $passwordEncoder;
+
+    /**
+     * LdapClient constructor.
+     * @param $config
+     * @param $passwordEncoder PasswordEncoder
+     */
+    public function __construct($config, $passwordEncoder) {
         $this->config = $config;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function connect() {
@@ -412,7 +161,7 @@ class LdapClient {
         $ldap_bindpw = isset($this->config['ldap_bindpw']) ? $this->config['ldap_bindpw'] : null;
         $ldap_filter = $this->config['ldap_filter'];
         $ldap_base = $this->config['ldap_base'];
-        $notify_on_sshkey_change = $this->config['notify_on_sshkey_change'];
+        $notify_on_change = $this->config['notify_on_sshkey_change'];
         $mail_attribute = $this->config['mail_attribute'];
         $ad_mode = $this->config['ad_mode'];
         $ad_options = $this->config['ad_options'];
@@ -439,7 +188,7 @@ class LdapClient {
         }
 
         // Get user email for notification
-        if ( $notify_on_sshkey_change ) {
+        if ( $notify_on_change ) {
             $mailValues = ldap_get_values($this->ldap, $entry, $mail_attribute);
             if ( $mailValues["count"] > 0 ) {
                 $mail = $mailValues[0];
@@ -597,8 +346,8 @@ class LdapClient {
         $sms_attribute = $this->config['sms_attribute'];
         $sms_sanitize_number = $this->config['sms_sanitize_number'];
         $sms_truncate_number = $this->config['sms_truncate_number'];
-        $sms_truncate_number_length = $this->config['sms_truncate_number_length'];
-        $ldap_fullname_attribute = $this->config['ldap_fullname_attribute'];
+        $sms_truncate_length = $this->config['sms_truncate_number_length'];
+        $fullname_attribute = $this->config['ldap_fullname_attribute'];
 
         // Search for user
         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
@@ -630,7 +379,7 @@ class LdapClient {
                 $sms = preg_replace('/[^0-9]/', '', $sms);
             }
             if ( $sms_truncate_number ) {
-                $sms = substr($sms, -$sms_truncate_number_length);
+                $sms = substr($sms, -$sms_truncate_length);
             }
             $context['user_sms'] = $sms;
         }
@@ -640,7 +389,7 @@ class LdapClient {
             return "smsnonumber";
         }
 
-        $displayname = ldap_get_values($this->ldap, $entry, $ldap_fullname_attribute);
+        $displayname = ldap_get_values($this->ldap, $entry, $fullname_attribute);
         $context['user_displayname'] = $displayname;
 
         return "smsuserfound";
@@ -650,7 +399,7 @@ class LdapClient {
         $ldap_filter = $this->config['ldap_filter'];
         $ldap_base = $this->config['ldap_base'];
         $mail_attribute = $this->config['mail_attribute'];
-        $mail_address_use_ldap = $this->config['mail_address_use_ldap'];
+        $fetch_mail_from_ldap = $this->config['mail_address_use_ldap'];
 
         // Search for user
         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
@@ -675,7 +424,7 @@ class LdapClient {
         unset($mailValues["count"]);
         $match = 0;
 
-        if (!$mail_address_use_ldap) {
+        if (!$fetch_mail_from_ldap) {
             // Match with user submitted values
             foreach ($mailValues as $mailValue) {
                 if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
@@ -698,7 +447,7 @@ class LdapClient {
         }
 
         if (!$match) {
-            if (!$mail_address_use_ldap) {
+            if (!$fetch_mail_from_ldap) {
                 error_log("Mail $mail does not match for user $login");
             } else {
                 error_log("Mail not found for user $login");
@@ -800,7 +549,6 @@ class LdapClient {
         $samba_options = $this->config['samba_options'];
         $shadow_options = $this->config['shadow_options'];
         $hash = $this->config['hash'];
-        $hash_options = $this->config['hash_options'];
         $who_change_password = $this->config['who_change_password'];
 
         if(isset($context['user_is_samba_account']) && $context['user_is_samba_account'] == false) {
@@ -812,10 +560,135 @@ class LdapClient {
             $shadow_options['update_shadowExpire'] = false;
         }
 
-        return change_password($this->ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword);
+        return $this->change_password($this->ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $who_change_password, $oldpassword);
     }
 
-    public function changeSshKey( $dn, $sshkey ) {
-        return change_sshkey($this->ldap, $dn, $this->config['change_sshkey_attribute'], $sshkey);
+    private function change_password($ldap, $entry_dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $who_change_password, $oldpassword ) {
+        $time = time();
+
+        # Set Samba password value
+        if ( $samba_mode ) {
+            $userdata["sambaNTPassword"] = $this->passwordEncoder->format('nt', $password);
+            $userdata["sambaPwdLastSet"] = $time;
+            if ( isset($samba_options['min_age']) && $samba_options['min_age'] > 0 ) {
+                $userdata["sambaPwdCanChange"] = $time + ( $samba_options['min_age'] * 86400 );
+            }
+            if ( isset($samba_options['max_age']) && $samba_options['max_age'] > 0 ) {
+                $userdata["sambaPwdMustChange"] = $time + ( $samba_options['max_age'] * 86400 );
+            }
+        }
+
+        # Get hash type if hash is set to auto
+        if ( !$ad_mode && $hash == "auto" ) {
+            $search_userpassword = ldap_read( $ldap, $entry_dn, "(objectClass=*)", array("userPassword") );
+            if ( $search_userpassword ) {
+                $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap,$search_userpassword), "userPassword");
+                if ( isset($userpassword) ) {
+                    if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
+                        $hash = strtoupper($matches[1]);
+                    }
+                }
+            }
+        }
+
+        # Transform password value
+        if ( $ad_mode ) {
+            $password = $this->passwordEncoder->format('ad', $password);
+        } else {
+            if($hash != 'clear') {
+                $password = $this->passwordEncoder->hash($hash, $password);
+            }
+        }
+
+        # Set password value
+        if ( $ad_mode ) {
+            $userdata["unicodePwd"] = $password;
+            if ( $ad_options['force_unlock'] ) {
+                $userdata["lockoutTime"] = 0;
+            }
+            if ( $ad_options['force_pwd_change'] ) {
+                $userdata["pwdLastSet"] = 0;
+            }
+        } else {
+            $userdata["userPassword"] = $password;
+        }
+
+        # Shadow options
+        if ( $shadow_options['update_shadowLastChange'] ) {
+            $userdata["shadowLastChange"] = floor($time / 86400);
+        }
+
+        if ( $shadow_options['update_shadowExpire'] ) {
+            if ( $shadow_options['shadow_expire_days'] > 0) {
+                $userdata["shadowExpire"] = floor(($time / 86400) + $shadow_options['shadow_expire_days']);
+            } else {
+                $userdata["shadowExpire"] = $shadow_options['shadow_expire_days'];
+            }
+        }
+
+        # Commit modification on directory
+
+        # Special case: AD mode with password changed as user
+        if ( $ad_mode and $who_change_password === "user" ) {
+            # The AD password change procedure is modifying the attribute unicodePwd by
+            # first deleting unicodePwd with the old password and them adding it with the
+            # the new password
+            $oldpassword = $this->passwordEncoder->format('ad', $oldpassword);
+
+            $modifications = array(
+                array(
+                    "attrib" => "unicodePwd",
+                    "modtype" => LDAP_MODIFY_BATCH_REMOVE,
+                    "values" => array($oldpassword),
+                ),
+                array(
+                    "attrib" => "unicodePwd",
+                    "modtype" => LDAP_MODIFY_BATCH_ADD,
+                    "values" => array($password),
+                ),
+            );
+
+            ldap_modify_batch($ldap, $entry_dn, $modifications);
+        } else {
+            # Else just replace with new password
+            ldap_mod_replace($ldap, $entry_dn, $userdata);
+        }
+
+        $errno = ldap_errno($ldap);
+
+        if ( $errno ) {
+            $result = "passworderror";
+            error_log("LDAP - Modify password error $errno (".ldap_error($ldap).")");
+        } else {
+            $result = "passwordchanged";
+        }
+
+        return $result;
+    }
+
+    /**
+     * Change sshPublicKey attribute
+     * @param $entry_dn
+     * @param $sshkey
+     * @return string
+     */
+    public function changeSshKey($entry_dn, $sshkey ) {
+        $attribute = $this->config['change_sshkey_attribute'];
+
+        $userdata[$attribute] = $sshkey;
+
+        # Commit modification on directory
+        ldap_mod_replace($this->ldap, $entry_dn, $userdata);
+
+        $errno = ldap_errno($this->ldap);
+
+        if ( $errno ) {
+            $result = "sshkeyerror";
+            error_log("LDAP - Modify $attribute error $errno (".ldap_error($this->ldap).")");
+        } else {
+            $result = "sshkeychanged";
+        }
+
+        return $result;
     }
 }

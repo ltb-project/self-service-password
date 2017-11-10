@@ -21,8 +21,14 @@
 
 namespace App\Framework;
 
+use Pimple\Container;
 use Twig_Environment;
 
+/**
+ * Class Controller
+ *
+ * @package App\Framework
+ */
 class Controller {
     /** @var Twig_Environment */
     private $twig;
@@ -30,15 +36,25 @@ class Controller {
     /** @var array */
     protected $config;
 
+    /**
+     * @var Container
+     */
     protected $container;
 
-    public function __construct($config, $container) {
+    public function __construct(array $config, Container $container) {
         $this->twig = $container['twig'];
         $this->config = $config;
         $this->container = $container;
     }
 
-    protected function render($template, $vars) {
+    /**
+     * Returns a response with a template rendered.
+     * @param string $template Name of the template to render.
+     * @param array $vars
+     * @return Response
+     */
+    protected function render($template, array $vars) {
+        //TODO move this to a template specific file for better multi themes support
         $vars1 = array (
             'lang' => $this->config['lang'],
             'background_image' => $this->config['background_image'],
@@ -56,10 +72,20 @@ class Controller {
         return new Response($this->twig->render($template, $vars1 + $vars));
     }
 
+    /**
+     * Create a redirect reponse to a specific URL
+     * @param $url string URL where the client should be redirected to
+     * @return RedirectResponse
+     */
     protected function redirect($url) {
         return new RedirectResponse($url);
     }
 
+    /**
+     * Shortcut to get something from the dependency injection container
+     * @param $id
+     * @return mixed
+     */
     protected function get($id) {
         return $this->container[$id];
     }

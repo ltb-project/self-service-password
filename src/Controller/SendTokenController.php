@@ -37,7 +37,7 @@ class SendTokenController extends Controller {
      * @param $request Request
      * @return string
      */
-    public function indexAction($request) {
+    public function indexAction(Request $request) {
         if($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
@@ -61,11 +61,11 @@ class SendTokenController extends Controller {
             return $this->renderFormWithError($result, $request);
         }
 
-        /** @var UsernameValidityChecker $usernameValidityChecker */
-        $usernameValidityChecker = $this->get('username_validity_checker');
+        /** @var UsernameValidityChecker $usernameChecker */
+        $usernameChecker = $this->get('username_validity_checker');
 
         // Check the entered username for characters that our installation doesn't support
-        $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameChecker->evaluate($login);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
@@ -128,10 +128,10 @@ class SendTokenController extends Controller {
             error_log("Send reset URL $reset_url");
         }
 
-        /** @var MailNotificationService $mailNotificationService */
-        $mailNotificationService = $this->get('mail_notification_service');
+        /** @var MailNotificationService $mailService */
+        $mailService = $this->get('mail_notification_service');
         $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
-        $success = $mailNotificationService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
+        $success = $mailService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
 
         if($success) {
             return $this->renderPageSuccess();

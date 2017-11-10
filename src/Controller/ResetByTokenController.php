@@ -38,7 +38,7 @@ class ResetByTokenController extends Controller {
      * @param $request Request
      * @return string
      */
-    public function indexAction($request) {
+    public function indexAction(Request $request) {
         $token = $request->get('token');
 
         if (!$token) {
@@ -94,11 +94,11 @@ class ResetByTokenController extends Controller {
             return $this->renderErrorPage("nomatch", $request);
         }
 
-        /** @var PasswordStrengthChecker $passwordStrengthChecker */
-        $passwordStrengthChecker = $this->get('password_strength_checker');
+        /** @var PasswordStrengthChecker $passwordChecker */
+        $passwordChecker = $this->get('password_strength_checker');
 
         // Check password strength
-        $result = $passwordStrengthChecker->evaluate( $newpassword, '', $login );
+        $result = $passwordChecker->evaluate( $newpassword, '', $login );
         if($result != '') {
             return $this->renderErrorPage($result, $request);
         }
@@ -115,11 +115,11 @@ class ResetByTokenController extends Controller {
 
         // Notify password change
         if ($this->config['notify_on_change'] and $context['user_mail']) {
-            /** @var MailNotificationService $mailNotificationService */
-            $mailNotificationService = $this->get('mail_notification_service');
+            /** @var MailNotificationService $mailService */
+            $mailService = $this->get('mail_notification_service');
 
             $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
+            $mailService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
         }
 
         // Posthook

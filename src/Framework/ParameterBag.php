@@ -21,6 +21,11 @@
 
 namespace App\Framework;
 
+/**
+ * Class ParameterBag, a container for key/values pairs
+ * 
+ * @package App\Framework
+ */
 class ParameterBag {
     private $parameters;
 

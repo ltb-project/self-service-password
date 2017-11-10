@@ -22,14 +22,14 @@ class SmsTokenGeneratorTest extends \PHPUnit_Framework_TestCase {
 
     public function testSmsTokenRandom()
     {
-        $tg = new SmsTokenGenerator(9);
+        $tokenGenerator = new SmsTokenGenerator(9);
 
-        $a = $tg->generate_sms_token();
-        $b = $tg->generate_sms_token();
-        $c = $tg->generate_sms_token();
+        $token1 = $tokenGenerator->generate_sms_token();
+        $token2 = $tokenGenerator->generate_sms_token();
+        $token3 = $tokenGenerator->generate_sms_token();
 
-        $this->assertNotSame($a , $b);
-        $this->assertNotSame($b , $c);
-        $this->assertNotSame($a , $c);
+        $this->assertNotSame($token1 , $token2);
+        $this->assertNotSame($token2 , $token3);
+        $this->assertNotSame($token1 , $token3);
     }
 }

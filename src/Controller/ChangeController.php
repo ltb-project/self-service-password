@@ -69,11 +69,11 @@ class ChangeController extends Controller {
             return $this->renderFormWithError($missings[0], $request);
         }
 
-        /** @var UsernameValidityChecker $usernameValidityChecker */
-        $usernameValidityChecker = $this->get('username_validity_checker');
+        /** @var UsernameValidityChecker $usernameChecker */
+        $usernameChecker = $this->get('username_validity_checker');
 
         // Check the entered username for characters that our installation doesn't support
-        $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameChecker->evaluate($login);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
@@ -83,11 +83,11 @@ class ChangeController extends Controller {
             return $this->renderFormWithError("nomatch", $request);
         }
 
-        /** @var PasswordStrengthChecker $passwordStrengthChecker */
-        $passwordStrengthChecker = $this->get('password_strength_checker');
+        /** @var PasswordStrengthChecker $passwordChecker */
+        $passwordChecker = $this->get('password_strength_checker');
 
         // Check password strength
-        $result = $passwordStrengthChecker->evaluate( $newpassword, $oldpassword, $login );
+        $result = $passwordChecker->evaluate( $newpassword, $oldpassword, $login );
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
@@ -128,10 +128,10 @@ class ChangeController extends Controller {
 
         // Notify password change
         if ($this->config['notify_on_change'] and $context['user_mail']) {
-            /** @var MailNotificationService $mailNotificationService */
-            $mailNotificationService = $this->get('mail_notification_service');
+            /** @var MailNotificationService $mailService */
+            $mailService = $this->get('mail_notification_service');
             $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
+            $mailService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
         }
 
         // Posthook
@@ -144,23 +144,18 @@ class ChangeController extends Controller {
         return $this->renderSuccessPage();
     }
 
-    private function getTemplateVars($result, Request $request) {
-        $vars = array(
+    private function renderFormEmpty(Request $request) {
+        return $this->render('change.twig', $vars = array(
+            'result' => 'emptychangeform',
+            'login' => $request->get('login'),
+        ));
+    }
+
+    private function renderFormWithError($result, Request $request) {
+        return $this->render('change.twig', array(
             'result' => $result,
             'login' => $request->get('login'),
-        );
-
-        return $vars;
-    }
-
-    private function renderFormEmpty($request) {
-        $templateVars = $this->getTemplateVars('emptychangeform', $request);
-        return $this->render('change.twig', $templateVars);
-    }
-
-    private function renderFormWithError($result, $request) {
-        $templateVars = $this->getTemplateVars($result, $request);
-        return $this->render('change.twig', $templateVars);
+        ));
     }
 
     private function renderSuccessPage() {

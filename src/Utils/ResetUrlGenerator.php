@@ -29,7 +29,7 @@ class ResetUrlGenerator {
         $this->reset_url = $reset_url;
     }
 
-    function generate_reset_url($params) {
+    public function generate_reset_url($params) {
         if ( empty($this->reset_url) ) {
 
             // Build reset by token URL

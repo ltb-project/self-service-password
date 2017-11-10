@@ -23,31 +23,15 @@ namespace App\Service;
 
 use ReCaptcha\ReCaptcha;
 
-/* @function string check_recaptcha(string $recaptcha_privatekey, null|string $recaptcha_request_method, string $response, string $login)
- * Check if $response verifies the reCAPTCHA by asking the recaptcha server, logs if errors
- * @param $recaptcha_privatekey string shared secret with reCAPTCHA server
- * @param $recaptcha_request_method null|string FQCN of request method, null for default
- * @param $response string response provided by user
- * @param $login string for logging purposes only
- * @return string empty string if the response is verified successfully, else string 'badcaptcha'
- */
-function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $response, $login) {
-    $recaptcha = new ReCaptcha($recaptcha_privatekey, is_null($recaptcha_request_method) ? null : new $recaptcha_request_method());
-    $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
-
-    if (!$resp->isSuccess()) {
-        error_log("Bad reCAPTCHA attempt with user $login");
-        foreach ($resp->getErrorCodes() as $code) {
-            error_log("reCAPTCHA error: $code");
-        }
-        return 'badcaptcha';
-    }
-
-    return '';
-}
-
 class RecaptchaService {
+    /**
+     * @var string shared secret with reCAPTCHA server
+     */
     private $privatekey;
+
+    /**
+     * @var null|string FQCN of request method, null for default
+     */
     private $request_method;
 
     public function __construct($privatekey, $request_method)
@@ -56,7 +40,24 @@ class RecaptchaService {
         $this->request_method = $request_method;
     }
 
+    /**
+     * Check if $response verifies the reCAPTCHA by asking the recaptcha server, logs if errors
+     * @param $response string response provided by user
+     * @param $login string for logging purposes only
+     * @return string empty string if the response is verified successfully, else string 'badcaptcha'
+     */
     public function verify($response, $login) {
-        return $result = check_recaptcha($this->privatekey, $this->request_method, $response, $login);
+        $recaptcha = new ReCaptcha($this->privatekey, is_null($this->request_method) ? null : new $this->request_method());
+        $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
+
+        if (!$resp->isSuccess()) {
+            error_log("Bad reCAPTCHA attempt with user $login");
+            foreach ($resp->getErrorCodes() as $code) {
+                error_log("reCAPTCHA error: $code");
+            }
+            return 'badcaptcha';
+        }
+
+        return '';
     }
 }

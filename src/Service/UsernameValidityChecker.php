@@ -21,42 +21,40 @@
 
 namespace App\Service;
 
-/* @function string check_username_validity(string $username, string $login_forbidden_chars)
- * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
- * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
- * @param username the user name to test against
- * @param optional login_forbidden_chars invalid characters
- * @return $result
- */
-function check_username_validity($username,$login_forbidden_chars) {
-    $result = "";
-
-    if (!$login_forbidden_chars) {
-        if (!ctype_alnum($username)) {
-            $result = "badcredentials";
-            error_log("Non alphanumeric characters in username $username");
-        }
-    }
-    else {
-        preg_match_all("/[$login_forbidden_chars]/", $username, $forbidden_res);
-        if (count($forbidden_res[0])) {
-            $result = "badcredentials";
-            error_log("Illegal characters in username $username (list of forbidden characters: $login_forbidden_chars)");
-        }
-    }
-
-    return $result;
-}
-
 class UsernameValidityChecker {
+    /**
+     * @var string invalid characters
+     */
     private $login_forbidden_chars;
 
-    public function __construct($login_forbidden_chars)
+    public function __construct($forbidden_chars)
     {
-        $this->login_forbidden_chars = $login_forbidden_chars;
+        $this->login_forbidden_chars = $forbidden_chars;
     }
 
-    public function evaluate($login) {
-        return check_username_validity($login, $this->login_forbidden_chars);
+    /**
+     * Check the user name against a regex or internal ctype_alnum() call to make sure the username doesn't contain
+     * predetermined bad values, like an '*' can allow an attacker to 'test' to find valid usernames.
+     * @param $username string the user name to test against
+     * @return string
+     */
+    public function evaluate($username) {
+        // If no forbidden chars are configured, we will check that the username is alphanumeric
+        if (!$this->login_forbidden_chars) {
+            if (!ctype_alnum($username)) {
+                error_log("Non alphanumeric characters in username $username");
+                return "badcredentials";
+            }
+
+            return '';
+        }
+
+        preg_match_all("/[$this->login_forbidden_chars]/", $username, $forbidden_res);
+        if (count($forbidden_res[0])) {
+            error_log("Illegal characters in username $username (list of forbidden characters: $this->login_forbidden_chars)");
+            return "badcredentials";
+        }
+
+        return '';
     }
 }

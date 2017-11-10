@@ -71,11 +71,11 @@ class ResetByQuestionsController extends Controller {
             return $this->renderFormWithError($missings[0], $request);
         }
 
-        /** @var UsernameValidityChecker $usernameValidityChecker */
-        $usernameValidityChecker = $this->get('username_validity_checker');
+        /** @var UsernameValidityChecker $usernameChecker */
+        $usernameChecker = $this->get('username_validity_checker');
 
         // Check the entered username for characters that our installation doesn't support
-        $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameChecker->evaluate($login);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
@@ -96,10 +96,10 @@ class ResetByQuestionsController extends Controller {
         }
 
         // Check password strength
-        /** @var PasswordStrengthChecker $passwordStrengthChecker */
-        $passwordStrengthChecker = $this->get('password_strength_checker');
+        /** @var PasswordStrengthChecker $passwordChecker */
+        $passwordChecker = $this->get('password_strength_checker');
 
-        $result = $passwordStrengthChecker->evaluate( $newpassword, '', $login );
+        $result = $passwordChecker->evaluate( $newpassword, '', $login );
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
@@ -127,11 +127,11 @@ class ResetByQuestionsController extends Controller {
 
         // Notify password change
         if ($this->config['notify_on_change'] and $context['user_mail']) {
-            /** @var MailNotificationService $mailNotificationService */
-            $mailNotificationService = $this->get('mail_notification_service');
+            /** @var MailNotificationService $mailService */
+            $mailService = $this->get('mail_notification_service');
 
             $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
-            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
+            $mailService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
         }
 
         // Posthook

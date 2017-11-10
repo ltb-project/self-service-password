@@ -87,7 +87,11 @@ $container['sms_notification_service'] = function ($c) {
 
 
 $container['ldap_client'] = function ($c) {
-    return new Service\LdapClient($c['config']);
+    return new Service\LdapClient($c['config'], $c['password_encoder']);
+};
+
+$container['password_encoder'] = function ($c) {
+    return new Utils\PasswordEncoder($c['config']['hash_options']);
 };
 
 $container['posthook_executor'] = function ($c) {
@@ -97,7 +101,7 @@ $container['posthook_executor'] = function ($c) {
 $container['twig'] = function ($c) {
     $loader = new Twig_Loader_Filesystem(__DIR__.'/../templates');
     $twig = new Twig_Environment($loader, array(
-        //'cache' => __DIR__ .'/templates_c',
+        //'cache' => __DIR__ .'/../var/cache/templates_c',
     ));
 
     # Get message criticity

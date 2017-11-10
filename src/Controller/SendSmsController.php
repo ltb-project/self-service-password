@@ -38,7 +38,7 @@ class SendSmsController extends Controller {
      * @param $request Request
      * @return string
      */
-    public function indexAction($request) {
+    public function indexAction(Request $request) {
         if (!$this->config['crypt_tokens']) {
             return $this->renderErrorPage("crypttokensrequired");
         }
@@ -186,11 +186,11 @@ class SendSmsController extends Controller {
             "smstoken" => $smstoken,
         ) ;
 
-        /** @var SmsNotificationService $smsNotificationService */
-        $smsNotificationService = $this->get('sms_notification_service');
+        /** @var SmsNotificationService $smsService */
+        $smsService = $this->get('sms_notification_service');
 
         // Send message
-        $result = $smsNotificationService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $smstoken);
+        $result = $smsService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $smstoken);
 
         $token = '';
         if($result == 'smssent') {
@@ -207,10 +207,10 @@ class SendSmsController extends Controller {
         $login = $request->get('login');
 
         // Check the entered username for characters that our installation doesn't support
-        /** @var UsernameValidityChecker $usernameValidityChecker */
-        $usernameValidityChecker = $this->get('username_validity_checker');
+        /** @var UsernameValidityChecker $usernameChecker */
+        $usernameChecker = $this->get('username_validity_checker');
 
-        $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameChecker->evaluate($login);
         if($result != '') {
             return $this->renderSearchUserFormWithError($result, $request);
         }

@@ -26,13 +26,15 @@ use Defuse\Crypto\Exception\CryptoException;
 
 class EncryptionService {
     private $keyphrase;
+    private $defuseCrypto;
 
     /**
      * EncryptionService constructor.
-     * @param $keyphrase @param string $keyphrase Password for encryption
+     * @param string $keyphrase Password for encryption
      */
     public function __construct($keyphrase) {
         $this->keyphrase = $keyphrase;
+        $this->defuseCrypto = new Crypto();
     }
 
     /* @function encrypt(string $data)
@@ -41,7 +43,7 @@ class EncryptionService {
      * @return string Encrypted data, base64 encoded
      */
     public function encrypt($data) {
-        return base64_encode(Crypto::encryptWithPassword($data, $this->keyphrase, true));
+        return base64_encode($this->defuseCrypto->encryptWithPassword($data, $this->keyphrase, true));
     }
 
     /* @function decrypt(string $data)
@@ -51,7 +53,7 @@ class EncryptionService {
      */
     public function decrypt($data) {
         try {
-            return Crypto::decryptWithPassword(base64_decode($data), $this->keyphrase, true);
+            return $this->defuseCrypto->decryptWithPassword(base64_decode($data), $this->keyphrase, true);
         } catch (CryptoException $e) {
             error_log("crypto: decryption error " . $e->getMessage());
             return '';

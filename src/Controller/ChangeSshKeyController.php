@@ -36,7 +36,7 @@ class ChangeSshKeyController extends Controller {
      * @param $request Request
      * @return string
      */
-    public function indexAction($request) {
+    public function indexAction(Request $request) {
         if($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
@@ -64,11 +64,11 @@ class ChangeSshKeyController extends Controller {
             return $this->renderFormWithError($missings[0], $request);
         }
 
-        /** @var UsernameValidityChecker $usernameValidityChecker */
+        /** @var UsernameValidityChecker $usernameChecker */
 
-        $usernameValidityChecker = $this->get('username_validity_checker');
+        $usernameChecker = $this->get('username_validity_checker');
         // Check the entered username for characters that our installation doesn't support
-        $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameChecker->evaluate($login);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
@@ -109,11 +109,11 @@ class ChangeSshKeyController extends Controller {
 
         // Notify password change
         if ($this->config['notify_on_sshkey_change'] and $context['user_mail']) {
-            /** @var MailNotificationService $mailNotificationService */
-            $mailNotificationService = $this->get('mail_notification_service');
+            /** @var MailNotificationService $mailService */
+            $mailService = $this->get('mail_notification_service');
 
             $data = array( "login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey);
-            $mailNotificationService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
+            $mailService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
         }
 
         return $this->renderSuccessPage();

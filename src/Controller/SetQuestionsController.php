@@ -35,7 +35,7 @@ class SetQuestionsController extends Controller {
      * @param $request Request
      * @return string
      */
-    public function indexAction($request) {
+    public function indexAction(Request $request) {
         if($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
@@ -65,11 +65,11 @@ class SetQuestionsController extends Controller {
             return $this->renderFormWithError($result, $request);
         }
 
-        /** @var UsernameValidityChecker $usernameValidityChecker */
-        $usernameValidityChecker = $this->get('username_validity_checker');
+        /** @var UsernameValidityChecker $usernameChecker */
+        $usernameChecker = $this->get('username_validity_checker');
 
         // Check the entered username for characters that our installation doesn't support
-        $result = $usernameValidityChecker->evaluate($login);
+        $result = $usernameChecker->evaluate($login);
         if($result != '') {
             return $this->renderFormWithError($result, $request);
         }
