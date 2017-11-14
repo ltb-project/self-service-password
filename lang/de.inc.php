@@ -78,7 +78,7 @@ $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Rücksetzen Ihres 
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Rücksetzen Ihres Passworts per SMS</a>";
 $messages['resetmessage'] = "Hallo {login},\n\nKlicken Sie hier um Ihr Passwort zurückzusetzen:\n{url}\n\nFalls Sie keine Rücksetzung beantragt haben, ignorieren Sie dies bitte.";
 $messages['resetsubject'] = "Setzen Sie Ihr Passwort zurück";
-$messages['sendtokenhelp'] = "Geben Sie Ihren Benutzernamen ein um Ihr Passwort zurückzusetzen. Danach klicken Sie auf den Link in der gesendeten Mail.";
+$messages['sendtokenhelp'] = "Geben Sie Ihren Benutzernamen und Email-Adresse ein um Ihr Passwort zurückzusetzen. Danach klicken Sie auf den Link in der gesendeten Mail.";
 $messages['sendtokenhelpnomail'] = "Geben Sie Ihren Benutzernamen ein um Ihr Passwort zurückzusetzen. Danach klicken Sie auf den Link in der gesendeten Mail.";
 $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Ihre Email-Adresse wird benötigt";

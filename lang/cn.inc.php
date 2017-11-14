@@ -78,7 +78,7 @@ $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">使用邮件重置
 $messages['resetmessage'] = "您好 {login},\n\n点击这里重置密码:\n{url}\n\n如果您没有提交这个请求则忽略。";
 $messages['resetsubject'] = "重置密码";
 $messages['sendtokenhelp'] = "输入账户和邮件地址重置密码，点击发送邮件。";
-$messages['sendtokenhelpnomail'] = "输入账户和邮件地址重置密码，点击发送邮件。";
+$messages['sendtokenhelpnomail'] = "输入账户重置密码，点击发送邮件。";
 $messages['mail'] = "电子邮件";
 $messages['mailrequired'] = "需要邮箱地址";
 $messages['mailnomatch'] = "输入的邮箱地址不是该账号的注册地址";

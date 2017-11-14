@@ -77,8 +77,8 @@ $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Redefin
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Redefina sua senha através do e-mail</a>";
 $messages['resetmessage'] = "Olá {login},\n\nClique aqui para redefinir sua senha:\n{url}\n\nSe você não tem certeza desta requisição, por favor, ignore este e-mail.";
 $messages['resetsubject'] = "Redefina sua senha";
-$messages['sendtokenhelp'] = "Entre com o seu login e senha para redefinir sua senha. Em seguida clique no link enviado pelo e-mail.";
-$messages['sendtokenhelpnomail'] = "Entre com o seu login e senha para redefinir sua senha. Em seguida clique no link enviado pelo e-mail.";
+$messages['sendtokenhelp'] = "Entre com o seu login e e-mail para redefinir sua senha. Em seguida clique no link enviado pelo e-mail.";
+$messages['sendtokenhelpnomail'] = "Entre com o seu login para redefinir sua senha. Em seguida clique no link enviado pelo e-mail.";
 $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "O e-mail é necessário";
 $messages['mailnomatch'] = "O e-mail não coincide com nenhum usuário";
