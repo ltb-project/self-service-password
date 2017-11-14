@@ -9,7 +9,14 @@
     {% if result != 'tokensent' %}
         {% if show_help %}
             <div class="help alert alert-warning">
-                <p><i class="fa fa-fw fa-info-circle"></i> {{ 'sendtokenhelp'|trans|raw }}</p>
+                <p>
+                    <i class="fa fa-fw fa-info-circle"></i>
+                    {% if mail_address_use_ldap %}
+                        {{ 'sendtokenhelpnomail'|trans|raw }}
+                    {% else %}
+                        {{ 'sendtokenhelp'|trans|raw }}
+                    {% endif %}
+                </p>
             </div>
         {% endif %}
         <div class="alert alert-info">
