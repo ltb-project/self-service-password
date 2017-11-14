@@ -79,6 +79,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Rücksetzen Ihres Pass
 $messages['resetmessage'] = "Hallo {login},\n\nKlicken Sie hier um Ihr Passwort zurückzusetzen:\n{url}\n\nFalls Sie keine Rücksetzung beantragt haben, ignorieren Sie dies bitte.";
 $messages['resetsubject'] = "Setzen Sie Ihr Passwort zurück";
 $messages['sendtokenhelp'] = "Geben Sie Ihren Benutzernamen ein um Ihr Passwort zurückzusetzen. Danach klicken Sie auf den Link in der gesendeten Mail.";
+$messages['sendtokenhelpnomail'] = "Geben Sie Ihren Benutzernamen ein um Ihr Passwort zurückzusetzen. Danach klicken Sie auf den Link in der gesendeten Mail.";
 $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Ihre Email-Adresse wird benötigt";
 $messages['mailnomatch'] = "Die Mail entspricht nicht dem übermittelten Benutzernamen";

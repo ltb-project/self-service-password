@@ -79,6 +79,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Resetee su contraseña
 $messages['resetmessage'] = "Hola {login},\n\nClick aquí para restear su contraseña:\n{url}\n\n Si usted no es el emisor de esta petición, por favor ignórela.";
 $messages['resetsubject'] = "Reinicie su contraseña";
 $messages['sendtokenhelp'] = "Introduzca su nombre de usuario y contraseña para reiniciar su contraseña. Luego haga click en el enlace que le llegará en el e-mail.";
+$messages['sendtokenhelpnomail'] = "Introduzca su nombre de usuario y contraseña para reiniciar su contraseña. Luego haga click en el enlace que le llegará en el e-mail.";
 $messages['mail'] = "Correo";
 $messages['mailrequired'] = "Su e-mail es necesario";
 $messages['mailnomatch'] = "El e-mail no coincide con el de inicio de sesión presentado";

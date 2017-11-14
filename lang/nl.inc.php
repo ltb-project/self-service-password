@@ -79,6 +79,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset uw wachtwoord do
 $messages['resetmessage'] = "Hallo {login},\n\nKlik hier om uw wachtwoord te resetten:\n{url}\n\nAls u geen wachtwoord reset heeft aangevraagd is het verstandig om de helpdesk op de hoogte te stellen. U kunt deze e-mail daarna verwijderen.";
 $messages['resetsubject'] = "Reset uw wachtwoord";
 $messages['sendtokenhelp'] = "Voer uw gebruiksnaam en emailadres in om uw wachtwoord te resetten. Klik daarna op Versturen.";
+$messages['sendtokenhelpnomail'] = "Voer uw gebruiksnaam en emailadres in om uw wachtwoord te resetten. Klik daarna op Versturen.";
 $messages['mail'] = "Privé e-mail";
 $messages['mailrequired'] = "Emailadres is verplicht";
 $messages['mailnomatch'] = "Het email adres komt niet overeen met de gebruikersnaam";

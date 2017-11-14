@@ -80,6 +80,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">SMSでパスワード�
 $messages['resetmessage'] = "{login}さん\n\nパスワードをリセットするにはこのリンクをクリックしてください:\n{url}\n\nあなたがパスワードのリセットを要求していない場合、このメールは無視してください。";
 $messages['resetsubject'] = "パスワードのリセット";
 $messages['sendtokenhelp'] = "パスワードをリセットするにはログインIDとメールアドレスを入力してください。受信したメールに含まれるリンクをクリックすると、パスワードをリセットできます。";
+$messages['sendtokenhelpnomail'] = "パスワードをリセットするにはログインIDとメールアドレスを入力してください。受信したメールに含まれるリンクをクリックすると、パスワードをリセットできます。";
 $messages['mail'] = "メールアドレス";
 $messages['mailrequired'] = "メールアドレスを入力してください";
 $messages['mailnomatch'] = "メールアドレスがログインIDのものと一致しません";

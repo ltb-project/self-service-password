@@ -80,6 +80,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Obnova hesla pomocí S
 $messages['resetmessage'] = "Dobrý den {login},\n\nKlikněte zde pro obnovu hesla:\n{url}\n\nPokud jste nepožadovali obnovu hesla, prosím ignorujte tuto zprávu.";
 $messages['resetsubject'] = "Obnovte své heslo";
 $messages['sendtokenhelp'] = "Zadejte vaše přihlašovací jméno a e-mail pro obnovu hesla. Po přijetí e-mailu klikněte na odkaz umístěný uvnitř e-mailu.";
+$messages['sendtokenhelpnomail'] = "Zadejte vaše přihlašovací jméno a e-mail pro obnovu hesla. Po přijetí e-mailu klikněte na odkaz umístěný uvnitř e-mailu.";
 $messages['mail'] = "Pošta";
 $messages['mailrequired'] = "E-mailová adresa je povinná";
 $messages['mailnomatch'] = "E-mailová adresa neodpovídá zadanému uživatelskému jménu";

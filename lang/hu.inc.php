@@ -80,6 +80,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Jelszó megváltoztat�
 $messages['resetmessage'] = "Kedves {login},\n\nKattintson ide a jelszava megváltoztatásához:\n{url}\n\nTekintse tárgytalannak az e-mailt, amennyiben nem Ön kezdeményezte a jelszóváltoztatást,";
 $messages['resetsubject'] = "Jelszó megváltoztatása";
 $messages['sendtokenhelp'] = "Kérem, írja be a felhasználónevét és e-mail címét jelszava megújításához. A további teendőket e-mailben kapja meg.";
+$messages['sendtokenhelpnomail'] = "Kérem, írja be a felhasználónevét és e-mail címét jelszava megújításához. A további teendőket e-mailben kapja meg.";
 $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "E-mail cím megadása kötelező";
 $messages['mailnomatch'] = "Az e-mail cím / felhasználónév páros hibás.";
