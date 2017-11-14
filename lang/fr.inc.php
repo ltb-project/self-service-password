@@ -79,7 +79,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Réinitialisez votre m
 $messages['resetmessage'] = "Bonjour {login},\n\nCliquez ici pour réinitialiser votre mot de passe :\n{url}\n\nSi vous n'êtes pas à l'origine de cette demande, merci de l'ignorer.";
 $messages['resetsubject'] = "Réinitialisation de votre mot de passe";
 $messages['sendtokenhelp'] = "Entrez votre identifiant et votre adresse mail pour réinitialiser votre mot de passe. Cliquez ensuite sur le lien transmis par mail.";
-$messages['sendtokenhelpnomail'] = "Entrez votre identifiant et votre adresse mail pour réinitialiser votre mot de passe. Cliquez ensuite sur le lien transmis par mail.";
+$messages['sendtokenhelpnomail'] = "Entrez votre identifiant pour réinitialiser votre mot de passe. Cliquez ensuite sur le lien transmis par mail.";
 $messages['mail'] = "Adresse mail";
 $messages['mailrequired'] = "Vous devez indiquer votre adresse mail";
 $messages['mailnomatch'] = "L'adresse mail ne correspond pas à l'identifiant donné";
