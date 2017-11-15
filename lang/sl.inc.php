@@ -80,6 +80,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Ponastavite geslo prek
 $messages['resetmessage'] = "Pozdravljeni, {login},\n\nKliknite tukaj, da ponastavite geslo:\n{url}\n\nČe niste zahtevali ponastavitve gesla, prezrite to sporočilo.";
 $messages['resetsubject'] = "Ponastavite geslo";
 $messages['sendtokenhelp'] = "Za ponastavitev gesla vnesite uporabniško ime in e-naslov. Ko dobite sporočilo, kliknite na povezavo.";
+$messages['sendtokenhelpnomail'] = "Za ponastavitev gesla vnesite uporabniško ime. Ko dobite sporočilo, kliknite na povezavo.";
 $messages['mail'] = "E-naslov";
 $messages['mailrequired'] = "E-naslov je zahtevan";
 $messages['mailnomatch'] = "E-naslov se ne ujema s podanim uporabniškim imenom";

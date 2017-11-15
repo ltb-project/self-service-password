@@ -81,6 +81,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password wi
 $messages['resetmessage'] = "Hola {login},\n\nFer clic aquÃ­ per restaurar la vostra contrasenya:\n{url}\n\nSi no heu demanat aquest servei, si us plau ignoreu-lo.";
 $messages['resetsubject'] = "Restaurar la contrasenya";
 $messages['sendtokenhelp'] = "Escriviu el vostre usuari i correu per restaurar la contrasenya. Rebreu un correu per confirmar-ho.";
+$messages['sendtokenhelpnomail'] = "Escriviu el vostre usuari per restaurar la contrasenya. Rebreu un correu per confirmar-ho.";
 $messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['mail'] = "Correu";
 $messages['mailrequired'] = "Cal el vostre correu";

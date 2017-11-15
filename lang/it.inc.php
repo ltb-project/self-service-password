@@ -78,6 +78,7 @@ $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Reimposta la tua p
 $messages['resetmessage'] = "Buongiorno {login},\n\nClicca qui per reimpostare la tua password:\n{url}\n\nSe non sei stato tu a richiedere il reset, per piacere ignora questa email.";
 $messages['resetsubject'] = "Reimposta la tua password";
 $messages['sendtokenhelp'] = "Inserisci la tua login e il tuo indirizzo email per reimpostare la tua password. Quindi clicca sul link che riceverai via mail.";
+$messages['sendtokenhelpnomail'] = "Inserisci la tua login per reimpostare la tua password. Quindi clicca sul link che riceverai via mail.";
 $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Indirizzo mail obbligatorio";
 $messages['mailnomatch'] = "La mail non corrisponde al login";

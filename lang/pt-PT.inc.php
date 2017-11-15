@@ -79,6 +79,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Modifica a tua passwor
 $messages['resetmessage'] = "Olá {login},\n\nClica aqui para redefinires a tua password:\n{url}\n\nSe não tens a certeza deste pedido, por favor ignore este e-mail.";
 $messages['resetsubject'] = "Redefine a tua password";
 $messages['sendtokenhelp'] = "Introduz o teu username e e-mail para redefinires a password. Em seguida clica no link enviado para o teu e-mail.";
+$messages['sendtokenhelpnomail'] = "Introduz o teu username para redefinires a password. Em seguida clica no link enviado para o teu e-mail.";
 $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "O e-mail é necessario.";
 $messages['mailnomatch'] = "O e-mail não coincide com o registado para este utilizador.";
