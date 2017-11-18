@@ -19,18 +19,30 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Service;
 
-use App\Application;
-use App\Framework\Request;
+use App\Utils\MailSender;
 
-$configPath = __DIR__ . '/conf/config.inc.php';
-$containerPath = __DIR__ . '/src/container.php';
-$containerOverridePath = __DIR__ . '/conf/container.inc.php';
+class MailNotificationService {
+    /** @var MailSender */
+    private $mailSender;
+    private $mail_from;
+    private $mail_from_name;
 
-$app = new Application($configPath, $containerPath, $containerOverridePath);
+    public function __construct($mailerSender, $mail_from, $mail_from_name)
+    {
+        $this->mailSender = $mailerSender;
+        $this->mail_from = $mail_from;
+        $this->mail_from_name = $mail_from_name;
+    }
 
-$request = Request::createFromGlobals();
+    public function send($mail, $subject, $body, $data) {
+        $success = $this->mailSender->send_mail($mail, $this->mail_from, $this->mail_from_name,$subject, $body, $data);
 
-$response = $app->handle($request);
-$response->send();
+        if(!$success) {
+            error_log("Error while sending email notification to $mail (user ${data['login']})");
+        }
+
+        return $success;
+    }
+}

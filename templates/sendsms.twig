@@ -34,7 +34,7 @@
         <div class="alert alert-info">
             <form action="#" method="post" class="form-horizontal">
                 <input type="hidden" name="encrypted_sms_login" value="{{ encrypted_sms_login }}" />
-                {{ forms.row_static_text('userfullname', displayname[0]) }}
+                {{ forms.row_static_text('userfullname', displayname) }}
                 {{ forms.row_static_text('login', login) }}
                 {{ forms.row_static_text('sms', sms) }}
                 {{ forms.row_button_submit() }}

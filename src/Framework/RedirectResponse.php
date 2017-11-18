@@ -19,18 +19,18 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Framework;
 
-use App\Application;
-use App\Framework\Request;
+class RedirectResponse extends Response {
+    private $url;
 
-$configPath = __DIR__ . '/conf/config.inc.php';
-$containerPath = __DIR__ . '/src/container.php';
-$containerOverridePath = __DIR__ . '/conf/container.inc.php';
+    public function __construct($url, $content = '')
+    {
+        parent::__construct($content);
+        $this->url = $url;
+    }
 
-$app = new Application($configPath, $containerPath, $containerOverridePath);
-
-$request = Request::createFromGlobals();
-
-$response = $app->handle($request);
-$response->send();
+    public function send() {
+        header("Location: " . $this->url);
+    }
+}

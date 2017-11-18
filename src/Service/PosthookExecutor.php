@@ -19,18 +19,24 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Service;
 
-use App\Application;
-use App\Framework\Request;
+class PosthookExecutor {
+    private $command;
 
-$configPath = __DIR__ . '/conf/config.inc.php';
-$containerPath = __DIR__ . '/src/container.php';
-$containerOverridePath = __DIR__ . '/conf/container.inc.php';
+    public function __construct($command)
+    {
+        $this->command = $command;
+    }
 
-$app = new Application($configPath, $containerPath, $containerOverridePath);
+    public function execute($login, $newpassword, $oldpassword = null) {
+        $command = escapeshellcmd($this->command).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
+        if($oldpassword != null) $command .= ' '.escapeshellarg($oldpassword);
 
-$request = Request::createFromGlobals();
+        $output = '';
+        $return_var = null;
+        exec($command, $output, $return_var);
 
-$response = $app->handle($request);
-$response->send();
+        return array('output' => $output, 'return_var' => $return_var);
+    }
+}

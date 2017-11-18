@@ -19,18 +19,28 @@
 #
 #==============================================================================
 
-require_once __DIR__ . '/src/autoload.php';
+namespace App\Framework;
 
-use App\Application;
-use App\Framework\Request;
+/**
+ * Class ParameterBag, a container for key/values pairs
+ * 
+ * @package App\Framework
+ */
+class ParameterBag {
+    private $parameters;
 
-$configPath = __DIR__ . '/conf/config.inc.php';
-$containerPath = __DIR__ . '/src/container.php';
-$containerOverridePath = __DIR__ . '/conf/container.inc.php';
+    public function __construct(array $parameters = array())
+    {
+        $this->parameters = $parameters;
+    }
 
-$app = new Application($configPath, $containerPath, $containerOverridePath);
+    public function get($key, $default = null)
+    {
+        return array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+    }
 
-$request = Request::createFromGlobals();
-
-$response = $app->handle($request);
-$response->send();
+    public function has($key)
+    {
+        return array_key_exists($key, $this->parameters);
+    }
+}
