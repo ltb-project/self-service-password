@@ -23,6 +23,9 @@
 
 namespace App\Controller;
 
+use App\Exception\LdapError;
+use App\Exception\LdapInvalidUserCredentials;
+use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 use App\Framework\Request;
 
@@ -88,23 +91,19 @@ class SetQuestionsController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $result = $ldapClient->connect();
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
         $context = array();
 
-        // Check password
-        $result = $ldapClient->checkOldPassword3($login, $password, $context);
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
-        // Register answer
-        $result = $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
-        if($result != 'answerchanged') {
-            return $this->renderFormWithError($result, $request);
+        try {
+            $ldapClient->connect();
+            $ldapClient->checkOldPassword3($login, $password, $context);
+            // Register answer
+            $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
+        } catch (LdapError $e) {
+            return $this->renderFormWithError('ldaperror', $request);
+        } catch (LdapInvalidUserCredentials $e) {
+            return $this->renderFormWithError('badcredentials', $request);
+        } catch (LdapUpdateFailed $e) {
+            return $this->renderFormWithError('answermoderror', $request);
         }
 
         return $this->renderPageSuccess();

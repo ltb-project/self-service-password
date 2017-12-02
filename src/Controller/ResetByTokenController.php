@@ -23,6 +23,9 @@
 
 namespace App\Controller;
 
+use App\Exception\LdapError;
+use App\Exception\LdapInvalidUserCredentials;
+use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 use App\Framework\Request;
 
@@ -76,16 +79,15 @@ class ResetByTokenController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $result = $ldapClient->connect();
-        if($result != '') {
-            return $this->renderErrorPage($result, $request);
-        }
-
-        // Find user
         $context = array();
-        $result = $ldapClient->findUser($login, $context);
-        if($result != '') {
-            return $this->renderErrorPage($result, $request);
+
+        try {
+            $ldapClient->connect();
+            $ldapClient->findUser($login, $context);
+        } catch (LdapError $e) {
+            return $this->renderErrorPage('ldaperror', $request);
+        } catch (LdapInvalidUserCredentials $e) {
+            return $this->renderErrorPage('badcredentials', $request);
         }
 
         // Check and register new passord
@@ -104,9 +106,10 @@ class ResetByTokenController extends Controller {
         }
 
         // Change password
-        $result = $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
-        if($result != 'passwordchanged') {
-            return $this->renderErrorPage($result, $request);
+        try {
+            $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
+        } catch (LdapUpdateFailed $e) {
+            return $this->renderErrorPage('passwordnotchanged', $request);
         }
 
         // Delete token if all is ok

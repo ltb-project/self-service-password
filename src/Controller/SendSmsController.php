@@ -22,6 +22,9 @@
 # This page is called to send random generated password to user by SMS
 namespace App\Controller;
 
+use App\Exception\LdapEntryFoundInvalid;
+use App\Exception\LdapError;
+use App\Exception\LdapInvalidUserCredentials;
 use App\Framework\Controller;
 use App\Framework\Request;
 
@@ -230,15 +233,18 @@ class SendSmsController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $result = $ldapClient->connect();
-        if($result != '') {
-            return $this->renderSearchUserFormWithError($result, $request);
-        }
-
         $context = array();
-        $result = $ldapClient->findUserSms($login, $context);
-        if($result != 'smsuserfound') {
-            return $this->renderSearchUserFormWithError($result, $request);
+
+        try {
+            $ldapClient->connect();
+            $ldapClient->findUserSms($login, $context);
+        } catch (LdapError $e) {
+            return $this->renderSearchUserFormWithError('ldaperror', $request);
+        } catch (LdapInvalidUserCredentials $e) {
+            return $this->renderSearchUserFormWithError('badcredentials', $request);
+        } catch (LdapEntryFoundInvalid $e) {
+            return $this->renderSearchUserFormWithError('smsnonumber', $request);
+
         }
 
         $sms = $context['user_sms'];

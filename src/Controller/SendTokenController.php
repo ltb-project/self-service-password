@@ -22,6 +22,9 @@
 # This page is called to send a reset token by mail
 namespace App\Controller;
 
+use App\Exception\LdapEntryFoundInvalid;
+use App\Exception\LdapError;
+use App\Exception\LdapInvalidUserCredentials;
 use App\Framework\Controller;
 use App\Framework\Request;
 
@@ -84,17 +87,16 @@ class SendTokenController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $result = $ldapClient->connect();
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
+        try {
+            $ldapClient->connect();
+            $ldapClient->checkMail($login, $mail);
+        } catch (LdapError $e) {
+            return $this->renderFormWithError('ldaperror', $request);
+        } catch (LdapInvalidUserCredentials $e) {
+            return $this->renderFormWithError('badcredentials', $request);
+        } catch (LdapEntryFoundInvalid $e) {
+            return $this->renderFormWithError('mailnomatch', $request);
         }
-
-        // Check mail
-        $result = $ldapClient->checkMail($login, $mail);
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
         // Build and store token
 
         // Use PHP session to register token

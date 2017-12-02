@@ -23,6 +23,9 @@
 
 namespace App\Controller;
 
+use App\Exception\LdapError;
+use App\Exception\LdapInvalidUserCredentials;
+use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 use App\Framework\Request;
 
@@ -88,23 +91,18 @@ class ChangeSshKeyController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $result = $ldapClient->connect();
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
         $context = array ();
 
-        // Check password{
-        $result = $ldapClient->checkOldPassword2($login, $password, $context);
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
-        // Change sshPublicKey
-        $result = $ldapClient->changeSshKey($context['user_dn'], $sshkey);
-        if($result != 'sshkeychanged') {
-            return $this->renderFormWithError($result, $request);
+        try {
+            $ldapClient->connect();
+            $ldapClient->checkOldPassword2($login, $password, $context);
+            $ldapClient->changeSshKey($context['user_dn'], $sshkey);
+        } catch (LdapError $e) {
+            return $this->renderFormWithError('ldaperror', $request);
+        } catch (LdapInvalidUserCredentials $e) {
+            return $this->renderFormWithError('badcredentials', $request);
+        } catch (LdapUpdateFailed $e) {
+            return $this->renderFormWithError('invalidkeyerror', $request);
         }
 
         // Notify password change

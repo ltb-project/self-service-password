@@ -22,6 +22,9 @@
 # This page is called to reset a password trusting question/anwser
 namespace App\Controller;
 
+use App\Exception\LdapError;
+use App\Exception\LdapInvalidUserCredentials;
+use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 use App\Framework\Request;
 
@@ -107,22 +110,24 @@ class ResetByQuestionsController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $result = $ldapClient->connect();
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
         $context = array();
 
-        // Check question/answer
-        $result = $ldapClient->checkQuestionAnswer($login, $question, $answer, $context);
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
+        try {
+            $ldapClient->connect();
 
-        $result = $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
-        if($result != 'passwordchanged') {
-            return $this->renderFormWithError($result, $request);
+            // Check question/answer
+            $match = $ldapClient->checkQuestionAnswer($login, $question, $answer, $context);
+            if(!$match) {
+                return $this->renderFormWithError($result, $request);
+            }
+
+            $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
+        } catch (LdapError $e) {
+            return $this->renderFormWithError('ldaperror', $request);
+        } catch (LdapUpdateFailed $e) {
+            return $this->renderFormWithError('passworderror', $request);
+        } catch (LdapInvalidUserCredentials $e) {
+            return $this->renderFormWithError('badcredentials', $request);
         }
 
         // Notify password change

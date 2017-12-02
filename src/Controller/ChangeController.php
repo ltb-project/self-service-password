@@ -23,6 +23,9 @@
 
 namespace App\Controller;
 
+use App\Exception\LdapError;
+use App\Exception\LdapInvalidUserCredentials;
+use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 use App\Framework\Request;
 
@@ -106,24 +109,18 @@ class ChangeController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        // Ldap connect
-        $result = $ldapClient->connect();
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
         $context = array ();
 
-        // Check old password
-        $result = $ldapClient->checkOldPassword($login, $oldpassword, $context);
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
-
-        // Change password
-        $result = $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
-        if($result != 'passwordchanged') {
-            return $this->renderFormWithError($result, $request);
+        try {
+            $ldapClient->connect();
+            $ldapClient->checkOldPassword($login, $oldpassword, $context);
+            $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
+        } catch (LdapError $e) {
+            return $this->renderFormWithError('ldaperror', $request);
+        } catch (LdapInvalidUserCredentials $e) {
+            return $this->renderFormWithError('badcredentials', $request);
+        } catch (LdapUpdateFailed $e) {
+            return $this->renderFormWithError('passworderror', $request);
         }
 
         // Notify password change
