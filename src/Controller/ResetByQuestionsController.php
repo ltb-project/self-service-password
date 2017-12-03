@@ -115,10 +115,16 @@ class ResetByQuestionsController extends Controller {
         try {
             $ldapClient->connect();
 
+            $notify_on_change = $this->config['notify_on_change'];
+
+            $wanted = ['dn', 'samba', 'shadow', 'questions'];
+            if($notify_on_change) $wanted[] = 'mail';
+            $ldapClient->fetchUserEntryContext($login, $wanted, $context);
+
             // Check question/answer
             $match = $ldapClient->checkQuestionAnswer($login, $question, $answer, $context);
             if(!$match) {
-                return $this->renderFormWithError($result, $request);
+                return $this->renderFormWithError('answernomatch', $request);
             }
 
             $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);

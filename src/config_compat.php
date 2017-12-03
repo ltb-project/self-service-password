@@ -78,3 +78,7 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
 if (!isset($messages)) { $messages = array(); }
 
+// Force hash clear if ad_mode = true
+if($ad_mode) {
+    $hash = 'clear';
+}

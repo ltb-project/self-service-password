@@ -83,7 +83,12 @@ class ResetByTokenController extends Controller {
 
         try {
             $ldapClient->connect();
-            $ldapClient->findUser($login, $context);
+            $wantedContext = ['dn', 'samba', 'shadow'];
+            // Get user email for notification
+            if ( $this->config['notify_on_change'] ) {
+                $wantedContext[] = 'mail';
+            }
+            $ldapClient->fetchUserEntryContext($login, $wantedContext, $context);
         } catch (LdapError $e) {
             return $this->renderErrorPage('ldaperror', $request);
         } catch (LdapInvalidUserCredentials $e) {

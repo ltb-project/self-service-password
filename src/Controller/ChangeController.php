@@ -113,7 +113,11 @@ class ChangeController extends Controller {
 
         try {
             $ldapClient->connect();
-            $ldapClient->checkOldPassword($login, $oldpassword, $context);
+            $notify = $this->config['notify_on_change'];
+            // we want user's email address if we have to notify
+            $wanted = $notify ? ['dn', 'samba', 'shadow', 'mail'] : ['dn', 'samba', 'shadow'];
+            $ldapClient->fetchUserEntryContext($login, $wanted, $context);
+            $ldapClient->checkOldPassword($oldpassword, $context);
             $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
         } catch (LdapError $e) {
             return $this->renderFormWithError('ldaperror', $request);

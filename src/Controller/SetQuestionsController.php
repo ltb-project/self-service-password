@@ -95,7 +95,8 @@ class SetQuestionsController extends Controller {
 
         try {
             $ldapClient->connect();
-            $ldapClient->checkOldPassword3($login, $password, $context);
+            $ldapClient->fetchUserEntryContext($login, ['dn'], $context);
+            $ldapClient->checkOldPassword($password, $context);
             // Register answer
             $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
         } catch (LdapError $e) {

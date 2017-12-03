@@ -95,7 +95,12 @@ class ChangeSshKeyController extends Controller {
 
         try {
             $ldapClient->connect();
-            $ldapClient->checkOldPassword2($login, $password, $context);
+
+            $notify = $this->config['notify_on_sshkey_change'];
+            // we want user's email address if we have to notify
+            $wanted = $notify ? ['dn', 'mail'] : ['dn'];
+            $ldapClient->fetchUserEntryContext($login, $wanted, $context);
+            $ldapClient->checkOldPassword($password, $context);
             $ldapClient->changeSshKey($context['user_dn'], $sshkey);
         } catch (LdapError $e) {
             return $this->renderFormWithError('ldaperror', $request);

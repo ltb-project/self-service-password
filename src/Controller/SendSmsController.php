@@ -237,7 +237,13 @@ class SendSmsController extends Controller {
 
         try {
             $ldapClient->connect();
-            $ldapClient->findUserSms($login, $context);
+            $wanted = ['dn', 'sms', 'displayname'];
+            $ldapClient->fetchUserEntryContext($login, $wanted, $context);
+
+            if ( !$context['user_sms'] ) {
+                error_log("No SMS number found for user $login");
+                throw new LdapEntryFoundInvalid();
+            }
         } catch (LdapError $e) {
             return $this->renderSearchUserFormWithError('ldaperror', $request);
         } catch (LdapInvalidUserCredentials $e) {
