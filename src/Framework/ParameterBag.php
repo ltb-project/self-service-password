@@ -29,7 +29,7 @@ namespace App\Framework;
 class ParameterBag {
     private $parameters;
 
-    public function __construct(array $parameters = array())
+    public function __construct(array $parameters = [])
     {
         $this->parameters = $parameters;
     }

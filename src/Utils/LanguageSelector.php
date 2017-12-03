@@ -23,7 +23,7 @@ namespace App\Utils;
 
 class LanguageSelector {
     public function findAvailableLanguages($path, $lang, $allowed_lang) {
-        $languages = array();
+        $languages = [];
         if ($handle = opendir($path)) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry != "." && $entry != ".." ) {

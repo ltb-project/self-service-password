@@ -25,7 +25,7 @@ class Request {
     public $query;
     public $request;
 
-    public function __construct($query = array(), $request = array()) {
+    public function __construct($query = [], $request = []) {
         $this->query = new ParameterBag($query);
         $this->request = new ParameterBag($request);
     }

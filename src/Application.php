@@ -87,7 +87,7 @@ class Application {
 
     private function isActionAllowed($action) {
         # Available actions
-        $available_actions = array();
+        $available_actions = [];
         if ( $this->config['use_change'] ) { array_push( $available_actions, "change"); }
         if ( $this->config['change_sshkey'] ) { array_push( $available_actions, "changesshkey"); }
         if ( $this->config['use_questions'] ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
@@ -112,7 +112,7 @@ class Application {
         $languageSelector = new LanguageSelector();
 
         // will be modified by lang files
-        $messages = array();
+        $messages = [];
 
         // Available languages
         $languages = $languageSelector->findAvailableLanguages(__DIR__ . '/../lang', $lang, $allowed_lang);

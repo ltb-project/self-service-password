@@ -23,7 +23,7 @@
 # PHP modules
 #==============================================================================
 # Init dependency check results variable
-$dependency_check_results = array();
+$dependency_check_results = [];
 
 # Check PHP-LDAP presence
 if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }
@@ -54,12 +54,12 @@ if (!isset($default_action)) { $default_action = "change"; }
 if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }
 if (!isset($ldap_fullname_attribute)) { $ldap_fullname_attribute = "cn"; }
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars = ""; }
-if (!isset($hash_options)) { $hash_options = array(); }
-if (!isset($samba_options)) { $samba_options = array(); }
+if (!isset($hash_options)) { $hash_options = []; }
+if (!isset($samba_options)) { $samba_options = []; }
 if (!isset($ldap_starttls)) { $ldap_starttls = false; }
 
 # Password policy array
-$pwd_policy_config = array(
+$pwd_policy_config = [
     "pwd_show_policy"         => $pwd_show_policy,
     "pwd_min_length"          => $pwd_min_length,
     "pwd_max_length"          => $pwd_max_length,
@@ -72,11 +72,11 @@ $pwd_policy_config = array(
     "pwd_no_reuse"            => $pwd_no_reuse,
     "pwd_diff_login"          => $pwd_diff_login,
     "pwd_complexity"          => $pwd_complexity
-);
+];
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
-if (!isset($messages)) { $messages = array(); }
+if (!isset($messages)) { $messages = []; }
 
 // Force hash clear if ad_mode = true
 if($ad_mode) {

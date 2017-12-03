@@ -91,7 +91,7 @@ class SetQuestionsController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = array();
+        $context = [];
 
         try {
             $ldapClient->connect();
@@ -119,16 +119,16 @@ class SetQuestionsController extends Controller {
     }
 
     private function renderForm($result, Request $request) {
-        return $this->render('setquestions.twig', array(
+        return $this->render('setquestions.twig', [
             'result' => $result,
             'login' => $request->get('login'),
             'questions' => $this->config['messages']["questions"],
-        ));
+        ]);
     }
 
     private function renderPageSuccess() {
-        return $this->render('setquestions.twig', array(
+        return $this->render('setquestions.twig', [
             'result' => 'answerchanged',
-        ));
+        ]);
     }
 }

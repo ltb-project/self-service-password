@@ -55,7 +55,7 @@ class Controller {
      */
     protected function render($template, array $vars) {
         //TODO move this to a template specific file for better multi themes support
-        $vars1 = array (
+        $vars1 = [
             'lang' => $this->config['lang'],
             'background_image' => $this->config['background_image'],
             'show_menu' => $this->config['show_menu'],
@@ -67,7 +67,7 @@ class Controller {
             'change_sshkey' => $this->config['change_sshkey'],
             'action' => $this->config['action'],
             'source' => $this->config['source'],
-        );
+        ];
 
         return new Response($this->twig->render($template, $vars1 + $vars));
     }

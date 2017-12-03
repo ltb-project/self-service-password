@@ -37,6 +37,6 @@ class PosthookExecutor {
         $return_var = null;
         exec($command, $output, $return_var);
 
-        return array('output' => $output, 'return_var' => $return_var);
+        return ['output' => $output, 'return_var' => $return_var];
     }
 }

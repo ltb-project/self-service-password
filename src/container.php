@@ -100,9 +100,9 @@ $container['posthook_executor'] = function ($c) {
 
 $container['twig'] = function ($c) {
     $loader = new Twig_Loader_Filesystem(__DIR__.'/../templates');
-    $twig = new Twig_Environment($loader, array(
+    $twig = new Twig_Environment($loader, [
         //'cache' => __DIR__ .'/../var/cache/templates_c',
-    ));
+    ]);
 
     # Get message criticity
     $get_criticity = function ( $msg ) {

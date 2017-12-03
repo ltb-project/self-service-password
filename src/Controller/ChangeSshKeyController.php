@@ -58,7 +58,7 @@ class ChangeSshKeyController extends Controller {
         $password = $request->request->get("password", "");
         $sshkey = $request->request->get("sshkey", "");
 
-        $missings = array();
+        $missings = [];
         if (!$login) { $missings[] = "loginrequired"; }
         if (!$password) { $missings[] = "passwordrequired"; }
         if (!$sshkey) { $missings[] = "sshkeyrequired"; }
@@ -91,7 +91,7 @@ class ChangeSshKeyController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = array ();
+        $context = [];
 
         try {
             $ldapClient->connect();
@@ -115,7 +115,7 @@ class ChangeSshKeyController extends Controller {
             /** @var MailNotificationService $mailService */
             $mailService = $this->get('mail_notification_service');
 
-            $data = array( "login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey);
+            $data = ["login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey];
             $mailService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
         }
 
@@ -123,22 +123,22 @@ class ChangeSshKeyController extends Controller {
     }
 
     private function renderEmptyForm(Request $request) {
-        return $this->render('changesshkey.twig', array(
+        return $this->render('changesshkey.twig', [
             'result' => 'emptysshkeychangeform',
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderFormWithError($error, Request $request) {
-        return $this->render('changesshkey.twig', array(
+        return $this->render('changesshkey.twig', [
             'result' => $error,
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderSuccessPage() {
-        return $this->render('changesshkey.twig', array(
+        return $this->render('changesshkey.twig', [
             'result' => 'sshkeychanged',
-        ));
+        ]);
     }
 }

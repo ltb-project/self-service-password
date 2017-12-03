@@ -49,7 +49,7 @@ class ResetUrlGenerator {
             $this->reset_url = $method."://".$server_name.$script_name;
         }
 
-        return $this->reset_url . '?' . http_build_query(array ('action' => 'resetbytoken') + $params);
+        return $this->reset_url . '?' . http_build_query(['action' => 'resetbytoken'] + $params);
     }
 
 }

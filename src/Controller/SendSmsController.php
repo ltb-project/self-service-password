@@ -112,11 +112,11 @@ class SendSmsController extends Controller {
         }
         # Delete token if not valid or all is ok
         if ( $result === "tokennotvalid" ) {
-            $_SESSION = array();
+            $_SESSION = [];
             session_destroy();
         }
         if ( $result === "" ) {
-            $_SESSION = array();
+            $_SESSION = [];
             session_destroy();
 
             // Build and store token
@@ -140,7 +140,7 @@ class SendSmsController extends Controller {
             $resetUrlGenerator = $this->get('reset_url_generator');
 
             // Redirect to resetbytoken page
-            $reset_url = $resetUrlGenerator->generate_reset_url(array('source' => 'sms', 'token' => $token));
+            $reset_url = $resetUrlGenerator->generate_reset_url(['source' => 'sms', 'token' => $token]);
 
             if ( !empty($reset_request_log) ) {
                 error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
@@ -183,11 +183,11 @@ class SendSmsController extends Controller {
         $_SESSION['time']     = time();
         $_SESSION['attempts'] = 0;
 
-        $data = array(
+        $data = [
             "sms_attribute" => $sms,
             "smsresetmessage" => $this->config['messages']['smsresetmessage'],
             "smstoken" => $smstoken,
-        ) ;
+        ];
 
         /** @var SmsNotificationService $smsService */
         $smsService = $this->get('sms_notification_service');
@@ -233,7 +233,7 @@ class SendSmsController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = array();
+        $context = [];
 
         try {
             $ldapClient->connect();
@@ -265,39 +265,39 @@ class SendSmsController extends Controller {
     }
 
     private function renderSearchUserFromEntry($result, $context, $login, $encrypted_sms_login, $sms) {
-        return $this->render('sendsms.twig', array(
+        return $this->render('sendsms.twig', [
             'result' => $result,
             'displayname' => $context['user_displayname'],
             'login' => $login,
             'encrypted_sms_login' => $encrypted_sms_login,
             'sms' => $this->config['sms_partially_hide_number'] ? (substr_replace($sms, '****', 4 , 4)) : $sms,
-        ));
+        ]);
     }
 
     private function renderSearchUserFormEmpty(Request $request) {
-        return $this->render('sendsms.twig', array(
+        return $this->render('sendsms.twig', [
             'result' => 'emptysendsmsform',
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderSearchUserFormWithError($result, Request $request) {
-        return $this->render('sendsms.twig', array(
+        return $this->render('sendsms.twig', [
             'result' => $result,
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderErrorPage($result) {
-        return $this->render('sendsms.twig', array(
+        return $this->render('sendsms.twig', [
             'result' => $result,
-        ));
+        ]);
     }
 
     private function renderTokenForm($result, $token) {
-        return $this->render('sendsms.twig', array(
+        return $this->render('sendsms.twig', [
             'result' => $result,
             'token' => $token,
-        ));
+        ]);
     }
 }

@@ -62,7 +62,7 @@ class ChangeController extends Controller {
         $newpassword = $request->request->get("newpassword", "");
         $confirmpassword = $request->request->get("confirmpassword", "");
 
-        $missings = array();
+        $missings = [];
         if (!$login) { $missings[] = "loginrequired"; }
         if (!$oldpassword) { $missings[] = "newpasswordrequired"; }
         if (!$newpassword) { $missings[] = "oldpasswordrequired"; }
@@ -109,7 +109,7 @@ class ChangeController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = array ();
+        $context = [];
 
         try {
             $ldapClient->connect();
@@ -131,7 +131,7 @@ class ChangeController extends Controller {
         if ($this->config['notify_on_change'] and $context['user_mail']) {
             /** @var MailNotificationService $mailService */
             $mailService = $this->get('mail_notification_service');
-            $data = array( "login" => $login, "mail" => $context['user_mail'], "password" => $newpassword);
+            $data = ["login" => $login, "mail" => $context['user_mail'], "password" => $newpassword];
             $mailService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
         }
 
@@ -146,22 +146,22 @@ class ChangeController extends Controller {
     }
 
     private function renderFormEmpty(Request $request) {
-        return $this->render('change.twig', $vars = array(
+        return $this->render('change.twig', $vars = [
             'result' => 'emptychangeform',
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderFormWithError($result, Request $request) {
-        return $this->render('change.twig', array(
+        return $this->render('change.twig', [
             'result' => $result,
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderSuccessPage() {
-        return $this->render('change.twig', array(
+        return $this->render('change.twig', [
             'result' => 'passwordchanged',
-        ));
+        ]);
     }
 }

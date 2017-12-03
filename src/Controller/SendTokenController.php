@@ -122,7 +122,7 @@ class SendTokenController extends Controller {
         $resetUrlGenerator = $this->get('reset_url_generator');
 
         // Send token by mail
-        $reset_url = $resetUrlGenerator->generate_reset_url(array('token' => $token));
+        $reset_url = $resetUrlGenerator->generate_reset_url(['token' => $token]);
 
         if ( !empty($reset_request_log) ) {
             error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
@@ -132,7 +132,7 @@ class SendTokenController extends Controller {
 
         /** @var MailNotificationService $mailService */
         $mailService = $this->get('mail_notification_service');
-        $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+        $data = ["login" => $login, "mail" => $mail, "url" => $reset_url];
         $success = $mailService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
 
         if($success) {
@@ -143,22 +143,22 @@ class SendTokenController extends Controller {
     }
 
     private function renderFormEmpty(Request $request) {
-        return $this->render('sendtoken.twig', array(
+        return $this->render('sendtoken.twig', [
             'result' => 'emptysendtokenform',
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderFormWithError($result, Request $request) {
-        return $this->render('sendtoken.twig', array(
+        return $this->render('sendtoken.twig', [
             'result' => $result,
             'login' => $request->get('login'),
-        ));
+        ]);
     }
 
     private function renderPageSuccess() {
-        return $this->render('sendtoken.twig', array(
+        return $this->render('sendtoken.twig', [
             'result' => 'tokensent',
-        ));
+        ]);
     }
 }
