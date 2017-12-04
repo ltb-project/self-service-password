@@ -41,7 +41,11 @@ require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 # Error reporting
 #==============================================================================
 error_reporting(0);
-if($debug) error_reporting(E_ALL);
+if($debug) {
+    error_reporting(E_ALL);
+    // Important to get error details in case of SSL/TLS failure at connection
+    ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
+}
 
 #==============================================================================
 # Language
