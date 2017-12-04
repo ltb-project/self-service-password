@@ -28,10 +28,10 @@ use App\Exception\LdapInvalidUserCredentials;
 use App\Framework\Controller;
 use App\Framework\Request;
 
-use App\Service\EncryptionService;
 use App\Service\LdapClient;
 use App\Service\MailNotificationService;
 use App\Service\RecaptchaService;
+use App\Service\TokenManagerService;
 use App\Service\UsernameValidityChecker;
 use App\Utils\ResetUrlGenerator;
 
@@ -97,26 +97,12 @@ class SendTokenController extends Controller {
         } catch (LdapEntryFoundInvalid $e) {
             return $this->renderFormWithError('mailnomatch', $request);
         }
-        // Build and store token
 
-        // Use PHP session to register token
-        // We do not generate cookie
-        ini_set("session.use_cookies",0);
-        ini_set("session.use_only_cookies",1);
 
-        session_name("token");
-        session_start();
-        $_SESSION['login'] = $login;
-        $_SESSION['time']  = time();
+        /** @var TokenManagerService $tokenManager */
+        $tokenManager = $this->get('token_manager_service');
 
-        if ( $this->config['crypt_tokens'] ) {
-            /** @var EncryptionService $encryptionService */
-            $encryptionService = $this->get('encryption_service');
-
-            $token = $encryptionService->encrypt(session_id());
-        } else {
-            $token = session_id();
-        }
+        $token = $tokenManager->createToken($login);
 
         /** @var ResetUrlGenerator $resetUrlGenerator */
         $resetUrlGenerator = $this->get('reset_url_generator');

@@ -26,15 +26,16 @@ namespace App\Controller;
 use App\Exception\LdapError;
 use App\Exception\LdapInvalidUserCredentials;
 use App\Exception\LdapUpdateFailed;
+use App\Exception\TokenException;
 use App\Framework\Controller;
 use App\Framework\Request;
 
-use App\Service\EncryptionService;
 use App\Service\LdapClient;
 use App\Service\MailNotificationService;
 use App\Service\PasswordStrengthChecker;
 use App\Service\PosthookExecutor;
 use App\Service\RecaptchaService;
+use App\Service\TokenManagerService;
 
 class ResetByTokenController extends Controller {
     /**
@@ -42,39 +43,67 @@ class ResetByTokenController extends Controller {
      * @return string
      */
     public function indexAction(Request $request) {
-        $token = $request->get('token');
-
-        if (!$token) {
-            return $this->renderErrorPage('tokenrequired', $request);
-        }
-
+        $problems = [];
         $login = '';
 
-        // Get token
-        $result = $this->handleToken($token, $login);
-        if($result != '') {
-            return $this->renderErrorPage('tokennotvalid', $request);
+        /** @var TokenManagerService $tokenManagerService */
+        $tokenManagerService = $this->get('token_manager_service');
+
+        // First, de we have a valid token ?
+        $token = $request->get('token');
+        if (!$token) {
+            $problems[] = 'tokenrequired';
+        } else {
+            // Get token
+            try {
+                $login = $tokenManagerService->openToken($token);
+            } catch (TokenException $e) {
+                $problems[] = 'tokennotvalid';
+            }
+        }
+        if(count($problems)) {
+            return $this->renderErrorPage($problems[0], $request);
         }
 
-        // Get passwords
+        // Next is the form submitted ?
         $newpassword = $request->request->get("newpassword");
         $confirmpassword = $request->request->get('confirmpassword');
         if (!$newpassword) {
-            return $this->renderErrorPage('newpasswordrequired', $request);
+            $problems[] = 'newpasswordrequired';
         }
         if (!$confirmpassword) {
-            return $this->renderErrorPage('confirmpasswordrequired', $request);
+            $problems[] = 'confirmpasswordrequired';
         }
 
-        // Check reCAPTCHA
+        // Match new and confirm password
+        if ( $newpassword != $confirmpassword ) {
+            $problems[] = 'nomatch';
+        }
+
+        /** @var PasswordStrengthChecker $passwordChecker */
+        $passwordChecker = $this->get('password_strength_checker');
+
+        // Check password strength
+        $result = $passwordChecker->evaluate( $newpassword, '', $login );
+        if($result != '') {
+            $problems[] = $result;
+        }
+
+        if(count($problems)) {
+            return $this->renderErrorPage($problems[0], $request);
+        }
+
+        // Okay the form is submitted but is the CAPTCHA valid ?
         if ( $this->config['use_recaptcha'] ) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
             if($result != '') {
-                return $this->renderErrorPage($result, $request);
+                $this->renderErrorPage($result, $request);
             }
         }
+
+        // All good, we try
 
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
@@ -89,37 +118,18 @@ class ResetByTokenController extends Controller {
                 $wantedContext[] = 'mail';
             }
             $ldapClient->fetchUserEntryContext($login, $wantedContext, $context);
+            // Change password
+            $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
         } catch (LdapError $e) {
             return $this->renderErrorPage('ldaperror', $request);
         } catch (LdapInvalidUserCredentials $e) {
             return $this->renderErrorPage('badcredentials', $request);
-        }
-
-        // Check and register new passord
-        // Match new and confirm password
-        if ( $newpassword != $confirmpassword ) {
-            return $this->renderErrorPage("nomatch", $request);
-        }
-
-        /** @var PasswordStrengthChecker $passwordChecker */
-        $passwordChecker = $this->get('password_strength_checker');
-
-        // Check password strength
-        $result = $passwordChecker->evaluate( $newpassword, '', $login );
-        if($result != '') {
-            return $this->renderErrorPage($result, $request);
-        }
-
-        // Change password
-        try {
-            $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
         } catch (LdapUpdateFailed $e) {
             return $this->renderErrorPage('passwordnotchanged', $request);
         }
 
         // Delete token if all is ok
-        $_SESSION = [];
-        session_destroy();
+        $tokenManagerService->destroyToken();
 
         // Notify password change
         if ($this->config['notify_on_change'] and $context['user_mail']) {
@@ -139,51 +149,6 @@ class ResetByTokenController extends Controller {
         }
 
         return $this->renderSuccessPage();
-    }
-
-    private function handleToken($token, &$login) {
-        $crypt_tokens = $this->config['crypt_tokens'];
-
-        /** @var EncryptionService $encryptionService */
-        $encryptionService = $this->get('encryption_service');
-
-        // Open session with the token
-        if ( $crypt_tokens ) {
-            $tokenid = $encryptionService->decrypt($token);
-        } else {
-            $tokenid = $token;
-        }
-
-        ini_set("session.use_cookies",0);
-        ini_set("session.use_only_cookies",1);
-
-        // Manage lifetime with sessions properties
-        if (isset($this->config['token_lifetime'])) {
-            ini_set("session.gc_maxlifetime", $this->config['token_lifetime']);
-            ini_set("session.gc_probability",1);
-            ini_set("session.gc_divisor",1);
-        }
-
-        session_id($tokenid);
-        session_name("token");
-        session_start();
-        $login = $_SESSION['login'];
-
-        if ( !$login ) {
-            error_log("Unable to open session $tokenid");
-            return "tokennotvalid";
-        }
-
-        if (isset($this->config['token_lifetime'])) {
-            // Manage lifetime with session content
-            $tokentime = $_SESSION['time'];
-            if ( time() - $tokentime > $this->config['token_lifetime'] ) {
-                error_log("Token lifetime expired");
-                return "tokennotvalid";
-            }
-        }
-
-        return '';
     }
 
     private function renderErrorPage($result, Request $request) {

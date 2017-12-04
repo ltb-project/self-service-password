@@ -98,6 +98,11 @@ $container['posthook_executor'] = function ($c) {
     return new Service\PosthookExecutor($c['config']['posthook']);
 };
 
+$container['token_manager_service'] = function ($c) {
+    return new Service\TokenManagerService($c['config']['crypt_tokens'], $c['encryption_service'], isset($c['config']['token_lifetime']) ? $c['config']['token_lifetime'] : null);
+};
+
+
 $container['twig'] = function ($c) {
     $loader = new Twig_Loader_Filesystem(__DIR__.'/../templates');
     $twig = new Twig_Environment($loader, [

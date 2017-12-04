@@ -32,6 +32,7 @@ use App\Service\EncryptionService;
 use App\Service\LdapClient;
 use App\Service\RecaptchaService;
 use App\Service\SmsNotificationService;
+use App\Service\TokenManagerService;
 use App\Service\UsernameValidityChecker;
 use App\Utils\ResetUrlGenerator;
 use App\Utils\SmsTokenGenerator;
@@ -119,22 +120,10 @@ class SendSmsController extends Controller {
             $_SESSION = [];
             session_destroy();
 
-            // Build and store token
+            /** @var TokenManagerService $tokenManagerService */
+            $tokenManagerService = $this->get('token_manager_service');
 
-            // Use PHP session to register token
-            // We do not generate cookie
-            ini_set("session.use_cookies",0);
-            ini_set("session.use_only_cookies",1);
-
-            session_name("token");
-            session_start();
-            $_SESSION['login'] = $login;
-            $_SESSION['time']  = time();
-
-            /** @var EncryptionService $encryptionService */
-            $encryptionService = $this->get('encryption_service');
-
-            $token = $encryptionService->encrypt(session_id());
+            $token = $tokenManagerService->createToken($login);
 
             /** @var ResetUrlGenerator $resetUrlGenerator */
             $resetUrlGenerator = $this->get('reset_url_generator');
