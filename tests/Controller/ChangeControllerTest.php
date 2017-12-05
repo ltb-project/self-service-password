@@ -48,8 +48,7 @@ class ChangeControllerTestFakeLdapClient {
         return ''; // no problem
     }
 
-    public function checkOldPassword($login, $oldpassword, &$context) {
-        unset($login);
+    public function checkOldPassword($oldpassword, &$context) {
         unset($oldpassword);
         unset($context);
 
