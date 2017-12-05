@@ -23,6 +23,8 @@ namespace App\Framework;
 
 use Pimple\Container;
 use Twig_Environment;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Controller
