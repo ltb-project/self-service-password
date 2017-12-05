@@ -5,7 +5,7 @@
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="src/autoload.php"
+         bootstrap="vendor/autoload.php"
 >
     <testsuites>
         <testsuite name="Project Test Suite">
