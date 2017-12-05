@@ -4,7 +4,7 @@
 namespace App\Tests\Acceptance;
 
 use App\Application;
-use App\Framework\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 class ConfigMigrationTest extends \PHPUnit_Framework_TestCase
 {

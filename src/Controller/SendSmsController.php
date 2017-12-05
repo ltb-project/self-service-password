@@ -26,7 +26,6 @@ use App\Exception\LdapEntryFoundInvalid;
 use App\Exception\LdapError;
 use App\Exception\LdapInvalidUserCredentials;
 use App\Framework\Controller;
-use App\Framework\Request;
 
 use App\Service\EncryptionService;
 use App\Service\LdapClient;
@@ -36,6 +35,7 @@ use App\Service\TokenManagerService;
 use App\Service\UsernameValidityChecker;
 use App\Utils\ResetUrlGenerator;
 use App\Utils\SmsTokenGenerator;
+use Symfony\Component\HttpFoundation\Request;
 
 class SendSmsController extends Controller {
     /**

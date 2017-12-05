@@ -22,7 +22,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Application;
-use App\Framework\Request;
+use Symfony\Component\HttpFoundation\Request as R;
 
 $configPath = __DIR__ . '/conf/config.inc.php';
 $containerPath = __DIR__ . '/src/container.php';
@@ -30,7 +30,9 @@ $containerOverridePath = __DIR__ . '/conf/container.inc.php';
 
 $app = new Application($configPath, $containerPath, $containerOverridePath);
 
-$request = Request::createFromGlobals();
+
+//$request = Request::createFromGlobals();
+$request = R::createFromGlobals();
 
 $response = $app->handle($request);
 $response->send();

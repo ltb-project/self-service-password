@@ -26,7 +26,6 @@ use App\Exception\LdapEntryFoundInvalid;
 use App\Exception\LdapError;
 use App\Exception\LdapInvalidUserCredentials;
 use App\Framework\Controller;
-use App\Framework\Request;
 
 use App\Service\LdapClient;
 use App\Service\MailNotificationService;
@@ -34,6 +33,7 @@ use App\Service\RecaptchaService;
 use App\Service\TokenManagerService;
 use App\Service\UsernameValidityChecker;
 use App\Utils\ResetUrlGenerator;
+use Symfony\Component\HttpFoundation\Request;
 
 class SendTokenController extends Controller {
     /**

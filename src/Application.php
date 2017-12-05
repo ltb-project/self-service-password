@@ -21,10 +21,10 @@
 
 namespace App;
 
-use App\Framework\Request;
 use App\Framework\Response;
 use App\Utils\LanguageSelector;
 use Pimple\Container;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Self Service Password application

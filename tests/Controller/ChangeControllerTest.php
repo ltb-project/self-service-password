@@ -3,7 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Application;
-use App\Framework\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 class ChangeControllerTest extends \PHPUnit_Framework_TestCase {
     public function testChangePassword() {

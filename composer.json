@@ -11,7 +11,8 @@
     "google/recaptcha": "~1.1",
     "psr/container": "~1.0",
     "psr/log": "~1.0",
-    "phpmailer/phpmailer": "~5.2"
+    "phpmailer/phpmailer": "~5.2",
+    "symfony/http-foundation": "~2.8"
   },
   "require-dev": {
     "phpunit/phpunit": "4.8.*"

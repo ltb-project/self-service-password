@@ -28,7 +28,6 @@ use App\Exception\LdapInvalidUserCredentials;
 use App\Exception\LdapUpdateFailed;
 use App\Exception\TokenException;
 use App\Framework\Controller;
-use App\Framework\Request;
 
 use App\Service\LdapClient;
 use App\Service\MailNotificationService;
@@ -36,6 +35,7 @@ use App\Service\PasswordStrengthChecker;
 use App\Service\PosthookExecutor;
 use App\Service\RecaptchaService;
 use App\Service\TokenManagerService;
+use Symfony\Component\HttpFoundation\Request;
 
 class ResetByTokenController extends Controller {
     /**
