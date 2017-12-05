@@ -64,4 +64,8 @@ class ChangeControllerTestFakeLdapClient {
 
         return 'passwordchanged';
     }
+
+    public function fetchUserEntryContext($login, $wanted, $context) {
+
+    }
 }
