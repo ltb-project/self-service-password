@@ -22,6 +22,7 @@
 use App\Controller as Controller;
 use App\Service as Service;
 use App\Utils as Utils;
+use App\EventSubscriber as EventSubscriber;
 
 use Pimple\Container;
 
@@ -31,9 +32,29 @@ $container['logger'] = function () {
     return new \App\Framework\DefaultLogger();
 };
 
-$container['event_dispatcher'] = function () {
+$container['event_dispatcher'] = function ($c) {
     $eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+
+    if(isset($c['config']['posthook'])) {
+        $eventDispatcher->addSubscriber(new EventSubscriber\PosthookSubscriber($c['posthook_executor']));
+    }
+
+    if($c['config']['notify_on_change'] || $c['config']['notify_on_sshkey_change']) {
+        $notificationSubscriber = new EventSubscriber\NotificationSubscriber(
+            $c['mail_notification_service'],
+            $c['translator'],
+            $c['config']['mail_signature'],
+            $c['config']['notify_on_change'],
+            $c['config']['notify_on_sshkey_change']
+        );
+        $eventDispatcher->addSubscriber($notificationSubscriber);
+    }
+
     return $eventDispatcher;
+};
+
+$container['translator'] = function ($c) {
+    return new \App\Framework\Translator($c['config']['messages']);
 };
 
 $container['reset_url_generator'] = function ($c) {
@@ -87,7 +108,7 @@ $container['mail_sender'] = function ($c) {
 };
 
 $container['mail_notification_service'] = function ($c) {
-    return new Service\MailNotificationService($c['mailer_sender'], $c['config']['mail_from'], $c['config']['mail_from_name']);
+    return new Service\MailNotificationService($c['mail_sender'], $c['config']['mail_from'], $c['config']['mail_from_name']);
 };
 
 $container['sms_notification_service'] = function ($c) {

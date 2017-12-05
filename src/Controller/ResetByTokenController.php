@@ -35,6 +35,8 @@ use App\Service\PasswordStrengthChecker;
 use App\Service\PosthookExecutor;
 use App\Service\RecaptchaService;
 use App\Service\TokenManagerService;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class ResetByTokenController extends Controller {
@@ -129,22 +131,16 @@ class ResetByTokenController extends Controller {
         // Delete token if all is ok
         $tokenManagerService->destroyToken();
 
-        // Notify password change
-        if ($notify and $context['user_mail']) {
-            /** @var MailNotificationService $mailService */
-            $mailService = $this->get('mail_notification_service');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $this->get('event_dispatcher');
 
-            $data = ["login" => $login, "mail" => $context['user_mail'], "password" => $newpassword];
-            $mailService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
-        }
+        $event = new GenericEvent();
+        $event['login'] = $login;
+        $event['new_password'] = $newpassword;
+        $event['old_password'] = null;
+        $event['context'] = $context;
 
-        // Posthook
-        if ( isset($this->config['posthook']) ) {
-            /** @var PosthookExecutor $posthookExecutor */
-            $posthookExecutor = $this->get('posthook_executor');
-
-            $posthookExecutor->execute($login, $newpassword);
-        }
+        $eventDispatcher->dispatch('password.changed', $event);
 
         // render success page
         return $this->render('resetbytoken.twig', ['result' => 'passwordchanged']);

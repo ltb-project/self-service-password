@@ -29,11 +29,11 @@ use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 
 use App\Service\LdapClient;
-use App\Service\MailNotificationService;
 use App\Service\PasswordStrengthChecker;
-use App\Service\PosthookExecutor;
 use App\Service\RecaptchaService;
 use App\Service\UsernameValidityChecker;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class ChangeController extends Controller {
@@ -113,15 +113,13 @@ class ChangeController extends Controller {
             }
         }
 
-        $notify = $this->config['notify_on_change'];
-
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
         try {
             $ldapClient->connect();
             // we want user's email address if we have to notify
-            $wanted = $notify ? ['dn', 'samba', 'shadow', 'mail'] : ['dn', 'samba', 'shadow'];
+            $wanted = $this->config['notify_on_change'] ? ['dn', 'samba', 'shadow', 'mail'] : ['dn', 'samba', 'shadow'];
             $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
             $ldapClient->checkOldPassword($oldpassword, $context);
@@ -134,20 +132,16 @@ class ChangeController extends Controller {
             return $this->renderFormWithError('passworderror', $request);
         }
 
-        // Notify password change
-        if ($notify and $context['user_mail']) {
-            /** @var MailNotificationService $mailService */
-            $mailService = $this->get('mail_notification_service');
-            $data = ["login" => $login, "mail" => $context['user_mail'], "password" => $newpassword];
-            $mailService->send($context['user_mail'], $this->config['messages']["changesubject"], $this->config['messages']["changemessage"].$this->config['mail_signature'], $data);
-        }
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $this->get('event_dispatcher');
 
-        // Posthook
-        if ( isset($this->config['posthook']) ) {
-            /** @var PosthookExecutor $posthookExecutor */
-            $posthookExecutor = $this->get('posthook_executor');
-            $posthookExecutor->execute($login, $newpassword, $oldpassword);
-        }
+        $event = new GenericEvent();
+        $event['login'] = $login;
+        $event['new_password'] = $newpassword;
+        $event['old_password'] = $oldpassword;
+        $event['context'] = $context;
+
+        $eventDispatcher->dispatch('password.changed', $event);
 
         // render page success
         return $this->render('change.twig', ['result' => 'passwordchanged']);

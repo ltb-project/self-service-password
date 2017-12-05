@@ -32,6 +32,8 @@ use App\Service\LdapClient;
 use App\Service\MailNotificationService;
 use App\Service\RecaptchaService;
 use App\Service\UsernameValidityChecker;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class ChangeSshKeyController extends Controller {
@@ -97,15 +99,13 @@ class ChangeSshKeyController extends Controller {
             }
         }
 
-        $notify = $this->config['notify_on_sshkey_change'];
-
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
         try {
             $ldapClient->connect();
             // we want user's email address if we have to notify
-            $wanted = $notify ? ['dn', 'mail'] : ['dn'];
+            $wanted = $this->config['notify_on_sshkey_change'] ? ['dn', 'mail'] : ['dn'];
             $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
             $ldapClient->checkOldPassword($password, $context);
@@ -118,14 +118,15 @@ class ChangeSshKeyController extends Controller {
             return $this->renderFormWithError('invalidkeyerror', $request);
         }
 
-        // Notify password change
-        if ($notify and $context['user_mail']) {
-            /** @var MailNotificationService $mailService */
-            $mailService = $this->get('mail_notification_service');
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $this->get('event_dispatcher');
 
-            $data = ["login" => $login, "mail" => $context['user_mail'], "sshkey" => $sshkey];
-            $mailService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
-        }
+        $event = new GenericEvent();
+        $event['login'] = $login;
+        $event['ssh_key'] = $sshkey;
+        $event['context'] = $context;
+
+        $eventDispatcher->dispatch('ssh_key.changed', $event);
 
         // Render success page
         return $this->render('changesshkey.twig', ['result' => 'sshkeychanged']);
