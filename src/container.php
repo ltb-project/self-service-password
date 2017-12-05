@@ -31,6 +31,11 @@ $container['logger'] = function () {
     return new \App\Framework\DefaultLogger();
 };
 
+$container['event_dispatcher'] = function () {
+    $eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+    return $eventDispatcher;
+};
+
 $container['reset_url_generator'] = function ($c) {
     return new Utils\ResetUrlGenerator($c['config']['reset_url']);
 };
