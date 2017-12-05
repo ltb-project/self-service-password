@@ -84,10 +84,7 @@ class ResetByTokenController extends Controller {
         $passwordChecker = $this->get('password_strength_checker');
 
         // Check password strength
-        $result = $passwordChecker->evaluate( $newpassword, '', $login );
-        if($result != '') {
-            $problems[] = $result;
-        }
+        $problems += $passwordChecker->evaluate( $newpassword, '', $login );
 
         if(count($problems)) {
             return $this->renderErrorPage($problems[0], $request);

@@ -31,7 +31,7 @@ class PasswordStrengthChecker {
     public function evaluate($newpassword, $oldpassword, $login) {
         extract( $this->pwd_policy_config );
 
-        $result = "";
+        $problems = [];
 
         $length = strlen(utf8_decode($newpassword));
         preg_match_all("/[a-z]/", $newpassword, $lower_res);
@@ -60,36 +60,38 @@ class PasswordStrengthChecker {
             if ( $digit > 0 ) { $complex++; }
             if ( $lower > 0 ) { $complex++; }
             if ( $upper > 0 ) { $complex++; }
-            if ( $complex < $pwd_complexity ) { $result="notcomplex"; }
+            if ( $complex < $pwd_complexity ) {
+                $problems[] = "notcomplex";
+            }
         }
 
         # Minimal lenght
-        if ( $pwd_min_length and $length < $pwd_min_length ) { $result="tooshort"; }
+        if ( $pwd_min_length and $length < $pwd_min_length ) { $problems[] = "tooshort"; }
 
         # Maximal lenght
-        if ( $pwd_max_length and $length > $pwd_max_length ) { $result="toobig"; }
+        if ( $pwd_max_length and $length > $pwd_max_length ) { $problems[] = "toobig"; }
 
         # Minimal lower chars
-        if ( $pwd_min_lower and $lower < $pwd_min_lower ) { $result="minlower"; }
+        if ( $pwd_min_lower and $lower < $pwd_min_lower ) { $problems[] = "minlower"; }
 
         # Minimal upper chars
-        if ( $pwd_min_upper and $upper < $pwd_min_upper ) { $result="minupper"; }
+        if ( $pwd_min_upper and $upper < $pwd_min_upper ) { $problems[] = "minupper"; }
 
         # Minimal digit chars
-        if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $result="mindigit"; }
+        if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $problems[] = "mindigit"; }
 
         # Minimal special chars
-        if ( $pwd_min_special and $special < $pwd_min_special ) { $result="minspecial"; }
+        if ( $pwd_min_special and $special < $pwd_min_special ) { $problems[] = "minspecial"; }
 
         # Forbidden chars
-        if ( $forbidden > 0 ) { $result="forbiddenchars"; }
+        if ( $forbidden > 0 ) { $problems[] = "forbiddenchars"; }
 
         # Same as old password?
-        if ( $pwd_no_reuse and $newpassword === $oldpassword ) { $result="sameasold"; }
+        if ( $pwd_no_reuse and $newpassword === $oldpassword ) { $problems[] = "sameasold"; }
 
         # Same as login?
-        if ( $pwd_diff_login and $newpassword === $login ) { $result="sameaslogin"; }
+        if ( $pwd_diff_login and $newpassword === $login ) { $problems[] = "sameaslogin"; }
 
-        return $result;
+        return $problems;
     }
 }

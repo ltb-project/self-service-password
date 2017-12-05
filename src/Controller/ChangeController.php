@@ -96,10 +96,7 @@ class ChangeController extends Controller {
         $passwordChecker = $this->get('password_strength_checker');
 
         // Check password strength
-        $result = $passwordChecker->evaluate( $newpassword, $oldpassword, $login );
-        if($result != '') {
-            $errors[] = $result;
-        }
+        $errors += $passwordChecker->evaluate( $newpassword, $oldpassword, $login );
 
         if(count($errors) > 0) {
             return $this->renderFormWithError($errors[0], $request);

@@ -99,10 +99,7 @@ class ResetByQuestionsController extends Controller {
         /** @var PasswordStrengthChecker $passwordChecker */
         $passwordChecker = $this->get('password_strength_checker');
 
-        $result = $passwordChecker->evaluate( $newpassword, '', $login );
-        if($result != '') {
-            $errors[] = $result;
-        }
+        $errors += $passwordChecker->evaluate( $newpassword, '', $login );
 
         if(count($errors) > 0) {
             return $this->renderFormWithError($errors[], $request);
