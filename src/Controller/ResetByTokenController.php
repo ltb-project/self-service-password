@@ -105,18 +105,19 @@ class ResetByTokenController extends Controller {
 
         // All good, we try
 
+        $notify = $this->config['notify_on_change'];
+
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
-
-        $context = [];
 
         try {
             $ldapClient->connect();
             $wantedContext = ['dn', 'samba', 'shadow'];
             // Get user email for notification
-            if ( $this->config['notify_on_change'] ) {
+            if ($notify) {
                 $wantedContext[] = 'mail';
             }
+            $context = [];
             $ldapClient->fetchUserEntryContext($login, $wantedContext, $context);
             // Change password
             $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
@@ -132,7 +133,7 @@ class ResetByTokenController extends Controller {
         $tokenManagerService->destroyToken();
 
         // Notify password change
-        if ($this->config['notify_on_change'] and $context['user_mail']) {
+        if ($notify and $context['user_mail']) {
             /** @var MailNotificationService $mailService */
             $mailService = $this->get('mail_notification_service');
 
@@ -148,7 +149,8 @@ class ResetByTokenController extends Controller {
             $posthookExecutor->execute($login, $newpassword);
         }
 
-        return $this->renderSuccessPage();
+        // render success page
+        return $this->render('resetbytoken.twig', ['result' => 'passwordchanged']);
     }
 
     private function renderErrorPage($result, Request $request) {
@@ -157,12 +159,6 @@ class ResetByTokenController extends Controller {
             'source' => $request->get('source'),
             'token' => $request->get('token'),
             'login' => $request->get('login'),
-        ]);
-    }
-
-    private function renderSuccessPage() {
-        return $this->render('resetbytoken.twig', [
-            'result' => 'passwordchanged',
         ]);
     }
 }

@@ -46,7 +46,11 @@ class ChangeController extends Controller {
             return $this->processFormData($request);
         }
 
-        return $this->renderFormEmpty($request);
+        // Render empty form
+        return $this->render('change.twig', [
+            'result' => 'emptychangeform',
+            'login' => $request->get('login'),
+        ]);
     }
 
     private function isFormSubmitted(Request $request) {
@@ -72,18 +76,20 @@ class ChangeController extends Controller {
             return $this->renderFormWithError($missings[0], $request);
         }
 
+        $errors = [];
+
         /** @var UsernameValidityChecker $usernameChecker */
         $usernameChecker = $this->get('username_validity_checker');
 
         // Check the entered username for characters that our installation doesn't support
         $result = $usernameChecker->evaluate($login);
         if($result != '') {
-            return $this->renderFormWithError($result, $request);
+            $errors[] = $result;
         }
 
         // Match new and confirm password
         if ( $newpassword != $confirmpassword ) {
-            return $this->renderFormWithError("nomatch", $request);
+            $errors[] = 'nomatch';
         }
 
         /** @var PasswordStrengthChecker $passwordChecker */
@@ -92,7 +98,11 @@ class ChangeController extends Controller {
         // Check password strength
         $result = $passwordChecker->evaluate( $newpassword, $oldpassword, $login );
         if($result != '') {
-            return $this->renderFormWithError($result, $request);
+            $errors[] = $result;
+        }
+
+        if(count($errors) > 0) {
+            return $this->renderFormWithError($errors[0], $request);
         }
 
         // Check reCAPTCHA
@@ -106,16 +116,16 @@ class ChangeController extends Controller {
             }
         }
 
+        $notify = $this->config['notify_on_change'];
+
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = [];
-
         try {
             $ldapClient->connect();
-            $notify = $this->config['notify_on_change'];
             // we want user's email address if we have to notify
             $wanted = $notify ? ['dn', 'samba', 'shadow', 'mail'] : ['dn', 'samba', 'shadow'];
+            $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
             $ldapClient->checkOldPassword($oldpassword, $context);
             $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
@@ -128,7 +138,7 @@ class ChangeController extends Controller {
         }
 
         // Notify password change
-        if ($this->config['notify_on_change'] and $context['user_mail']) {
+        if ($notify and $context['user_mail']) {
             /** @var MailNotificationService $mailService */
             $mailService = $this->get('mail_notification_service');
             $data = ["login" => $login, "mail" => $context['user_mail'], "password" => $newpassword];
@@ -142,26 +152,14 @@ class ChangeController extends Controller {
             $posthookExecutor->execute($login, $newpassword, $oldpassword);
         }
 
-        return $this->renderSuccessPage();
-    }
-
-    private function renderFormEmpty(Request $request) {
-        return $this->render('change.twig', $vars = [
-            'result' => 'emptychangeform',
-            'login' => $request->get('login'),
-        ]);
+        // render page success
+        return $this->render('change.twig', ['result' => 'passwordchanged']);
     }
 
     private function renderFormWithError($result, Request $request) {
         return $this->render('change.twig', [
             'result' => $result,
             'login' => $request->get('login'),
-        ]);
-    }
-
-    private function renderSuccessPage() {
-        return $this->render('change.twig', [
-            'result' => 'passwordchanged',
         ]);
     }
 }

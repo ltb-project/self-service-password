@@ -45,7 +45,12 @@ class ResetByQuestionsController extends Controller {
             return $this->processFormData($request);
         }
 
-        return $this->renderEmptyForm($request);
+        // Render empty form
+        return $this->render('resetbyquestions.twig', [
+            'result' => 'emptyresetbyquestionsform',
+            'login' => $request->get('login'),
+            'questions' => $this->config['messages']['questions'],
+        ]);
     }
 
     private function isFormSubmitted(Request $request) {
@@ -74,13 +79,33 @@ class ResetByQuestionsController extends Controller {
             return $this->renderFormWithError($missings[0], $request);
         }
 
+        $errors = [];
+
         /** @var UsernameValidityChecker $usernameChecker */
         $usernameChecker = $this->get('username_validity_checker');
 
         // Check the entered username for characters that our installation doesn't support
         $result = $usernameChecker->evaluate($login);
         if($result != '') {
-            return $this->renderFormWithError($result, $request);
+            $errors[] = $result;
+        }
+
+        // Match new and confirm password
+        if ( $newpassword != $confirmpassword ) {
+            $errors[] = 'nomatch';
+        }
+
+        // Check password strength
+        /** @var PasswordStrengthChecker $passwordChecker */
+        $passwordChecker = $this->get('password_strength_checker');
+
+        $result = $passwordChecker->evaluate( $newpassword, '', $login );
+        if($result != '') {
+            $errors[] = $result;
+        }
+
+        if(count($errors) > 0) {
+            return $this->renderFormWithError($errors[], $request);
         }
 
         // Check reCAPTCHA
@@ -93,32 +118,17 @@ class ResetByQuestionsController extends Controller {
             }
         }
 
-        // Match new and confirm password
-        if ( $newpassword != $confirmpassword ) {
-            return $this->renderFormWithError('nomatch', $request);
-        }
-
-        // Check password strength
-        /** @var PasswordStrengthChecker $passwordChecker */
-        $passwordChecker = $this->get('password_strength_checker');
-
-        $result = $passwordChecker->evaluate( $newpassword, '', $login );
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
-        }
+        $notify_on_change = $this->config['notify_on_change'];
 
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = [];
-
         try {
             $ldapClient->connect();
 
-            $notify_on_change = $this->config['notify_on_change'];
-
             $wanted = ['dn', 'samba', 'shadow', 'questions'];
             if($notify_on_change) $wanted[] = 'mail';
+            $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
 
             // Check question/answer
@@ -137,7 +147,7 @@ class ResetByQuestionsController extends Controller {
         }
 
         // Notify password change
-        if ($this->config['notify_on_change'] and $context['user_mail']) {
+        if ($notify_on_change and $context['user_mail']) {
             /** @var MailNotificationService $mailService */
             $mailService = $this->get('mail_notification_service');
 
@@ -153,31 +163,15 @@ class ResetByQuestionsController extends Controller {
             $posthookExecutor->execute($login, $newpassword);
         }
 
-        return $this->renderSuccessPage();
-    }
-
-    private function renderEmptyForm(Request $request) {
-        // Render associated template
-        return $this->render('resetbyquestions.twig', [
-            'result' => 'emptyresetbyquestionsform',
-            'login' => $request->get('login'),
-            'questions' => $this->config['messages']["questions"],
-        ]);
+        // Render success page
+        return $this->render('resetbyquestions.twig', ['result' => 'passwordchanged']);
     }
 
     private function renderFormWithError($result, Request $request) {
-        // Render associated template
         return $this->render('resetbyquestions.twig', [
             'result' => $result,
             'login' => $request->get('login'),
             'questions' => $this->config['messages']["questions"],
-        ]);
-    }
-
-    private function renderSuccessPage() {
-        // Render associated template
-        return $this->render('resetbyquestions.twig', [
-            'result' => 'passwordchanged',
         ]);
     }
 }

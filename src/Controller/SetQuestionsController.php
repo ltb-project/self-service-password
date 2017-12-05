@@ -43,7 +43,8 @@ class SetQuestionsController extends Controller {
             return $this->processFormData($request);
         }
 
-        return $this->renderFormEmpty($request);
+        // render form empty
+        return $this->renderForm('emptysetquestionsform', $request);
     }
 
     private function isFormSubmitted(Request $request) {
@@ -59,14 +60,16 @@ class SetQuestionsController extends Controller {
         $question = $request->request->get("question");
         $answer = $request->request->get("answer");
 
-        $result = '';
-        if (empty($login)) { $result = "loginrequired"; }
-        if (empty($password)) { $result = "passwordrequired"; }
-        if (empty($question)) { $result = "questionrequired"; }
-        if (empty($answer)) { $result = "answerrequired"; }
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
+        $missings = [];
+        if (empty($login)) { $missings[] = "loginrequired"; }
+        if (empty($password)) { $missings[] = "passwordrequired"; }
+        if (empty($question)) { $missings[] = "questionrequired"; }
+        if (empty($answer)) { $missings[] = "answerrequired"; }
+        if(count($missings)) {
+            return $this->renderFormWithError($missings[0], $request);
         }
+
+        $errors = [];
 
         /** @var UsernameValidityChecker $usernameChecker */
         $usernameChecker = $this->get('username_validity_checker');
@@ -74,7 +77,11 @@ class SetQuestionsController extends Controller {
         // Check the entered username for characters that our installation doesn't support
         $result = $usernameChecker->evaluate($login);
         if($result != '') {
-            return $this->renderFormWithError($result, $request);
+            $errors[] = $result;
+        }
+
+        if(count($errors)) {
+            return $this->renderFormWithError($errors[0], $request);
         }
 
         // Check reCAPTCHA
@@ -91,11 +98,10 @@ class SetQuestionsController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = [];
-
         try {
             $ldapClient->connect();
             $ldapClient->fetchUserEntryContext($login, ['dn'], $context);
+            $context = [];
             $ldapClient->checkOldPassword($password, $context);
             // Register answer
             $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
@@ -107,11 +113,8 @@ class SetQuestionsController extends Controller {
             return $this->renderFormWithError('answermoderror', $request);
         }
 
-        return $this->renderPageSuccess();
-    }
-
-    private function renderFormEmpty(Request $request) {
-        return $this->renderForm('emptysetquestionsform', $request);
+        // render page success
+        return $this->render('setquestions.twig', ['result' => 'answerchanged']);
     }
 
     private function renderFormWithError($result, Request $request) {
@@ -123,12 +126,6 @@ class SetQuestionsController extends Controller {
             'result' => $result,
             'login' => $request->get('login'),
             'questions' => $this->config['messages']["questions"],
-        ]);
-    }
-
-    private function renderPageSuccess() {
-        return $this->render('setquestions.twig', [
-            'result' => 'answerchanged',
         ]);
     }
 }

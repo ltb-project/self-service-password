@@ -44,7 +44,11 @@ class ChangeSshKeyController extends Controller {
             return $this->processFormData($request);
         }
 
-        return $this->renderEmptyForm($request);
+        // Render empty form
+        return $this->render('changesshkey.twig', [
+            'result' => 'emptysshkeychangeform',
+            'login' => $request->get('login'),
+        ]);
     }
 
     private function isFormSubmitted(Request $request) {
@@ -67,15 +71,20 @@ class ChangeSshKeyController extends Controller {
             return $this->renderFormWithError($missings[0], $request);
         }
 
-        /** @var UsernameValidityChecker $usernameChecker */
+        $errors = [];
 
+        /** @var UsernameValidityChecker $usernameChecker */
         $usernameChecker = $this->get('username_validity_checker');
+
         // Check the entered username for characters that our installation doesn't support
         $result = $usernameChecker->evaluate($login);
         if($result != '') {
-            return $this->renderFormWithError($result, $request);
+            $errors[] = $result;
         }
 
+        if(count($errors) > 0) {
+            return $this->renderFormWithError($errors[], $request);
+        }
 
         // Check reCAPTCHA
         if ( $this->config['use_recaptcha'] ) {
@@ -88,17 +97,16 @@ class ChangeSshKeyController extends Controller {
             }
         }
 
+        $notify = $this->config['notify_on_sshkey_change'];
+
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = [];
-
         try {
             $ldapClient->connect();
-
-            $notify = $this->config['notify_on_sshkey_change'];
             // we want user's email address if we have to notify
             $wanted = $notify ? ['dn', 'mail'] : ['dn'];
+            $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
             $ldapClient->checkOldPassword($password, $context);
             $ldapClient->changeSshKey($context['user_dn'], $sshkey);
@@ -111,7 +119,7 @@ class ChangeSshKeyController extends Controller {
         }
 
         // Notify password change
-        if ($this->config['notify_on_sshkey_change'] and $context['user_mail']) {
+        if ($notify and $context['user_mail']) {
             /** @var MailNotificationService $mailService */
             $mailService = $this->get('mail_notification_service');
 
@@ -119,26 +127,14 @@ class ChangeSshKeyController extends Controller {
             $mailService->send($context['user_mail'], $this->config['messages']["changesshkeysubject"], $this->config['messages']["changesshkeymessage"].$this->config['mail_signature'], $data);
         }
 
-        return $this->renderSuccessPage();
-    }
-
-    private function renderEmptyForm(Request $request) {
-        return $this->render('changesshkey.twig', [
-            'result' => 'emptysshkeychangeform',
-            'login' => $request->get('login'),
-        ]);
+        // Render success page
+        return $this->render('changesshkey.twig', ['result' => 'sshkeychanged']);
     }
 
     private function renderFormWithError($error, Request $request) {
         return $this->render('changesshkey.twig', [
             'result' => $error,
             'login' => $request->get('login'),
-        ]);
-    }
-
-    private function renderSuccessPage() {
-        return $this->render('changesshkey.twig', [
-            'result' => 'sshkeychanged',
         ]);
     }
 }

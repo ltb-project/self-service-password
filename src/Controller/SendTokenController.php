@@ -45,7 +45,11 @@ class SendTokenController extends Controller {
             return $this->processFormData($request);
         }
 
-        return $this->renderFormEmpty($request);
+        // render form empty
+        return $this->render('sendtoken.twig', [
+            'result' => 'emptysendtokenform',
+            'login' => $request->get('login'),
+        ]);
     }
 
     private function isFormSubmitted(Request $request) {
@@ -57,12 +61,16 @@ class SendTokenController extends Controller {
         $login = $request->get('login');
         $mail = $request->request->get("mail");
 
-        $result = '';
-        if (empty($login)) { $result = "loginrequired"; }
-        if (!$this->config['mail_address_use_ldap'] and empty($mail)) { $result = "mailrequired"; }
-        if($result != '') {
-            return $this->renderFormWithError($result, $request);
+        $missings = [];
+
+        if (empty($login)) { $missings[] = "loginrequired"; }
+        if (!$this->config['mail_address_use_ldap'] and empty($mail)) { $missings[] = "mailrequired"; }
+
+        if(count($missings)) {
+            return $this->renderFormWithError($missings[0], $request);
         }
+
+        $errors = [];
 
         /** @var UsernameValidityChecker $usernameChecker */
         $usernameChecker = $this->get('username_validity_checker');
@@ -70,7 +78,11 @@ class SendTokenController extends Controller {
         // Check the entered username for characters that our installation doesn't support
         $result = $usernameChecker->evaluate($login);
         if($result != '') {
-            return $this->renderFormWithError($result, $request);
+            $errors[] = $result;
+        }
+
+        if(count($errors)) {
+            return $this->renderFormWithError($errors[0], $request);
         }
 
         // Check reCAPTCHA
@@ -122,29 +134,17 @@ class SendTokenController extends Controller {
         $success = $mailService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
 
         if($success) {
-            return $this->renderPageSuccess();
+            // render page success
+            return $this->render('sendtoken.twig', ['result' => 'tokensent']);
         } else {
             return $this->renderFormWithError("tokennotsent", $request);
         }
-    }
-
-    private function renderFormEmpty(Request $request) {
-        return $this->render('sendtoken.twig', [
-            'result' => 'emptysendtokenform',
-            'login' => $request->get('login'),
-        ]);
     }
 
     private function renderFormWithError($result, Request $request) {
         return $this->render('sendtoken.twig', [
             'result' => $result,
             'login' => $request->get('login'),
-        ]);
-    }
-
-    private function renderPageSuccess() {
-        return $this->render('sendtoken.twig', [
-            'result' => 'tokensent',
         ]);
     }
 }

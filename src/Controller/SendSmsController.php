@@ -44,23 +44,34 @@ class SendSmsController extends Controller {
      */
     public function indexAction(Request $request) {
         if (!$this->config['crypt_tokens']) {
-            return $this->renderErrorPage("crypttokensrequired");
+            // render error page
+            return $this->render('sendsms.twig', ['result' => 'crypttokensrequired']);
         }
 
-        $login = $request->get("login");
-        $smstoken = $request->get("smstoken");
         $token = $request->get("token");
-        $encrypted_sms_login = $request->get("encrypted_sms_login");
+        $smstoken = $request->get("smstoken");
 
         if (!empty($token) and !empty($smstoken)) {
             return $this->processSmsTokenAttempt($request);
-        } elseif (!empty($encrypted_sms_login)) {
+        }
+
+        $encrypted_sms_login = $request->get("encrypted_sms_login");
+
+        if (!empty($encrypted_sms_login)) {
             return $this->generateAndSendSmsToken($request);
-        } elseif (!empty($login)) {
+        }
+
+        $login = $request->get("login");
+
+        if (!empty($login)) {
             return $this->processSearchUserFormData($request);
         }
 
-        return $this->renderSearchUserFormEmpty($request);
+        // render search user form empty
+        return $this->render('sendsms.twig', [
+            'result' => 'emptysendsmsform',
+            'login' => $request->get('login'),
+        ]);
     }
 
     private function processSmsTokenAttempt(Request $request) {
@@ -222,11 +233,10 @@ class SendSmsController extends Controller {
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
 
-        $context = [];
-
         try {
             $ldapClient->connect();
             $wanted = ['dn', 'sms', 'displayname'];
+            $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
 
             if ( !$context['user_sms'] ) {
@@ -249,11 +259,7 @@ class SendSmsController extends Controller {
 
         $encrypted_sms_login = $encryptionService->encrypt("$sms:$login");
 
-        // Render associated template
-        return $this->renderSearchUserFromEntry($result, $context, $login, $encrypted_sms_login, $sms);
-    }
-
-    private function renderSearchUserFromEntry($result, $context, $login, $encrypted_sms_login, $sms) {
+        // Render search user from entry
         return $this->render('sendsms.twig', [
             'result' => $result,
             'displayname' => $context['user_displayname'],
@@ -263,23 +269,10 @@ class SendSmsController extends Controller {
         ]);
     }
 
-    private function renderSearchUserFormEmpty(Request $request) {
-        return $this->render('sendsms.twig', [
-            'result' => 'emptysendsmsform',
-            'login' => $request->get('login'),
-        ]);
-    }
-
     private function renderSearchUserFormWithError($result, Request $request) {
         return $this->render('sendsms.twig', [
             'result' => $result,
             'login' => $request->get('login'),
-        ]);
-    }
-
-    private function renderErrorPage($result) {
-        return $this->render('sendsms.twig', [
-            'result' => $result,
         ]);
     }
 
