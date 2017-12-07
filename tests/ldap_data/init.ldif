@@ -1,0 +1,24 @@
+dn: dc=my-domain,dc=com
+dc: my-domain
+o: Layers Box LDAP Server
+description: Root entry for the Layers Box
+objectClass: top
+objectclass: dcObject
+objectclass: organization
+
+dn: ou=People,dc=my-domain,dc=com
+ou: People
+description: All people in Layers Box
+objectClass: top
+objectClass: organizationalUnit
+
+dn: uid=plewin,ou=People,dc=my-domain,dc=com
+objectClass: account
+objectClass: posixAccount
+objectClass: top
+cn: Philippe
+gidNumber: 1000
+homeDirectory: /home/plewin
+uid: plewin
+uidNumber: 1000
+userPassword:: c2VjcmV0Cg==
