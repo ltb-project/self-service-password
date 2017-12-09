@@ -80,7 +80,32 @@ class Application {
         $this->config['action'] = $action;
         $this->container['config'] = $this->config;
 
-        $controller = $this->container[$action . '.controller'];
+        //TODO poor man router
+        switch ($action) {
+            case 'change':
+                $controllerName = 'change_password';
+                break;
+            case 'changesshkey':
+                $controllerName = 'change_ssh_key';
+                break;
+            case 'resetbyquestions':
+                $controllerName = 'reset_password_by_questions';
+                break;
+            case 'resetbytoken':
+                $controllerName = 'reset_password_by_token';
+                break;
+            case 'sendsms':
+                $controllerName = 'get_token_by_sms_verification';
+                break;
+            case 'sendtoken':
+                $controllerName = 'get_token_by_email_verification';
+                break;
+            case 'setquestions':
+                $controllerName = 'change_security_questions';
+                break;
+        }
+
+        $controller = $this->container[$controllerName . '.controller'];
 
         return $controller->indexAction($request);
     }

@@ -29,7 +29,6 @@ use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 
 use App\Service\LdapClient;
-use App\Service\MailNotificationService;
 use App\Service\RecaptchaService;
 use App\Service\UsernameValidityChecker;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -47,10 +46,7 @@ class ChangeSshKeyController extends Controller {
         }
 
         // Render empty form
-        return $this->render('changesshkey.twig', [
-            'result' => 'emptysshkeychangeform',
-            'login' => $request->get('login'),
-        ]);
+        return $this->render('change_ssh_key_form.twig', ['result' => 'emptysshkeychangeform', 'login' => $request->get('login')]);
     }
 
     private function isFormSubmitted(Request $request) {
@@ -129,11 +125,11 @@ class ChangeSshKeyController extends Controller {
         $eventDispatcher->dispatch('ssh_key.changed', $event);
 
         // Render success page
-        return $this->render('changesshkey.twig', ['result' => 'sshkeychanged']);
+        return $this->render('change_ssh_key_success.twig');
     }
 
     private function renderFormWithError($error, Request $request) {
-        return $this->render('changesshkey.twig', [
+        return $this->render('change_ssh_key_form.twig', [
             'result' => $error,
             'login' => $request->get('login'),
         ]);

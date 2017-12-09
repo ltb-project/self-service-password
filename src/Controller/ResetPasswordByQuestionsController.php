@@ -35,7 +35,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
-class ResetByQuestionsController extends Controller {
+class ResetPasswordByQuestionsController extends Controller {
     /**
      * @param $request Request
      * @return string
@@ -46,7 +46,7 @@ class ResetByQuestionsController extends Controller {
         }
 
         // Render empty form
-        return $this->render('resetbyquestions.twig', [
+        return $this->render('reset_password_by_questions_form.twig', [
             'result' => 'emptyresetbyquestionsform',
             'login' => $request->get('login'),
             'questions' => $this->config['messages']['questions'],
@@ -153,11 +153,11 @@ class ResetByQuestionsController extends Controller {
         $eventDispatcher->dispatch('password.changed', $event);
 
         // Render success page
-        return $this->render('resetbyquestions.twig', ['result' => 'passwordchanged']);
+        return $this->render('change_password_success.twig');
     }
 
     private function renderFormWithError($result, Request $request) {
-        return $this->render('resetbyquestions.twig', [
+        return $this->render('reset_password_by_questions_form.twig', [
             'result' => $result,
             'login' => $request->get('login'),
             'questions' => $this->config['messages']["questions"],

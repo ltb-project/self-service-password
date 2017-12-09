@@ -33,7 +33,7 @@ use App\Service\RecaptchaService;
 use App\Service\UsernameValidityChecker;
 use Symfony\Component\HttpFoundation\Request;
 
-class SetQuestionsController extends Controller {
+class ChangeSecurityQuestionsController extends Controller {
     /**
      * @param $request Request
      * @return string
@@ -44,7 +44,11 @@ class SetQuestionsController extends Controller {
         }
 
         // render form empty
-        return $this->renderForm('emptysetquestionsform', $request);
+        return $this->render('change_security_question_form.twig', [
+            'result' => 'emptysetquestionsform',
+            'login' => $request->get('login'),
+            'questions' => $this->config['messages']["questions"],
+        ]);
     }
 
     private function isFormSubmitted(Request $request) {
@@ -114,15 +118,11 @@ class SetQuestionsController extends Controller {
         }
 
         // render page success
-        return $this->render('setquestions.twig', ['result' => 'answerchanged']);
+        return $this->render('change_security_question_success.twig');
     }
 
     private function renderFormWithError($result, Request $request) {
-        return $this->renderForm($result, $request);
-    }
-
-    private function renderForm($result, Request $request) {
-        return $this->render('setquestions.twig', [
+        return $this->render('change_security_question_form.twig', [
             'result' => $result,
             'login' => $request->get('login'),
             'questions' => $this->config['messages']["questions"],

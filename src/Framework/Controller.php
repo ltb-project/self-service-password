@@ -55,7 +55,7 @@ class Controller {
      * @param array $vars
      * @return Response
      */
-    protected function render($template, array $vars) {
+    protected function render($template, array $vars = []) {
         //TODO move this to a template specific file for better multi themes support
         $vars1 = [
             'lang' => $this->config['lang'],

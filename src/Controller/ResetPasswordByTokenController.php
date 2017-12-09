@@ -39,7 +39,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
-class ResetByTokenController extends Controller {
+class ResetPasswordByTokenController extends Controller {
     /**
      * @param $request Request
      * @return string
@@ -143,11 +143,11 @@ class ResetByTokenController extends Controller {
         $eventDispatcher->dispatch('password.changed', $event);
 
         // render success page
-        return $this->render('resetbytoken.twig', ['result' => 'passwordchanged']);
+        return $this->render('change_password_success.twig');
     }
 
     private function renderErrorPage($result, Request $request) {
-        return $this->render('resetbytoken.twig', [
+        return $this->render('reset_password_by_token_form.twig', [
             'result' => $result,
             'source' => $request->get('source'),
             'token' => $request->get('token'),

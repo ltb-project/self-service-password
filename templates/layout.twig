@@ -57,9 +57,6 @@
                 {% endfor %}
             {% else %}
                 {% block main %}
-                    <div class="result alert alert-{{ result|criticality }}">
-                        <p><i class="fa fa-fw {{ result|fa_class }}" aria-hidden="true"></i> {{ result|trans }}</p>
-                    </div>
                 {% endblock %}
             {% endif %}
         </div>

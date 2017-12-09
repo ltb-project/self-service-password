@@ -19,24 +19,23 @@
 #
 #==============================================================================
 
-# This page is called to change password
-
+# This page is called to send a reset token by mail
 namespace App\Controller;
 
+use App\Exception\LdapEntryFoundInvalid;
 use App\Exception\LdapError;
 use App\Exception\LdapInvalidUserCredentials;
-use App\Exception\LdapUpdateFailed;
 use App\Framework\Controller;
 
 use App\Service\LdapClient;
-use App\Service\PasswordStrengthChecker;
+use App\Service\MailNotificationService;
 use App\Service\RecaptchaService;
+use App\Service\TokenManagerService;
 use App\Service\UsernameValidityChecker;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use App\Utils\ResetUrlGenerator;
 use Symfony\Component\HttpFoundation\Request;
 
-class ChangeController extends Controller {
+class GetTokenByEmailVerificationController extends Controller {
     /**
      * @param $request Request
      * @return string
@@ -46,33 +45,28 @@ class ChangeController extends Controller {
             return $this->processFormData($request);
         }
 
-        // Render empty form
-        return $this->render('change.twig', [
-            'result' => 'emptychangeform',
+        // render form empty
+        return $this->render('email_verification_form.twig', [
+            'result' => 'emptysendtokenform',
             'login' => $request->get('login'),
         ]);
     }
 
     private function isFormSubmitted(Request $request) {
-        return $request->get("login")
-            && $request->request->has("newpassword")
-            && $request->request->has("oldpassword")
-            && $request->request->has("confirmpassword");
+        return $request->get('login')
+            && ($this->config['mail_address_use_ldap'] || $request->request->get('mail'));
     }
 
     private function processFormData(Request $request) {
-        $login = $request->get("login", "");
-        $oldpassword = $request->request->get("oldpassword", "");
-        $newpassword = $request->request->get("newpassword", "");
-        $confirmpassword = $request->request->get("confirmpassword", "");
+        $login = $request->get('login');
+        $mail = $request->request->get("mail");
 
         $missings = [];
-        if (!$login) { $missings[] = "loginrequired"; }
-        if (!$oldpassword) { $missings[] = "newpasswordrequired"; }
-        if (!$newpassword) { $missings[] = "oldpasswordrequired"; }
-        if (!$confirmpassword) { $missings[] = "confirmpasswordrequired"; }
 
-        if(count($missings) > 0) {
+        if (empty($login)) { $missings[] = "loginrequired"; }
+        if (!$this->config['mail_address_use_ldap'] and empty($mail)) { $missings[] = "mailrequired"; }
+
+        if(count($missings)) {
             return $this->renderFormWithError($missings[0], $request);
         }
 
@@ -87,18 +81,7 @@ class ChangeController extends Controller {
             $errors[] = $result;
         }
 
-        // Match new and confirm password
-        if ( $newpassword != $confirmpassword ) {
-            $errors[] = 'nomatch';
-        }
-
-        /** @var PasswordStrengthChecker $passwordChecker */
-        $passwordChecker = $this->get('password_strength_checker');
-
-        // Check password strength
-        $errors += $passwordChecker->evaluate( $newpassword, $oldpassword, $login );
-
-        if(count($errors) > 0) {
+        if(count($errors)) {
             return $this->renderFormWithError($errors[0], $request);
         }
 
@@ -118,37 +101,48 @@ class ChangeController extends Controller {
 
         try {
             $ldapClient->connect();
-            // we want user's email address if we have to notify
-            $wanted = $this->config['notify_on_change'] ? ['dn', 'samba', 'shadow', 'mail'] : ['dn', 'samba', 'shadow'];
-            $context = [];
-            $ldapClient->fetchUserEntryContext($login, $wanted, $context);
-            $ldapClient->checkOldPassword($oldpassword, $context);
-            $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
+            $ldapClient->checkMail($login, $mail);
         } catch (LdapError $e) {
             return $this->renderFormWithError('ldaperror', $request);
         } catch (LdapInvalidUserCredentials $e) {
             return $this->renderFormWithError('badcredentials', $request);
-        } catch (LdapUpdateFailed $e) {
-            return $this->renderFormWithError('passworderror', $request);
+        } catch (LdapEntryFoundInvalid $e) {
+            return $this->renderFormWithError('mailnomatch', $request);
         }
 
-        /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $this->get('event_dispatcher');
 
-        $event = new GenericEvent();
-        $event['login'] = $login;
-        $event['new_password'] = $newpassword;
-        $event['old_password'] = $oldpassword;
-        $event['context'] = $context;
+        /** @var TokenManagerService $tokenManager */
+        $tokenManager = $this->get('token_manager_service');
 
-        $eventDispatcher->dispatch('password.changed', $event);
+        $token = $tokenManager->createToken($login);
 
-        // render page success
-        return $this->render('change.twig', ['result' => 'passwordchanged']);
+        /** @var ResetUrlGenerator $resetUrlGenerator */
+        $resetUrlGenerator = $this->get('reset_url_generator');
+
+        // Send token by mail
+        $reset_url = $resetUrlGenerator->generate_reset_url(['token' => $token]);
+
+        if ( !empty($reset_request_log) ) {
+            error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+        } else {
+            error_log("Send reset URL $reset_url");
+        }
+
+        /** @var MailNotificationService $mailService */
+        $mailService = $this->get('mail_notification_service');
+        $data = ["login" => $login, "mail" => $mail, "url" => $reset_url];
+        $success = $mailService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
+
+        if($success) {
+            // render page success
+            return $this->render('email_verification_success.twig');
+        } else {
+            return $this->renderFormWithError("tokennotsent", $request);
+        }
     }
 
     private function renderFormWithError($result, Request $request) {
-        return $this->render('change.twig', [
+        return $this->render('email_verification_form.twig', [
             'result' => $result,
             'login' => $request->get('login'),
         ]);

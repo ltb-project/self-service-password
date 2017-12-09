@@ -37,15 +37,16 @@ use App\Utils\ResetUrlGenerator;
 use App\Utils\SmsTokenGenerator;
 use Symfony\Component\HttpFoundation\Request;
 
-class SendSmsController extends Controller {
+class GetTokenBySmsVerificationController extends Controller {
     /**
      * @param $request Request
      * @return string
      */
     public function indexAction(Request $request) {
+        // todo remove unsecure support
         if (!$this->config['crypt_tokens']) {
             // render error page
-            return $this->render('sendsms.twig', ['result' => 'crypttokensrequired']);
+            return $this->render('sms_verification_failure.twig', ['result' => 'crypttokensrequired']);
         }
 
         $token = $request->get("token");
@@ -68,7 +69,7 @@ class SendSmsController extends Controller {
         }
 
         // render search user form empty
-        return $this->render('sendsms.twig', [
+        return $this->render('sms_verification_user_search_form.twig', [
             'result' => 'emptysendsmsform',
             'login' => $request->get('login'),
         ]);
@@ -82,7 +83,7 @@ class SendSmsController extends Controller {
 
         # Open session with the token
         $tokenid = $encryptionService->decrypt($request->get("token"));
-        $smstoken = $request->get("smstoken");
+        $sms_code = $request->get("smstoken");
 
         ini_set("session.use_cookies",0);
         ini_set("session.use_only_cookies",1);
@@ -104,14 +105,14 @@ class SendSmsController extends Controller {
         if ( !$login or !$sessiontoken) {
             error_log("Unable to open session $tokenid");
             $result = "tokennotvalid";
-        } elseif ($sessiontoken != $smstoken) {
+        } elseif ($sessiontoken != $sms_code) {
             if ($attempts < $this->config['max_attempts']) {
                 $_SESSION['attempts'] = $attempts + 1;
-                error_log("SMS token $smstoken not valid, attempt $attempts");
+                error_log("SMS token $sms_code not valid, attempt $attempts");
                 $result = "tokenattempts";
             }
             else {
-                error_log("SMS token $smstoken not valid");
+                error_log("SMS token $sms_code not valid");
                 $result = "tokennotvalid";
             }
         } elseif (isset($this->config['token_lifetime'])) {
@@ -170,7 +171,7 @@ class SendSmsController extends Controller {
         $smsTokenGenerator = $this->get('sms_token_generator');
 
         // Generate sms token
-        $smstoken = $smsTokenGenerator->generate_sms_token();
+        $sms_code = $smsTokenGenerator->generate_sms_code();
 
         // Create temporary session to avoid token replay
         ini_set("session.use_cookies",0);
@@ -179,21 +180,21 @@ class SendSmsController extends Controller {
         session_name("smstoken");
         session_start();
         $_SESSION['login']    = $login;
-        $_SESSION['smstoken'] = $smstoken;
+        $_SESSION['smstoken'] = $sms_code;
         $_SESSION['time']     = time();
         $_SESSION['attempts'] = 0;
 
         $data = [
             "sms_attribute" => $sms,
             "smsresetmessage" => $this->config['messages']['smsresetmessage'],
-            "smstoken" => $smstoken,
+            "smstoken" => $sms_code,
         ];
 
         /** @var SmsNotificationService $smsService */
         $smsService = $this->get('sms_notification_service');
 
         // Send message
-        $result = $smsService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $smstoken);
+        $result = $smsService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $sms_code);
 
         $token = '';
         if($result == 'smssent') {
@@ -260,7 +261,7 @@ class SendSmsController extends Controller {
         $encrypted_sms_login = $encryptionService->encrypt("$sms:$login");
 
         // Render search user from entry
-        return $this->render('sendsms.twig', [
+        return $this->render('sms_verification_user_entry_confirmation.twig', [
             'result' => $result,
             'displayname' => $context['user_displayname'],
             'login' => $login,
@@ -270,14 +271,14 @@ class SendSmsController extends Controller {
     }
 
     private function renderSearchUserFormWithError($result, Request $request) {
-        return $this->render('sendsms.twig', [
+        return $this->render('sms_verification_user_search_form.twig', [
             'result' => $result,
             'login' => $request->get('login'),
         ]);
     }
 
     private function renderTokenForm($result, $token) {
-        return $this->render('sendsms.twig', [
+        return $this->render('sms_verification_sms_code_form.twig.twig', [
             'result' => $result,
             'token' => $token,
         ]);

@@ -1,3 +1,9 @@
+{% macro show_result(result) %}
+    <div class="result alert alert-{{ result|criticality }}">
+        <p><i class="fa fa-fw {{ result|fa_class }}" aria-hidden="true"></i> {{ result|trans }}</p>
+    </div>
+{% endmacro %}
+
 {% macro row_input_text(id, label, icon, placeholder, default_value) %}
     <div class="form-group">
         <label for="{{ id }}" class="col-sm-4 control-label">{{ label|trans }}</label>

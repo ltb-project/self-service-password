@@ -32,7 +32,7 @@ class SmsTokenGenerator {
     /**
      * Generate SMS token
      */
-    public function generate_sms_token() {
+    public function generate_sms_code() {
         $Range=explode(',','48-57');
         $NumRanges=count($Range);
         $smstoken='';

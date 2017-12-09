@@ -197,32 +197,32 @@ $container['twig'] = function ($c) {
     return $twig;
 };
 
-$container['change.controller']  = function ($c) {
-    return new Controller\ChangeController($c['config'], $c);
+$container['change_password.controller']  = function ($c) {
+    return new Controller\ChangePasswordController($c['config'], $c);
 };
 
-$container['changesshkey.controller']  = function ($c) {
+$container['change_ssh_key.controller']  = function ($c) {
     return new Controller\ChangeSshKeyController($c['config'], $c);
 };
 
-$container['resetbyquestions.controller']  = function ($c) {
-    return new Controller\ResetByQuestionsController($c['config'], $c);
+$container['reset_password_by_questions.controller']  = function ($c) {
+    return new Controller\ResetPasswordByQuestionsController($c['config'], $c);
 };
 
-$container['resetbytoken.controller']  = function ($c) {
-    return new Controller\ResetByTokenController($c['config'], $c);
+$container['reset_password_by_token.controller']  = function ($c) {
+    return new Controller\ResetPasswordByTokenController($c['config'], $c);
 };
 
-$container['sendsms.controller']  = function ($c) {
-    return new Controller\SendSmsController($c['config'], $c);
+$container['get_token_by_sms_verification.controller']  = function ($c) {
+    return new Controller\GetTokenBySmsVerificationController($c['config'], $c);
 };
 
-$container['sendtoken.controller']  = function ($c) {
-    return new Controller\SendTokenController($c['config'], $c);
+$container['get_token_by_email_verification.controller']  = function ($c) {
+    return new Controller\GetTokenByEmailVerificationController($c['config'], $c);
 };
 
-$container['setquestions.controller']  = function ($c) {
-    return new Controller\SetQuestionsController($c['config'], $c);
+$container['change_security_questions.controller']  = function ($c) {
+    return new Controller\ChangeSecurityQuestionsController($c['config'], $c);
 };
 
 return $container;
