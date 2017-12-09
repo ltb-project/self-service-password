@@ -21,8 +21,8 @@
 namespace App\Exception;
 
 /**
- * Class TokenException
+ * Class LdapUpdateFailed
  */
-class TokenException extends \Exception
+class LdapUpdateFailedException extends LdapException
 {
 }

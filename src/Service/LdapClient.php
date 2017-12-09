@@ -1,131 +1,147 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 namespace App\Service;
 
-use App\Exception\LdapEntryFoundInvalid;
-use App\Exception\LdapError;
-use App\Exception\LdapInvalidUserCredentials;
-use App\Exception\LdapUpdateFailed;
+use App\Exception\LdapEntryFoundInvalidException;
+use App\Exception\LdapErrorException;
+use App\Exception\LdapInvalidUserCredentialsException;
+use App\Exception\LdapUpdateFailedException;
 use App\Utils\PasswordEncoder;
 
-class LdapClient {
-    /**
-     * @var array
-     */
+/**
+ * Class LdapClient
+ */
+class LdapClient
+{
+    /** @var array */
     private $config;
 
-    /**
-     * @var resource
-     */
+    /** @var resource */
     private $ldap;
 
-    /**
-     * @var PasswordEncoder
-     */
+    /** @var PasswordEncoder */
     private $passwordEncoder;
 
     /**
      * LdapClient constructor.
-     * @param $config
-     * @param $passwordEncoder PasswordEncoder
+     *
+     * @param array           $config
+     * @param PasswordEncoder $passwordEncoder
      */
-    public function __construct($config, $passwordEncoder) {
+    public function __construct($config, $passwordEncoder)
+    {
         $this->config = $config;
         $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
-     * @throws LdapError
+     * @throws LdapErrorException
      */
-    public function connect() {
-        $ldap_url = $this->config['ldap_url'];
-        $ldap_starttls = $this->config['ldap_starttls'];
-        $ldap_binddn = isset($this->config['ldap_binddn']) ? $this->config['ldap_binddn'] : null;
-        $ldap_bindpw = isset($this->config['ldap_bindpw']) ? $this->config['ldap_bindpw'] : null;
+    public function connect()
+    {
+        $ldapUrl = $this->config['ldap_url'];
+        $ldapUseTls = $this->config['ldap_starttls'];
+        $ldapBindDn = isset($this->config['ldap_binddn']) ? $this->config['ldap_binddn'] : null;
+        $ldapBindPw = isset($this->config['ldap_bindpw']) ? $this->config['ldap_bindpw'] : null;
 
         //Connect to LDAP
-        $this->ldap = ldap_connect($ldap_url);
+        $this->ldap = ldap_connect($ldapUrl);
         ldap_set_option($this->ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
         ldap_set_option($this->ldap, LDAP_OPT_REFERRALS, 0);
-        if ( $ldap_starttls && !ldap_start_tls($this->ldap) ) {
+        if ($ldapUseTls && !ldap_start_tls($this->ldap)) {
             error_log("LDAP - Unable to use StartTLS");
-            throw new LdapError();
+            throw new LdapErrorException();
         }
 
         // Bind
-        $success = ldap_bind($this->ldap, $ldap_binddn, $ldap_bindpw);
-
-        if ( $success === false ) {
+        $success = ldap_bind($this->ldap, $ldapBindDn, $ldapBindPw);
+        if (false === $success) {
             $this->throwLdapError('Bind error');
         }
     }
 
     /**
-     * @throws LdapError
-     * @throws LdapInvalidUserCredentials
+     * @param string $login
+     * @param array  $wanted
+     * @param array  $context
+     *
+     * @throws LdapErrorException
+     * @throws LdapInvalidUserCredentialsException
      */
-    public function fetchUserEntryContext($login, $wanted, &$context) {
+    public function fetchUserEntryContext($login, $wanted, &$context)
+    {
         $entry = $this->getUserEntry($login);
 
-        if(in_array('dn', $wanted)) {
+        if (in_array('dn', $wanted)) {
             $this->updateContextDn($entry, $context);
         }
-        if(in_array('samba', $wanted) || in_array('shadow', $wanted)) {
+        if (in_array('samba', $wanted) || in_array('shadow', $wanted)) {
             $this->updateContextSambaAndShadow($entry, $context);
         }
-        if(in_array('mail', $wanted)) {
+        if (in_array('mail', $wanted)) {
             $this->updateContextMail($entry, $context);
         }
-        if(in_array('sms', $wanted)) {
+        if (in_array('sms', $wanted)) {
             $this->updateContextSms($entry, $context);
         }
-        if(in_array('displayname', $wanted)) {
+        if (in_array('displayname', $wanted)) {
             $this->updateContextDisplayName($entry, $context);
         }
-        if(in_array('questions', $wanted)) {
+        if (in_array('questions', $wanted)) {
             $this->updateContextQuestions($entry, $context);
         }
     }
 
     /**
-     * @throws LdapInvalidUserCredentials
+     * @param string $oldpassword
+     * @param array  $context
+     *
+     * @throws LdapInvalidUserCredentialsException
      */
-    public function checkOldPassword($oldpassword, &$context) {
+    public function checkOldPassword($oldpassword, &$context)
+    {
         $success = $this->verifyPasswordWithBind($context['user_dn'], $oldpassword);
-
-        if ($success === false) {
+        if (false === $success) {
             $errno = ldap_errno($this->ldap);
             error_log("LDAP - Bind user error $errno  (".ldap_error($this->ldap).")");
-            throw new LdapInvalidUserCredentials();
+            throw new LdapInvalidUserCredentialsException();
         }
     }
 
     // TODO move out
-    public function checkQuestionAnswer($login, $question, $answer, &$context) {
+    /**
+     * @param string $login
+     * @param string $question
+     * @param string $answer
+     * @param array  $context
+     *
+     * @return bool
+     */
+    public function checkQuestionAnswer($login, $question, $answer, &$context)
+    {
         $match = 0;
 
         // Match with user submitted values
         foreach ($context['user_answers'] as $questionValue) {
-            $answer = preg_quote("$answer","/");
+            $answer = preg_quote("$answer", "/");
             if (preg_match("/^\{$question\}$answer$/i", $questionValue)) {
                 $match = 1;
             }
@@ -133,6 +149,7 @@ class LdapClient {
 
         if (!$match) {
             error_log("Answer does not match question for user $login");
+
             return false;
         }
 
@@ -140,28 +157,32 @@ class LdapClient {
     }
 
     /**
-     * @throws LdapError
-     * @throws LdapInvalidUserCredentials
-     * @throws LdapEntryFoundInvalid
+     * @param string $login
+     * @param string $mail
+     *
+     * @throws LdapEntryFoundInvalidException
+     * @throws LdapErrorException
+     * @throws LdapInvalidUserCredentialsException
      */
-    public function checkMail($login, $mail) {
-        $fetch_mail_from_ldap = $this->config['mail_address_use_ldap'];
+    public function checkMail($login, $mail)
+    {
+        $fetchMailFromLdap = $this->config['mail_address_use_ldap'];
 
         $context = [];
         $wanted = ['mail'];
         $this->fetchUserEntryContext($login, $wanted, $context);
 
-        if($context['user_mail'] == null) {
+        if (null === $context['user_mail']) {
             error_log("Mail not found for user $login");
-            throw new LdapEntryFoundInvalid();
+            throw new LdapEntryFoundInvalidException();
         }
 
         $match = 0;
 
-        if ($fetch_mail_from_ldap) {
+        if ($fetchMailFromLdap) {
             // Match with user submitted values
             foreach ($context['user_mails'] as $mailValue) {
-                if (strcasecmp($mail, $mailValue) == 0) {
+                if (strcasecmp($mail, $mailValue) === 0) {
                     $match = 1;
                     break;
                 }
@@ -170,28 +191,32 @@ class LdapClient {
 
         if (!$match) {
             error_log("Mail $mail does not match for user $login");
-            throw new LdapEntryFoundInvalid();
+            throw new LdapEntryFoundInvalidException();
         }
     }
 
     /**
-     * @throws LdapError
-     * @throws LdapUpdateFailed
+     * @param string $userdn
+     * @param string $question
+     * @param string $answer
+     *
+     * @throws LdapErrorException
+     * @throws LdapUpdateFailedException
      */
-    public function changeQuestion($userdn, $question, $answer) {
-        $who_change_password = $this->config['who_change_password'];
-        $answer_objectClass = $this->config['answer_objectClass'];
-        $answer_attribute = $this->config['answer_attribute'];
+    public function changeQuestion($userdn, $question, $answer)
+    {
+        $whoChangePassword = $this->config['who_change_password'];
+        $answerObjectClass = $this->config['answer_objectClass'];
+        $answerAttribute = $this->config['answer_attribute'];
 
         // Rebind as Manager if needed
-        if ( $who_change_password == "manager" ) {
+        if ('manager' === $whoChangePassword) {
             $this->rebindAsManager();
         }
 
         // Check objectClass presence
         $search = ldap_search($this->ldap, $userdn, '(objectClass=*)', ['objectClass']);
-
-        if ($search === false) {
+        if (false === $search) {
             $this->throwLdapError('Search error');
         }
 
@@ -200,56 +225,61 @@ class LdapClient {
         $ocValues = ldap_get_values($this->ldap, $entry, 'objectClass');
 
         // Remove 'count' key
-        unset($ocValues["count"]);
+        unset($ocValues['count']);
 
-        if (! in_array( $answer_objectClass, $ocValues ) ) {
+        if (!in_array($answerObjectClass, $ocValues)) {
             // Answer objectClass is not present, add it
-            array_push($ocValues, $answer_objectClass );
-            $ocValues = array_values( $ocValues );
+            array_push($ocValues, $answerObjectClass);
+            $ocValues = array_values($ocValues);
             $userdata["objectClass"] = $ocValues;
         }
 
         // Question/Answer
-        $userdata[$answer_attribute] = '{'.$question.'}'.$answer;
+        $userdata[$answerAttribute] = '{'.$question.'}'.$answer;
 
         // Commit modification on directory
-        $success = ldap_mod_replace($this->ldap, $userdn , $userdata);
-
-        if ( $success === false ) {
+        $success = ldap_mod_replace($this->ldap, $userdn, $userdata);
+        if (false === $success) {
             $errno = ldap_errno($this->ldap);
             error_log("LDAP - Modify answer (error $errno (".ldap_error($this->ldap).")");
-            throw new LdapUpdateFailed();
+            throw new LdapUpdateFailedException();
         }
     }
 
     /**
-     * @throws LdapUpdateFailed
+     * @param string $entryDn
+     * @param string $newpassword
+     * @param string $oldpassword
+     * @param array  $context
+     *
+     * @throws LdapUpdateFailedException
      */
-    public function changePassword($entry_dn, $newpassword, $oldpassword, $context) {
-        $who_change_password = $this->config['who_change_password'];
+    public function changePassword($entryDn, $newpassword, $oldpassword, $context)
+    {
+        $whoChangePassword = $this->config['who_change_password'];
 
         // Rebind as Manager if needed
         // TODO detect if needed ?
-        if ( $who_change_password == "manager" ) {
+        if ("manager" === $whoChangePassword) {
             $this->rebindAsManager();
         }
 
-        $ad_mode = $this->config['ad_mode'];
-        $ad_options = $this->config['ad_options'];
+        $adMode = $this->config['ad_mode'];
+        $adOptions = $this->config['ad_options'];
 
         $hash = $this->config['hash'];
 
         // Get hash type if hash is set to auto
-        if ( $hash == 'auto' ) {
-            $hash = $this->findHash($entry_dn);
+        if ('auto' === $hash) {
+            $hash = $this->findHash($entryDn);
         }
         // Transform password value
-        if($hash != 'clear') {
+        if ('clear' !== $hash) {
             $newpassword = $this->passwordEncoder->hash($hash, $newpassword);
         }
 
         // Special case: AD mode with password changed as user
-        if ( $ad_mode and $who_change_password === 'user' ) {
+        if ($adMode and 'user' === $whoChangePassword) {
             // The AD password change procedure is modifying the attribute unicodePwd by
             // first deleting unicodePwd with the old password and them adding it with the
             // the new password
@@ -261,28 +291,28 @@ class LdapClient {
                 ['attrib' => 'unicodePwd', 'modtype' => LDAP_MODIFY_BATCH_ADD, 'values' => [$newpassword]],
             ];
 
-            $success = ldap_modify_batch($this->ldap, $entry_dn, $modifications);
-
-            if ( !$success ) {
+            $success = ldap_modify_batch($this->ldap, $entryDn, $modifications);
+            if (!$success) {
                 $errno = ldap_errno($this->ldap);
                 error_log("LDAP - Modify password error $errno (".ldap_error($this->ldap).")");
-                throw new LdapUpdateFailed();
+                throw new LdapUpdateFailedException();
             }
+
             return;
         }
 
         // Generic case
 
-        $samba_mode = $this->config['samba_mode'];
-        $samba_options = $this->config['samba_options'];
-        if(isset($context['user_is_samba_account']) && $context['user_is_samba_account'] == false) {
-            $samba_mode = false;
+        $sambaMode = $this->config['samba_mode'];
+        $sambaOptions = $this->config['samba_options'];
+        if (isset($context['user_is_samba_account']) && false === $context['user_is_samba_account']) {
+            $sambaMode = false;
         }
 
-        $shadow_options = $this->config['shadow_options'];
-        if(isset($context['user_is_shadow_account']) && $context['user_is_shadow_account'] == false) {
-            $shadow_options['update_shadowLastChange'] = false;
-            $shadow_options['update_shadowExpire'] = false;
+        $shadowOptions = $this->config['shadow_options'];
+        if (isset($context['user_is_shadow_account']) && false === $context['user_is_shadow_account']) {
+            $shadowOptions['update_shadowLastChange'] = false;
+            $shadowOptions['update_shadowExpire'] = false;
         }
 
         $time = time();
@@ -290,24 +320,24 @@ class LdapClient {
         $userdata = [];
 
         // Set samba attributes
-        if ( $samba_mode ) {
+        if ($sambaMode) {
             $userdata['sambaNTPassword'] = $this->passwordEncoder->format('nt', $newpassword);
             $userdata['sambaPwdLastSet'] = $time;
-            if ( isset($samba_options['min_age']) && $samba_options['min_age'] > 0 ) {
-                $userdata['sambaPwdCanChange'] = $time + ( $samba_options['min_age'] * 86400 );
+            if (isset($sambaOptions['min_age']) && $sambaOptions['min_age'] > 0) {
+                $userdata['sambaPwdCanChange'] = $time + ( $sambaOptions['min_age'] * 86400 );
             }
-            if ( isset($samba_options['max_age']) && $samba_options['max_age'] > 0 ) {
-                $userdata['sambaPwdMustChange'] = $time + ( $samba_options['max_age'] * 86400 );
+            if (isset($sambaOptions['max_age']) && $sambaOptions['max_age'] > 0) {
+                $userdata['sambaPwdMustChange'] = $time + ( $sambaOptions['max_age'] * 86400 );
             }
         }
 
         // Set shadow attributes
-        if ( $shadow_options['update_shadowLastChange'] ) {
+        if ($shadowOptions['update_shadowLastChange']) {
             $userdata['shadowLastChange'] = floor($time / 86400);
         }
-        if ( $shadow_options['update_shadowExpire'] ) {
-            $daysBeforeExpiration = $shadow_options['shadow_expire_days'];
-            if ( $daysBeforeExpiration > 0) {
+        if ($shadowOptions['update_shadowExpire']) {
+            $daysBeforeExpiration = $shadowOptions['shadow_expire_days'];
+            if ($daysBeforeExpiration > 0) {
                 $userdata['shadowExpire'] = floor(($time / 86400) + $daysBeforeExpiration);
             } else {
                 $userdata['shadowExpire'] = $daysBeforeExpiration;
@@ -315,34 +345,39 @@ class LdapClient {
         }
 
         // Set password value
-        if ( $ad_mode ) {
+        if ($adMode) {
             $userdata['unicodePwd'] = $this->passwordEncoder->format('ad', $newpassword);
 
-            if ( $ad_options['force_unlock'] ) {
+            if ($adOptions['force_unlock']) {
                 $userdata['lockoutTime'] = 0;
             }
-            if ( $ad_options['force_pwd_change'] ) {
+            if ($adOptions['force_pwd_change']) {
                 $userdata['pwdLastSet'] = 0;
             }
         } else {
             $userdata['userPassword'] = $newpassword;
         }
 
-        $success = ldap_mod_replace($this->ldap, $entry_dn, $userdata);
-
-        if ( !$success ) {
+        $success = ldap_mod_replace($this->ldap, $entryDn, $userdata);
+        if (!$success) {
             $errno = ldap_errno($this->ldap);
             error_log("LDAP - Modify password error $errno (".ldap_error($this->ldap).")");
-            throw new LdapUpdateFailed();
+            throw new LdapUpdateFailedException();
         }
     }
 
-    private function findHash($entry_dn) {
-        $search_userpassword = ldap_read( $this->ldap, $entry_dn, '(objectClass=*)', ['userPassword']);
-        if ( $search_userpassword ) {
-            $userpassword = ldap_get_values($this->ldap, ldap_first_entry($this->ldap,$search_userpassword), 'userPassword');
-            if ( isset($userpassword) ) {
-                if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
+    /**
+     * @param string $entryDn
+     *
+     * @return string
+     */
+    private function findHash($entryDn)
+    {
+        $searchUserPassword = ldap_read($this->ldap, $entryDn, '(objectClass=*)', ['userPassword']);
+        if ($searchUserPassword) {
+            $userPassword = ldap_get_values($this->ldap, ldap_first_entry($this->ldap, $searchUserPassword), 'userPassword');
+            if (isset($userPassword)) {
+                if (preg_match('/^\{(\w+)\}/', $userPassword[0], $matches)) {
                     return strtoupper($matches[1]);
                 }
             }
@@ -353,93 +388,117 @@ class LdapClient {
 
     /**
      * Change sshPublicKey attribute
-     * @param $entry_dn
-     * @param $sshkey
-     * @throws LdapUpdateFailed
+     *
+     * @param string $entryDn
+     * @param string $sshkey
+     *
+     * @throws LdapUpdateFailedException
      */
-    public function changeSshKey($entry_dn, $sshkey) {
+    public function changeSshKey($entryDn, $sshkey)
+    {
         $attribute = $this->config['change_sshkey_attribute'];
-        $who_change_sshkey = $this->config['who_change_sshkey'];
+        $whoChangeSshKey = $this->config['who_change_sshkey'];
 
         // Rebind as Manager if needed
-        if ( $who_change_sshkey == "manager" ) {
+        if ('manager' === $whoChangeSshKey) {
             $this->rebindAsManager();
         }
 
         $userdata = [];
         $userdata[$attribute] = $sshkey;
 
-        # Commit modification on directory
-        $success = ldap_mod_replace($this->ldap, $entry_dn, $userdata);
+        // Commit modification on directory
+        $success = ldap_mod_replace($this->ldap, $entryDn, $userdata);
 
-        if ( $success === false ) {
+        if (false === $success) {
             $errno = ldap_errno($this->ldap);
             error_log("LDAP - Modify $attribute error $errno (".ldap_error($this->ldap).")");
-            throw new LdapUpdateFailed();
+            throw new LdapUpdateFailedException();
         }
     }
 
     /**
-     * @throws LdapError
+     * @param string $error
+     *
+     * @throws LdapErrorException
      */
-    private function throwLdapError($error) {
+    private function throwLdapError($error)
+    {
         $errno = ldap_errno($this->ldap);
         error_log("LDAP - $error $errno (".ldap_error($this->ldap).")");
-        throw new LdapError();
+        throw new LdapErrorException();
     }
 
     /**
-     * @param $login
+     * @param string $login
+     *
      * @return resource
-     * @throws LdapError
-     * @throws LdapInvalidUserCredentials
+     *
+     * @throws LdapErrorException
+     * @throws LdapInvalidUserCredentialsException
      */
-    private function getUserEntry($login) {
-        $ldap_filter = $this->config['ldap_filter'];
-        $ldap_base = $this->config['ldap_base'];
+    private function getUserEntry($login)
+    {
+        $ldapFilter = $this->config['ldap_filter'];
+        $ldapBase = $this->config['ldap_base'];
 
         // Search for user
-        $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-        $search = ldap_search($this->ldap, $ldap_base, $ldap_filter);
-
-        if ( $search === false ) {
+        $refinedLdapFilter = str_replace("{login}", $login, $ldapFilter);
+        $search = ldap_search($this->ldap, $ldapBase, $refinedLdapFilter);
+        if (false === $search) {
             $this->throwLdapError('Search error');
         }
 
         $entry = ldap_first_entry($this->ldap, $search);
-
-        if ( $entry === false ) {
+        if (false === $entry) {
             error_log("LDAP - User $login not found");
-            throw new LdapInvalidUserCredentials();
+            throw new LdapInvalidUserCredentialsException();
         }
 
         return $entry;
     }
 
-    private function updateContextDn($entry, &$context) {
+    /**
+     * @param resource $entry
+     * @param array    $context
+     */
+    private function updateContextDn($entry, &$context)
+    {
         $userdn = ldap_get_dn($this->ldap, $entry);
         $context['user_dn'] = $userdn;
     }
 
-    private function updateContextDisplayName($entry, &$context) {
-        $fullname_attribute = $this->config['ldap_fullname_attribute'];
-        $displayname = ldap_get_values($this->ldap, $entry, $fullname_attribute);
+    /**
+     * @param resource $entry
+     * @param array    $context
+     */
+    private function updateContextDisplayName($entry, &$context)
+    {
+        $fullnameAttribute = $this->config['ldap_fullname_attribute'];
+        $displayname = ldap_get_values($this->ldap, $entry, $fullnameAttribute);
         $context['user_displayname'] = $displayname;
     }
 
-    private function updateContextMail($entry, &$context) {
-        $mail_attribute = $this->config['mail_attribute'];
-        $mailValues = ldap_get_values($this->ldap, $entry, $mail_attribute);
+    /**
+     * @param resource $entry
+     * @param array    $context
+     */
+    private function updateContextMail($entry, &$context)
+    {
+        $mailAttribute = $this->config['mail_attribute'];
+        $mailValues = ldap_get_values($this->ldap, $entry, $mailAttribute);
 
         $mails = [];
         $mail = null;
 
-        if ( $mailValues["count"] > 0 ) {
-            unset($mailValues["count"]);
+        if ($mailValues['count'] > 0) {
+            unset($mailValues['count']);
 
-            if (strcasecmp($mail_attribute, 'proxyAddresses') == 0) {
-                $remove_prefix = function ($mailValue) { return str_ireplace('smtp:', '', $mailValue); };
-                $mailValues = array_map($remove_prefix, $mailValues);
+            if (strcasecmp($mailAttribute, 'proxyAddresses') === 0) {
+                $removePrefixFn = function ($mailValue) {
+                    return str_ireplace('smtp:', '', $mailValue);
+                };
+                $mailValues = array_map($removePrefixFn, $mailValues);
             }
 
             $mail = $mailValues[0];
@@ -450,48 +509,63 @@ class LdapClient {
         $context['user_mails'] = $mails;
     }
 
-    private function updateContextSms($entry, &$context) {
-        $sms_attribute = $this->config['sms_attribute'];
-        $sms_sanitize_number = $this->config['sms_sanitize_number'];
-        $sms_truncate_number = $this->config['sms_truncate_number'];
-        $sms_truncate_length = $this->config['sms_truncate_number_length'];
+    /**
+     * @param resource $entry
+     * @param array    $context
+     */
+    private function updateContextSms($entry, &$context)
+    {
+        $smsAttribute = $this->config['sms_attribute'];
+        $smsSanitizeNumber = $this->config['sms_sanitize_number'];
+        $smsTruncateNumber = $this->config['sms_truncate_number'];
+        $smsTruncateLength = $this->config['sms_truncate_number_length'];
 
         // Get sms values
-        $smsValues = ldap_get_values($this->ldap, $entry, $sms_attribute);
+        $smsValues = ldap_get_values($this->ldap, $entry, $smsAttribute);
 
         $context['user_sms_raw'] = null;
         $context['user_sms'] = null;
 
         // Check sms number
-        if ( $smsValues["count"] > 0 ) {
+        if ($smsValues["count"] > 0) {
             $sms = $smsValues[0];
             $context['user_sms_raw'] = $sms;
-            if ( $sms_sanitize_number ) {
+            if ($smsSanitizeNumber) {
                 $sms = preg_replace('/[^0-9]/', '', $sms);
             }
-            if ( $sms_truncate_number ) {
-                $sms = substr($sms, -$sms_truncate_length);
+            if ($smsTruncateNumber) {
+                $sms = substr($sms, -$smsTruncateLength);
             }
             $context['user_sms'] = $sms;
         }
     }
 
-    private function updateContextSambaAndShadow($entry, &$context) {
+    /**
+     * @param resource $entry
+     * @param array    $context
+     */
+    private function updateContextSambaAndShadow($entry, &$context)
+    {
         // Check objectClass to allow samba and shadow updates
         $ocValues = ldap_get_values($this->ldap, $entry, 'objectClass');
-        if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
+        if (!in_array('sambaSamAccount', $ocValues) and !in_array('sambaSAMAccount', $ocValues)) {
             $context['user_is_samba_account'] = false;
         }
-        if ( !in_array( 'shadowAccount', $ocValues ) ) {
+        if (!in_array('shadowAccount', $ocValues)) {
             $context['user_is_shadow_account'] = false;
         }
     }
 
-    private function updateContextQuestions($entry, &$context) {
-        $answer_attribute = $this->config['answer_attribute'];
+    /**
+     * @param resource $entry
+     * @param array    $context
+     */
+    private function updateContextQuestions($entry, &$context)
+    {
+        $answerAttribute = $this->config['answer_attribute'];
 
         // Get question/answer values
-        $questionValues = ldap_get_values($this->ldap, $entry, $answer_attribute);
+        $questionValues = ldap_get_values($this->ldap, $entry, $answerAttribute);
         unset($questionValues["count"]);
 
         $context['user_answers'] = [];
@@ -501,38 +575,47 @@ class LdapClient {
         }
     }
 
-    private function verifyPasswordWithBind($dn, $password) {
-        $ad_mode = $this->config['ad_mode'];
-        $ad_options = $this->config['ad_options'];
+    /**
+     * @param string $dn
+     * @param string $password
+     * @return bool
+     */
+    private function verifyPasswordWithBind($dn, $password)
+    {
+        $adMode = $this->config['ad_mode'];
+        $adOptions = $this->config['ad_options'];
 
         // Bind with old password
         $success = ldap_bind($this->ldap, $dn, $password);
-
-        if ($success === false) {
+        if (false === $success) {
             $errno = ldap_errno($this->ldap);
-            if ( ($errno == 49) && $ad_mode ) {
-                if ( ldap_get_option($this->ldap, 0x0032, $extended_error) ) {
-                    error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($this->ldap).")");
-                    $extended_error = explode(', ', $extended_error);
-                    if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
+            if ((49 === $errno) && $adMode) {
+                if (ldap_get_option($this->ldap, 0x0032, $extendedError)) {
+                    error_log("LDAP - Bind user extended_error $extendedError  (".ldap_error($this->ldap).")");
+                    $extendedError = explode(', ', $extendedError);
+                    if (strpos($extendedError[2], '773') or strpos($extendedError[0], 'NT_STATUS_PASSWORD_MUST_CHANGE')) {
                         error_log("LDAP - Bind user password needs to be changed");
+
                         return true;
                     }
-                    if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
+                    if (( strpos($extendedError[2], '532') or strpos($extendedError[0], 'NT_STATUS_ACCOUNT_EXPIRED')) and $adOptions['change_expired_password']) {
                         error_log("LDAP - Bind user password is expired");
+
                         return true;
                     }
                 }
             }
+
             return false;
         }
 
         return true;
     }
 
-    private function rebindAsManager() {
-        $ldap_binddn = isset($this->config['ldap_binddn']) ? $this->config['ldap_binddn'] : null;
-        $ldap_bindpw = isset($this->config['ldap_bindpw']) ? $this->config['ldap_bindpw'] : null;
-        ldap_bind($this->ldap, $ldap_binddn, $ldap_bindpw);
+    private function rebindAsManager()
+    {
+        $ldapBindDn = isset($this->config['ldap_binddn']) ? $this->config['ldap_binddn'] : null;
+        $ldapBindPw = isset($this->config['ldap_bindpw']) ? $this->config['ldap_bindpw'] : null;
+        ldap_bind($this->ldap, $ldapBindDn, $ldapBindPw);
     }
 }

@@ -21,8 +21,8 @@
 namespace App\Exception;
 
 /**
- * Class TokenException
+ * Class LdapInvalidUserCredentials
  */
-class TokenException extends \Exception
+class LdapInvalidUserCredentialsException extends LdapException
 {
 }

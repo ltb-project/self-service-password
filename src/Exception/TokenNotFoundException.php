@@ -21,8 +21,8 @@
 namespace App\Exception;
 
 /**
- * Class TokenException
+ * Class TokenNotFoundException
  */
-class TokenException extends \Exception
+class TokenNotFoundException extends TokenException
 {
 }

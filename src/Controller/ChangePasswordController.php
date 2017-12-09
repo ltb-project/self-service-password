@@ -1,31 +1,28 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
-
-# This page is called to change password
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 namespace App\Controller;
 
-use App\Exception\LdapError;
-use App\Exception\LdapInvalidUserCredentials;
-use App\Exception\LdapUpdateFailed;
+use App\Exception\LdapErrorException;
+use App\Exception\LdapInvalidUserCredentialsException;
+use App\Exception\LdapUpdateFailedException;
 use App\Framework\Controller;
 
 use App\Service\LdapClient;
@@ -35,14 +32,23 @@ use App\Service\UsernameValidityChecker;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class ChangePasswordController extends Controller {
+/**
+ * Class ChangePasswordController
+ *
+ * This page is called to change password
+ */
+class ChangePasswordController extends Controller
+{
     /**
-     * @param $request Request
-     * @return string
+     * @param Request $request
+     *
+     * @return Response
      */
-    public function indexAction(Request $request) {
-        if($this->isFormSubmitted($request)) {
+    public function indexAction(Request $request)
+    {
+        if ($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
 
@@ -53,26 +59,46 @@ class ChangePasswordController extends Controller {
         ]);
     }
 
-    private function isFormSubmitted(Request $request) {
+    /**
+     * @param Request $request
+     *
+     * @return bool
+     */
+    private function isFormSubmitted(Request $request)
+    {
         return $request->get("login")
             && $request->request->has("newpassword")
             && $request->request->has("oldpassword")
             && $request->request->has("confirmpassword");
     }
 
-    private function processFormData(Request $request) {
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    private function processFormData(Request $request)
+    {
         $login = $request->get("login", "");
         $oldpassword = $request->request->get("oldpassword", "");
         $newpassword = $request->request->get("newpassword", "");
         $confirmpassword = $request->request->get("confirmpassword", "");
 
         $missings = [];
-        if (!$login) { $missings[] = "loginrequired"; }
-        if (!$oldpassword) { $missings[] = "newpasswordrequired"; }
-        if (!$newpassword) { $missings[] = "oldpasswordrequired"; }
-        if (!$confirmpassword) { $missings[] = "confirmpasswordrequired"; }
+        if (!$login) {
+            $missings[] = "loginrequired";
+        }
+        if (!$oldpassword) {
+            $missings[] = "newpasswordrequired";
+        }
+        if (!$newpassword) {
+            $missings[] = "oldpasswordrequired";
+        }
+        if (!$confirmpassword) {
+            $missings[] = "confirmpasswordrequired";
+        }
 
-        if(count($missings) > 0) {
+        if (count($missings) > 0) {
             return $this->renderFormWithError($missings[0], $request);
         }
 
@@ -83,12 +109,12 @@ class ChangePasswordController extends Controller {
 
         // Check the entered username for characters that our installation doesn't support
         $result = $usernameChecker->evaluate($login);
-        if($result != '') {
+        if ('' !== $result) {
             $errors[] = $result;
         }
 
         // Match new and confirm password
-        if ( $newpassword != $confirmpassword ) {
+        if ($newpassword !== $confirmpassword) {
             $errors[] = 'nomatch';
         }
 
@@ -96,19 +122,19 @@ class ChangePasswordController extends Controller {
         $passwordChecker = $this->get('password_strength_checker');
 
         // Check password strength
-        $errors += $passwordChecker->evaluate( $newpassword, $oldpassword, $login );
+        $errors += $passwordChecker->evaluate($newpassword, $oldpassword, $login);
 
-        if(count($errors) > 0) {
+        if (count($errors) > 0) {
             return $this->renderFormWithError($errors[0], $request);
         }
 
         // Check reCAPTCHA
-        if ( $this->config['use_recaptcha'] ) {
+        if ($this->config['use_recaptcha']) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
 
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
-            if($result != '') {
+            if ('' !== $result) {
                 return $this->renderFormWithError($result, $request);
             }
         }
@@ -124,11 +150,11 @@ class ChangePasswordController extends Controller {
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
             $ldapClient->checkOldPassword($oldpassword, $context);
             $ldapClient->changePassword($context['user_dn'], $newpassword, $oldpassword, $context);
-        } catch (LdapError $e) {
+        } catch (LdapErrorException $e) {
             return $this->renderFormWithError('ldaperror', $request);
-        } catch (LdapInvalidUserCredentials $e) {
+        } catch (LdapInvalidUserCredentialsException $e) {
             return $this->renderFormWithError('badcredentials', $request);
-        } catch (LdapUpdateFailed $e) {
+        } catch (LdapUpdateFailedException $e) {
             return $this->renderFormWithError('passworderror', $request);
         }
 
@@ -147,7 +173,14 @@ class ChangePasswordController extends Controller {
         return $this->render('change_password_success.twig');
     }
 
-    private function renderFormWithError($result, Request $request) {
+    /**
+     * @param string  $result
+     * @param Request $request
+     *
+     * @return Response
+     */
+    private function renderFormWithError($result, Request $request)
+    {
         return $this->render('change_password_form.twig', [
             'result' => $result,
             'login' => $request->get('login'),

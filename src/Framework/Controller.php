@@ -1,23 +1,22 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 namespace App\Framework;
 
@@ -28,10 +27,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Controller
- *
- * @package App\Framework
  */
-class Controller {
+class Controller
+{
     /** @var Twig_Environment */
     private $twig;
 
@@ -43,7 +41,14 @@ class Controller {
      */
     protected $container;
 
-    public function __construct(array $config, Container $container) {
+    /**
+     * Controller constructor.
+     *
+     * @param array     $config
+     * @param Container $container
+     */
+    public function __construct(array $config, Container $container)
+    {
         $this->twig = $container['twig'];
         $this->config = $config;
         $this->container = $container;
@@ -51,11 +56,14 @@ class Controller {
 
     /**
      * Returns a response with a template rendered.
+     *
      * @param string $template Name of the template to render.
-     * @param array $vars
+     * @param array  $vars
+     *
      * @return Response
      */
-    protected function render($template, array $vars = []) {
+    protected function render($template, array $vars = [])
+    {
         //TODO move this to a template specific file for better multi themes support
         $vars1 = [
             'lang' => $this->config['lang'],
@@ -76,19 +84,25 @@ class Controller {
 
     /**
      * Create a redirect reponse to a specific URL
-     * @param $url string URL where the client should be redirected to
+     *
+     * @param string $url URL where the client should be redirected to
+     *
      * @return RedirectResponse
      */
-    protected function redirect($url) {
+    protected function redirect($url)
+    {
         return new RedirectResponse($url);
     }
 
     /**
      * Shortcut to get something from the dependency injection container
-     * @param $id
+     *
+     * @param string $id
+     *
      * @return mixed
      */
-    protected function get($id) {
+    protected function get($id)
+    {
         return $this->container[$id];
     }
 }

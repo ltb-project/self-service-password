@@ -1,30 +1,28 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
-# This page is called to send random generated password to user by SMS
 namespace App\Controller;
 
-use App\Exception\LdapEntryFoundInvalid;
-use App\Exception\LdapError;
-use App\Exception\LdapInvalidUserCredentials;
+use App\Exception\LdapEntryFoundInvalidException;
+use App\Exception\LdapErrorException;
+use App\Exception\LdapInvalidUserCredentialsException;
 use App\Framework\Controller;
 
 use App\Service\EncryptionService;
@@ -36,13 +34,20 @@ use App\Service\UsernameValidityChecker;
 use App\Utils\ResetUrlGenerator;
 use App\Utils\SmsTokenGenerator;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class GetTokenBySmsVerificationController extends Controller {
+/**
+ * This page is called to send random generated password to user by SMS
+ */
+class GetTokenBySmsVerificationController extends Controller
+{
     /**
-     * @param $request Request
-     * @return string
+     * @param Request $request
+     *
+     * @return Response
      */
-    public function indexAction(Request $request) {
+    public function indexAction(Request $request)
+    {
         // todo remove unsecure support
         if (!$this->config['crypt_tokens']) {
             // render error page
@@ -56,9 +61,9 @@ class GetTokenBySmsVerificationController extends Controller {
             return $this->processSmsTokenAttempt($request);
         }
 
-        $encrypted_sms_login = $request->get("encrypted_sms_login");
+        $encryptedSmsLogin = $request->get("encrypted_sms_login");
 
-        if (!empty($encrypted_sms_login)) {
+        if (!empty($encryptedSmsLogin)) {
             return $this->generateAndSendSmsToken($request);
         }
 
@@ -75,24 +80,30 @@ class GetTokenBySmsVerificationController extends Controller {
         ]);
     }
 
-    private function processSmsTokenAttempt(Request $request) {
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    private function processSmsTokenAttempt(Request $request)
+    {
         $result = "";
 
         /** @var EncryptionService $encryptionService */
         $encryptionService = $this->get('encryption_service');
 
-        # Open session with the token
+        // Open session with the token
         $tokenid = $encryptionService->decrypt($request->get("token"));
-        $sms_code = $request->get("smstoken");
+        $receivedSmsCode = $request->get("smstoken");
 
-        ini_set("session.use_cookies",0);
-        ini_set("session.use_only_cookies",1);
+        ini_set("session.use_cookies", 0);
+        ini_set("session.use_only_cookies", 1);
 
-        # Manage lifetime with sessions properties
+        // Manage lifetime with sessions properties
         if (isset($this->config['token_lifetime'])) {
             ini_set("session.gc_maxlifetime", $this->config['token_lifetime']);
-            ini_set("session.gc_probability",1);
-            ini_set("session.gc_divisor",1);
+            ini_set("session.gc_probability", 1);
+            ini_set("session.gc_divisor", 1);
         }
 
         session_id($tokenid);
@@ -102,33 +113,32 @@ class GetTokenBySmsVerificationController extends Controller {
         $sessiontoken = $_SESSION['smstoken'];
         $attempts     = $_SESSION['attempts'];
 
-        if ( !$login or !$sessiontoken) {
+        if (!$login or !$sessiontoken) {
             error_log("Unable to open session $tokenid");
             $result = "tokennotvalid";
-        } elseif ($sessiontoken != $sms_code) {
+        } elseif ($sessiontoken !== $receivedSmsCode) {
             if ($attempts < $this->config['max_attempts']) {
                 $_SESSION['attempts'] = $attempts + 1;
-                error_log("SMS token $sms_code not valid, attempt $attempts");
+                error_log("SMS token $receivedSmsCode not valid, attempt $attempts");
                 $result = "tokenattempts";
-            }
-            else {
-                error_log("SMS token $sms_code not valid");
+            } else {
+                error_log("SMS token $receivedSmsCode not valid");
                 $result = "tokennotvalid";
             }
         } elseif (isset($this->config['token_lifetime'])) {
-            # Manage lifetime with session content
+            // Manage lifetime with session content
             $tokentime = $_SESSION['time'];
-            if ( time() - $tokentime > $this->config['token_lifetime'] ) {
+            if (time() - $tokentime > $this->config['token_lifetime']) {
                 error_log("Token lifetime expired");
                 $result = "tokennotvalid";
             }
         }
-        # Delete token if not valid or all is ok
-        if ( $result === "tokennotvalid" ) {
+        // Delete token if not valid or all is ok
+        if ("tokennotvalid" === $result) {
             $_SESSION = [];
             session_destroy();
         }
-        if ( $result === "" ) {
+        if ("" === $result) {
             $_SESSION = [];
             session_destroy();
 
@@ -141,29 +151,36 @@ class GetTokenBySmsVerificationController extends Controller {
             $resetUrlGenerator = $this->get('reset_url_generator');
 
             // Redirect to resetbytoken page
-            $reset_url = $resetUrlGenerator->generate_reset_url(['source' => 'sms', 'token' => $token]);
+            $resetUrl = $resetUrlGenerator->generateResetUrl(['source' => 'sms', 'token' => $token]);
 
+            //TODO fix bug
             if ( !empty($reset_request_log) ) {
-                error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+                error_log("Send reset URL $resetUrl \n\n", 3, $reset_request_log);
             } else {
-                error_log("Send reset URL $reset_url");
+                error_log("Send reset URL $resetUrl");
             }
 
-            return $this->redirect($reset_url);
+            return $this->redirect($resetUrl);
         }
 
         return $this->renderTokenForm($result, $request->get('token'));
     }
 
-    private function generateAndSendSmsToken(Request $request) {
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    private function generateAndSendSmsToken(Request $request)
+    {
         /** @var EncryptionService $encryptionService */
         $encryptionService = $this->get('encryption_service');
 
-        $encrypted_sms_login = $request->get("encrypted_sms_login");
+        $encryptedSmsLogin = $request->get("encrypted_sms_login");
 
-        $decrypted_sms_login = explode(':', $encryptionService->decrypt($encrypted_sms_login));
-        $sms = $decrypted_sms_login[0];
-        $login = $decrypted_sms_login[1];
+        $decryptedSmsLogin = explode(':', $encryptionService->decrypt($encryptedSmsLogin));
+        $sms = $decryptedSmsLogin[0];
+        $login = $decryptedSmsLogin[1];
 
         // Generate sms token and send by sms
 
@@ -171,33 +188,33 @@ class GetTokenBySmsVerificationController extends Controller {
         $smsTokenGenerator = $this->get('sms_token_generator');
 
         // Generate sms token
-        $sms_code = $smsTokenGenerator->generate_sms_code();
+        $smsCode = $smsTokenGenerator->generateSmsCode();
 
         // Create temporary session to avoid token replay
-        ini_set("session.use_cookies",0);
-        ini_set("session.use_only_cookies",1);
+        ini_set("session.use_cookies", 0);
+        ini_set("session.use_only_cookies", 1);
 
         session_name("smstoken");
         session_start();
         $_SESSION['login']    = $login;
-        $_SESSION['smstoken'] = $sms_code;
+        $_SESSION['smstoken'] = $smsCode;
         $_SESSION['time']     = time();
         $_SESSION['attempts'] = 0;
 
         $data = [
             "sms_attribute" => $sms,
             "smsresetmessage" => $this->config['messages']['smsresetmessage'],
-            "smstoken" => $sms_code,
+            "smstoken" => $smsCode,
         ];
 
         /** @var SmsNotificationService $smsService */
         $smsService = $this->get('sms_notification_service');
 
         // Send message
-        $result = $smsService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $sms_code);
+        $result = $smsService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $smsCode);
 
         $token = '';
-        if($result == 'smssent') {
+        if ('smssent' === $result) {
             /** @var EncryptionService $encryptionService */
             $encryptionService = $this->get('encryption_service');
 
@@ -207,7 +224,13 @@ class GetTokenBySmsVerificationController extends Controller {
         return $this->renderTokenForm($result, $token);
     }
 
-    private function processSearchUserFormData(Request $request) {
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    private function processSearchUserFormData(Request $request)
+    {
         $login = $request->get('login');
 
         // Check the entered username for characters that our installation doesn't support
@@ -215,17 +238,17 @@ class GetTokenBySmsVerificationController extends Controller {
         $usernameChecker = $this->get('username_validity_checker');
 
         $result = $usernameChecker->evaluate($login);
-        if($result != '') {
+        if ('' !== $result) {
             return $this->renderSearchUserFormWithError($result, $request);
         }
 
         // Check reCAPTCHA
-        if ( $this->config['use_recaptcha'] ) {
+        if ($this->config['use_recaptcha']) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
 
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
-            if($result != '') {
+            if ('' !== $result) {
                 return $this->renderSearchUserFormWithError($result, $request);
             }
         }
@@ -240,17 +263,16 @@ class GetTokenBySmsVerificationController extends Controller {
             $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
 
-            if ( !$context['user_sms'] ) {
+            if (!$context['user_sms']) {
                 error_log("No SMS number found for user $login");
-                throw new LdapEntryFoundInvalid();
+                throw new LdapEntryFoundInvalidException();
             }
-        } catch (LdapError $e) {
+        } catch (LdapErrorException $e) {
             return $this->renderSearchUserFormWithError('ldaperror', $request);
-        } catch (LdapInvalidUserCredentials $e) {
+        } catch (LdapInvalidUserCredentialsException $e) {
             return $this->renderSearchUserFormWithError('badcredentials', $request);
-        } catch (LdapEntryFoundInvalid $e) {
+        } catch (LdapEntryFoundInvalidException $e) {
             return $this->renderSearchUserFormWithError('smsnonumber', $request);
-
         }
 
         $sms = $context['user_sms'];
@@ -258,26 +280,40 @@ class GetTokenBySmsVerificationController extends Controller {
         /** @var EncryptionService $encryptionService */
         $encryptionService = $this->get('encryption_service');
 
-        $encrypted_sms_login = $encryptionService->encrypt("$sms:$login");
+        $encryptedSmsLogin = $encryptionService->encrypt("$sms:$login");
 
         // Render search user from entry
         return $this->render('sms_verification_user_entry_confirmation.twig', [
             'result' => $result,
             'displayname' => $context['user_displayname'],
             'login' => $login,
-            'encrypted_sms_login' => $encrypted_sms_login,
-            'sms' => $this->config['sms_partially_hide_number'] ? (substr_replace($sms, '****', 4 , 4)) : $sms,
+            'encrypted_sms_login' => $encryptedSmsLogin,
+            'sms' => $this->config['sms_partially_hide_number'] ? (substr_replace($sms, '****', 4, 4)) : $sms,
         ]);
     }
 
-    private function renderSearchUserFormWithError($result, Request $request) {
+    /**
+     * @param string  $result
+     * @param Request $request
+     *
+     * @return Response
+     */
+    private function renderSearchUserFormWithError($result, Request $request)
+    {
         return $this->render('sms_verification_user_search_form.twig', [
             'result' => $result,
             'login' => $request->get('login'),
         ]);
     }
 
-    private function renderTokenForm($result, $token) {
+    /**
+     * @param string $result
+     * @param string $token
+     *
+     * @return Response
+     */
+    private function renderTokenForm($result, $token)
+    {
         return $this->render('sms_verification_sms_code_form.twig.twig', [
             'result' => $result,
             'token' => $token,

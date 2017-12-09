@@ -21,8 +21,8 @@
 namespace App\Exception;
 
 /**
- * Class TokenException
+ * Class LdapEntryFoundInvalid
  */
-class TokenException extends \Exception
+class LdapEntryFoundInvalidException extends LdapException
 {
 }

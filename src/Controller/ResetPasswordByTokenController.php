@@ -1,50 +1,52 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
-
-# This page is called to reset a password when a valid token is found in URL
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 namespace App\Controller;
 
-use App\Exception\LdapError;
-use App\Exception\LdapInvalidUserCredentials;
-use App\Exception\LdapUpdateFailed;
+use App\Exception\LdapErrorException;
+use App\Exception\LdapInvalidUserCredentialsException;
+use App\Exception\LdapUpdateFailedException;
 use App\Exception\TokenException;
 use App\Framework\Controller;
 
 use App\Service\LdapClient;
-use App\Service\MailNotificationService;
 use App\Service\PasswordStrengthChecker;
-use App\Service\PosthookExecutor;
 use App\Service\RecaptchaService;
 use App\Service\TokenManagerService;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class ResetPasswordByTokenController extends Controller {
+/**
+ * This page is called to reset a password when a valid token is found in URL
+ */
+class ResetPasswordByTokenController extends Controller
+{
     /**
-     * @param $request Request
-     * @return string
+     * @param Request $request
+     *
+     * @return Response
      */
-    public function indexAction(Request $request) {
+    public function indexAction(Request $request)
+    {
         $problems = [];
         $login = '';
 
@@ -63,7 +65,7 @@ class ResetPasswordByTokenController extends Controller {
                 $problems[] = 'tokennotvalid';
             }
         }
-        if(count($problems)) {
+        if (count($problems)) {
             return $this->renderErrorPage($problems[0], $request);
         }
 
@@ -78,7 +80,7 @@ class ResetPasswordByTokenController extends Controller {
         }
 
         // Match new and confirm password
-        if ( $newpassword != $confirmpassword ) {
+        if ($newpassword !== $confirmpassword) {
             $problems[] = 'nomatch';
         }
 
@@ -86,18 +88,18 @@ class ResetPasswordByTokenController extends Controller {
         $passwordChecker = $this->get('password_strength_checker');
 
         // Check password strength
-        $problems += $passwordChecker->evaluate( $newpassword, '', $login );
+        $problems += $passwordChecker->evaluate($newpassword, '', $login);
 
-        if(count($problems)) {
+        if (count($problems)) {
             return $this->renderErrorPage($problems[0], $request);
         }
 
         // Okay the form is submitted but is the CAPTCHA valid ?
-        if ( $this->config['use_recaptcha'] ) {
+        if ($this->config['use_recaptcha']) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
-            if($result != '') {
+            if ('' !== $result) {
                 $this->renderErrorPage($result, $request);
             }
         }
@@ -120,11 +122,11 @@ class ResetPasswordByTokenController extends Controller {
             $ldapClient->fetchUserEntryContext($login, $wantedContext, $context);
             // Change password
             $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
-        } catch (LdapError $e) {
+        } catch (LdapErrorException $e) {
             return $this->renderErrorPage('ldaperror', $request);
-        } catch (LdapInvalidUserCredentials $e) {
+        } catch (LdapInvalidUserCredentialsException $e) {
             return $this->renderErrorPage('badcredentials', $request);
-        } catch (LdapUpdateFailed $e) {
+        } catch (LdapUpdateFailedException $e) {
             return $this->renderErrorPage('passwordnotchanged', $request);
         }
 
@@ -146,7 +148,14 @@ class ResetPasswordByTokenController extends Controller {
         return $this->render('change_password_success.twig');
     }
 
-    private function renderErrorPage($result, Request $request) {
+    /**
+     * @param string  $result
+     * @param Request $request
+     *
+     * @return Response
+     */
+    private function renderErrorPage($result, Request $request)
+    {
         return $this->render('reset_password_by_token_form.twig', [
             'result' => $result,
             'source' => $request->get('source'),

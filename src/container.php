@@ -1,23 +1,22 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 use App\Controller as Controller;
 use App\Service as Service;
@@ -35,11 +34,11 @@ $container['logger'] = function () {
 $container['event_dispatcher'] = function ($c) {
     $eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 
-    if(isset($c['config']['posthook'])) {
+    if (isset($c['config']['posthook'])) {
         $eventDispatcher->addSubscriber(new EventSubscriber\PosthookSubscriber($c['posthook_executor']));
     }
 
-    if($c['config']['notify_on_change'] || $c['config']['notify_on_sshkey_change']) {
+    if ($c['config']['notify_on_change'] || $c['config']['notify_on_sshkey_change']) {
         $notificationSubscriber = new EventSubscriber\NotificationSubscriber(
             $c['mail_notification_service'],
             $c['translator'],
@@ -155,11 +154,19 @@ $container['twig'] = function ($c) {
 
     # Get FontAwesome class icon
     $get_fa_class = function ($msg) use ($get_criticity) {
-        $criticity = $get_criticity( $msg );
+        $criticity = $get_criticity($msg);
 
-        if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
-        if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
-        if ( $criticity === "success" ) { return "fa-check-square"; }
+        if ($criticity === "danger") {
+            return "fa-exclamation-circle";
+        }
+        if ($criticity === "warning") {
+            return "fa-exclamation-triangle";
+        }
+        if ($criticity === "success") {
+            return "fa-check-square";
+        }
+
+        return '';
     };
 
     $is_error = function ( $msg ) {

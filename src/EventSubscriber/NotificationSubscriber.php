@@ -1,23 +1,22 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 namespace App\EventSubscriber;
 
@@ -26,7 +25,11 @@ use App\Service\MailNotificationService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class NotificationSubscriber implements EventSubscriberInterface {
+/**
+ * Class NotificationSubscriber
+ */
+class NotificationSubscriber implements EventSubscriberInterface
+{
     /** @var MailNotificationService */
     private $mailNotificationService;
 
@@ -36,27 +39,31 @@ class NotificationSubscriber implements EventSubscriberInterface {
     /** @var string */
     private $signature;
 
-    private $notify_on_password_changed;
+    private $notifyOnPasswordChanged;
 
-    private $notify_on_ssh_key_changed;
+    private $notifyOnSshKeyChanged;
 
     /**
      * NotificationSubscriber constructor.
-     * @param $mailNotificationService MailNotificationService
-     * @param $translator Translator
-     * @param $signature string
-     * @param $notify_on_password_changed boolean
-     * @param $notify_on_ssh_key_changed boolean
+     *
+     * @param MailNotificationService $mailNotificationService
+     * @param Translator              $translator
+     * @param string                  $signature
+     * @param boolean                 $notifyOnPasswordChanged
+     * @param boolean                 $notifyOnSshKeyChanged
      */
-    public function __construct($mailNotificationService, $translator, $signature, $notify_on_password_changed, $notify_on_ssh_key_changed)
+    public function __construct($mailNotificationService, $translator, $signature, $notifyOnPasswordChanged, $notifyOnSshKeyChanged)
     {
         $this->mailNotificationService = $mailNotificationService;
         $this->translator = $translator;
         $this->signature = $signature;
-        $this->notify_on_password_changed = $notify_on_password_changed;
-        $this->notify_on_ssh_key_changed = $notify_on_ssh_key_changed;
+        $this->notifyOnPasswordChanged = $notifyOnPasswordChanged;
+        $this->notifyOnSshKeyChanged = $notifyOnSshKeyChanged;
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return [
@@ -65,9 +72,12 @@ class NotificationSubscriber implements EventSubscriberInterface {
         ];
     }
 
+    /**
+     * @param GenericEvent $event
+     */
     public function onPasswordChanged(GenericEvent $event)
     {
-        if(!$this->notify_on_password_changed) {
+        if (!$this->notifyOnPasswordChanged) {
             return;
         }
 
@@ -82,9 +92,12 @@ class NotificationSubscriber implements EventSubscriberInterface {
         // TODO log when missing email
     }
 
+    /**
+     * @param GenericEvent $event
+     */
     public function onSshKeyChanged(GenericEvent $event)
     {
-        if(!$this->notify_on_ssh_key_changed) {
+        if (!$this->notifyOnSshKeyChanged) {
             return;
         }
 

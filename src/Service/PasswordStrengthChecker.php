@@ -1,35 +1,52 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
+/*
+ * LTB Self Service Password
+ *
+ * Copyright (C) 2009 Clement OUDOT
+ * Copyright (C) 2009 LTB-project.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * GPL License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 namespace App\Service;
 
-class PasswordStrengthChecker {
-    private $pwd_policy_config;
+/**
+ * Class PasswordStrengthChecker
+ */
+class PasswordStrengthChecker
+{
+    private $pwdPolicyConfig;
 
-    public function __construct($pwd_policy_config) {
-        $this->pwd_policy_config = $pwd_policy_config;
+    /**
+     * PasswordStrengthChecker constructor.
+     *
+     * @param array $pwdPolicyConfig
+     */
+    public function __construct($pwdPolicyConfig)
+    {
+        $this->pwdPolicyConfig = $pwdPolicyConfig;
     }
 
-    public function evaluate($newpassword, $oldpassword, $login) {
-        extract( $this->pwd_policy_config );
+    /**
+     * @param string $newpassword
+     * @param string $oldpassword
+     * @param string $login
+     *
+     * @return string[]
+     */
+    public function evaluate($newpassword, $oldpassword, $login)
+    {
+        extract($this->pwdPolicyConfig);
 
         $problems = [];
 
