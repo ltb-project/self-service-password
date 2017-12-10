@@ -159,6 +159,7 @@ $mailer->Debugoutput   = $mail_debug_format;
 $mailer->Host          = $mail_smtp_host;
 $mailer->Port          = $mail_smtp_port;
 $mailer->SMTPSecure    = $mail_smtp_secure;
+$mailer->SMTPAutoTLS   = $mail_smtp_autotls;
 $mailer->SMTPAuth      = $mail_smtp_auth;
 $mailer->Username      = $mail_smtp_user;
 $mailer->Password      = $mail_smtp_pass;
