@@ -2,6 +2,7 @@
 /node_modules/
 /var/*
 !/var/cache
+!/var/bootstrap.php.cache
 /var/cache/*
 !var/cache/.gitkeep
 !/var/data

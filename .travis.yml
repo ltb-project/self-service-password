@@ -18,7 +18,7 @@ install:
   - composer install
 
 script:
-  - php "./vendor/codeception/codeception/codecept" run
+  - php "./vendor/codeception/codeception/codecept" run --steps --coverage
 
 notifications:
   irc: "irc.freenode.org#ltb-project"
