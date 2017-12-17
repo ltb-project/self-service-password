@@ -21,12 +21,16 @@
 namespace App\Service;
 
 use App\Utils\MailSender;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class SmsNotificationService
  */
-class SmsNotificationService
+class SmsNotificationService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     private $smsMethod;
     /** @var MailSender */
     private $mailSender;
@@ -34,7 +38,6 @@ class SmsNotificationService
     private $mailFromAddress;
     private $mailFromName;
     private $smsApiLib;
-    private $messages;
 
     /**
      * SmsNotificationService constructor.
@@ -44,20 +47,16 @@ class SmsNotificationService
      * @param string $mailFromAddress
      * @param string $mailFromName
      * @param string $smsApiLib
-     * @param array  $messages
      */
-    public function __construct($smsMethod, $mailSender, $smsMailTo, $mailFromAddress, $mailFromName, $smsApiLib, $messages)
+    public function __construct($smsMethod, $mailSender, $smsMailTo, $mailFromAddress, $mailFromName, $smsApiLib)
     {
+        //TODO translator ?
         $this->smsMethod = $smsMethod;
-        if (!$this->smsMethod) {
-            $this->smsMethod = 'mail';
-        }
         $this->mailSender = $mailSender;
         $this->smsmailto = $smsMailTo;
         $this->mailFromAddress = $mailFromAddress;
         $this->mailFromName = $mailFromName;
         $this->smsApiLib = $smsApiLib;
-        $this->messages = $messages;
     }
 
     /**
@@ -74,12 +73,7 @@ class SmsNotificationService
     {
         if ($this->smsMethod === 'mail') {
             if ($this->mailSender->send($this->smsmailto, $this->mailFromAddress, $this->mailFromName, $smsMailSubject, $smsMessage, $data)) {
-                //TODO fix bug
-                if (!empty($reset_request_log)) {
-                    error_log("Send SMS code $smsCode by ".$this->smsMethod." to $sms\n\n", 3, $reset_request_log);
-                } else {
-                    error_log("Send SMS code $smsCode by ".$this->smsMethod." to $sms");
-                }
+                $this->logger->notice("Send SMS code $smsCode by ".$this->smsMethod." to $sms");
 
                 return "smssent";
             }
@@ -87,28 +81,24 @@ class SmsNotificationService
 
         if ($this->smsMethod === 'api') {
             if (!$this->smsApiLib) {
-                error_log('No API library found, set $sms_api_lib in configuration.');
+                $this->logger->alert('No API library found, set $sms_api_lib in configuration.');
 
                 return "smsnotsent";
             }
 
             include_once($this->smsApiLib);
-            $smsMessage = str_replace('{smsresetmessage}', $this->messages['smsresetmessage'], $smsMessage);
+            $smsMessage = str_replace('{smsresetmessage}', $data['smsresetmessage'], $smsMessage);
             $smsMessage = str_replace('{smstoken}', $smsCode, $smsMessage);
             if (send_sms_by_api($sms, $smsMessage)) {
-                //TODO fix bug
-                if (!empty($reset_request_log)) {
-                    error_log("Send SMS code $smsCode by ".$this->smsMethod." to $sms\n\n", 3, $reset_request_log);
-                } else {
-                    error_log("Send SMS code $smsCode by ".$this->smsMethod." to $sms");
-                }
+                $this->logger->notice("Send SMS code $smsCode by ".$this->smsMethod." to $sms");
 
                 return "smssent";
             }
         }
 
-        error_log("Error while sending sms by ".$this->smsMethod." to $sms (user $login)");
+        $this->logger->critical("Error while sending sms by ".$this->smsMethod." to $sms (user $login)");
 
+        //TODO report invalid sms method
         return 'smsnotsent';
     }
 }

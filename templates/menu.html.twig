@@ -1,0 +1,45 @@
+{% import _self as menu %}
+
+<div class="navbar-wrapper">
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('homepage') }}"><i class="fa fa-fw fa-home"></i> {{ 'title'|trans }}</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    {% macro item(route, is_active, icon, title, help) %}
+                        <li class="{{ is_active ? 'active' }}">
+                            <a href="{{ path(route) }}" data-toggle="menu-popover" data-content="{{ help|trans|striptags }}">
+                                <i class="fa fa-fw fa-{{ icon }}"></i> {{ title|trans }}
+                            </a>
+                        </li>
+                    {% endmacro %}
+
+                    {% if enable_questions %}
+                        {% set use_questions_active = app.request.attributes.get('_route') in ['reset-password-by-question', 'change-security-question'] %}
+                        {{ menu.item('reset-password-by-question', use_questions_active, 'question-circle', 'menuquestions', 'changehelpquestions') }}
+                    {% endif %}
+                    {% if enable_reset_by_email %}
+                        {% set use_tokens_active = app.request.attributes.get('_route') == 'reset-password-by-email' %}
+                        {{ menu.item('reset-password-by-email', use_tokens_active, 'envelope', 'menutoken', 'changehelptoken') }}
+                    {% endif %}
+                    {% if enable_reset_by_sms %}
+                        {% set use_sms_active = app.request.attributes.get('_route') == 'reset-password-by-sms' %}
+                        {{ menu.item('reset-password-by-sms', use_sms_active, 'mobile', 'menusms', 'changehelpsms') }}
+                    {% endif %}
+                    {% if enable_sshkey_change %}
+                        {% set use_sshkey_active = app.request.attributes.get('_route') == 'change-ssh-key' %}
+                        {{ menu.item('change-ssh-key', use_sshkey_active, 'terminal', 'menusshkey', 'changehelpsshkey') }}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

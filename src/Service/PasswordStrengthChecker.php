@@ -32,7 +32,7 @@ class PasswordStrengthChecker
      *
      * @param array $pwdPolicyConfig
      */
-    public function __construct($pwdPolicyConfig)
+    public function __construct(array $pwdPolicyConfig)
     {
         $this->pwdPolicyConfig = $pwdPolicyConfig;
     }
@@ -59,19 +59,19 @@ class PasswordStrengthChecker
         $digit = count( $digit_res[0] );
 
         $special = 0;
-        if ( isset($pwd_special_chars) && !empty($pwd_special_chars) ) {
+        if (isset($pwd_special_chars) && !empty($pwd_special_chars)) {
             preg_match_all("/[$pwd_special_chars]/", $newpassword, $special_res);
             $special = count( $special_res[0] );
         }
 
         $forbidden = 0;
-        if ( isset($pwd_forbidden_chars) && !empty($pwd_forbidden_chars) ) {
+        if (isset($pwd_forbidden_chars) && !empty($pwd_forbidden_chars)) {
             preg_match_all("/[$pwd_forbidden_chars]/", $newpassword, $forbidden_res);
             $forbidden = count( $forbidden_res[0] );
         }
 
-        # Complexity: checks for lower, upper, special, digits
-        if ( $pwd_complexity ) {
+        // Complexity: checks for lower, upper, special, digits
+        if ($pwd_complexity) {
             $complex = 0;
             if ( $special > 0 ) { $complex++; }
             if ( $digit > 0 ) { $complex++; }
@@ -82,32 +82,50 @@ class PasswordStrengthChecker
             }
         }
 
-        # Minimal lenght
-        if ( $pwd_min_length and $length < $pwd_min_length ) { $problems[] = "tooshort"; }
+        // Minimal lenght
+        if ($pwd_min_length and $length < $pwd_min_length) {
+            $problems[] = 'tooshort';
+        }
 
-        # Maximal lenght
-        if ( $pwd_max_length and $length > $pwd_max_length ) { $problems[] = "toobig"; }
+        // Maximal lenght
+        if ($pwd_max_length and $length > $pwd_max_length) {
+            $problems[] = 'toobig';
+        }
 
-        # Minimal lower chars
-        if ( $pwd_min_lower and $lower < $pwd_min_lower ) { $problems[] = "minlower"; }
+        // Minimal lower chars
+        if ($pwd_min_lower and $lower < $pwd_min_lower) {
+            $problems[] = 'minlower';
+        }
 
-        # Minimal upper chars
-        if ( $pwd_min_upper and $upper < $pwd_min_upper ) { $problems[] = "minupper"; }
+        // Minimal upper chars
+        if ($pwd_min_upper and $upper < $pwd_min_upper) {
+            $problems[] = 'minupper';
+        }
 
-        # Minimal digit chars
-        if ( $pwd_min_digit and $digit < $pwd_min_digit ) { $problems[] = "mindigit"; }
+        // Minimal digit chars
+        if ($pwd_min_digit and $digit < $pwd_min_digit) {
+            $problems[] = 'mindigit';
+        }
 
-        # Minimal special chars
-        if ( $pwd_min_special and $special < $pwd_min_special ) { $problems[] = "minspecial"; }
+        // Minimal special chars
+        if ($pwd_min_special and $special < $pwd_min_special) {
+            $problems[] = 'minspecial';
+        }
 
-        # Forbidden chars
-        if ( $forbidden > 0 ) { $problems[] = "forbiddenchars"; }
+        // Forbidden chars
+        if ($forbidden > 0) {
+            $problems[] = 'forbiddenchars';
+        }
 
-        # Same as old password?
-        if ( $pwd_no_reuse and $newpassword === $oldpassword ) { $problems[] = "sameasold"; }
+        // Same as old password?
+        if ($pwd_no_reuse and $newpassword === $oldpassword) {
+            $problems[] = 'sameasold';
+        }
 
-        # Same as login?
-        if ( $pwd_diff_login and $newpassword === $login ) { $problems[] = "sameaslogin"; }
+        // Same as login?
+        if ($pwd_diff_login and $newpassword === $login) {
+            $problems[] = 'sameaslogin';
+        }
 
         return $problems;
     }

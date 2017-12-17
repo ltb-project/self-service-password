@@ -22,12 +22,16 @@ namespace App\Service;
 
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Exception\CryptoException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class EncryptionService
  */
-class EncryptionService
+class EncryptionService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     private $keyphrase;
     private $defuseCrypto;
 
@@ -66,7 +70,7 @@ class EncryptionService
         try {
             return $this->defuseCrypto->decryptWithPassword(base64_decode($data), $this->keyphrase, true);
         } catch (CryptoException $e) {
-            error_log("crypto: decryption error ".$e->getMessage());
+            $this->logger->notice("crypto: decryption error ".$e->getMessage());
 
             return '';
         }

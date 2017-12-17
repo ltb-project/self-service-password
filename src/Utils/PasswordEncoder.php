@@ -47,37 +47,37 @@ class PasswordEncoder
     {
         $scheme = strtoupper($scheme);
 
-        if ("SSHA" === $scheme) {
+        if ('SSHA' === $scheme) {
             return $this->makeSshaPassword($password);
         }
-        if ("SSHA256" === $scheme) {
+        if ('SSHA256' === $scheme) {
             return $this->makeSsha256Password($password);
         }
-        if ("SSHA384" === $scheme) {
+        if ('SSHA384' === $scheme) {
             return $this->makeSsha384Password($password);
         }
-        if ("SSHA512" === $scheme) {
+        if ('SSHA512' === $scheme) {
             return $this->makeSsha512Password($password);
         }
-        if ("SHA" === $scheme) {
+        if ('SHA' === $scheme) {
             return $this->makeShaPassword($password);
         }
-        if ("SHA256" === $scheme) {
+        if ('SHA256' === $scheme) {
             return $this->makeSha256Password($password);
         }
-        if ("SHA384" === $scheme) {
+        if ('SHA384' === $scheme) {
             return $this->makeSha384Password($password);
         }
-        if ("SHA512" === $scheme) {
+        if ('SHA512' === $scheme) {
             return $this->makeSha512Password($password);
         }
-        if ("SMD5" === $scheme) {
+        if ('SMD5' === $scheme) {
             return $this->makeSmd5Password($password);
         }
-        if ("MD5" === $scheme) {
+        if ('MD5' === $scheme) {
             return $this->makeMd5Password($password);
         }
-        if ("CRYPT" === $scheme) {
+        if ('CRYPT' === $scheme) {
             return $this->makeCryptPassword($password, $this->hashOptions);
         }
 

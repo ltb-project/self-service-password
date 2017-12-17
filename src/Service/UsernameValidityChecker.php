@@ -20,11 +20,16 @@
 
 namespace App\Service;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+
 /**
  * Class UsernameValidityChecker
  */
-class UsernameValidityChecker
+class UsernameValidityChecker implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var string invalid characters
      */
@@ -34,7 +39,7 @@ class UsernameValidityChecker
      * UsernameValidityChecker constructor.
      * @param string $forbiddenChars
      */
-    public function __construct($forbiddenChars)
+    public function __construct($forbiddenChars = '')
     {
         $this->loginForbiddenChars = $forbiddenChars;
     }
@@ -52,7 +57,7 @@ class UsernameValidityChecker
         // If no forbidden chars are configured, we will check that the username is alphanumeric
         if (!$this->loginForbiddenChars) {
             if (!ctype_alnum($username)) {
-                error_log("Non alphanumeric characters in username $username");
+                $this->logger->info("Non alphanumeric characters in username $username");
 
                 return 'badcredentials';
             }
@@ -62,7 +67,7 @@ class UsernameValidityChecker
 
         preg_match_all("/[$this->loginForbiddenChars]/", $username, $forbiddenRest);
         if (count($forbiddenRest[0])) {
-            error_log("Illegal characters in username $username (list of forbidden characters: $this->loginForbiddenChars)");
+            $this->logger->info("Illegal characters in username $username (list of forbidden characters: $this->loginForbiddenChars)");
 
             return 'badcredentials';
         }

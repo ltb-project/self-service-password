@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% import 'forms.html.twig' as forms %}
+
+{% block main %}
+    {{ forms.show_result(result) }}
+
+    {# Step 2 :
+     #   Show details of the user found.
+     #}
+    <div class="alert alert-info">
+        <form action="#" method="post" class="form-horizontal">
+            <input type="hidden" name="encrypted_sms_login" value="{{ encrypted_sms_login }}" />
+            {{ forms.row_static_text('userfullname', displayname) }}
+            {{ forms.row_static_text('login', login) }}
+            {{ forms.row_static_text('sms', sms) }}
+            {{ forms.row_button_submit() }}
+        </form>
+    </div>
+{% endblock %}

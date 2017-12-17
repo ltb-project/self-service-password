@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% import 'forms.html.twig' as forms %}
+
+{% block main %}
+    {{ forms.show_result(result) }}
+
+    {# Step 3 :
+     #   Show the input field for the sms code until max attempts reached.
+     #}
+    <div class="alert alert-info">
+        <form action="#" method="post" class="form-horizontal">
+            <input type="hidden" name="token" value="{{ token }}" />
+            {{ forms.row_input_text('smstoken', 'smstoken', 'key', 'smstoken') }}
+            {{ forms.row_button_submit() }}
+        </form>
+    </div>
+{% endblock %}

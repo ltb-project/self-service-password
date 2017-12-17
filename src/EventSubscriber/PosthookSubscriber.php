@@ -20,6 +20,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Events;
 use App\Service\PosthookExecutor;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -29,16 +30,21 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class PosthookSubscriber implements EventSubscriberInterface
 {
+    /** @var bool */
+    private $posthookEnabled;
+
     /** @var PosthookExecutor */
     private $posthookExecutor;
 
     /**
      * PosthookSubscriber constructor.
      *
+     * @param bool $posthookEnabled
      * @param PosthookExecutor $posthookExecutor
      */
-    public function __construct($posthookExecutor)
+    public function __construct($posthookEnabled, $posthookExecutor)
     {
+        $this->posthookEnabled = $posthookEnabled;
         $this->posthookExecutor = $posthookExecutor;
     }
 
@@ -47,7 +53,9 @@ class PosthookSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return ['password.changed' => 'onPasswordChanged'];
+        return [
+            Events::PASSWORD_CHANGED => 'onPasswordChanged',
+        ];
     }
 
     /**
@@ -55,6 +63,10 @@ class PosthookSubscriber implements EventSubscriberInterface
      */
     public function onPasswordChanged(GenericEvent $event)
     {
+        if (!$this->posthookEnabled) {
+            return;
+        }
+
         $this->posthookExecutor->execute($event['login'], $event['new_password'], $event['old_password']);
     }
 }

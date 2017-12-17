@@ -20,15 +20,15 @@
 
 namespace App\Controller;
 
+use App\Events;
 use App\Exception\LdapErrorException;
 use App\Exception\LdapInvalidUserCredentialsException;
 use App\Exception\LdapUpdateFailedException;
-use App\Framework\Controller;
-
 use App\Service\LdapClient;
 use App\Service\PasswordStrengthChecker;
 use App\Service\RecaptchaService;
 use App\Service\UsernameValidityChecker;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,12 +48,16 @@ class ChangePasswordController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if (!$this->getParameter('enable_password_change')) {
+            throw $this->createAccessDeniedException();
+        }
+
         if ($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
 
         // Render empty form
-        return $this->render('change_password_form.twig', [
+        return $this->render('self-service/change_password_form.html.twig', [
             'result' => 'emptychangeform',
             'login' => $request->get('login'),
         ]);
@@ -66,10 +70,10 @@ class ChangePasswordController extends Controller
      */
     private function isFormSubmitted(Request $request)
     {
-        return $request->get("login")
-            && $request->request->has("newpassword")
-            && $request->request->has("oldpassword")
-            && $request->request->has("confirmpassword");
+        return $request->get('login')
+            && $request->request->has('newpassword')
+            && $request->request->has('oldpassword')
+            && $request->request->has('confirmpassword');
     }
 
     /**
@@ -79,23 +83,23 @@ class ChangePasswordController extends Controller
      */
     private function processFormData(Request $request)
     {
-        $login = $request->get("login", "");
-        $oldpassword = $request->request->get("oldpassword", "");
-        $newpassword = $request->request->get("newpassword", "");
-        $confirmpassword = $request->request->get("confirmpassword", "");
+        $login = $request->get('login', '');
+        $oldpassword = $request->request->get('oldpassword', '');
+        $newpassword = $request->request->get('newpassword', '');
+        $confirmpassword = $request->request->get('confirmpassword', '');
 
         $missings = [];
         if (!$login) {
-            $missings[] = "loginrequired";
+            $missings[] = 'loginrequired';
         }
         if (!$oldpassword) {
-            $missings[] = "newpasswordrequired";
+            $missings[] = 'newpasswordrequired';
         }
         if (!$newpassword) {
-            $missings[] = "oldpasswordrequired";
+            $missings[] = 'oldpasswordrequired';
         }
         if (!$confirmpassword) {
-            $missings[] = "confirmpasswordrequired";
+            $missings[] = 'confirmpasswordrequired';
         }
 
         if (count($missings) > 0) {
@@ -129,7 +133,7 @@ class ChangePasswordController extends Controller
         }
 
         // Check reCAPTCHA
-        if ($this->config['use_recaptcha']) {
+        if ($this->getParameter('enable_recaptcha')) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
 
@@ -145,7 +149,7 @@ class ChangePasswordController extends Controller
         try {
             $ldapClient->connect();
             // we want user's email address if we have to notify
-            $wanted = $this->config['notify_on_change'] ? ['dn', 'samba', 'shadow', 'mail'] : ['dn', 'samba', 'shadow'];
+            $wanted = $this->getParameter('notify_user_on_password_change') ? ['dn', 'samba', 'shadow', 'mail'] : ['dn', 'samba', 'shadow'];
             $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
             $ldapClient->checkOldPassword($oldpassword, $context);
@@ -167,10 +171,10 @@ class ChangePasswordController extends Controller
         $event['old_password'] = $oldpassword;
         $event['context'] = $context;
 
-        $eventDispatcher->dispatch('password.changed', $event);
+        $eventDispatcher->dispatch(Events::PASSWORD_CHANGED, $event);
 
         // render page success
-        return $this->render('change_password_success.twig');
+        return $this->render('self-service/change_password_success.html.twig');
     }
 
     /**
@@ -181,7 +185,7 @@ class ChangePasswordController extends Controller
      */
     private function renderFormWithError($result, Request $request)
     {
-        return $this->render('change_password_form.twig', [
+        return $this->render('self-service/change_password_form.html.twig', [
             'result' => $result,
             'login' => $request->get('login'),
         ]);

@@ -1,0 +1,69 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: container.php }
+
+# Swiftmailer Configuration (used to send emails)
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    # We do not use spool, currently using spooling breaks our tests
+    #spool:     { type: memory }
+
+parameters:
+    # This parameter defines the codes of the locales (languages) enabled in the application
+    app_locales: ca,cn,cs,de,el,en,es,fr,hu,it,ja,nl,pt-BR,pt-PT,ru,sk,sl,sv,tr,uk,zh-CN
+    ldap_client.class: App\Service\LdapClient
+
+# Basic configuration for the Symfony framework features
+framework:
+    translator:
+        fallback: "%locale%"
+        paths:
+          - '%kernel.root_dir%/../translations'
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/../config/routing.yml"
+        strict_requirements: ~
+    csrf_protection: ~
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration (used for rendering application templates)
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    paths:
+        "%kernel.root_dir%/../templates": __main__
+    globals:
+        enable_recaptcha: '%enable_recaptcha%'
+        recaptcha_publickey: '%recaptcha_publickey%'
+        recaptcha_theme: '%recaptcha_theme%'
+        recaptcha_type: '%recaptcha_type%'
+        recaptcha_size: '%recaptcha_size%'
+        lang: '%locale%'
+        show_menu: '%show_menu%'
+        background_image: '%background_image%'
+        logo: '%logo%'
+        pwd_policy_config: '%pwd_policy_config%'
+        show_help: '%show_help%'
+        pwd_show_policy_pos: '%pwd_show_policy_pos%'
+        enable_questions: '%enable_questions%'
+        enable_reset_by_email: '%enable_reset_by_email%'
+        enable_reset_by_sms: '%enable_reset_by_sms%'
+        enable_sshkey_change: '%enable_sshkey_change%'
+        mail_address_use_ldap: '%mail_address_use_ldap%'
+        enable_password_changed_extra_message: '%enable_password_changed_extra_message%'
+        enable_password_change_help_extra_message: '%enable_password_change_help_extra_message%'
+        enable_password_change_help_reset: '%enable_password_change_help_reset%'
+        is_debug: '%kernel.debug%'
+        environment: '%kernel.environment%'

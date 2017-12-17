@@ -23,18 +23,20 @@ namespace App\Controller;
 use App\Exception\LdapEntryFoundInvalidException;
 use App\Exception\LdapErrorException;
 use App\Exception\LdapInvalidUserCredentialsException;
-use App\Framework\Controller;
-
 use App\Service\EncryptionService;
 use App\Service\LdapClient;
 use App\Service\RecaptchaService;
 use App\Service\SmsNotificationService;
 use App\Service\TokenManagerService;
 use App\Service\UsernameValidityChecker;
-use App\Utils\ResetUrlGenerator;
 use App\Utils\SmsTokenGenerator;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * This page is called to send random generated password to user by SMS
@@ -48,33 +50,31 @@ class GetTokenBySmsVerificationController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // todo remove unsecure support
-        if (!$this->config['crypt_tokens']) {
-            // render error page
-            return $this->render('sms_verification_failure.twig', ['result' => 'crypttokensrequired']);
+        if (!$this->getParameter('enable_reset_by_sms')) {
+            throw $this->createAccessDeniedException();
         }
 
-        $token = $request->get("token");
-        $smstoken = $request->get("smstoken");
+        $token = $request->get('token');
+        $smstoken = $request->get('smstoken');
 
         if (!empty($token) and !empty($smstoken)) {
             return $this->processSmsTokenAttempt($request);
         }
 
-        $encryptedSmsLogin = $request->get("encrypted_sms_login");
+        $encryptedSmsLogin = $request->get('encrypted_sms_login');
 
         if (!empty($encryptedSmsLogin)) {
             return $this->generateAndSendSmsToken($request);
         }
 
-        $login = $request->get("login");
+        $login = $request->get('login');
 
         if (!empty($login)) {
             return $this->processSearchUserFormData($request);
         }
 
         // render search user form empty
-        return $this->render('sms_verification_user_search_form.twig', [
+        return $this->render('self-service/sms_verification_user_search_form.html.twig', [
             'result' => 'emptysendsmsform',
             'login' => $request->get('login'),
         ]);
@@ -87,83 +87,81 @@ class GetTokenBySmsVerificationController extends Controller
      */
     private function processSmsTokenAttempt(Request $request)
     {
-        $result = "";
-
         /** @var EncryptionService $encryptionService */
         $encryptionService = $this->get('encryption_service');
 
         // Open session with the token
-        $tokenid = $encryptionService->decrypt($request->get("token"));
-        $receivedSmsCode = $request->get("smstoken");
+        $tokenid = $encryptionService->decrypt($request->get('token'));
+        $receivedSmsCode = $request->get('smstoken');
 
-        ini_set("session.use_cookies", 0);
-        ini_set("session.use_only_cookies", 1);
+        $session = $this->get('session');
+        $session->setId($tokenid);
+        $session->start();
 
-        // Manage lifetime with sessions properties
-        if (isset($this->config['token_lifetime'])) {
-            ini_set("session.gc_maxlifetime", $this->config['token_lifetime']);
-            ini_set("session.gc_probability", 1);
-            ini_set("session.gc_divisor", 1);
+        /** @var LoggerInterface $logger */
+        $logger = $this->get('logger');
+
+
+        if (!$session->has('smstoken')) {
+            $logger->notice("Unable to open session $tokenid");
+            return $this->render('self-service/sms_verification_sms_code_failure.html.twig', [
+                //TODO precise error
+                'result' => 'tokennotvalid',
+            ]);
         }
 
-        session_id($tokenid);
-        session_name("smstoken");
-        session_start();
-        $login        = $_SESSION['login'];
-        $sessiontoken = $_SESSION['smstoken'];
-        $attempts     = $_SESSION['attempts'];
+        $smstoken = $session->get('smstoken');
 
-        if (!$login or !$sessiontoken) {
-            error_log("Unable to open session $tokenid");
-            $result = "tokennotvalid";
-        } elseif ($sessiontoken !== $receivedSmsCode) {
-            if ($attempts < $this->config['max_attempts']) {
-                $_SESSION['attempts'] = $attempts + 1;
-                error_log("SMS token $receivedSmsCode not valid, attempt $attempts");
-                $result = "tokenattempts";
-            } else {
-                error_log("SMS token $receivedSmsCode not valid");
-                $result = "tokennotvalid";
-            }
-        } elseif (isset($this->config['token_lifetime'])) {
+        $login        = $smstoken['login'];
+        $sessiontoken = $smstoken['smstoken'];
+        $attempts     = $smstoken['attempts'];
+
+        if (null !== $this->getParameter('token_lifetime')) {
             // Manage lifetime with session content
-            $tokentime = $_SESSION['time'];
-            if (time() - $tokentime > $this->config['token_lifetime']) {
-                error_log("Token lifetime expired");
-                $result = "tokennotvalid";
+            $tokentime = $smstoken['time'];
+            $smsTokenAgeInSeconds = time() - $tokentime;
+            if ($smsTokenAgeInSeconds > $this->getParameter('token_lifetime')) {
+                $logger->warning('Token lifetime expired');
+                $session->remove('smstoken');
+                return $this->render('self-service/sms_verification_sms_code_failure.html.twig', [
+                    //TODO precise error to user
+                    'result' => 'tokennotvalid',
+                ]);
             }
         }
-        // Delete token if not valid or all is ok
-        if ("tokennotvalid" === $result) {
-            $_SESSION = [];
-            session_destroy();
-        }
-        if ("" === $result) {
-            $_SESSION = [];
-            session_destroy();
 
-            /** @var TokenManagerService $tokenManagerService */
-            $tokenManagerService = $this->get('token_manager_service');
+        if ($sessiontoken !== $receivedSmsCode) {
+            if ($attempts < $this->getParameter('max_attempts')) {
+                $smstoken['attempts'] += 1;
+                $session->set('smstoken', $smstoken);
+                $logger->notice("SMS token $receivedSmsCode not valid, attempt $attempts");
+                $result = 'tokenattempts';
 
-            $token = $tokenManagerService->createToken($login);
-
-            /** @var ResetUrlGenerator $resetUrlGenerator */
-            $resetUrlGenerator = $this->get('reset_url_generator');
-
-            // Redirect to resetbytoken page
-            $resetUrl = $resetUrlGenerator->generateResetUrl(['source' => 'sms', 'token' => $token]);
-
-            //TODO fix bug
-            if ( !empty($reset_request_log) ) {
-                error_log("Send reset URL $resetUrl \n\n", 3, $reset_request_log);
-            } else {
-                error_log("Send reset URL $resetUrl");
+                return $this->renderTokenForm($result, $request->get('token'));
             }
 
-            return $this->redirect($resetUrl);
+            // TODO more precise log
+            $logger->warning("SMS token $receivedSmsCode not valid");
+            $session->remove('smstoken');
+            return $this->render('self-service/sms_verification_sms_code_failure.html.twig', [
+                //TODO precise error to user
+                'result' => 'tokennotvalid',
+            ]);
         }
 
-        return $this->renderTokenForm($result, $request->get('token'));
+        // we don't need smstoken anymore
+        $session->remove('smstoken');
+
+        /** @var TokenManagerService $tokenManagerService */
+        $tokenManagerService = $this->get('token_manager_service');
+
+        $token = $tokenManagerService->createToken($login);
+
+        $resetUrl = $this->generateUrl('reset-password-with-token', ['token' => $token, 'source' => 'sms'], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $logger->notice("Send reset URL $resetUrl");
+
+        return $this->redirect($resetUrl);
     }
 
     /**
@@ -176,7 +174,7 @@ class GetTokenBySmsVerificationController extends Controller
         /** @var EncryptionService $encryptionService */
         $encryptionService = $this->get('encryption_service');
 
-        $encryptedSmsLogin = $request->get("encrypted_sms_login");
+        $encryptedSmsLogin = $request->get('encrypted_sms_login');
 
         $decryptedSmsLogin = explode(':', $encryptionService->decrypt($encryptedSmsLogin));
         $sms = $decryptedSmsLogin[0];
@@ -190,38 +188,55 @@ class GetTokenBySmsVerificationController extends Controller
         // Generate sms token
         $smsCode = $smsTokenGenerator->generateSmsCode();
 
-        // Create temporary session to avoid token replay
-        ini_set("session.use_cookies", 0);
-        ini_set("session.use_only_cookies", 1);
+        /** @var SessionInterface $session */
+        $session = $this->get('session');
 
-        session_name("smstoken");
-        session_start();
-        $_SESSION['login']    = $login;
-        $_SESSION['smstoken'] = $smsCode;
-        $_SESSION['time']     = time();
-        $_SESSION['attempts'] = 0;
+        $session->start();
+        $smstoken = [
+            'login' => $login,
+            'smstoken' => $smsCode,
+            'time' => time(),
+            'attempts' => 0,
+        ];
+        $session->set('smstoken', $smstoken);
+
+        /** @var TranslatorInterface $translator */
+        $translator = $this->get('translator');
 
         $data = [
-            "sms_attribute" => $sms,
-            "smsresetmessage" => $this->config['messages']['smsresetmessage'],
-            "smstoken" => $smsCode,
+            'sms_attribute' => $sms,
+            'smsresetmessage' => $translator->trans('smsresetmessage'),
+            'smstoken' => $smsCode,
         ];
 
         /** @var SmsNotificationService $smsService */
         $smsService = $this->get('sms_notification_service');
 
         // Send message
-        $result = $smsService->send($sms, $login, $this->config['smsmail_subject'], $this->config['sms_message'], $data, $smsCode);
+        $result = $smsService->send(
+            $sms,
+            $login,
+            $this->getParameter('smsmail_subject'),
+            $this->getParameter('sms_message'),
+            $data,
+            $smsCode
+        );
 
-        $token = '';
         if ('smssent' === $result) {
             /** @var EncryptionService $encryptionService */
             $encryptionService = $this->get('encryption_service');
 
-            $token  = $encryptionService->encrypt(session_id());
+            $token  = $encryptionService->encrypt($session->getId());
+
+            return $this->renderTokenForm($result, $token);
+        } else {
+            // sms failed, we don't need the smstoken anymore
+            $session->remove('smstoken');
         }
 
-        return $this->renderTokenForm($result, $token);
+        return $this->render('self-service/sms_verification_sms_code_failure.html.twig', [
+            'result' => $result,
+        ]);
     }
 
     /**
@@ -243,7 +258,7 @@ class GetTokenBySmsVerificationController extends Controller
         }
 
         // Check reCAPTCHA
-        if ($this->config['use_recaptcha']) {
+        if ($this->getParameter('enable_recaptcha')) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
 
@@ -264,7 +279,9 @@ class GetTokenBySmsVerificationController extends Controller
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
 
             if (!$context['user_sms']) {
-                error_log("No SMS number found for user $login");
+                /** @var LoggerInterface $logger */
+                $logger = $this->get('logger');
+                $logger->critical("No SMS number found for user $login");
                 throw new LdapEntryFoundInvalidException();
             }
         } catch (LdapErrorException $e) {
@@ -283,12 +300,12 @@ class GetTokenBySmsVerificationController extends Controller
         $encryptedSmsLogin = $encryptionService->encrypt("$sms:$login");
 
         // Render search user from entry
-        return $this->render('sms_verification_user_entry_confirmation.twig', [
-            'result' => $result,
+        return $this->render('self-service/sms_verification_user_entry_confirmation.html.twig', [
+            'result' => 'smsuserfound',
             'displayname' => $context['user_displayname'],
             'login' => $login,
             'encrypted_sms_login' => $encryptedSmsLogin,
-            'sms' => $this->config['sms_partially_hide_number'] ? (substr_replace($sms, '****', 4, 4)) : $sms,
+            'sms' => $this->getParameter('sms_partially_hide_number') ? (substr_replace($sms, '****', 4, 4)) : $sms,
         ]);
     }
 
@@ -300,7 +317,7 @@ class GetTokenBySmsVerificationController extends Controller
      */
     private function renderSearchUserFormWithError($result, Request $request)
     {
-        return $this->render('sms_verification_user_search_form.twig', [
+        return $this->render('self-service/sms_verification_user_search_form.html.twig', [
             'result' => $result,
             'login' => $request->get('login'),
         ]);
@@ -314,7 +331,7 @@ class GetTokenBySmsVerificationController extends Controller
      */
     private function renderTokenForm($result, $token)
     {
-        return $this->render('sms_verification_sms_code_form.twig.twig', [
+        return $this->render('self-service/sms_verification_sms_code_form.html.twig', [
             'result' => $result,
             'token' => $token,
         ]);

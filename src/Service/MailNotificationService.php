@@ -21,12 +21,16 @@
 namespace App\Service;
 
 use App\Utils\MailSender;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class MailNotificationService
  */
-class MailNotificationService
+class MailNotificationService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /** @var MailSender */
     private $mailSender;
     private $mailFromAddress;
@@ -57,7 +61,7 @@ class MailNotificationService
     {
         $success = $this->mailSender->send($mail, $this->mailFromAddress, $this->mailFromName, $subject, $body, $data);
         if (!$success) {
-            error_log("Error while sending email notification to $mail (user ${data['login']})");
+            $this->logger->critical("Error while sending email notification to $mail (user ${data['login']})");
         }
 
         return $success;

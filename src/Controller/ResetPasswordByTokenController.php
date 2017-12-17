@@ -24,12 +24,11 @@ use App\Exception\LdapErrorException;
 use App\Exception\LdapInvalidUserCredentialsException;
 use App\Exception\LdapUpdateFailedException;
 use App\Exception\TokenException;
-use App\Framework\Controller;
-
 use App\Service\LdapClient;
 use App\Service\PasswordStrengthChecker;
 use App\Service\RecaptchaService;
 use App\Service\TokenManagerService;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +46,10 @@ class ResetPasswordByTokenController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if (!($this->getParameter('enable_reset_by_email') or $this->getParameter('enable_reset_by_sms'))) {
+            throw $this->createAccessDeniedException();
+        }
+
         $problems = [];
         $login = '';
 
@@ -66,11 +69,11 @@ class ResetPasswordByTokenController extends Controller
             }
         }
         if (count($problems)) {
-            return $this->renderErrorPage($problems[0], $request);
+            return $this->render('self-service/reset_password_by_token_failure.html.twig', ['result' => $problems[0]]);
         }
 
         // Next is the form submitted ?
-        $newpassword = $request->request->get("newpassword");
+        $newpassword = $request->request->get('newpassword');
         $confirmpassword = $request->request->get('confirmpassword');
         if (!$newpassword) {
             $problems[] = 'newpasswordrequired';
@@ -91,22 +94,22 @@ class ResetPasswordByTokenController extends Controller
         $problems += $passwordChecker->evaluate($newpassword, '', $login);
 
         if (count($problems)) {
-            return $this->renderErrorPage($problems[0], $request);
+            return $this->renderErrorPage($problems[0], $request, $login);
         }
 
         // Okay the form is submitted but is the CAPTCHA valid ?
-        if ($this->config['use_recaptcha']) {
+        if ($this->getParameter('enable_recaptcha')) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
             $result = $recaptchaService->verify($request->request->get('g-recaptcha-response'), $login);
             if ('' !== $result) {
-                $this->renderErrorPage($result, $request);
+                return $this->renderErrorPage($result, $request, $login);
             }
         }
 
         // All good, we try
 
-        $notify = $this->config['notify_on_change'];
+        $notify = $this->getParameter('notify_user_on_password_change');
 
         /** @var LdapClient $ldapClient */
         $ldapClient = $this->get('ldap_client');
@@ -123,11 +126,11 @@ class ResetPasswordByTokenController extends Controller
             // Change password
             $ldapClient->changePassword($context['user_dn'], $newpassword, '', $context);
         } catch (LdapErrorException $e) {
-            return $this->renderErrorPage('ldaperror', $request);
+            return $this->renderErrorPage('ldaperror', $request, $login);
         } catch (LdapInvalidUserCredentialsException $e) {
-            return $this->renderErrorPage('badcredentials', $request);
+            return $this->renderErrorPage('badcredentials', $request, $login);
         } catch (LdapUpdateFailedException $e) {
-            return $this->renderErrorPage('passwordnotchanged', $request);
+            return $this->renderErrorPage('passwordnotchanged', $request, $login);
         }
 
         // Delete token if all is ok
@@ -145,22 +148,23 @@ class ResetPasswordByTokenController extends Controller
         $eventDispatcher->dispatch('password.changed', $event);
 
         // render success page
-        return $this->render('change_password_success.twig');
+        return $this->render('self-service/change_password_success.html.twig');
     }
 
     /**
      * @param string  $result
      * @param Request $request
+     * @param string $login
      *
      * @return Response
      */
-    private function renderErrorPage($result, Request $request)
+    private function renderErrorPage($result, Request $request, $login)
     {
-        return $this->render('reset_password_by_token_form.twig', [
+        return $this->render('self-service/reset_password_by_token_form.html.twig', [
             'result' => $result,
             'source' => $request->get('source'),
             'token' => $request->get('token'),
-            'login' => $request->get('login'),
+            'login' => $login,
         ]);
     }
 }

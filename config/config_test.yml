@@ -1,0 +1,14 @@
+imports:
+    - { resource: config_dev.yml }
+
+parameters:
+    ldap_client.class: App\Service\MockLdapClient
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false

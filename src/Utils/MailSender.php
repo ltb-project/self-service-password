@@ -20,20 +20,23 @@
 
 namespace App\Utils;
 
-use PHPMailer;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class MailSender
  */
-class MailSender
+class MailSender implements LoggerAwareInterface
 {
-    /** @var PHPMailer */
+    use LoggerAwareTrait;
+
+    /** @var \Swift_Mailer */
     private $mailer;
 
     /**
      * MailSender constructor.
      *
-     * @param PHPMailer $mailer
+     * @param \Swift_Mailer $mailer
      */
     public function __construct($mailer)
     {
@@ -57,14 +60,8 @@ class MailSender
 
         $result = false;
 
-        if (!is_a($this->mailer, 'PHPMailer')) {
-            error_log("send_mail: PHPMailer object required!");
-
-            return $result;
-        }
-
         if (!$mail) {
-            error_log("send_mail: no mail given, exiting...");
+            $this->logger->notice('send_mail: no mail given, exiting...');
 
             return $result;
         }
@@ -77,21 +74,19 @@ class MailSender
             $body = str_replace('{'.$key.'}', $value, $body);
         }
 
-        try {
-            $this->mailer->setFrom($mailFromAddress, $mailFromName);
 
-            $this->mailer->addReplyTo($mailFromAddress, $mailFromName);
-            $this->mailer->addAddress($mail);
-            $this->mailer->Subject = $subject;
-            $this->mailer->Body = $body;
+        $message = (new \Swift_Message($subject))
+            ->setFrom($mailFromAddress, $mailFromName)
+            ->setTo($mail)
+            ->setBody($body)
+        ;
 
-            $result = $this->mailer->send();
-        } catch (\phpmailerException $e) {
-            error_log("send_mail: ".$e->errorMessage());
-        }
+        $nbDeliveries = $this->mailer->send($message);
 
-        if (!$result) {
-            error_log("send_mail: ".$this->mailer->ErrorInfo);
+        if ($nbDeliveries > 0) {
+            $result = true;
+        } else {
+            $this->logger->critical("sendmail: error sending email");
         }
 
         return $result;

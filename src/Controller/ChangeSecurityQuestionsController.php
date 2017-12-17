@@ -23,11 +23,10 @@ namespace App\Controller;
 use App\Exception\LdapErrorException;
 use App\Exception\LdapInvalidUserCredentialsException;
 use App\Exception\LdapUpdateFailedException;
-use App\Framework\Controller;
-
 use App\Service\LdapClient;
 use App\Service\RecaptchaService;
 use App\Service\UsernameValidityChecker;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -43,15 +42,19 @@ class ChangeSecurityQuestionsController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if (!$this->getParameter('enable_questions')) {
+            throw $this->createAccessDeniedException();
+        }
+
         if ($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
 
         // render form empty
-        return $this->render('change_security_question_form.twig', [
+        return $this->render('self-service/change_security_question_form.html.twig', [
             'result' => 'emptysetquestionsform',
             'login' => $request->get('login'),
-            'questions' => $this->config['messages']["questions"],
+            'questions' => $this->getParameter('questions'),
         ]);
     }
 
@@ -62,10 +65,9 @@ class ChangeSecurityQuestionsController extends Controller
      */
     private function isFormSubmitted(Request $request)
     {
-        return $request->get('login')
-            && $request->request->get("password")
-            && $request->request->get("question")
-            && $request->request->get("answer");
+        return $request->request->has('password')
+            && $request->request->has('question')
+            && $request->request->has('answer');
     }
 
     /**
@@ -75,23 +77,23 @@ class ChangeSecurityQuestionsController extends Controller
      */
     private function processFormData(Request $request)
     {
-        $login = $request->get("login");
-        $password = $request->request->get("password");
-        $question = $request->request->get("question");
-        $answer = $request->request->get("answer");
+        $login = $request->get('login');
+        $password = $request->request->get('password');
+        $question = $request->request->get('question');
+        $answer = $request->request->get('answer');
 
         $missings = [];
         if (empty($login)) {
-            $missings[] = "loginrequired";
+            $missings[] = 'loginrequired';
         }
         if (empty($password)) {
-            $missings[] = "passwordrequired";
+            $missings[] = 'passwordrequired';
         }
         if (empty($question)) {
-            $missings[] = "questionrequired";
+            $missings[] = 'questionrequired';
         }
         if (empty($answer)) {
-            $missings[] = "answerrequired";
+            $missings[] = 'answerrequired';
         }
         if (count($missings)) {
             return $this->renderFormWithError($missings[0], $request);
@@ -113,7 +115,7 @@ class ChangeSecurityQuestionsController extends Controller
         }
 
         // Check reCAPTCHA
-        if ($this->config['use_recaptcha']) {
+        if ($this->getParameter('enable_recaptcha')) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
 
@@ -128,8 +130,8 @@ class ChangeSecurityQuestionsController extends Controller
 
         try {
             $ldapClient->connect();
-            $ldapClient->fetchUserEntryContext($login, ['dn'], $context);
             $context = [];
+            $ldapClient->fetchUserEntryContext($login, ['dn'], $context);
             $ldapClient->checkOldPassword($password, $context);
             // Register answer
             $ldapClient->changeQuestion($context['user_dn'], $question, $answer);
@@ -142,7 +144,7 @@ class ChangeSecurityQuestionsController extends Controller
         }
 
         // render page success
-        return $this->render('change_security_question_success.twig');
+        return $this->render('self-service/change_security_question_success.html.twig');
     }
 
     /**
@@ -153,10 +155,10 @@ class ChangeSecurityQuestionsController extends Controller
      */
     private function renderFormWithError($result, Request $request)
     {
-        return $this->render('change_security_question_form.twig', [
+        return $this->render('self-service/change_security_question_form.html.twig', [
             'result' => $result,
             'login' => $request->get('login'),
-            'questions' => $this->config['messages']["questions"],
+            'questions' => $this->getParameter('questions'),
         ]);
     }
 }

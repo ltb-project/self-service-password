@@ -23,16 +23,17 @@ namespace App\Controller;
 use App\Exception\LdapEntryFoundInvalidException;
 use App\Exception\LdapErrorException;
 use App\Exception\LdapInvalidUserCredentialsException;
-use App\Framework\Controller;
-
 use App\Service\LdapClient;
 use App\Service\MailNotificationService;
 use App\Service\RecaptchaService;
 use App\Service\TokenManagerService;
 use App\Service\UsernameValidityChecker;
-use App\Utils\ResetUrlGenerator;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * This page is called to send a reset token by mail
@@ -46,12 +47,16 @@ class GetTokenByEmailVerificationController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if (!$this->getParameter('enable_reset_by_email')) {
+            throw $this->createAccessDeniedException();
+        }
+
         if ($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
 
         // render form empty
-        return $this->render('email_verification_form.twig', [
+        return $this->render('self-service/email_verification_form.html.twig', [
             'result' => 'emptysendtokenform',
             'login' => $request->get('login'),
         ]);
@@ -65,7 +70,7 @@ class GetTokenByEmailVerificationController extends Controller
     private function isFormSubmitted(Request $request)
     {
         return $request->get('login')
-            && ($this->config['mail_address_use_ldap'] || $request->request->get('mail'));
+            && ($this->getParameter('mail_address_use_ldap') || $request->request->get('mail'));
     }
 
     /**
@@ -81,10 +86,10 @@ class GetTokenByEmailVerificationController extends Controller
         $missings = [];
 
         if (empty($login)) {
-            $missings[] = "loginrequired";
+            $missings[] = 'loginrequired';
         }
-        if (!$this->config['mail_address_use_ldap'] and empty($mail)) {
-            $missings[] = "mailrequired";
+        if (!$this->getParameter('mail_address_use_ldap') and empty($mail)) {
+            $missings[] = 'mailrequired';
         }
 
         if (count($missings)) {
@@ -107,7 +112,7 @@ class GetTokenByEmailVerificationController extends Controller
         }
 
         // Check reCAPTCHA
-        if ($this->config['use_recaptcha']) {
+        if ($this->getParameter('enable_recaptcha')) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
 
@@ -137,29 +142,30 @@ class GetTokenByEmailVerificationController extends Controller
 
         $token = $tokenManager->createToken($login);
 
-        /** @var ResetUrlGenerator $resetUrlGenerator */
-        $resetUrlGenerator = $this->get('reset_url_generator');
+        $resetUrl = $this->generateUrl('reset-password-with-token', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        // Send token by mail
-        $resetUrl = $resetUrlGenerator->generateResetUrl(['token' => $token]);
+        /** @var LoggerInterface $logger */
+        $logger = $this->get('logger');
+        $logger->notice("Send reset URL $resetUrl");
 
-        //TODO FIX BUG
-        if (!empty($reset_request_log)) {
-            error_log("Send reset URL $resetUrl \n\n", 3, $reset_request_log);
-        } else {
-            error_log("Send reset URL $resetUrl");
-        }
+        /** @var TranslatorInterface */
+        $translator = $this->get('translator');
 
         /** @var MailNotificationService $mailService */
         $mailService = $this->get('mail_notification_service');
-        $data = ["login" => $login, "mail" => $mail, "url" => $resetUrl];
-        $success = $mailService->send($mail, $this->config['messages']["resetsubject"], $this->config['messages']["resetmessage"].$this->config['mail_signature'], $data);
+        $data = ['login' => $login, 'mail' => $mail, 'url' => $resetUrl];
+        $success = $mailService->send(
+            $mail,
+            $translator->trans('resetsubject'),
+            $translator->trans('resetmessage').$this->getParameter('mail_signature'),
+            $data
+        );
         if (!$success) {
-            return $this->renderFormWithError("tokennotsent", $request);
+            return $this->renderFormWithError('tokennotsent', $request);
         }
 
         // render page success
-        return $this->render('email_verification_success.twig');
+        return $this->render('self-service/email_verification_success.html.twig');
     }
 
     /**
@@ -170,7 +176,7 @@ class GetTokenByEmailVerificationController extends Controller
      */
     private function renderFormWithError($result, Request $request)
     {
-        return $this->render('email_verification_form.twig', [
+        return $this->render('self-service/email_verification_form.html.twig', [
             'result' => $result,
             'login' => $request->get('login'),
         ]);

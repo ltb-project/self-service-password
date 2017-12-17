@@ -17,7 +17,8 @@ before_install:
 install:
   - composer install
 
-script: phpunit
+script:
+  - php "./vendor/codeception/codeception/codecept" run
 
 notifications:
   irc: "irc.freenode.org#ltb-project"

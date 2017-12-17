@@ -20,13 +20,17 @@
 
 namespace App\Service;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use ReCaptcha\ReCaptcha;
 
 /**
  * Class RecaptchaService
  */
-class RecaptchaService
+class RecaptchaService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var string shared secret with reCAPTCHA server
      */
@@ -62,9 +66,9 @@ class RecaptchaService
         $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
 
         if (!$resp->isSuccess()) {
-            error_log("Bad reCAPTCHA attempt with user $login");
+            $this->logger->notice("Bad reCAPTCHA attempt with user $login");
             foreach ($resp->getErrorCodes() as $code) {
-                error_log("reCAPTCHA error: $code");
+                $this->logger->notice("reCAPTCHA error: $code");
             }
 
             return 'badcaptcha';

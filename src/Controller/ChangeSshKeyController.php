@@ -20,14 +20,14 @@
 
 namespace App\Controller;
 
+use App\Events;
 use App\Exception\LdapErrorException;
 use App\Exception\LdapInvalidUserCredentialsException;
 use App\Exception\LdapUpdateFailedException;
-use App\Framework\Controller;
-
 use App\Service\LdapClient;
 use App\Service\RecaptchaService;
 use App\Service\UsernameValidityChecker;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,12 +45,19 @@ class ChangeSshKeyController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if (!$this->getParameter('enable_sshkey_change')) {
+            throw $this->createAccessDeniedException();
+        }
+
         if ($this->isFormSubmitted($request)) {
             return $this->processFormData($request);
         }
 
         // Render empty form
-        return $this->render('change_ssh_key_form.twig', ['result' => 'emptysshkeychangeform', 'login' => $request->get('login')]);
+        return $this->render('self-service/change_ssh_key_form.html.twig', [
+            'result' => 'emptysshkeychangeform',
+            'login' => $request->get('login'),
+        ]);
     }
 
     /**
@@ -60,9 +67,9 @@ class ChangeSshKeyController extends Controller
      */
     private function isFormSubmitted(Request $request)
     {
-        return $request->get("login")
-            && $request->request->has("password")
-            && $request->request->has("sshkey");
+        return $request->get('login')
+            && $request->request->has('password')
+            && $request->request->has('sshkey');
     }
 
     /**
@@ -72,19 +79,19 @@ class ChangeSshKeyController extends Controller
      */
     private function processFormData(Request $request)
     {
-        $login = $request->get("login", "");
-        $password = $request->request->get("password", "");
-        $sshkey = $request->request->get("sshkey", "");
+        $login = $request->get('login', '');
+        $password = $request->request->get('password', '');
+        $sshkey = $request->request->get('sshkey', '');
 
         $missings = [];
         if (!$login) {
-            $missings[] = "loginrequired";
+            $missings[] = 'loginrequired';
         }
         if (!$password) {
-            $missings[] = "passwordrequired";
+            $missings[] = 'passwordrequired';
         }
         if (!$sshkey) {
-            $missings[] = "sshkeyrequired";
+            $missings[] = 'sshkeyrequired';
         }
 
         if (count($missings) > 0) {
@@ -103,11 +110,11 @@ class ChangeSshKeyController extends Controller
         }
 
         if (count($errors) > 0) {
-            return $this->renderFormWithError($errors[], $request);
+            return $this->renderFormWithError($errors[0], $request);
         }
 
         // Check reCAPTCHA
-        if ($this->config['use_recaptcha']) {
+        if ($this->getParameter('enable_recaptcha')) {
             /** @var RecaptchaService $recaptchaService */
             $recaptchaService = $this->get('recaptcha_service');
 
@@ -123,7 +130,7 @@ class ChangeSshKeyController extends Controller
         try {
             $ldapClient->connect();
             // we want user's email address if we have to notify
-            $wanted = $this->config['notify_on_sshkey_change'] ? ['dn', 'mail'] : ['dn'];
+            $wanted = $this->getParameter('notify_user_on_sshkey_change') ? ['dn', 'mail'] : ['dn'];
             $context = [];
             $ldapClient->fetchUserEntryContext($login, $wanted, $context);
             $ldapClient->checkOldPassword($password, $context);
@@ -144,10 +151,10 @@ class ChangeSshKeyController extends Controller
         $event['ssh_key'] = $sshkey;
         $event['context'] = $context;
 
-        $eventDispatcher->dispatch('ssh_key.changed', $event);
+        $eventDispatcher->dispatch(Events::SSH_KEY_CHANGED, $event);
 
         // Render success page
-        return $this->render('change_ssh_key_success.twig');
+        return $this->render('self-service/change_ssh_key_success.html.twig');
     }
 
     /**
@@ -158,7 +165,7 @@ class ChangeSshKeyController extends Controller
      */
     private function renderFormWithError($error, Request $request)
     {
-        return $this->render('change_ssh_key_form.twig', [
+        return $this->render('self-service/change_ssh_key_form.html.twig', [
             'result' => $error,
             'login' => $request->get('login'),
         ]);

@@ -22,34 +22,37 @@ namespace App\Service;
 
 use App\Exception\TokenExpiredException;
 use App\Exception\TokenNotFoundException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Class TokenManagerService
  */
-class TokenManagerService
+class TokenManagerService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
+    /** @var SessionInterface */
+    private $session;
+
     /**
      * @var EncryptionService
      */
     private $encryptionService;
-
-    /**
-     * @var bool
-     */
-    private $useEncryption;
 
     private $tokenLifetime;
 
     /**
      * TokenManagerService constructor.
      *
-     * @param bool              $useEncryption
+     * @param SessionInterface  $session
      * @param EncryptionService $encryptionService
      * @param int|null          $tokenLifetime
      */
-    public function __construct($useEncryption, $encryptionService, $tokenLifetime)
+    public function __construct($session, $encryptionService, $tokenLifetime)
     {
-        $this->useEncryption = $useEncryption;
+        $this->session = $session;
         $this->encryptionService = $encryptionService;
         $this->tokenLifetime = $tokenLifetime;
     }
@@ -61,23 +64,15 @@ class TokenManagerService
      */
     public function createToken($login)
     {
-        // Build and store token
+        $token = [
+            'login' => $login,
+            'time'  => time(),
+        ];
 
-        // Use PHP session to register token
-        // We do not generate cookie
-        ini_set('session.use_cookies', 0);
-        ini_set('session.use_only_cookies', 1);
+        $this->session->start();
+        $this->session->set('token', $token);
 
-        session_name('token');
-        session_start();
-        $_SESSION['login'] = $login;
-        $_SESSION['time']  = time();
-
-        if ($this->useEncryption) {
-            $token = $this->encryptionService->encrypt(session_id());
-        } else {
-            $token = session_id();
-        }
+        $token = $this->encryptionService->encrypt($this->session->getId());
 
         return $token;
     }
@@ -93,47 +88,34 @@ class TokenManagerService
     public function openToken($token)
     {
         // Open session with the token
-        if ($this->useEncryption) {
-            $tokenid = $this->encryptionService->decrypt($token);
-        } else {
-            $tokenid = $token;
-        }
+        $tokenid = $this->encryptionService->decrypt($token);
 
-        ini_set('session.use_cookies', 0);
-        ini_set('session.use_only_cookies', 1);
+        $this->session->setId($tokenid);
+        $this->session->start();
 
-        // Manage lifetime with sessions properties
-        if ($this->tokenLifetime !== null) {
-            ini_set('session.gc_maxlifetime', $this->tokenLifetime);
-            ini_set('session.gc_probability', 1);
-            ini_set('session.gc_divisor', 1);
-        }
-
-        session_id($tokenid);
-        session_name('token');
-        session_start();
-        $login = !empty($_SESSION['login']) ? $_SESSION['login'] : false;
-
-        if (!$login) {
-            error_log("Unable to open session $tokenid");
+        if (!$this->session->has('token')) {
+            $this->logger->notice("Unable to open session $tokenid");
             throw new TokenNotFoundException();
         }
 
+        $token = $this->session->get('token');
+
         if ($this->tokenLifetime !== null) {
-            // Manage lifetime with session content
-            $tokentime = $_SESSION['time'];
-            if (time() - $tokentime > $this->tokenLifetime) {
-                error_log('Token lifetime expired');
+            $tokenTime = $token['time'];
+            $tokenAgeInSeconds = time() - $tokenTime;
+            if ($tokenAgeInSeconds > $this->tokenLifetime) {
+                $this->logger->notice('Token lifetime expired');
                 throw new TokenExpiredException();
             }
         }
+
+        $login = $token['login'];
 
         return $login;
     }
 
     public function destroyToken()
     {
-        $_SESSION = [];
-        session_destroy();
+        $this->session->remove('token');
     }
 }

@@ -20,10 +20,11 @@
 
 namespace App\EventSubscriber;
 
-use App\Framework\Translator;
+use App\Events;
 use App\Service\MailNotificationService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class NotificationSubscriber
@@ -33,7 +34,7 @@ class NotificationSubscriber implements EventSubscriberInterface
     /** @var MailNotificationService */
     private $mailNotificationService;
 
-    /** @var Translator */
+    /** @var TranslatorInterface */
     private $translator;
 
     /** @var string */
@@ -47,7 +48,7 @@ class NotificationSubscriber implements EventSubscriberInterface
      * NotificationSubscriber constructor.
      *
      * @param MailNotificationService $mailNotificationService
-     * @param Translator              $translator
+     * @param TranslatorInterface     $translator
      * @param string                  $signature
      * @param boolean                 $notifyOnPasswordChanged
      * @param boolean                 $notifyOnSshKeyChanged
@@ -67,8 +68,8 @@ class NotificationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'password.changed' => 'onPasswordChanged',
-            'sshkey.changed' => 'onSshKeyChanged',
+            Events::PASSWORD_CHANGED => 'onPasswordChanged',
+            Events::SSH_KEY_CHANGED => 'onSshKeyChanged',
         ];
     }
 
@@ -104,9 +105,13 @@ class NotificationSubscriber implements EventSubscriberInterface
         $context = $event['context'];
 
         if ($context['user_mail']) {
-            $data = ["login" => $event['login'], "mail" => $context['user_mail'], "sshkey" => $event['ssh_key']];
-            $subject = $this->translator->trans("changesshkeysubject");
-            $body = $this->translator->trans("changesshkeymessage").$this->signature;
+            $data = [
+                'login' => $event['login'],
+                'mail' => $context['user_mail'],
+                'sshkey' => $event['ssh_key'],
+            ];
+            $subject = $this->translator->trans('changesshkeysubject');
+            $body = $this->translator->trans('changesshkeymessage').$this->signature;
             $this->mailNotificationService->send($context['user_mail'], $subject, $body, $data);
         }
         // TODO log when missing email
