@@ -2,7 +2,7 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
+# Copyright (C) 2017 Ruben Gomez
 # Copyright (C) 2009 LTB-project.org
 #
 # This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 #
 #==============================================================================
 
-# This page is called to send a reset token by mail
+# This page is called to send a reset totp by mail
 
 #==============================================================================
 # POST parameters
@@ -185,7 +185,7 @@ if ( $result === "" ) {
         $reset_url = $method."://".$server_name.$script_name;
     }
 
-    $reset_url .= "?action=resetbytoken&token=".urlencode($token);
+    $reset_url .= "?action=resetbytoken&type=totp&token=".urlencode($token);
 
     if ( !empty($reset_request_log) ) {
         error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
@@ -203,7 +203,6 @@ if ( $result === "" ) {
         error_log("Error while sending token to $mail (user $login)");
     }
 }
-
 
 # Render associated template
 echo $twig->render('sendtoken.twig', array(

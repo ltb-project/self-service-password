@@ -39,6 +39,14 @@ It has the following features:
 * valid PHP mail server configuration (reset mail)
 * valid PHP session configuration (reset mail)
 
+### For Time based One Time Password (TOTP)
+There are two git submodules that must be initialized:
+
+```
+git submodule update --init lib/vendor/phpqrcode
+git submodule update --init lib/vendor/base32
+```
+
 ## Documentation
 
 Documentation is available on http://ltb-project.org/wiki/documentation/self-service-password

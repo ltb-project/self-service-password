@@ -38,6 +38,10 @@
                         {% set use_sms_active = action == 'changesshkey' %}
                         {{ menu.item('changesshkey', use_sms_active, 'terminal', 'menusshkey', 'changehelpsshkey') }}
                     {% endif %}
+                    {% if use_totp %}
+                        {% set use_totp_active = ( ( action == 'resetbytoken' and source != 'sms' ) or action == 'changetotp' ) %}
+                        {{ menu.item('changetotp', use_totp_active, 'clock-o', 'menutotp', 'changehelptotp') }}
+                    {% endif %}
                 </ul>
             </div>
         </div>

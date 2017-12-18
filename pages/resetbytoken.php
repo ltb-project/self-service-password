@@ -35,9 +35,12 @@ $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
+$type = "";
 
 if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = $_REQUEST["token"]; }
  else { $result = "tokenrequired"; }
+
+if (isset($_REQUEST["type"]) and $_REQUEST["type"]) { $type = $_REQUEST["type"]; }
 
 #==============================================================================
 # Get token
@@ -68,7 +71,7 @@ if ( $result === "" ) {
 
     if ( !$login ) {
         $result = "tokennotvalid";
-	error_log("Unable to open session $tokenid");
+	    error_log("Unable to open session $tokenid");
     } else {
         if (isset($token_lifetime)) {
             # Manage lifetime with session content
@@ -76,7 +79,15 @@ if ( $result === "" ) {
             if ( time() - $tokentime > $token_lifetime ) {
                 $result = "tokennotvalid";
                 error_log("Token lifetime expired");
-	    }
+	        } elseif ($type === "totp"){
+                require_once("lib/vendor/phpqrcode/lib/full/qrlib.php");
+                require_once("lib/vendor/base32/src/Base32.php");
+                require_once("lib/vendor/base32/src/Base32/PhpEncoder.php");
+                $base32 = new Tuupola\Base32;
+                $randomString = $base32->encode(bin2hex(openssl_random_pseudo_bytes (15)));
+
+                $svgQRCode = QRcode::svg('otpauth://totp/'.$login.'?secret='.$randomString.'&issuer='.$totp_issuer.'&algorithm='.$totp_algorithm.'&digits='.$totp_digits.'&period='.$totp_period);
+            }
         }
     }
 
@@ -181,7 +192,18 @@ if ( $result === "" ) {
 
 # Change password
 if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
+    if ($type === "totp") {
+        $hash = "clear";
+        $header = "{TOTP1}";
+        if ($totp_algorithm == "SHA256"){
+            $header = "{TOTP256}";
+        } elseif ($totp_algorithm == "SHA512"){
+            $header = "{TOTP512}";
+        }
+        $result = change_password($ldap, $userdn, $header.$newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
+    } else {
+        $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
+    }
 }
 
 if ( $result === "passwordchanged" ) {
@@ -225,10 +247,15 @@ echo $twig->render('resetbytoken.twig', array(
     'logo' => $logo,
     'dependency_check_results' => $dependency_check_results,
 
+    'type' => $type,
+    'random' => $randomString,
+    'random2' => $randomString2,
+    'svgQRCode' => $svgQRCode,
+
     'use_questions' => $use_questions,
     'use_tokens' => $use_tokens,
     'use_sms' => $use_sms,
     'change_sshkey' => $change_sshkey,
+    'use_totp' => $use_totp,
     'action' => $action,
-    'source' => $source,
 ));
