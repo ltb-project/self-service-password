@@ -131,3 +131,6 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Zmień swój klucz SSH";
 $messages['changesshkeyhelp'] = "Wprowadź swoje hasło i nowy klucz SSH.";
 $messages['sshkeyerror'] = "SSH Key został odrzucony przez katalogu LDAP";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

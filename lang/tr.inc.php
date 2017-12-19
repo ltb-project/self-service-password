@@ -129,3 +129,6 @@ $messages['sshkey'] = "SSH Anahtarı";
 $messages['emptysshkeychangeform'] = "SSH Anahtarınızı Değiştirin";
 $messages['changesshkeyhelp'] = "Parolanızı ve yeni SSH anahtarınızı girin.";
 $messages['sshkeyerror'] = "SSH Anahtarı LDAP dizini tarafından reddedildi";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

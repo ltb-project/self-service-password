@@ -129,3 +129,6 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "您的新密码与您的用户名相同";
 $messages['policydifflogin'] = "您的新密码不能与您的用户名相同";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

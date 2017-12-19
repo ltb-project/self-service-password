@@ -131,3 +131,6 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Verander je SSH Key";
 $messages['changesshkeyhelp'] = "Voer uw wachtwoord in en nieuwe SSH sleutel.";
 $messages['sshkeyerror'] = "SSH Key werd geweigerd door de LDAP-directory";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

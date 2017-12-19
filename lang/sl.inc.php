@@ -129,3 +129,6 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Spreminjanje SSH ključ";
 $messages['changesshkeyhelp'] = "Vnesite geslo in nov ključ SSH.";
 $messages['sshkeyerror'] = "SSH Ključna je bila zavrnjena z imeniku LDAP";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";
