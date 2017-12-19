@@ -74,6 +74,7 @@ $shadow_options['shadow_expire_days'] = -1;
 # clear (the default)
 # auto (will check the hash of current password)
 # This option is not used with ad_mode = true
+# This option is forced to "clear" when TOTP
 $hash = "clear";
 
 # Prefix to use for salt with CRYPT
@@ -279,6 +280,7 @@ $recaptcha_request_method = null;
 # change
 # sendtoken
 # sendsms
+# changetotp
 $default_action = "change";
 
 ## Extra messages
@@ -288,3 +290,12 @@ $default_action = "change";
 
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
+
+## TOTP
+# Must be configured TOTP module on LDAP ( https://github.com/openldap/openldap/tree/master/contrib/slapd-modules/passwd/totp )
+$use_totp = false;
+$totp_period = 30;
+$totp_digits = 6;
+#totp_algorithm: SHA1, SHA256, SHA512
+$totp_algorithm = "SHA1";
+$totp_issuer = "www.example.com";

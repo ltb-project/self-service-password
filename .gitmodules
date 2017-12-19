@@ -1,0 +1,6 @@
+[submodule "lib/vendor/base32"]
+	path = lib/vendor/base32
+	url = https://github.com/tuupola/base32.git
+[submodule "lib/vendor/phpqrcode"]
+	path = lib/vendor/phpqrcode
+	url = https://git.code.sf.net/p/phpqrcode/git

@@ -129,3 +129,6 @@ $messages['sshkey'] = "SSHキー";
 $messages['emptysshkeychangeform'] = "SSHキーを変更する";
 $messages['changesshkeyhelp'] = "パスワードと新しいSSHキーを入力してください。";
 $messages['sshkeyerror'] = "SSHキーがLDAPディレクトリによって拒否されました";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

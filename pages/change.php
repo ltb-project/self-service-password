@@ -219,6 +219,7 @@ echo $twig->render('change.twig', array(
     'use_tokens' => $use_tokens,
     'use_sms' => $use_sms,
     'change_sshkey' => $change_sshkey,
+    'use_totp' => $use_totp,
     'action' => $action,
     'source' => $source,
 ));

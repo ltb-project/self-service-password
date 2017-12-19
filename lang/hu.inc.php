@@ -129,3 +129,6 @@ $messages['sshkey'] = "SSH kulcs";
 $messages['emptysshkeychangeform'] = "Változás az SSH kulcs";
 $messages['changesshkeyhelp'] = "Írja be a jelszót és az új SSH kulcs.";
 $messages['sshkeyerror'] = "Az LDAP könyvtár elutasította az SSH kulcsot";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

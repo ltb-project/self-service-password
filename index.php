@@ -109,6 +109,7 @@ if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
+if ( $use_totp ) { array_push( $available_actions, "resetbytoken", "changetotp"); }
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }

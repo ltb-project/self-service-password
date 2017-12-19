@@ -129,3 +129,6 @@ $messages['sshkey'] = "Clé SSH";
 $messages['emptysshkeychangeform'] = "Changez votre clé SSH";
 $messages['changesshkeyhelp'] = "Entrez votre mot de passe et la nouvelle clé SSH.";
 $messages['sshkeyerror'] = "La clé SSH a été refusée par l'annuaire  LDAP";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

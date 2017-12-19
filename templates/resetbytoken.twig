@@ -24,11 +24,32 @@
         {% endif %}
 
         <div class="alert alert-info">
+            {% if use_totp and type == 'totp' %}
+                <div class="row">
+                    <div id="qrcode" class="col-md-offset-4">
+                        {{ svgQRCode|raw }}
+                    </div>
+                </div>
+            {% endif %}
+
             <form action="#" method="post" class="form-horizontal">
                 <input type="hidden" name="token" value="{{ token }}" />
                 {{ forms.row_input_text('login', 'login', 'user', 'login', login) }}
-                {{ forms.row_input_password('newpassword', 'newpassword', 'lock', 'newpassword') }}
-                {{ forms.row_input_password('confirmpassword', 'confirmpassword', 'lock', 'confirmpassword') }}
+                {% if use_totp and type == 'totp' %}
+                    <div class="help alert alert-warning">
+                        <p>
+                            <i class="fa fa-fw fa-info-circle"></i>
+                            {{ 'scantotp'|trans }}
+                        </p>
+                    </div>
+                    <div style="display:none">
+                        {{ forms.row_input_text('newpassword', 'newpassword', 'lock', 'newpassword', random) }}
+                        {{ forms.row_input_text('confirmpassword', 'confirmpassword', 'lock', 'confirmpassword', random) }}
+                    </div>
+                {% else %}
+                    {{ forms.row_input_password('newpassword', 'newpassword', 'lock', 'newpassword') }}
+                    {{ forms.row_input_password('confirmpassword', 'confirmpassword', 'lock', 'confirmpassword') }}
+                {% endif %}
                 {% if use_recaptcha %}
                     {{ forms.row_recaptcha(recaptcha_publickey, recaptcha_theme, recaptcha_type, recaptcha_size, lang) }}
                 {% endif %}

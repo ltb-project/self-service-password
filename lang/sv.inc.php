@@ -129,3 +129,6 @@ $messages['sshkey'] = "SSH Key";
 $messages['emptysshkeychangeform'] = "Ändra din SSH Key";
 $messages['changesshkeyhelp'] = "Ange ditt lösenord och ny SSH-nyckel.";
 $messages['sshkeyerror'] = "SSH Key avslogs av LDAP-katalogen";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";

@@ -133,3 +133,6 @@ $messages['menusshkey'] = "claus SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Canviar la clau d'SSH</a>";
 $messages['changesshkeyhelp'] = "Introduïu la contrasenya i la clau SSH.";
 $messages['changesshkeymessage'] = "Hola {login},\n\nLa claus SSH s'ha canviat.\n\nSi no va iniciar aquest canvi, poseu-vos en contacte amb l'administrador immediatament.";
+$messages['menutotp'] = "TOTP";
+$messages['changehelptotp'] = "<a href=\"?action=changetotp\">Change your TOTP key</a>";
+$messages['scantotp'] = "Scan the QR code before send the form. This is the last chance to scan the QR code.";
