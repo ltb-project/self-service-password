@@ -4,24 +4,22 @@
 </div>
 
 <?php
+
 if ( $result === "tokensent" ) {
     return;
 }
-?>
 
-<?php if ( $show_help ) { ?>
-    <div class="help alert alert-warning">
-        <p><i class="fa fa-fw fa-info-circle"></i>
-            <?php
-            if($mail_address_use_ldap) {
-                echo $messages["sendtokenhelpnomail"];
-            } else {
-                echo $messages["sendtokenhelp"];
-            }
-            ?>
-        </p>
-    </div>
-<?php } ?>
+if ( $show_help ) {
+    echo "<div class=\"help alert alert-warning\"><p>";
+    echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
+    if ( $mail_address_use_ldap ) {
+        echo $messages["sendtokenhelpnomail"];
+    } else {
+        echo $messages["sendtokenhelp"];
+    }
+    echo "</p></div>\n";
+}
+?>
 
 <div class="alert alert-info">
     <form action="#" method="post" class="form-horizontal">

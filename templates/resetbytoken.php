@@ -4,27 +4,27 @@
 </div>
 
 <?php
+
 if ( $result === "passwordchanged" ) {
     return;
 }
-?>
 
-<?php if ( $show_help) { ?>
-    <div class="help alert alert-warning">
-        <p>
-            <i class="fa fa-fw fa-info-circle"></i>
-            <?php echo $source == "sms" ? $messages["resetbysmshelp"] : $messages["resetbytokenhelp"]; ?>
-        </p>
-    </div>
-<?php } ?>
+if ( $show_help and ($source !== "sms") ) {
+    echo "<div class=\"help alert alert-warning\"><p>";
+    echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
+    echo $messages["resetbytokenhelp"];
+    echo "</p></div>\n";
+} elseif ( $show_help and ($source === "sms") ) {
+    echo "<div class=\"help alert alert-warning\"><p>";
+    echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
+    echo $messages["resetbysmshelp"];
+    echo "</p></div>\n";
+}
 
-<?php
 if ( $result === "tokenrequired" or $result === "tokennotvalid"  ) {
     return;
 }
-?>
 
-<?php
 if ($pwd_show_policy_pos === 'above') {
     show_policy($messages, $pwd_policy_config, $result);
 }

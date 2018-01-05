@@ -4,6 +4,7 @@
 </div>
 
 <?php
+
 if ( $result == "smscrypttokensrequired" ) {
     return;
 }
@@ -65,11 +66,14 @@ if ( $result == "smscrypttokensrequired" ) {
 
 <?php else: ?>
 
-    <?php if ( $show_help ) { ?>
-        <div class="help alert alert-warning">
-            <p><i class="fa fa-fw fa-info-circle"></i> <?php echo $messages["sendsmshelp"]; ?></p>
-        </div>
-    <?php } ?>
+<?php
+    if ( $show_help ) {
+        echo "<div class=\"help alert alert-warning\"><p>";
+        echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
+        echo $messages["sendsmshelp"];
+        echo "</p></div>\n";
+    }
+?>
     <div class="alert alert-info">
         <form action="#" method="post" class="form-horizontal">
             <div class="form-group">
