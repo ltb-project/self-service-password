@@ -148,16 +148,6 @@ if ( $result === "" ) {
     $result = change_sshkey($ldap, $userdn, $change_sshkey_attribute, $sshkey);
 }
 
-if ( $result === "sshkeychanged") {
-    # Notify password change
-    if ($mail and $notify_on_sshkey_change) {
-        $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data) ) {
-            error_log("Error while sending change email to $mail (user $login)");
-        }
-    }
-}
-
 #==============================================================================
 # HTML
 #==============================================================================
@@ -225,4 +215,16 @@ if ( $show_help ) {
 </form>
 </div>
 
-<?php }
+<?php } else {
+
+    # Notify password change
+    if ($mail and $notify_on_sshkey_change) {
+        $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
+        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data) ) {
+            error_log("Error while sending change email to $mail (user $login)");
+        }
+    }
+
+}
+?>
+
