@@ -135,13 +135,17 @@ if ( $result === "" ) {
     # Get question/answer values
     $questionValues = ldap_get_values($ldap, $entry, $answer_attribute);
     unset($questionValues["count"]);
-    $match = 0;
+
+    $match = false;
+
+    $question = preg_quote($question,'/');
+    $answer   = preg_quote($answer,'/');
+    $pattern  = "/^\{$question\}$answer$/i";
 
     # Match with user submitted values
     foreach ($questionValues as $questionValue) {
-        $answer = preg_quote("$answer","/");
-        if (preg_match("/^\{$question\}$answer$/i", $questionValue)) {
-            $match = 1;
+        if (preg_match($pattern, $questionValue)) {
+            $match = true;
         }
     }
 
