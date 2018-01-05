@@ -194,31 +194,18 @@ echo $twig->render('change.twig', array(
     'has_password_changed_extra_message' => isset($messages['passwordchangedextramessage']),
     'has_change_help_extra_message' => isset($messages['changehelpextramessage']),
     'show_help' => $show_help,
-
+    'use_questions' => $use_questions,
     'pwd_show_policy_pos' => $pwd_show_policy_pos,
     'login' => $login,
     'recaptcha_publickey' => $recaptcha_publickey,
     'recaptcha_theme' => $recaptcha_theme,
     'recaptcha_type' => $recaptcha_type,
     'recaptcha_size' => $recaptcha_size,
-
-    'show_change_help_reset' => !$show_menu and ( $use_questions or $use_tokens or $use_sms or $change_sshkey ),
-
-
-    'show_policy' => $pwd_show_policy and ( $pwd_show_policy === "always" or ( $pwd_show_policy === "onerror" and is_error($result)) ),
-    'pwd_policy_config' => $pwd_policy_config,
-
-
     'lang' => $lang,
-    'background_image' => $background_image,
-    'show_menu' => $show_menu,
-    'logo' => $logo,
-    'dependency_check_results' => $dependency_check_results,
-
-    'use_questions' => $use_questions,
+    'show_change_help_reset' => !$show_menu and ( $use_questions or $use_tokens or $use_sms or $change_sshkey ),
     'use_tokens' => $use_tokens,
     'use_sms' => $use_sms,
     'change_sshkey' => $change_sshkey,
-    'action' => $action,
-    'source' => $source,
+    'show_policy' => $pwd_show_policy and ( $pwd_show_policy === "always" or ( $pwd_show_policy === "onerror" and is_error($result)) ),
+    'pwd_policy_config' => $pwd_policy_config,
 ));

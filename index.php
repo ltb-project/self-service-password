@@ -186,6 +186,6 @@ $twig->addFilter('criticality', new Twig_SimpleFilter('criticality', 'get_critic
 $twig->addFilter('trans', new Twig_SimpleFilter('trans', 'trans'));
 $twig->addFunction('show_policy', new Twig_SimpleFunction('show_policy', 'show_policy'));
 
-require_once __DIR__ . "/pages/$action.php";
+require_once __DIR__ . '/templates/layout.php';
 
 ob_end_flush();
