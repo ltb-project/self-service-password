@@ -25,17 +25,7 @@
     <div class="panel panel-success">
         <div class="panel-body">
             <?php if ( $show_menu ) { ?>
-
-                <?php
-                echo $twig->render('menu.twig', array(
-                    'use_questions' => $use_questions,
-                    'use_tokens' => $use_tokens,
-                    'use_sms' => $use_sms,
-                    'change_sshkey' => $change_sshkey,
-                    'action' => $action,
-                    'source' => $source,
-                ));
-                ?>
+                <?php require __DIR__ . "/menu.php"; ?>
             <?php } else { ?>
                 <div class="title alert alert-success text-center"><h1><?php echo $messages["title"]; ?></h1></div>
             <?php } ?>
