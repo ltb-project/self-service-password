@@ -30,10 +30,6 @@ require_once("lib/functions.inc.php");
 if ($use_recaptcha) {
     require_once("lib/vendor/autoload.php");
 }
-
-require_once('phar://'. __DIR__ . '/lib/vendor/twig.phar/Twig/Autoloader.php');
-Twig_Autoloader::register();
-
 require_once("lib/detectbrowserlanguage.php");
 require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
 
@@ -166,25 +162,6 @@ $mailer->Password      = $mail_smtp_pass;
 $mailer->SMTPKeepAlive = $mail_smtp_keepalive;
 $mailer->Timeout       = $mail_smtp_timeout;
 $mailer->LE            = $mail_newline;
-
-#==============================================================================
-# Template engine
-#==============================================================================
-$loader = new Twig_Loader_Filesystem(__DIR__.'/templates');
-$twig = new Twig_Environment($loader, array(
-    //'cache' => __DIR__ .'/templates_c',
-));
-
-function trans($id) {
-    global $messages;
-
-    return $messages[$id];
-}
-
-$twig->addFilter('fa_class', new Twig_SimpleFilter('fa_class', 'get_fa_class'));
-$twig->addFilter('criticality', new Twig_SimpleFilter('criticality', 'get_criticity'));
-$twig->addFilter('trans', new Twig_SimpleFilter('trans', 'trans'));
-$twig->addFunction('show_policy', new Twig_SimpleFunction('show_policy', 'show_policy'));
 
 require_once __DIR__ . '/templates/layout.php';
 

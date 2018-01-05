@@ -205,17 +205,4 @@ if ( $result === "passwordchanged" ) {
 }
 
 # Render associated template
-echo $twig->render('resetbytoken_.twig', array(
-    'result' => $result,
-    'show_help' => $show_help,
-    'source' => $source,
-    'show_policy' => $pwd_show_policy and ( $pwd_show_policy === "always" or ( $pwd_show_policy === "onerror" and is_error($result)) ),
-    'pwd_policy_config' => $pwd_policy_config,
-    'token' => $token,
-    'login' => $login,
-    'recaptcha_publickey' => $recaptcha_publickey,
-    'recaptcha_theme' => $recaptcha_theme,
-    'recaptcha_type' => $recaptcha_type,
-    'recaptcha_size' => $recaptcha_size,
-    'lang' => $lang,
-));
+require __DIR__ . '/../templates/resetbytoken.php';

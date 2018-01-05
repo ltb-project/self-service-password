@@ -160,16 +160,5 @@ if ( $result === "" ) {
 
 }}
 
-
 # Render associated template
-echo $twig->render('setquestions.twig', array(
-    'result' => $result,
-    'show_help' => $show_help,
-    'login' => $login,
-    'questions' => $messages["questions"],
-    'recaptcha_publickey' => $recaptcha_publickey,
-    'recaptcha_theme' => $recaptcha_theme,
-    'recaptcha_type' => $recaptcha_type,
-    'recaptcha_size' => $recaptcha_size,
-    'lang' => $lang,
-));
+require __DIR__ . '/../templates/setquestions.php';
