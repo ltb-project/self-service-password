@@ -1,5 +1,3 @@
-{% import _self as menu %}
-
 <div class="navbar-wrapper">
     <div class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container-fluid">
@@ -14,29 +12,37 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    {% macro item(action, is_active, icon, title, help) %}
-                        <li class="{{ is_active ? 'active' }}">
-                            <a href="?action={{ action }}" data-toggle="menu-popover" data-content="{{ help|trans|striptags }}">
-                                <i class="fa fa-fw fa-{{ icon }}"></i> {{ title|trans }}
-                            </a>
-                        </li>
-                    {% endmacro %}
-
                     {% if use_questions %}
-                        {% set use_questions_active = action in ['resetbyquestions', 'setquestions'] %}
-                        {{ menu.item('resetbyquestions', use_questions_active, 'question-circle', 'menuquestions', 'changehelpquestions') }}
+                        <li class="{{ action in ['resetbyquestions', 'setquestions'] ? 'active' }}">
+                            <a href="?action=resetbyquestions"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelpquestions'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-question-circle"></i> {{ 'menuquestions'|trans }}</a>
+                        </li>
                     {% endif %}
                     {% if use_tokens %}
-                        {% set use_tokens_active = ( ( action == 'resetbytoken' and source != 'sms' ) or action == 'sendtoken' ) %}
-                        {{ menu.item('sendtoken', use_tokens_active, 'envelope', 'menutoken', 'changehelptoken') }}
+                        <li class="{{ ( ( action == 'resetbytoken' and source != 'sms' ) or action == 'sendtoken' ) ? 'active' }}">
+                            <a href="?action=sendtoken"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelptoken'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-envelope"></i> {{ 'menutoken'|trans }}</a>
+                        </li>
                     {% endif %}
                     {% if use_sms %}
-                        {% set use_sms_active = ( ( action == 'resetbytoken' and source != 'sms' ) or action == 'sendsms' ) %}
-                        {{ menu.item('sendsms', use_sms_active, 'mobile', 'menusms', 'changehelpsms') }}
+                        <li class="{{ ( ( action == 'resetbytoken' and source == 'sms' ) or action == 'sendsms' ) ? 'active' }}">
+                            <a href="?action=sendsms"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelpsms'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-mobile"></i> {{ 'menusms'|trans }}</a>
+                        </li>
                     {% endif %}
                     {% if change_sshkey %}
-                        {% set use_sms_active = action == 'changesshkey' %}
-                        {{ menu.item('changesshkey', use_sms_active, 'terminal', 'menusshkey', 'changehelpsshkey') }}
+                        <li class="{{ action == 'changesshkey' ? 'active' }}">
+                            <a href="?action=changesshkey"
+                               data-toggle="menu-popover"
+                               data-content="{{ 'changehelpsshkey'|trans|striptags }}"
+                            ><i class="fa fa-fw fa-terminal"></i> {{ 'menusshkey'|trans }}</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
