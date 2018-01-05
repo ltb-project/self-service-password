@@ -5,7 +5,6 @@
 {% block main %}
     {{ parent() }}
 
-    {# Show the form unless token is already send. #}
     {% if result != 'tokensent' %}
         {% if show_help %}
             <div class="help alert alert-warning">
