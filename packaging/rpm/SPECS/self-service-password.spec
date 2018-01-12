@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.1
+%define ssp_version	1.2
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -112,6 +112,17 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Fri Jan 12 2018 - Clement Oudot <clem@ltb-project.org> - 1.2-1
+- gh#149: Remove obsolete stripslashes_if_gpc_magic_quotes
+- gh#154: Translated the hungarian keys left in english.
+- gh#162: Resolve send token web page issue when E-Mail To: set from LDAP
+- gh#166: Opportunistic TLS problem
+- gh#174: Improved nl.lang.php
+- gh#175: reCAPTCHA not working on master
+- gh#176: Dutch translation update by AlbertPluton
+- gh#177: Fix "SSH Key required" message wrong color when ssh key is not submitted
+- gh#178: Fix pattern matching in reset by questions
+- gh#179: Revert Twig because of multiple regressions, work still needed, and lack of testing
 * Fri Sep 01 2017 - Clement Oudot <clem@ltb-project.org> - 1.1-1
 - gh#33: Posthook does not work with apostrophes
 - gh#38: Add Japanese translation
