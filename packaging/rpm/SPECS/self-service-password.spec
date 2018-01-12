@@ -34,7 +34,7 @@ Source: %{ssp_realname}-%{ssp_version}.tar.gz
 Source1: self-service-password-apache.conf
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Prereq: coreutils
+Requires(pre): coreutils
 Requires: php, php-ldap, php-mbstring
 
 %description
