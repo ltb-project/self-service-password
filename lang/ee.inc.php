@@ -129,5 +129,5 @@ $messages['emptysendtokenform'] = "Saada parooli lähtestamise link";
 $messages['emptyresetbyquestionsform'] = "Lähtesta parool";
 $messages['emptysetquestionsform'] = "Seadista parooli lähtestamise küsimused";
 $messages['emptysendsmsform'] = "Saada lähtestamise kood";
-$messages['sameaslogin'] = "Uus parool kattub kasutajanimega;
+$messages['sameaslogin'] = "Uus parool kattub kasutajanimega";
 $messages['policydifflogin'] = "Uus parool ei tohi kattuda kasutajanimega";
