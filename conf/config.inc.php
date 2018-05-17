@@ -20,6 +20,11 @@
 #==============================================================================
 
 #==============================================================================
+# All the default values are kept here, you should not modify it but use
+# config.inc.local.php file instead to override the settings from here.
+#==============================================================================
+
+#==============================================================================
 # Configuration
 #==============================================================================
 
@@ -288,3 +293,8 @@ $default_action = "change";
 
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
+
+# Allow to override current settings with local configuration
+if (file_exists (dirname (__FILE__) . '/config.inc.local.php')) {
+    include dirname (__FILE__) . '/config.inc.local.php';
+}
