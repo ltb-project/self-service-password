@@ -51,8 +51,6 @@ $ad_mode = false;
 $ad_options['force_unlock'] = false;
 # Force user change password at next login
 $ad_options['force_pwd_change'] = false;
-# Allow user with expired password to change password
-$ad_options['change_expired_password'] = false;
 
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
@@ -155,6 +153,9 @@ $use_questions = true;
 # Answer attribute should be hidden to users!
 $answer_objectClass = "extensibleObject";
 $answer_attribute = "info";
+
+# Allow change of expired password
+$change_expired_password = "false";
 
 # Extra questions (built-in questions are in lang/$lang.inc.php)
 #$messages['questions']['ice'] = "What is your favorite ice cream flavor?";

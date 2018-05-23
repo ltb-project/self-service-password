@@ -136,13 +136,48 @@ if ( $result === "" ) {
                 error_log("LDAP - Bind user password needs to be changed");
                 $errno = 0;
             }
-            if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
+            if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $change_expired_password ) {
                 error_log("LDAP - Bind user password is expired");
                 $errno = 0;
             }
             unset($extended_error);
         }
+    } elseif ( ! $ad_mode && ($errno == 49) && $change_expired_password && ( $who_change_password == "manager" ) ) {
+        # Try to check password value without binding
+        # First rebind as Manager, it will be needed (since our user can't log in)
+        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+
+        # Check that the password is not locked (due to several attempts for example)
+        $search_password_info = ldap_read( $ldap, $userdn, "(objectClass=*)", array("pwdAccountLockedTime", "userPassword") );
+
+        # Read LDAP password value
+        if ( $search_password_info ) {
+            $first_entry = ldap_first_entry($ldap, $search_password_info);
+            $pwd_locked = ldap_get_values($ldap, $first_entry, "pwdAccountLockedTime");
+            if ( $pwd_locked && $pwd_locked["count"] > 0 ) {
+                #LDAP attribute pwdAccountLockedTime is still set after our earlier ldap_bind attempt: user is locked out
+                error_log("LDAP - denying password change - user ". $login ." is locked out");
+            }
+            else {
+                $password_val = ldap_get_values($ldap, $first_entry, "userPassword");
+                if ( $password_val && $password_val["count"] > 0 ) {
+                    $old_pwd_hashed = hash_old_password($password_val[0], $oldpassword);
+
+                    if ( hash_equals($password_val[0], $old_pwd_hashed)) {
+                        # Hashes match: user can't log in for some reason (expired, most likely) but we should allow a password change
+                        error_log("LDAP - Allowing password change for user " . $login . " despite bind unsuccessful");
+                        $errno = 0;
+                    }
+                    else {
+                        error_log("LDAP - denying password change - passwords don't match");
+                    }
+                }
+            }
+        } else {
+            error_log("Denying password change - user does not exist");
+        }
     }
+
     if ( $errno ) {
         $result = "badcredentials";
         error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
