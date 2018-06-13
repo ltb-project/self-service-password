@@ -121,7 +121,7 @@ if ( $result === "" ) {
         $bind = ldap_bind($ldap);
     }
 
-    if ( !$bind) {
+    if ( !$bind ) {
         $result = "ldaperror";
         $errno = ldap_errno($ldap);
         if ( $errno ) {
