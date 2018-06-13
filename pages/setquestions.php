@@ -106,10 +106,12 @@ if ( $result === "" ) {
     
     # Bind with password
     $bind = ldap_bind($ldap, $userdn, $password);
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
+    if ( !$bind ) {
         $result = "badcredentials";
-        error_log("LDAP - Bind user error $errno (".ldap_error($ldap).")");
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+            error_log("LDAP - Bind user error $errno (".ldap_error($ldap).")");
+        }
 }}}}}}
 
 #==============================================================================
