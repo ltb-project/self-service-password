@@ -35,6 +35,13 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
+##verify that variables are strings
+
+if (isset($_POST["confirmpassword"]) and !is_string($_POST["confirmpassword"])) {return;}  
+if (isset($_POST["newpassword"]) and !is_string($_POST["newpassword"])) {return;} 
+if (isset($_POST["oldpassword"]) and !is_string($_POST["oldpassword"])) {return ;}
+if (isset($_REQUEST["login"]) and !is_string($_REQUEST["login"])) {return;}
+
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
  else { $result = "confirmpasswordrequired"; }
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
