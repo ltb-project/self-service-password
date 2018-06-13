@@ -82,12 +82,14 @@ if ( $result === "" ) {
         $bind = ldap_bind($ldap);
     }
 
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
+    if ( !$bind) {
         $result = "ldaperror";
-        error_log("LDAP - Bind error $errno (".ldap_error($ldap).")");
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+            error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+        }
     } else {
-    
+
     # Search for user
     $ldap_filter = str_replace("{login}", $login, $ldap_filter);
     $search = ldap_search($ldap, $ldap_base, $ldap_filter);
