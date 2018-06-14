@@ -36,15 +36,15 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
-if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
+if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
  else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
+if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
   else { $result = "newpasswordrequired"; }
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = $_POST["answer"]; }
+if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = strval($_POST["answer"]); }
  else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = $_POST["question"]; }
+if (isset($_POST["question"]) and $_POST["question"]) { $question = strval($_POST["question"]); }
  else { $result = "questionrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
+if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_REQUEST["login"]))
  { $result = "emptyresetbyquestionsform"; }

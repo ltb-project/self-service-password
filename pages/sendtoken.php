@@ -33,10 +33,10 @@ $userdn = "";
 $token = "";
 
 if (!$mail_address_use_ldap) {
-    if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = $_POST["mail"]; }
+    if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = strval($_POST["mail"]); }
      else { $result = "mailrequired"; }
 }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
+if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
  { $result = "emptysendtokenform"; }

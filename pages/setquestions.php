@@ -33,13 +33,13 @@ $answer = "";
 $ldap = "";
 $userdn = "";
 
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = $_POST["answer"]; }
+if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = strval($_POST["answer"]); }
  else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = $_POST["question"]; }
+if (isset($_POST["question"]) and $_POST["question"]) { $question = strval($_POST["question"]); }
  else { $result = "questionrequired"; }
-if (isset($_POST["password"]) and $_POST["password"]) { $password = $_POST["password"]; }
+if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
  else { $result = "passwordrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = $_REQUEST["login"]; }
+if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_POST["password"]) and ! isset($_REQUEST["login"]))
  { $result = "emptysetquestionsform"; }

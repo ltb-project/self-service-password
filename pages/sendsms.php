@@ -38,8 +38,8 @@ $attempts = 0;
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
 } elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
-    $token = $_REQUEST["token"];
-    $smstoken = $_REQUEST["smstoken"];
+    $token = strval($_REQUEST["token"]);
+    $smstoken = strval($_REQUEST["smstoken"]);
 
     # Open session with the token
     $tokenid = decrypt($token, $keyphrase);
@@ -98,7 +98,7 @@ if (!$crypt_tokens) {
     $login = $decrypted_sms_login[1];
     $result = "sendsms";
 } elseif (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
-    $login = $_REQUEST["login"];
+    $login = strval($_REQUEST["login"]);
 } else {
     $result = "emptysendsmsform";
 }
