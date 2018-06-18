@@ -129,3 +129,5 @@ $messages['sshkey'] = "Clé SSH";
 $messages['emptysshkeychangeform'] = "Changez votre clé SSH";
 $messages['changesshkeyhelp'] = "Entrez votre mot de passe et la nouvelle clé SSH.";
 $messages['sshkeyerror'] = "La clé SSH a été refusée par l'annuaire  LDAP";
+$messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
+$messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";

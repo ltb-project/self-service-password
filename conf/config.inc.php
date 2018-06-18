@@ -109,6 +109,8 @@ $pwd_no_reuse = true;
 $pwd_diff_login = true;
 # Complexity: number of different class of character required
 $pwd_complexity = 0;
+# use pwnedpasswords api v2 to securely check if the password has been on a leak
+$use_pwnedpasswords = true;
 # Show policy constraints message:
 # always
 # never

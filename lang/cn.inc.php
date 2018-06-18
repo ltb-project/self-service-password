@@ -129,3 +129,5 @@ $messages['sshkeyerror'] = "LDAP目录拒绝了SSH密钥";
 $messages['sshkeyrequired'] = "需要SSH密钥";
 $messages['changesshkeymessage'] = "您好{login},\n\n您的SSH金钥已变更。\n\n如果您没有启动这项变更，请立即与您的管理员联络。";
 $messages['changesshkeyhelp'] = "输入您的密码和新的SSH密钥。";
+$messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
+$messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";

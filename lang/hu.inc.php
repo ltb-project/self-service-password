@@ -129,3 +129,5 @@ $messages['sshkey'] = "SSH kulcs";
 $messages['emptysshkeychangeform'] = "Változás az SSH kulcs";
 $messages['changesshkeyhelp'] = "Írja be a jelszót és az új SSH kulcs.";
 $messages['sshkeyerror'] = "Az LDAP könyvtár elutasította az SSH kulcsot";
+$messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
+$messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";

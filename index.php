@@ -32,6 +32,9 @@ if ($use_recaptcha) {
 }
 require_once("lib/detectbrowserlanguage.php");
 require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
+if ($use_pwnedpasswords) {
+    require_once("lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
+}
 
 #==============================================================================
 # Error reporting
@@ -135,7 +138,8 @@ $pwd_policy_config = array(
     "pwd_forbidden_chars"     => $pwd_forbidden_chars,
     "pwd_no_reuse"            => $pwd_no_reuse,
     "pwd_diff_login"          => $pwd_diff_login,
-    "pwd_complexity"          => $pwd_complexity
+    "pwd_complexity"          => $pwd_complexity,
+	"use_pwnedpasswords"      => $use_pwnedpasswords
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
