@@ -295,6 +295,6 @@ $default_action = "change";
 #$posthook = "/usr/share/self-service-password/posthook.sh";
 
 # Allow to override current settings with local configuration
-if (file_exists (dirname (__FILE__) . '/config.inc.local.php')) {
-    include dirname (__FILE__) . '/config.inc.local.php';
+if (file_exists (__DIR__ . '/config.inc.local.php')) {
+    require __DIR__ . '/config.inc.local.php';
 }
