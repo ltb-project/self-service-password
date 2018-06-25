@@ -28,7 +28,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_no_reuse"            => true,
             "pwd_diff_login"          => true,
             "pwd_complexity"          => 0,
-            "use_pwnedpasswords"      => true
+            "use_pwnedpasswords"      => false
         );
 
         $login = "coudot";
@@ -45,6 +45,24 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("tooshort", check_password_strength( "!1Pa", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login ) );
 
+        $pwd_policy_config = array(
+            "pwd_show_policy"         => true,
+            "pwd_min_length"          => 6,
+            "pwd_max_length"          => 12,
+            "pwd_min_lower"           => 1,
+            "pwd_min_upper"           => 1,
+            "pwd_min_digit"           => 1,
+            "pwd_min_special"         => 1,
+            "pwd_special_chars"       => "^a-zA-Z0-9",
+            "pwd_forbidden_chars"     => "@",
+            "pwd_no_reuse"            => true,
+            "pwd_diff_login"          => true,
+            "pwd_complexity"          => 0,
+            "use_pwnedpasswords"      => true
+        );
+
+        $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login ) );
+        
         $pwd_policy_config = array(
             "pwd_show_policy"         => true,
             "pwd_min_length"          => 6,
