@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../lib/vendor/defuse-crypto.phar';
+require_once("/../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
 
 class CheckPasswordTest extends \PHPUnit_Framework_TestCase
 {
