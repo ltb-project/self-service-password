@@ -262,9 +262,9 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 	
 	# pwned?
 	if ($use_pwnedpasswords) {
-		$pp = new PwnedPasswords\PwnedPasswords;
+		$pwned_passwords = new PwnedPasswords\PwnedPasswords;
 		
-		$insecure = $pp->isInsecure($password);
+		$insecure = $pwned_passwords->isInsecure($password);
 		
 		if($insecure) { $result="pwned"; }	
 	}
