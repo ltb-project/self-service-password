@@ -130,3 +130,5 @@ $messages['sshkey'] = "SSH ключ";
 $messages['emptysshkeychangeform'] = "Змінити ключ SSH";
 $messages['changesshkeyhelp'] = "Введіть свій пароль і новий ключ SSH.";
 $messages['sshkeyerror'] = "SSH Key була відхилена каталогом LDAP";
+$messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
+$messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";
