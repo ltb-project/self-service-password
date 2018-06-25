@@ -43,7 +43,6 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("minlower", check_password_strength( "!1PASSWORD", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("toobig", check_password_strength( "!1verylongPassword", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("tooshort", check_password_strength( "!1Pa", $oldpassword, $pwd_policy_config, $login ) );
-        $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login ) );
 
         $pwd_policy_config = array(
             "pwd_show_policy"         => true,
