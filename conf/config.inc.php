@@ -296,6 +296,10 @@ $default_action = "change";
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
 
+# Hide some messages to not discole sensitive information
+# These messages will be replaced by badcredentials error
+#$obscure_failure_messages = array("mailnomatch");
+
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';

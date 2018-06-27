@@ -315,6 +315,7 @@ if ( $result === "redirect" ) {
 #==============================================================================
 # HTML
 #==============================================================================
+if ( in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"; }
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
