@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../lib/vendor/defuse-crypto.phar';
-require_once __DIR__ . '/../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php';
 
 class CheckPasswordTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,24 +47,6 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_show_policy"         => true,
             "pwd_min_length"          => 6,
             "pwd_max_length"          => 12,
-            "pwd_min_lower"           => 1,
-            "pwd_min_upper"           => 1,
-            "pwd_min_digit"           => 1,
-            "pwd_min_special"         => 1,
-            "pwd_special_chars"       => "^a-zA-Z0-9",
-            "pwd_forbidden_chars"     => "@",
-            "pwd_no_reuse"            => true,
-            "pwd_diff_login"          => true,
-            "pwd_complexity"          => 0,
-            "use_pwnedpasswords"      => true
-        );
-
-        $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login ) );
-        
-        $pwd_policy_config = array(
-            "pwd_show_policy"         => true,
-            "pwd_min_length"          => 6,
-            "pwd_max_length"          => 12,
             "pwd_min_lower"           => 0,
             "pwd_min_upper"           => 0,
             "pwd_min_digit"           => 0,
@@ -82,5 +63,41 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("", check_password_strength( "C0mplex", $oldpassword, $pwd_policy_config, $login ) );
 
     }
+
+    /**
+     * Test check_password_strength function with pwned passwords
+     */
+    public function testCheckPasswordStrengthPwnedPasswords()
+    {
+
+        # Load functions
+        require_once("lib/functions.inc.php");
+
+        $login = "coudot";
+	$oldpassword = "secret";
+
+        if ( version_compare(PHP_VERSION, '7.1.0') >= 0 ) {
+        require_once __DIR__ . '/../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php';
+        $pwd_policy_config = array(
+            "pwd_show_policy"         => true,
+            "pwd_min_length"          => 6,
+            "pwd_max_length"          => 12,
+            "pwd_min_lower"           => 1,
+            "pwd_min_upper"           => 1,
+            "pwd_min_digit"           => 1,
+            "pwd_min_special"         => 1,
+            "pwd_special_chars"       => "^a-zA-Z0-9",
+            "pwd_forbidden_chars"     => "@",
+            "pwd_no_reuse"            => true,
+            "pwd_diff_login"          => true,
+            "pwd_complexity"          => 0,
+            "use_pwnedpasswords"      => true
+        );
+
+        $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login ) );
+        }
+
+    }
+
 }
 
