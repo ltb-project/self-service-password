@@ -296,7 +296,7 @@ $default_action = "change";
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
 
-# Hide some messages to not discole sensitive information
+# Hide some messages to not disclose sensitive information
 # These messages will be replaced by badcredentials error
 #$obscure_failure_messages = array("mailnomatch");
 
