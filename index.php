@@ -53,7 +53,7 @@ if($debug) {
 $languages = array();
 if ($handle = opendir('lang')) {
     while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != ".." ) {
+        if ( preg_match('/\.inc\.php$/', $entry) ) {
             $entry_lang = str_replace(".inc.php", "", $entry);
             # Only add language to possibilities if it is the default language or part of the allowed languages
             # empty $allowed_lang <=> all languages are allowed
