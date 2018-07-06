@@ -158,6 +158,9 @@ $use_questions = true;
 $answer_objectClass = "extensibleObject";
 $answer_attribute = "info";
 
+# Crypt answers inside the directory
+$crypt_answers = true;
+
 # Extra questions (built-in questions are in lang/$lang.inc.php)
 #$messages['questions']['ice'] = "What is your favorite ice cream flavor?";
 

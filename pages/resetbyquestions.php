@@ -139,7 +139,8 @@ if ( $result === "" ) {
 
     # Match with user submitted values
     foreach ($questionValues as $questionValue) {
-        if (preg_match($pattern, $questionValue)) {
+        $value = $crypt_answers ? decrypt($questionValue, $keyphrase) : $questionValue;
+        if (preg_match($pattern, $value)) {
             $match = true;
         }
     }

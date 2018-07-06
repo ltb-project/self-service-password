@@ -149,7 +149,8 @@ if ( $result === "" ) {
     }
 
     # Question/Answer
-    $userdata[$answer_attribute] = '{'.$question.'}'.$answer;
+    $answer_value = '{'.$question.'}'.$answer;
+    $userdata[$answer_attribute] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
 
     # Commit modification on directory
     $replace = ldap_mod_replace($ldap, $userdn , $userdata);
