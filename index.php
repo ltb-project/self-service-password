@@ -139,7 +139,7 @@ $pwd_policy_config = array(
     "pwd_no_reuse"            => $pwd_no_reuse,
     "pwd_diff_login"          => $pwd_diff_login,
     "pwd_complexity"          => $pwd_complexity,
-	"use_pwnedpasswords"      => $use_pwnedpasswords
+    "use_pwnedpasswords"      => $use_pwnedpasswords
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
