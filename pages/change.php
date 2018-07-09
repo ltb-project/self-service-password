@@ -176,7 +176,7 @@ if ( $result === "" ) {
     $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword);
     if ( $result === "passwordchanged" && isset($posthook) ) {
         $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword).' '.escapeshellarg($oldpassword);
-        exec($command);
+        exec($command, $posthook_output, $posthook_return);
     }
 }
 
@@ -189,6 +189,14 @@ if ( in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
 <p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
+
+<?php if ( $display_posthook_error and $posthook_return > 0 ) { ?>
+
+<div class="result alert alert-warning">
+<p><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> <?php echo $posthook_output[0]; ?></p>
+</div>
+
+<?php } ?>
 
 <?php if ( $result !== "passwordchanged" ) { ?>
 
