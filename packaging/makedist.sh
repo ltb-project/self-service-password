@@ -26,6 +26,7 @@ mkdir -p $NAME-$VERSION/js
 mkdir -p $NAME-$VERSION/lang
 mkdir -p $NAME-$VERSION/lib
 mkdir -p $NAME-$VERSION/pages
+mkdir -p $NAME-$VERSION/scripts
 
 # Copy files
 cp ../*.php     $NAME-$VERSION
@@ -37,8 +38,9 @@ cp ../fonts/*   $NAME-$VERSION/fonts
 cp ../images/*  $NAME-$VERSION/images
 cp ../js/*      $NAME-$VERSION/js
 cp ../lang/*    $NAME-$VERSION/lang
-cp -a ../lib/*     $NAME-$VERSION/lib
+cp -a ../lib/*  $NAME-$VERSION/lib
 cp ../pages/*   $NAME-$VERSION/pages
+cp ../scripts/* $NAME-$VERSION/scripts
 
 # Create archive
 tar -cf $NAME-$VERSION.tar $NAME-$VERSION/
