@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.2
+%define ssp_version	1.3
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -63,6 +63,7 @@ mkdir -p %{buildroot}/%{ssp_destdir}/js
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
 mkdir -p %{buildroot}/%{ssp_destdir}/pages
+mkdir -p %{buildroot}/%{ssp_destdir}/scripts
 mkdir -p %{buildroot}/etc/httpd/conf.d
 
 # Copy files
@@ -77,6 +78,7 @@ install -m 644 lang/*    %{buildroot}/%{ssp_destdir}/lang
 install -m 644 lib/*.php %{buildroot}/%{ssp_destdir}/lib
 cp -a lib/vendor         %{buildroot}/%{ssp_destdir}/lib
 install -m 644 pages/*   %{buildroot}/%{ssp_destdir}/pages
+install -m 644 scripts/* %{buildroot}/%{ssp_destdir}/scripts
 ## Apache configuration
 install -m 644 %{SOURCE1} %{buildroot}/etc/httpd/conf.d/self-service-password.conf
 
@@ -112,6 +114,22 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Tue Jul 10 2018 - Clement Oudot <clem@ltb-project.org> - 1.3-1
+- gh#182: Message incorrect when resetting using email but not supplying email (minor)
+- gh#187: Security assessment issues
+- gh#191: Minor changes to Spanish translation
+- gh#196: reduce info released in error messages
+- gh#197: Please wrap mail debug ouput in <pre> tags.
+- gh#198: Create ee.inc.php
+- gh#201: Added some translations
+- gh#202: include config.inc.local.php + warning
+- gh#204: Index includes .swp files and crashes sites with error 500
+- gh#206: Encrypt answers in directory
+- gh#209: Check ldap_bind return code instead of relying on ldap_errno
+- gh#210: SSH key change should not be permitted for expired or must change passwords
+- gh#211: Force string conversion of input values
+- gh#215: added support for pwned-passwords api v2
+- gh#217: take into account post-hook exit status
 * Fri Jan 12 2018 - Clement Oudot <clem@ltb-project.org> - 1.2-1
 - gh#149: Remove obsolete stripslashes_if_gpc_magic_quotes
 - gh#154: Translated the hungarian keys left in english.

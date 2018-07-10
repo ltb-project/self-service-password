@@ -1,3 +1,25 @@
+ltb-project-self-service-password (1.3-1) unstable; urgency=low
+
+    * gh#182: Message incorrect when resetting using email but not supplying
+      email (minor)
+    * gh#187: Security assessment issues
+    * gh#191: Minor changes to Spanish translation
+    * gh#196: reduce info released in error messages
+    * gh#197: Please wrap mail debug ouput in <pre> tags.
+    * gh#198: Create ee.inc.php
+    * gh#201: Added some translations
+    * gh#202: include config.inc.local.php + warning
+    * gh#204: Index includes .swp files and crashes sites with error 500
+    * gh#206: Encrypt answers in directory
+    * gh#209: Check ldap_bind return code instead of relying on ldap_errno
+    * gh#210: SSH key change should not be permitted for expired or must
+      change passwords
+    * gh#211: Force string conversion of input values
+    * gh#215: added support for pwned-passwords api v2
+    * gh#217: take into account post-hook exit status
+
+ -- Clement Oudot <clem@ltb-project.org>  Tue, 10 Jul 2018 12:00:00 +0200
+
 ltb-project-self-service-password (1.2-1) unstable; urgency=low
 
     * gh#149: Remove obsolete stripslashes_if_gpc_magic_quotes
