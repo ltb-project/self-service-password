@@ -34,6 +34,7 @@ It has the following features:
 * PHP extensions required:
   * php-openssl (token crypt, probably built-in)
   * php-mbstring (reset mail)
+  * php-curl (haveibeenpwned api)
   * php-ldap
 * strong cryptography functions available (for random_compat, php 7 or libsodium or /dev/urandom readable or php-mcrypt extension installed)
 * valid PHP mail server configuration (reset mail)
