@@ -114,6 +114,7 @@ if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
 # Get source for menu
 if (isset($_REQUEST["source"]) and $_REQUEST["source"]) { $source = $_REQUEST["source"]; }
+else { $source="unknown"; }
 
 #==============================================================================
 # Other default values

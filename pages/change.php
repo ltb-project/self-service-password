@@ -190,7 +190,7 @@ if ( in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"
 <p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
 </div>
 
-<?php if ( $display_posthook_error and $posthook_return > 0 ) { ?>
+<?php if ( isset($posthook_return) and $display_posthook_error and $posthook_return > 0 ) { ?>
 
 <div class="result alert alert-warning">
 <p><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> <?php echo $posthook_output[0]; ?></p>
