@@ -238,7 +238,7 @@ if ( $show_help ) {
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
+                <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" autocomplete="off" />
             </div>
         </div>
     </div>
@@ -248,7 +248,7 @@ if ( $show_help ) {
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-envelope-o"></i></span>
-                <input type="email" name="mail" id="mail" class="form-control" placeholder="<?php echo $messages["mail"]; ?>" />
+                <input type="email" name="mail" id="mail" class="form-control" placeholder="<?php echo $messages["mail"]; ?>" autocomplete="off" />
             </div>
         </div>
     </div>

@@ -227,7 +227,7 @@ foreach ( $messages["questions"] as $value => $text ) {
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
-                <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" />
+                <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" autocomplete="off" />
             </div>
         </div>
     </div>
