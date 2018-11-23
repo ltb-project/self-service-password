@@ -115,8 +115,8 @@ if ( $result === "" ) {
     } else {
 
     # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+    if ( isset($ldap_reset_binddn) && isset($ldap_reset_bindpw) ) {
+        $bind = ldap_bind($ldap, $ldap_reset_binddn, $ldap_reset_bindpw);
     } else {
         $bind = ldap_bind($ldap);
     }
