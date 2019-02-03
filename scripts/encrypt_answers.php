@@ -30,6 +30,9 @@ require_once(__DIR__."/../lib/functions.inc.php");
 # Search all users and encrypt answer
 #==============================================================================
 
+# Optionally fill password from file
+$ldap_bindpw = get_passfile_or_pass($ldap_bindpw, $ldap_bindpw_file);
+
 # Connect to LDAP
 $ldap = ldap_connect($ldap_url);
 ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);

@@ -164,6 +164,7 @@ $mailer->SMTPAutoTLS   = $mail_smtp_autotls;
 $mailer->SMTPAuth      = $mail_smtp_auth;
 $mailer->Username      = $mail_smtp_user;
 $mailer->Password      = $mail_smtp_pass;
+$mailer->PasswordFile  = $mail_smtp_pass_file;
 $mailer->SMTPKeepAlive = $mail_smtp_keepalive;
 $mailer->Timeout       = $mail_smtp_timeout;
 $mailer->LE            = $mail_newline;

@@ -485,6 +485,9 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
         return $result;
     }
 
+    # Optionally fill password from file
+    $mailer->Password = get_passfile_or_pass($mailer->Password, $mailer->PasswordFile);
+
     /* Replace data in mail, subject and body */
     foreach($data as $key => $value ) {
         $mail = str_replace('{'.$key.'}', $value, $mail);
@@ -557,4 +560,20 @@ function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $resp
     }
 
     return '';
+}
+
+/* @function string get_passfile_or_pass(string $var, string $varfile)
+ * Check if $var is a valid string (password); if not then read in contents of $varfile
+ * @param $var string, original parameter/password, if set then this function is a no-op
+ * @param $varfile string, path to file containing password
+ * @return string, password from $var if previously set else contents of $varfile
+ */
+function get_passfile_or_pass(string $var, string $varfile) {
+    // always accept a defined password over a passfile
+    if (isset($var) && $var != '') return $var;
+    if (isset($varfile) && file_exists($varfile)) {
+        # arbitrary max of 1024 bytes to preclude rediculous file sizes
+        $var = file_get_contents($varfile, false, NULL, 0, 1024);
+        return $var;
+    }
 }
