@@ -558,3 +558,31 @@ function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $resp
 
     return '';
 }
+/* @function string posthook_command(string $posthook, string  $login, string $newpassword, null|string $oldpassword, null|boolean $posthook_password_encodebase64, null|boolean $use_oldpass)
+   Creates the command line to execute for the posthook process. Passwords will be base64 encoded if configured. Base64 encoding will prevent passwords with special 
+   characters to be modified by the escapeshellarg() function.
+   @param $postkook string script/command to execute for procesing posthook data
+   @param $login string username to change/set password for
+   @param $newpassword string new passwword for given login
+   @param $oldpassword string old password for given login
+   @param posthook_password_encodebase64 boolean set to true if passwords are to be converted to base64 encoded strings
+   @param use_oldpass boolean set to true if user is changing a password, or false if resetting
+*/
+function posthook_command($posthook, $login, $newpassword, $oldpassword = null, $posthook_password_encodebase64 = false, $use_oldpass = false) {
+
+	$command = '';
+	if ( isset($posthook_password_encodebase64) && $posthook_password_encodebase64 ) {
+		if ( $use_oldpass ) {
+			$command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.base64_encode($newpassword).' '.base64_encode($oldpassword);
+		} else {
+			$command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.base64_encode($newpassword);
+		}
+	} else {
+		if ( $use_oldpass ) {
+			return $command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword).' '.escapeshellarg($oldpassword);
+		} else {
+			$command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
+		}
+	}
+	return $command;
+}
