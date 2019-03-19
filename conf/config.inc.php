@@ -296,12 +296,16 @@ $default_action = "change";
 #$messages['passwordchangedextramessage'] = NULL;
 #$messages['changehelpextramessage'] = NULL;
 
+## Post Hook
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
+# Display posthook error
 #$display_posthook_error = true;
 # Encode passwords sent to posthook script as base64. This will prevent alteration of the passwords if set to true.
 # To read the actual password in the posthook script, use a base64_decode function/tool
 #$posthook_password_encodebase64 = false;
+# Force setlocale if your default PHP configuration is not correct
+#setlocale(LC_CTYPE, "en_US.UTF-8");
 
 # Hide some messages to not disclose sensitive information
 # These messages will be replaced by badcredentials error
