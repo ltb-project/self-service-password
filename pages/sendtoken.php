@@ -93,39 +93,43 @@ if ( $result === "" ) {
     } else {
 
     # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
+    $entries = ldap_get_entries($ldap, $search);
 
-    if( !$userdn ) {
+    if( $entries['count'] == 0 ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
 
-    # Compare mail values
-    $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-    unset($mailValues["count"]);
     $match = 0;
+    foreach($entries as $entry) {
+      # Compare mail values
+      $mailValues = $entry[$mail_attribute];
+      unset($mailValues["count"]);
 
-    if (!$mail_address_use_ldap) {
-        # Match with user submitted values
-        foreach ($mailValues as $mailValue) {
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                $mailValue = str_ireplace("smtp:", "", $mailValue);
-            }
-            if (strcasecmp($mail, $mailValue) == 0) {
-                $match = 1;
-            }
-        }
-    } else {
-        # Use first available mail adress in ldap
-        if(count($mailValues) > 0) {
-            $mailValue = $mailValues[0];
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                $mailValue = str_ireplace("smtp:", "", $mailValue);
-            }
-            $mail = $mailValue;
-            $match = true;
-        }
+      if (!$mail_address_use_ldap) {
+          # Match with user submitted values
+          foreach ($mailValues as $mailValue) {
+              if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                  $mailValue = str_ireplace("smtp:", "", $mailValue);
+              }
+              if (strcasecmp($mail, $mailValue) == 0) {
+                  $match = 1;
+                  break;
+              }
+          }
+      } else {
+          # Use first available mail adress in ldap
+          if(count($mailValues) > 0) {
+              $mailValue = $mailValues[0];
+              if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                  $mailValue = str_ireplace("smtp:", "", $mailValue);
+              }
+              $mail = $mailValue;
+              $match = true;
+              break;
+          }
+      }
+
     }
 
     if (!$match) {
