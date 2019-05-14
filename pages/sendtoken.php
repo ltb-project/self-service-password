@@ -102,34 +102,33 @@ if ( $result === "" ) {
 
     $match = 0;
     foreach($entries as $entry) {
-      # Compare mail values
-      $mailValues = $entry[$mail_attribute];
-      unset($mailValues["count"]);
+       # Compare mail values
+       $mailValues = $entry[$mail_attribute];
+       unset($mailValues["count"]);
 
-      if (!$mail_address_use_ldap) {
+       if (!$mail_address_use_ldap) {
           # Match with user submitted values
           foreach ($mailValues as $mailValue) {
-              if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                  $mailValue = str_ireplace("smtp:", "", $mailValue);
-              }
-              if (strcasecmp($mail, $mailValue) == 0) {
-                  $match = 1;
-                  break;
-              }
+             if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                $mailValue = str_ireplace("smtp:", "", $mailValue);
+             }
+             if (strcasecmp($mail, $mailValue) == 0) {
+                $match = 1;
+                break;
+             }
           }
-      } else {
+       } else {
           # Use first available mail adress in ldap
           if(count($mailValues) > 0) {
-              $mailValue = $mailValues[0];
-              if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                  $mailValue = str_ireplace("smtp:", "", $mailValue);
-              }
-              $mail = $mailValue;
-              $match = true;
-              break;
+             $mailValue = $mailValues[0];
+             if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                $mailValue = str_ireplace("smtp:", "", $mailValue);
+             }
+             $mail = $mailValue;
+             $match = true;
+             break;
           }
-      }
-
+       }
     }
 
     if (!$match) {
