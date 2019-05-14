@@ -131,3 +131,5 @@ $messages['changesshkeyhelp'] = "Angi ditt passord og ny SSH-nøkkel.";
 $messages['sshkeyerror'] = "SSH nøkkel er ikke godkjent av LDAP-katalogen";
 $messages['pwned'] = "Ditt nye passord har allerede blitt publisert på passord-leaks siter. Du bør derfor vurdere å endre dette passordet og passord for andre siter hvor det samme passordet er benyttet.";
 $messages['policypwned'] = "Ditt nye passord er ikke publisert på kjente passord-leak siter";
+$messages['specialatends'] = "Your new password has its only special character at the beginning or end";
+$messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";

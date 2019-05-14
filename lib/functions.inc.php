@@ -192,6 +192,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."\n"; }
     if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."\n"; }
     if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."\n"; }
+    if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
     echo "</ul>\n";
     echo "</div>\n";
 }
@@ -212,9 +213,13 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     $digit = count( $digit_res[0] );
 
     $special = 0;
+    $special_at_ends = false;
     if ( isset($pwd_special_chars) && !empty($pwd_special_chars) ) {
         preg_match_all("/[$pwd_special_chars]/", $password, $special_res);
         $special = count( $special_res[0] );
+        if ( $pwd_no_special_at_ends ) {
+          $special_at_ends = preg_match("/(^[$pwd_special_chars]|[$pwd_special_chars]$)/", $password, $special_res);
+        }
     }
 
     $forbidden = 0;
@@ -253,6 +258,9 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
     # Forbidden chars
     if ( $forbidden > 0 ) { $result="forbiddenchars"; }
+
+    # Special chars at beginning or end
+    if ( $special_at_ends > 0 && $special == 1 ) { $result="specialatends"; }
 
     # Same as old password?
     if ( $pwd_no_reuse and $password === $oldpassword ) { $result="sameasold"; }

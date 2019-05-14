@@ -131,3 +131,5 @@ $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Αλλάξτε
 $messages['sshkey'] = "SSH Key";
 $messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
 $messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";
+$messages['specialatends'] = "Your new password has its only special character at the beginning or end";
+$messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";

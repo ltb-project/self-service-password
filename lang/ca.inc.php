@@ -135,3 +135,5 @@ $messages['changesshkeyhelp'] = "Introduïu la contrasenya i la clau SSH.";
 $messages['changesshkeymessage'] = "Hola {login},\n\nLa claus SSH s'ha canviat.\n\nSi no va iniciar aquest canvi, poseu-vos en contacte amb l'administrador immediatament.";
 $messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
 $messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";
+$messages['specialatends'] = "Your new password has its only special character at the beginning or end";
+$messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
