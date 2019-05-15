@@ -144,7 +144,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|sshkeyerror/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|sshkeyerror|specialatends/" , $msg ) ) {
     return "danger";
     }
 
@@ -174,7 +174,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned/" , $result) ) { return; }
+        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends/" , $result) ) { return; }
     }
 
     # Display bloc
