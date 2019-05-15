@@ -133,3 +133,5 @@ $messages['pwned'] = "Sua nova senha já foi publicada como vazada, você deveri
 $messages['policypwned'] = "Parece que sua nova senha não foi publicada como vazada de qualquer site";
 $messages['specialatends'] = "Your new password has its only special character at the beginning or end";
 $messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
+$messages['forbiddenwords'] = "Your passwords contains forbidden words or strings";
+$messages['policyforbiddenwords'] = "Your password must not contain:";

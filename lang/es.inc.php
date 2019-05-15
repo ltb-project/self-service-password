@@ -134,3 +134,5 @@ $messages['pwned'] = "Su contraseña ha sido publicada en listas de contraseñas
 $messages['policypwned'] = "Su contraseña no puede haber sido publicada previamente en ninguna lista de contraseñas filtradas accesible al publico de ningun sitio";
 $messages['specialatends'] = "Your new password has its only special character at the beginning or end";
 $messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
+$messages['forbiddenwords'] = "Your passwords contains forbidden words or strings";
+$messages['policyforbiddenwords'] = "Your password must not contain:";
