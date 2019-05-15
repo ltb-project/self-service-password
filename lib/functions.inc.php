@@ -144,7 +144,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|sshkeyerror|specialatends/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|sshkeyerror|specialatends|forbiddenldapfields/" , $msg ) ) {
     return "danger";
     }
 
@@ -174,7 +174,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends/" , $result) ) { return; }
+        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends|forbiddenldapfields/" , $result) ) { return; }
     }
 
     # Display bloc
@@ -193,13 +193,21 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."\n"; }
     if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."\n"; }
     if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
+    if ( !empty($pwd_forbidden_ldap_fields)) { 
+      $pwd_forbidden_ldap_fields = array_map(
+        function($field) use ($messages) { 
+          if(empty($messages['ldap_' . $field])) return $field;
+          return $messages['ldap_' . $field]; 
+        }, $pwd_forbidden_ldap_fields);
+      echo "<li>".$messages["policyforbiddenldapfields"] ." " . implode(', ', $pwd_forbidden_ldap_fields) ."</li>\n"; 
+    }
     echo "</ul>\n";
     echo "</div>\n";
 }
 
 # Check password strength
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry ) {
     extract( $pwd_policy_config );
 
     $result = "";
@@ -267,6 +275,23 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
     # Same as login?
     if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
+
+    # Contains values from forbidden ldap fields?
+    if( !empty($pwd_forbidden_ldap_fields) ) {
+      foreach( $pwd_forbidden_ldap_fields as $field ) {
+        $values = $entry[$field];
+        if(!is_array($entry[$field])) {
+          $values = array($entry[$field]);
+        }
+        foreach($values as $key => $value) {
+          if($key === 'count') continue;
+          if(stripos($password, $value) !== false) {
+            $result = "forbiddenldapfields";
+            break 2;
+          }
+        }
+      }
+    }
 	
 	# pwned?
 	if ($use_pwnedpasswords) {

@@ -166,6 +166,9 @@ if ( $result === "" ) {
         }
     }
 
+    $entry = ldap_get_attributes($ldap, $entry);
+    $entry['dn'] = $userdn;
+
 }}}}
 
 #==============================================================================
@@ -178,7 +181,7 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login );
+    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry );
 }
 
 # Change password
