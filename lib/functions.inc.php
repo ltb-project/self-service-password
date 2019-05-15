@@ -180,6 +180,17 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     # Display bloc
     echo "<div class=\"help alert alert-warning\">\n";
     echo "<p>".$messages["policy"]."</p>\n";
+    output_policy_list($messages, $pwd_policy_config);
+    usort($pwd_override_by_length, function($a, $b) { return $b['valid_if_shorter_than'] - $a['valid_if_shorter_than']; });
+    foreach($pwd_override_by_length as $override) {
+      echo "<p>".sprintf($messages["overriding_policy_by_length"], $override['valid_if_shorter_than']) . "</p>\n";
+      output_policy_list($messages, $override['rules']);
+    }
+    echo "</div>\n";
+}
+
+function output_policy_list($messages, $policy) {
+    extract($policy);
     echo "<ul>\n";
     if ( $pwd_min_length      ) { echo "<li>".$messages["policyminlength"]      ." $pwd_min_length</li>\n"; }
     if ( $pwd_max_length      ) { echo "<li>".$messages["policymaxlength"]      ." $pwd_max_length</li>\n"; }
@@ -194,7 +205,6 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."\n"; }
     if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
     echo "</ul>\n";
-    echo "</div>\n";
 }
 
 # Check password strength
@@ -205,6 +215,29 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     $result = "";
 
     $length = strlen(utf8_decode($password));
+
+    usort($pwd_override_by_length, function($a, $b) { return $a['valid_if_shorter_than'] - $b['valid_if_shorter_than']; });
+    $checked = false;
+    foreach($pwd_override_by_length as $override) {
+       if($length < $override['valid_if_shorter_than']) {
+          $policy = array_merge($pwd_policy_config, $override['rules']);
+          $result = match_policy($password, $oldpassword, $policy, $login, $length);
+          $checked = true;
+          break;
+       }
+    }
+    if(!$checked) {
+       $result = match_policy($password, $oldpassword, $pwd_policy_config, $login, $length);
+    }
+
+    return $result;
+}
+
+function match_policy($password, $oldpassword, $pwd_policy_config, $login, $length) {
+    extract( $pwd_policy_config );
+
+    $result = "";
+
     preg_match_all("/[a-z]/", $password, $lower_res);
     $lower = count( $lower_res[0] );
     preg_match_all("/[A-Z]/", $password, $upper_res);

@@ -135,3 +135,4 @@ $messages['pwned'] = "Your new password has already been published on leaks, you
 $messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";
 $messages['specialatends'] = "Ihr Passwort enthält das einzige Sonderzeichen am Anfang oder am Ende";
 $messages['policyspecialatends'] = "Ein Sonderzeichen, wenn es nur ein einziges gibt, darf nicht am Anfang oder am Ende stehen";
+$messages['overriding_policy_by_length'] = "Wenn das Passwort kürzer als %d Zeichen ist, gelten folgende Regeln:";

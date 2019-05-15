@@ -111,6 +111,21 @@ $pwd_diff_login = true;
 $pwd_complexity = 0;
 # use pwnedpasswords api v2 to securely check if the password has been on a leak
 $use_pwnedpasswords = false;
+# override policy if password is shorter than a certain value
+# Example:
+# $pwd_min_length = 12;
+# $pwd_override_by_length = array(
+#   array(
+#      'valid_if_shorter_than' => 12,
+#      'rules' => array(
+#         'pwd_min_length' => 8,
+#         'pwd_min_lower' => 1,
+#         'pwd_min_upper' => 1,
+#         'pwd_min_digit' => 1,
+#         'pwd_min_special' => 1
+#      )
+#   )
+#);
 # Show policy constraints message:
 # always
 # never

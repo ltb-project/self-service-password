@@ -29,6 +29,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_complexity"          => 0,
             "use_pwnedpasswords"      => false,
             "pwd_no_special_at_ends"  => false,
+            "pwd_override_by_length"  => array(),
         );
 
         $login = "coudot";
@@ -59,11 +60,38 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_complexity"          => 3,
             "use_pwnedpasswords"      => false,
             "pwd_no_special_at_ends"  => true,
+            "pwd_override_by_length"  => array(
+               array(
+                  'valid_if_shorter_than' => 5,
+                  'rules' => array(
+                     'pwd_min_length' => 4,
+                     'pwd_min_digit' => 1,
+                     'pwd_min_upper' => 1,
+                     'pwd_min_lower' => 1,
+                     'pwd_min_special' => 1,
+                     'pwd_complexity' => 0
+                  )
+               ),
+               array(
+                  'valid_if_shorter_than' => 4,
+                  'rules' => array(
+                     'pwd_min_length' => 3,
+                     'pwd_min_lower' => 1,
+                     'pwd_min_special' => 2,
+                     'pwd_complexity' => 0
+                  )
+               )
+            ),
         );
 
         $this->assertEquals("notcomplex", check_password_strength( "simple", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("specialatends", check_password_strength( "!simple", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("specialatends", check_password_strength( "simple?", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("minspecial", check_password_strength( "xyZ1", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("minupper", check_password_strength( "xy%1", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("", check_password_strength( "xY%1", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("minspecial", check_password_strength( "x%1", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("", check_password_strength( "x%$", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("", check_password_strength( "C0mplex", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("", check_password_strength( "C0!mplex", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("", check_password_strength( "%C0!mplex", $oldpassword, $pwd_policy_config, $login ) );
@@ -99,6 +127,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_complexity"          => 0,
             "use_pwnedpasswords"      => true,
             "pwd_no_special_at_ends"  => false,
+            "pwd_override_by_length"  => array(),
         );
 
         $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login ) );
