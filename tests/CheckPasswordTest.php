@@ -29,6 +29,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_complexity"          => 0,
             "use_pwnedpasswords"      => false,
             "pwd_no_special_at_ends"  => false,
+            "pwd_forbidden_words"     => array(),
         );
 
         $login = "coudot";
@@ -59,11 +60,15 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_complexity"          => 3,
             "use_pwnedpasswords"      => false,
             "pwd_no_special_at_ends"  => true,
+            "pwd_forbidden_words"     => array('companyname', 'trademark'),
         );
 
         $this->assertEquals("notcomplex", check_password_strength( "simple", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("specialatends", check_password_strength( "!simple", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("specialatends", check_password_strength( "simple?", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("forbiddenwords", check_password_strength( "companyname", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("forbiddenwords", check_password_strength( "trademark", $oldpassword, $pwd_policy_config, $login ) );
+        $this->assertEquals("forbiddenwords", check_password_strength( "working at companyname is fun", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("", check_password_strength( "C0mplex", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("", check_password_strength( "C0!mplex", $oldpassword, $pwd_policy_config, $login ) );
         $this->assertEquals("", check_password_strength( "%C0!mplex", $oldpassword, $pwd_policy_config, $login ) );
@@ -99,6 +104,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_complexity"          => 0,
             "use_pwnedpasswords"      => true,
             "pwd_no_special_at_ends"  => false,
+            "pwd_forbidden_words"     => array(),
         );
 
         $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login ) );

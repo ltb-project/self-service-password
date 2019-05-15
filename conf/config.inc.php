@@ -107,6 +107,8 @@ $pwd_special_chars = "^a-zA-Z0-9";
 $pwd_no_reuse = true;
 # Check that password is different than login
 $pwd_diff_login = true;
+# Forbidden words which must not appear in the password
+$pwd_forbidden_words = array();
 # Complexity: number of different class of character required
 $pwd_complexity = 0;
 # use pwnedpasswords api v2 to securely check if the password has been on a leak
