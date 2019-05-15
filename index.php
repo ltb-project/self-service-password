@@ -122,6 +122,7 @@ else { $source="unknown"; }
 if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }
 if (!isset($ldap_fullname_attribute)) { $ldap_fullname_attribute = "cn"; }
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars = ""; }
+if (!isset($pwd_override_by_length)) { $pwd_override_by_length = array(); }
 if (!isset($hash_options)) { $hash_options = array(); }
 if (!isset($samba_options)) { $samba_options = array(); }
 if (!isset($ldap_starttls)) { $ldap_starttls = false; }
@@ -141,7 +142,8 @@ $pwd_policy_config = array(
     "pwd_diff_login"          => $pwd_diff_login,
     "pwd_complexity"          => $pwd_complexity,
     "use_pwnedpasswords"      => $use_pwnedpasswords,
-    "pwd_no_special_at_ends"  => $pwd_no_special_at_ends
+    "pwd_no_special_at_ends"  => $pwd_no_special_at_ends,
+    "pwd_override_by_length"  => $pwd_override_by_length,
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
