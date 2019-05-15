@@ -83,7 +83,7 @@ if ( $result === "" ) {
     } else {
 
     # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+    $ldap_filter = str_replace("{login}", $login, $ldap_filter_reset);
     $search = ldap_search($ldap, $ldap_base, $ldap_filter);
 
     $errno = ldap_errno($ldap);
@@ -114,7 +114,7 @@ if ( $result === "" ) {
              }
              if (strcasecmp($mail, $mailValue) == 0) {
                 $match = 1;
-                break;
+                break 2;
              }
           }
        } else {
@@ -139,6 +139,8 @@ if ( $result === "" ) {
             $result = "mailnomatch";
             error_log("Mail not found for user $login");
         }
+    } else {
+       $login = $entry[$ldap_login_attribute][0];
     }
 
 }}}}}
@@ -155,7 +157,8 @@ if ( $result === "" ) {
 
     session_name("token");
     session_start();
-    $_SESSION['login'] = $login;
+    $_SESSION['entry'] = $entry;
+    $_SESSION['mail'] = $mail;
     $_SESSION['time']  = time();
 
     if ( $crypt_tokens ) {
@@ -237,11 +240,11 @@ if ( $show_help ) {
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
     <div class="form-group">
-        <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
+        <label for="login" class="col-sm-4 control-label"><?php echo $messages["login_reset"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" autocomplete="off" />
+                <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login_reset"]; ?>" autocomplete="off" />
             </div>
         </div>
     </div>

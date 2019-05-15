@@ -64,9 +64,11 @@ if ( $result === "" ) {
     session_id($tokenid);
     session_name("token");
     session_start();
-    $login = $_SESSION['login'];
-
-    if ( !$login ) {
+    $entry = $_SESSION['entry'];
+    $mail = $_SESSION['mail'];
+    $login = $entry[$ldap_login_attribute][0];
+    $userdn = $entry['dn'];
+    if ( !$entry ) {
         $result = "tokennotvalid";
 	error_log("Unable to open session $tokenid");
     } else {
@@ -101,10 +103,20 @@ if ( $result === "" && $use_recaptcha ) {
 }
 
 #==============================================================================
-# Find user
+# Check and register new passord
 #==============================================================================
+# Match new and confirm password
 if ( $result === "" ) {
+    if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
+}
 
+# Check password strength
+if ( $result === "" ) {
+    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login );
+}
+
+# Change password
+if ($result === "") {
     # Connect to LDAP
     $ldap = ldap_connect($ldap_url);
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -128,67 +140,13 @@ if ( $result === "" ) {
             error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
         }
     } else {
-
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
-
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-    } else {
-
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
-
-    if( !$userdn ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    }
-
-    # Check objectClass to allow samba and shadow updates
-    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
-    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
-        $samba_mode = false;
-    }
-    if ( !in_array( 'shadowAccount', $ocValues ) ) {
-        $shadow_options['update_shadowLastChange'] = false;
-        $shadow_options['update_shadowExpire'] = false;
-    }
-
-    # Get user email for notification
-    if ( $notify_on_change ) {
-        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-        if ( $mailValues["count"] > 0 ) {
-            $mail = $mailValues[0];
+        $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
+        if ( $result === "passwordchanged" && isset($posthook) ) {
+            $command = posthook_command($posthook, $login, $newpassword, null, $posthook_password_encodebase64);
+            exec($command, $posthook_output, $posthook_return);
         }
     }
-
-}}}}
-
-#==============================================================================
-# Check and register new passord
-#==============================================================================
-# Match new and confirm password
-if ( $result === "" ) {
-    if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
-}
-
-# Check password strength
-if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login );
-}
-
-# Change password
-if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
-    if ( $result === "passwordchanged" && isset($posthook) ) {
-        $command = posthook_command($posthook, $login, $newpassword, null, $posthook_password_encodebase64);
-        exec($command, $posthook_output, $posthook_return);
-    }
-}
+}}
 
 # Delete token if all is ok
 if ( $result === "passwordchanged" ) {
