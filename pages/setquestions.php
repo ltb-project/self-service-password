@@ -151,23 +151,21 @@ if ( $result === "" ) {
     }
 
     $answer_value = '{'.$question.'}'.$answer;
-    $userdata[$answer_attribute] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
-    
+    $i = 0;
+    $answers[$i++] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
     if ($aValues != NULL ) {
-        // Now determine if this answer has already been registered. If yes, remove, before adding new answer.
-        $match = false;
+        #  Now determine if this answer has already been registered. If yes, don't add to the answer array.
         $question = preg_quote($question,'/');
-        $answer   = preg_quote($answer,'/');
         $pattern  = "/^\{$question\}(.*)$/i";
         foreach ( $aValues as $key => $answer_encrypt ) {
             $value = $crypt_answers ? decrypt($answer_encrypt, $keyphrase) : $answer_encrypt;
-            if (preg_match($pattern, $value)) {
-                $deldata[$answer_attribute] = $answer_encrypt;
-                $del = ldap_mod_del($ldap, $userdn , $deldata);
+            if (!preg_match($pattern, $value)) {
+                $answers[$i++] = $answer_encrypt;
             }
         }
-    }        
-    $add = ldap_mod_add($ldap, $userdn , $userdata);
+    }
+    $userdata[$answer_attribute] = $answers;
+    $replace = ldap_mod_replace($ldap, $userdn , $userdata);
     $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "answermoderror";
