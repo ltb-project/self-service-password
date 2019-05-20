@@ -153,10 +153,12 @@ if ( $result === "" ) {
     $answer_value = '{'.$question.'}'.$answer;
     $i = 0;
     $answers[$i++] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
+    # Do we need to process multiple answers on this request?
     if ($aValues != NULL && $multiple_answers == true ) {
         #  Now determine if this answer has already been registered. If yes, don't add to the answer array.
         $question = preg_quote($question,'/');
         $pattern  = "/^\{$question\}(.*)$/i";
+        # Examine each previous question registered and look for matches.
         foreach ( $aValues as $key => $answer_encrypt ) {
             $value = $crypt_answers ? decrypt($answer_encrypt, $keyphrase) : $answer_encrypt;
             if (!preg_match($pattern, $value)) {
