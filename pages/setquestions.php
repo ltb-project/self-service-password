@@ -153,7 +153,7 @@ if ( $result === "" ) {
     $answer_value = '{'.$question.'}'.$answer;
     $i = 0;
     $answers[$i++] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
-    if ($aValues != NULL ) {
+    if ($aValues != NULL && $multiple_answers == true ) {
         #  Now determine if this answer has already been registered. If yes, don't add to the answer array.
         $question = preg_quote($question,'/');
         $pattern  = "/^\{$question\}(.*)$/i";
