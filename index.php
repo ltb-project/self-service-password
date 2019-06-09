@@ -202,7 +202,7 @@ $mailer->LE            = $mail_newline;
 </head>
 <body>
 
-<div class="container">
+<div class="container mt-4">
 
 <div class="card">
 <div class="card-header">
