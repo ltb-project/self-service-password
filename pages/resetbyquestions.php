@@ -181,13 +181,13 @@ if ( in_array($result, array($obscure_failure_messages)) ) { $result = "badcrede
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+<i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?>
 </div>
 
 <?php if ( $display_posthook_error and $posthook_return > 0 ) { ?>
 
 <div class="result alert alert-warning">
-<p><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> <?php echo $posthook_output[0]; ?></p>
+<i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> <?php echo $posthook_output[0]; ?>
 </div>
 
 <?php } ?>
@@ -196,10 +196,10 @@ if ( in_array($result, array($obscure_failure_messages)) ) { $result = "badcrede
 
 <?php
 if ( $show_help ) {
-    echo "<div class=\"help alert alert-warning\"><p>";
+    echo "<div class=\"help alert alert-warning\">";
     echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
     echo $messages["resetbyquestionshelp"];
-    echo "</p></div>\n";
+    echo "</div>\n";
 }
 ?>
 
@@ -215,7 +215,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-user"></i></span></span>
                 <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
             </div>
         </div>
@@ -224,7 +224,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-question"></i></span></span>
                 <select name="question" id="question" class="form-control">
 <?php
 # Build options
@@ -240,7 +240,7 @@ foreach ( $messages["questions"] as $value => $text ) {
         <label for="answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-pencil"></i></span></span>
                 <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" autocomplete="off" />
             </div>
         </div>
@@ -249,7 +249,7 @@ foreach ( $messages["questions"] as $value => $text ) {
         <label for="newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span></span>
                 <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="<?php echo $messages["newpassword"]; ?>" />
             </div>
         </div>
@@ -258,7 +258,7 @@ foreach ( $messages["questions"] as $value => $text ) {
         <label for="confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span></span>
                 <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="<?php echo $messages["confirmpassword"]; ?>" />
             </div>
         </div>
@@ -274,7 +274,7 @@ foreach ( $messages["questions"] as $value => $text ) {
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">
-                <i class="fa fa-fw fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+                <i class="fa fa-fw fa-check"></i> <?php echo $messages['submit']; ?>
             </button>
         </div>
     </div>

@@ -162,7 +162,7 @@ function get_fa_class( $msg) {
 
     if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
     if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
-    if ( $criticity === "success" ) { return "fa-check-square"; }
+    if ( $criticity === "success" ) { return "fa-check"; }
 
 }
 
