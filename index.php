@@ -25,16 +25,9 @@ ob_start();
 # Includes
 #==============================================================================
 require_once("conf/config.inc.php");
-require_once("lib/vendor/defuse-crypto.phar");
+require __DIR__ . '/vendor/autoload.php';
 require_once("lib/functions.inc.php");
-if ($use_recaptcha) {
-    require_once("lib/vendor/autoload.php");
-}
 require_once("lib/detectbrowserlanguage.php");
-require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
-if ($use_pwnedpasswords) {
-    require_once("lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
-}
 
 #==============================================================================
 # Error reporting
@@ -149,7 +142,8 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 #==============================================================================
 # Email Config
 #==============================================================================
-$mailer = new PHPMailer;
+
+$mailer = new PHPMailer\PHPMailer\PHPMailer;
 $mailer->Priority      = $mail_priority;
 $mailer->CharSet       = $mail_charset;
 $mailer->ContentType   = $mail_contenttype;
@@ -167,7 +161,6 @@ $mailer->Username      = $mail_smtp_user;
 $mailer->Password      = $mail_smtp_pass;
 $mailer->SMTPKeepAlive = $mail_smtp_keepalive;
 $mailer->Timeout       = $mail_smtp_timeout;
-$mailer->LE            = $mail_newline;
 
 #==============================================================================
 ?>

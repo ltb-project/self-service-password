@@ -1,0 +1,9 @@
+{
+  "require": {
+    "monolog/monolog": "1.0.*",
+    "defuse/php-encryption": "^2.2",
+    "google/recaptcha": "^1.2",
+    "phpmailer/phpmailer": "^6.0",
+    "ron-maxweb/pwned-passwords": "^2.0"
+  }
+}
