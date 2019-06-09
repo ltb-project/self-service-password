@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e362660b2aa939a9238f31279c69f3d",
+    "content-hash": "083af5b95dace1429c3afb19f7d1c2e6",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -341,6 +341,56 @@
                 "logging"
             ],
             "time": "2011-10-24T09:39:02+00:00"
+        },
+        {
+            "name": "mxrxdxn/pwned-passwords",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mxrxdxn/pwned-passwords.git",
+                "reference": "282bd1f342c7967fa04800d24a54ffd454fcf99a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mxrxdxn/pwned-passwords/zipball/282bd1f342c7967fa04800d24a54ffd454fcf99a",
+                "reference": "282bd1f342c7967fa04800d24a54ffd454fcf99a",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "8.0.4",
+                "symfony/var-dumper": "^4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PwnedPasswords\\": "src/PwnedPasswords/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saif Eddin Gmati",
+                    "email": "azjezz2@gmail.com"
+                },
+                {
+                    "name": "Ron Marsden",
+                    "email": "hello@ronmarsden.com"
+                }
+            ],
+            "description": "A library to query Troy Hunt's Pwned Passwords service to see whether or not a password has been included in a public breach.",
+            "keywords": [
+                "password",
+                "passwords",
+                "security"
+            ],
+            "time": "2019-03-15T21:58:31+00:00"
         },
         {
             "name": "paragonie/random_compat",

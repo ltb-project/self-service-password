@@ -4,6 +4,6 @@
     "defuse/php-encryption": "^2.2",
     "google/recaptcha": "^1.2",
     "phpmailer/phpmailer": "^6.0",
-    "ron-maxweb/pwned-passwords": "^2.0"
+    "mxrxdxn/pwned-passwords": "^2.0"
   }
 }
