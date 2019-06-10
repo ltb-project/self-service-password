@@ -202,7 +202,7 @@ $mailer->Timeout       = $mail_smtp_timeout;
 </head>
 <body>
 
-<div class="container m-auto mt-md-4 mb-md-4">
+<div class="container p-0 m-auto mt-md-4 mb-md-4">
 
 <div class="card">
 <div class="card-header">
