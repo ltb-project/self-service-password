@@ -257,7 +257,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-prepend"><i class="fa fa-fw fa-lock"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span></span>
                 <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="<?php echo $messages["newpassword"]; ?>" />
             </div>
         </div>
@@ -266,7 +266,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-prepend"><i class="fa fa-fw fa-lock"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span></span>
                 <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="<?php echo $messages["confirmpassword"]; ?>" />
             </div>
         </div>
