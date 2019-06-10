@@ -209,7 +209,6 @@ if ($pwd_show_policy_pos === 'above') {
 }
 ?>
 
-<div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
     <div class="form-group">
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
@@ -240,7 +239,7 @@ foreach ( $messages["questions"] as $value => $text ) {
         <label for="answer" class="col-sm-4 control-label"><?php echo $messages["answer"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-pencil"></i></span></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fas fa-fw fa-pencil-alt"></i></span></span>
                 <input type="text" name="answer" id="answer" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" autocomplete="off" />
             </div>
         </div>
@@ -279,7 +278,6 @@ foreach ( $messages["questions"] as $value => $text ) {
         </div>
     </div>
 </form>
-</div>
 
 <?php
 if ($pwd_show_policy_pos === 'below') {

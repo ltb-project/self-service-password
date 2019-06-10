@@ -238,7 +238,6 @@ if ($pwd_show_policy_pos === 'above') {
 }
 ?>
 
-<div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
     <input type="hidden" name="token" value="<?php echo htmlentities($token) ?>" />
     <div class="form-group">
@@ -288,7 +287,6 @@ if ($pwd_show_policy_pos === 'above') {
         </div>
     </div>
 </form>
-</div>
 
 <?php
 if ($pwd_show_policy_pos === 'below') {
