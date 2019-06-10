@@ -175,8 +175,15 @@ $mailer->Timeout       = $mail_smtp_timeout;
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/self-service-password.css" />
-    <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
-    <link href="images/favicon.ico" rel="shortcut icon" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/images/favicon/site.webmanifest">
+<link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#222222">
+<link rel="shortcut icon" href="/images/favicon/favicon.ico">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-config" content="/images/favicon/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
 <?php if (isset($background_image)) { ?>
      <style>
        body {
@@ -202,7 +209,7 @@ $mailer->Timeout       = $mail_smtp_timeout;
 <?php if ( $show_menu ) {
     include("menu.php");
 } else { ?>
-<div class="title alert alert-success text-center"><h1><?php echo $messages["title"]; ?></h1></div>
+<h1><?php echo $messages["title"]; ?></h1>
 <?php } ?>
 </div>
 

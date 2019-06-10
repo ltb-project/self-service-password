@@ -261,10 +261,11 @@ $allowed_lang = array();
 $show_menu = true;
 
 # Logo
-$logo = "images/ltb-logo.png";
+$logo = "images/logo.svg";
 
 # Background image
-$background_image = "images/unsplash-space.jpeg";
+#$background_image = "images/unsplash-space.jpeg";
+$background_color = "#eee";
 
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log

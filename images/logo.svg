@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="256" height="100" version="1.1" viewBox="0 0 67.733 26.458" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="matrix(.19956 0 0 .19552 18.706 -7.3728)">
+  <rect x="-93.738" y="37.708" width="339.42" height="135.32" rx="24.946" ry="24.812" fill="#222" style="paint-order:normal"/>
+  <g fill="#fff" fill-opacity=".99589">
+   <circle cx="-38.62" cy="105.37" r="22.317" style="paint-order:normal"/>
+   <circle cx="23.119" cy="105.37" r="22.317" style="paint-order:normal"/>
+   <circle cx="84.858" cy="105.37" r="22.317" style="paint-order:normal"/>
+   <rect x="130.43" y="130.18" width="95.95" height="11.76" rx="0" ry="0" style="paint-order:normal"/>
+  </g>
+ </g>
+</svg>
