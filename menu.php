@@ -5,7 +5,7 @@
                 <span class="sr-only">Toggle navigation</span>
 		<span class="navbar-toggler-icon"></span>
               </button>
-              <a class="navbar-brand" href="index.php"><i class="fa fa-fw fa-home"></i> <?php echo $messages["title"]; ?></a>
+              <a class="navbar-brand" href="index.php"><i class="fa fa-fw fa-key"></i> <?php echo $messages["title"]; ?></a>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="navbar-nav">
