@@ -36,8 +36,11 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 
-if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = strval($_REQUEST["token"]); }
- else { $result = "tokenrequired"; }
+if (isset($_REQUEST["token"]) and $_REQUEST["token"]) {
+    $token = strval($_REQUEST["token"]);
+} else {
+    $result = "tokenrequired";
+}
 
 #==============================================================================
 # Get token
