@@ -88,7 +88,7 @@ if ( $result === "" ) {
     # Search for user
     $ldap_filter = str_replace("{login}", $login, $ldap_filter);
     $search = ldap_search($ldap, $ldap_base, $ldap_filter);
-    
+
     $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "ldaperror";
@@ -103,7 +103,7 @@ if ( $result === "" ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
-    
+
     # Bind with password
     $bind = ldap_bind($ldap, $userdn, $password);
     if ( !$bind ) {
@@ -125,8 +125,8 @@ if ( $result === "" ) {
     }
 
     # Check objectClass presence and pull back previous answers.
-    $search = ldap_search($ldap, $userdn, "(objectClass=*)", array("objectClass", $answer_attribute) );
- 
+    $search = ldap_search($ldap, $userdn, "(objectClass=*)", array("objectClass", $answer_attribute) ); 
+
     $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "ldaperror";
@@ -136,14 +136,16 @@ if ( $result === "" ) {
     # Get objectClass values from user entry
     $entry = ldap_first_entry($ldap, $search);
     $ocValues = ldap_get_values($ldap, $entry, "objectClass");
+
     # Remove 'count' key
     unset($ocValues["count"]);
 
     $aValues = ldap_get_values($ldap, $entry, $answer_attribute );
     # Remove 'count' key
     unset($aValues["count"]);
-    
+
     if (! in_array( $answer_objectClass, $ocValues ) ) {
+
         # Answer objectClass is not present, add it
         array_push($ocValues, $answer_objectClass );
         $ocValues = array_values( $ocValues );
@@ -168,6 +170,7 @@ if ( $result === "" ) {
     }
     $userdata[$answer_attribute] = $answers;
     $replace = ldap_mod_replace($ldap, $userdn , $userdata);
+
     $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "answermoderror";
@@ -175,6 +178,7 @@ if ( $result === "" ) {
     } else {
         $result = "answerchanged";
     }
+
 }}
 
 #==============================================================================
