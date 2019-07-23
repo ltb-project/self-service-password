@@ -103,7 +103,7 @@ if ( $result === "" ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
-    
+
     # Bind with password
     $bind = ldap_bind($ldap, $userdn, $password);
     if ( !$bind ) {
@@ -124,9 +124,9 @@ if ( $result === "" ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     }
 
-    # Check objectClass presence
-    $search = ldap_search($ldap, $userdn, "(objectClass=*)", array("objectClass") );
- 
+    # Check objectClass presence and pull back previous answers.
+    $search = ldap_search($ldap, $userdn, "(objectClass=*)", array("objectClass", $answer_attribute) ); 
+
     $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "ldaperror";
@@ -140,6 +140,10 @@ if ( $result === "" ) {
     # Remove 'count' key
     unset($ocValues["count"]);
 
+    $aValues = ldap_get_values($ldap, $entry, $answer_attribute );
+    # Remove 'count' key
+    unset($aValues["count"]);
+
     if (! in_array( $answer_objectClass, $ocValues ) ) {
 
         # Answer objectClass is not present, add it
@@ -148,13 +152,25 @@ if ( $result === "" ) {
         $userdata["objectClass"] = $ocValues;
     }
 
-    # Question/Answer
     $answer_value = '{'.$question.'}'.$answer;
-    $userdata[$answer_attribute] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
-
-    # Commit modification on directory
+    $i = 0;
+    $answers[$i++] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
+    # Do we need to process multiple answers on this request?
+    if ($aValues != NULL && $multiple_answers == true ) {
+        #  Now determine if this answer has already been registered. If yes, don't add to the answer array.
+        $question = preg_quote($question,'/');
+        $pattern  = "/^\{$question\}(.*)$/i";
+        # Examine each previous question registered and look for matches.
+        foreach ( $aValues as $key => $answer_encrypt ) {
+            $value = $crypt_answers ? decrypt($answer_encrypt, $keyphrase) : $answer_encrypt;
+            if (!preg_match($pattern, $value)) {
+                $answers[$i++] = $answer_encrypt;
+            }
+        }
+    }
+    $userdata[$answer_attribute] = $answers;
     $replace = ldap_mod_replace($ldap, $userdn , $userdata);
-    
+
     $errno = ldap_errno($ldap);
     if ( $errno ) {
         $result = "answermoderror";
