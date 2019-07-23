@@ -125,7 +125,7 @@ if ( $result === "" ) {
     }
 
     # Check objectClass presence and pull back previous answers.
-    $search = ldap_search($ldap, $userdn, "(objectClass=*)", array("objectClass", $answer_attribute) ); 
+    $search = ldap_search($ldap, $userdn, "(objectClass=*)", array("objectClass", $answer_attribute) );
 
     $errno = ldap_errno($ldap);
     if ( $errno ) {
