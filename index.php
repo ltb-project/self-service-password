@@ -140,6 +140,7 @@ $pwd_policy_config = array(
     "pwd_no_reuse"            => $pwd_no_reuse,
     "pwd_diff_login"          => $pwd_diff_login,
     "pwd_complexity"          => $pwd_complexity,
+    "pwd_static_policy"       => $pwd_static_policy,
     "use_pwnedpasswords"      => $use_pwnedpasswords,
     "pwd_no_special_at_ends"  => $pwd_no_special_at_ends
 );

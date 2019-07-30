@@ -120,6 +120,9 @@ $pwd_show_policy = "never";
 # above - the form
 # below - the form
 $pwd_show_policy_pos = "above";
+# Use statically formulated policy
+# instead of dynamically generated one
+#$pwd_static_policy = "conf/policy.inc.html";
 
 # disallow use of the only special character as defined in `$pwd_special_chars` at the beginning and end
 $pwd_no_special_at_ends = false;
