@@ -222,6 +222,8 @@ $sms_api_lib = "lib/smsapi.inc.php";
 $sms_attribute = "mobile";
 # Partially hide number
 $sms_partially_hide_number = true;
+# Display full name
+$sms_display_full_name = true;
 # Send SMS mail to address
 $smsmailto = "{sms_attribute}@service.provider.com";
 # Subject when sending email to SMTP to SMS provider
