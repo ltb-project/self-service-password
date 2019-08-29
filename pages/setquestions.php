@@ -26,7 +26,7 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
+$login = $presetLogin;
 $password = "";
 $question = "";
 $answer = "";

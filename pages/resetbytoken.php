@@ -26,7 +26,7 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
+$login = $presetLogin;
 $token = "";
 $tokenid = "";
 $newpassword = "";
@@ -60,7 +60,7 @@ if ( $result === "" ) {
         ini_set("session.gc_probability",1);
         ini_set("session.gc_divisor",1);
     }
-    
+
     session_id($tokenid);
     session_name("token");
     session_start();
@@ -286,10 +286,10 @@ if ($pwd_show_policy_pos === 'above') {
 </form>
 </div>
 
-<?php 
+<?php
 if ($pwd_show_policy_pos === 'below') {
     show_policy($messages, $pwd_policy_config, $result);
-}   
+}
 ?>
 
 <?php } ?>
@@ -306,4 +306,3 @@ if ($pwd_show_policy_pos === 'below') {
 
 }
 ?>
-

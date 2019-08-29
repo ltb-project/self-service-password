@@ -26,7 +26,7 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
+$login = $presetLogin;
 $password = "";
 $sshkey = "";
 $ldap = "";
@@ -217,4 +217,3 @@ if ( $show_help ) {
 
 }
 ?>
-

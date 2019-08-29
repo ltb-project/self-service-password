@@ -314,7 +314,19 @@ $default_action = "change";
 # These messages will be replaced by badcredentials error
 #$obscure_failure_messages = array("mailnomatch");
 
+# HTTP Header name that may hold a login to preset in forms
+#$header_name_preset_login="Auth-User";
+
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';
+}
+
+# Set preset login from HTTP header $header_name_preset_login
+$presetLogin = "";
+if (isset($header_name_preset_login)) {
+    $presetLoginKey = "HTTP_".strtoupper(str_replace('-','_',$header_name_preset_login));
+    if (array_key_exists($presetLoginKey, $_SERVER)) {
+        $presetLogin = preg_replace("/[^a-zA-Z0-9-_@\.]+/", "", filter_var($_SERVER[$presetLoginKey], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+    }
 }
