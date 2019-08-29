@@ -26,7 +26,7 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
+$login = $presetLogin;
 $question = "";
 $answer = "";
 $newpassword = "";
@@ -125,7 +125,7 @@ if ( $result === "" ) {
         if ( $mailValues["count"] > 0 ) {
             $mail = $mailValues[0];
         }
-    } 
+    }
 
     # Get question/answer values
     $questionValues = ldap_get_values($ldap, $entry, $answer_attribute);
@@ -299,4 +299,3 @@ if ($pwd_show_policy_pos === 'below') {
 
 }
 ?>
-

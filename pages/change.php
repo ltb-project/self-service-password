@@ -26,7 +26,7 @@
 #==============================================================================
 # Initiate vars
 $result = "";
-$login = "";
+$login = $presetLogin;
 $confirmpassword = "";
 $newpassword = "";
 $oldpassword = "";
@@ -316,4 +316,3 @@ if ($pwd_show_policy_pos === 'below') {
 
 }
 ?>
-
