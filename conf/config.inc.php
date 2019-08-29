@@ -317,6 +317,9 @@ $default_action = "change";
 # HTTP Header name that may hold a login to preset in forms
 #$header_name_preset_login="Auth-User";
 
+# The name of an HTTP Header that may hold a reference to an extra config file to include.
+#$header_name_extra_config="SSP-Extra-Config";
+
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';
@@ -328,5 +331,16 @@ if (isset($header_name_preset_login)) {
     $presetLoginKey = "HTTP_".strtoupper(str_replace('-','_',$header_name_preset_login));
     if (array_key_exists($presetLoginKey, $_SERVER)) {
         $presetLogin = preg_replace("/[^a-zA-Z0-9-_@\.]+/", "", filter_var($_SERVER[$presetLoginKey], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+    }
+}
+
+# Allow to override current settings with an extra configuration file, whose reference is passed in HTTP_HEADER $header_name_extra_config
+if (isset($header_name_extra_config)) {
+    $extraConfigKey = "HTTP_".strtoupper(str_replace('-','_',$header_name_extra_config));
+    if (array_key_exists($extraConfigKey, $_SERVER)) {
+        $extraConfig = preg_replace("/[^a-zA-Z0-9-_]+/", "", filter_var($_SERVER[$extraConfigKey], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
+        if (strlen($extraConfig) > 0 && file_exists (__DIR__ . "/config.inc.".$extraConfig.".php")) {
+            require  __DIR__ . "/config.inc.".$extraConfig.".php";
+        }
     }
 }
