@@ -3,6 +3,7 @@ FROM php:7.2-apache
 RUN buildDeps=" \
         libbz2-dev \
         libsasl2-dev \
+        libcurl4-gnutls-dev \
     " \
     runtimeDeps=" \
         curl \
