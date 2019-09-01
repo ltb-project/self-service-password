@@ -22,5 +22,4 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY . /var/www/html
 
 EXPOSE 80
-VOLUME /var/www/html/config/config.inc.local.php
 
