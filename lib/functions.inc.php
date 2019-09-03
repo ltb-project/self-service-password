@@ -298,6 +298,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         if ( isset($samba_options['max_age']) && $samba_options['max_age'] > 0 ) {
              $userdata["sambaPwdMustChange"] = $time + ( $samba_options['max_age'] * 86400 );
         }
+        if ( isset($samba_options['expire_days']) && $samba_options['expire_days'] > 0 ) {
+             $userdata["sambaKickoffTime"] = $time + ( $samba_options['expire_days'] * 86400 );
+        }
     }
 
     # Get hash type if hash is set to auto
