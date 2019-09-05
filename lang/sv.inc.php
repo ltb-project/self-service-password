@@ -22,7 +22,7 @@
 #==============================================================================
 # Swedish
 #==============================================================================
-$messages['phpupgraderequired'] = "PHP upgrade required";
+$messages['phpupgraderequired'] = "PHP måste uppgraderas";
 $messages['nophpldap'] = "Du borde installera PHP LDAP för att använda detta verktyg";
 $messages['nophpmhash'] = "Du borde installera PHP mhash för att använda Samba mode";
 $messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
