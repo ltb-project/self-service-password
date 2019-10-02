@@ -190,9 +190,9 @@ if ( $result === "" ) {
     $reset_url .= "?action=resetbytoken&token=".urlencode($token);
 
     if ( !empty($reset_request_log) ) {
-        error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+        error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN") . "\n\n", 3, $reset_request_log);
     } else {
-        error_log("Send reset URL $reset_url");
+        error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN"));
     }
 
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
