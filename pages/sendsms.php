@@ -302,9 +302,9 @@ if ( $result === "redirect" ) {
     $reset_url .= "?action=resetbytoken&source=sms&token=".urlencode($token);
 
     if ( !empty($reset_request_log) ) {
-        error_log("Send reset URL $reset_url \n\n", 3, $reset_request_log);
+        error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN") . "\n\n", 3, $reset_request_log);
     } else {
-        error_log("Send reset URL $reset_url");
+        error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN") );
     }
 
     # Redirect
