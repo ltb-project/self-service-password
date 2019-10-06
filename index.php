@@ -25,16 +25,9 @@ ob_start();
 # Includes
 #==============================================================================
 require_once("conf/config.inc.php");
-require_once("lib/vendor/defuse-crypto.phar");
+require __DIR__ . '/vendor/autoload.php';
 require_once("lib/functions.inc.php");
-if ($use_recaptcha) {
-    require_once("lib/vendor/autoload.php");
-}
 require_once("lib/detectbrowserlanguage.php");
-require_once("lib/vendor/PHPMailer/PHPMailerAutoload.php");
-if ($use_pwnedpasswords) {
-    require_once("lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
-}
 
 #==============================================================================
 # Error reporting
@@ -149,7 +142,8 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 #==============================================================================
 # Email Config
 #==============================================================================
-$mailer = new PHPMailer;
+
+$mailer = new PHPMailer\PHPMailer\PHPMailer;
 $mailer->Priority      = $mail_priority;
 $mailer->CharSet       = $mail_charset;
 $mailer->ContentType   = $mail_contenttype;
@@ -167,7 +161,6 @@ $mailer->Username      = $mail_smtp_user;
 $mailer->Password      = $mail_smtp_pass;
 $mailer->SMTPKeepAlive = $mail_smtp_keepalive;
 $mailer->Timeout       = $mail_smtp_timeout;
-$mailer->LE            = $mail_newline;
 
 #==============================================================================
 ?>
@@ -180,37 +173,54 @@ $mailer->LE            = $mail_newline;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="LDAP Tool Box" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/self-service-password.css" />
-    <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
-    <link href="images/favicon.ico" rel="shortcut icon" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/images/favicon/site.webmanifest">
+<link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#222222">
+<link rel="shortcut icon" href="/images/favicon/favicon.ico">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-config" content="/images/favicon/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
 <?php if (isset($background_image)) { ?>
      <style>
-       html, body {
+       body {
          background: url("<?php echo $background_image ?>") no-repeat center fixed;
          background-size: cover;
+       }
+  </style>
+<?php } ?>
+<?php if (isset($background_color)) { ?>
+     <style>
+       body {
+         background-color: <?php echo $background_color ?>;
        }
   </style>
 <?php } ?>
 </head>
 <body>
 
-<div class="container">
+<div class="container p-0 m-auto mt-md-4 mb-md-4">
 
-<div class="panel panel-success">
-<div class="panel-body">
-
+<div class="card">
+<div class="card-header">
 <?php if ( $show_menu ) {
     include("menu.php");
 } else { ?>
-<div class="title alert alert-success text-center"><h1><?php echo $messages["title"]; ?></h1></div>
+<h1><?php echo $messages["title"]; ?></h1>
 <?php } ?>
+</div>
+
+<div class="card-body">
 
 <?php if ( $logo ) { ?>
+<span class="d-flex justify-content-center mb-3">
 <a href="index.php" alt="Home">
 <img src="<?php echo $logo; ?>" alt="Logo" class="logo img-responsive center-block" />
 </a>
+</span>
 <?php } ?>
 
 <?php
@@ -218,7 +228,7 @@ $mailer->LE            = $mail_newline;
         foreach($dependency_check_results as $result) {
             ?>
             <div class="result alert alert-<?php echo get_criticity($result) ?>">
-                <p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+                <i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?>
             </div>
             <?php
         }
@@ -232,7 +242,8 @@ $mailer->LE            = $mail_newline;
 
 </div>
 
-<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function(){

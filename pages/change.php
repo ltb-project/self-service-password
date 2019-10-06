@@ -32,23 +32,43 @@ $newpassword = "";
 $oldpassword = "";
 $ldap = "";
 $userdn = "";
-if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
+if (!isset($pwd_forbidden_chars)) {
+    $pwd_forbidden_chars="";
+}
 $mail = "";
 
-if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
- else { $result = "confirmpasswordrequired"; }
-if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
- else { $result = "newpasswordrequired"; }
-if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) { $oldpassword = strval($_POST["oldpassword"]); }
- else { $result = "oldpasswordrequired"; }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
- else { $result = "loginrequired"; }
+if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) {
+    $confirmpassword = strval($_POST["confirmpassword"]);
+} else {
+    $result = "confirmpasswordrequired";
+}
+
+if (isset($_POST["newpassword"]) and $_POST["newpassword"]) {
+    $newpassword = strval($_POST["newpassword"]);
+} else {
+    $result = "newpasswordrequired";
+}
+
+if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) {
+    $oldpassword = strval($_POST["oldpassword"]);
+} else {
+    $result = "oldpasswordrequired";
+}
+
+if (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
+    $login = strval($_REQUEST["login"]);
+} else {
+    $result = "loginrequired";
+}
+
 if (! isset($_REQUEST["login"]) and ! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["oldpassword"]))
- { $result = "emptychangeform"; }
+{
+    $result = "emptychangeform";
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
-    $result = check_username_validity($login,$login_forbidden_chars);
+    $result = check_username_validity($login, $login_forbidden_chars);
 }
 
 # Match new and confirm password
@@ -187,13 +207,13 @@ if ( in_array($result, array($obscure_failure_messages)) ) { $result = "badcrede
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+<i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?>
 </div>
 
 <?php if ( isset($posthook_return) and $display_posthook_error and $posthook_return > 0 ) { ?>
 
 <div class="result alert alert-warning">
-<p><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> <?php echo $posthook_output[0]; ?></p>
+<i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> <?php echo $posthook_output[0]; ?>
 </div>
 
 <?php } ?>
@@ -202,10 +222,9 @@ if ( in_array($result, array($obscure_failure_messages)) ) { $result = "badcrede
 
 <?php
 if ( $show_help ) {
-    echo "<div class=\"help alert alert-warning\"><p>";
+    echo "<div class=\"help alert alert-warning\">";
     echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
     echo $messages["changehelp"];
-    echo "</p>";
     if (isset($messages['changehelpextramessage'])) {
         echo "<p>" . $messages['changehelpextramessage'] . "</p>";
     }
@@ -236,13 +255,13 @@ if ($pwd_show_policy_pos === 'above') {
 }
 ?>
 
-<div class="alert alert-info">
+<div class="">
 <form action="#" method="post" class="form-horizontal">
     <div class="form-group">
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                <span class="input-group-prepend"><div class="input-group-text"><i class="fa fa-fw fa-user"></i></div></span>
                 <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" />
             </div>
         </div>
@@ -251,7 +270,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="oldpassword" class="col-sm-4 control-label"><?php echo $messages["oldpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                <span class="input-group-prepend"><div class="input-group-text"><i class="fa fa-fw fa-lock"></i></div></span>
                 <input type="password" name="oldpassword" id="oldpassword" class="form-control" placeholder="<?php echo $messages["oldpassword"]; ?>" />
             </div>
         </div>
@@ -260,7 +279,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                <span class="input-group-prepend"><div class="input-group-text"><i class="fa fa-fw fa-lock"></i></div></span>
                 <input type="password" name="newpassword" id="newpassword" class="form-control" placeholder="<?php echo $messages["newpassword"]; ?>" />
             </div>
         </div>
@@ -269,7 +288,7 @@ if ($pwd_show_policy_pos === 'above') {
         <label for="confirmpassword" class="col-sm-4 control-label"><?php echo $messages["confirmpassword"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                <span class="input-group-prepend"><div class="input-group-text"><i class="fa fa-fw fa-lock"></i></div></span>
                 <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="<?php echo $messages["confirmpassword"]; ?>" />
             </div>
         </div>
@@ -285,7 +304,8 @@ if ($pwd_show_policy_pos === 'above') {
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">
-                <i class="fa fa-fw fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+                <i class="fa fa-fw fa-check"></i>
+		<?php echo $messages['submit']; ?>
             </button>
         </div>
     </div>

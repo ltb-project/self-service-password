@@ -1,15 +1,12 @@
 # LDAP Tool Box Self Service Password
 
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/372/badge)](https://bestpractices.coreinfrastructure.org/projects/372)
-[![Build Status](https://travis-ci.org/ltb-project/self-service-password.svg?branch=master)](https://travis-ci.org/ltb-project/self-service-password)
-
 ## Presentation
 
 Self Service Password is a PHP application that allows users to change their password in an LDAP directory.
 
 The application can be used on standard LDAPv3 directories (OpenLDAP, OpenDS, ApacheDS, Sun Oracle DSEE, Novell, etc.) and also on Active Directory.
 
-![Screenshot](http://ltb-project.org/wiki/_media/documentation/self-service-password/1.0/ssp_1_0_change_password.png?w=800&h=666&tok=abc22c)
+![Screenshot](images/screenshot.png)
 
 It has the following features:
 * Samba mode to change Samba passwords
@@ -44,6 +41,3 @@ It has the following features:
 
 Documentation is available on http://ltb-project.org/wiki/documentation/self-service-password
 
-## Download
-
-Tarballs and packages for Debian and Red Hat are available on http://ltb-project.org/wiki/download#self_service_password

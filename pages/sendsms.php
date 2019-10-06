@@ -319,7 +319,7 @@ if ( in_array($result, array($obscure_failure_messages)) ) { $result = "badcrede
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+<i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?>
 </div>
 
 <?php
@@ -351,7 +351,7 @@ if ( $result == "smscrypttokensrequired" ) {
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">
-                <i class="fa fa-fw fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+                <i class="fa fa-fw fa-check"></i> <?php echo $messages['submit']; ?>
             </button>
         </div>
     </div>
@@ -367,7 +367,7 @@ if ( $result == "smscrypttokensrequired" ) {
         <label for="smstoken" class="col-sm-4 control-label"><?php echo $messages["smstoken"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-key"></i></span></span>
                 <input type="text" name="smstoken" id="smstoken" class="form-control" placeholder="<?php echo $messages["smstoken"]; ?>" />
             </div>
         </div>
@@ -376,7 +376,7 @@ if ( $result == "smscrypttokensrequired" ) {
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">
-                <i class="fa fa-fw fa-check-square-o"></i> <?php echo $messages['submit']; ?>
+                <i class="fa fa-fw fa-check"></i> <?php echo $messages['submit']; ?>
             </button>
         </div>
     </div>
@@ -386,10 +386,10 @@ if ( $result == "smscrypttokensrequired" ) {
 <?php } else{
 
 if ( $show_help ) {
-    echo "<div class=\"help alert alert-warning\"><p>";
+    echo "<div class=\"help alert alert-warning\">";
     echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
     echo $messages["sendsmshelp"];
-    echo "</p></div>\n";
+    echo "</div>\n";
 }
 ?>
 
@@ -399,7 +399,7 @@ if ( $show_help ) {
         <label for="login" class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
             <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-fw fa-user"></i></span></span>
                 <input type="text" name="login" id="login" value="<?php echo htmlentities($login) ?>" class="form-control" placeholder="<?php echo $messages["login"]; ?>" autocomplete="off" />
             </div>
         </div>

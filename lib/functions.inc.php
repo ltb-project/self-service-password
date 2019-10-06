@@ -162,7 +162,7 @@ function get_fa_class( $msg) {
 
     if ( $criticity === "danger" ) { return "fa-exclamation-circle"; }
     if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
-    if ( $criticity === "success" ) { return "fa-check-square"; }
+    if ( $criticity === "success" ) { return "fa-check"; }
 
 }
 
@@ -272,7 +272,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 	if ($use_pwnedpasswords) {
 		$pwned_passwords = new PwnedPasswords\PwnedPasswords;
 		
-		$insecure = $pwned_passwords->isInsecure($password);
+		$insecure = $pwned_passwords->isPwned($password);
 		
 		if($insecure) { $result="pwned"; }	
 	}
@@ -486,7 +486,7 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
 
     $result = false;
 
-    if(!is_a($mailer, 'PHPMailer')) {
+    if(!is_a($mailer, 'PHPMailer\PHPMailer\PHPMailer')) {
         error_log("send_mail: PHPMailer object required!");
         return $result;
     }
