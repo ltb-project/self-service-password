@@ -40,6 +40,20 @@ It has the following features:
 * valid PHP mail server configuration (reset mail)
 * valid PHP session configuration (reset mail)
 
+## Docker
+
+git clone +link repository
+
+cd directory
+
+- Edite file in line 244, add keypass
+
+vim +244 conf/config.inc.php 
+
+docker build -t namedockerhub/self-service:version .
+
+docker run -d -p localport:80 --name selfservice namedockerhub/self-service:version
+
 ## Documentation
 
 Documentation is available on http://ltb-project.org/wiki/documentation/self-service-password
