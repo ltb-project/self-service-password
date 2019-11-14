@@ -9,7 +9,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.php"><i class="fa fa-fw fa-home"></i> <?php echo $messages["title"]; ?></a>
+              <a class="navbar-brand" href="index.php<?php if ($default_action != 'change') { echo '?action=change'; } ?>">
+                <i class="fa fa-fw fa-home"></i> <?php echo $messages["title"]; ?></a>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
