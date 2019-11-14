@@ -37,7 +37,7 @@ $debug = false;
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
 $ldap_binddn = "cn=manager,dc=example,dc=com";
-$ldap_bindpw = "secret";
+$ldap_bindpw = 'secret';
 $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
