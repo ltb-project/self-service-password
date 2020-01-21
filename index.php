@@ -145,6 +145,7 @@ $pwd_policy_config = array(
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
+if (!isset($obscure_failure_messages)) { $obscure_failure_messages = array(); }
 
 #==============================================================================
 # Email Config
