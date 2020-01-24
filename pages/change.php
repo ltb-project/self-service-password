@@ -178,7 +178,8 @@ if ( $result === "" ) {
     if ( $result === "passwordchanged" && isset($posthook) ) {
         $command = posthook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
         exec($command, $posthook_output, $posthook_return);
-    } else {
+    }
+    if ( $result !== "passwordchanged" ) {
         if ( $show_extended_error ) {
             ldap_get_option($ldap, 0x0032, $extended_error_msg);
         }
