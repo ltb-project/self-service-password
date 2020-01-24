@@ -35,6 +35,7 @@ $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
+$extended_error_msg = "";
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
  else { $result = "confirmpasswordrequired"; }
@@ -172,6 +173,11 @@ if ($result === "") {
         $command = posthook_command($posthook, $login, $newpassword, null, $posthook_password_encodebase64);
         exec($command, $posthook_output, $posthook_return);
     }
+    if ( $result !== "passwordchanged" ) {
+        if ( $show_extended_error ) {
+            ldap_get_option($ldap, 0x0032, $extended_error_msg);
+        }
+    }
 }
 
 #==============================================================================
@@ -181,7 +187,11 @@ if ( in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"
 ?>
 
 <div class="result alert alert-<?php echo get_criticity($result) ?>">
-<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?></p>
+<p><i class="fa fa-fw <?php echo get_fa_class($result) ?>" aria-hidden="true"></i> <?php echo $messages[$result]; ?>
+<?php if ( $show_extended_error and $extended_error_msg ) { ?>
+ (<?php echo $extended_error_msg ?>)
+<?php } ?>
+</p>
 </div>
 
 <?php if ( $display_posthook_error and $posthook_return > 0 ) { ?>

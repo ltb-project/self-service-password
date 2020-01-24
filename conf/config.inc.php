@@ -131,6 +131,9 @@ $pwd_no_special_at_ends = false;
 # manager: the above binddn
 $who_change_password = "user";
 
+# Show extended error message returned by LDAP directory when password is refused
+$show_extended_error = false;
+
 ## Standard change
 # Use standard change form?
 $use_change = true;
