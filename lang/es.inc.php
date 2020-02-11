@@ -132,5 +132,5 @@ $messages['changesshkeyhelp'] = "Introduzca su contraseña y la nueva clave SSH.
 $messages['sshkeyerror'] = "La clave SSH fue rechazada por el directorio LDAP";
 $messages['pwned'] = "Su contraseña ha sido publicada en listas de contraseñas publicas, por lo cual ha sido rechazada, deberia considerar cambiarla en cualquer otro sitio que la haya usado";
 $messages['policypwned'] = "Su contraseña no puede haber sido publicada previamente en ninguna lista de contraseñas filtradas accesible al publico de ningun sitio";
-$messages['specialatends'] = "Your new password has its only special character at the beginning or end";
-$messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
+$messages['specialatends'] = "Su contraseña nueva tiene un único caracter especial y está al principio o al final de la misma";
+$messages['policyspecialatends'] = "Su contraseña nueva no debería tener un único caracter especial ni estar al principio o al final de la misma";
