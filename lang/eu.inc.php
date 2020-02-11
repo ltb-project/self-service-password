@@ -20,7 +20,7 @@
 #==============================================================================
 
 #==============================================================================
-# Spanish
+# Basque
 #==============================================================================
 $messages['phpupgraderequired'] = "PHP eguneratzea beharrezkoa da";
 $messages['nophpldap'] = "Webgune hau erabiltzeko PHP LDAP instalatu beharko duzu";
