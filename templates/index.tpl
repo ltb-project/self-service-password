@@ -15,7 +15,7 @@
             <div class="result alert alert-{$result_criticity}">
                 <p><i class="fa fa-fw {$result_fa_class}" aria-hidden="true"></i> {$error|unescape: "html" nofilter}
                 {if $show_extended_error and $extended_error_msg}
-                    {$extended_error_msg}
+                    ({$extended_error_msg})
                 {/if}
                 </p>
             </div>
