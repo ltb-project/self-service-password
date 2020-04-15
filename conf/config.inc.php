@@ -210,6 +210,7 @@ $mail_smtp_timeout = 30;
 $mail_smtp_keepalive = false;
 $mail_smtp_secure = 'tls';
 $mail_smtp_autotls = true;
+$mail_smtp_options = array();
 $mail_contenttype = 'text/plain';
 $mail_wordwrap = 0;
 $mail_charset = 'utf-8';

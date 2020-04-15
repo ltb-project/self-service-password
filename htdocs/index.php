@@ -70,6 +70,7 @@ $mailer->SMTPAuth      = $mail_smtp_auth;
 $mailer->Username      = $mail_smtp_user;
 $mailer->Password      = $mail_smtp_pass;
 $mailer->SMTPKeepAlive = $mail_smtp_keepalive;
+$mailer->SMTPOptions   = $mail_smtp_options;
 $mailer->Timeout       = $mail_smtp_timeout;
 $mailer->LE            = $mail_newline;
 
