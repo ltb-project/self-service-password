@@ -64,6 +64,9 @@ if ($handle = opendir('lang')) {
     }
     closedir($handle);
 }
+// Includes english first, so missing translation will appear in english
+require_once("lang/en.inc.php");
+
 $lang = detectLanguage($lang, $languages);
 require_once("lang/$lang.inc.php");
 if (file_exists("conf/$lang.inc.php")) {
