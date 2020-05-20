@@ -174,7 +174,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     # Should we display it?
     if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
     if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends/" , $result) ) { return; }
+        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|duplicatechars|pwned|specialatends/" , $result) ) { return; }
     }
 
     # Display bloc
@@ -193,6 +193,7 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."\n"; }
     if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."\n"; }
     if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
+    if ( $pwd_duplicate_chars ) { echo "<li>".$messages["policyduplicatechars"] ." $pwd_duplicate_chars</li>\n"; }
     echo "</ul>\n";
     echo "</div>\n";
 }
@@ -218,10 +219,18 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         preg_match_all("/[$pwd_special_chars]/", $password, $special_res);
         $special = count( $special_res[0] );
         if ( $pwd_no_special_at_ends ) {
-          $special_at_ends = preg_match("/(^[$pwd_special_chars]|[$pwd_special_chars]$)/", $password, $special_res);
+            $special_at_ends = preg_match("/(^[$pwd_special_chars]|[$pwd_special_chars]$)/", $password, $special_res);
         }
     }
 
+    # Duplication check
+    if ( $pwd_duplicate_chars && ($pwd_duplicate_chars >= 2) ) {
+        $reg = "/(.){".$pwd_duplicate_chars.",}/";
+        preg_match($reg, $password, $duplicate_chars_res);
+        $duplicate_chars = count($duplicate_chars_res[0]);
+    }
+
+    # Forbidden chars check
     $forbidden = 0;
     if ( isset($pwd_forbidden_chars) && !empty($pwd_forbidden_chars) ) {
         preg_match_all("/[$pwd_forbidden_chars]/", $password, $forbidden_res);
@@ -267,8 +276,11 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
     # Same as login?
     if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
-	
-	# pwned?
+
+    # Duplicate chars
+    if ( $duplicate_chars > 0 ) { $result="duplicatechars"; }
+
+    # pwned?
 	if ($use_pwnedpasswords) {
 		$pwned_passwords = new PwnedPasswords\PwnedPasswords;
 		

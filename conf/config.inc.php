@@ -110,6 +110,10 @@ $pwd_no_reuse = true;
 $pwd_diff_login = true;
 # Complexity: number of different class of character required
 $pwd_complexity = 0;
+# repeating chars inside password (define if a char can be repeated consecutivement or not)
+# can be false (disabled)
+# any number >= 2 (number of duplication allowed ie. totoAAAverySecure will fail with 2, because 3 A next to each other)
+$pwd_duplicate_chars = false;
 # use pwnedpasswords api v2 to securely check if the password has been on a leak
 $use_pwnedpasswords = false;
 # Show policy constraints message:
