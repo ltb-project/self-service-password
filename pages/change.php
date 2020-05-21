@@ -175,23 +175,11 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
     $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword);
-    if ( $result === "passwordchanged" ) {
-        if ( isset($posthook) ) {
-            $command = posthook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
-            exec($command, $posthook_output, $posthook_return);
-        }
-        if ( $use_smbpasswd ) {
-            // command-line update of LDAP-independent Samba password
-            $command  = '(echo '.escapeshellarg($oldpassword).'; echo '.escapeshellarg($newpassword).';';
-            $command .= ' echo '.escapeshellarg($newpassword).') | smbpasswd -U '.escapeshellarg($login);
-            $result = exec($command, $posthook_output, $posthook_return);
-            if (strpos($result, 'Password changed for user ') !== false) {
-                $result = "passwordchanged";
-            } else {
-                $result = "badcredentials";
-            }
-        }
-    } else {
+    if ( $result === "passwordchanged" && isset($posthook) ) {
+        $command = posthook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
+        exec($command, $posthook_output, $posthook_return);
+    }
+    if ( $result !== "passwordchanged" ) {
         if ( $show_extended_error ) {
             ldap_get_option($ldap, 0x0032, $extended_error_msg);
         }
