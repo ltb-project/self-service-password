@@ -63,10 +63,6 @@ $samba_mode = false;
 #$samba_options['max_age'] = 45;
 #$samba_options['expire_days'] = 90;
 
-# use smbpasswd to synchronize samba password with LDAP
-# (!) Warning: it assumes both LDAP and Samba have the same accounts and passwords
-$use_smbpasswd = false
-
 # Shadow options - require shadowAccount objectClass
 # Update shadowLastChange
 $shadow_options['update_shadowLastChange'] = false;
