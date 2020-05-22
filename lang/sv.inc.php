@@ -59,8 +59,10 @@ $messages['policyminspecial'] = "Minst antal specialtecken:";
 $messages['forbiddenchars'] = "Ditt lösenord innehåller förbjudna tecken";
 $messages['policyforbiddenchars'] = "Förbjudna tecken:";
 $messages['policynoreuse'] = "Ditt nya lösenord får inte vara identiskt med ditt gamla lösenord";
-$messages['questions']['birthday'] = "När är din födelsedag?";
-$messages['questions']['color'] = "Vilken är din favorit färg?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "När är din födelsedag?";
+    $messages['questions']['color'] = "Vilken är din favorit färg?";
+}
 $messages['password'] = "Lösenord";
 $messages['question'] = "Fråga";
 $messages['answer'] = "Svar";

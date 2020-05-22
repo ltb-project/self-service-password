@@ -59,8 +59,10 @@ $messages['policyminspecial'] = "Minimum özel karakter sayısı:";
 $messages['forbiddenchars'] = "Parolanız izin verilmeyen karakterler içermektedir";
 $messages['policyforbiddenchars'] = "İzin verilmeyen karakterler:";
 $messages['policynoreuse'] = "Yeni parolanız eski parolanız ile aynı olamaz";
-$messages['questions']['birthday'] = "Doğum tarihiniz ne?";
-$messages['questions']['color'] = "En sevdiğiniz renk ne?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Doğum tarihiniz ne?";
+    $messages['questions']['color'] = "En sevdiğiniz renk ne?";
+}
 $messages['password'] = "Parola";
 $messages['question'] = "Soru";
 $messages['answer'] = "Cevap";

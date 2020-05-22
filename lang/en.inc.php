@@ -61,8 +61,10 @@ $messages['policyminspecial'] = "Minimum number of special characters:";
 $messages['forbiddenchars'] = "You password contains forbidden characters";
 $messages['policyforbiddenchars'] = "Forbidden characters:";
 $messages['policynoreuse'] = "Your new password may not be the same as your old password";
-$messages['questions']['birthday'] = "When is your birthday?";
-$messages['questions']['color'] = "What is your favorite color?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "When is your birthday?";
+    $messages['questions']['color'] = "What is your favorite color?";
+}
 $messages['password'] = "Password";
 $messages['question'] = "Question";
 $messages['answer'] = "Answer";

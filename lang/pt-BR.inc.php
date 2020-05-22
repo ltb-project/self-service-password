@@ -61,8 +61,10 @@ $messages['policyminspecial'] = "Mínimo de caracteres especiais: ";
 $messages['forbiddenchars'] = "A senha contém caracteres proibidos";
 $messages['policyforbiddenchars'] = "Caracteres proibidos: ";
 $messages['policynoreuse'] = "A senha nova não deve ser igual a senha atual";
-$messages['questions']['birthday'] = "Quando é o seu aniversário?";
-$messages['questions']['color'] = "Qual é a sua cor favorita?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Quando é o seu aniversário?";
+    $messages['questions']['color'] = "Qual é a sua cor favorita?";
+}
 $messages['password'] = "Senha";
 $messages['question'] = "Pergunta";
 $messages['answer'] = "Resposta";

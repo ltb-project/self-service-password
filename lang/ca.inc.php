@@ -60,8 +60,10 @@ $messages['policyminspecial'] = "Mínima quantitat de caràcters especials";
 $messages['forbiddenchars'] = "La seva contrasenya conté caràcters prohibits";
 $messages['policyforbiddenchars'] = "Caràcters prohibits";
 $messages['policynoreuse'] = "La contrasenya nova no pot ser la mateixa que abans";
-$messages['questions']['birthday'] = "Quan és el vostre aniversari?";
-$messages['questions']['color'] = "Quin és el vostre color preferit?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Quan és el vostre aniversari?";
+    $messages['questions']['color'] = "Quin és el vostre color preferit?";
+}
 $messages['password'] = "Contrasenya";
 $messages['question'] = "Pregunta";
 $messages['answer'] = "Resposta";
