@@ -177,6 +177,10 @@ if ( $result === "" ) {
         $server_port = $_SERVER['SERVER_PORT'];
         $script_name = $_SERVER['SCRIPT_NAME'];
 
+        # Handle being behind revproxy
+        if ( $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" ) { $method .= "s"; }
+        if ( isset($_SERVER['HTTP_X_FORWARDED_PORT']) ) { $server_port = $_SERVER['HTTP_X_FORWARDED_PORT']; }
+
         # Force server port if non standard port
         if (   ( $method === "http"  and $server_port != "80"  )
             or ( $method === "https" and $server_port != "443" )

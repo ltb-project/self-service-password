@@ -329,12 +329,14 @@ if ( $result == "smscrypttokensrequired" ) {
 
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
-    <div class="form-group">
-        <label class="col-sm-4 control-label"><?php echo $messages["userfullname"]; ?></label>
-        <div class="col-sm-8">
-            <p class="form-control-static"><?php echo $displayname[0]; ?></p>
+    <?php if ($sms_display_full_name) { ?>
+        <div class="form-group">
+            <label class="col-sm-4 control-label"><?php echo $messages["userfullname"]; ?></label>
+            <div class="col-sm-8">
+                <p class="form-control-static"><?php echo $displayname[0]; ?></p>
+            </div>
         </div>
-    </div>
+    <?php } ?>
     <div class="form-group">
         <label class="col-sm-4 control-label"><?php echo $messages["login"]; ?></label>
         <div class="col-sm-8">
