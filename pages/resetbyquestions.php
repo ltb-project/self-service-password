@@ -132,6 +132,11 @@ if ( $result === "" ) {
     $questionValues = ldap_get_values($ldap, $entry, $answer_attribute);
     unset($questionValues["count"]);
 
+    if ($multiple_answers and $multiple_answers_one_str) {
+        # Unpack multiple questions/answers
+        $questionValues = str_getcsv($questionValues[0]);
+    }
+
     $match = false;
 
     $question = preg_quote($question,'/');

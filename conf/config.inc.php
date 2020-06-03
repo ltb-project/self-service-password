@@ -160,6 +160,9 @@ $notify_on_sshkey_change = false;
 $use_questions = true;
 # Allow to register more than one answer?
 $multiple_answers = false;
+# Store many answers in a single string attribute
+# (only used if $multiple_answers = true)
+$multiple_answers_one_str = false;
 
 # Answer attribute should be hidden to users!
 $answer_objectClass = "extensibleObject";

@@ -144,6 +144,11 @@ if ( $result === "" ) {
     # Remove 'count' key
     unset($aValues["count"]);
 
+    if ($multiple_answers and $multiple_answers_one_str) {
+        # Unpack multiple questions/answers
+        $aValues = is_array($aValues) ? str_getcsv($aValues[0]) : array();
+    }
+
     if (! in_array( $answer_objectClass, $ocValues ) ) {
 
         # Answer objectClass is not present, add it
@@ -168,7 +173,13 @@ if ( $result === "" ) {
             }
         }
     }
-    $userdata[$answer_attribute] = $answers;
+
+    if ($multiple_answers and $multiple_answers_one_str) {
+        # Pack multiple questions/answers - works whether encrypted or not
+        $userdata[$answer_attribute][0] = str_putcsv($answers);
+    } else {
+        $userdata[$answer_attribute] = $answers;
+    }
     $replace = ldap_mod_replace($ldap, $userdn , $userdata);
 
     $errno = ldap_errno($ldap);
