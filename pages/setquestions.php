@@ -28,15 +28,37 @@
 $result = "";
 $login = $presetLogin;
 $password = "";
-$question = "";
-$answer = "";
+$question = [];
+$answer = [];
 $ldap = "";
 $userdn = "";
+$questions_count = $multiple_answers ? $questions_count : 1;
 
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = strval($_POST["answer"]); }
- else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = strval($_POST["question"]); }
- else { $result = "questionrequired"; }
+# Use arrays for question/answer, to accommodate multiple questions on the same page
+if (isset($_POST["answer"]) and $_POST["answer"]) {
+  if ($questions_count > 1) {
+    $answer = $_POST["answer"];
+    if (in_array('', $answer)) {
+      $result = "answerrequired";
+    }
+  } else {
+    $answer[0] = strval($_POST["answer"]);
+  }
+} else {
+  $result = "answerrequired";
+}
+if (isset($_POST["question"]) and $_POST["question"]) {
+  if ($questions_count > 1) {
+    $question = $_POST["question"];
+    if (in_array('', $question)) {
+      $result = "questionrequired";
+    }
+  } else {
+    $question[0] = strval($_POST["question"]);
+  }
+} else {
+  $result = "questionrequired";
+}
 if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
  else { $result = "passwordrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
@@ -157,18 +179,20 @@ if ( $result === "" ) {
         $userdata["objectClass"] = $ocValues;
     }
 
-    $answer_value = '{'.$question.'}'.$answer;
     $i = 0;
-    $answers[$i++] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
+    while ($i < $questions_count) {
+        $answer_value = '{'.$question[$i].'}'.$answer[$i];
+        $answers[$i++] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
+    }
+
     # Do we need to process multiple answers on this request?
     if ($aValues != NULL && $multiple_answers == true ) {
         #  Now determine if this answer has already been registered. If yes, don't add to the answer array.
-        $question = preg_quote($question,'/');
-        $pattern  = "/^\{$question\}(.*)$/i";
+        $pattern  = "/^\{(.+?)\}/i";
         # Examine each previous question registered and look for matches.
         foreach ( $aValues as $key => $answer_encrypt ) {
             $value = $crypt_answers ? decrypt($answer_encrypt, $keyphrase) : $answer_encrypt;
-            if (!preg_match($pattern, $value)) {
+            if (!(preg_match($pattern, $value, $matched) and in_array($matched[1], $question))) {
                 $answers[$i++] = $answer_encrypt;
             }
         }
@@ -233,6 +257,38 @@ if ( $show_help ) {
             </div>
         </div>
     </div>
+<?php    if ($questions_count > 1) { /* Multiple questions are required */ ?>
+    <script src="js/jquery.selectunique.js"></script>
+    <script> $(document).ready(function() { $('.question').selectunique(); })</script>
+<?php        for ($q_num = 1; $q_num <= $questions_count; $q_num++) { ?>
+    <div class="form-group">
+        <label for="question<?php echo $q_num; ?>" class="col-sm-4 control-label"><?php echo $messages["question"] . ' ' . $q_num; ?></label>
+        <div class="col-sm-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
+                <select name="question[]" id="question<?php echo $q_num ?>" class="form-control question">
+                    <option value=""><?php echo $messages["question"]; ?></option>
+<?php
+# Build options
+foreach ( $messages["questions"] as $value => $text ) {
+    echo "                    <option value=\"$value\">$text</option>\n";
+}
+?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="answer<?php echo $q_num; ?>" class="col-sm-4 control-label"><?php echo $messages["answer"] . ' ' . $q_num; ?></label>
+        <div class="col-sm-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                <input type="text" name="answer[]" id="answer<?php echo $q_num ?>" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" autocomplete="off" />
+            </div>
+        </div>
+    </div>
+<?php  }
+      } else { ?>
     <div class="form-group">
         <label for="question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
         <div class="col-sm-8">
@@ -242,7 +298,7 @@ if ( $show_help ) {
 <?php
 # Build options
 foreach ( $messages["questions"] as $value => $text ) {
-    echo "<option value=\"$value\">$text</option>";
+    echo "                    <option value=\"$value\">$text</option>\n";
 }
 ?>
                 </select>
@@ -258,6 +314,7 @@ foreach ( $messages["questions"] as $value => $text ) {
             </div>
         </div>
     </div>
+<?php } ?>
 <?php if ($use_recaptcha) { ?>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">

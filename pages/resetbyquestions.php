@@ -27,8 +27,8 @@
 # Initiate vars
 $result = "";
 $login = $presetLogin;
-$question = "";
-$answer = "";
+$question = [];
+$answer = [];
 $newpassword = "";
 $confirmpassword = "";
 $ldap = "";
@@ -36,15 +36,37 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 $extended_error_msg = "";
+$questions_count = $multiple_answers ? $questions_count : 1;
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
  else { $result = "confirmpasswordrequired"; }
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
   else { $result = "newpasswordrequired"; }
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = strval($_POST["answer"]); }
- else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = strval($_POST["question"]); }
- else { $result = "questionrequired"; }
+# Use arrays for question/answer, to accommodate multiple questions on the same page
+if (isset($_POST["answer"]) and $_POST["answer"]) {
+  if ($questions_count > 1) {
+    $answer = $_POST["answer"];
+    if (in_array('', $answer)) {
+      $result = "answerrequired";
+    }
+  } else {
+    $answer[0] = strval($_POST["answer"]);
+  }
+} else {
+  $result = "answerrequired";
+}
+if (isset($_POST["question"]) and $_POST["question"]) {
+  if ($questions_count > 1) {
+    $question = $_POST["question"];
+    if (in_array('', $question)) {
+      $result = "questionrequired";
+    }
+  } else {
+    $question[0] = strval($_POST["question"]);
+  }
+} else {
+  $result = "questionrequired";
+}
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_REQUEST["login"]))
@@ -62,10 +84,19 @@ if ( $result === "" && $use_recaptcha ) {
     $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
 }
 
+# Should we pre-populate the question?
+#   This should ensure that $login is valid and everything else is empty.
+$populate_questions = $question_populate_enable
+                    && $result == "questionrequired"
+                    && !array_filter($question)
+                    && !array_filter($answer)
+                    && empty($newpassword)
+                    && empty($confirmpassword);
+
 #==============================================================================
 # Check question/answer
 #==============================================================================
-if ( $result === "" ) {
+if ( $result === ""  || $populate_questions) {
 
     # Connect to LDAP
     $ldap = ldap_connect($ldap_url);
@@ -137,23 +168,44 @@ if ( $result === "" ) {
         $questionValues = str_getcsv($questionValues[0]);
     }
 
-    $match = false;
-
-    $question = preg_quote($question,'/');
-    $answer   = preg_quote($answer,'/');
-    $pattern  = "/^\{$question\}$answer$/i";
-
-    # Match with user submitted values
-    foreach ($questionValues as $questionValue) {
-        $value = $crypt_answers ? decrypt($questionValue, $keyphrase) : $questionValue;
-        if (preg_match($pattern, $value)) {
-            $match = true;
+    if ($populate_questions) {
+        $pattern  = "/^\{(.+?)\}/i";
+        $i = 0;
+        foreach ($questionValues as $questionValue) {
+            $value = $crypt_answers ? decrypt($questionValue, $keyphrase) : $questionValue;
+            if (preg_match($pattern, $value, $matched)) {
+                $question[$i++] = $matched[1];
+            }
+            if ($i >= $questions_count) {
+                $result = "emptyresetbyquestionsform";
+                break;
+            }
         }
-    }
+    } else {
+        # Match with user submitted values
+        $pattern  = "/^\{(.+?)\}(.+)$/i";
+        $registered_questions = [];
 
-    if (!$match) {
-        $result = "answernomatch";
-        error_log("Answer does not match question for user $login");
+        # Get registered questions
+        foreach ($questionValues as $questionValue) {
+            $value = $crypt_answers ? decrypt($questionValue, $keyphrase) : $questionValue;
+            if (preg_match($pattern, $value, $matched)) {
+                $registered_questions[$matched[1]] = $matched[2];
+            }
+        }
+
+        $matched = 0;
+        # Match answer(s)
+        for ($q = 1; $q <= $questions_count; $q++) {
+            if ($registered_questions[$question[$q]] === $answer[$q]) {
+                $matched++;
+            }
+        }
+
+        if ($matched < $questions_count) {
+            $result = "answernomatch";
+            error_log("Answer does not match question for user $login");
+        }
     }
 
 }}}}}
@@ -214,7 +266,11 @@ if ( $show_help ) {
     echo "<div class=\"help alert alert-warning\"><p>";
     echo "<i class=\"fa fa-fw fa-info-circle\"></i> ";
     echo $messages["resetbyquestionshelp"];
-    echo "</p></div>\n";
+    echo "</p>\n";
+    if ( $question_populate_enable ) {
+        echo "<p><i class=\"fa fa-fw fa-info-circle\"></i> " . $messages["questionspopulatehint"] . "</p>\n";
+    }
+    echo "</div>\n";
 }
 ?>
 
@@ -235,6 +291,38 @@ if ($pwd_show_policy_pos === 'above') {
             </div>
         </div>
     </div>
+<?php    if ($questions_count > 1) { /* Multiple questions are required */ ?>
+    <script src="js/jquery.selectunique.js"></script>
+    <script> $(document).ready(function() { $('.question').selectunique(); })</script>
+<?php        for ($q_num = 1; $q_num <= $questions_count; $q_num++) { ?>
+    <div class="form-group">
+        <label for="question<?php echo $q_num; ?>" class="col-sm-4 control-label"><?php echo $messages["question"] . ' ' . $q_num; ?></label>
+        <div class="col-sm-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
+                <select name="question[]" id="question<?php echo $q_num ?>" class="form-control question">
+                    <option value=""><?php echo $messages["question"]; ?></option>
+<?php
+# Build options
+foreach ( $messages["questions"] as $value => $text ) {
+    echo "                    <option value=\"$value\"" . ($question[$q_num-1] === $value ? ' selected="selected"' : '') . ">$text</option>\n";
+}
+?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="answer<?php echo $q_num; ?>" class="col-sm-4 control-label"><?php echo $messages["answer"] . ' ' . $q_num; ?></label>
+        <div class="col-sm-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                <input type="text" name="answer[]" id="answer<?php echo $q_num; ?>" class="form-control" placeholder="<?php echo $messages["answer"]; ?>" autocomplete="off" />
+            </div>
+        </div>
+    </div>
+<?php   }
+      } else { ?>
     <div class="form-group">
         <label for="question" class="col-sm-4 control-label"><?php echo $messages["question"]; ?></label>
         <div class="col-sm-8">
@@ -244,7 +332,7 @@ if ($pwd_show_policy_pos === 'above') {
 <?php
 # Build options
 foreach ( $messages["questions"] as $value => $text ) {
-    echo "<option value=\"$value\">$text</option>";
+    echo "                    <option value=\"$value\"" . (question[0] === $value ? ' selected="selected"' : '') . ">$text</option>\n";
 }
 ?>
                 </select>
@@ -260,6 +348,7 @@ foreach ( $messages["questions"] as $value => $text ) {
             </div>
         </div>
     </div>
+<?php } ?>
     <div class="form-group">
         <label for="newpassword" class="col-sm-4 control-label"><?php echo $messages["newpassword"]; ?></label>
         <div class="col-sm-8">

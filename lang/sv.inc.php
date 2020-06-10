@@ -135,3 +135,4 @@ $messages['pwned'] = "Ditt nya lösenord är publicerat på i listor på kända 
 $messages['policypwned'] = "Ditt nya lösenord hittades inte i listor över kända lösenord";
 $messages['specialatends'] = "Ditt nya lösenord har sitt enda specialtecken i början eller slutet";
 $messages['policyspecialatends'] = "Ditt nya lösenord får inte ha sitt enda specialtecken i början eller slutet";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

@@ -68,7 +68,6 @@ if ($questions_use_default or ! array_key_exists('questions', $messages)) {
 $messages['password'] = "Password";
 $messages['question'] = "Question";
 $messages['answer'] = "Answer";
-$messages['setquestionshelp'] = "Initialize or change your password reset question/answer. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
 $messages['answerrequired'] = "No answer given";
 $messages['questionrequired'] = "No question selected";
 $messages['passwordrequired'] = "Your password is required";
@@ -76,7 +75,13 @@ $messages['sshkeyrequired'] = "SSH Key is required";
 $messages['answermoderror'] = "Your answer has not been registered";
 $messages['answerchanged'] = "Your answer has been registered";
 $messages['answernomatch'] = "Your answer is incorrect";
-$messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires that you have already <a href=\"?action=setquestions\">register an answer</a>.";
+if ($multiple_answers && $questions_count > 1) {
+    $messages['resetbyquestionshelp'] = "Choose questions and answer them to reset your password. This requires that you have already <a href=\"?action=setquestions\">registered your answers</a>.";
+    $messages['setquestionshelp'] = "Initialize or change your password reset questions and answers. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
+} else {
+    $messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires that you have already <a href=\"?action=setquestions\">registered an answer</a>.";
+    $messages['setquestionshelp'] = "Initialize or change your password reset question and answer. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
+}
 $messages['changehelp'] = "Enter your old password and choose a new one.";
 $messages['changehelpreset'] = "Forgot your password?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
@@ -135,3 +140,4 @@ $messages['pwned'] = "Your new password has already been published on leaks, you
 $messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";
 $messages['specialatends'] = "Your new password has its only special character at the beginning or end";
 $messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the question" . ($multiple_answers && $questions_count > 1 ? 's' : '') . " you've registered.";

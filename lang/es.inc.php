@@ -136,3 +136,4 @@ $messages['pwned'] = "Su contraseña ha sido publicada en listas de contraseñas
 $messages['policypwned'] = "Su contraseña no puede haber sido publicada previamente en ninguna lista de contraseñas filtradas accesible al publico de ningun sitio";
 $messages['specialatends'] = "Su contraseña nueva tiene un único caracter especial y está al principio o al final de la misma";
 $messages['policyspecialatends'] = "Su contraseña nueva no debería tener un único caracter especial ni estar al principio o al final de la misma";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";
