@@ -328,12 +328,14 @@ $default_action = "change";
 # The name of an HTTP Header that may hold a reference to an extra config file to include.
 #$header_name_extra_config="SSP-Extra-Config";
 
-# Smarty
-define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
-
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';
+}
+
+# Smarty
+if (!defined("SMARTY")) {
+    define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 }
 
 # Set preset login from HTTP header $header_name_preset_login
