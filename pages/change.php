@@ -79,6 +79,9 @@ if ( $result === "" ) {
     # Bind
     if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+    } else if ( $who_change_password == "user" && isset($ldap_login_attribute) && isset($ldap_userparentdn) ) {
+        $login_dn = $ldap_login_attribute . "=" . $login . "," . $ldap_userparentdn;
+        $bind = ldap_bind($ldap, $login_dn, $oldpassword);
     } else {
         $bind = ldap_bind($ldap);
     }
