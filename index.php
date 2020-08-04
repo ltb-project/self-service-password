@@ -236,16 +236,7 @@ $mailer->LE            = $mail_newline;
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function(){
-        // Menu links popovers
-        $('[data-toggle="menu-popover"]').popover({
-            trigger: 'hover',
-            placement: 'bottom',
-            container: 'body' // Allows the popover to be larger than the menu button
-        });
-    });
-</script>
+<script src="js/self-service-password.js"></script>
 </body>
 </html>
 <?php
