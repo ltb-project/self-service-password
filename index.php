@@ -234,7 +234,7 @@ $mailer->LE            = $mail_newline;
 
 </div>
 
-<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-3.5.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/self-service-password.js"></script>
 </body>
