@@ -193,6 +193,7 @@ if (isset($posthook_return)) {
     $smarty->assign('posthook_return', false);
 }
 // TODO : Make it clean $posthook_return - END
+if (isset($posthook_output)) { $smarty->assign('posthook_output', $posthook_output); }
 if (isset($display_posthook_error)) { $smarty->assign('display_posthook_error', $display_posthook_error); }
 if (isset($show_extended_error)) { $smarty->assign('show_extended_error', $show_extended_error); }
 if (isset($extended_error_msg)) { $smarty->assign('extended_error_msg', $extended_error_msg); }
