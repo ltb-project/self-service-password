@@ -10,6 +10,8 @@ RUN buildDeps=" \
         libicu-dev \
         libldap2-dev \
         libzip-dev \
+        smarty3 \
+        smarty-gettext \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
     && docker-php-ext-install bcmath bz2 iconv intl mbstring opcache curl \
