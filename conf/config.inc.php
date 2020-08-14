@@ -37,7 +37,7 @@ $debug = false;
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
 $ldap_binddn = "cn=manager,dc=example,dc=com";
-$ldap_bindpw = "secret";
+$ldap_bindpw = 'secret';
 $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
@@ -131,6 +131,9 @@ $pwd_no_special_at_ends = false;
 # manager: the above binddn
 $who_change_password = "user";
 
+# Show extended error message returned by LDAP directory when password is refused
+$show_extended_error = false;
+
 ## Standard change
 # Use standard change form?
 $use_change = true;
@@ -207,6 +210,7 @@ $mail_smtp_timeout = 30;
 $mail_smtp_keepalive = false;
 $mail_smtp_secure = 'tls';
 $mail_smtp_autotls = true;
+$mail_smtp_options = array();
 $mail_contenttype = 'text/plain';
 $mail_wordwrap = 0;
 $mail_charset = 'utf-8';
@@ -266,6 +270,9 @@ $logo = "images/ltb-logo.png";
 # Background image
 $background_image = "images/unsplash-space.jpeg";
 
+$custom_css = "";
+$display_footer = true;
+
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log
 #$reset_request_log = "/var/log/self-service-password";
@@ -324,6 +331,11 @@ $default_action = "change";
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';
+}
+
+# Smarty
+if (!defined("SMARTY")) {
+    define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 }
 
 # Set preset login from HTTP header $header_name_preset_login
