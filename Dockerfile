@@ -18,9 +18,15 @@ RUN buildDeps=" \
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -r /var/lib/apt/lists/* \
     && a2enmod rewrite
-RUN RUN wget -O - https://github.com/smarty-php/smarty/archive/v3.1.35.tar.gz | tar xzf - -C /usr/share/php/smarty3/ --strip-components=1
+RUN mkdir -p /usr/share/php/smarty3/ && \
+    curl -Lqs https://github.com/smarty-php/smarty/archive/v3.1.35.tar.gz | \
+    tar xzf - -C /usr/share/php/smarty3/ --strip-components=2
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY . /var/www/html
+COPY . /var/www
+RUN rmdir /var/www/html && \
+    mv /var/www/htdocs /var/www/html && \
+    mkdir -p /var/www/templates_c && \
+    chown -R www-data: /var/www/templates_c
 
 EXPOSE 80
 
