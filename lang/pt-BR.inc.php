@@ -133,3 +133,4 @@ $messages['pwned'] = "Sua nova senha já foi publicada como vazada, você deveri
 $messages['policypwned'] = "Parece que sua nova senha não foi publicada como vazada de qualquer site";
 $messages['specialatends'] = "Sua nova senha tem o único caracter especial no início ou fim";
 $messages['policyspecialatends'] = "Sua nova senha pode não ter o único caracter especial no início ou fim";
+$messages['checkdatabeforesubmit'] = "Please check your information before submitting the form";

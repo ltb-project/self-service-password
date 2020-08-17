@@ -134,3 +134,4 @@ $messages['pwned'] = "Your new password has already been published on leaks, you
 $messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";
 $messages['specialatends'] = "Your new password has its only special character at the beginning or end";
 $messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
+$messages['checkdatabeforesubmit'] = "Please check your information before submitting the form";

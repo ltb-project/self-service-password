@@ -133,3 +133,4 @@ $messages['pwned'] = "Geslo, ki ste ga objavili smo našli na seznamu gesel na i
 $messages['policypwned'] = "Gesla nismo našli v seznamu gesel na internetu";
 $messages['specialatends'] = "Vaše novo geslo ima posebne znake samo na začetku ali koncu";
 $messages['policyspecialatends'] = "Vaše novo geslo ne sme imeti posebnih znakov samo na začetku ali koncu";
+$messages['checkdatabeforesubmit'] = "Please check your information before submitting the form";

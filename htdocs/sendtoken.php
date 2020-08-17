@@ -31,11 +31,20 @@ $mail = "";
 $ldap = "";
 $userdn = "";
 $token = "";
+$usermail = "";
 
 if (!$mail_address_use_ldap) {
-    if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = strval($_POST["mail"]); }
-     else { $result = "mailrequired"; }
+    if (isset($_POST["mail"]) and $_POST["mail"]) {
+        $mail = strval($_POST["mail"]);
+        $usermail = strval($_POST["mail"]);
+    } elseif (isset($_GET["usermail"]) and $_GET["usermail"]) {
+        $usermail = strval($_GET["usermail"]);
+        $result = "checkdatabeforesubmit";
+    } else {
+        $result = "mailrequired";
+    }
 }
+
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
@@ -205,4 +214,3 @@ if ( $result === "" ) {
         error_log("Error while sending token to $mail (user $login)");
     }
 }
-

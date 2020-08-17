@@ -134,3 +134,4 @@ $messages['pwned'] = "Zure pasahitza pasahitz publikoen zerrendetan ageri da, be
 $messages['policypwned'] = "Su contraseña no puede haber sido publicada previamente en ninguna lista de contraseñas filtradas accesible al publico de ningun sitio";
 $messages['specialatends'] = "Zure pasahitz berriak karaktere berezi bakarra du eta hasieran edo bukaeran dago";
 $messages['policyspecialatends'] = "Zure pasahitzak ez luke karaktere berezi bakarra hasieran edo bukaeran izan beharko";
+$messages['checkdatabeforesubmit'] = "Please check your information before submitting the form";
