@@ -114,21 +114,22 @@ if (!isset($ldap_starttls)) { $ldap_starttls = false; }
 
 # Password policy array
 $pwd_policy_config = array(
-    "pwd_show_policy"         => $pwd_show_policy,
-    "pwd_min_length"          => $pwd_min_length,
-    "pwd_max_length"          => $pwd_max_length,
-    "pwd_min_lower"           => $pwd_min_lower,
-    "pwd_min_upper"           => $pwd_min_upper,
-    "pwd_min_digit"           => $pwd_min_digit,
-    "pwd_min_special"         => $pwd_min_special,
-    "pwd_special_chars"       => $pwd_special_chars,
-    "pwd_forbidden_chars"     => $pwd_forbidden_chars,
-    "pwd_no_reuse"            => $pwd_no_reuse,
-    "pwd_diff_login"          => $pwd_diff_login,
-    "pwd_complexity"          => $pwd_complexity,
-    "use_pwnedpasswords"      => $use_pwnedpasswords,
-    "pwd_no_special_at_ends"  => $pwd_no_special_at_ends,
-    "pwd_forbidden_words"     => $pwd_forbidden_words
+    "pwd_show_policy"           => $pwd_show_policy,
+    "pwd_min_length"            => $pwd_min_length,
+    "pwd_max_length"            => $pwd_max_length,
+    "pwd_min_lower"             => $pwd_min_lower,
+    "pwd_min_upper"             => $pwd_min_upper,
+    "pwd_min_digit"             => $pwd_min_digit,
+    "pwd_min_special"           => $pwd_min_special,
+    "pwd_special_chars"         => $pwd_special_chars,
+    "pwd_forbidden_chars"       => $pwd_forbidden_chars,
+    "pwd_no_reuse"              => $pwd_no_reuse,
+    "pwd_diff_login"            => $pwd_diff_login,
+    "pwd_complexity"            => $pwd_complexity,
+    "use_pwnedpasswords"        => $use_pwnedpasswords,
+    "pwd_no_special_at_ends"    => $pwd_no_special_at_ends,
+    "pwd_forbidden_words"       => $pwd_forbidden_words,
+    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
