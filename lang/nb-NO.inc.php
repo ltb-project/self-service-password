@@ -133,3 +133,4 @@ $messages['pwned'] = "Ditt nye passord har allerede blitt publisert på passord-
 $messages['policypwned'] = "Ditt nye passord er ikke publisert på kjente passord-leak siter";
 $messages['specialatends'] = "Your new password has its only special character at the beginning or end";
 $messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
+$messages['checkdatabeforesubmit'] = "Please check your information before submitting the form";
