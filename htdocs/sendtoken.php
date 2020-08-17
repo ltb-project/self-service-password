@@ -31,11 +31,26 @@ $mail = "";
 $ldap = "";
 $userdn = "";
 $token = "";
+$usermail = "";
 
 if (!$mail_address_use_ldap) {
-    if (isset($_POST["mail"]) and $_POST["mail"]) { $mail = strval($_POST["mail"]); }
-     else { $result = "mailrequired"; }
-}
+    if (isset($_POST["mail"]) and $_POST["mail"]) {
+        $mail = $_POST["mail"];
+        
+    } elseif (isset($_REQUEST["usermail"]) and $_REQUEST["usermail"]) {
+        ###Check if email-address is submitted via URL
+        $usermail = $_REQUEST["usermail"];
+        ### Show form with submit-button, inlc reCaptcha
+        ### Predefined result found in list to be used here
+        $result = "emptysendtokenform";
+        
+    } else {
+        $result = "mailrequired";
+    } ### mail
+} ### ldap
+
+
+
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
@@ -205,4 +220,3 @@ if ( $result === "" ) {
         error_log("Error while sending token to $mail (user $login)");
     }
 }
-

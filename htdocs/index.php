@@ -236,6 +236,7 @@ foreach ($messages as $key => $message) {
 $smarty->assign('action', $action);
 
 if (isset($login)) { $smarty->assign('login', $login); }
+if (isset($usermail)) { $smarty->assign('usermail', $usermail); }
 if (isset($displayname[0])) { $smarty->assign('displayname', $displayname[0]); }
 if (isset($encrypted_sms_login)) { $smarty->assign('encrypted_sms_login', $encrypted_sms_login); }
 

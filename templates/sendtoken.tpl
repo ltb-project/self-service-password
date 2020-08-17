@@ -24,7 +24,7 @@
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-envelope-o"></i></span>
-                <input type="email" name="mail" id="mail" class="form-control" placeholder="{$msg_mail}" autocomplete="off" />
+                <input type="email" name="mail" id="mail" value="{$usermail}" class="form-control" placeholder="{$msg_mail}" autocomplete="off" />
             </div>
         </div>
     </div>
