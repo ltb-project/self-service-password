@@ -111,6 +111,10 @@ $pwd_no_reuse = true;
 $pwd_diff_login = true;
 # Forbidden words which must not appear in the password
 $pwd_forbidden_words = array();
+# Forbidden ldap fields
+# Respective values of the user's entry must not appear in the password
+# example: $pwd_forbidden_ldap_fields = array('cn', 'givenName', 'sn', 'mail');
+$pwd_forbidden_ldap_fields = array();
 # Complexity: number of different class of character required
 $pwd_complexity = 0;
 # use pwnedpasswords api v2 to securely check if the password has been on a leak
