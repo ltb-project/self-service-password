@@ -11,6 +11,14 @@
         <img src="{$logo}" alt="Logo" class="logo img-responsive center-block" />
         </a>
         {/if}
+        {if count($dependency_errors)}
+        {foreach from=$dependency_errors key=result item=result_array}
+            <div class="result alert alert-{$result_array['criticity']}">
+                <p><i class="fa fa-fw {$result_array['fa_class']}" aria-hidden="true"></i> {$result_array['error']|unescape: "html" nofilter}
+                </p>
+            </div>
+        {/foreach}
+        {else}
         {if $error != ""}
             <div class="result alert alert-{$result_criticity}">
                 <p><i class="fa fa-fw {$result_fa_class}" aria-hidden="true"></i> {$error|unescape: "html" nofilter}
@@ -21,6 +29,7 @@
             </div>
         {/if}
         {include file="$action.tpl"}
+        {/if}
     </div>
 </div>
 {include file="footer.tpl"}
