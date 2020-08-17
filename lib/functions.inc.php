@@ -282,7 +282,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd ) {
 
     $result = "";
 
@@ -319,7 +319,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     # Transform password value
     if ( $ad_mode ) {
         $password = make_ad_password($password);
-    } elseif (!function_exists('ldap_exop_passwd')) {
+    } elseif (!$use_exop_passwd) {
         # Hash password if needed
         if ( $hash == "SSHA" ) {
             $password = make_ssha_password($password);
@@ -403,9 +403,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         );
 
         $bmod = ldap_modify_batch($ldap, $dn, $modifications);
-    } elseif (function_exists('ldap_exop_passwd')) {
+    } elseif ($use_exop_passwd) {
         if (ldap_exop_passwd($ldap, $dn, $oldpassword, $password) === TRUE) {
-            # If password change works update shadow/samba values
+            # If password change works update other data
             if (!empty($userdata)) {
                 ldap_mod_replace($ldap, $dn, $userdata);
             }

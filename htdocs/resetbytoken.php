@@ -185,7 +185,7 @@ if ( $result === "" ) {
 
 # Change password
 if ($result === "") {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "");
+    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "", $ldap_use_exop_passwd);
     if ( $result === "passwordchanged" && isset($posthook) ) {
         $command = posthook_command($posthook, $login, $newpassword, null, $posthook_password_encodebase64);
         exec($command, $posthook_output, $posthook_return);
