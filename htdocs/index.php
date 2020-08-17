@@ -50,6 +50,34 @@ if (file_exists("../conf/$lang.inc.php")) {
 }
 
 #==============================================================================
+# PHP modules
+#==============================================================================
+# Init dependency check results variable
+$dependency_check_results = array();
+
+# Check PHP-LDAP presence
+if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }
+else {
+    # Check ldap_modify_batch presence if AD mode and password change as user
+    if ( $ad_mode and $who_change_password === "user" and ! function_exists('ldap_modify_batch') ) { $dependency_check_results[] = "phpupgraderequired"; }
+    # Check ldap_exop_passwd if LDAP exop password modify enabled
+    if ( $ldap_use_exop_passwd and ! function_exists('ldap_exop_passwd') ) { $dependency_check_results[] = "phpupgraderequired"; }
+}
+
+# Check PHP mhash presence if Samba mode active
+if ( $samba_mode and ! function_exists('hash') and ! function_exists('mhash') ) { $dependency_check_results[] = "nophpmhash"; }
+
+# Check PHP mbstring presence
+if ( ! function_exists('mb_internal_encoding') ) { $dependency_check_results[] = "nophpmbstring"; }
+
+# Check PHP xml presence
+if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxml"; }
+
+# Check keyphrase setting
+if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
+
+
+#==============================================================================
 # Email Config
 #==============================================================================
 require_once("../lib/vendor/PHPMailer/PHPMailerAutoload.php");
@@ -211,6 +239,10 @@ if (isset($login)) { $smarty->assign('login', $login); }
 if (isset($displayname[0])) { $smarty->assign('displayname', $displayname[0]); }
 if (isset($encrypted_sms_login)) { $smarty->assign('encrypted_sms_login', $encrypted_sms_login); }
 
+if ( isset($obscure_failure_messages) && in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"; }
+
+# Set error message, criticity and fa_class
+
 if ($result) {
     $smarty->assign('error', $messages[$result]);
     // TODO : Make it clean $error_sms - START
@@ -227,8 +259,14 @@ if ($result) {
 } else {
     $smarty->assign('error', "");
 }
-
-if ( isset($obscure_failure_messages) && in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"; }
-
 $smarty->assign('result', $result);
+
+# Set dependency check message, criticity and fa_class
+
+$dependency_errors = array();
+foreach ($dependency_check_results as $result) {
+	$dependency_errors[$result] = array( 'error' => $messages[$result], 'criticity' => get_criticity($result), 'fa_class' => get_fa_class($result) );
+}
+$smarty->assign('dependency_errors', $dependency_errors);
+
 $smarty->display('index.tpl');
