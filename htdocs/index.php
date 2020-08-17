@@ -227,8 +227,8 @@ if ($result) {
 } else {
     $smarty->assign('error', "");
 }
-$smarty->assign('result',$result);
 
 if ( isset($obscure_failure_messages) && in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"; }
 
+$smarty->assign('result', $result);
 $smarty->display('index.tpl');
