@@ -136,3 +136,5 @@ $messages['policypwned'] = "Your new password may not be published on any previo
 $messages['specialatends'] = "Ihr Passwort enthält das einzige Sonderzeichen am Anfang oder am Ende";
 $messages['policyspecialatends'] = "Ein Sonderzeichen, wenn es nur ein einziges gibt, darf nicht am Anfang oder am Ende stehen";
 $messages['checkdatabeforesubmit'] = "Please check your information before submitting the form";
+$messages['forbiddenwords'] = "Ihr Passwort enthält verbotene Worte oder Zeichenketten";
+$messages['policyforbiddenwords'] = "Ihr Passwort darf nicht enthalten:";

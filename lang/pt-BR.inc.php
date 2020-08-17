@@ -134,3 +134,7 @@ $messages['policypwned'] = "Parece que sua nova senha não foi publicada como va
 $messages['specialatends'] = "Sua nova senha tem o único caracter especial no início ou fim";
 $messages['policyspecialatends'] = "Sua nova senha pode não ter o único caracter especial no início ou fim";
 $messages['checkdatabeforesubmit'] = "Please check your information before submitting the form";
+$messages['specialatends'] = "Your new password has its only special character at the beginning or end";
+$messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
+$messages['forbiddenwords'] = "Your passwords contains forbidden words or strings";
+$messages['policyforbiddenwords'] = "Your password must not contain:";
