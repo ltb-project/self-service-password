@@ -134,3 +134,5 @@ $messages['policypwned'] = "Your new password may not be published on any previo
 $messages['specialatends'] = "Your new password has its only special character at the beginning or end";
 $messages['policyspecialatends'] = "Your new password may not have its only special character at the beginning or end";
 $messages['checkdatabeforesubmit'] = "Merci de vérifier les informations avant de valider le formulaire";
+$messages['forbiddenwords'] = "Your passwords contains forbidden words or strings";
+$messages['policyforbiddenwords'] = "Your password must not contain:";
