@@ -1,0 +1,244 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ssp-demo
+stringData:
+  config.php: |
+    <?php
+    $debug = true;
+    $ldap_url = "ldap://openldap:1389";
+    $ldap_starttls = false;
+    $ldap_binddn = "cn=ssp,ou=services,dc=demo,dc=local";
+    $ldap_bindpw = "secret";
+    $ldap_base = "dc=demo,dc=local";
+    $ldap_login_attribute = "uid";
+    $ldap_fullname_attribute = "cn";
+    $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
+    $ad_mode = false;
+    $ad_options['force_unlock'] = false;
+    $ad_options['force_pwd_change'] = false;
+    $ad_options['change_expired_password'] = false;
+    $samba_mode = false;
+    $hash = "clear";
+    $pwd_min_length = 0;
+    $pwd_max_length = 0;
+    $pwd_min_lower = 0;
+    $pwd_min_upper = 0;
+    $pwd_min_digit = 0;
+    $pwd_min_special = 0;
+    $pwd_special_chars = "^a-zA-Z0-9";
+    $pwd_no_reuse = true;
+    $pwd_diff_login = true;
+    $pwd_complexity = 0;
+    $pwd_show_policy = "never";
+    $pwd_show_policy_pos = "above";
+    $who_change_password = "user";
+    $use_change = true;
+    $use_tokens = true;
+    $crypt_tokens = true;
+    $token_lifetime = "3600";
+    $mail_attribute = "mail";
+    $mail_address_use_ldap = false;
+    $mail_from = "no-reply@demo.local";
+    $mail_from_name = "Self Service Password";
+    $mail_sendmailpath = '/usr/sbin/sendmail';
+    $mail_protocol = 'smtp';
+    $mail_smtp_debug = 0;
+    $mail_debug_format = 'html';
+    $mail_smtp_host = 'smtp.demo.local';
+    $mail_smtp_auth = false;
+    $mail_smtp_user = '';
+    $mail_smtp_pass = '';
+    $mail_smtp_port = 25;
+    $mail_smtp_timeout = 30;
+    $mail_smtp_keepalive = false;
+    $mail_smtp_secure = '';
+    $mail_contenttype = 'text/plain';
+    $keyphrase = "secret";
+    $reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
+    $logo = "images/ltb-logo.png";
+    $background_image = "images/unsplash-space.jpeg";
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssp-demo
+data:
+  virtualhost.conf: |
+    Listen 8080
+    ServerName ssp.demo.local
+    <VirtualHost *:8080>
+      ServerName ssp.demo.local
+      ServerAdmin webmaster@localhost
+      DocumentRoot /var/www/html
+      ErrorLog ${APACHE_LOG_DIR}/error.log
+      CustomLog /dev/stdout common
+      Alias /favicon.ico /usr/share/self-service-password/images/favicon.ico
+      DirectoryIndex index.php
+      <Directory /var/www/html>
+        AllowOverride None
+        Require all granted
+      </Directory>
+    </VirtualHost>
+  apache2.conf: |
+    DefaultRuntimeDir ${APACHE_RUN_DIR}
+    PidFile ${APACHE_PID_FILE}
+    Timeout 300
+    KeepAlive On
+    MaxKeepAliveRequests 100
+    KeepAliveTimeout 5
+    User ${APACHE_RUN_USER}
+    Group ${APACHE_RUN_GROUP}
+    HostnameLookups Off
+    ErrorLog /dev/stderr
+    LogLevel warn
+    IncludeOptional mods-enabled/*.load
+    IncludeOptional mods-enabled/*.conf
+    <Directory />
+      Options FollowSymLinks
+      AllowOverride None
+      Require all denied
+    </Directory>
+    <Directory /usr/share>
+      AllowOverride None
+      Require all granted
+    </Directory>
+    <Directory /var/www/>
+      Options Indexes FollowSymLinks
+      AllowOverride None
+      Require all granted
+    </Directory>
+    AccessFileName .htaccess
+    <FilesMatch "^\.ht">
+      Require all denied
+    </FilesMatch>
+    LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
+    LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+    LogFormat "%h %l %u %t \"%r\" %>s %O" common
+    LogFormat "%{Referer}i -> %U" referer
+    LogFormat "%{User-agent}i" agent
+    IncludeOptional conf-enabled/*.conf
+    IncludeOptional sites-enabled/*.conf
+    TransferLog /dev/stdout
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: ssp-demo
+  name: ssp-demo
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      name: ssp-demo
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: ssp-demo
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: name
+                operator: In
+                values:
+                - ssp-demo
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - image: docker.io/halkeye/self-service-password:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 15
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 8
+        name: ssp
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 4
+        resources:
+          limits:
+            cpu: 200m
+            memory: 320Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /etc/apache2/apache2.conf
+          name: apache-config
+          subPath: apache2.conf
+        - mountPath: /etc/apache2/sites-available/000-default.conf
+          name: apache-config
+          subPath: virtualhost.conf
+        - mountPath: /var/www/html/conf/config.inc.local.php
+          name: ssp-config
+          subPath: config.php
+        - mountPath: /run/apache2
+          name: tmp
+          subPath: run
+        - mountPath: /var/www/templates_c
+          name: tmp
+          subPath: site
+        - mountPath: /var/log/apache2
+          name: tmp
+          subPath: logs
+      securityContext:
+        runAsUser: 1000
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      - configMap:
+          name: ssp-demo
+        name: apache-config
+      - secret:
+          secretName: ssp-demo
+        name: ssp-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssp-demo
+spec:
+  ports:
+  - name: tcp-8080
+    port: 8080
+  selector:
+    name: ssp-demo
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ssp-demo
+spec:
+  rules:
+  - host: ssp.demo.local
+    http:
+      paths:
+      - backend:
+          serviceName: ssp-demo
+          servicePort: 8080
