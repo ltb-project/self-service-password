@@ -96,3 +96,33 @@ You are now ready to install:
 .. prompt:: bash #
 
     yum install self-service-password
+
+Kubernetes
+----------
+
+Fetch Kubernetes sample deployment from GitHub:
+
+.. prompt:: bash #
+
+    curl -fsL -o self-service-password.yaml \
+        https://raw.githubusercontent.com/ltb-project/self-service-password/master/kubernetes.yaml
+
+Edit that file. The first object is a Secret, that would be
+installed in self-service-password site root, as ``conf/config.inc.local.php``.
+You may want to set in your LDAP URL, SMTP server, ... See <config_general>.
+
+The second object is a ConfigMap, with some apache2 configuration files. You
+could change the defaut ServerName or apache Listen port - though this is not
+mandatory.
+
+Scroll down to the end of the file, the last object is an Ingress. Fix its
+``spec.rules[0].host`` matching the FQDN you want to use, exposing your
+Deployment.
+
+Consider using TLS.
+
+Apply your configuration:
+
+.. prompt:: bash #
+
+    kubectl -n default apply -f self-service-password.yaml
