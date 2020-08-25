@@ -216,14 +216,21 @@ if (isset($pwd_show_policy_pos)) {
 }
 // TODO : Make it clean function show_policy - END
 if (isset($sms)) { $smarty->assign('sms', $sms); }
-// TODO : Make it clean $posthook_return - START
+// TODO : Make it clean $prehook_return/$posthook_return - START
+if (isset($prehook_return)) {
+    $smarty->assign('prehook_return', $prehook_return);
+} else {
+    $smarty->assign('prehook_return', false);
+}
 if (isset($posthook_return)) {
     $smarty->assign('posthook_return', $posthook_return);
 } else {
     $smarty->assign('posthook_return', false);
 }
-// TODO : Make it clean $posthook_return - END
+// TODO : Make it clean $prehook_return/$posthook_return - END
+if (isset($prehook_output)) { $smarty->assign('prehook_output', $prehook_output); }
 if (isset($posthook_output)) { $smarty->assign('posthook_output', $posthook_output); }
+if (isset($display_prehook_error)) { $smarty->assign('display_prehook_error', $display_prehook_error); }
 if (isset($display_posthook_error)) { $smarty->assign('display_posthook_error', $display_posthook_error); }
 if (isset($show_extended_error)) { $smarty->assign('show_extended_error', $show_extended_error); }
 if (isset($extended_error_msg)) { $smarty->assign('extended_error_msg', $extended_error_msg); }
