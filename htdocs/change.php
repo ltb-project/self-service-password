@@ -178,7 +178,7 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
     if ( isset($prehook) ) {
-        $command = hook_command($prehook, $login, $newpassword, null, $prehook_password_encodebase64);
+        $command = hook_command($prehook, $login, $newpassword, $oldpassword, $prehook_password_encodebase64);
         exec($command, $prehook_output, $prehook_return);
     }
     if ( ! isset($prehook_return) || $prehook_return === 0 ) {
