@@ -189,9 +189,10 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     if ( $pwd_min_special     ) { echo "<li>".$messages["policyminspecial"]     ." $pwd_min_special</li>\n"; }
     if ( $pwd_complexity      ) { echo "<li>".$messages["policycomplex"]        ." $pwd_complexity</li>\n"; }
     if ( $pwd_forbidden_chars ) { echo "<li>".$messages["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
-    if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."\n"; }
-    if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."\n"; }
-    if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."\n"; }
+    if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."</li>\n"; }
+    if ( $pwd_diff_last_min_chars ) { echo "<li>". str_replace('{count}', $messages['policydiffminchars'], $pwd_diff_last_min_chars) ."</li>\n"; }
+    if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."</li>\n"; }
+    if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."</li>\n"; }
     if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
     if ( !empty($pwd_forbidden_words)) { echo "<li>".$messages["policyforbiddenwords"] ." " . implode(', ', $pwd_forbidden_words) ."</li>\n"; }
     if ( !empty($pwd_forbidden_ldap_fields)) {
@@ -276,6 +277,13 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
     # Same as login?
     if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
+
+    if ( $pwd_diff_last_min_chars > 0 ) {
+	$similarities = similar_text($oldpassword, $password);
+	$check_len    = strlen($oldpassword) < strlen($password) ? strlen($oldpassword) : strlen($password);
+	$new_chars    = $check_len - $similarities;
+	if ($new_chars <= $pwd_diff_last_min_chars) { $result = "diffminchars"; }
+    }
 
     # Contains forbidden words?
     if ( !empty($pwd_forbidden_words) ) {

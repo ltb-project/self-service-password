@@ -124,6 +124,7 @@ $pwd_policy_config = array(
     "pwd_special_chars"         => $pwd_special_chars,
     "pwd_forbidden_chars"       => $pwd_forbidden_chars,
     "pwd_no_reuse"              => $pwd_no_reuse,
+    "pwd_diff_last_min_chars"   => $pwd_diff_last_min_chars,
     "pwd_diff_login"            => $pwd_diff_login,
     "pwd_complexity"            => $pwd_complexity,
     "use_pwnedpasswords"        => $use_pwnedpasswords,

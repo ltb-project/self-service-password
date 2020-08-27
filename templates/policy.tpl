@@ -11,9 +11,9 @@
         {if $pwd_min_special } <li>{$msg_policyminspecial|unescape: "html" nofilter} {$pwd_min_special}</li> {/if}
         {if $pwd_complexity } <li>{$msg_policycomplex|unescape: "html" nofilter} {$pwd_complexity}</li> {/if}
         {if $pwd_forbidden_chars } <li>{$msg_policyforbiddenchars|unescape: "html" nofilter} {$pwd_forbidden_chars}</li> {/if}
-        {if $pwd_no_reuse } <li>{$msg_policynoreuse|unescape: "html" nofilter} {/if}
-        {if $pwd_diff_login } <li>{$msg_policydifflogin|unescape: "html" nofilter} {/if}
-        {if $use_pwnedpasswords } <li>{$msg_policypwned|unescape: "html" nofilter} {/if}
+        {if $pwd_no_reuse } <li>{$msg_policynoreuse|unescape: "html" nofilter}</li> {/if}
+        {if $pwd_diff_login } <li>{$msg_policydifflogin|unescape: "html" nofilter}</li> {/if}
+        {if $use_pwnedpasswords } <li>{$msg_policypwned|unescape: "html" nofilter}</li> {/if}
         {if $pwd_no_special_at_ends } <li>{$msg_policyspecialatends|unescape: "html" nofilter}</li> {/if}
     </ul>
 </div>

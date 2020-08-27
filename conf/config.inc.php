@@ -109,6 +109,8 @@ $pwd_special_chars = "^a-zA-Z0-9";
 $pwd_no_reuse = true;
 # Check that password is different than login
 $pwd_diff_login = true;
+# Check new passwords differs from old one - minimum characters count
+$pwd_diff_last_min_chars = 0;
 # Forbidden words which must not appear in the password
 $pwd_forbidden_words = array();
 # Forbidden ldap fields
