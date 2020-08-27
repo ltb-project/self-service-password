@@ -611,31 +611,31 @@ function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $resp
 
     return '';
 }
-/* @function string posthook_command(string $posthook, string  $login, string $newpassword, null|string $oldpassword, null|boolean $posthook_password_encodebase64)
-   Creates the command line to execute for the posthook process. Passwords will be base64 encoded if configured. Base64 encoding will prevent passwords with special 
+/* @function string hook_command(string $hook, string  $login, string $newpassword, null|string $oldpassword, null|boolean $hook_password_encodebase64)
+   Creates the command line to execute for the prehook/posthook process. Passwords will be base64 encoded if configured. Base64 encoding will prevent passwords with special
    characters to be modified by the escapeshellarg() function.
-   @param $postkook string script/command to execute for procesing posthook data
+   @param $hook string script/command to execute for procesing hook data
    @param $login string username to change/set password for
    @param $newpassword string new passwword for given login
    @param $oldpassword string old password for given login
-   @param posthook_password_encodebase64 boolean set to true if passwords are to be converted to base64 encoded strings
+   @param hook_password_encodebase64 boolean set to true if passwords are to be converted to base64 encoded strings
 */
-function posthook_command($posthook, $login, $newpassword, $oldpassword = null, $posthook_password_encodebase64 = false) {
+function hook_command($hook, $login, $newpassword, $oldpassword = null, $hook_password_encodebase64 = false) {
 
-	$command = '';
-	if ( isset($posthook_password_encodebase64) && $posthook_password_encodebase64 ) {
-		$command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.base64_encode($newpassword);
+    $command = '';
+    if ( isset($hook_password_encodebase64) && $hook_password_encodebase64 ) {
+	$command = escapeshellcmd($hook).' '.escapeshellarg($login).' '.base64_encode($newpassword);
 
-		if ( ! is_null($oldpassword) ) {
-			$command .= ' '.base64_encode($oldpassword);		
-		}
-
-	} else {		
-		$command = escapeshellcmd($posthook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);		
-
-		if ( ! is_null($oldpassword) ) {
-			$command .= ' '.escapeshellarg($oldpassword);		
-		}
+	if ( ! is_null($oldpassword) ) {
+	    $command .= ' '.base64_encode($oldpassword);
 	}
-	return $command;
+
+    } else {
+	$command = escapeshellcmd($hook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
+
+	if ( ! is_null($oldpassword) ) {
+	    $command .= ' '.escapeshellarg($oldpassword);
+	}
+    }
+    return $command;
 }

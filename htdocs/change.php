@@ -177,15 +177,21 @@ if ( $result === "" ) {
 # Change password
 #==============================================================================
 if ( $result === "" ) {
-    $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $ldap_use_exop_passwd);
-    if ( $result === "passwordchanged" && isset($posthook) ) {
-        $command = posthook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
-        exec($command, $posthook_output, $posthook_return);
+    if ( isset($prehook) ) {
+        $command = hook_command($prehook, $login, $newpassword, $oldpassword, $prehook_password_encodebase64);
+        exec($command, $prehook_output, $prehook_return);
     }
-    if ( $result !== "passwordchanged" ) {
-        if ( $show_extended_error ) {
-            ldap_get_option($ldap, 0x0032, $extended_error_msg);
-        }
+    if ( ! isset($prehook_return) || $prehook_return === 0 || $ignore_prehook_error ) {
+	$result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $ldap_use_exop_passwd);
+	if ( $result === "passwordchanged" && isset($posthook) ) {
+	    $command = hook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
+	    exec($command, $posthook_output, $posthook_return);
+	}
+	if ( $result !== "passwordchanged" ) {
+	    if ( $show_extended_error ) {
+		ldap_get_option($ldap, 0x0032, $extended_error_msg);
+	    }
+	}
     }
 }
 

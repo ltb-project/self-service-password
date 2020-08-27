@@ -1,7 +1,9 @@
-Post Hook configuration
-=======================
+Pre & Post Hook configuration
+=============================
 
-You can write a script that will be called it the password was changed.
+You can write a script that will be called before changing a
+password (pre hook) or after a successful password change (post hook).
+
 This allow for example to update a file or a database on password
 change.
 
@@ -19,6 +21,7 @@ To declare this script, use:
 
 .. code:: php
 
+   $prehook = "/usr/share/self-service-password/prehook.sh";
    $posthook = "/usr/share/self-service-password/posthook.sh";
 
 You can choose to display an error if the script return code is greater
@@ -26,7 +29,10 @@ than 0:
 
 .. code:: php
 
+   $display_prehook_error = true;
    $display_posthook_error = true;
+
+The displayed message will be the first line of the script output.
 
 Another option can be enabled to encode the password in base64 before
 sending it to the script, which can avoid an execution issue if the
@@ -34,11 +40,18 @@ password contains special characters:
 
 .. code:: php
 
+   $prehook_password_encodebase64 = false;
    $posthook_password_encodebase64 = false;
 
-The displayed message will be the first line of the script output.
+By default With prehook script, the password will not be changed in LDAP directory if the script fails.
+You can change this behavior to ignore script error. This could be useful to run prehook script and display a warning
+if it fails, but still try to update password in the directory.
 
-Here is an example of a simple posthook script:
+.. code:: php
+
+    $ignore_prehook_error = true;
+
+Here is an example of a simple hook script:
 
 .. code:: bash
 
