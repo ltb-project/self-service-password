@@ -90,7 +90,7 @@ $messages['tokennotsent'] = "Błąd podczas wysyłania emaila z potwierdzeniem";
 $messages['tokenrequired'] = "Wymagany jest Token";
 $messages['tokennotvalid'] = "Token nie jest poprawny";
 $messages['resetbytokenhelp'] = "Wysłany na adres email Token pozwala na zmianę Twojego hasła. <a href=\"?action=sendtoken\">Kliknij tutaj</a> w celu wygenerowania oraz wysłania nowego Tokenu.";
-$messages['resetbysmshelp'] = "Token wysłany smsem umożliwia zresetowanie twojego hasła. Aby otrzymać nowy token, <a href=\"?action=sendsms\"> kliknij tutaj </a>."
+$messages['resetbysmshelp'] = "Token wysłany smsem umożliwia zresetowanie twojego hasła. Aby otrzymać nowy token, <a href=\"?action=sendsms\"> kliknij tutaj </a>.";
 $messages['changemessage'] = "Dzień dobry {login},\n\nTwoje hasło zostało zmienione.\n\nJeżeli to nie Ty zmieniałeś hasło, skontaktuj się natychmiast z administratorem.";
 $messages['changesubject'] = "Twoje hasło zostało zmienione";
 $messages['badcaptcha'] = "Wprowadzono błędny kod z obrazka reCAPTCHA. Spróbuj ponownie.";
