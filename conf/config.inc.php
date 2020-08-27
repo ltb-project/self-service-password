@@ -324,6 +324,8 @@ $default_action = "change";
 # Encode passwords sent to prehook script as base64. This will prevent alteration of the passwords if set to true.
 # To read the actual password in the prehook script, use a base64_decode function/tool
 #$prehook_password_encodebase64 = false;
+# Ignore prehook error. This will allow to change password even if prehook script fails.
+#$ignore_prehook_error = true;
 
 ## Post Hook
 # Launch a posthook script after successful password change

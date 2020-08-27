@@ -181,7 +181,7 @@ if ( $result === "" ) {
         $command = hook_command($prehook, $login, $newpassword, $oldpassword, $prehook_password_encodebase64);
         exec($command, $prehook_output, $prehook_return);
     }
-    if ( ! isset($prehook_return) || $prehook_return === 0 ) {
+    if ( ! isset($prehook_return) || $prehook_return === 0 || $ignore_prehook_error ) {
 	$result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $ldap_use_exop_passwd);
 	if ( $result === "passwordchanged" && isset($posthook) ) {
 	    $command = hook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
