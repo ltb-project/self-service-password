@@ -32,6 +32,8 @@ than 0:
    $display_prehook_error = true;
    $display_posthook_error = true;
 
+The displayed message will be the first line of the script output.
+
 Another option can be enabled to encode the password in base64 before
 sending it to the script, which can avoid an execution issue if the
 password contains special characters:
@@ -41,7 +43,13 @@ password contains special characters:
    $prehook_password_encodebase64 = false;
    $posthook_password_encodebase64 = false;
 
-The displayed message will be the first line of the script output.
+By default With prehook script, the password will not be changed in LDAP directory if the script fails.
+You can change this behavior to ignore script error. This could be useful to run prehook script and display a warning
+if it fails, but still try to update password in the directory.
+
+.. code:: php
+
+    $ignore_prehook_error = true;
 
 Here is an example of a simple hook script:
 
