@@ -20,6 +20,11 @@
 #==============================================================================
 
 #==============================================================================
+# All the default values are kept here, you should not modify it but use
+# config.inc.local.php file instead to override the settings from here.
+#==============================================================================
+
+#==============================================================================
 # Configuration
 #==============================================================================
 
@@ -192,6 +197,7 @@ $mail_smtp_port = 25;
 $mail_smtp_timeout = 30;
 $mail_smtp_keepalive = false;
 $mail_smtp_secure = 'tls';
+$mail_smtp_autotls = true;
 $mail_contenttype = 'text/plain';
 $mail_wordwrap = 0;
 $mail_charset = 'utf-8';
@@ -287,3 +293,8 @@ $default_action = "change";
 
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
+
+# Allow to override current settings with local configuration
+if (file_exists (dirname (__FILE__) . '/config.inc.local.php')) {
+    include dirname (__FILE__) . '/config.inc.local.php';
+}

@@ -85,6 +85,7 @@ $messages['changesshkeyhelp'] = "输入您的密码和新的 SSH 密钥。";
 $messages['resetmessage'] = "{login} 您好，\n\n点击以下链接重置您的密码:\n{url}\n\n如果您没有请求修改密码，请忽略该邮件。";
 $messages['resetsubject'] = "重置您的密码";
 $messages['sendtokenhelp'] = "输入您的用户名和邮箱重置您的密码。收到邮件后，点击链接完成重置密码。";
+$messages['sendtokenhelpnomail'] = "输入您的用户名重置您的密码。收到邮件后，点击链接完成重置密码。";
 $messages['mail'] = "邮箱";
 $messages['mailrequired'] = "请输入您的邮箱";
 $messages['mailnomatch'] = "邮箱与用户邮箱不一致";

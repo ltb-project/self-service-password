@@ -1,3 +1,20 @@
+ltb-project-self-service-password (1.2-1) unstable; urgency=low
+
+    * gh#149: Remove obsolete stripslashes_if_gpc_magic_quotes
+    * gh#154: Translated the hungarian keys left in english.
+    * gh#162: Resolve send token web page issue when E-Mail To: set from LDAP
+    * gh#166: Opportunistic TLS problem
+    * gh#174: Improved nl.lang.php
+    * gh#175: reCAPTCHA not working on master
+    * gh#176: Dutch translation update by AlbertPluton
+    * gh#177: Fix "SSH Key required" message wrong color when ssh key is not
+      submitted
+    * gh#178: Fix pattern matching in reset by questions
+    * gh#179: Revert Twig because of multiple regressions, work still needed,
+      and lack of testing
+
+ -- Clement Oudot <clem@ltb-project.org>  Fri, 12 Jan 2018 12:00:00 +0200
+
 ltb-project-self-service-password (1.1-1) unstable; urgency=low
 
     * gh#33: Posthook does not work with apostrophes

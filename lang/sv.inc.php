@@ -80,6 +80,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Byt ditt lösenord via
 $messages['resetmessage'] = "Hej {login},\n\nKlicka här för att byta lösenord:\n{url}\n\nOm du inte har begärt ett lösenordsbyte bortse från detta meddelande.";
 $messages['resetsubject'] = "Byt ditt lösenord";
 $messages['sendtokenhelp'] = "Ange ditt användarnamn och epostadress. Du kommer att får ett epostmeddelande med en länk för att byta lösenordet.";
+$messages['sendtokenhelpnomail'] = "Ange ditt användarnamn. Du kommer att får ett epostmeddelande med en länk för att byta lösenordet.";
 $messages['mail'] = "Epost";
 $messages['mailrequired'] = "Du måste fylla i en epostadress";
 $messages['mailnomatch'] = "Angiven epostadress stämmer inte med tidigare angiven adress";

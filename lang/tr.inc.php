@@ -80,6 +80,7 @@ $messages['changehelpsms'] = "<a href=\"?action=sendsms\">SMS ile parolanızı s
 $messages['resetmessage'] = "Merhaba {login},\n\nParolanızı sıfırlamak için buraya tıklayın:\n{url}\n\nEğer parola sıfırlama talep etmediyseniz bu e-postayı dikkate almayın.";
 $messages['resetsubject'] = "Parolanızı sıfırlayın";
 $messages['sendtokenhelp'] = "Parolanızı sıfırlamak için kullanıcı adınızı ve e-posta adresinizi girin. İşlemi tamamlamak için e-postanın içindeki linke tıklayın.";
+$messages['sendtokenhelpnomail'] = "Parolanızı sıfırlamak için kullanıcı adınızı girin. İşlemi tamamlamak için e-postanın içindeki linke tıklayın.";
 $messages['mail'] = "E-posta adresi";
 $messages['mailrequired'] = "E-posta adresiniz gereklidir";
 $messages['mailnomatch'] = "E-posta adresi ile kullanıcı adı uyuşmuyor";
