@@ -114,7 +114,7 @@ this check is not done by the directory:
    $pwd_no_reuse = true;
 
 You may also want to check for partial password reuses, ensuring the
-new password includes at least N distinct characters:
+new password includes at least N distinct new characters:
 
 .. code:: php
 
