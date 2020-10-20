@@ -209,6 +209,7 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_min_digit)) { $smarty->assign('pwd_min_digit', $pwd_min_digit); }
     if (isset($pwd_min_special)) { $smarty->assign('pwd_min_special', $pwd_min_special); }
     if (isset($pwd_complexity)) { $smarty->assign('pwd_complexity', $pwd_complexity); }
+    if (isset($pwd_diff_last_min_chars)) { $smarty->assign('pwd_diff_last_min_chars', $pwd_diff_last_min_chars); }
     if (isset($pwd_forbidden_chars)) { $smarty->assign('pwd_forbidden_chars', $pwd_forbidden_chars); }
     if (isset($pwd_no_reuse)) { $smarty->assign('pwd_no_reuse', $pwd_no_reuse); }
     if (isset($pwd_diff_login)) { $smarty->assign('pwd_diff_login', $pwd_diff_login); }
