@@ -169,7 +169,6 @@ $smarty->assign('background_image',$background_image);
 $smarty->assign('custom_css',$custom_css);
 $smarty->assign('version',$version);
 $smarty->assign('display_footer',$display_footer);
-$smarty->assign('logo', $logo);
 $smarty->assign('show_menu', $show_menu);
 $smarty->assign('show_help', $show_help);
 $smarty->assign('use_questions', $use_questions);
