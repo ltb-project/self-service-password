@@ -25,6 +25,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_special_chars"       => "^a-zA-Z0-9",
             "pwd_forbidden_chars"     => "@",
             "pwd_no_reuse"            => true,
+            "pwd_diff_last_min_chars" => 0,
             "pwd_diff_login"          => true,
             "pwd_complexity"          => 0,
             "use_pwnedpasswords"      => false,
@@ -58,6 +59,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_special_chars"       => "^a-zA-Z0-9",
             "pwd_forbidden_chars"     => "@",
             "pwd_no_reuse"            => true,
+            "pwd_diff_last_min_chars" => 3,
             "pwd_diff_login"          => true,
             "pwd_complexity"          => 3,
             "use_pwnedpasswords"      => false,
@@ -74,6 +76,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("forbiddenwords", check_password_strength( "working at companyname is fun", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("forbiddenldapfields", check_password_strength( "common name", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("forbiddenldapfields", check_password_strength( "my surname", $oldpassword, $pwd_policy_config, $login, $entry ) );
+        $this->assertEquals("diffminchars", check_password_strength( "C0mplex", "C0mplexC0mplex", $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("", check_password_strength( "C0mplex", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("", check_password_strength( "C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("", check_password_strength( "%C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry ) );
@@ -104,6 +107,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_special_chars"       => "^a-zA-Z0-9",
             "pwd_forbidden_chars"     => "@",
             "pwd_no_reuse"            => true,
+            "pwd_diff_last_min_chars" => 0,
             "pwd_diff_login"          => true,
             "pwd_complexity"          => 0,
             "use_pwnedpasswords"      => true,
