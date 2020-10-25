@@ -19,7 +19,7 @@
         <div class="col-sm-8">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                <input type="password" name="password" id="password" class="form-control" placeholder="{$msg_password}" />
+                <input type="password" autocomplete="current-password" name="password" id="password" class="form-control" placeholder="{$msg_password}" />
             </div>
         </div>
     </div>
