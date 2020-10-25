@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="{$lang}">
 <head>
     <title>{$msg_title}</title>
