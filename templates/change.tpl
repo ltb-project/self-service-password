@@ -53,7 +53,7 @@
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
-                    <input type="password" autocomplete="current-password" auto-fill name="oldpassword" id="oldpassword" class="form-control" placeholder="{$msg_oldpassword}" />
+                    <input type="password" autocomplete="current-password" name="oldpassword" id="oldpassword" class="form-control" placeholder="{$msg_oldpassword}" />
                 </div>
             </div>
         </div>
