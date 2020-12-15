@@ -178,7 +178,6 @@ $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('default_action', $default_action);
-$smarty->assign('sms_partially_hide_number', $sms_partially_hide_number);
 //$smarty->assign('',);
 
 if (isset($source)) { $smarty->assign('source', $source); }
@@ -216,7 +215,7 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
 }
 // TODO : Make it clean function show_policy - END
-if (isset($sms)) { $smarty->assign('sms', $sms); }
+if (isset($smsdisplay)) { $smarty->assign('smsdisplay', $smsdisplay); }
 // TODO : Make it clean $prehook_return/$posthook_return - START
 if (isset($prehook_return)) {
     $smarty->assign('prehook_return', $prehook_return);

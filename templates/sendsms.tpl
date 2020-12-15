@@ -17,7 +17,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label">{$msg_sms}</label>
             <div class="col-sm-8">
-                <p class="form-control-static">{if $sms_partially_hide_number} {$sms} {else} {$sms} {/if}</p>
+                <p class="form-control-static">{$smsdisplay}</p>
             </div>
         </div>
         <input type="hidden" name="encrypted_sms_login" value="{$encrypted_sms_login}" />
