@@ -131,3 +131,7 @@ $pwd_policy_config = array(
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
+
+if (!$use_restapi) {
+    die("Rest API disabled");
+}
