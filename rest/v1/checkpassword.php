@@ -27,4 +27,4 @@ if (isset($_POST["newpassword"]) and $_POST["newpassword"]) {
     $result['message'] = "newpassword required";
 }
 
-echo json_encode($result);
+echo json_encode($result, JSON_UNESCAPED_UNICODE);

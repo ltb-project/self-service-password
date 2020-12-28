@@ -20,7 +20,6 @@ if ((isset($_POST["login"]) and $_POST["login"])
     $oldpassword = $_POST["oldpassword"];
     $newpassword = $_POST["newpassword"];
 } else {
-    $return['error'] = 1;
     $return['message'] = "login, oldpassword and newpassword required";
     echo json_encode($return);
     return;
@@ -147,4 +146,4 @@ $return['result'] = $result;
 $return['error'] = $error_code;
 $return['message'] = $messages[$result];
 
-echo json_encode($return);
+echo json_encode($return, JSON_UNESCAPED_UNICODE);
