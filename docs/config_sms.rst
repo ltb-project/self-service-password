@@ -96,7 +96,7 @@ Read the provider guidelines to know how to access its API.
 See also :ref:`sms_api`.
 
 Mobile attribute
-~~~~~~~~~~~~~~~~
+----------------
 
 Set here which LDAP attribute hold the user mobile phone:
 
@@ -125,7 +125,7 @@ To truncate SMS number:
    $sms_truncate_number_length = 10;
 
 Message
-~~~~~~~
+-------
 
 Set the message here, it uses by default the ``smsresetmessage`` message
 defined in lang files and the ``smstoken`` parameter:
@@ -136,7 +136,7 @@ defined in lang files and the ``smstoken`` parameter:
    $sms_message = "{smsresetmessage} {smstoken}";
 
 Token
-~~~~~
+-----
 
 You can set the token length:
 

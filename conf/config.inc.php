@@ -311,6 +311,9 @@ $recaptcha_request_method = null;
 # sendsms
 $default_action = "change";
 
+## Rest API
+$use_restapi = false;
+
 ## Extra messages
 # They can also be defined in lang/ files
 #$messages['passwordchangedextramessage'] = NULL;
