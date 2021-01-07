@@ -144,3 +144,6 @@ $messages['ldap_cn'] = "nom complet";
 $messages['ldap_givenName'] = "prénom";
 $messages['ldap_sn'] = "nom de famille";
 $messages['ldap_mail'] = "adresse email";
+$messages['badquality'] = "La qualité du mot de passe est insuffisante";
+$messages['tooyoung'] = "Le mot de passe a été changé trop récemment";
+$messages['inhistory'] = "Le mot de passe est déjà présent dans votre historique";

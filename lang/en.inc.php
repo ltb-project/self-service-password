@@ -144,3 +144,6 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages['badquality'] = "Password quality is too low";
+$messages['tooyoung'] = "Password was changed too recently";
+$messages['inhistory'] = "Password is in history of old passwords";

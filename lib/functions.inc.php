@@ -144,7 +144,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory/" , $msg ) ) {
     return "danger";
     }
 
@@ -324,9 +324,12 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control ) {
 
     $result = "";
+    $error_code = "";
+    $error_msg = "";
+    $ppolicy_error_code = "";
 
     $time = time();
 
@@ -445,11 +448,18 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         );
 
         $bmod = ldap_modify_batch($ldap, $dn, $modifications);
+        $error_code = ldap_errno($ldap);
+        $error_msg = ldap_error($ldap);
     } elseif ($use_exop_passwd) {
-        if (ldap_exop_passwd($ldap, $dn, $oldpassword, $password) === TRUE) {
+        $exop_passwd = ldap_exop_passwd($ldap, $dn, $oldpassword, $password);
+        $error_code = ldap_errno($ldap);
+        $error_msg = ldap_error($ldap);
+        if ($exop_passwd === TRUE) {
             # If password change works update other data
             if (!empty($userdata)) {
                 ldap_mod_replace($ldap, $dn, $userdata);
+                $error_code = ldap_errno($ldap);
+                $error_msg = ldap_error($ldap);
             }
         }
     } else {
@@ -457,14 +467,33 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         if (!$ad_mode) {
             $userdata["userPassword"] = $password;
         }
-        ldap_mod_replace($ldap, $dn, $userdata);
+	if ( $use_ppolicy_control ) {
+            $ppolicy_replace = ldap_mod_replace_ext($ldap, $dn, $userdata, [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]]);
+	    if (ldap_parse_result($ldap, $ppolicy_replace, $error_code, $matcheddn, $error_message, $referrals, $ctrls)) {
+                if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE])) {
+                    $value = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value'];
+		    if (isset($value['error'])) {
+			$ppolicy_error_code = $value['error'];
+                        error_log("LDAP - Ppolicy error code: $ppolicy_error_code");
+                    }
+                }
+	    }
+	} else {
+            ldap_mod_replace($ldap, $dn, $userdata);
+            $error_code = ldap_errno($ldap);
+            $error_msg = ldap_error($ldap);
+        }
     }
 
-    $errno = ldap_errno($ldap);
-
-    if ( $errno ) {
+    if ( !isset($error_code) ) {
+        $result = "ldaperror";
+    } elseif ( $error_code > 0 ) {
         $result = "passworderror";
-        error_log("LDAP - Modify password error $errno (".ldap_error($ldap).")");
+	error_log("LDAP - Modify password error $error_code ($error_msg)");
+	if ( $ppolicy_error_code === 5 ) { $result = "badquality"; }
+	if ( $ppolicy_error_code === 6 ) { $result = "tooshort"; }
+	if ( $ppolicy_error_code === 7 ) { $result = "tooyoung"; }
+	if ( $ppolicy_error_code === 8 ) { $result = "inhistory"; }
     } else {
         $result = "passwordchanged";
     }
