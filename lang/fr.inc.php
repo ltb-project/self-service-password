@@ -58,8 +58,10 @@ $messages['policyminspecial'] = "Nombre minimum de caractères spéciaux :";
 $messages['forbiddenchars'] = "Votre mot de passe contient des caractères interdits";
 $messages['policyforbiddenchars'] = "Caractères interdits :";
 $messages['policynoreuse'] = "Votre nouveau mot de passe ne doit pas être identique à l'ancien";
-$messages['questions']['birthday'] = "Quelle est votre date de naissance ?";
-$messages['questions']['color'] = "Quelle est votre couleur préférée ?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Quelle est votre date de naissance ?";
+    $messages['questions']['color'] = "Quelle est votre couleur préférée ?";
+}
 $messages['password'] = "Mot de passe";
 $messages['question'] = "Question";
 $messages['answer'] = "Réponse";
@@ -144,3 +146,4 @@ $messages['ldap_cn'] = "nom complet";
 $messages['ldap_givenName'] = "prénom";
 $messages['ldap_sn'] = "nom de famille";
 $messages['ldap_mail'] = "adresse email";
+$messages["questionspopulatehint"] = "Entrez uniquement votre identifiant pour récupérer les questions que vous avez enregistrées.";

@@ -59,8 +59,10 @@ $messages['policyminspecial'] = "Ελάχιστο πλήθος ειδικών χ
 $messages['forbiddenchars'] = "Ο κωδικός σας περιέχει απαγορευμένους χαρακτήρες";
 $messages['policyforbiddenchars'] = "Απαγορευμένοι χαρακτήρες:";
 $messages['policynoreuse'] = "Ο νέος κωδικός σας δεν πρέπει να είναι ίδιος με τον ισχύοντα";
-$messages['questions']['birthday'] = "Πότε είναι τα γενέθλιά σας;";
-$messages['questions']['color'] = "Ποιό είναι το αγαπημένο σας χρώμα;";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Πότε είναι τα γενέθλιά σας;";
+    $messages['questions']['color'] = "Ποιό είναι το αγαπημένο σας χρώμα;";
+}
 $messages['password'] = "Κωδικός";
 $messages['question'] = "Ερώτηση";
 $messages['answer'] = "Απάντηση";
@@ -144,3 +146,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

@@ -58,8 +58,10 @@ $messages['policyminspecial'] = "Gutxienezko karaktere berezi kopurua";
 $messages['forbiddenchars'] = "Zure pasahitzak onartzen ez diren karaktere batzuk dauzka";
 $messages['policyforbiddenchars'] = "Onartzen ez diren karaktereak";
 $messages['policynoreuse'] = "Zure pasahitz berria ezin da zaharraren berdina izan";
-$messages['questions']['birthday'] = "Noiz da zure urtebetetzea?";
-$messages['questions']['color'] = "Zein da zure kolore gogokoena?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Noiz da zure urtebetetzea?";
+    $messages['questions']['color'] = "Zein da zure kolore gogokoena?";
+}
 $messages['password'] = "Pasahitza";
 $messages['question'] = "Galdera";
 $messages['answer'] = "Erantzuna";
@@ -145,3 +147,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

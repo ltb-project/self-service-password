@@ -58,8 +58,10 @@ $messages['policyminspecial'] = "Минимальное количество с�
 $messages['forbiddenchars'] = "Ваш пароль содержит недопустимые символы";
 $messages['policyforbiddenchars'] = "Недопустимые символы:";
 $messages['policynoreuse'] = "Ваш новый пароль не должен совпадать со старым";
-$messages['questions']['birthday'] = "Ваш день рождения";
-$messages['questions']['color'] = "Ваш любимый цвет";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Ваш день рождения";
+    $messages['questions']['color'] = "Ваш любимый цвет";
+}
 $messages['password'] = "Пароль";
 $messages['question'] = "Вопрос";
 $messages['answer'] = "Ответ";
@@ -144,3 +146,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

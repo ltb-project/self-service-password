@@ -63,8 +63,10 @@ $messages['policyminspecial'] = "Minimaalne arv erisümboleid:";
 $messages['forbiddenchars'] = "Sisestatud parool siseldab keelatuid tähemärke";
 $messages['policyforbiddenchars'] = "Keelatud tähemärgid:";
 $messages['policynoreuse'] = "Uus parool ei tohi kattuda vana parooliga";
-$messages['questions']['birthday'] = "Millal on sinu sünnipäev?";
-$messages['questions']['color'] = "Mis on sinu lemmikvärv?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Millal on sinu sünnipäev?";
+    $messages['questions']['color'] = "Mis on sinu lemmikvärv?";
+}
 $messages['password'] = "Parool";
 $messages['question'] = "Küsimus";
 $messages['answer'] = "Vastus";
@@ -146,3 +148,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

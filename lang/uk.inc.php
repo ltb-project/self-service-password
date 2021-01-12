@@ -59,8 +59,10 @@ $messages['policyminspecial'] = "Мінімальна кількість слу�
 $messages['forbiddenchars'] = "Ваш пароль містить неприпустимі символи";
 $messages['policyforbiddenchars'] = "Неприпустимі символи:";
 $messages['policynoreuse'] = "Ваш новий пароль не повинен збігатися зі старим";
-$messages['questions']['birthday'] = "Ваш день народження";
-$messages['questions']['color'] = "Ваш улюблений колір";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Ваш день народження";
+    $messages['questions']['color'] = "Ваш улюблений колір";
+}
 $messages['password'] = "Пароль";
 $messages['question'] = "Питання";
 $messages['answer'] = "Відповідь";
@@ -145,3 +147,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

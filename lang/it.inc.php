@@ -58,8 +58,10 @@ $messages['policyminspecial'] = "Numero minimo di caratteri speciali:";
 $messages['forbiddenchars'] = "La tua password contiene caratteri non consentiti";
 $messages['policyforbiddenchars'] = "Caratteri non consentiti:";
 $messages['policynoreuse'] = "La tua nuova password non puo' essere identica alla vecchia";
-$messages['questions']['birthday'] = "In che anno sei nato/a (4 cifre)?";
-$messages['questions']['color'] = "Quale e' il tuo colore preferito?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "In che anno sei nato/a (4 cifre)?";
+    $messages['questions']['color'] = "Quale e' il tuo colore preferito?";
+}
 $messages['password'] = "Password";
 $messages['question'] = "Domanda";
 $messages['answer'] = "Risposta";
@@ -144,3 +146,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

@@ -59,8 +59,10 @@ $messages['policyminspecial'] = "Minimum özel karakter sayısı:";
 $messages['forbiddenchars'] = "Parolanız izin verilmeyen karakterler içermektedir";
 $messages['policyforbiddenchars'] = "İzin verilmeyen karakterler:";
 $messages['policynoreuse'] = "Yeni parolanız eski parolanız ile aynı olamaz";
-$messages['questions']['birthday'] = "Doğum tarihiniz ne?";
-$messages['questions']['color'] = "En sevdiğiniz renk ne?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "Doğum tarihiniz ne?";
+    $messages['questions']['color'] = "En sevdiğiniz renk ne?";
+}
 $messages['password'] = "Parola";
 $messages['question'] = "Soru";
 $messages['answer'] = "Cevap";
@@ -144,3 +146,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";

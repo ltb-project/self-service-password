@@ -58,8 +58,10 @@ $messages['policyminspecial'] = "最少特殊字符数:";
 $messages['forbiddenchars'] = "密码包含禁止的特殊字符";
 $messages['policyforbiddenchars'] = "禁止特殊字符:";
 $messages['policynoreuse'] = "新密码与旧密码相同";
-$messages['questions']['birthday'] = "你的生日是哪天?";
-$messages['questions']['color'] = "你最喜爱的颜色是什么?";
+if ($questions_use_default or ! array_key_exists('questions', $messages)) {
+    $messages['questions']['birthday'] = "你的生日是哪天?";
+    $messages['questions']['color'] = "你最喜爱的颜色是什么?";
+}
 $messages['password'] = "密码";
 $messages['question'] = "问题";
 $messages['answer'] = "答案";
@@ -144,3 +146,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";
