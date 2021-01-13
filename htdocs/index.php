@@ -244,6 +244,10 @@ foreach ($messages as $key => $message) {
 
 $smarty->assign('action', $action);
 
+if (isset($question_populate_enable)) { $smarty->assign('question_populate_enable', $question_populate_enable); }
+if (isset($questions_count)) { $smarty->assign('questions_count', $questions_count); }
+if (isset($question)) { $smarty->assign('question', $question); }
+
 if (isset($login)) { $smarty->assign('login', $login); }
 if (isset($usermail)) { $smarty->assign('usermail', $usermail); }
 if (isset($displayname[0])) { $smarty->assign('displayname', $displayname[0]); }
