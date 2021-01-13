@@ -33,8 +33,6 @@
         </div>
 
         {if $questions_count > 1}
-            <script src="js/jquery.selectunique.js"></script>
-            <script> $(document).ready(function() { $('.question').selectunique(); })</script>
             {for $q_num = 1 to $questions_count}
                 <div class="form-group">
                     <label for="question{$q_num}" class="col-sm-4 control-label">{$msg_question} {$q_num}</label>

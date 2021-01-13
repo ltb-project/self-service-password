@@ -25,15 +25,13 @@
     </div>
 
     {if ($questions_count > 1)}
-        <script src="js/jquery.selectunique.js"></script>
-        <script> $(document).ready(function() { $('.question').selectunique(); })</script>
         {for $q_num = 1 to $questions_count}
             <div class="form-group">
                 <label for="question{$q_num}" class="col-sm-4 control-label">{$msg_question} {$q_num}</label>
                 <div class="col-sm-8">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
-                        <select name="question[]" id="question{$q_num}" class="form-control">
+                        <select name="question[]" id="question{$q_num}" class="form-control question">
                             <option value="">{$msg_question}</option>
                             {foreach from=$msg_questions key=value item=text}
                                 <option value="{$value}">{$text}</option>
