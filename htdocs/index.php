@@ -182,7 +182,7 @@ $smarty->assign('default_action', $default_action);
 
 if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
-if (isset($recatpcha_publickey)) { $smarty->assign('recaptcha_publickey', $recaptcha_publickey); }
+if (isset($recaptcha_publickey)) { $smarty->assign('recaptcha_publickey', $recaptcha_publickey); }
 if (isset($recaptcha_theme)) { $smarty->assign('recaptcha_theme', $recaptcha_theme);  }
 if (isset($recaptcha_type)) { $smarty->assign('recaptcha_type', $recaptcha_type); }
 if (isset($recaptcha_size)) { $smarty->assign('recaptcha_size', $recaptcha_size); }
