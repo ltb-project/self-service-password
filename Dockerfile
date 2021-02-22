@@ -1,9 +1,10 @@
-FROM php:7.2-apache
+FROM php:7.4-apache
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
         libbz2-dev \
         libsasl2-dev \
         libcurl4-gnutls-dev \
+        libonig-dev \
     " \
     runtimeDeps=" \
         curl \

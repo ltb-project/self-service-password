@@ -9,6 +9,7 @@ php:
   - '7.0'
   - '7.1'
   - '7.2'
+  - '7.4'
 
 before_install:
   # If PHP >= 7.0, force use of PHPUnit 5.7
