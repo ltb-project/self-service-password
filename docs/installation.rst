@@ -96,3 +96,16 @@ You are now ready to install:
 .. prompt:: bash #
 
     yum install self-service-password
+
+Docker
+------
+
+Prepare a configuration file for SelfServicePassword - see Configuration chapters.
+
+Start container, mounting that configurationi file:
+
+.. prompt:: bash #
+
+    docker run -p 80:80 \
+        -v /host/path/to/config.php:/var/www/conf/config.inc.local.php \
+        -it docker.io/acksyn/self-service-password:latest
