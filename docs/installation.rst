@@ -102,7 +102,7 @@ Docker
 
 Prepare a configuration file for SelfServicePassword - see Configuration chapters.
 
-Start container, mounting that configurationi file:
+Start container, mounting that configuration file:
 
 .. prompt:: bash #
 
