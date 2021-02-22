@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: Self-Service-Password API 
+  description: The Self-Service-Password API allows a user to modify password.
+  version: "1.0"
+servers:
+  - url: https://ssp.example.com
+
+paths:
+  /rest/v1/checkpassword.php:
+    post:
+      description: Check if a password respect the password policy
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                newpassword:
+                  type: string
+                  description: The new password
+                oldpassword:
+                  type: string
+                  description: The old password
+                login:
+                  type: string
+                  description: The user login
+              required:
+                - newpassword
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: integer
+                  result:
+                    type: string
+                  message:
+                    type: string
+  /rest/v1/changepassword.php:
+    post:
+      description: Allow user to change his own password
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                newpassword:
+                  type: string
+                  description: The new password
+                oldpassword:
+                  type: string
+                  description: The old password
+                login:
+                  type: string
+                  description: The user login
+              required:
+                - newpassword
+                - oldpassword
+                - login
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: integer
+                  result:
+                    type: string
+                  message:
+                    type: string
+  /rest/v1/adminchangepassword.php:
+    post:
+      description: Allow admin to change the password for a user
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                newpassword:
+                  type: string
+                  description: The new password
+                login:
+                  type: string
+                  description: The user login
+              required:
+                - newpassword
+                - login
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: integer
+                  result:
+                    type: string
+                  message:
+                    type: string

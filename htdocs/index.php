@@ -124,6 +124,7 @@ $pwd_policy_config = array(
     "pwd_special_chars"         => $pwd_special_chars,
     "pwd_forbidden_chars"       => $pwd_forbidden_chars,
     "pwd_no_reuse"              => $pwd_no_reuse,
+    "pwd_diff_last_min_chars"   => $pwd_diff_last_min_chars,
     "pwd_diff_login"            => $pwd_diff_login,
     "pwd_complexity"            => $pwd_complexity,
     "use_pwnedpasswords"        => $use_pwnedpasswords,
@@ -169,7 +170,6 @@ $smarty->assign('background_image',$background_image);
 $smarty->assign('custom_css',$custom_css);
 $smarty->assign('version',$version);
 $smarty->assign('display_footer',$display_footer);
-$smarty->assign('logo', $logo);
 $smarty->assign('show_menu', $show_menu);
 $smarty->assign('show_help', $show_help);
 $smarty->assign('use_questions', $use_questions);
@@ -178,12 +178,11 @@ $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('default_action', $default_action);
-$smarty->assign('sms_partially_hide_number', $sms_partially_hide_number);
 //$smarty->assign('',);
 
 if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
-if (isset($recatpcha_publickey)) { $smarty->assign('recaptcha_publickey', $recaptcha_publickey); }
+if (isset($recaptcha_publickey)) { $smarty->assign('recaptcha_publickey', $recaptcha_publickey); }
 if (isset($recaptcha_theme)) { $smarty->assign('recaptcha_theme', $recaptcha_theme);  }
 if (isset($recaptcha_type)) { $smarty->assign('recaptcha_type', $recaptcha_type); }
 if (isset($recaptcha_size)) { $smarty->assign('recaptcha_size', $recaptcha_size); }
@@ -208,6 +207,7 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_min_digit)) { $smarty->assign('pwd_min_digit', $pwd_min_digit); }
     if (isset($pwd_min_special)) { $smarty->assign('pwd_min_special', $pwd_min_special); }
     if (isset($pwd_complexity)) { $smarty->assign('pwd_complexity', $pwd_complexity); }
+    if (isset($pwd_diff_last_min_chars)) { $smarty->assign('pwd_diff_last_min_chars', $pwd_diff_last_min_chars); }
     if (isset($pwd_forbidden_chars)) { $smarty->assign('pwd_forbidden_chars', $pwd_forbidden_chars); }
     if (isset($pwd_no_reuse)) { $smarty->assign('pwd_no_reuse', $pwd_no_reuse); }
     if (isset($pwd_diff_login)) { $smarty->assign('pwd_diff_login', $pwd_diff_login); }
@@ -215,7 +215,7 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
 }
 // TODO : Make it clean function show_policy - END
-if (isset($sms)) { $smarty->assign('sms', $sms); }
+if (isset($smsdisplay)) { $smarty->assign('smsdisplay', $smsdisplay); }
 // TODO : Make it clean $prehook_return/$posthook_return - START
 if (isset($prehook_return)) {
     $smarty->assign('prehook_return', $prehook_return);

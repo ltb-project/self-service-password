@@ -28,6 +28,7 @@
 $result = "";
 $login = $presetLogin;
 $sms = "";
+$smsdisplay = "";
 $ldap = "";
 $userdn = "";
 $smstoken = "";
@@ -174,6 +175,10 @@ if ( $result === "" ) {
         if ( $sms_truncate_number ) {
             $sms = substr($sms, -$sms_truncate_number_length);
         }
+	$smsdisplay = $sms;
+	if ( $sms_partially_hide_number ) {
+            $smsdisplay = substr_replace($sms, '****', 4 , 4);
+	}
     }
 
     if ( !$sms ) {

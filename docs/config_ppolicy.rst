@@ -113,6 +113,13 @@ this check is not done by the directory:
 
    $pwd_no_reuse = true;
 
+You may also want to check for partial password reuses, ensuring the
+new password includes at least N distinct new characters:
+
+.. code:: php
+
+   $pwd_diff_last_min_chars = 3;
+
 Show policy
 -----------
 

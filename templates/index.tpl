@@ -7,7 +7,7 @@
         <div class="title alert alert-success text-center"><h1>{$msg_title}</h1></div>
         {/if}
         {if $logo }
-        <a href="index.php" alt="Home">
+        <a href="index.php">
         <img src="{$logo}" alt="Logo" class="logo img-responsive center-block" />
         </a>
         {/if}
