@@ -73,13 +73,8 @@ $messages['sshkeyrequired'] = "SSH Key is required";
 $messages['answermoderror'] = "Your answer has not been registered";
 $messages['answerchanged'] = "Your answer has been registered";
 $messages['answernomatch'] = "Your answer is incorrect";
-if ($multiple_answers && $questions_count > 1) {
-    $messages['resetbyquestionshelp'] = "Choose questions and answer them to reset your password. This requires that you have already <a href=\"?action=setquestions\">registered your answers</a>.";
-    $messages['setquestionshelp'] = "Initialize or change your password reset questions and answers. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
-} else {
-    $messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires that you have already <a href=\"?action=setquestions\">registered an answer</a>.";
-    $messages['setquestionshelp'] = "Initialize or change your password reset question and answer. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
-}
+$messages['resetbyquestionshelp'] = "Choose a question and answer it to reset your password. This requires that you have already <a href=\"?action=setquestions\">registered an answer</a>.";
+$messages['setquestionshelp'] = "Initialize or change your password reset question and answer. You will then be able to reset your password <a href=\"?action=resetbyquestions\">here</a>.";
 $messages['changehelp'] = "Enter your old password and choose a new one.";
 $messages['changehelpreset'] = "Forgot your password?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
