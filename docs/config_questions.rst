@@ -45,7 +45,14 @@ parameter:
 
    $multiple_answers = true;
 
-Then the user can use any valid answer to reset its password
+Then the user can use any valid answer to reset its password.
+
+You can also configure how many questions are displayed in the form.
+If you want to require 2 answers to 2 different questions, configure ``$questions_count``:
+
+.. code:: php
+
+   $questions_count = 2;
 
 Attribute and object class
 --------------------------
@@ -69,14 +76,19 @@ the object class to use with this attribute:
 .. tip:: The object class will be added to the entry only if it is not
   already present.
 
+If you enabled multiple answers, you can choose if they will be stored as multiple values
+of the attribute, or stored in a single value:
+
+.. code:: php
+
+   $multiple_answers_one_str = true;
+
 On Active Directory, extensibleObject is not known. You can use for example:
 
 .. code:: php
 
    $answer_attribute = "comment";
    $answer_objectClass = "user";
-
-
 
 Crypt answers
 -------------
