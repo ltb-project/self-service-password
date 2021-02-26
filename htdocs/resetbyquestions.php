@@ -27,8 +27,8 @@
 # Initiate vars
 $result = "";
 $login = $presetLogin;
-$question = "";
-$answer = "";
+$question = [];
+$answer = [];
 $newpassword = "";
 $confirmpassword = "";
 $ldap = "";
@@ -36,15 +36,38 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 $extended_error_msg = "";
+$questions_count = $multiple_answers ? $questions_count : 1;
 
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
  else { $result = "confirmpasswordrequired"; }
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
   else { $result = "newpasswordrequired"; }
-if (isset($_POST["answer"]) and $_POST["answer"]) { $answer = strval($_POST["answer"]); }
- else { $result = "answerrequired"; }
-if (isset($_POST["question"]) and $_POST["question"]) { $question = strval($_POST["question"]); }
- else { $result = "questionrequired"; }
+
+# Use arrays for question/answer, to accommodate multiple questions on the same page
+if (isset($_POST["answer"]) and $_POST["answer"]) {
+  if ($questions_count > 1) {
+    $answer = $_POST["answer"];
+    if (in_array('', $answer)) {
+      $result = "answerrequired";
+    }
+  } else {
+    $answer[0] = strval($_POST["answer"]);
+  }
+} else {
+  $result = "answerrequired";
+}
+if (isset($_POST["question"]) and $_POST["question"]) {
+  if ($questions_count > 1) {
+    $question = $_POST["question"];
+    if (in_array('', $question)) {
+      $result = "questionrequired";
+    }
+  } else {
+    $question[0] = strval($_POST["question"]);
+  }
+} else {
+  $result = "questionrequired";
+}
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_REQUEST["login"]))
@@ -62,10 +85,19 @@ if ( $result === "" && $use_recaptcha ) {
     $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
 }
 
+# Should we pre-populate the question?
+#   This should ensure that $login is valid and everything else is empty.
+$populate_questions = $question_populate_enable
+                    && $result == "questionrequired"
+                    && !array_filter($question)
+                    && !array_filter($answer)
+                    && empty($newpassword)
+                    && empty($confirmpassword);
+
 #==============================================================================
 # Check question/answer
 #==============================================================================
-if ( $result === "" ) {
+if ( $result === ""  || $populate_questions) {
 
     # Connect to LDAP
     $ldap = ldap_connect($ldap_url);
@@ -132,23 +164,49 @@ if ( $result === "" ) {
     $questionValues = ldap_get_values($ldap, $entry, $answer_attribute);
     unset($questionValues["count"]);
 
-    $match = false;
-
-    $question = preg_quote($question,'/');
-    $answer   = preg_quote($answer,'/');
-    $pattern  = "/^\{$question\}$answer$/i";
-
-    # Match with user submitted values
-    foreach ($questionValues as $questionValue) {
-        $value = $crypt_answers ? decrypt($questionValue, $keyphrase) : $questionValue;
-        if (preg_match($pattern, $value)) {
-            $match = true;
-        }
+    if ($multiple_answers and $multiple_answers_one_str) {
+        # Unpack multiple questions/answers
+        $questionValues = str_getcsv($questionValues[0]);
     }
 
-    if (!$match) {
-        $result = "answernomatch";
-        error_log("Answer does not match question for user $login");
+    if ($populate_questions) {
+        $pattern  = "/^\{(.+?)\}/i";
+        $i = 0;
+        foreach ($questionValues as $questionValue) {
+            $value = $crypt_answers ? decrypt($questionValue, $keyphrase) : $questionValue;
+            if (preg_match($pattern, $value, $matched)) {
+                $question[$i++] = $matched[1];
+            }
+            if ($i >= $questions_count) {
+                $result = "emptyresetbyquestionsform";
+                break;
+            }
+        }
+    } else {
+        # Match with user submitted values
+        $pattern  = "/^\{(.+?)\}(.+)$/i";
+        $registered_questions = [];
+
+        # Get registered questions
+        foreach ($questionValues as $questionValue) {
+            $value = $crypt_answers ? decrypt($questionValue, $keyphrase) : $questionValue;
+            if (preg_match($pattern, $value, $matched)) {
+                $registered_questions[$matched[1]] = $matched[2];
+            }
+        }
+
+        $matched = 0;
+        # Match answer(s)
+        for ($q = 0; $q < $questions_count; $q++) {
+            if (hash_equals($registered_questions[$question[$q]], $answer[$q])) {
+                $matched++;
+            }
+        }
+
+        if ($matched < $questions_count) {
+            $result = "answernomatch";
+            error_log("Answer does not match question for user $login");
+        }
     }
 
     $entry = ldap_get_attributes($ldap, $entry);

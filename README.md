@@ -49,3 +49,7 @@ Documentation is available on http://ltb-project.org/wiki/documentation/self-ser
 ## Download
 
 Tarballs and packages for Debian and Red Hat are available on http://ltb-project.org/wiki/download#self_service_password
+
+## Source code
+
+Source codes are available on https://github.com/ltb-project/self-service-password

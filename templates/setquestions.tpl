@@ -23,28 +23,59 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <label for="question" class="col-sm-4 control-label">{$msg_question}</label>
-        <div class="col-sm-8">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
-                <select name="question" id="question" class="form-control">
-                    {foreach from=$msg_questions key=value item=text}
-                        <option value="{$value}">{$text}</option>
-                    {/foreach}
-                </select>
+
+    {if ($questions_count > 1)}
+        {for $q_num = 1 to $questions_count}
+            <div class="form-group">
+                <label for="question{$q_num}" class="col-sm-4 control-label">{$msg_question} {$q_num}</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
+                        <select name="question[]" id="question{$q_num}" class="form-control question">
+                            <option value="">{$msg_question}</option>
+                            {foreach from=$msg_questions key=value item=text}
+                                <option value="{$value}">{$text}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="answer{$q_num}" class="col-sm-4 control-label">{$msg_answer} {$q_num}</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                        <input type="text" name="answer[]" id="answer{$q_num}" class="form-control" placeholder="{$msg_answer}" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        {/for}
+    {else}
+        <div class="form-group">
+            <label for="question" class="col-sm-4 control-label">{$msg_question}</label>
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-question"></i></span>
+                    <select name="question" id="question" class="form-control">
+                        <option value="">{$msg_question}</option>
+                        {foreach from=$msg_questions key=value item=text}
+                            <option value="{$value}">{$text}</option>
+                        {/foreach}
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="answer" class="col-sm-4 control-label">{$msg_answer}</label>
-        <div class="col-sm-8">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
-                <input type="text" name="answer" id="answer" class="form-control" placeholder="{$msg_answer}" autocomplete="off" />
+        <div class="form-group">
+            <label for="answer" class="col-sm-4 control-label">{$msg_answer}</label>
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-fw fa-pencil"></i></span>
+                    <input type="text" name="answer" id="answer" class="form-control" placeholder="{$msg_answer}" autocomplete="off" />
+                </div>
             </div>
         </div>
-    </div>
+    {/if}
+    
     {if use_recaptcha}
       <div class="form-group">
           <div class="col-sm-offset-4 col-sm-8">

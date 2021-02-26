@@ -170,6 +170,9 @@ $notify_on_sshkey_change = false;
 $use_questions = true;
 # Allow to register more than one answer?
 $multiple_answers = false;
+# Store many answers in a single string attribute
+# (only used if $multiple_answers = true)
+$multiple_answers_one_str = false;
 
 # Answer attribute should be hidden to users!
 $answer_objectClass = "extensibleObject";
@@ -179,7 +182,22 @@ $answer_attribute = "info";
 $crypt_answers = true;
 
 # Extra questions (built-in questions are in lang/$lang.inc.php)
+# Should the built-in questions be included?
+$questions_use_default = true;
 #$messages['questions']['ice'] = "What is your favorite ice cream flavor?";
+
+# How many questions must be answered.
+#  If = 1: legacy behavior
+#  If > 1:
+#    this many questions will be included in the page forms
+#    this many questions must be set at a time
+#    user must answer this many correctly to reset a password
+#    $multiple_answers must be true
+#    at least this many possible questions must be available (there are only 2 questions built-in)
+$questions_count = 1;
+
+# Should the user be able to select registered question(s) by entering only the login?
+$question_populate_enable = false;
 
 ## Token
 # Use tokens?

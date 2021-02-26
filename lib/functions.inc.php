@@ -551,6 +551,31 @@ function decrypt($data, $keyphrase) {
     }
 }
 
+
+/* @function string str_putcsv(array $fields[, string $delimiter = ','[, string $enclosure = '"'[, string $escape_char = '\\']]])
+ * Convert array to CSV line. Based on https://gist.github.com/johanmeiring/2894568 and https://bugs.php.net/bug.php?id=64183#1506521511
+ * Wrapped in `if(!function_exists(...` in case it gets added to PHP.
+ * Also see https://www.php.net/manual/en/function.fgetcsv.php and related
+ * @param string $fields An array of strings
+ * @param string $delimiter field delimiter (one character only)
+ * @param string $enclosure field enclosure (one character only)
+ * @param string $escape_char escape character (at most one character) - empty string ("") disables escape mechanism
+ * @return string fields in CSV format
+ */
+if(!function_exists('str_putcsv'))
+{
+    function str_putcsv($fields, $delimiter = ',', $enclosure = '"', $escape_char = '\\')
+    {
+        $fp = fopen('php://temp', 'r+');
+        fputcsv($fp, $fields, $delimiter, $enclosure, $escape_char);
+        rewind($fp);
+        $data = stream_get_contents($fp);
+        fclose($fp);
+        return rtrim($data, "\n");
+    }
+}
+
+
 /* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)
  * Send a mail, replace strings in body
  * @param mailer PHPMailer object
