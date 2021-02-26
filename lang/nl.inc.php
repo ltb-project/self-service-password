@@ -58,10 +58,8 @@ $messages['policyminspecial'] = "Minimaal aantal bijzondere karakters:";
 $messages['forbiddenchars'] = "Het wachtwoord bevat karakters die niet toegestaan zijn";
 $messages['policyforbiddenchars'] = "Niet toegestane karakters zijn:";
 $messages['policynoreuse'] = "Het nieuwe wachtwoord mag niet gelijk zijn aan het huidige wachtwoord";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Wat is uw geboortedatum?";
-    $messages['questions']['color'] = "Wat is uw lievelingskleur?";
-}
+$messages['questions']['birthday'] = "Wat is uw geboortedatum?";
+$messages['questions']['color'] = "Wat is uw lievelingskleur?";
 $messages['password'] = "Wachtwoord";
 $messages['question'] = "Vraag";
 $messages['answer'] = "Antwoord";

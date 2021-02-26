@@ -58,10 +58,8 @@ $messages['policymindigit'] = "Mínimo de números: ";
 $messages['policyminspecial'] = "Mínimo de carácteres especiais: ";
 $messages['policyforbiddenchars'] = "Carácteres proibidos: ";
 $messages['policynoreuse'] = "A password nova não deve ser igual à password actual";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Qual é o teu aniversário?";
-    $messages['questions']['color'] = "Qual é a tua cor favorita?";
-}
+$messages['questions']['birthday'] = "Qual é o teu aniversário?";
+$messages['questions']['color'] = "Qual é a tua cor favorita?";
 $messages['password'] = "Password";
 $messages['question'] = "Pergunta";
 $messages['answer'] = "Resposta";

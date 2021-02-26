@@ -59,10 +59,8 @@ $messages['policyminspecial'] = "Speciális karakterek minimális száma:";
 $messages['forbiddenchars'] = "A megadott jelszó érvénytelen karaktereket tartalmaz!";
 $messages['policyforbiddenchars'] = "Érvénytelen karakterek:";
 $messages['policynoreuse'] = "Az új jelszó nem lehet azonos a régivel!";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Mikor van a születésnapja?";
-    $messages['questions']['color'] = "Mi a kedvenc színe?";
-}
+$messages['questions']['birthday'] = "Mikor van a születésnapja?";
+$messages['questions']['color'] = "Mi a kedvenc színe?";
 $messages['password'] = "Jelszó";
 $messages['question'] = "Kérdés";
 $messages['answer'] = "Válasz";

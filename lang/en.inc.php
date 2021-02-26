@@ -61,10 +61,8 @@ $messages['policyminspecial'] = "Minimum number of special characters:";
 $messages['forbiddenchars'] = "You password contains forbidden characters";
 $messages['policyforbiddenchars'] = "Forbidden characters:";
 $messages['policynoreuse'] = "Your new password may not be the same as your old password";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "When is your birthday?";
-    $messages['questions']['color'] = "What is your favorite color?";
-}
+$messages['questions']['birthday'] = "When is your birthday?";
+$messages['questions']['color'] = "What is your favorite color?";
 $messages['password'] = "Password";
 $messages['question'] = "Question";
 $messages['answer'] = "Answer";
@@ -151,4 +149,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
-$messages["questionspopulatehint"] = "Enter only your login to retrieve the question" . ($multiple_answers && $questions_count > 1 ? 's' : '') . " you've registered.";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the question(s) you've registered.";

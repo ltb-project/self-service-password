@@ -63,10 +63,8 @@ $messages['policyminspecial'] = "Minimaalne arv erisümboleid:";
 $messages['forbiddenchars'] = "Sisestatud parool siseldab keelatuid tähemärke";
 $messages['policyforbiddenchars'] = "Keelatud tähemärgid:";
 $messages['policynoreuse'] = "Uus parool ei tohi kattuda vana parooliga";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Millal on sinu sünnipäev?";
-    $messages['questions']['color'] = "Mis on sinu lemmikvärv?";
-}
+$messages['questions']['birthday'] = "Millal on sinu sünnipäev?";
+$messages['questions']['color'] = "Mis on sinu lemmikvärv?";
 $messages['password'] = "Parool";
 $messages['question'] = "Küsimus";
 $messages['answer'] = "Vastus";

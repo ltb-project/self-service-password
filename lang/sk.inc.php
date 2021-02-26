@@ -59,10 +59,8 @@ $messages['policyminspecial'] = "Minimálny počet špeciálnych znakov:";
 $messages['forbiddenchars'] = "Vaše heslo obsahuje zakázané znaky";
 $messages['policyforbiddenchars'] = "Zakázané znaky:";
 $messages['policynoreuse'] = "Vaše nové heslo nesmie byť rovnaké ako vaše staré heslo.";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Kedy máte narodeniny?";
-    $messages['questions']['color'] = "Aká je vaša obľúbená farba?";
-}
+$messages['questions']['birthday'] = "Kedy máte narodeniny?";
+$messages['questions']['color'] = "Aká je vaša obľúbená farba?";
 $messages['password'] = "Heslo";
 $messages['question'] = "Otázka";
 $messages['answer'] = "Odpoveď";

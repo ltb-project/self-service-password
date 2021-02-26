@@ -45,6 +45,13 @@ if ($handle = opendir('../lang')) {
 }
 $lang = detectLanguage($lang, $languages);
 require_once("../lang/$lang.inc.php");
+
+# Remove default questions
+if (!$questions_use_default) {
+    unset($messages['questions']['birthday']);
+    unset($messages['questions']['color']);
+}
+
 if (file_exists("../conf/$lang.inc.php")) {
     require_once("../conf/$lang.inc.php");
 }
@@ -241,6 +248,7 @@ $smarty->assign('lang',$lang);
 foreach ($messages as $key => $message) {
     $smarty->assign('msg_'.$key,$message);
 }
+
 
 $smarty->assign('action', $action);
 

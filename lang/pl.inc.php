@@ -58,10 +58,8 @@ $messages['policyminspecial'] = "Minimalna liczba znaków specjalnych:";
 $messages['forbiddenchars'] = "Twoje hasło posiada znaki niedozwolone";
 $messages['policyforbiddenchars'] = "Znaki niedozwolone:";
 $messages['policynoreuse'] = "Twoje nowe hasło nie może być takie samo jak Twoje stare hasło";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Kiedy są Twoje urodziny?";
-    $messages['questions']['color'] = "Jaki jest Twój ulubiony kolor?";
-}
+$messages['questions']['birthday'] = "Kiedy są Twoje urodziny?";
+$messages['questions']['color'] = "Jaki jest Twój ulubiony kolor?";
 $messages['questions']['pet'] = "Jakie jest imię Twojego ulubionego zwierzęcia?";
 $messages['questions']['wifehusband'] = "Jak ma na imię Twoja żona/Twój mąż?";
 $messages['password'] = "Hasło";

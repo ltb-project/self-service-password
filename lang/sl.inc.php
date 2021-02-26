@@ -59,10 +59,8 @@ $messages['policyminspecial'] = "Najmanjše število posebnih znakov:";
 $messages['forbiddenchars'] = "Vaše geslo vsebuje prepovedane znake";
 $messages['policyforbiddenchars'] = "Prepovedani znaki:";
 $messages['policynoreuse'] = "Novo geslo ne sme biti enako kot staro geslo";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Kdaj imate rojstni dan?";
-    $messages['questions']['color'] = "Katera je vaša najljubša barva?";
-}
+$messages['questions']['birthday'] = "Kdaj imate rojstni dan?";
+$messages['questions']['color'] = "Katera je vaša najljubša barva?";
 $messages['password'] = "Geslo";
 $messages['question'] = "Vprašanje";
 $messages['answer'] = "Odgovor";

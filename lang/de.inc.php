@@ -58,10 +58,8 @@ $messages['policyminspecial'] = "Minimale Anzahl Sonderzeichen:";
 $messages['forbiddenchars'] = "Ihr Passwort enthält nicht erlaubte Zeichen";
 $messages['policyforbiddenchars'] = "Nicht erlaubte Zeichen:";
 $messages['policynoreuse'] = "Ihr neues Passwort darf nicht dasselbe wie Ihr aktuelles Passwort sein";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Wie lautet Ihr Geburtstag?";
-    $messages['questions']['color'] = "Wie lautet Ihre Lieblingsfarbe?";
-}
+$messages['questions']['birthday'] = "Wie lautet Ihr Geburtstag?";
+$messages['questions']['color'] = "Wie lautet Ihre Lieblingsfarbe?";
 $messages['password'] = "Passwort";
 $messages['question'] = "Frage";
 $messages['answer'] = "Antwort";

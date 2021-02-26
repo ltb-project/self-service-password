@@ -61,10 +61,8 @@ $messages['policyminspecial'] = "最少特殊字符:";
 $messages['forbiddenchars'] = "您的密码包含无效字符";
 $messages['policyforbiddenchars'] = "无效字符:";
 $messages['policynoreuse'] = "您的新密码不能与旧密码相同";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "您的出生日期?";
-    $messages['questions']['color'] = "您最喜欢什么颜色?";
-}
+$messages['questions']['birthday'] = "您的出生日期?";
+$messages['questions']['color'] = "您最喜欢什么颜色?";
 $messages['password'] = "密码";
 $messages['question'] = "问题";
 $messages['answer'] = "答案";

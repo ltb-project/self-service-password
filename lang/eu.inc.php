@@ -58,10 +58,8 @@ $messages['policyminspecial'] = "Gutxienezko karaktere berezi kopurua";
 $messages['forbiddenchars'] = "Zure pasahitzak onartzen ez diren karaktere batzuk dauzka";
 $messages['policyforbiddenchars'] = "Onartzen ez diren karaktereak";
 $messages['policynoreuse'] = "Zure pasahitz berria ezin da zaharraren berdina izan";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "Noiz da zure urtebetetzea?";
-    $messages['questions']['color'] = "Zein da zure kolore gogokoena?";
-}
+$messages['questions']['birthday'] = "Noiz da zure urtebetetzea?";
+$messages['questions']['color'] = "Zein da zure kolore gogokoena?";
 $messages['password'] = "Pasahitza";
 $messages['question'] = "Galdera";
 $messages['answer'] = "Erantzuna";

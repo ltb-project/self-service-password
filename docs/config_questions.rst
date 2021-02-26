@@ -116,7 +116,7 @@ your SSP LDAP settings to update values):
 Edit questions
 --------------
 
-Questions are registered in lang files: ``lang/**codelang**.inc.php``.
+Default questions are registered in lang files: ``lang/**codelang**.inc.php``.
 
 To add a question, you can create a new value in the
 ``$messages['questions']`` array, directly in local configuration file
@@ -126,3 +126,10 @@ To add a question, you can create a new value in the
 
    $messages['questions']['ice'] = "What is your favorite ice cream flavor?";
 
+Or better, to be able to translate it, create it in every customized lang file under ``conf/``.
+
+To disable the default questions form the main configuration file, set:
+
+.. code:: php
+
+   $questions_use_default = true;

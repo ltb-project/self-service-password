@@ -59,10 +59,8 @@ $messages['policyminspecial'] = "最低限必要な記号の数:";
 $messages['forbiddenchars'] = "パスワードに使用できない文字が含まれています";
 $messages['policyforbiddenchars'] = "使用できない文字:";
 $messages['policynoreuse'] = "現在のパスワードと異なる";
-if ($questions_use_default or ! array_key_exists('questions', $messages)) {
-    $messages['questions']['birthday'] = "あなたの誕生日は?";
-    $messages['questions']['color'] = "あなたの好きな色は?";
-}
+$messages['questions']['birthday'] = "あなたの誕生日は?";
+$messages['questions']['color'] = "あなたの好きな色は?";
 $messages['password'] = "パスワード";
 $messages['question'] = "秘密の質問";
 $messages['answer'] = "秘密の質問への回答";
