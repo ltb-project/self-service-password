@@ -198,7 +198,7 @@ if ( $result === ""  || $populate_questions) {
         $matched = 0;
         # Match answer(s)
         for ($q = 0; $q < $questions_count; $q++) {
-            if ($registered_questions[$question[$q]] === $answer[$q]) {
+            if (hash_equals($registered_questions[$question[$q]], $answer[$q])) {
                 $matched++;
             }
         }
