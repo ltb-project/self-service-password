@@ -45,7 +45,26 @@ parameter:
 
    $multiple_answers = true;
 
-Then the user can use any valid answer to reset its password
+Then the user can use any valid answer to reset its password.
+
+You can also configure how many questions are displayed in the form.
+If you want to require 2 answers to 2 different questions, configure ``$questions_count``:
+
+.. code:: php
+
+   $questions_count = 2;
+
+Populate questions
+------------------
+
+This feature allows users to first submit an empty form with just their login.
+The form will be displayed again with questions already registered for this user.
+As this lowers the security, this is disabled by defaut.
+Configure ``$question_populate_enable`` to enable it:
+
+.. code:: php
+
+   $question_populate_enable = true;
 
 Attribute and object class
 --------------------------
@@ -69,14 +88,19 @@ the object class to use with this attribute:
 .. tip:: The object class will be added to the entry only if it is not
   already present.
 
+If you enabled multiple answers, you can choose if they will be stored as multiple values
+of the attribute, or stored in a single value:
+
+.. code:: php
+
+   $multiple_answers_one_str = true;
+
 On Active Directory, extensibleObject is not known. You can use for example:
 
 .. code:: php
 
    $answer_attribute = "comment";
    $answer_objectClass = "user";
-
-
 
 Crypt answers
 -------------
@@ -104,7 +128,7 @@ your SSP LDAP settings to update values):
 Edit questions
 --------------
 
-Questions are registered in lang files: ``lang/**codelang**.inc.php``.
+Default questions are registered in lang files: ``lang/**codelang**.inc.php``.
 
 To add a question, you can create a new value in the
 ``$messages['questions']`` array, directly in local configuration file
@@ -114,3 +138,10 @@ To add a question, you can create a new value in the
 
    $messages['questions']['ice'] = "What is your favorite ice cream flavor?";
 
+Or better, to be able to translate it, create it in every customized lang file under ``conf/``.
+
+To disable the default questions form the main configuration file, set:
+
+.. code:: php
+
+   $questions_use_default = true;
