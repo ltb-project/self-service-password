@@ -54,6 +54,18 @@ If you want to require 2 answers to 2 different questions, configure ``$question
 
    $questions_count = 2;
 
+Populate questions
+------------------
+
+This feature allows users to first submit an empty form with just their login.
+The form will be displayed again with questions already registered for this user.
+As this lowers the security, this is disabled by defaut.
+Configure ``$question_populate_enable`` to enable it:
+
+.. code:: php
+
+   $question_populate_enable = true;
+
 Attribute and object class
 --------------------------
 
