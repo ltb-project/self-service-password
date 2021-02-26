@@ -180,8 +180,6 @@ if ( $result === "" ) {
     }
 
     $i = 0;
-    error_log(print_r($question, true));
-    error_log(print_r($answer, true));
     while ($i < $questions_count) {
         $answer_value = '{'.$question[$i].'}'.$answer[$i];
         $answers[$i++] = $crypt_answers ? encrypt($answer_value, $keyphrase) : $answer_value;
