@@ -61,6 +61,7 @@ Available languages are:
 -  |image14| Polish (pl)
 -  |image15| Portuguese (pt-PT)
 -  |image16| Russian (ru)
+-  |image23| Serbian (rs)
 -  |image17| Slovak (sk)
 -  |image18| Slovenian (sl)
 -  |image19| Spanish (es)
@@ -222,4 +223,5 @@ To enable this feature:
 .. |image20| image:: images/se.png
 .. |image21| image:: images/tr.png
 .. |image22| image:: images/ua.png
+.. |image23| image:: images/rs.png
 
