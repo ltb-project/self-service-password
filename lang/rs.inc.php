@@ -144,3 +144,4 @@ $messages['ldap_cn'] = "nadimak";
 $messages['ldap_givenName'] = "ime";
 $messages['ldap_sn'] = "prezime";
 $messages['ldap_mail'] = "email adresa";
+$messages['questionspopulatehint'] = "Unesi samo korisničko ime da bi ste proverili koja ste pitanja registorovali.";
