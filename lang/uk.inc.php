@@ -145,3 +145,4 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
+$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";
