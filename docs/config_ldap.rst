@@ -110,6 +110,12 @@ You can use LDAP password modify extended operation with
 
    $ldap_use_exop_passwd = true;
 
+You can also enable LDAP password policy control with ``$ldap_use_ppolicy_control``:
+
+.. code:: php
+
+   $ldap_use_ppolicy_control = true;
+
 Special modes
 -------------
 
