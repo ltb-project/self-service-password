@@ -145,3 +145,6 @@ $messages['ldap_givenName'] = "ime";
 $messages['ldap_sn'] = "prezime";
 $messages['ldap_mail'] = "email adresa";
 $messages['questionspopulatehint'] = "Unesite samo korisničko ime da bi ste proverili koja ste pitanja registorovali.";
+$messages['badquality'] = "Password quality is too low";
+$messages['tooyoung'] = "Password was changed too recently";
+$messages['inhistory'] = "Password is in history of old passwords";

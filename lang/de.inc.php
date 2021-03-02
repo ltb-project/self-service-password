@@ -147,3 +147,6 @@ $messages['ldap_givenName'] = "Vorname";
 $messages['ldap_sn'] = "Nachname";
 $messages['ldap_mail'] = "Email-Adresse";
 $messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";
+$messages['badquality'] = "Password quality is too low";
+$messages['tooyoung'] = "Password was changed too recently";
+$messages['inhistory'] = "Password is in history of old passwords";
