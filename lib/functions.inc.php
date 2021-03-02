@@ -469,7 +469,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         }
 	if ( $use_ppolicy_control ) {
             $ppolicy_replace = ldap_mod_replace_ext($ldap, $dn, $userdata, [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]]);
-	    if (ldap_parse_result($ldap, $ppolicy_replace, $error_code, $matcheddn, $error_message, $referrals, $ctrls)) {
+	    if (ldap_parse_result($ldap, $ppolicy_replace, $error_code, $matcheddn, $error_msg, $referrals, $ctrls)) {
                 if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE])) {
                     $value = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value'];
 		    if (isset($value['error'])) {
