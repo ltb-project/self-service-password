@@ -451,9 +451,26 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         $error_code = ldap_errno($ldap);
         $error_msg = ldap_error($ldap);
     } elseif ($use_exop_passwd) {
-        $exop_passwd = ldap_exop_passwd($ldap, $dn, $oldpassword, $password);
-        $error_code = ldap_errno($ldap);
-        $error_msg = ldap_error($ldap);
+        $exop_passwd = FALSE;
+        if ( $use_ppolicy_control ) {
+            $ctrls = array();
+            $exop_passwd = ldap_exop_passwd($ldap, $dn, $oldpassword, $password, $ctrls);
+            $error_code = ldap_errno($ldap);
+            $error_msg = ldap_error($ldap);
+            if (!$exop_passwd) {
+                if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE])) {
+                    $value = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value'];
+                    if (isset($value['error'])) {
+                        $ppolicy_error_code = $value['error'];
+                        error_log("LDAP - Ppolicy error code: $ppolicy_error_code");
+                    }
+                }
+            }
+        } else {
+            $exop_passwd = ldap_exop_passwd($ldap, $dn, $oldpassword, $password);
+            $error_code = ldap_errno($ldap);
+            $error_msg = ldap_error($ldap);
+        }
         if ($exop_passwd === TRUE) {
             # If password change works update other data
             if (!empty($userdata)) {
