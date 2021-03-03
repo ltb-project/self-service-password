@@ -19,7 +19,7 @@ if ($use_recaptcha) {
     require_once("../lib/vendor/autoload.php");
 }
 if ($use_pwnedpasswords) {
-    require_once("lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
+    require_once("../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
 }
 
 #==============================================================================
