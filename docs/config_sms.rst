@@ -39,6 +39,9 @@ You can enable or disable this feature with $use_sms:
 
    $use_sms = true;
 
+.. warning:: If you enable this option, you must change the default
+  value of the security keyphrase.
+
 Method
 ------
 
