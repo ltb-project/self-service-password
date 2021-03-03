@@ -38,7 +38,7 @@ $languages = array();
 if ($handle = opendir('../lang')) {
     while (false !== ($entry = readdir($handle))) {
         if ($entry != "." && $entry != "..") {
-	    if ($entry_lang == $lang || empty($allowed_lang) || in_array($entry_lang, $allowed_lang) ) {
+	    if ($entry == $lang || empty($allowed_lang) || in_array($entry, $allowed_lang) ) {
 		array_push($languages, str_replace(".inc.php", "", $entry));
 	    }
         }
