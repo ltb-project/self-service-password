@@ -607,7 +607,7 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
 
     $result = false;
 
-    if(!is_a($mailer, 'PHPMailer')) {
+    if(!is_a($mailer, 'PHPMailer\PHPMailer\PHPMailer')) {
         error_log("send_mail: PHPMailer object required!");
         return $result;
     }

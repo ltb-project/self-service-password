@@ -11,6 +11,10 @@ class ComposerStaticInitf77fc8f34cb7bd900df003a30d1661da
         array (
             'Symfony\\Component\\Finder\\' => 25,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'G' => 
         array (
             'Gregwar\\' => 8,
@@ -21,6 +25,10 @@ class ComposerStaticInitf77fc8f34cb7bd900df003a30d1661da
         'Symfony\\Component\\Finder\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Gregwar\\' => 
         array (
