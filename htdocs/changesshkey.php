@@ -32,7 +32,12 @@ $sshkey = "";
 $ldap = "";
 $userdn = "";
 $mail = "";
+$captchaphrase = "";
 
+if ($use_captcha) {
+    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
+     else { $result = "captcharequired"; }
+}
 if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
  else { $result = "passwordrequired"; }
 if (isset($_POST["sshkey"]) and $_POST["sshkey"]) { $sshkey = strval($_POST["sshkey"]); }
@@ -45,6 +50,16 @@ if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_PO
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
+}
+
+#==============================================================================
+# Check captcha
+#==============================================================================
+if ( $result === "" && $use_captcha ) {
+    session_start();
+    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
+        $result = "badcaptcha";
+    }
 }
 
 #==============================================================================

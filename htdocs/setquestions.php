@@ -33,6 +33,7 @@ $answer = [];
 $ldap = "";
 $userdn = "";
 $questions_count = $multiple_answers ? $questions_count : 1;
+$captchaphrase = "";
 
 # Use arrays for question/answer, to accommodate multiple questions on the same page
 if (isset($_POST["answer"]) and $_POST["answer"]) {
@@ -59,6 +60,10 @@ if (isset($_POST["question"]) and $_POST["question"]) {
 } else {
   $result = "questionrequired";
 }
+if ($use_captcha) {
+    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
+     else { $result = "captcharequired"; }
+}
 if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
  else { $result = "passwordrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
@@ -69,6 +74,16 @@ if (! isset($_POST["answer"]) and ! isset($_POST["question"]) and ! isset($_POST
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
+}
+
+#==============================================================================
+# Check captcha
+#==============================================================================
+if ( $result === "" && $use_captcha ) {
+    session_start();
+    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
+        $result = "badcaptcha";
+    }
 }
 
 #==============================================================================

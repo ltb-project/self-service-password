@@ -31,6 +31,7 @@ $question = [];
 $answer = [];
 $newpassword = "";
 $confirmpassword = "";
+$captchaphrase = "";
 $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
@@ -38,6 +39,10 @@ $mail = "";
 $extended_error_msg = "";
 $questions_count = $multiple_answers ? $questions_count : 1;
 
+if ($use_captcha) {
+    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
+     else { $result = "captcharequired"; }
+}
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
  else { $result = "confirmpasswordrequired"; }
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
@@ -76,6 +81,16 @@ if (! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
+}
+
+#==============================================================================
+# Check captcha
+#==============================================================================
+if ( $result === "" && $use_captcha ) {
+    session_start();
+    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
+        $result = "badcaptcha";
+    }
 }
 
 # Should we pre-populate the question?
