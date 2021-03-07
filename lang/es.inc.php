@@ -91,7 +91,9 @@ $messages['resetbytokenhelp'] = "El código  enviado por correo permite resetear
 $messages['resetbysmshelp'] = "El código enviado por sms permite resetear su contraseña. Para obtener un nuevo código, <a href=\"?action=sendsms\">haga click aquí</a>.";
 $messages['changemessage'] = "Hola {login},\n\nSu contraseña ha cambiado.\n\nSi usted no es el emisor de esta petición, por favor contacte a su administrador inmediatamente.";
 $messages['changesubject'] = "Su contraseña ha sido cambiada";
-$messages['badcaptcha'] = "El reCAPTCHA no se ha introducido correctamente. Inténtelo de nuevo.";
+$messages['badcaptcha'] = "El captcha no se ha introducido correctamente. Inténtelo de nuevo.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Su contraseña no tiene suficientes clases de caracteres diferentes";
 $messages['policycomplex'] = "Mínimo de clases de caracteres diferentes:";
 $messages['sms'] = "Número SMS";

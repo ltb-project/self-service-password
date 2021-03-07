@@ -35,7 +35,12 @@ $smstoken = "";
 $token = "";
 $sessiontoken = "";
 $attempts = 0;
+$captchaphrase = "";
 
+if ($use_captcha) {
+    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
+     else { $result = "captcharequired"; }
+}
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
 } elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
@@ -103,9 +108,13 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Check reCAPTCHA
-if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+# Check captcha
+#==============================================================================
+if ( $result === "" && $use_captcha ) {
+    session_start();
+    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
+        $result = "badcaptcha";
+    }
 }
 
 #==============================================================================

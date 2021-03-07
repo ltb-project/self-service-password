@@ -92,7 +92,9 @@ $messages['resetbytokenhelp'] = "Länken som skickas via epost gör så att du k
 $messages['resetbysmshelp'] = "Lösenkoden som skickas via SMS gör så att du kan byta lösenord. För att få en ny Lösenkod, <a href=\"?action=sendsms\">klicka här</a>.";
 $messages['changemessage'] = "Hej {login},\n\nDitt lösenord har ändrats.\n\nOm du inte har begärt lösenordsbyte, kontakta Helpdesk omedelbart.";
 $messages['changesubject'] = "Ditt lösenord har ändrats";
-$messages['badcaptcha'] = "reCAPTCHA är felaktiget angivet. Försök igen.";
+$messages['badcaptcha'] = "Captcha är felaktiget angivet. Försök igen.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Ditt lösenord innehåller inte tillräckligt många olika klasser av tecken";
 $messages['policycomplex'] = "Minst antal olika klasser av tecken:";
 $messages['sms'] = "Mobilnummer";

@@ -32,7 +32,12 @@ $sshkey = "";
 $ldap = "";
 $userdn = "";
 $mail = "";
+$captchaphrase = "";
 
+if ($use_captcha) {
+    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
+     else { $result = "captcharequired"; }
+}
 if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
  else { $result = "passwordrequired"; }
 if (isset($_POST["sshkey"]) and $_POST["sshkey"]) { $sshkey = strval($_POST["sshkey"]); }
@@ -48,10 +53,13 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Check reCAPTCHA
+# Check captcha
 #==============================================================================
-if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+if ( $result === "" && $use_captcha ) {
+    session_start();
+    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
+        $result = "badcaptcha";
+    }
 }
 
 #==============================================================================

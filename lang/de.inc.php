@@ -91,7 +91,9 @@ $messages['resetbytokenhelp'] = "Das mit der Mail versandte Token erlaubt Ihnen 
 $messages['resetbysmshelp'] = "Das mit per SMS versandte Token erlaubt Ihnen das Rücksetzen Ihres Passworts. Um ein neues Token zu erhalten, <a href=\"?action=sendtoken\">klicken Sie hier</a>.";
 $messages['changemessage'] = "Hallo {login},\n\nIhr Passwort wurde geändert.\n\nWenn Sie dies nicht selbst veranlasst haben, melden Sie dies bitte umgehend Ihrem Administrator.\n\n";
 $messages['changesubject'] = "Ihr Passwort wurde geändert";
-$messages['badcaptcha'] = "Die reCAPTCHA wurde nicht richtig eingegeben. Versuchen Sie es erneut.";
+$messages['badcaptcha'] = "Die captcha wurde nicht richtig eingegeben. Versuchen Sie es erneut.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Ihr Passwort hat nicht genug verschiedene Klassen von Zeichen";
 $messages['policycomplex'] = "Minimum verschiedener Klassen von Zeichen:";
 $messages['sms'] = "Handynummer";

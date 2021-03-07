@@ -92,7 +92,9 @@ $messages['resetbytokenhelp'] = "Odkaz zaslaný v e-mailu slouží pro obnovu he
 $messages['resetbysmshelp'] = "Kód pro obnovu hesla vám byl zaslán pomocí SMS. K získání nového kódu <a href=\"?action=sendsms\">klikněte zde</a>.";
 $messages['changemessage'] = "Dobrý den {login},\n\nvaše heslo bylo změněno.\n\nPokud jste změnu neprovedl/a, okamžitě kontaktujte správce.";
 $messages['changesubject'] = "Vaše heslo bylo změněno";
-$messages['badcaptcha'] = "Kód reCAPTCHA nebyl zadán správně. Zadejte jej prosím znovu.";
+$messages['badcaptcha'] = "Kód captcha nebyl zadán správně. Zadejte jej prosím znovu.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Heslo neobsahuje dostatek skupin znaků";
 $messages['policycomplex'] = "Minimální počet různých skupin znaků:";
 $messages['sms'] = "Telefonní číslo";

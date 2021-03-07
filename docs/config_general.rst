@@ -200,6 +200,18 @@ To enable this feature:
 
    $header_name_preset_login = "Auth-User";
 
+Captcha
+-------
+
+To require a captcha, set ``$use_captcha``:
+
+.. code:: php
+
+   $use_captcha = true;
+
+.. tip:: The captcha is used on every form in Self Service Password
+  (password change, token, questions, etc.)
+
 .. |image0| image:: images/br.png
 .. |image1| image:: images/catalonia.png
 .. |image2| image:: images/cn.png

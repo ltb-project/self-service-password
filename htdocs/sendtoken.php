@@ -32,6 +32,7 @@ $ldap = "";
 $userdn = "";
 $token = "";
 $usermail = "";
+$captchaphrase = "";
 
 if (!$mail_address_use_ldap) {
     if (isset($_POST["mail"]) and $_POST["mail"]) {
@@ -44,7 +45,10 @@ if (!$mail_address_use_ldap) {
         $result = "mailrequired";
     }
 }
-
+if ($use_captcha) {
+    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
+     else { $result = "captcharequired"; }
+}
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
@@ -56,10 +60,13 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Check reCAPTCHA
+# Check captcha
 #==============================================================================
-if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
+if ( $result === "" && $use_captcha ) {
+    session_start();
+    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
+        $result = "badcaptcha";
+    }
 }
 
 #==============================================================================

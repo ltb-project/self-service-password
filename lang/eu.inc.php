@@ -91,7 +91,9 @@ $messages['resetbytokenhelp'] = "Posta bidez bidalitako kodeak pasahitza berreza
 $messages['resetbysmshelp'] = "SMS bidez bidalitako kodeak pasahitza berrezartzeko balio du. Beste kode bat lortzeko, <a href=\"?action=sendsms\">sakatu hemen</a>.";
 $messages['changemessage'] = "Kaixo {login},\n\nZure pasahitza eguneratu da.\n\nAldaketa zuk ez baduzu egin, mesedez jarri kontaktuan zure administrariarekin.";
 $messages['changesubject'] = "Zure pasahitza aldatua izan da";
-$messages['badcaptcha'] = "reCAPTCHA ez duzu ondo idatzi. Saiatu berriz.";
+$messages['badcaptcha'] = "Captcha ez duzu ondo idatzi. Saiatu berriz.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Zure pasahitzak ez dauka karaktere mota desberdin nahikoa";
 $messages['policycomplex'] = "Gutxienez behar direnak:";
 $messages['sms'] = "SMS Zenbakia";

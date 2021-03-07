@@ -92,7 +92,9 @@ $messages['resetbytokenhelp'] = "Lenken som sendes via epost gjør det mulig å 
 $messages['resetbysmshelp'] = "Engangspassord som sendes via SMS gjør det mulig å bytte passord. For å få en nytt engangspassord, <a href=\"?action=sendsms\">klikk her</a>.";
 $messages['changemessage'] = "Hei {login},\n\nDitt passord er endret.\n\nOm du ikke har utført dette passord byttet, kontakt Helpdesk umiddelbart.";
 $messages['changesubject'] = "Ditt passord er endret";
-$messages['badcaptcha'] = "reCAPTCHA er feilaktig oppgitt. Forsøk igjen.";
+$messages['badcaptcha'] = "Captcha er feilaktig oppgitt. Forsøk igjen.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Ditt passord inneholder ikke tilstrekkelig mange ulike klasser av tegn (store, små, tall, spesialtegn)";
 $messages['policycomplex'] = "Minst antall ulike klasser (store, små, tall og spesialtegn) av tegn:";
 $messages['sms'] = "Mobilnummer";
