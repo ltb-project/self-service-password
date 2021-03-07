@@ -123,7 +123,7 @@ if ( $result === "" )  {
     if ($result === "") {
         $result = check_password_strength($newpassword, $oldpassword, $pwd_policy_config, $login, $entry);
         if ($result === "") {
-            $result = change_password( $ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $ldap_use_exop_passwd );
+            $result = change_password( $ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control );
             $error_code = 0;
         }
     }
