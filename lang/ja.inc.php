@@ -92,7 +92,9 @@ $messages['resetbytokenhelp'] = "メールで送信されたリンクからパ�
 $messages['resetbysmshelp'] = "SMSで送信されたトークンを使ってパスワードをリセットできます。新しいトークンを取得するには<a href=\"?action=sendsms\">ここをクリックしてください</a>。";
 $messages['changemessage'] = "{login}さん\n\nあなたのパスワードは変更されました。\n\nあなたがパスワードのリセットを要求していない場合は、直ちに管理者に問い合わせてください。";
 $messages['changesubject'] = "パスワードが変更されました";
-$messages['badcaptcha'] = "reCAPTCHAが正しく入力されませんでした。もう一度入力してください。";
+$messages['badcaptcha'] = "captchaが正しく入力されませんでした。もう一度入力してください。";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "パスワードに含まれる文字種が少なすぎます";
 $messages['policycomplex'] = "最低限必要な異なる文字種の数:";
 $messages['sms'] = "SMS番号";

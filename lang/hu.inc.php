@@ -92,7 +92,9 @@ $messages['resetbytokenhelp'] = "Az e-mailben kapott link segítségével új je
 $messages['resetbysmshelp'] = "Az SMS-ben kapott kóddal új jelszót állíthat be. Új kód kéréséhez <a href=\"?action=sendsms\">kattintson ide</a>.";
 $messages['changemessage'] = "Tisztelt {login},\n\nA jelszava megváltozott.\n\nAmennyiben nem Ön kezdeményezte jelszava megváltoztatását, kérem, lépjen kapcsolatba az oldal adminisztrátorával!";
 $messages['changesubject'] = "Jelszava sikeresen módosítva.";
-$messages['badcaptcha'] = "A reCAPTCHA helytelen. Kérem, próbálja meg újra.";
+$messages['badcaptcha'] = "A captcha helytelen. Kérem, próbálja meg újra.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "A jelszó nem elég komplex. Kérem, használjon kis- és nagybetűket, számokat vagy speciális karaktereket.";
 $messages['policycomplex'] = "A jelszó a következő karaktertípusokat tartalmazhatja: kisbetű, nagybetű, szám vagy speciális karakter. Ezek közül válasszon ki legalább ennyit:";
 $messages['sms'] = "SMS szám";

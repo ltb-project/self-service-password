@@ -92,7 +92,9 @@ $messages['resetbytokenhelp'] = "Ο σύνδεσμος που στάλθηκε �
 $messages['resetbysmshelp'] = "Ο σύνδεσμος που στάλθηκε μέσω sms σας επιτρέπει να αλλάξετε τον κωδικό σας. Για να ζητήσετε νέο σύνδεσμο μέσω sms, <a href=\"?action=sendsms\">κλικ εδώ</a>.";
 $messages['changemessage'] = "Hello {login},\n\nΟ κωδικός σας άλλαξε.\n\nΑν δεν έχετε ζητήσει αλλαγή κωδικού, παρακαλούμε να επικοινωνήσετε αμέσως με το διαχειριστή σας.";
 $messages['changesubject'] = "Ο κωδικός σας άλλαξε";
-$messages['badcaptcha'] = "Το reCAPTCHA δεν καταχωρήθηκε σωστά. Δοκιμάστε πάλι.";
+$messages['badcaptcha'] = "Το captcha δεν καταχωρήθηκε σωστά. Δοκιμάστε πάλι.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Ο κωδικός σας δεν περιέχει αρκετά διαφορετικά είδη χαρακτήρων";
 $messages['policycomplex'] = "Ελάχιστος αριθμός διαφορετικών ειδών χαρακτήρων:";
 $messages['sms'] = "Αριθμός SMS";

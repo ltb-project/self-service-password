@@ -91,7 +91,9 @@ $messages['resetbytokenhelp'] = "Het token dat per email verstuurd is, stelt u i
 $messages['resetbysmshelp'] = "Het token dat per sms verstuurd is, stelt u in staat uw wachtwoord te wijzigen. om een nieuw token te verkrijgen kunt u, <a href=\"?action=sendsms\">hier klikken</a>.";
 $messages['changemessage'] = "Hallo {login},\n\nuw wachtwoord is aangepast.\n\nindien dit niet uw verzoek was, neem dan onmiddelijk contact op met de helpdesk.";
 $messages['changesubject'] = "Uw wachtwoord is aangepast";
-$messages['badcaptcha'] = "De reCAPTCHA was niet correct ingevuld. Probeer het opnieuw.";
+$messages['badcaptcha'] = "De captcha was niet correct ingevuld. Probeer het opnieuw.";
+$messages['captcharequired'] = "The captcha is required.";
+$messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "Uw wachtwoord bestaat niet uit genoeg verschillende tekens";
 $messages['policycomplex'] = "Minimum aantal verschillende type tekens benodigd:";
 $messages['sms'] = "Mobiele telefoon";
