@@ -61,7 +61,6 @@ You can set all parameters for PHPMailer:
    $mail_wordwrap = 0;
    $mail_charset = 'utf-8';
    $mail_priority = 3;
-   $mail_newline = PHP_EOL;
 
 .. tip:: See https://github.com/PHPMailer/PHPMailer for more
   information

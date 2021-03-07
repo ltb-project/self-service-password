@@ -93,7 +93,9 @@ if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( e
 #==============================================================================
 # Email Config
 #==============================================================================
-require_once("../lib/vendor/PHPMailer/PHPMailerAutoload.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 $mailer = new PHPMailer;
 $mailer->Priority      = $mail_priority;
 $mailer->CharSet       = $mail_charset;
@@ -113,7 +115,6 @@ $mailer->Password      = $mail_smtp_pass;
 $mailer->SMTPKeepAlive = $mail_smtp_keepalive;
 $mailer->SMTPOptions   = $mail_smtp_options;
 $mailer->Timeout       = $mail_smtp_timeout;
-$mailer->LE            = $mail_newline;
 
 #==============================================================================
 # Other default values
