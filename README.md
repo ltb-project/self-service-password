@@ -32,6 +32,7 @@ It has the following features:
 * Hook script before and after password change
 
 ## Prerequisite
+
 * PHP extensions required:
   * php-openssl (token crypt, probably built-in)
   * php-mbstring (reset mail)
@@ -44,11 +45,13 @@ It has the following features:
 
 ## Documentation
 
-Documentation is available on http://ltb-project.org/wiki/documentation/self-service-password
+Documentation is available on https://self-service-password.readthedocs.io/en/latest/
 
 ## Download
 
 Tarballs and packages for Debian and Red Hat are available on http://ltb-project.org/wiki/download#self_service_password
+
+Debian and Red Hat repositories are also available, see [installation instructions](https://self-service-password.readthedocs.io/en/latest/installation.html).
 
 ## Source code
 
