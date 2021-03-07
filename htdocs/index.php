@@ -19,9 +19,6 @@ require_once("../lib/vendor/autoload.php");
 if ($use_captcha) {
     require_once("../lib/captcha.inc.php");
 }
-if ($use_recaptcha) {
-    require_once("../lib/vendor/autoload.php");
-}
 if ($use_pwnedpasswords) {
     require_once("../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
 }
@@ -198,12 +195,7 @@ $smarty->assign('default_action', $default_action);
 
 if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
-if (isset($recaptcha_publickey)) { $smarty->assign('recaptcha_publickey', $recaptcha_publickey); }
-if (isset($recaptcha_theme)) { $smarty->assign('recaptcha_theme', $recaptcha_theme);  }
-if (isset($recaptcha_type)) { $smarty->assign('recaptcha_type', $recaptcha_type); }
-if (isset($recaptcha_size)) { $smarty->assign('recaptcha_size', $recaptcha_size); }
 if (isset($token)) { $smarty->assign('token', $token); }
-if (isset($use_recaptcha)) { $smarty->assign('use_recaptcha', $use_recaptcha); }
 if (isset($use_captcha)) { $smarty->assign('use_captcha', $use_captcha); }
 // TODO : Make it clean function show_policy - START
 if (isset($pwd_show_policy_pos)) { 

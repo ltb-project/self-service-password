@@ -75,15 +75,6 @@
             </div>
         </div>
     {/if}
-    
-    {if use_recaptcha}
-      <div class="form-group">
-          <div class="col-sm-offset-4 col-sm-8">
-              <div class="g-recaptcha" data-sitekey="{$recaptcha_publickey}" data-theme="{$recaptcha_theme}" data-type="{$recaptcha_type}" data-size="{$recaptcha_size}"></div>
-              <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl={$lang}"></script>
-          </div>
-      </div>
-    {/if}
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <button type="submit" class="btn btn-success">

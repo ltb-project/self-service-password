@@ -17,6 +17,5 @@ LDAP Tool Box Self Service Password documentation
    config_tokens.rst
    config_sms.rst
    config_mail.rst
-   config_recaptcha.rst
    config_preposthook.rst
 

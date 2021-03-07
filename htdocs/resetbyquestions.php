@@ -78,13 +78,6 @@ if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
 }
 
-#==============================================================================
-# Check reCAPTCHA
-#==============================================================================
-if ( $result === "" && $use_recaptcha ) {
-    $result = check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $_POST['g-recaptcha-response'], $login);
-}
-
 # Should we pre-populate the question?
 #   This should ensure that $login is valid and everything else is empty.
 $populate_questions = $question_populate_enable

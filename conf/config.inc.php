@@ -310,22 +310,8 @@ $display_footer = true;
 # If empty, only alphanumeric characters are accepted
 $login_forbidden_chars = "*()&|";
 
-## CAPTCHA
-# Use built-in captcha
+## Captcha
 $use_captcha = false;
-
-# Use Google reCAPTCHA (http://www.google.com/recaptcha)
-$use_recaptcha = false;
-# Go on the site to get public and private key
-$recaptcha_publickey = "";
-$recaptcha_privatekey = "";
-# Customization (see https://developers.google.com/recaptcha/docs/display)
-$recaptcha_theme = "light";
-$recaptcha_type = "image";
-$recaptcha_size = "normal";
-# reCAPTCHA request method, null for default, Fully Qualified Class Name to override
-# Useful when allow_url_fopen=0 ex. $recaptcha_request_method = '\ReCaptcha\RequestMethod\CurlPost';
-$recaptcha_request_method = null;
 
 ## Default action
 # change

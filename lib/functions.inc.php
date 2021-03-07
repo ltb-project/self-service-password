@@ -668,28 +668,6 @@ function check_username_validity($username,$login_forbidden_chars) {
     return $result;
 }
 
-/* @function string check_recaptcha(string $recaptcha_privatekey, null|string $recaptcha_request_method, string $response, string $login)
- * Check if $response verifies the reCAPTCHA by asking the recaptcha server, logs if errors
- * @param $recaptcha_privatekey string shared secret with reCAPTCHA server
- * @param $recaptcha_request_method null|string FQCN of request method, null for default
- * @param $response string response provided by user
- * @param $login string for logging purposes only
- * @return string empty string if the response is verified successfully, else string 'badcaptcha'
- */
-function check_recaptcha($recaptcha_privatekey, $recaptcha_request_method, $response, $login) {
-    $recaptcha = new \ReCaptcha\ReCaptcha($recaptcha_privatekey, is_null($recaptcha_request_method) ? null : new $recaptcha_request_method());
-    $resp = $recaptcha->verify($response, $_SERVER['REMOTE_ADDR']);
-
-    if (!$resp->isSuccess()) {
-        error_log("Bad reCAPTCHA attempt with user $login");
-        foreach ($resp->getErrorCodes() as $code) {
-            error_log("reCAPTCHA error: $code");
-        }
-        return 'badcaptcha';
-    }
-
-    return '';
-}
 /* @function string hook_command(string $hook, string  $login, string $newpassword, null|string $oldpassword, null|boolean $hook_password_encodebase64)
    Creates the command line to execute for the prehook/posthook process. Passwords will be base64 encoded if configured. Base64 encoding will prevent passwords with special
    characters to be modified by the escapeshellarg() function.
