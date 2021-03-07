@@ -48,13 +48,6 @@ if (!$crypt_tokens) {
     ini_set("session.use_cookies",0);
     ini_set("session.use_only_cookies",1);
 
-    # Manage lifetime with sessions properties
-    if (isset($token_lifetime)) {
-        ini_set("session.gc_maxlifetime", $token_lifetime);
-        ini_set("session.gc_probability",1);
-        ini_set("session.gc_divisor",1);
-    }
-
     session_id($tokenid);
     session_name("smstoken");
     session_start();
