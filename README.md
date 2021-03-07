@@ -27,9 +27,9 @@ It has the following features:
 * Reset by mail challenge (token sent by mail)
 * Reset by SMS (trough external Email 2 SMS service or SMS API)
 * Change SSH Key in LDAP directory
-* reCAPTCHA (Google API)
+* Captcha (built-in)
 * Mail notification after password change
-* Hook script after password change
+* Hook script before and after password change
 
 ## Prerequisite
 * PHP extensions required:
