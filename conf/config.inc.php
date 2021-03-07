@@ -311,6 +311,9 @@ $display_footer = true;
 $login_forbidden_chars = "*()&|";
 
 ## CAPTCHA
+# Use built-in captcha
+$use_captcha = false;
+
 # Use Google reCAPTCHA (http://www.google.com/recaptcha)
 $use_recaptcha = false;
 # Go on the site to get public and private key

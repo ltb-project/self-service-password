@@ -15,6 +15,10 @@ require_once("../conf/config.inc.php");
 #==============================================================================
 require_once("../lib/vendor/defuse-crypto.phar");
 require_once("../lib/functions.inc.php");
+require_once("../lib/vendor/autoload.php");
+if ($use_captcha) {
+    require_once("../lib/captcha.inc.php");
+}
 if ($use_recaptcha) {
     require_once("../lib/vendor/autoload.php");
 }
@@ -199,6 +203,7 @@ if (isset($recaptcha_type)) { $smarty->assign('recaptcha_type', $recaptcha_type)
 if (isset($recaptcha_size)) { $smarty->assign('recaptcha_size', $recaptcha_size); }
 if (isset($token)) { $smarty->assign('token', $token); }
 if (isset($use_recaptcha)) { $smarty->assign('use_recaptcha', $use_recaptcha); }
+if (isset($use_captcha)) { $smarty->assign('use_captcha', $use_captcha); }
 // TODO : Make it clean function show_policy - START
 if (isset($pwd_show_policy_pos)) { 
     $smarty->assign('pwd_show_policy_pos', $pwd_show_policy_pos); 

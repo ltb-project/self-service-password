@@ -75,6 +75,9 @@
                 </div>
             </div>
         </div>
+        {if ($use_captcha)}
+             {include file="captcha.tpl"}
+        {/if}
         {if ($use_recaptcha)}
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
