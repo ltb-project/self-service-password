@@ -86,7 +86,7 @@
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                 <button type="submit" class="btn btn-success">
-                    <i class="fa fa-fw da-check-square-o"></i> {$msg_submit}
+                    <i class="fa fa-fw fa-check-square-o"></i> {$msg_submit}
                 </button>
             </div>
         </div>
