@@ -148,7 +148,7 @@ function get_criticity( $msg ) {
     return "danger";
     }
 
-    if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token|sshkey)required|badcaptcha|tokenattempts|checkdatabeforesubmit/" , $msg ) ) {
+    if ( preg_match( "/(login|oldpassword|newpassword|confirmpassword|answer|question|password|mail|token|sshkey|captcha)required|badcaptcha|tokenattempts|checkdatabeforesubmit/" , $msg ) ) {
         return "warning";
     }
 
