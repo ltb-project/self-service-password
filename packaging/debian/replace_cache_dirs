@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sed -i 's:^#$smarty_cache_dir.*:$smarty_cache_dir = "/var/cache/self-service-password/cache";:' debian/self-service-password/usr/share/self-service-password/conf/config.inc.php
+sed -i 's:^#$smarty_compile_dir.*:$smarty_compile_dir = "/var/cache/self-service-password/templates_c";:' debian/self-service-password/usr/share/self-service-password/conf/config.inc.php
