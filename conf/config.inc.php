@@ -371,6 +371,10 @@ if (!defined("SMARTY")) {
     define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 }
 
+# Cache directory
+$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
+$smarty_cache_dir = "/var/cache/self-service-password/cache";
+
 # Set preset login from HTTP header $header_name_preset_login
 $presetLogin = "";
 if (isset($header_name_preset_login)) {
