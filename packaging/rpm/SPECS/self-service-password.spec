@@ -16,6 +16,7 @@
 %define ssp_realname	ltb-project-%{name}
 %define ssp_version	1.4
 %define ssp_destdir     /usr/share/%{name}
+%define ssp_cachedir    /var/cache/%{name}
 
 #=================================================
 # Header
@@ -55,13 +56,13 @@ rm -rf %{buildroot}
 
 # Create directories
 mkdir -p %{buildroot}/%{ssp_destdir}
-mkdir -p %{buildroot}/%{ssp_destdir}/cache
+mkdir -p %{buildroot}/%{ssp_cachedir}/cache
 mkdir -p %{buildroot}/%{ssp_destdir}/conf
 mkdir -p %{buildroot}/%{ssp_destdir}/htdocs
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
 mkdir -p %{buildroot}/%{ssp_destdir}/templates
-mkdir -p %{buildroot}/%{ssp_destdir}/templates_c
+mkdir -p %{buildroot}/%{ssp_cachedir}/templates_c
 mkdir -p %{buildroot}/%{ssp_destdir}/scripts
 mkdir -p %{buildroot}/etc/httpd/conf.d
 
@@ -83,6 +84,8 @@ install -m 644 %{SOURCE1}     %{buildroot}/etc/httpd/conf.d/self-service-passwor
 
 # Adapt Smarty paths
 sed -i 's:/usr/share/php/smarty3:/usr/share/php/Smarty:' %{buildroot}%{ssp_destdir}/conf/config.inc.php
+sed -i 's:^#$smarty_cache_dir.*:$smarty_cache_dir = "'%{ssp_cachedir}/cache'";:' %{buildroot}%{ssp_destdir}/conf/config.inc.php
+sed -i 's:^#$smarty_compile_dir.*:$smarty_compile_dir = "'%{ssp_cachedir}/templates_c'";:' %{buildroot}%{ssp_destdir}/conf/config.inc.php
 
 %post
 #=================================================
@@ -90,7 +93,8 @@ sed -i 's:/usr/share/php/smarty3:/usr/share/php/Smarty:' %{buildroot}%{ssp_destd
 #=================================================
 
 # Change owner
-/bin/chown -R apache:apache %{ssp_destdir}
+/bin/chown apache:apache %{ssp_cachedir}/cache
+/bin/chown apache:apache %{ssp_cachedir}/templates_c
 
 # Move configuration for older version
 if [ -r "%{ssp_destdir}/config.inc.php" ]; then
@@ -111,6 +115,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{ssp_destdir}/conf/config.inc.php
 %config(noreplace) /etc/httpd/conf.d/self-service-password.conf
 %{ssp_destdir}
+%{ssp_cachedir}
 
 #=================================================
 # Changelog
