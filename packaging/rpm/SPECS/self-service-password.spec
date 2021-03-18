@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.3
+%define ssp_version	1.4
 %define ssp_destdir     /usr/share/%{name}
 
 #=================================================
@@ -35,7 +35,7 @@ Source1: self-service-password-apache.conf
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires(pre): coreutils
-Requires: php, php-ldap, php-mbstring
+Requires: php, php-ldap, php-mbstring, php-Smarty
 
 %description
 Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory.
@@ -55,32 +55,34 @@ rm -rf %{buildroot}
 
 # Create directories
 mkdir -p %{buildroot}/%{ssp_destdir}
+mkdir -p %{buildroot}/%{ssp_destdir}/cache
 mkdir -p %{buildroot}/%{ssp_destdir}/conf
-mkdir -p %{buildroot}/%{ssp_destdir}/css
-mkdir -p %{buildroot}/%{ssp_destdir}/fonts
-mkdir -p %{buildroot}/%{ssp_destdir}/images
-mkdir -p %{buildroot}/%{ssp_destdir}/js
+mkdir -p %{buildroot}/%{ssp_destdir}/htdocs
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
-mkdir -p %{buildroot}/%{ssp_destdir}/pages
+mkdir -p %{buildroot}/%{ssp_destdir}/templates
+mkdir -p %{buildroot}/%{ssp_destdir}/templates_c
 mkdir -p %{buildroot}/%{ssp_destdir}/scripts
 mkdir -p %{buildroot}/etc/httpd/conf.d
 
 # Copy files
 ## PHP
-install -m 644 *.php     %{buildroot}/%{ssp_destdir}
-install -m 644 conf/*    %{buildroot}/%{ssp_destdir}/conf
-install -m 644 css/*     %{buildroot}/%{ssp_destdir}/css
-install -m 644 fonts/*   %{buildroot}/%{ssp_destdir}/fonts
-install -m 644 images/*  %{buildroot}/%{ssp_destdir}/images
-install -m 644 js/*      %{buildroot}/%{ssp_destdir}/js
-install -m 644 lang/*    %{buildroot}/%{ssp_destdir}/lang
-install -m 644 lib/*.php %{buildroot}/%{ssp_destdir}/lib
-cp -a lib/vendor         %{buildroot}/%{ssp_destdir}/lib
-install -m 644 pages/*   %{buildroot}/%{ssp_destdir}/pages
-install -m 644 scripts/* %{buildroot}/%{ssp_destdir}/scripts
+install -m 644 conf/*         %{buildroot}/%{ssp_destdir}/conf
+install -m 644 htdocs/*.php   %{buildroot}/%{ssp_destdir}/htdocs
+cp -a          htdocs/css     %{buildroot}/%{ssp_destdir}/htdocs
+cp -a          htdocs/images  %{buildroot}/%{ssp_destdir}/htdocs
+cp -a          htdocs/js      %{buildroot}/%{ssp_destdir}/htdocs
+cp -a          htdocs/vendor  %{buildroot}/%{ssp_destdir}/htdocs
+install -m 644 lang/*         %{buildroot}/%{ssp_destdir}/lang
+install -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
+cp -a          lib/vendor     %{buildroot}/%{ssp_destdir}/lib
+install -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
+install -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
 ## Apache configuration
-install -m 644 %{SOURCE1} %{buildroot}/etc/httpd/conf.d/self-service-password.conf
+install -m 644 %{SOURCE1}     %{buildroot}/etc/httpd/conf.d/self-service-password.conf
+
+# Adapt Smarty paths
+sed -i 's:/usr/share/php/smarty3:/usr/share/php/Smarty:' %{buildroot}%{ssp_destdir}/conf/config.inc.php
 
 %post
 #=================================================
