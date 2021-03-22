@@ -9,28 +9,35 @@ require_once(__DIR__."/../lib/functions.inc.php");
 # Action
 #==============================================================================
 
-$result = "";
-$return = Array();
-$error_code = 1;
 $login = $argv[1];
-$newpassword = $argv[2];
+if ($posthook_password_encodebase64) {
+    $newpassword = base64_decode($argv[2]);
+} else {
+    $newpassword = $argv[2];
+}
 $oldpassword = '';
 
-$log_file = fopen(__DIR__.'/multi_ldap_change.log', 'a+');
+$log_file = fopen(sys_get_temp_dir().'/multi_ldap_change.log', 'a+');
 fwrite($log_file, "Change '$login' password...\n");
 
 foreach ($secondaries_ldap as $s_ldap) {
+    $result = "";
+    $return = Array();
+    $error_code = 1;
+
     # Connect to LDAP
     $ldap = ldap_connect($s_ldap['ldap_url']);
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
+    if ( $s_ldap['ldap_starttls'] && !ldap_start_tls($ldap) ) {
         $result = "ldaperror";
         fwrite($log_file, "LDAP - Unable to use StartTLS");
     } else {
 
     # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+    if ( isset($s_ldap['ldap_binddn']) && isset($s_ldap['ldap_bindpw']) ) {
+        $bind = ldap_bind($ldap, $s_ldap['ldap_binddn'], $s_ldap['ldap_bindpw']);
+    } else if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     } else {
         $bind = ldap_bind($ldap);
@@ -63,29 +70,15 @@ foreach ($secondaries_ldap as $s_ldap) {
         fwrite($log_file, "LDAP - User $login not found");
     } else {
 
-    # Get user email for notification
-    if ( $notify_on_change ) {
-        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-        if ( $mailValues["count"] > 0 ) {
-            $mail = $mailValues[0];
-        }
-    }
-
-    # Check objectClass to allow samba and shadow updates
-    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
-    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
-        $samba_mode = false;
-    }
-    if ( !in_array( 'shadowAccount', $ocValues ) ) {
-        $shadow_options['update_shadowLastChange'] = false;
-        $shadow_options['update_shadowExpire'] = false;
-    }
-
     $entry = ldap_get_attributes($ldap, $entry);
     $entry['dn'] = $userdn;
 
     # Bind with manager credentials
-    $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+    if ( isset($s_ldap['ldap_binddn']) && isset($s_ldap['ldap_bindpw']) ) {
+        $bind = ldap_bind($ldap, $s_ldap['ldap_binddn'], $s_ldap['ldap_bindpw']);
+    } ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+    }
     if ( !$bind ) {
         $result = "badcredentials";
         $errno = ldap_errno($ldap);
@@ -112,7 +105,11 @@ foreach ($secondaries_ldap as $s_ldap) {
 
         # Rebind as Manager if needed
         if ( $who_change_password == "manager" ) {
-            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+            if ( isset($s_ldap['ldap_binddn']) && isset($s_ldap['ldap_bindpw']) ) {
+                $bind = ldap_bind($ldap, $s_ldap['ldap_binddn'], $s_ldap['ldap_bindpw']);
+            } ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+                $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+            }
         }
 
         #==============================================================================

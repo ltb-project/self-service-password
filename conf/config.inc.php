@@ -44,8 +44,6 @@ $ldap_fullname_attribute = "cn";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
 $ldap_use_exop_passwd = false;
 $ldap_use_ppolicy_control = false;
-//$secondaries_ldap[0]['ldap_url'] = 'ldap://ldap2.example.com';
-//$secondaries_ldap[1]['ldap_url'] = 'ldap://ldap3.example.com';
 
 # Active Directory mode
 # true: use unicodePwd as password field
@@ -62,7 +60,6 @@ $ad_options['change_expired_password'] = false;
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
 # false: just update the password
 $samba_mode = false;
-$samba_options = null;
 # Set password min/max age in Samba attributes
 #$samba_options['min_age'] = 5;
 #$samba_options['max_age'] = 45;

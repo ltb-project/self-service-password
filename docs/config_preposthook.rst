@@ -1,6 +1,9 @@
 Pre & Post Hook configuration
 =============================
 
+How it works?
+-------------
+
 You can write a script that will be called before changing a
 password (pre hook) or after a successful password change (post hook).
 
@@ -82,3 +85,30 @@ Here is an example of a simple hook script:
   redirected to
   /tmp/systemd-private-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-apache2.service-XXXXXX/tmp
   or similar.
+
+Example : Multi LDAP posthook
+-----------------------------
+
+You can configure multiple LDAP backend.
+
+To enable this option, you have to add the posthook :
+
+.. code:: php
+
+    $posthook = "php /usr/share/self-service-password/multi_ldap_change.php $login $newpassword";
+
+You need to add the list of your ldap backend :
+
+.. code:: php
+
+    $secondaries_ldap[0]['ldap_url'] = 'ldap://ldap2.example.com';
+    $secondaries_ldap[1]['ldap_url'] = 'ldap://ldap3.example.com';
+
+It's necessary to activate the base64 enconding for special characters.
+You can be enabled this option with this configuration line :
+
+.. code:: php
+
+    $posthook_password_encodebase64 = true;
+
+.. warning:: This script suppose that you use the same credentials on all your backend.
