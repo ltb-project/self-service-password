@@ -156,8 +156,18 @@ $result = "";
 $action = "change";
 if (isset($default_action)) { $action = $default_action; }
 if (isset($_GET["action"]) and $_GET['action']) { $action = $_GET["action"]; }
-#if ($action === "change" and !$use_change) { $action = ""}
-#if ($action === "sendtoken" and !$use_tokens) {}
+
+# Available actions
+$available_actions = array();
+if ( $use_change ) { array_push( $available_actions, "change"); }
+if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
+if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
+if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
+if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
+
+# Ensure requested action is available, or fall back to default
+if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
+
 if (file_exists($action.".php")) { require_once($action.".php"); }
 
 #==============================================================================
