@@ -59,16 +59,16 @@ LDAP server, you can try to set this option:
 Credentials
 -----------
 
-Configure DN and password in ``$ldap_bindn`` and ``$ldap_bindpw`` for example a user named SSP:
+Configure DN and password in ``$ldap_bindn`` and ``$ldap_bindpw``, for example a service account:
 
 .. code:: php
 
-   $ldap_binddn = "cn=SSP,dc=example,dc=com";
+   $ldap_binddn = "cn=ssp,ou=dsa,dc=example,dc=com";
    $ldap_bindpw = "secret";
 
 .. tip:: You can leave these parameters empty to bind anonymously. In
   this case, the password modification must be done with user's
-  credentials.
+  credentials. But this will not work for password reset.
 
 If you want an SSP account to do this on behalf of the user set the value of ``$who_change_password`` to ``manager``. 
 
