@@ -186,8 +186,8 @@ you also need to give rights on the question attribute:
 -  Select the "Property-specific" checkbox only, then locate the
    attribute you are using to store the "Reset by questions" answer in.
 
-Samba
-~~~~~
+Samba 3 or lower
+~~~~~~~~~~~~~~~~
 
 To manage compatibility with Windows world, Samba stores a specific hash
 of the password in a second attribute (``sambaNTpassword``). It also
@@ -215,6 +215,8 @@ To set an expiration date for a Samba account (attribute
 
 .. tip:: Samba modifications will only be done on entries of class
   ``sambaSamAccount``
+
+.. tip:: For Samba 4, you must use AD mode, not Samba mode.
 
 Shadow
 ~~~~~~
