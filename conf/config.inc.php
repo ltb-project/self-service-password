@@ -361,6 +361,10 @@ $use_restapi = false;
 # The name of an HTTP Header that may hold a reference to an extra config file to include.
 #$header_name_extra_config="SSP-Extra-Config";
 
+# Cache directory
+$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
+$smarty_cache_dir = "/var/cache/self-service-password/cache";
+
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';
@@ -370,10 +374,6 @@ if (file_exists (__DIR__ . '/config.inc.local.php')) {
 if (!defined("SMARTY")) {
     define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 }
-
-# Cache directory
-$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
-$smarty_cache_dir = "/var/cache/self-service-password/cache";
 
 # Set preset login from HTTP header $header_name_preset_login
 $presetLogin = "";
