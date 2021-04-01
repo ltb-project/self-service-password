@@ -48,3 +48,24 @@ You can enable it in configuration:
    $twilio_outgoing_number = '+18881234567';
    $twilio_lookup_first = true;
 
+OVH
+---
+
+Provider website: https://www.ovh.com/
+
+Code sample provided in SSP sources:
+https://raw.githubusercontent.com/ltb-project/self-service-password/master/lib/smsapi-ovh.inc.php
+
+Get credentials here:
+https://api.ovh.com/createToken/index.cgi?GET=/sms&GET=/sms/*&PUT=/sms/*&DELETE=/sms/*&POST=/sms/*
+
+You can enable it in configuration:
+
+.. code:: php
+
+   $sms_api_lib = "lib/smsapi-ovh.inc.php";
+   $ovh_appkey="KKK";
+   $ovh_appsecret="SSS";
+   $ovh_consumerkey="CCC";
+   $ovh_smssender="MYSENDER";
+
