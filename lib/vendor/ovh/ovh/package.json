@@ -1,0 +1,15 @@
+{
+  "name": "ovh-ovh",
+  "version": "1.1.0",
+  "project": "Ovh",
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-phpcs": "~0.2.2",
+    "grunt-php": "~0.3.2",
+    "grunt-phplint": "~0.0.5",
+    "grunt-phpunit": "~0.3.3",
+    "grunt-phpdocumentor": "~0.4.1",
+    "grunt-contrib-watch ": "~0.6.1"
+  }
+}

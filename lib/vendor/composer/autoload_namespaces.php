@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Ovh\\Sms\\' => array($vendorDir . '/ovh/php-ovh-sms/src'),
 );

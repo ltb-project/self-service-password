@@ -1,0 +1,16 @@
+{
+  "name": "ovh-php-ovh-sms",
+  "version": "1.0",
+  "project": "Ovh-Sms",
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-phpcs": "~0.2.2",
+    "grunt-php": "~0.3.2",
+    "grunt-phplint": "~0.0.5",
+    "grunt-phpunit": "~0.3.3",
+    "grunt-phpdocumentor": "~0.4.1",
+    "grunt-contrib-watch ": "~0.6.1",
+    "ovh-ovh": "~1.1.1"
+  }
+}
