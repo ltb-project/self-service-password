@@ -89,7 +89,7 @@ $hash_options['crypt_salt_prefix'] = "$6$";
 $hash_options['crypt_salt_length'] = "6";
 
 # USE rate-limiting by IP and/or by user 
-$use_ratelimit = true;
+$use_ratelimit = false;
 # dir for json db's (system default tmpdir)
 #$ratelimit_dbdir = '/tmp';
 # block attempts for same login ?
