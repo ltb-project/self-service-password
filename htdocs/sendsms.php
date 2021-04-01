@@ -242,7 +242,7 @@ if ( $result === "sendsms" ) {
             $result = "smsnotsent";
             error_log('No API library found, set $sms_api_lib in configuration.');
         } else {
-            include_once($sms_api_lib);
+            include_once("../".$sms_api_lib);
             $sms_message = str_replace('{smsresetmessage}', $messages['smsresetmessage'], $sms_message);
             $sms_message = str_replace('{smstoken}', $smstoken, $sms_message);
             if ( send_sms_by_api($sms, $sms_message) ) {
