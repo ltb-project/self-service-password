@@ -32,6 +32,8 @@
  *
  */
 
+require __DIR__ . '/vendor/autoload.php';
+
 /* @function boolean send_sms_by_api(string $mobile, string $message, array $config)
  * Send SMS trough an API
  * @param mobile mobile number

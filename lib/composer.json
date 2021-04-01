@@ -1,6 +1,5 @@
 {
     "require": {
-	"ovh/php-ovh-sms": "dev-master",
         "gregwar/captcha": "^1.1",
         "phpmailer/phpmailer": "^6.3"
     }
