@@ -153,6 +153,13 @@ if ( $result === "" ) {
             error_log("Mail not found for user $login");
         }
     }
+    if ( $use_ratelimit ) {
+        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+            $result = "throttle";
+            error_log("Mail - User $login too fast");
+        }
+    }
+
 
 }}}}}
 
