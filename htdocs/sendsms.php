@@ -39,7 +39,7 @@ $captchaphrase = "";
 
 if ($use_captcha) {
     if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-     else { $result = "captcharequired"; }
+    elseif (!(isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"]))) { $result = "captcharequired"; }
 }
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
