@@ -362,8 +362,8 @@ $use_restapi = false;
 #$header_name_extra_config="SSP-Extra-Config";
 
 # Cache directory
-$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
-$smarty_cache_dir = "/var/cache/self-service-password/cache";
+#$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
+#$smarty_cache_dir = "/var/cache/self-service-password/cache";
 
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
