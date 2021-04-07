@@ -62,7 +62,7 @@ $messages['forbiddenchars'] = "You password contains forbidden characters";
 $messages['policyforbiddenchars'] = "Forbidden characters:";
 $messages['policynoreuse'] = "Your new password may not be the same as your old password";
 //$messages['question$messages['questions']['0employeeID'] = "What is your employee ID number? (default)";s']['0employeeID'] = "What is your employee ID number? (default)";
-$messages['questions']['spouse'] = "In what city did you meet your spouse/significant other?";
+//$messages['questions']['spouse'] = "In what city did you meet your spouse/significant other?";
 $messages['password'] = "Password";
 $messages['question'] = "Question";
 $messages['answer'] = "Answer";
