@@ -37,13 +37,11 @@ $debug = false;
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
 $ldap_binddn = "cn=manager,dc=example,dc=com";
-$ldap_bindpw = 'secret';
+$ldap_bindpw = "secret";
 $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
-$ldap_use_exop_passwd = false;
-$ldap_use_ppolicy_control = false;
 
 # Active Directory mode
 # true: use unicodePwd as password field
@@ -63,7 +61,6 @@ $samba_mode = false;
 # Set password min/max age in Samba attributes
 #$samba_options['min_age'] = 5;
 #$samba_options['max_age'] = 45;
-#$samba_options['expire_days'] = 90;
 
 # Shadow options - require shadowAccount objectClass
 # Update shadowLastChange
@@ -110,14 +107,6 @@ $pwd_special_chars = "^a-zA-Z0-9";
 $pwd_no_reuse = true;
 # Check that password is different than login
 $pwd_diff_login = true;
-# Check new passwords differs from old one - minimum characters count
-$pwd_diff_last_min_chars = 0;
-# Forbidden words which must not appear in the password
-$pwd_forbidden_words = array();
-# Forbidden ldap fields
-# Respective values of the user's entry must not appear in the password
-# example: $pwd_forbidden_ldap_fields = array('cn', 'givenName', 'sn', 'mail');
-$pwd_forbidden_ldap_fields = array();
 # Complexity: number of different class of character required
 $pwd_complexity = 0;
 # use pwnedpasswords api v2 to securely check if the password has been on a leak
@@ -132,17 +121,11 @@ $pwd_show_policy = "never";
 # below - the form
 $pwd_show_policy_pos = "above";
 
-# disallow use of the only special character as defined in `$pwd_special_chars` at the beginning and end
-$pwd_no_special_at_ends = false;
-
 # Who changes the password?
 # Also applicable for question/answer save
 # user: the user itself
 # manager: the above binddn
-$who_change_password = "user";
-
-# Show extended error message returned by LDAP directory when password is refused
-$show_extended_error = false;
+$who_change_password = "manager";
 
 ## Standard change
 # Use standard change form?
@@ -167,12 +150,9 @@ $notify_on_sshkey_change = false;
 
 ## Questions/answers
 # Use questions/answers?
+# true (default)
+# false
 $use_questions = true;
-# Allow to register more than one answer?
-$multiple_answers = false;
-# Store many answers in a single string attribute
-# (only used if $multiple_answers = true)
-$multiple_answers_one_str = false;
 
 # Answer attribute should be hidden to users!
 $answer_objectClass = "extensibleObject";
@@ -182,22 +162,7 @@ $answer_attribute = "info";
 $crypt_answers = true;
 
 # Extra questions (built-in questions are in lang/$lang.inc.php)
-# Should the built-in questions be included?
-$questions_use_default = true;
 #$messages['questions']['ice'] = "What is your favorite ice cream flavor?";
-
-# How many questions must be answered.
-#  If = 1: legacy behavior
-#  If > 1:
-#    this many questions will be included in the page forms
-#    this many questions must be set at a time
-#    user must answer this many correctly to reset a password
-#    $multiple_answers must be true
-#    at least this many possible questions must be available (there are only 2 questions built-in)
-$questions_count = 1;
-
-# Should the user be able to select registered question(s) by entering only the login?
-$question_populate_enable = false;
 
 ## Token
 # Use tokens?
@@ -238,11 +203,11 @@ $mail_smtp_timeout = 30;
 $mail_smtp_keepalive = false;
 $mail_smtp_secure = 'tls';
 $mail_smtp_autotls = true;
-$mail_smtp_options = array();
 $mail_contenttype = 'text/plain';
 $mail_wordwrap = 0;
 $mail_charset = 'utf-8';
 $mail_priority = 3;
+$mail_newline = PHP_EOL;
 
 ## SMS
 # Use sms
@@ -270,7 +235,7 @@ $sms_token_length = 6;
 # Max attempts allowed for SMS token
 $max_attempts = 3;
 
-# Encryption, decryption keyphrase, required if $use_tokens = true and $crypt_tokens = true, or $use_sms, or $crypt_answer
+# Encryption, decryption keyphrase, required if $crypt_tokens = true
 # Please change it to anything long, random and complicated, you do not have to remember it
 # Changing it will also invalidate all previous tokens and SMS codes
 $keyphrase = "secret";
@@ -297,9 +262,6 @@ $logo = "images/ltb-logo.png";
 # Background image
 $background_image = "images/unsplash-space.jpeg";
 
-$custom_css = "";
-$display_footer = true;
-
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log
 #$reset_request_log = "/var/log/self-service-password";
@@ -309,8 +271,19 @@ $display_footer = true;
 # If empty, only alphanumeric characters are accepted
 $login_forbidden_chars = "*()&|";
 
-## Captcha
-$use_captcha = false;
+## CAPTCHA
+# Use Google reCAPTCHA (http://www.google.com/recaptcha)
+$use_recaptcha = false;
+# Go on the site to get public and private key
+$recaptcha_publickey = "";
+$recaptcha_privatekey = "";
+# Customization (see https://developers.google.com/recaptcha/docs/display)
+$recaptcha_theme = "light";
+$recaptcha_type = "image";
+$recaptcha_size = "normal";
+# reCAPTCHA request method, null for default, Fully Qualified Class Name to override
+# Useful when allow_url_fopen=0 ex. $recaptcha_request_method = '\ReCaptcha\RequestMethod\CurlPost';
+$recaptcha_request_method = null;
 
 ## Default action
 # change
@@ -318,79 +291,20 @@ $use_captcha = false;
 # sendsms
 $default_action = "change";
 
-## Rest API
-$use_restapi = false;
-
 ## Extra messages
 # They can also be defined in lang/ files
 #$messages['passwordchangedextramessage'] = NULL;
 #$messages['changehelpextramessage'] = NULL;
 
-## Pre Hook
-# Launch a prehook script before changing password.
-# Script should return with 0, to allow password change.
-# Any other exit code would abort password modification
-#$prehook = "/usr/share/self-service-password/prehook.sh";
-# Display prehook error
-#$display_prehook_error = true;
-# Encode passwords sent to prehook script as base64. This will prevent alteration of the passwords if set to true.
-# To read the actual password in the prehook script, use a base64_decode function/tool
-#$prehook_password_encodebase64 = false;
-# Ignore prehook error. This will allow to change password even if prehook script fails.
-#$ignore_prehook_error = true;
-
-## Post Hook
 # Launch a posthook script after successful password change
 #$posthook = "/usr/share/self-service-password/posthook.sh";
-# Display posthook error
 #$display_posthook_error = true;
-# Encode passwords sent to posthook script as base64. This will prevent alteration of the passwords if set to true.
-# To read the actual password in the posthook script, use a base64_decode function/tool
-#$posthook_password_encodebase64 = false;
-
-# Force setlocale if your default PHP configuration is not correct
-#setlocale(LC_CTYPE, "en_US.UTF-8");
 
 # Hide some messages to not disclose sensitive information
 # These messages will be replaced by badcredentials error
 #$obscure_failure_messages = array("mailnomatch");
 
-# HTTP Header name that may hold a login to preset in forms
-#$header_name_preset_login="Auth-User";
-
-# The name of an HTTP Header that may hold a reference to an extra config file to include.
-#$header_name_extra_config="SSP-Extra-Config";
-
-# Cache directory
-#$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
-#$smarty_cache_dir = "/var/cache/self-service-password/cache";
-
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';
-}
-
-# Smarty
-if (!defined("SMARTY")) {
-    define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
-}
-
-# Set preset login from HTTP header $header_name_preset_login
-$presetLogin = "";
-if (isset($header_name_preset_login)) {
-    $presetLoginKey = "HTTP_".strtoupper(str_replace('-','_',$header_name_preset_login));
-    if (array_key_exists($presetLoginKey, $_SERVER)) {
-        $presetLogin = preg_replace("/[^a-zA-Z0-9-_@\.]+/", "", filter_var($_SERVER[$presetLoginKey], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-    }
-}
-
-# Allow to override current settings with an extra configuration file, whose reference is passed in HTTP_HEADER $header_name_extra_config
-if (isset($header_name_extra_config)) {
-    $extraConfigKey = "HTTP_".strtoupper(str_replace('-','_',$header_name_extra_config));
-    if (array_key_exists($extraConfigKey, $_SERVER)) {
-        $extraConfig = preg_replace("/[^a-zA-Z0-9-_]+/", "", filter_var($_SERVER[$extraConfigKey], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
-        if (strlen($extraConfig) > 0 && file_exists (__DIR__ . "/config.inc.".$extraConfig.".php")) {
-            require  __DIR__ . "/config.inc.".$extraConfig.".php";
-        }
-    }
 }

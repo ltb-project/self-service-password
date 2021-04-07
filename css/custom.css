@@ -1,0 +1,15 @@
+.alert {
+    box-shadow: none;
+    border-color: #fff;
+}
+
+.alert-info {
+    background-image: none;
+    background-image: -o-linear-gradient(top,#d9edf7 0,#b9def0 100%);
+    /* background-image: -webkit-gradient(linear,left top,left bottom,from(#d9edf7),to(#b9def0)); */
+    /* background-image: linear-gradient(to bottom,#d9edf7 0,#b9def0 100%); */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffb9def0', GradientType=0);
+    background-repeat: repeat-x;
+    background: #eee;
+    /* border-color: #9acfea; */
+}
