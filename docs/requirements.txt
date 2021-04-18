@@ -1,1 +1,2 @@
 sphinx-prompt
+sphinxcontrib.openapi
