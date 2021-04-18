@@ -100,12 +100,12 @@ You are now ready to install:
 Docker
 ------
 
-Prepare a configuration file for SelfServicePassword - see Configuration chapters.
+Prepare a local configuration file for Self Service Password, for example ``/home/test/ssp.conf.php``.
 
 Start container, mounting that configuration file:
 
 .. prompt:: bash #
 
     docker run -p 80:80 \
-        -v /host/path/to/config.php:/var/www/conf/config.inc.local.php \
-        -it docker.io/acksyn/self-service-password:latest
+        -v /home/test/ssp.conf.php:/var/www/conf/config.inc.local.php \
+        -it docker.io/ltbproject/self-service-password:latest
