@@ -39,7 +39,7 @@ $captchaphrase = "";
 
 if ($use_captcha) {
     if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-     else { $result = "captcharequired"; }
+    elseif (!(isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"]))) { $result = "captcharequired"; }
 }
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
@@ -247,7 +247,7 @@ if ( $result === "sendsms" ) {
             $result = "smsnotsent";
             error_log('No API library found, set $sms_api_lib in configuration.');
         } else {
-            include_once($sms_api_lib);
+            include_once("../".$sms_api_lib);
             $sms_message = str_replace('{smsresetmessage}', $messages['smsresetmessage'], $sms_message);
             $sms_message = str_replace('{smstoken}', $smstoken, $sms_message);
             if ( send_sms_by_api($sms, $sms_message) ) {

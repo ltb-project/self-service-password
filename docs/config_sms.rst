@@ -29,6 +29,7 @@ Some known providers:
 
    -  `SMS Global <https://www.smsglobal.com/>`__
    -  `Smart Focus <https://help-developer.smartfocus.com/>`__
+   -  `OVH SMS API <https://docs.ovh.com/fr/sms/envoyer_des_sms_avec_lapi_ovh_en_php/>`__
 
 Activation
 ----------
