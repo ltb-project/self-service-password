@@ -171,6 +171,16 @@ per login and per hour, and same for ip address:
 
    $enable_ratelimit = true;
 
+Other possible options for rate limiting:
+
+.. code:: php
+
+   $ratelimit_dbdir = '/tmp';
+   $max_attempts_per_user = 2;
+   $max_attempts_per_ip = 2;
+   $max_attempts_block_seconds = "60";
+   $client_ip_header = 'REMOTE_ADDR';
+
 Default action
 --------------
 
