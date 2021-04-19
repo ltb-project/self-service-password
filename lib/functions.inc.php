@@ -696,3 +696,63 @@ function hook_command($hook, $login, $newpassword, $oldpassword = null, $hook_pa
     }
     return $command;
 }
+
+/* function allowed_rate(string $login, string $ip_addr, array $rrl_config)
+ * Check if this login / this IP reached the limit fixed
+ * @return bool allowed
+ */
+function allowed_rate($login,$ip_addr,$rrl_config) {
+    $now = time();
+    $fblock=1;
+    if ($rrl_config["max_per_user"] > 0) {
+        $rrludb = $rrl_config["dbdir"] . "/ssp_rrl_users.json";
+        if (!file_exists($rrludb)) {
+           file_put_contents($rrludb,"{}");
+       }
+        $dbfh = fopen($rrludb . ".lock","w");
+        if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
+        flock($dbfh,LOCK_EX,$fblock);
+        $users = (array) json_decode(file_get_contents($rrludb));
+        $atts = [$now];
+        if (array_key_exists($login,$users)) {
+            foreach ($users[$login] as $when) {
+                if ( $when > ($now - $rrl_config['per_time']) ) {
+                    array_push($atts,$when);
+                }
+            }
+        }
+        $users[$login] = $atts;
+        file_put_contents($rrludb,json_encode($users));
+        flock($dbfh,LOCK_UN);
+        if (count($atts) > $rrl_config["max_per_user"]) {
+            return false;
+        }
+    }
+    if ($rrl_config["max_per_ip"] > 0) {
+        $rrlidb = $rrl_config["dbdir"] . "/ssp_rrl_ips.json";
+        if (!file_exists($rrlidb)) {
+           file_put_contents($rrlidb,"{}");
+        }
+        $dbfh = fopen($rrlidb . ".lock","w");
+        if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
+        flock($dbfh,LOCK_EX,$fblock);
+        $ips = (array) json_decode(file_get_contents($rrlidb));
+        $atts = [$now];
+        if (array_key_exists($ip_addr,$ips)) {
+            foreach ($ips[$ip_addr] as $when) {
+                if ( $when > ($now - $rrl_config['per_time']) ) {
+                    array_push($atts,$when);
+                }
+            }
+        }
+        $ips[$ip_addr] = $atts;
+       file_put_contents($rrlidb,json_encode($ips));
+        flock($dbfh,LOCK_UN);
+        if (count($atts) > $rrl_config["max_per_ip"]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+

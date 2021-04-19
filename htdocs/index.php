@@ -149,6 +149,14 @@ $pwd_policy_config = array(
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
+# rate-limiting config array
+$rrl_config = array(
+    "max_per_user" => $max_attempts_per_user,
+    "max_per_ip"   => $max_attempts_per_ip,
+    "per_time"     => $max_attempts_block_seconds,
+    "dbdir"        => isset($ratelimit_dbdir) ? $ratelimit_dbdir : sys_get_temp_dir(),
+);
+
 #==============================================================================
 # Route to action
 #==============================================================================

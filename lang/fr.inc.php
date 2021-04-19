@@ -150,3 +150,4 @@ $messages["questionspopulatehint"] = "Entrez uniquement votre identifiant pour r
 $messages['badquality'] = "La qualité du mot de passe est insuffisante";
 $messages['tooyoung'] = "Le mot de passe a été changé trop récemment";
 $messages['inhistory'] = "Le mot de passe est déjà présent dans votre historique";
+$messages['throttle'] = "Trop de tentatives en trop peu de temps… Essayer beaucoup plus tard maintenant (si vous êtes bien humain)";

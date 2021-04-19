@@ -133,6 +133,7 @@ $messages['sameaslogin'] = "Sua nova senha é idêntica ao seu nome de usuário"
 $messages['policydifflogin'] = "Sua nova senha não pode ser igual ao seu nome de usuário";
 $messages['pwned'] = "Sua nova senha já foi publicada como vazada, você deveria alterá-la em qualquer outro site que a utilize.";
 $messages['policypwned'] = "Parece que sua nova senha não foi publicada como vazada de qualquer site";
+$messages['throttle'] = "Too fast !!! Please try again later (if ever you are human)";
 $messages['policydiffminchars'] = "Minimum number of new unique characters:";
 $messages['diffminchars'] = "Your new password is too similar to your old password";
 $messages['specialatends'] = "Sua nova senha tem o único caracter especial no início ou fim";
