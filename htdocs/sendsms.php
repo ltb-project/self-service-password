@@ -187,17 +187,16 @@ if ( $result === "" ) {
         $result = "smsnonumber";
         error_log("No SMS number found for user $login");
     } else {
+        $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
+        $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
+        $result = "smsuserfound";
         if ( $use_ratelimit ) {
             if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
                 $result = "throttle";
                 error_log("LDAP - User $login too fast");
             }
         }
-        $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
-        $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
-        $result = "smsuserfound";
     }
-
 
 }}}}
 
