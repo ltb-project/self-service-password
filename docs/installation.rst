@@ -19,14 +19,14 @@ Install files in ``/usr/share/``:
 You need to install these prerequisites:
 
 * Apache or another web server
-* php
+* php (7 or later)
 * php-curl (haveibeenpwned api)
 * php-filter
 * php-gd (captcha)
 * php-ldap
 * php-mbstring (reset mail)
 * php-openssl (token crypt, probably built-in)
-* smarty (version 3)
+* Smarty (version 3)
 
 Debian / Ubuntu
 ---------------
