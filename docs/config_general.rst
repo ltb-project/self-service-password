@@ -135,7 +135,7 @@ Custom CSS
 
 To easily customize CSS, you can use a separate CSS file:
 
-.. code-block:: php
+.. code:: php
 
     $custom_css = "css/custom.css";
 
@@ -144,7 +144,7 @@ Footer
 
 You can hide the footer bar:
 
-.. code-block:: php
+.. code:: php
 
     $display_footer = false;
 
