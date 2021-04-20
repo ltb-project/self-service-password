@@ -52,14 +52,14 @@ ltb-project-self-service-password (1.4-1) unstable; urgency=low
     * gh#350: address CVE-2019-11043
     * gh#353: prevent variable interpretation when $ in password
     * gh#354: default_action set to sendtoken with use_change set to true, can not use change form
-    * gh#355: ltb-project#354 : Can use change tab when default_action not set to c…
+    * gh#355: ltb-project#354 : Can use change tab when default_action not set to
     * gh#356: ltb-project#322 : Add .gitignore for config files
     * gh#359: Show extended LDAP error message after password change was denied
     * gh#360: Improved pt-BR.inc.php with more colloquial form
     * gh#364: obscure_failure_messages configuration parameter broken
     * gh#365: Revert "Fix in_array() error"
     * gh#367: Show LDAP extended error message (ltb-project#359)
-    * gh#371: I added a new translation (basque, "eu") and translated 2 lines of span…
+    * gh#371: I added a new translation (basque, "eu") and translated 2 lines of span
     * gh#372: Use Smarty framework
     * gh#377: [DOC] php-filter as dependencie
     * gh#381: create centos 8 package
@@ -84,7 +84,7 @@ ltb-project-self-service-password (1.4-1) unstable; urgency=low
     * gh#424: Configure cache dir and template cache dir
     * gh#428: Added best practices of autocomplete for password managers
     * gh#429: I18n fr
-    * gh#430: feat(diff-check): #306 
+    * gh#430: feat(diff-check): #306
     * gh#433: fix(branding): logo in menubar
     * gh#439: Invalid Mail Header, Double To: Field / Outdated PHPMailer Version
     * gh#441: typo in show policies dutch
