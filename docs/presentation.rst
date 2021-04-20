@@ -12,7 +12,8 @@ Features
 * Standard password change
 * Reset by questions, token sent by mail, token sent by SMS
 * Local password policy
+* LDAP advanced usage: password modify extended operation, password policy control
 * SSH key change
 * Active Directory and Samba modes
-* Posthook: a script can be launched if the password is changed
+* Prehook/Posthook: a script can be launched before and after the password is changed
 * Mail notifications
