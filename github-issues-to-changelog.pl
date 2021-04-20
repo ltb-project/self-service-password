@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 # Script to parse Github JSON API response and convert to changelog
-# Usage: curl 'https://api.github.com/repos/ltb-project/self-service-password/issues?milestone=MILESTONE&state=all&direction=asc' | perl github-issues-to-changelog.pl
+# Usage: curl 'https://api.github.com/repos/ltb-project/self-service-password/issues?milestone=MILESTONE&state=all&direction=asc&per_page=100&page=1' | perl github-issues-to-changelog.pl
  
 use JSON;
 
