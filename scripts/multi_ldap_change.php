@@ -9,6 +9,7 @@ require_once(__DIR__."/../lib/functions.inc.php");
 # Action
 #==============================================================================
 
+$log_file = fopen(sys_get_temp_dir().'/multi_ldap_change.log', 'a+');
 $login = $argv[1];
 if ($posthook_password_encodebase64) {
     $newpassword = base64_decode($argv[2]);
@@ -17,13 +18,19 @@ if ($posthook_password_encodebase64) {
 }
 $oldpassword = '';
 
-$log_file = fopen(sys_get_temp_dir().'/multi_ldap_change.log', 'a+');
 fwrite($log_file, "Change '$login' password...\n");
 
 foreach ($secondaries_ldap as $s_ldap) {
     $result = "";
     $return = Array();
     $error_code = 1;
+    $s_ad_mode = false;
+    $ldap_login_attribute = "";
+    $s_ldap_base = "";
+
+    if (isset($s_ldap['ldap_login_attribute'])) {
+        $ldap_login_attribute = $s_ldap['ldap_login_attribute'];
+    }
 
     # Connect to LDAP
     $ldap = ldap_connect($s_ldap['ldap_url']);
@@ -52,8 +59,18 @@ foreach ($secondaries_ldap as $s_ldap) {
     } else {
 
     # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+    if (isset($s_ldap['ldap_filter'])) {
+        $s_ldap_filter = $s_ldap['ldap_filter'];
+    } else {
+        $s_ldap_filter = $ldap_filter;
+    }
+    $s_ldap_filter = str_replace("{login}", $login, $s_ldap_filter);
+    if (isset($s_ldap['ldap_base'])) {
+        $s_ldap_base = $s_ldap['ldap_base'];
+    } else {
+        $s_ldap_base = $ldap_base;
+    }
+    $search = ldap_search($ldap, $s_ldap_base, $s_ldap_filter);
 
     $errno = ldap_errno($ldap);
     if ( $errno ) {
@@ -76,7 +93,7 @@ foreach ($secondaries_ldap as $s_ldap) {
     # Bind with manager credentials
     if ( isset($s_ldap['ldap_binddn']) && isset($s_ldap['ldap_bindpw']) ) {
         $bind = ldap_bind($ldap, $s_ldap['ldap_binddn'], $s_ldap['ldap_bindpw']);
-    } ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+    } else if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
     }
     if ( !$bind ) {
@@ -85,7 +102,12 @@ foreach ($secondaries_ldap as $s_ldap) {
         if ( $errno ) {
             fwrite($log_file, "LDAP - Bind user error $errno  (".ldap_error($ldap).")");
         }
-        if ( ($errno == 49) && $ad_mode ) {
+        if (isset($s_ldap['ad_mode'])) {
+            $s_ad_mode = $s_ldap['ad_mode'];
+        } else {
+            $s_ad_mode = $ad_mode;
+        }
+        if ( ($errno == 49) && $s_ad_mode ) {
             if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
                 fwrite($log_file, "LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
                 $extended_error = explode(', ', $extended_error);
@@ -107,7 +129,7 @@ foreach ($secondaries_ldap as $s_ldap) {
         if ( $who_change_password == "manager" ) {
             if ( isset($s_ldap['ldap_binddn']) && isset($s_ldap['ldap_bindpw']) ) {
                 $bind = ldap_bind($ldap, $s_ldap['ldap_binddn'], $s_ldap['ldap_bindpw']);
-            } ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+            } else if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
                 $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
             }
         }
@@ -116,7 +138,12 @@ foreach ($secondaries_ldap as $s_ldap) {
         # Change password
         #==============================================================================
         if ( $result === "" ) {
-                $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
+            if (isset($s_ldap['ad_mode'])) {
+                $s_ad_mode = $s_ldap['ad_mode'];
+            } else {
+                $s_ad_mode = $ad_mode;
+            }
+                $result = change_password($ldap, $userdn, $newpassword, $s_ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
                 if ( $result !== "passwordchanged" ) {
                     fwrite($log_file, "Change on '".$s_ldap['ldap_url']." : KO\n");
                 } else {
