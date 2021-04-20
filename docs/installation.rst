@@ -20,11 +20,12 @@ You need to install these prerequisites:
 
 * Apache or another web server
 * php
-* php-openssl (token crypt, probably built-in)
-* php-mbstring (reset mail)
 * php-curl (haveibeenpwned api)
-* php-ldap
 * php-filter
+* php-gd (captcha)
+* php-ldap
+* php-mbstring (reset mail)
+* php-openssl (token crypt, probably built-in)
 * smarty (version 3)
 
 Debian / Ubuntu

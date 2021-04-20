@@ -8,8 +8,7 @@ Standards-Version: 3.8.3
 Homepage: http://ltb-project.org/wiki/documentation/self-service-password
 
 Package: self-service-password
-Depends: php5|php, php5-ldap|php-ldap, smarty3
-Recommends: php5-mcrypt|php-mcrypt
+Depends: php5|php, php5-gd|php-gd, php5-ldap|php-ldap, php5-mbstring|php-mbstring, smarty3
 Architecture: all
 Description: LDAP password change web interface
  Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory.
