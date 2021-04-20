@@ -103,8 +103,11 @@ You can add extra messages by setting values in these parameters:
    $messages['passwordchangedextramessage'] = "Congratulations!";
    $messages['changehelpextramessage'] = "Contact us if you are lost...";
 
+Graphics
+--------
+
 Logo
-----
+^^^^
 
 You change the default logo with your own. Set the path to your logo in
 ``$logo``:
@@ -116,7 +119,7 @@ You change the default logo with your own. Set the path to your logo in
 .. tip:: Comment this parameter to hide logo
 
 Background
-----------
+^^^^^^^^^^
 
 You change the background image with your own. Set the path to image in
 ``$background_image``:
@@ -126,6 +129,24 @@ You change the background image with your own. Set the path to image in
    $background_image = "images/unsplash-space.jpeg";
 
 .. tip:: Comment this parameter to falll back to default background color
+
+Custom CSS
+^^^^^^^^^^
+
+To easily customize CSS, you can use a separate CSS file:
+
+.. code-block:: php
+
+    $custom_css = "css/custom.css";
+
+Footer
+^^^^^^
+
+You can hide the footer bar:
+
+.. code-block:: php
+
+    $display_footer = false;
 
 Debug
 -----
