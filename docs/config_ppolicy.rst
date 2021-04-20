@@ -120,6 +120,24 @@ new password includes at least N distinct new characters:
 
    $pwd_diff_last_min_chars = 3;
 
+Forbidden words
+---------------
+
+Give a list of forbidden words that the password should not contain:
+
+.. code:: php
+
+   $pwd_forbidden_words = array("azerty", "qwerty", "password");
+
+Forbidden LDAP fields
+---------------------
+
+Give a list of LDAP fields which values should not be present in the password:
+
+.. code:: php
+
+   $pwd_forbidden_ldap_fields = array('cn', 'givenName', 'sn', 'mail');
+
 Show policy
 -----------
 
