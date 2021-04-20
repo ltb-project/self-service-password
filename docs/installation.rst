@@ -71,6 +71,7 @@ Configure the yum repository:
 .. prompt:: bash #
 
     vi /etc/yum.repos.d/ltb-project.repo
+
 .. code-block:: ini
 
     [ltb-project-noarch]
@@ -97,6 +98,8 @@ You are now ready to install:
 .. prompt:: bash #
 
     yum install self-service-password
+
+.. warning:: CentOS 7 comes with PHP 5 by default, you need to install PHP 7.
 
 Docker
 ------
