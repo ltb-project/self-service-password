@@ -10,7 +10,7 @@
               </button>
               <a class="navbar-brand" href="index.php{if $default_action != 'change'}?action=change{/if}">
                 {if $logo}
-                <img src="{$logo}" alt="{$msg_title}" class="menu-logo img-responsive" />
+                <img src="{$logo}" alt="Logo" class="menu-logo img-responsive" />
                 {/if}
                 {$msg_title}
               </a>
