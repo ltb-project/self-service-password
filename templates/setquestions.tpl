@@ -1,7 +1,7 @@
 {if $show_help}
     <div class="help alert alert-warning">
     <p><i class="fa fa-fw fa-info-circle"></i> {$msg_setquestionshelp|unescape: "html" nofilter}</p>
-    </div>;
+    </div>
 {/if}
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">
