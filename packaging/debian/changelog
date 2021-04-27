@@ -1,3 +1,10 @@
+ltb-project-self-service-password (1.4.1-1) unstable; urgency=low
+
+    * gh#501: Remove extra semicolon from setquestions template
+    * gh#502: Remove alt text so empty logo doesn't show 'msg_title' twice
+
+ -- Clement Oudot <clem@ltb-project.org>  Tue, 27 Apr 2021 12:00:00 +0200
+
 ltb-project-self-service-password (1.4-1) unstable; urgency=low
 
     * gh#52: Docker image

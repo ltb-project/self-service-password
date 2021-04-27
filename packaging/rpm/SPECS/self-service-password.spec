@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.4
+%define ssp_version	1.4.1
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,6 +121,9 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Tue Apr 27 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.1-1
+- gh#501: Remove extra semicolon from setquestions template
+- gh#502: Remove alt text so empty logo doesn't show 'msg_title' twice
 * Tue Apr 20 2021 - Clement Oudot <clem@ltb-project.org> - 1.4-1
 - gh#52: Docker image
 - gh#109: Use Smarty framework
