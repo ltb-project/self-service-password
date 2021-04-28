@@ -77,6 +77,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("forbiddenldapfields", check_password_strength( "common name", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("forbiddenldapfields", check_password_strength( "my surname", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("diffminchars", check_password_strength( "C0mplex", "C0mplexC0mplex", $pwd_policy_config, $login, $entry ) );
+        $this->assertEquals("", check_password_strength( "C0mplex", "", $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("", check_password_strength( "C0mplex", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("", check_password_strength( "C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry ) );
         $this->assertEquals("", check_password_strength( "%C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry ) );
