@@ -278,7 +278,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     # Same as login?
     if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
 
-    if ( $pwd_diff_last_min_chars > 0 ) {
+    if ( $pwd_diff_last_min_chars > 0 and strlen($oldpassword) > 0 ) {
 	$similarities = similar_text($oldpassword, $password);
 	$check_len    = strlen($oldpassword) < strlen($password) ? strlen($oldpassword) : strlen($password);
 	$new_chars    = $check_len - $similarities;
