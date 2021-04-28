@@ -152,3 +152,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['throttle'] = "Too fast! Please try again later (if ever you are human)";

@@ -1,0 +1,5 @@
+{
+    "require": {
+	"ovh/php-ovh-sms": "dev-master"
+    }
+}

@@ -10,12 +10,12 @@ Here is an example of Apache configuration using a virtual host:
    <VirtualHost *:80>
        ServerName ssp.example.com
 
-       DocumentRoot /usr/local/self-service-password
+       DocumentRoot /usr/local/self-service-password/htdocs
        DirectoryIndex index.php
 
        AddDefaultCharset UTF-8
 
-       <Directory /usr/local/self-service-password>
+       <Directory /usr/local/self-service-password/htdocs>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all granted
@@ -26,7 +26,9 @@ Here is an example of Apache configuration using a virtual host:
            </IfVersion>
        </Directory>
 
-       <Directory /usr/local/self-service-password/scripts>
+       Alias /rest /usr/local/self-service-password/rest
+
+       <Directory /usr/local/self-service-password/rest>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all denied
@@ -36,7 +38,7 @@ Here is an example of Apache configuration using a virtual host:
                Deny from all
            </IfVersion>
        </Directory>
-      
+
        LogLevel warn
        ErrorLog /var/log/apache2/ssp_error.log
        CustomLog /var/log/apache2/ssp_access.log combined
@@ -57,9 +59,9 @@ You can also configure Self Service Password in the default virtual host:
 
 .. code:: apache
 
-   Alias /ssp /usr/local/self-service-password
+   Alias /ssp /usr/local/self-service-password/htdocs
 
-   <Directory /usr/local/self-service-password>
+   <Directory /usr/local/self-service-password/htdocs>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all granted
@@ -72,7 +74,9 @@ You can also configure Self Service Password in the default virtual host:
            AddDefaultCharset UTF-8
    </Directory>
 
-   <Directory /usr/local/self-service-password/scripts>
+   Alias /ssp/rest /usr/local/self-service-password/rest
+
+   <Directory /usr/local/self-service-password/rest>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all denied
@@ -81,6 +85,8 @@ You can also configure Self Service Password in the default virtual host:
                Order Deny,Allow
                Deny from all
            </IfVersion>
+           DirectoryIndex index.php
+           AddDefaultCharset UTF-8
    </Directory>
 
 Check you configuration and reload Apache:

@@ -89,7 +89,7 @@ $messages['tokenrequired'] = "Le jeton de réinitialisation est requis";
 $messages['tokennotvalid'] = "Le jeton n'est pas valide";
 $messages['resetbytokenhelp'] = "Le jeton envoyé par mail vous permet de réinitialiser votre mot de passe. Pour recevoir un nouveau jeton, <a href=\"?action=sendtoken\">cliquez ici</a>.";
 $messages['resetbysmshelp'] = "Le jeton envoyé par SMS vous permet de réinitialiser votre mot de passe. Pour recevoir un nouveau jeton, <a href=\"?action=sendsms\">cliquez ici</a>.";
-$messages['changemessage'] = "Bonjour {login},\n\nVotre mot de passe a été changé.\n\nSi vous n'êtes pas à l'orgine de cette demande, contactez votre administrateur immédiatement.";
+$messages['changemessage'] = "Bonjour {login},\n\nVotre mot de passe a été changé.\n\nSi vous n'êtes pas à l'origine de cette demande, contactez votre administrateur immédiatement.";
 $messages['changesubject'] = "Votre mot de passe a été changé";
 $messages['badcaptcha'] = "Le captcha n'a pas été entré correctement. Essayez à nouveau.";
 $messages['captcharequired'] = "Vous devez remplir le captcha.";
@@ -150,3 +150,4 @@ $messages["questionspopulatehint"] = "Entrez uniquement votre identifiant pour r
 $messages['badquality'] = "La qualité du mot de passe est insuffisante";
 $messages['tooyoung'] = "Le mot de passe a été changé trop récemment";
 $messages['inhistory'] = "Le mot de passe est déjà présent dans votre historique";
+$messages['throttle'] = "Trop de tentatives en trop peu de temps. Réessayez un peu plus tard (si vous êtes bien humain)";

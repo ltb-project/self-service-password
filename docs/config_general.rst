@@ -103,8 +103,11 @@ You can add extra messages by setting values in these parameters:
    $messages['passwordchangedextramessage'] = "Congratulations!";
    $messages['changehelpextramessage'] = "Contact us if you are lost...";
 
+Graphics
+--------
+
 Logo
-----
+^^^^
 
 You change the default logo with your own. Set the path to your logo in
 ``$logo``:
@@ -116,7 +119,7 @@ You change the default logo with your own. Set the path to your logo in
 .. tip:: Comment this parameter to hide logo
 
 Background
-----------
+^^^^^^^^^^
 
 You change the background image with your own. Set the path to image in
 ``$background_image``:
@@ -126,6 +129,24 @@ You change the background image with your own. Set the path to image in
    $background_image = "images/unsplash-space.jpeg";
 
 .. tip:: Comment this parameter to falll back to default background color
+
+Custom CSS
+^^^^^^^^^^
+
+To easily customize CSS, you can use a separate CSS file:
+
+.. code:: php
+
+    $custom_css = "css/custom.css";
+
+Footer
+^^^^^^
+
+You can hide the footer bar:
+
+.. code:: php
+
+    $display_footer = false;
 
 Debug
 -----
@@ -162,6 +183,24 @@ displayed and replaced by a generic "bad credentials" error:
 .. code:: php
 
    $obscure_failure_messages = array("mailnomatch");
+
+You may want to limit number of tries per user/ip in a short time 
+(especially with sms option). If you enable this defaults are 2 tries
+per login and per hour, and same for ip address:
+
+.. code:: php
+
+   $enable_ratelimit = true;
+
+Other possible options for rate limiting:
+
+.. code:: php
+
+   $ratelimit_dbdir = '/tmp';
+   $max_attempts_per_user = 2;
+   $max_attempts_per_ip = 2;
+   $max_attempts_block_seconds = "60";
+   $client_ip_header = 'REMOTE_ADDR';
 
 Default action
 --------------

@@ -88,6 +88,19 @@ $hash = "clear";
 $hash_options['crypt_salt_prefix'] = "$6$";
 $hash_options['crypt_salt_length'] = "6";
 
+# USE rate-limiting by IP and/or by user 
+$use_ratelimit = false;
+# dir for json db's (system default tmpdir)
+#$ratelimit_dbdir = '/tmp';
+# block attempts for same login ?
+$max_attempts_per_user = 2;
+# block attempts for same IP ?
+$max_attempts_per_ip = 2;
+# how many time to refuse subsequent requests ?
+$max_attempts_block_seconds = "60";
+# Header to use for client IP (HTTP_X_FORWARDED_FOR ?)
+$client_ip_header = 'REMOTE_ADDR';
+
 # Local password policy
 # This is applied before directory password policy
 # Minimal length
@@ -360,6 +373,10 @@ $use_restapi = false;
 
 # The name of an HTTP Header that may hold a reference to an extra config file to include.
 #$header_name_extra_config="SSP-Extra-Config";
+
+# Cache directory
+#$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
+#$smarty_cache_dir = "/var/cache/self-service-password/cache";
 
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {

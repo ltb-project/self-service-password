@@ -23,7 +23,7 @@ $ dpkg-buildpackage -b -kLTB
 If you do not have LTB GPG secret key, do:
 $ dpkg-buildpackage -b -us -uc
 
-# 2 - RPM (RHEL, CentOS, Fedora, ...)
+# 3 - RPM (RHEL, CentOS, Fedora, ...)
 #==============================================================================
 
 Prepare your build environment, for example in /home/clement/build.
@@ -52,3 +52,9 @@ $ rpmbuild -ba SPECS/self-service-password.spec
 
 Sign RPM:
 $ rpm --addsign RPMS/noarch/self-service-password*
+
+# 4 - Docker
+#==============================================================================
+
+From current directory, do:
+$ docker build -t self-service-password -f ./docker/Dockerfile ../

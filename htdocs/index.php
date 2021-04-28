@@ -149,6 +149,14 @@ $pwd_policy_config = array(
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
+# rate-limiting config array
+$rrl_config = array(
+    "max_per_user" => $max_attempts_per_user,
+    "max_per_ip"   => $max_attempts_per_ip,
+    "per_time"     => $max_attempts_block_seconds,
+    "dbdir"        => isset($ratelimit_dbdir) ? $ratelimit_dbdir : sys_get_temp_dir(),
+);
+
 #==============================================================================
 # Route to action
 #==============================================================================
@@ -156,8 +164,18 @@ $result = "";
 $action = "change";
 if (isset($default_action)) { $action = $default_action; }
 if (isset($_GET["action"]) and $_GET['action']) { $action = $_GET["action"]; }
-#if ($action === "change" and !$use_change) { $action = ""}
-#if ($action === "sendtoken" and !$use_tokens) {}
+
+# Available actions
+$available_actions = array();
+if ( $use_change ) { array_push( $available_actions, "change"); }
+if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
+if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
+if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
+if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
+
+# Ensure requested action is available, or fall back to default
+if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
+
 if (file_exists($action.".php")) { require_once($action.".php"); }
 
 #==============================================================================
@@ -165,15 +183,20 @@ if (file_exists($action.".php")) { require_once($action.".php"); }
 #==============================================================================
 require_once(SMARTY);
 
+$compile_dir = $smarty_compile_dir ? $smarty_compile_dir : "../templates_c/";
+$cache_dir = $smarty_cache_dir ? $smarty_cache_dir : "../cache/";
+
 $smarty = new Smarty();
 $smarty->escape_html = true;
 $smarty->setTemplateDir('../templates/');
-$smarty->setCompileDir('../templates_c/');
-$smarty->setCacheDir('../cache/');
+$smarty->setCompileDir($compile_dir);
+$smarty->setCacheDir($cache_dir);
 $smarty->debugging = $debug;
 
-# Set debug for LDAP
+error_reporting(0);
 if ($debug) {
+    error_reporting(E_ALL);
+    # Set debug for LDAP
     ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
 }
 

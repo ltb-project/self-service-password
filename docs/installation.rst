@@ -19,13 +19,14 @@ Install files in ``/usr/share/``:
 You need to install these prerequisites:
 
 * Apache or another web server
-* php
-* php-openssl (token crypt, probably built-in)
-* php-mbstring (reset mail)
+* php (7 or later)
 * php-curl (haveibeenpwned api)
-* php-ldap
 * php-filter
-* smarty (version 3)
+* php-gd (captcha)
+* php-ldap
+* php-mbstring (reset mail)
+* php-openssl (token crypt, probably built-in)
+* Smarty (version 3)
 
 Debian / Ubuntu
 ---------------
@@ -70,6 +71,7 @@ Configure the yum repository:
 .. prompt:: bash #
 
     vi /etc/yum.repos.d/ltb-project.repo
+
 .. code-block:: ini
 
     [ltb-project-noarch]
@@ -96,3 +98,18 @@ You are now ready to install:
 .. prompt:: bash #
 
     yum install self-service-password
+
+.. warning:: CentOS 7 comes with PHP 5 by default, you need to install PHP 7.
+
+Docker
+------
+
+Prepare a local configuration file for Self Service Password, for example ``/home/test/ssp.conf.php``.
+
+Start container, mounting that configuration file:
+
+.. prompt:: bash #
+
+    docker run -p 80:80 \
+        -v /home/test/ssp.conf.php:/var/www/conf/config.inc.local.php \
+        -it docker.io/ltbproject/self-service-password:latest
