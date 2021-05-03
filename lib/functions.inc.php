@@ -519,6 +519,38 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 }
 
 
+# Verifies sshPublicKey is valid
+function check_sshkey ( $sshkey ) {
+    $key_parts = explode(' ', $sshkey, 3);
+
+    if (count($key_parts) < 2) {
+	return false;
+    }
+    if (count($key_parts) > 3) {
+	return false;
+    }
+
+    $algorithm = $key_parts[0];
+    $key = $key_parts[1];
+
+    if (! in_array($algorithm, array('ssh-rsa', 'ssh-dss'))) {
+	return false;
+    }
+
+    $key_base64_decoded = base64_decode($key, true);
+    if ($key_base64_decoded == FALSE) {
+	return false;
+    }
+
+    $check = base64_decode(substr($key,0,16));
+    $check = preg_replace("/[^\w\-]/","", $check);
+    if ((string) $check !== (string) $algorithm) {
+	return false;
+    }
+
+    return true;
+}
+
 # Change sshPublicKey attribute
 # @return result code
 function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {

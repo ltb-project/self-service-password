@@ -127,6 +127,7 @@ $messages['changesshkeyhelp'] = "Geben Sie Ihr Passwort und den neuen SSH-Schlü
 $messages['sshkeyerror'] = "SSH-Schlüssel wurde durch das LDAP-Verzeichnis abgelehnt";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Ändern Sie Ihren SSH-Schlüssel</a>";
 $messages['sshkeyrequired'] = "SSH-Schlüssel ist erforderlich";
+$messages['invalidsskey'] = "Input SSH Key looks invalid";
 $messages['sshkey'] = "SSH Schlüssel";
 $messages['sshkeychanged'] = "Ihr SSH Key wurde geändert";
 $messages['emptysshkeychangeform'] = "Ändern Sie Ihren SSH-Schlüssel";

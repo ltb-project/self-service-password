@@ -71,6 +71,7 @@ $messages['answerrequired'] = "Niste dali odgovor";
 $messages['questionrequired'] = "Niste odabrali pitanje";
 $messages['passwordrequired'] = "Potrebna je Vaša lozinka";
 $messages['sshkeyrequired'] = "Potreban je SSH ključ";
+$messages['invalidsskey'] = "Input SSH Key looks invalid";
 $messages['answermoderror'] = "Vaš odgovor nije registrovan";
 $messages['answerchanged'] = "Vaš odgovor je registrovan";
 $messages['answernomatch'] = "Vaš odgovor je netačan";

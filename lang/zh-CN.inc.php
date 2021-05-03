@@ -71,6 +71,7 @@ $messages['answerrequired'] = "请提供答案";
 $messages['questionrequired'] = "请选择问题";
 $messages['passwordrequired'] = "请输入您的密码";
 $messages['sshkeyrequired'] = "需要 SSH 密钥";
+$messages['invalidsskey'] = "Input SSH Key looks invalid";
 $messages['answermoderror'] = "您的答案没有被记录";
 $messages['answerchanged'] = "您的答案已被记录";
 $messages['answernomatch'] = "您的答案不正确";

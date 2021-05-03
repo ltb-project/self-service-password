@@ -40,8 +40,10 @@ if ($use_captcha) {
 }
 if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
  else { $result = "passwordrequired"; }
-if (isset($_POST["sshkey"]) and $_POST["sshkey"]) { $sshkey = strval($_POST["sshkey"]); }
- else { $result = "sshkeyrequired"; }
+if (isset($_POST["sshkey"]) and $_POST["sshkey"]) {
+    $sshkey = strval($_POST["sshkey"]);
+    if (! check_sshkey($sshkey)) { $result = "invalidsshkey"; }
+} else { $result = "sshkeyrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
  else { $result = "loginrequired"; }
 if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_POST["sshkey"]))
