@@ -25,15 +25,15 @@ class CheckSshkeyTest extends \PHPUnit_Framework_TestCase
 	$invalid_key_five = "    ";
 	$invalid_key_six = "	 CSBBQUFBYWJj a@b";
 
-	this->assertEquals(true, check_sshkey($valid_key_dsa, $ssh_valid_key_types));
-	this->assertEquals(true, check_sshkey($valid_key_ecdsa, $ssh_valid_key_types));
-	this->assertEquals(true, check_sshkey($valid_key_ed22519, $ssh_valid_key_types));
-	this->assertEquals(true, check_sshkey($valid_key_rsa, $ssh_valid_key_types));
-	this->assertEquals(false, check_sshkey($invalid_key_one, $ssh_valid_key_types));
-	this->assertEquals(false, check_sshkey($invalid_key_two, $ssh_valid_key_types));
-	this->assertEquals(false, check_sshkey($invalid_key_three, $ssh_valid_key_types));
-	this->assertEquals(false, check_sshkey($invalid_key_four, $ssh_valid_key_types));
-	this->assertEquals(false, check_sshkey($invalid_key_five, $ssh_valid_key_types));
-	this->assertEquals(false, check_sshkey($invalid_key_six, $ssh_valid_key_types));
+	$this->assertEquals(true, check_sshkey($valid_key_dsa, $ssh_valid_key_types));
+	$this->assertEquals(true, check_sshkey($valid_key_ecdsa, $ssh_valid_key_types));
+	$this->assertEquals(true, check_sshkey($valid_key_ed22519, $ssh_valid_key_types));
+	$this->assertEquals(true, check_sshkey($valid_key_rsa, $ssh_valid_key_types));
+	$this->assertEquals(false, check_sshkey($invalid_key_one, $ssh_valid_key_types));
+	$this->assertEquals(false, check_sshkey($invalid_key_two, $ssh_valid_key_types));
+	$this->assertEquals(false, check_sshkey($invalid_key_three, $ssh_valid_key_types));
+	$this->assertEquals(false, check_sshkey($invalid_key_four, $ssh_valid_key_types));
+	$this->assertEquals(false, check_sshkey($invalid_key_five, $ssh_valid_key_types));
+	$this->assertEquals(false, check_sshkey($invalid_key_six, $ssh_valid_key_types));
     }
 }
