@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.4.1
+%define ssp_version	1.4.2
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,6 +121,13 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Tue May 04 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.2-1
+- gh#504: Cannot use docker get gregwar/captcha----use docker
+- gh#505: fix(captcha): missing gd library
+- gh#506: I have a little problem - I can't use SMS for the next step
+- gh#507: fix(reset)
+- gh#508: fix(undefined)
+- gh#511: Bump phpmailer/phpmailer from 6.3.0 to 6.4.1 in /lib
 * Tue Apr 27 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.1-1
 - gh#501: Remove extra semicolon from setquestions template
 - gh#502: Remove alt text so empty logo doesn't show 'msg_title' twice
