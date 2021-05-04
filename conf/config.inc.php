@@ -169,7 +169,7 @@ $change_sshkey = false;
 $change_sshkey_attribute = "sshPublicKey";
 
 # Ensure the SSH Key submitted uses a type we trust
-$ssh_valid_key_types = array('ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ssh-ed25519');
+$ssh_valid_key_types = array('ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519');
 
 # Who changes the sshPublicKey attribute?
 # Also applicable for question/answer save
