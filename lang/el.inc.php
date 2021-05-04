@@ -128,7 +128,7 @@ $messages['sshkeychanged'] = "SSH Key σας άλλαξε";
 $messages['sshkeyerror'] = "SSH Key απορρίφθηκε από τον κατάλογο LDAP";
 $messages['emptysshkeychangeform'] = "Αλλάξτε SSH Key σας";
 $messages['sshkeyrequired'] = "SSH Key απαιτείται";
-$messages['invalidsskey'] = "Input SSH Key looks invalid";
+$messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['menusshkey'] = "SSH Key";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Αλλάξτε SSH Key σας</a>";
 $messages['sshkey'] = "SSH Key";
