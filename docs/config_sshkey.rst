@@ -24,7 +24,7 @@ Set the LDAP attribute that should be used storing SSH public keys - defaults to
 
 .. code:: php
 
-   $sshkey_attribute = "sshPublicKey";
+   $change_sshkey_attribute = "sshPublicKey";
 
 Valid SSH Key Types
 -------------------
