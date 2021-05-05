@@ -7,13 +7,13 @@
  */
 
 /**
- * split request header Accept-Language to determine the UserAgent's 
+ * split request header Accept-Language to determine the UserAgent's
  * prefered language
  *
  * @param string $defaultLanguage preselected default language
  * @return string returns the default language or a match from $availableLanguages
  */
-function detectLanguage($defaultLanguage, $availableLanguages) 
+function detectLanguage($defaultLanguage, $availableLanguages)
 {
     $acceptedLanguages = filter_input(INPUT_SERVER, 'HTTP_ACCEPT_LANGUAGE', FILTER_SANITIZE_STRING);
     $languageList      = explode(',', $acceptedLanguages);

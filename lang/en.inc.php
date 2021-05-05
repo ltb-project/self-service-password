@@ -70,6 +70,7 @@ $messages['answerrequired'] = "No answer given";
 $messages['questionrequired'] = "No question selected";
 $messages['passwordrequired'] = "Your password is required";
 $messages['sshkeyrequired'] = "SSH Key is required";
+$messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['answermoderror'] = "Your answer has not been registered";
 $messages['answerchanged'] = "Your answer has been registered";
 $messages['answernomatch'] = "Your answer is incorrect";

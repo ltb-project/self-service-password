@@ -39,18 +39,19 @@ $extended_error_msg = "";
 
 if ($use_captcha) {
     if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-     else { $result = "captcharequired"; }
+    else { $result = "captcharequired"; }
 }
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
- else { $result = "confirmpasswordrequired"; }
+else { $result = "confirmpasswordrequired"; }
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
- else { $result = "newpasswordrequired"; }
+else { $result = "newpasswordrequired"; }
 if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) { $oldpassword = strval($_POST["oldpassword"]); }
- else { $result = "oldpasswordrequired"; }
+else { $result = "oldpasswordrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
- else { $result = "loginrequired"; }
-if (! isset($_REQUEST["login"]) and ! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["oldpassword"]))
- { $result = "emptychangeform"; }
+else { $result = "loginrequired"; }
+if (! isset($_REQUEST["login"]) and ! isset($_POST["confirmpassword"]) and ! isset($_POST["newpassword"]) and ! isset($_POST["oldpassword"])) {
+    $result = "emptychangeform";
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -84,94 +85,96 @@ if ( $result === "" ) {
         error_log("LDAP - Unable to use StartTLS");
     } else {
 
-    # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    } else {
-        $bind = ldap_bind($ldap);
-    }
-
-    if ( !$bind ) {
-        $result = "ldaperror";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-	    error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+        # Bind
+        if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        } else {
+            $bind = ldap_bind($ldap);
         }
-    } else {
 
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+        if ( !$bind ) {
+            $result = "ldaperror";
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+            }
+        } else {
 
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno  (".ldap_error($ldap).")");
-    } else {
+            # Search for user
+            $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+            $search = ldap_search($ldap, $ldap_base, $ldap_filter);
 
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "ldaperror";
+                error_log("LDAP - Search error $errno  (".ldap_error($ldap).")");
+            } else {
 
-    if( !$userdn ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    } else {
+                # Get user DN
+                $entry = ldap_first_entry($ldap, $search);
+                $userdn = ldap_get_dn($ldap, $entry);
 
-    # Get user email for notification
-    if ( $notify_on_change ) {
-        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-        if ( $mailValues["count"] > 0 ) {
-            $mail = $mailValues[0];
-        }
-    }
+                if( !$userdn ) {
+                    $result = "badcredentials";
+                    error_log("LDAP - User $login not found");
+                } else {
 
-    # Check objectClass to allow samba and shadow updates
-    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
-    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
-        $samba_mode = false;
-    }
-    if ( !in_array( 'shadowAccount', $ocValues ) ) {
-        $shadow_options['update_shadowLastChange'] = false;
-        $shadow_options['update_shadowExpire'] = false;
-    }
+                    # Get user email for notification
+                    if ( $notify_on_change ) {
+                        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+                        if ( $mailValues["count"] > 0 ) {
+                            $mail = $mailValues[0];
+                        }
+                    }
 
-    $entry = ldap_get_attributes($ldap, $entry);
-    $entry['dn'] = $userdn;
+                    # Check objectClass to allow samba and shadow updates
+                    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
+                    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
+                        $samba_mode = false;
+                    }
+                    if ( !in_array( 'shadowAccount', $ocValues ) ) {
+                        $shadow_options['update_shadowLastChange'] = false;
+                        $shadow_options['update_shadowExpire'] = false;
+                    }
 
-    # Bind with old password
-    $bind = ldap_bind($ldap, $userdn, $oldpassword);
-    if ( !$bind ) {
-        $result = "badcredentials";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-            error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
-        }
-        if ( ($errno == 49) && $ad_mode ) {
-            if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
-                error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
-                $extended_error = explode(', ', $extended_error);
-                if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
-                    error_log("LDAP - Bind user password needs to be changed");
-                    $result = "";
+                    $entry = ldap_get_attributes($ldap, $entry);
+                    $entry['dn'] = $userdn;
+
+                    # Bind with old password
+                    $bind = ldap_bind($ldap, $userdn, $oldpassword);
+                    if ( !$bind ) {
+                        $result = "badcredentials";
+                        $errno = ldap_errno($ldap);
+                        if ( $errno ) {
+                            error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
+                        }
+                        if ( ($errno == 49) && $ad_mode ) {
+                            if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
+                                error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
+                                $extended_error = explode(', ', $extended_error);
+                                if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
+                                    error_log("LDAP - Bind user password needs to be changed");
+                                    $result = "";
+                                }
+                                if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
+                                    error_log("LDAP - Bind user password is expired");
+                                    $result = "";
+                                }
+                                unset($extended_error);
+                            }
+                        }
+                    }
+                    if ( $result === "" )  {
+
+                        # Rebind as Manager if needed
+                        if ( $who_change_password == "manager" ) {
+                            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+                        }
+                    }
                 }
-                if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
-                    error_log("LDAP - Bind user password is expired");
-                    $result = "";
-                }
-                unset($extended_error);
             }
         }
     }
-    if ( $result === "" )  {
-
-        # Rebind as Manager if needed
-        if ( $who_change_password == "manager" ) {
-            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-        }
-
-    }}}}}
-
 }
 
 #==============================================================================
@@ -190,16 +193,16 @@ if ( $result === "" ) {
         exec($command, $prehook_output, $prehook_return);
     }
     if ( ! isset($prehook_return) || $prehook_return === 0 || $ignore_prehook_error ) {
-	$result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
-	if ( $result === "passwordchanged" && isset($posthook) ) {
-	    $command = hook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
-	    exec($command, $posthook_output, $posthook_return);
-	}
-	if ( $result !== "passwordchanged" ) {
-	    if ( $show_extended_error ) {
-		ldap_get_option($ldap, 0x0032, $extended_error_msg);
-	    }
-	}
+        $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
+        if ( $result === "passwordchanged" && isset($posthook) ) {
+            $command = hook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);
+            exec($command, $posthook_output, $posthook_return);
+        }
+        if ( $result !== "passwordchanged" ) {
+            if ( $show_extended_error ) {
+                ldap_get_option($ldap, 0x0032, $extended_error_msg);
+            }
+        }
     }
 }
 

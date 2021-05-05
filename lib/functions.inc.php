@@ -94,9 +94,9 @@ function make_crypt_password($password, $hash_options) {
 
     // Generate salt
     $possible = '0123456789'.
-		'abcdefghijklmnopqrstuvwxyz'.
-		'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
-		'./';
+                'abcdefghijklmnopqrstuvwxyz'.
+                'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
+                './';
     $salt = "";
 
     while( strlen( $salt ) < $salt_length ) {
@@ -130,13 +130,13 @@ function make_ad_password($password) {
 
 # Generate SMS token
 function generate_sms_token( $sms_token_length ) {
-    $Range=explode(',','48-57');
-    $NumRanges=count($Range);
-    $smstoken='';
+    $Range = explode(',', '48-57');
+    $NumRanges = count($Range);
+    $smstoken = '';
     for ($i = 1; $i <= $sms_token_length; $i++){
-        $r=random_int(0,$NumRanges-1);
-        list($min,$max)=explode('-',$Range[$r]);
-        $smstoken.=chr(random_int($min,$max));
+        $r = random_int(0, $NumRanges-1);
+        list($min, $max) = explode('-', $Range[$r]);
+        $smstoken .= chr(random_int($min, $max));
     }
     return $smstoken;
 }
@@ -144,7 +144,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle/" , $msg ) ) {
     return "danger";
     }
 
@@ -196,12 +196,14 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
     if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
     if ( !empty($pwd_forbidden_words)) { echo "<li>".$messages["policyforbiddenwords"] ." " . implode(', ', $pwd_forbidden_words) ."</li>\n"; }
     if ( !empty($pwd_forbidden_ldap_fields)) {
-      $pwd_forbidden_ldap_fields = array_map(
-        function($field) use ($messages) {
-          if(empty($messages['ldap_' . $field])) return $field;
-          return $messages['ldap_' . $field];
-        }, $pwd_forbidden_ldap_fields);
-      echo "<li>".$messages["policyforbiddenldapfields"] ." " . implode(', ', $pwd_forbidden_ldap_fields) ."</li>\n";
+        $pwd_forbidden_ldap_fields = array_map(
+            function($field) use ($messages) {
+                if (empty($messages['ldap_' . $field])) {
+                    return $field;
+                }
+               return $messages['ldap_' . $field];
+            }, $pwd_forbidden_ldap_fields);
+        echo "<li>".$messages["policyforbiddenldapfields"] ." " . implode(', ', $pwd_forbidden_ldap_fields) ."</li>\n";
     }
     echo "</ul>\n";
     echo "</div>\n";
@@ -228,7 +230,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         preg_match_all("/[$pwd_special_chars]/", $password, $special_res);
         $special = count( $special_res[0] );
         if ( $pwd_no_special_at_ends ) {
-          $special_at_ends = preg_match("/(^[$pwd_special_chars]|[$pwd_special_chars]$)/", $password, $special_res);
+            $special_at_ends = preg_match("/(^[$pwd_special_chars]|[$pwd_special_chars]$)/", $password, $special_res);
         }
     }
 
@@ -279,44 +281,46 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     if ( $pwd_diff_login and $password === $login ) { $result="sameaslogin"; }
 
     if ( $pwd_diff_last_min_chars > 0 and strlen($oldpassword) > 0 ) {
-	$similarities = similar_text($oldpassword, $password);
-	$check_len    = strlen($oldpassword) < strlen($password) ? strlen($oldpassword) : strlen($password);
-	$new_chars    = $check_len - $similarities;
-	if ($new_chars <= $pwd_diff_last_min_chars) { $result = "diffminchars"; }
+        $similarities = similar_text($oldpassword, $password);
+        $check_len    = strlen($oldpassword) < strlen($password) ? strlen($oldpassword) : strlen($password);
+        $new_chars    = $check_len - $similarities;
+        if ($new_chars <= $pwd_diff_last_min_chars) { $result = "diffminchars"; }
     }
 
     # Contains forbidden words?
     if ( !empty($pwd_forbidden_words) ) {
-      foreach( $pwd_forbidden_words as $disallowed ) {
-        if( stripos($password, $disallowed) !== false ) {
-          $result="forbiddenwords";
-	  break;
-	}
-      }
+        foreach( $pwd_forbidden_words as $disallowed ) {
+            if( stripos($password, $disallowed) !== false ) {
+                $result="forbiddenwords";
+                break;
+            }
+        }
     }
 
     # Contains values from forbidden ldap fields?
-    if( !empty($pwd_forbidden_ldap_fields) ) {
-      foreach( $pwd_forbidden_ldap_fields as $field ) {
-        $values = $entry[$field];
-        if(!is_array($entry[$field])) {
-          $values = array($entry[$field]);
+    if ( !empty($pwd_forbidden_ldap_fields) ) {
+        foreach ( $pwd_forbidden_ldap_fields as $field ) {
+            $values = $entry[$field];
+            if (!is_array($entry[$field])) {
+                $values = array($entry[$field]);
+            }
+            foreach ($values as $key => $value) {
+                if ($key === 'count') {
+                    continue;
+                }
+                if (stripos($password, $value) !== false) {
+                    $result = "forbiddenldapfields";
+                    break 2;
+                }
+            }
         }
-        foreach($values as $key => $value) {
-          if($key === 'count') continue;
-          if(stripos($password, $value) !== false) {
-            $result = "forbiddenldapfields";
-            break 2;
-          }
-        }
-      }
     }
-	
+
     # pwned?
     if ($use_pwnedpasswords) {
         $pwned_passwords = new PwnedPasswords\PwnedPasswords;
         $insecure = $pwned_passwords->isInsecure($password);
-        if($insecure) { $result="pwned"; }	
+        if ($insecure) { $result="pwned"; }
     }
 
     return $result;
@@ -484,18 +488,18 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         if (!$ad_mode) {
             $userdata["userPassword"] = $password;
         }
-	if ( $use_ppolicy_control ) {
+        if ( $use_ppolicy_control ) {
             $ppolicy_replace = ldap_mod_replace_ext($ldap, $dn, $userdata, [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]]);
-	    if (ldap_parse_result($ldap, $ppolicy_replace, $error_code, $matcheddn, $error_msg, $referrals, $ctrls)) {
+            if (ldap_parse_result($ldap, $ppolicy_replace, $error_code, $matcheddn, $error_msg, $referrals, $ctrls)) {
                 if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE])) {
                     $value = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value'];
-		    if (isset($value['error'])) {
-			$ppolicy_error_code = $value['error'];
+                    if (isset($value['error'])) {
+                        $ppolicy_error_code = $value['error'];
                         error_log("LDAP - Ppolicy error code: $ppolicy_error_code");
                     }
                 }
-	    }
-	} else {
+            }
+        } else {
             ldap_mod_replace($ldap, $dn, $userdata);
             $error_code = ldap_errno($ldap);
             $error_msg = ldap_error($ldap);
@@ -506,11 +510,11 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         $result = "ldaperror";
     } elseif ( $error_code > 0 ) {
         $result = "passworderror";
-	error_log("LDAP - Modify password error $error_code ($error_msg)");
-	if ( $ppolicy_error_code === 5 ) { $result = "badquality"; }
-	if ( $ppolicy_error_code === 6 ) { $result = "tooshort"; }
-	if ( $ppolicy_error_code === 7 ) { $result = "tooyoung"; }
-	if ( $ppolicy_error_code === 8 ) { $result = "inhistory"; }
+        error_log("LDAP - Modify password error $error_code ($error_msg)");
+        if ( $ppolicy_error_code === 5 ) { $result = "badquality"; }
+        if ( $ppolicy_error_code === 6 ) { $result = "tooshort"; }
+        if ( $ppolicy_error_code === 7 ) { $result = "tooyoung"; }
+        if ( $ppolicy_error_code === 8 ) { $result = "inhistory"; }
     } else {
         $result = "passwordchanged";
     }
@@ -518,6 +522,39 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     return $result;
 }
 
+
+# Verifies sshPublicKey is valid
+function check_sshkey ( $sshkey, $valid_types ) {
+    $key_parts = preg_split('/[\s]+/', $sshkey);
+
+    if (count($key_parts) < 2) {
+        return false;
+    }
+    if (count($key_parts) > 3) {
+        return false;
+    }
+
+    $algorithm = $key_parts[0];
+    if (count($valid_types) > 0) {
+        if (! in_array($algorithm, $valid_types)) {
+            return false;
+        }
+    }
+
+    $key = $key_parts[1];
+    $key_base64_decoded = base64_decode($key, true);
+    if ($key_base64_decoded == FALSE) {
+        return false;
+    }
+
+    $ealg = base64_encode($algorithm . " AAAA");
+    $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
+    if ((string) $check !== (string) $algorithm) {
+        return false;
+    }
+
+    return true;
+}
 
 # Change sshPublicKey attribute
 # @return result code
@@ -607,7 +644,7 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
 
     $result = false;
 
-    if(!is_a($mailer, 'PHPMailer\PHPMailer\PHPMailer')) {
+    if (!is_a($mailer, 'PHPMailer\PHPMailer\PHPMailer')) {
         error_log("send_mail: PHPMailer object required!");
         return $result;
     }
@@ -618,7 +655,7 @@ function send_mail($mailer, $mail, $mail_from, $mail_from_name, $subject, $body,
     }
 
     /* Replace data in mail, subject and body */
-    foreach($data as $key => $value ) {
+    foreach ($data as $key => $value ) {
         $mail = str_replace('{'.$key.'}', $value, $mail);
         $mail_from = str_replace('{'.$key.'}', $value, $mail_from);
         $subject = str_replace('{'.$key.'}', $value, $subject);
@@ -656,8 +693,7 @@ function check_username_validity($username,$login_forbidden_chars) {
             $result = "badcredentials";
             error_log("Non alphanumeric characters in username $username");
         }
-    }
-    else {
+    } else {
         preg_match_all("/[$login_forbidden_chars]/", $username, $forbidden_res);
         if (count($forbidden_res[0])) {
             $result = "badcredentials";
@@ -681,18 +717,18 @@ function hook_command($hook, $login, $newpassword, $oldpassword = null, $hook_pa
 
     $command = '';
     if ( isset($hook_password_encodebase64) && $hook_password_encodebase64 ) {
-	$command = escapeshellcmd($hook).' '.escapeshellarg($login).' '.base64_encode($newpassword);
+        $command = escapeshellcmd($hook).' '.escapeshellarg($login).' '.base64_encode($newpassword);
 
-	if ( ! is_null($oldpassword) ) {
-	    $command .= ' '.base64_encode($oldpassword);
-	}
+        if ( ! is_null($oldpassword) ) {
+            $command .= ' '.base64_encode($oldpassword);
+        }
 
     } else {
-	$command = escapeshellcmd($hook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
+        $command = escapeshellcmd($hook).' '.escapeshellarg($login).' '.escapeshellarg($newpassword);
 
-	if ( ! is_null($oldpassword) ) {
-	    $command .= ' '.escapeshellarg($oldpassword);
-	}
+        if ( ! is_null($oldpassword) ) {
+            $command .= ' '.escapeshellarg($oldpassword);
+        }
     }
     return $command;
 }
@@ -707,8 +743,8 @@ function allowed_rate($login,$ip_addr,$rrl_config) {
     if ($rrl_config["max_per_user"] > 0) {
         $rrludb = $rrl_config["dbdir"] . "/ssp_rrl_users.json";
         if (!file_exists($rrludb)) {
-           file_put_contents($rrludb,"{}");
-       }
+            file_put_contents($rrludb,"{}");
+        }
         $dbfh = fopen($rrludb . ".lock","w");
         if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
         flock($dbfh,LOCK_EX,$fblock);
@@ -731,7 +767,7 @@ function allowed_rate($login,$ip_addr,$rrl_config) {
     if ($rrl_config["max_per_ip"] > 0) {
         $rrlidb = $rrl_config["dbdir"] . "/ssp_rrl_ips.json";
         if (!file_exists($rrlidb)) {
-           file_put_contents($rrlidb,"{}");
+            file_put_contents($rrlidb,"{}");
         }
         $dbfh = fopen($rrlidb . ".lock","w");
         if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
@@ -746,7 +782,7 @@ function allowed_rate($login,$ip_addr,$rrl_config) {
             }
         }
         $ips[$ip_addr] = $atts;
-       file_put_contents($rrlidb,json_encode($ips));
+        file_put_contents($rrlidb,json_encode($ips));
         flock($dbfh,LOCK_UN);
         if (count($atts) > $rrl_config["max_per_ip"]) {
             return false;
@@ -754,5 +790,3 @@ function allowed_rate($login,$ip_addr,$rrl_config) {
     }
     return true;
 }
-
-
