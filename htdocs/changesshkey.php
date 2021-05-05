@@ -36,16 +36,19 @@ $captchaphrase = "";
 
 if ($use_captcha) {
     if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-     else { $result = "captcharequired"; }
+    else { $result = "captcharequired"; }
 }
 if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
- else { $result = "passwordrequired"; }
-if (isset($_POST["sshkey"]) and $_POST["sshkey"]) { $sshkey = strval($_POST["sshkey"]); }
- else { $result = "sshkeyrequired"; }
+else { $result = "passwordrequired"; }
+if (isset($_POST["sshkey"]) and $_POST["sshkey"]) {
+    $sshkey = strval($_POST["sshkey"]);
+    if (! check_sshkey($sshkey, $ssh_valid_key_types)) { $result = "invalidsshkey"; }
+} else { $result = "sshkeyrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
- else { $result = "loginrequired"; }
-if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_POST["sshkey"]))
- { $result = "emptysshkeychangeform"; }
+else { $result = "loginrequired"; }
+if (! isset($_REQUEST["login"]) and ! isset($_POST["password"]) and ! isset($_POST["sshkey"])) {
+    $result = "emptysshkeychangeform";
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -76,65 +79,67 @@ if ( $result === "" ) {
         error_log("LDAP - Unable to use StartTLS");
     } else {
 
-    # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    } else {
-        $bind = ldap_bind($ldap);
-    }
-
-    if ( !$bind ) {
-        $result = "ldaperror";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-            error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+        # Bind
+        if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        } else {
+            $bind = ldap_bind($ldap);
         }
-    } else {
 
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+        if ( !$bind ) {
+            $result = "ldaperror";
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+            }
+        } else {
 
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno  (".ldap_error($ldap).")");
-    } else {
+            # Search for user
+            $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+            $search = ldap_search($ldap, $ldap_base, $ldap_filter);
 
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "ldaperror";
+                error_log("LDAP - Search error $errno  (".ldap_error($ldap).")");
+            } else {
 
-    if( !$userdn ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    } else {
+                # Get user DN
+                $entry = ldap_first_entry($ldap, $search);
+                $userdn = ldap_get_dn($ldap, $entry);
 
-    # Get user email for notification
-    if ( $notify_on_sshkey_change ) {
-        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-        if ( $mailValues["count"] > 0 ) {
-            $mail = $mailValues[0];
+                if ( !$userdn ) {
+                    $result = "badcredentials";
+                    error_log("LDAP - User $login not found");
+                } else {
+
+                    # Get user email for notification
+                    if ( $notify_on_sshkey_change ) {
+                        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+                        if ( $mailValues["count"] > 0 ) {
+                            $mail = $mailValues[0];
+                        }
+                    }
+
+                    # Bind with old password
+                    $bind = ldap_bind($ldap, $userdn, $password);
+                    if ( !$bind ) {
+                        $result = "badcredentials";
+                        $errno = ldap_errno($ldap);
+                        if ( $errno ) {
+                           error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
+                        }
+                    } else {
+
+                        # Rebind as Manager if needed
+                        if ( $who_change_sshkey == "manager" ) {
+                            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+                        }
+                    }
+                }
+            }
         }
     }
-
-    # Bind with old password
-    $bind = ldap_bind($ldap, $userdn, $password);
-    if ( !$bind ) {
-        $result = "badcredentials";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-           error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
-        }
-    } else {
-
-    # Rebind as Manager if needed
-    if ( $who_change_sshkey == "manager" ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    }
-
-    }}}}}
-
 }
 
 

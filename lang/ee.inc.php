@@ -73,6 +73,7 @@ $messages['answerrequired'] = "Vastus puudu";
 $messages['questionrequired'] = "Küsimus valimata";
 $messages['passwordrequired'] = "Parool sisestamata";
 $messages['sshkeyrequired'] = "SSH võti sisestamata";
+$messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['answermoderror'] = "Vastus jäeti muutmata";
 $messages['answerchanged'] = "Vastus muudetud";
 $messages['answernomatch'] = "Vale vastus";
