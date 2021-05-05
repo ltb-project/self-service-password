@@ -93,34 +93,33 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         require_once("lib/functions.inc.php");
 
         $login = "coudot";
-	$oldpassword = "secret";
+        $oldpassword = "secret";
 
         if ( version_compare(PHP_VERSION, '7.1.0') >= 0 ) {
-        require_once __DIR__ . '/../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php';
-        $pwd_policy_config = array(
-            "pwd_show_policy"         => true,
-            "pwd_min_length"          => 6,
-            "pwd_max_length"          => 12,
-            "pwd_min_lower"           => 1,
-            "pwd_min_upper"           => 1,
-            "pwd_min_digit"           => 1,
-            "pwd_min_special"         => 1,
-            "pwd_special_chars"       => "^a-zA-Z0-9",
-            "pwd_forbidden_chars"     => "@",
-            "pwd_no_reuse"            => true,
-            "pwd_diff_last_min_chars" => 0,
-            "pwd_diff_login"          => true,
-            "pwd_complexity"          => 0,
-            "use_pwnedpasswords"      => true,
-            "pwd_no_special_at_ends"  => false,
-            "pwd_forbidden_words"     => array(),
-            "pwd_forbidden_ldap_fields"=> array(),
-        );
+            require_once __DIR__ . '/../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php';
+            $pwd_policy_config = array(
+                "pwd_show_policy"         => true,
+                "pwd_min_length"          => 6,
+                "pwd_max_length"          => 12,
+                "pwd_min_lower"           => 1,
+                "pwd_min_upper"           => 1,
+                "pwd_min_digit"           => 1,
+                "pwd_min_special"         => 1,
+                "pwd_special_chars"       => "^a-zA-Z0-9",
+                "pwd_forbidden_chars"     => "@",
+                "pwd_no_reuse"            => true,
+                "pwd_diff_last_min_chars" => 0,
+                "pwd_diff_login"          => true,
+                "pwd_complexity"          => 0,
+                "use_pwnedpasswords"      => true,
+                "pwd_no_special_at_ends"  => false,
+                "pwd_forbidden_words"     => array(),
+                "pwd_forbidden_ldap_fields"=> array(),
+            );
 
-        $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login, array() ) );
+            $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login, array() ) );
         }
 
     }
 
 }
-
