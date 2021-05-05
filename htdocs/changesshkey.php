@@ -118,7 +118,7 @@ if ( $result === "" ) {
         }
     }
 
-    # Bind with old password
+    # Confirm user credentials are valid
     $bind = ldap_bind($ldap, $userdn, $password);
     if ( !$bind ) {
         $result = "badcredentials";
@@ -146,7 +146,7 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Notify password change
+# Notify SSH Key change
 #==============================================================================
 if ($result === "sshkeychanged" and $mail and $notify_on_sshkey_change) {
     $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
