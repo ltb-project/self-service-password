@@ -44,7 +44,7 @@ Using Apache, we may set such header using the following:
 
     <VirtualHost *:80>
        ServerName ssp.domain1.com
-       RequestHeader RequestHeader setIfEmpty SSP-Extra-Config domain1
+       RequestHeader setIfEmpty SSP-Extra-Config domain1
        [...]
     </VirtualHost>
 
