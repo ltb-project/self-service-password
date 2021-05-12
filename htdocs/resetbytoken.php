@@ -38,7 +38,7 @@ $mail = "";
 $extended_error_msg = "";
 
 if (isset($_REQUEST["token"]) and $_REQUEST["token"]) { $token = strval($_REQUEST["token"]); }
- else { $result = "tokenrequired"; }
+else { $result = "tokenrequired"; }
 
 #==============================================================================
 # Get token
@@ -63,17 +63,17 @@ if ( $result === "" ) {
 
     if ( !$login ) {
         $result = "tokennotvalid";
-	error_log("Unable to open session $tokenid");
+        error_log("Unable to open session $tokenid");
     } else if ( isset($smstoken) and ( $smstoken !== $_REQUEST['smstoken'] ) ) {
         $result = "tokennotvalid";
-	error_log("Token not associated with SMS code ".$_REQUEST['smstoken']);
+        error_log("Token not associated with SMS code ".$_REQUEST['smstoken']);
     } else if (isset($token_lifetime)) {
         # Manage lifetime with session content
         $tokentime = $_SESSION['time'];
         if ( time() - $tokentime > $token_lifetime ) {
             $result = "tokennotvalid";
             error_log("Token lifetime expired");
-	}
+        }
     }
 }
 
@@ -83,9 +83,9 @@ if ( $result === "" ) {
 if ( $result === "" ) {
 
     if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = $_POST["confirmpassword"]; }
-     else { $result = "confirmpasswordrequired"; }
+    else { $result = "confirmpasswordrequired"; }
     if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = $_POST["newpassword"]; }
-     else { $result = "newpasswordrequired"; }
+    else { $result = "newpasswordrequired"; }
 }
 
 #==============================================================================
@@ -178,16 +178,16 @@ if ($result === "") {
         exec($command, $prehook_output, $prehook_return);
     }
     if ( ! isset($prehook_return) || $prehook_return === 0 || $ignore_prehook_error ) {
-	$result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "", $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
-	if ( $result === "passwordchanged" && isset($posthook) ) {
-	    $command = hook_command($posthook, $login, $newpassword, null, $posthook_password_encodebase64);
-	    exec($command, $posthook_output, $posthook_return);
-	}
-	if ( $result !== "passwordchanged" ) {
-	    if ( $show_extended_error ) {
-		ldap_get_option($ldap, 0x0032, $extended_error_msg);
-	    }
-	}
+        $result = change_password($ldap, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, "", "", $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
+        if ( $result === "passwordchanged" && isset($posthook) ) {
+            $command = hook_command($posthook, $login, $newpassword, null, $posthook_password_encodebase64);
+            exec($command, $posthook_output, $posthook_return);
+        }
+        if ( $result !== "passwordchanged" ) {
+            if ( $show_extended_error ) {
+                ldap_get_option($ldap, 0x0032, $extended_error_msg);
+            }
+        }
     }
 }
 

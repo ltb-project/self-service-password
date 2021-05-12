@@ -31,4 +31,3 @@ class HookTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("/usr/local/bin/hook.sh 'jdoé' 'jæne' 'jøhn'", hook_command($hook, $login, $newpassword, $oldpassword) );
     }
 }
-

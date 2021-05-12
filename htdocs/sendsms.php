@@ -64,15 +64,14 @@ if (!$crypt_tokens) {
         $result = "tokennotvalid";
         error_log("Unable to open session $smstokenid");
     } elseif ($sessiontoken != $smstoken) {
-    	if ($attempts < $max_attempts) {
-	    $_SESSION['attempts'] = $attempts + 1;
-	    $result = "tokenattempts";
-	    error_log("SMS token $smstoken not valid, attempt $attempts");
-	}
-	else {
- 	    $result = "tokennotvalid";
-	    error_log("SMS token $smstoken not valid");
-	}
+        if ($attempts < $max_attempts) {
+            $_SESSION['attempts'] = $attempts + 1;
+            $result = "tokenattempts";
+            error_log("SMS token $smstoken not valid, attempt $attempts");
+        } else {
+            $result = "tokennotvalid";
+            error_log("SMS token $smstoken not valid");
+        }
     } elseif (isset($token_lifetime)) {
         # Manage lifetime with session content
         $tokentime = $_SESSION['time'];
@@ -83,7 +82,7 @@ if (!$crypt_tokens) {
     }
     # Delete token if not valid or all is ok
     if ( $result === "tokennotvalid" ) {
-	$_SESSION = array();
+        $_SESSION = array();
         session_destroy();
     }
     if ( $result === "" ) {
@@ -132,74 +131,76 @@ if ( $result === "" ) {
         error_log("LDAP - Unable to use StartTLS");
     } else {
 
-    # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    } else {
-        $bind = ldap_bind($ldap);
-    }
-
-    if ( !$bind ) {
-        $result = "ldaperror";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-            error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+        # Bind
+        if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        } else {
+            $bind = ldap_bind($ldap);
         }
-    } else {
 
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+        if ( !$bind ) {
+            $result = "ldaperror";
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+            }
+        } else {
 
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-    } else {
+            # Search for user
+            $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+            $search = ldap_search($ldap, $ldap_base, $ldap_filter);
 
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "ldaperror";
+                error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+            } else {
 
-    if( !$userdn ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    }
+                # Get user DN
+                $entry = ldap_first_entry($ldap, $search);
+                $userdn = ldap_get_dn($ldap, $entry);
 
-    # Get sms values
-    $smsValues = ldap_get_values($ldap, $entry, $sms_attribute);
+                if( !$userdn ) {
+                    $result = "badcredentials";
+                    error_log("LDAP - User $login not found");
+                }
 
-    # Check sms number
-    if ( $smsValues["count"] > 0 ) {
-        $sms = $smsValues[0];
-        if ( $sms_sanitize_number ) {
-            $sms = preg_replace('/[^0-9]/', '', $sms);
-        }
-        if ( $sms_truncate_number ) {
-            $sms = substr($sms, -$sms_truncate_number_length);
-        }
-	$smsdisplay = $sms;
-	if ( $sms_partially_hide_number ) {
-            $smsdisplay = substr_replace($sms, '****', 4 , 4);
-	}
-    }
+                # Get sms values
+                $smsValues = ldap_get_values($ldap, $entry, $sms_attribute);
 
-    if ( !$sms ) {
-        $result = "smsnonumber";
-        error_log("No SMS number found for user $login");
-    } else {
-        $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
-        $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
-        $result = "smsuserfound";
-        if ( $use_ratelimit ) {
-            if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
-                $result = "throttle";
-                error_log("LDAP - User $login too fast");
+                # Check sms number
+                if ( $smsValues["count"] > 0 ) {
+                    $sms = $smsValues[0];
+                    if ( $sms_sanitize_number ) {
+                        $sms = preg_replace('/[^0-9]/', '', $sms);
+                    }
+                    if ( $sms_truncate_number ) {
+                        $sms = substr($sms, -$sms_truncate_number_length);
+                    }
+                   $smsdisplay = $sms;
+                    if ( $sms_partially_hide_number ) {
+                        $smsdisplay = substr_replace($sms, '****', 4 , 4);
+                    }
+                }
+
+                if ( !$sms ) {
+                    $result = "smsnonumber";
+                    error_log("No SMS number found for user $login");
+                } else {
+                    $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
+                    $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
+                    $result = "smsuserfound";
+                    if ( $use_ratelimit ) {
+                        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+                            $result = "throttle";
+                            error_log("LDAP - User $login too fast");
+                        }
+                    }
+                }
             }
         }
     }
-
-}}}}
+}
 
 #==============================================================================
 # Generate sms token and send by sms
@@ -305,8 +306,7 @@ if ( $result === "redirect" ) {
 
         # Force server port if non standard port
         if (   ( $method === "http"  and $server_port != "80"  )
-            or ( $method === "https" and $server_port != "443" )
-        ) {
+            or ( $method === "https" and $server_port != "443" )) {
             $server_name .= ":".$server_port;
         }
 

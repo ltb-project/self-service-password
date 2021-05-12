@@ -123,6 +123,7 @@ $messages['sameaslogin'] = "Vaše nové heslo je shodné s přihlašovacím jmé
 $messages['policydifflogin'] = "Vaše nové heslo nesmí být stejné jako vaše přihlašovací jméno";
 $messages['changesshkeymessage'] = "Dobrý den, {login}\n\nVaše SSH klíč byl změněn.\n\nPokud jste nevznesli tuto změnu, obraťte se ihned na svého správce.";
 $messages['sshkeyrequired'] = "SSH klíč je vyžadováno";
+$messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['emptysshkeychangeform'] = "Změňte svůj SSH klíč";
 $messages['changesshkeyhelp'] = "Zadejte heslo a nové SSH klíč.";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Změňte svůj SSH klíč</a>";
