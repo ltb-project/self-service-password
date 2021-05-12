@@ -115,6 +115,7 @@ if ( $result === "" && $use_captcha ) {
     if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
         $result = "badcaptcha";
     }
+    unset($_SESSION['phrase']);
 }
 
 #==============================================================================
