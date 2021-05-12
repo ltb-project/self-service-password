@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.4.2
+%define ssp_version	1.4.3
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,6 +121,12 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Wed May 12 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.3-1
+- gh#516: Docker image does not have sendmail in it
+- gh#517: fix(mail): add sendmail to Docker image
+- gh#520: [Security:high] Reset by SMS can be used to change any account password
+- gh#521: If token was provided by SMS, check initial SMS code before changing password
+- gh#522: [Security:low] Dismiss captcha once it is used
 * Tue May 04 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.2-1
 - gh#504: Cannot use docker get gregwar/captcha----use docker
 - gh#505: fix(captcha): missing gd library
