@@ -126,7 +126,6 @@ $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
 $messages['sshkeyrequired'] = "Es requereix SSH Key";
-$messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['changesshkeysubject'] = "La seva clau de SSH s'ha canviat";
 $messages['emptysshkeychangeform'] = "Canviar la clau d'SSH";
 $messages['sshkey'] = "claus SSH";

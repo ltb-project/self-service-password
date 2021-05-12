@@ -68,7 +68,7 @@ function send_sms_by_api($mobile, $message) {
     }
     if ($sender === NULL) {
         $senders = $Sms->getSenders();
-        $sender = $senders[0];
+	$sender = $senders[0];
     }
     
     // OVH needs international '+' format
@@ -77,9 +77,9 @@ function send_sms_by_api($mobile, $message) {
         if ( preg_match('/^00/',$mobile) ) {
             $mobile=preg_replace('^00','+');
         } 
-        if ( preg_match('/^0/',$mobile) ) {
+	if ( preg_match('/^0/',$mobile) ) {
             $mobile=preg_replace('/^0/','+33',$mobile);
-        }
+	}
     }
     // Create a new message
     $Message = $Sms->createMessage();

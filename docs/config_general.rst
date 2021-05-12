@@ -38,27 +38,6 @@ This feature is disable by default. To enable it:
 Then if you send the header ``SSP-Extra-Config: mydomain``, the file
 ``conf/config.inc.mydomain.php`` will be loaded.
 
-Using Apache, we may set such header using the following:
-
-.. code:: apache
-
-    <VirtualHost *:80>
-       ServerName ssp.domain1.com
-       RequestHeader setIfEmpty SSP-Extra-Config domain1
-       [...]
-    </VirtualHost>
-
-Using Nginx, we could use instead:
-
-.. code:: nginx
-
-   server {
-       [...]
-       location ~ \.php {
-           fastcgi_param SSP-Extra-Config domain1;
-           [...]
-       }
-
 Language
 --------
 

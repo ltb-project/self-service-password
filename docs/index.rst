@@ -18,6 +18,5 @@ LDAP Tool Box Self Service Password documentation
    config_sms.rst
    config_mail.rst
    config_preposthook.rst
-   config_sshkey.rst
    webservices.rst
 

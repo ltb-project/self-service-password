@@ -71,7 +71,6 @@ $messages['answerrequired'] = "Sem resposta";
 $messages['questionrequired'] = "Nenhuma pergunta selecionada";
 $messages['passwordrequired'] = "A senha é necessária";
 $messages['sshkeyrequired'] = "A chave SSH é necessária";
-$messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['answermoderror'] = "A resposta não foi registrada";
 $messages['answerchanged'] = "A resposta foi registrada";
 $messages['answernomatch'] = "A resposta está incorreta";

@@ -222,15 +222,15 @@ if (isset($login)) { $smarty->assign('login', $login); }
 if (isset($token)) { $smarty->assign('token', $token); }
 if (isset($use_captcha)) { $smarty->assign('use_captcha', $use_captcha); }
 // TODO : Make it clean function show_policy - START
-if (isset($pwd_show_policy_pos)) {
-    $smarty->assign('pwd_show_policy_pos', $pwd_show_policy_pos);
-    $smarty->assign('pwd_show_policy', $pwd_show_policy);
-    $smarty->assign('pwd_show_policy_onerror', true);
+if (isset($pwd_show_policy_pos)) { 
+    $smarty->assign('pwd_show_policy_pos', $pwd_show_policy_pos); 
+    $smarty->assign('pwd_show_policy', $pwd_show_policy); 
+    $smarty->assign('pwd_show_policy_onerror', true); 
     if ( $pwd_show_policy === "onerror" ) {
         if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends/" , $result) ) {
-            $smarty->assign('pwd_show_policy_onerror', false);
-        } else {
-            $smarty->assign('pwd_show_policy_onerror', true);
+            $smarty->assign('pwd_show_policy_onerror', false); 
+        } else  {
+            $smarty->assign('pwd_show_policy_onerror', true); 
         }
     }
     if (isset($pwd_min_length)) { $smarty->assign('pwd_min_length', $pwd_min_length); }
@@ -287,7 +287,7 @@ if (isset($usermail)) { $smarty->assign('usermail', $usermail); }
 if (isset($displayname[0])) { $smarty->assign('displayname', $displayname[0]); }
 if (isset($encrypted_sms_login)) { $smarty->assign('encrypted_sms_login', $encrypted_sms_login); }
 
-if (isset($obscure_failure_messages) && in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"; }
+if ( isset($obscure_failure_messages) && in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"; }
 
 # Set error message, criticity and fa_class
 
@@ -313,7 +313,7 @@ $smarty->assign('result', $result);
 
 $dependency_errors = array();
 foreach ($dependency_check_results as $result) {
-    $dependency_errors[$result] = array( 'error' => $messages[$result], 'criticity' => get_criticity($result), 'fa_class' => get_fa_class($result) );
+	$dependency_errors[$result] = array( 'error' => $messages[$result], 'criticity' => get_criticity($result), 'fa_class' => get_fa_class($result) );
 }
 $smarty->assign('dependency_errors', $dependency_errors);
 
