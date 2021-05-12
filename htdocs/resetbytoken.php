@@ -63,10 +63,10 @@ if ( $result === "" ) {
 
     if ( !$login ) {
         $result = "tokennotvalid";
-	error_log("Unable to open session $tokenid");
+        error_log("Unable to open session $tokenid");
     } else if ( isset($smstoken) and ( $smstoken !== $_REQUEST['smstoken'] ) ) {
         $result = "tokennotvalid";
-	error_log("Token not associated with SMS code ".$_REQUEST['smstoken']);
+        error_log("Token not associated with SMS code ".$_REQUEST['smstoken']);
     } else if (isset($token_lifetime)) {
         # Manage lifetime with session content
         $tokentime = $_SESSION['time'];
