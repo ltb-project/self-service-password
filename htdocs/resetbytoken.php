@@ -59,19 +59,21 @@ if ( $result === "" ) {
     session_name("token");
     session_start();
     $login = $_SESSION['login'];
+    $smstoken = $_SESSION['smstoken'];
 
     if ( !$login ) {
         $result = "tokennotvalid";
 	error_log("Unable to open session $tokenid");
-    } else {
-        if (isset($token_lifetime)) {
-            # Manage lifetime with session content
-            $tokentime = $_SESSION['time'];
-            if ( time() - $tokentime > $token_lifetime ) {
-                $result = "tokennotvalid";
-                error_log("Token lifetime expired");
-	        }
-        }
+    } else if ( isset($smstoken) and ( $smstoken !== $_REQUEST['smstoken'] ) ) {
+        $result = "tokennotvalid";
+	error_log("Token not associated with SMS code ".$_REQUEST['smstoken']);
+    } else if (isset($token_lifetime)) {
+        # Manage lifetime with session content
+        $tokentime = $_SESSION['time'];
+        if ( time() - $tokentime > $token_lifetime ) {
+            $result = "tokennotvalid";
+            error_log("Token lifetime expired");
+	}
     }
 }
 
