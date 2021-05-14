@@ -59,14 +59,15 @@ if ( $result === "" ) {
     session_name("token");
     session_start();
     $login = $_SESSION['login'];
-    $smstoken = $_SESSION['smstoken'];
+    $smstoken = isset($_SESSION['smstoken']) ? $_SESSION['smstoken'] : false;
+    $posttoken = isset($_REQUEST['smstoken']) ? $_REQUEST['smstoken'] : 'undefined';
 
     if ( !$login ) {
         $result = "tokennotvalid";
         error_log("Unable to open session $tokenid");
-    } else if ( isset($smstoken) and ( $smstoken !== $_REQUEST['smstoken'] ) ) {
+    } else if ( $smstoken and $posttoken !== $smstoken ) {
         $result = "tokennotvalid";
-        error_log("Token not associated with SMS code ".$_REQUEST['smstoken']);
+        error_log("Token not associated with SMS code ".$posttoken);
     } else if (isset($token_lifetime)) {
         # Manage lifetime with session content
         $tokentime = $_SESSION['time'];
@@ -200,7 +201,7 @@ if ( $result === "passwordchanged" ) {
 #==============================================================================
 # Notify password change
 #==============================================================================
-if ($mail and $notify_on_change and $result === 'paswordchanged') {
+if ($mail and $notify_on_change and $result === 'passwordchanged') {
     $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
     if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
         error_log("Error while sending change email to $mail (user $login)");
