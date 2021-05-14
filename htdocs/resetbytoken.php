@@ -59,14 +59,15 @@ if ( $result === "" ) {
     session_name("token");
     session_start();
     $login = $_SESSION['login'];
-    $smstoken = $_SESSION['smstoken'];
+    $smstoken = isset($_SESSION['smstoken']) ? $_SESSION['smstoken'] : false;
+    $posttoken = isset($_REQUEST['smstoken']) ? $_REQUEST['smstoken'] : 'undefined';
 
     if ( !$login ) {
         $result = "tokennotvalid";
-	error_log("Unable to open session $tokenid");
-    } else if ( isset($smstoken) and ( $smstoken !== $_REQUEST['smstoken'] ) ) {
+        error_log("Unable to open session $tokenid");
+    } else if ( $smstoken and $posttoken !== $smstoken ) {
         $result = "tokennotvalid";
-	error_log("Token not associated with SMS code ".$_REQUEST['smstoken']);
+        error_log("Token not associated with SMS code ".$posttoken);
     } else if (isset($token_lifetime)) {
         # Manage lifetime with session content
         $tokentime = $_SESSION['time'];
