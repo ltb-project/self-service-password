@@ -28,7 +28,6 @@ Release: 1%{?dist}
 License: GPLv2+
 BuildArch: noarch
 
-Group: Applications/Web
 URL: http://ltb-project.org
 
 Source: %{ssp_realname}-%{ssp_version}.tar.gz
