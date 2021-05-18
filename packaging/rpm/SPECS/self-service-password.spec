@@ -114,6 +114,7 @@ fi
 # Files
 #=================================================
 %files
+%license LICENCE
 %config(noreplace) %{ssp_destdir}/conf/config.inc.php
 %config(noreplace) /etc/httpd/conf.d/self-service-password.conf
 %{ssp_destdir}
