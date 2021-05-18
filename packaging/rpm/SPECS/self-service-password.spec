@@ -130,6 +130,7 @@ fi
 - gh#793: Updated italian localization
 - gh#816: Hijack SMS codes to an arbitrary phone number
 - gh#818: Do not trust SMS number from crypted token, search it again in LDAP Directory
+
 * Mon May 15 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.3-1
 - gh#723: Update gpg install command
 - gh#735: Links not interpreted in $messages['sendtokenhelpnomail']
@@ -144,17 +145,20 @@ fi
 - gh#767: Bump guzzlehttp/psr7 from 2.4.0 to 2.5.0 in /lib
 - gh#768: Restrict languages to php files
 - gh#771: Restrict languages to php files
+
 * Thu Oct 06 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.2-1
 - gh#717: Update config_nginx.rst
 - gh#718: Update config_apache.rst
 - gh#720: SMS code won't send when captcha is enabled
 - gh#721: captcha in sendsms check when needed only
 - gh#722: Use gpg instead of apt-key during for deb install
+
 * Fri Sep 16 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.1-1
 - gh#709: Error 404 with bootstrap.min.css.map
 - gh#711: Error 500 when user is not found in directory for password reset by mail
 - gh#714: Docker - missing libldap-common
 - gh#716: Debian package not in the Apt repo
+
 * Fri Sep 02 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.0-1
 - gh#494: allow more than one mail_attribute value
 - gh#509: ssh-pub-key verification while change
@@ -240,8 +244,10 @@ fi
 - gh#704: Use recent version of PHP and Smarty in our Docker image
 - gh#705: Create upgrade doc for 1.5
 - gh#708: Get entry in checkpassword REST service
+
 * Wed Jun 29 2022 - Clement Oudot <clem@ltb-project.org> - 1.4.5-1
 - Latest version of 1.4.4 not working by @Max7641 in #670
+
 * Fri Jun 24 2022 - Clement Oudot <clem@ltb-project.org> - 1.4.4-1
 - Update bootstrap to v3.4.1 by @bohze in #663
 - Separate Smarty debug and debug by @coudot in #666
@@ -249,6 +255,7 @@ fi
 - Don't send notification if modification failed by @faust64 in #542
 - PHP Fatal error: Uncaught TypeError: ldap_get_dn() in #648
 - REST files are not shipped in packages in #660
+
 * Wed May 12 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.3-1
 - gh#516: Docker image does not have sendmail in it
 - gh#517: fix(mail): add sendmail to Docker image
@@ -262,9 +269,11 @@ fi
 - gh#507: fix(reset)
 - gh#508: fix(undefined)
 - gh#511: Bump phpmailer/phpmailer from 6.3.0 to 6.4.1 in /lib
+
 * Tue Apr 27 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.1-1
 - gh#501: Remove extra semicolon from setquestions template
 - gh#502: Remove alt text so empty logo doesn't show 'msg_title' twice
+
 * Tue Apr 20 2021 - Clement Oudot <clem@ltb-project.org> - 1.4-1
 - gh#52: Docker image
 - gh#109: Use Smarty framework
@@ -378,6 +387,7 @@ fi
 - gh#483: add hook in rest api and a script for multi ldap change password
 - gh#491: do not override config.inc.local.php vars
 - gh#499: Update multi ldap script
+
 * Tue Jul 10 2018 - Clement Oudot <clem@ltb-project.org> - 1.3-1
 - gh#182: Message incorrect when resetting using email but not supplying email (minor)
 - gh#187: Security assessment issues
@@ -394,6 +404,7 @@ fi
 - gh#211: Force string conversion of input values
 - gh#215: added support for pwned-passwords api v2
 - gh#217: take into account post-hook exit status
+
 * Fri Jan 12 2018 - Clement Oudot <clem@ltb-project.org> - 1.2-1
 - gh#149: Remove obsolete stripslashes_if_gpc_magic_quotes
 - gh#154: Translated the hungarian keys left in english.
@@ -405,6 +416,7 @@ fi
 - gh#177: Fix "SSH Key required" message wrong color when ssh key is not submitted
 - gh#178: Fix pattern matching in reset by questions
 - gh#179: Revert Twig because of multiple regressions, work still needed, and lack of testing
+
 * Fri Sep 01 2017 - Clement Oudot <clem@ltb-project.org> - 1.1-1
 - gh#33: Posthook does not work with apostrophes
 - gh#38: Add Japanese translation
@@ -473,8 +485,10 @@ fi
 - gh#143: Warn when key phrase is not set
 - gh#144: Invalid Token error
 - gh#148: Change key feature never notifies
+
 * Mon Oct 17 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-2
 - Fix packaging of lib/ directory
+
 * Fri Oct 14 2016 - Clement Oudot <clem@ltb-project.org> - 1.0-1
 - gh#1: Use bootstrap CSS framework
 - gh#2: Typos in german language
@@ -505,6 +519,7 @@ fi
 - gh#32: Password policy - same as login
 - gh#34: Handle LDAP bind extended error format incompatibility with Samba4
 - gh#35: All empty forms display a warning message
+
 * Thu Oct 8 2015 - Clement Oudot <clem@ltb-project.org> - 0.9-1
 - Bug #351: Allow binddn to be one that is not a manager
 - Bug #393: Warning in logs if no forbidden caracters defined
@@ -531,6 +546,7 @@ fi
 - Feature #724: Self Service Password: custom hooks / external scripts
 - Feature #728: Slovenian translation
 - Feature #798: Change password as user in AD
+
 * Sat Oct 20 2012 - Clement Oudot <clem@ltb-project.org> - 0.8-1
 - Bug #399: Mistakes in the English translation
 - Bug #479: Self-Service-Password in Sapnish
@@ -550,6 +566,7 @@ fi
 - Feature #522: Italian translation
 - Feature #537: Detect all missing translation
 - Feature #538: Check login input string to prevent LDAP injection
+
 * Wed Dec 21 2011 - Clement Oudot <clem@ltb-project.org> - 0.7-1
 - Bug #343: Crypt tokens needs php5-mcrypt
 - Bug #346: DIsabled accounts
@@ -564,6 +581,7 @@ fi
 - Feature #352: Add shadowLastChange configuration
 - Feature #358: Option to force password change in AD
 - Feature #376: Polish translation
+
 * Thu Jul 21 2011 - Clement Oudot <clem@ltb-project.org> - 0.6-1
 - Bug #320: Token crypt function does not wotk with PHP 5.2 and inferior
 - Bug #322: Several PHP bugs and logging feature added (PATCH included)
@@ -572,6 +590,7 @@ fi
 - Feature #317: Set content-type header for mail
 - Feature #319: Change password with a mail challenge - add oprions -f to see correct FROM header
 - Feature #323: Added support for reCAPTCHA (patches included)
+
 * Sat Apr 09 2011 - Clement Oudot <clem@ltb-project.org> - 0.5-1
 - Bug #273: Canoot change password on Active Directory
 - Bug #274: Cannot change password on Active Directory as user
@@ -587,6 +606,7 @@ fi
 - Feature #289: Delete token if password change is ok
 - Feature #290: Configure token lifetime
 - Feature #307: Token reset form should be hidden if token is missing or invalid
+
 * Fri Jul 30 2010 - Clement Oudot <clem@ltb-project.org> - 0.4-1
 - Bug #183: Corrected german translations
 - Bug #189: Accentued characters in passwords are not well managed
@@ -602,4 +622,3 @@ fi
 - Feature #256: Display password policy details only on failures for authenticated users
 - Feature #259: Check that user doesn't reuse the same password
 - Feature #266: Add pt-BR lang
-
