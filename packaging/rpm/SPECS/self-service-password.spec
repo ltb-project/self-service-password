@@ -9,15 +9,9 @@
 # Copyright (C) 2009-2012 LTB-project
 #=================================================
 
-#=================================================
-# Variables
-#=================================================
 %global ssp_destdir     %{_datadir}/%{name}
 %global ssp_cachedir    %{_localstatedir}/cache/%{name}
 
-#=================================================
-# Header
-#=================================================
 Name: self-service-password
 Version: 1.5.4
 Release: 1%{?dist}
@@ -37,25 +31,23 @@ Requires: php-gd
 Requires: php-ldap
 Requires: php-mbstring
 
+
 %description
 Self Service Password is a simple PHP application that allows users to change
 their password on an LDAP directory.
 
 Self Service Password is provided by LDAP Tool Box project:
 http://ltb-project.org
+
                                                                                     
-#=================================================
-# Source preparation
-#=================================================
 %prep
 %setup -q
+
 
 %build
 # Nothing to build
 
-#=================================================
-# Installation
-#=================================================
+
 %install
 # Create directories
 mkdir -p %{buildroot}/%{ssp_cachedir}/cache
@@ -106,10 +98,6 @@ ln -s %{_sysconfdir}/%{name}/config.inc.php \
 
 
 %post
-#=================================================
-# Post Installation
-#=================================================
-
 # Move configuration for older version
 if [ -f "%{ssp_destdir}/config.inc.php" ]; then
     mv %{ssp_destdir}/config.inc.php %{_sysconfdir}/%{name}/config.inc.php
@@ -125,9 +113,7 @@ if [ -f "%{ssp_destdir}/conf/config.inc.local.php" ]; then
     mv %{ssp_destdir}/conf/config.inc.local.php %{_sysconfdir}/%{name}/config.inc.local.php
 fi
 
-#=================================================
-# Files
-#=================================================
+
 %files
 %license LICENCE
 %dir %{_sysconfdir}/%{name}
@@ -138,9 +124,7 @@ fi
 %attr(-,apache,apache) %{ssp_cachedir}/cache
 %attr(-,apache,apache) %{ssp_cachedir}/templates_c
 
-#=================================================
-# Changelog
-#=================================================
+
 %changelog
 * Wed Nov 22 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.4-1
 - gh#773: Missing dependence in debian package breaks installation experience
