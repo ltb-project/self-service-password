@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 # Copyright (C) 2016 Oleh Kravchenko <oleg@kaa.org.ua>
 #
 # This program is free software; you can redistribute it and/or
