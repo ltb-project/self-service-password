@@ -25,7 +25,7 @@ Summary: LDAP password change web interface
 Name: %{ssp_name}
 Version: %{ssp_version}
 Release: 1%{?dist}
-License: GPL
+License: GPLv2+
 BuildArch: noarch
 
 Group: Applications/Web
