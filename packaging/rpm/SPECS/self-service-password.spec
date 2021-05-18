@@ -16,7 +16,7 @@
 
 Name: self-service-password
 Version: 1.5.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: LDAP password change web interface
 License: GPL-3.0-only
 URL:     https://ltb-project.org/documentation/self-service-password.html
@@ -166,6 +166,9 @@ fi
 
 
 %changelog
+* Wed Nov 22 2023 Xavier Bachelot <xavier@bachelot.org> - 1.5.4-2
+- Cleanup specfile
+
 * Wed Nov 22 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.4-1
 - gh#773: Missing dependence in debian package breaks installation experience
 - gh#774: Announce that the smarty3 package needs to be installed manually
@@ -305,6 +308,7 @@ fi
 - gh#520: [Security:high] Reset by SMS can be used to change any account password
 - gh#521: If token was provided by SMS, check initial SMS code before changing password
 - gh#522: [Security:low] Dismiss captcha once it is used
+
 * Tue May 04 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.2-1
 - gh#504: Cannot use docker get gregwar/captcha----use docker
 - gh#505: fix(captcha): missing gd library
