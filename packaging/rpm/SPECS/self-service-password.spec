@@ -30,7 +30,7 @@ BuildArch: noarch
 
 URL: http://ltb-project.org
 
-Source: %{ssp_realname}-%{ssp_version}.tar.gz
+Source0: https://github.com/ltb-project/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1: self-service-password-apache.conf
 
 Requires(pre): coreutils
@@ -47,7 +47,7 @@ Self Service Password is provided by LDAP Tool Box project: http://ltb-project.o
 # Source preparation
 #=================================================
 %prep
-%setup -q -n %{ssp_realname}-%{ssp_version}
+%setup -q
 
 %build
 # Nothing to build
