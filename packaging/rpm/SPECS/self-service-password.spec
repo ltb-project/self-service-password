@@ -53,8 +53,6 @@ Self Service Password is provided by LDAP Tool Box project: http://ltb-project.o
 # Installation
 #=================================================
 %install
-rm -rf %{buildroot}
-
 # Create directories
 mkdir -p %{buildroot}/%{ssp_destdir}
 mkdir -p %{buildroot}/%{ssp_cachedir}/cache
