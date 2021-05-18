@@ -12,8 +12,8 @@
 #=================================================
 # Variables
 #=================================================
-%define ssp_destdir     %{_datadir}/%{name}
-%define ssp_cachedir    %{_localstatedir}/cache/%{name}
+%global ssp_destdir     %{_datadir}/%{name}
+%global ssp_cachedir    %{_localstatedir}/cache/%{name}
 
 #=================================================
 # Header
