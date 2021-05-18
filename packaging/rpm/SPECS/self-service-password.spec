@@ -70,7 +70,6 @@ mkdir -p %{buildroot}/%{ssp_destdir}/templates
 
 # Copy files
 ## PHP
-install -m 644 conf/*         %{buildroot}/%{ssp_destdir}/conf
 install -m 644 htdocs/*.php   %{buildroot}/%{ssp_destdir}/htdocs
 cp -a          htdocs/css     %{buildroot}/%{ssp_destdir}/htdocs
 cp -a          htdocs/images  %{buildroot}/%{ssp_destdir}/htdocs
@@ -90,13 +89,21 @@ install -m 644 %{SOURCE1} \
 # Adapt Smarty paths
 sed -i \
   's:/usr/share/php/smarty3:/usr/share/php/Smarty:' \
-  %{buildroot}%{ssp_destdir}/conf/config.inc.php
+  conf/config.inc.php
 sed -i \
   's:^#$smarty_cache_dir.*:$smarty_cache_dir = "'%{ssp_cachedir}/cache'";:' \
-  %{buildroot}%{ssp_destdir}/conf/config.inc.php
+  conf/config.inc.php
 sed -i \
   's:^#$smarty_compile_dir.*:$smarty_compile_dir = "'%{ssp_cachedir}/templates_c'";:' \
+  conf/config.inc.php
+
+# Move conf file to %%_sysconfdir
+mkdir -p %{buildroot}/%{_sysconfdir}/%{name}
+install -m 644  conf/config.inc.php \
+  %{buildroot}/%{_sysconfdir}/%{name}/
+ln -s %{_sysconfdir}/%{name}/config.inc.php \
   %{buildroot}%{ssp_destdir}/conf/config.inc.php
+
 
 %post
 #=================================================
@@ -104,8 +111,11 @@ sed -i \
 #=================================================
 
 # Move configuration for older version
-if [ -r "%{ssp_destdir}/config.inc.php" ]; then
-    mv %{ssp_destdir}/config.inc.php %{ssp_destdir}/conf/config.inc.php
+if [ -f "%{ssp_destdir}/config.inc.php" ]; then
+    mv %{ssp_destdir}/config.inc.php %{_sysconfdir}/%{name}/config.inc.php
+fi
+if [ -f "%{ssp_destdir}/conf/config.inc.php" ]; then
+    mv %{ssp_destdir}/conf/config.inc.php %{_sysconfdir}/%{name}/config.inc.php
 fi
 
 #=================================================
@@ -113,7 +123,8 @@ fi
 #=================================================
 %files
 %license LICENCE
-%config(noreplace) %{ssp_destdir}/conf/config.inc.php
+%dir %{_sysconfdir}/%{name}
+%config(noreplace) %{_sysconfdir}/%{name}/config.inc.php
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/self-service-password.conf
 %{ssp_destdir}
 %dir %{ssp_cachedir}
