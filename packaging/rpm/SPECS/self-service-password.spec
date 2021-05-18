@@ -49,6 +49,9 @@ Self Service Password is provided by LDAP Tool Box project: http://ltb-project.o
 %prep
 %setup -n %{ssp_realname}-%{ssp_version}
 
+%build
+# Nothing to build
+
 #=================================================
 # Installation
 #=================================================
