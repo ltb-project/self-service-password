@@ -37,8 +37,11 @@ Requires: php-ldap
 Requires: php-mbstring
 
 %description
-Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory.
-Self Service Password is provided by LDAP Tool Box project: http://ltb-project.org
+Self Service Password is a simple PHP application that allows users to change
+their password on an LDAP directory.
+
+Self Service Password is provided by LDAP Tool Box project:
+http://ltb-project.org
                                                                                     
 #=================================================
 # Source preparation
@@ -79,12 +82,19 @@ cp -a          lib/vendor     %{buildroot}/%{ssp_destdir}/lib
 install -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
 install -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
 ## Apache configuration
-install -m 644 %{SOURCE1}     %{buildroot}/etc/httpd/conf.d/self-service-password.conf
+install -m 644 %{SOURCE1} \
+  %{buildroot}/etc/httpd/conf.d/self-service-password.conf
 
 # Adapt Smarty paths
-sed -i 's:/usr/share/php/smarty3:/usr/share/php/Smarty:' %{buildroot}%{ssp_destdir}/conf/config.inc.php
-sed -i 's:^#$smarty_cache_dir.*:$smarty_cache_dir = "'%{ssp_cachedir}/cache'";:' %{buildroot}%{ssp_destdir}/conf/config.inc.php
-sed -i 's:^#$smarty_compile_dir.*:$smarty_compile_dir = "'%{ssp_cachedir}/templates_c'";:' %{buildroot}%{ssp_destdir}/conf/config.inc.php
+sed -i \
+  's:/usr/share/php/smarty3:/usr/share/php/Smarty:' \
+  %{buildroot}%{ssp_destdir}/conf/config.inc.php
+sed -i \
+  's:^#$smarty_cache_dir.*:$smarty_cache_dir = "'%{ssp_cachedir}/cache'";:' \
+  %{buildroot}%{ssp_destdir}/conf/config.inc.php
+sed -i \
+  's:^#$smarty_compile_dir.*:$smarty_compile_dir = "'%{ssp_cachedir}/templates_c'";:' \
+  %{buildroot}%{ssp_destdir}/conf/config.inc.php
 
 %post
 #=================================================
