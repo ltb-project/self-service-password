@@ -18,17 +18,17 @@
 #=================================================
 # Header
 #=================================================
-Summary: LDAP password change web interface
 Name: self-service-password
 Version: 1.5.4
 Release: 1%{?dist}
+Summary: LDAP password change web interface
 License: GPLv2+
-BuildArch: noarch
-
 URL: http://ltb-project.org
 
 Source0: https://github.com/ltb-project/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1: self-service-password-apache.conf
+
+BuildArch: noarch
 
 Requires(pre): coreutils
 Requires(pre): httpd
