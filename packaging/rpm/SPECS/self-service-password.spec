@@ -12,9 +12,6 @@
 #=================================================
 # Variables
 #=================================================
-%define ssp_name	self-service-password
-%define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.5.4
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -22,8 +19,8 @@
 # Header
 #=================================================
 Summary: LDAP password change web interface
-Name: %{ssp_name}
-Version: %{ssp_version}
+Name: self-service-password
+Version: 1.5.4
 Release: 1%{?dist}
 License: GPLv2+
 BuildArch: noarch
