@@ -31,6 +31,7 @@ Source0: https://github.com/ltb-project/%{name}/archive/v%{version}/%{name}-%{ve
 Source1: self-service-password-apache.conf
 
 Requires(pre): coreutils
+Requires(pre): httpd
 Requires: php
 Requires: php-gd
 Requires: php-ldap
@@ -102,10 +103,6 @@ sed -i \
 # Post Installation
 #=================================================
 
-# Change owner
-/bin/chown apache:apache %{ssp_cachedir}/cache
-/bin/chown apache:apache %{ssp_cachedir}/templates_c
-
 # Move configuration for older version
 if [ -r "%{ssp_destdir}/config.inc.php" ]; then
     mv %{ssp_destdir}/config.inc.php %{ssp_destdir}/conf/config.inc.php
@@ -119,7 +116,9 @@ fi
 %config(noreplace) %{ssp_destdir}/conf/config.inc.php
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/self-service-password.conf
 %{ssp_destdir}
-%{ssp_cachedir}
+%dir %{ssp_cachedir}
+%attr(-,apache,apache) %{ssp_cachedir}/cache
+%attr(-,apache,apache) %{ssp_cachedir}/templates_c
 
 #=================================================
 # Changelog
