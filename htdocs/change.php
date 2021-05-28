@@ -91,7 +91,7 @@ if ( $result === "" ) {
             $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
         } elseif ( isset($_SERVER['KRB5CCNAME']) ) {
             putenv("KRB5CCNAME=".$_SERVER['KRB5CCNAME']);
-            $bind = ldap_sasl_bind($ldap, NULL, NULL, 'GSSAPI') or die('Failed to GSSAPI bind.');
+            $bind = ldap_sasl_bind($ldap, NULL, NULL, 'GSSAPI') or error_log('Failed to GSSAPI bind.');
         } else {
             $bind = ldap_bind($ldap);
         }
