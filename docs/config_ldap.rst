@@ -190,7 +190,7 @@ You can tune some options:
 
    $ad_options['force_pwd_change'] = true;
 
--  Allow user to change password if password is expired:
+-  Allow user to change password if password is expired (this will force the password to be changed as manager):
 
 .. code:: php
 
