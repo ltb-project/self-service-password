@@ -96,7 +96,7 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         $oldpassword = "secret";
 
         if ( version_compare(PHP_VERSION, '7.1.0') >= 0 ) {
-            require_once __DIR__ . '/../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php';
+            require_once __DIR__ . '/../lib/vendor/mxrxdxn/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php';
             $pwd_policy_config = array(
                 "pwd_show_policy"         => true,
                 "pwd_min_length"          => 6,

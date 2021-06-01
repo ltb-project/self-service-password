@@ -16,7 +16,7 @@ require_once("../../conf/config.inc.php");
 require_once("../../lib/vendor/defuse-crypto.phar");
 require_once("../../lib/functions.inc.php");
 if ($use_pwnedpasswords) {
-    require_once("../../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
+    require_once("../../lib/vendor/mxrxdxn/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
 }
 
 #==============================================================================
