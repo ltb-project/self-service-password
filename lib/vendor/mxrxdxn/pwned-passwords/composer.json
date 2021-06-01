@@ -1,0 +1,30 @@
+{
+  "name": "mxrxdxn/pwned-passwords",
+  "description": "A library to query Troy Hunt's Pwned Passwords service to see whether or not a password has been included in a public breach.",
+  "keywords": ["password", "passwords", "security"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ron Marsden",
+      "email": "hello@ronmarsden.com"
+    },
+    {
+      "name": "Saif Eddin Gmati",
+      "email": "azjezz2@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4" : {
+      "PwnedPasswords\\": "src/PwnedPasswords/"
+    }
+  },
+  "require": {
+    "php": ">=7.2",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "8.0.4",
+    "symfony/var-dumper": "^4.2"
+  }
+}

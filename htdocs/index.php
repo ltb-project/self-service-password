@@ -14,14 +14,15 @@ require_once("../conf/config.inc.php");
 # Includes
 #==============================================================================
 require_once("../lib/vendor/defuse-crypto.phar");
-require_once("../lib/functions.inc.php");
 require_once("../lib/vendor/autoload.php");
+require_once("../lib/functions.inc.php");
 if ($use_captcha) {
     require_once("../lib/captcha.inc.php");
 }
-if ($use_pwnedpasswords) {
-    require_once("../lib/vendor/ron-maxweb/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
-}
+// should be included by ../lib/vendor/autoload.php
+//if ($use_pwnedpasswords) {
+//    require_once("../lib/vendor/mxrxdxn/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
+//}
 
 #==============================================================================
 # VARIABLES
@@ -75,6 +76,8 @@ else {
     if ( $ldap_use_exop_passwd and ! function_exists('ldap_exop_passwd') ) { $dependency_check_results[] = "phpupgraderequired"; }
     # Check LDAP_CONTROL_PASSWORDPOLICYREQUEST if LDAP ppolicy control enabled
     if ( $ldap_use_ppolicy_control and ! defined('LDAP_CONTROL_PASSWORDPOLICYREQUEST') ) { $dependency_check_results[] = "phpupgraderequired"; }
+    # Check PHP Version is at least 7.2.5, when pwnedpasswords is enabled
+    if ($use_pwnedpasswords and version_compare(PHP_VERSION, '7.2.5') < 0) { $dependency_check_results[] = "phpupgraderequired"; }
 }
 
 # Check PHP mhash presence if Samba mode active
