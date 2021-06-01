@@ -76,6 +76,8 @@ else {
     if ( $ldap_use_exop_passwd and ! function_exists('ldap_exop_passwd') ) { $dependency_check_results[] = "phpupgraderequired"; }
     # Check LDAP_CONTROL_PASSWORDPOLICYREQUEST if LDAP ppolicy control enabled
     if ( $ldap_use_ppolicy_control and ! defined('LDAP_CONTROL_PASSWORDPOLICYREQUEST') ) { $dependency_check_results[] = "phpupgraderequired"; }
+    # Check PHP Version is at least 7.2.5, when pwnedpasswords is enabled
+    if ($use_pwnedpasswords and version_compare(PHP_VERSION, '7.2.5') < 0) { $dependency_check_results[] = "phpupgraderequired"; }
 }
 
 # Check PHP mhash presence if Samba mode active
