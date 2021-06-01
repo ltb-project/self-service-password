@@ -317,10 +317,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     }
 
     # pwned?
-    # note: in tests/CheckPasswordTest, beware that we do not check
-    #  this, unless PHP_VERSION >= 7.1.0. Maybe we should include a
-    #  similar clause in that if?
-    if ($use_pwnedpasswords) {
+    if ($use_pwnedpasswords and version_compare(PHP_VERSION, '7.2.5') >= 0) {
         $pwned_passwords = new PwnedPasswords\PwnedPasswords;
         $insecure = $pwned_passwords->isPwned($password);
         if ($insecure) { $result="pwned"; }
