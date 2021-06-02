@@ -242,6 +242,14 @@ $mail_from_name = "Self Service Password";
 $mail_signature = "";
 # Notify users anytime their password is changed
 $notify_on_change = false;
+
+# HTTP notifications settings / Disable them
+$http_notifications_address = false;
+$http_notifications_body = false;
+$http_notifications_headers = array();
+$http_notifications_method = 'POST';
+$http_notifications_params = false;
+
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
 $mail_sendmailpath = '/usr/sbin/sendmail';
 $mail_protocol = 'smtp';

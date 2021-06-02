@@ -630,6 +630,84 @@ if(!function_exists('str_putcsv'))
 }
 
 
+/* @function boolean send_http(string $username, object $httpoptions, string $body, array $data)
+ * Send an http notification, replace strings in body
+ * @param username Destination
+ * @param httpoptions Sender
+ * @param body Body
+ * @param data Data for string replacement
+ * @return result
+ */
+function send_http($username, $httpoptions, $body, $data) {
+    $ch = curl_init();
+    $result = false;
+
+    if (! isset($httpoptions['address'])
+	    or $httpoptions['address'] === false
+	    or ! isset($httpoptions['method'])
+	    or array_search($httpoptions['method'], [ 'GET', 'POST', 'PUT' ]) === false) {
+	return $result;
+    }
+
+    $url = $httpoptions['address'];
+    if (isset($httpoptions['params']) and $httpoptions['params'] !== false) {
+	foreach ($data as $key => $value) {
+	    $httpoptions['params'] = str_replace('{'.$key.'}', $value, $httpoptions['params']);
+	}
+	$url .= $httpoptions['params'];
+    }
+    if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
+	foreach ($httpoptions['body'] as $key => $value) {
+	    $httpoptions['body'][$key] = str_replace('{data}', $body, $value);
+	}
+	foreach ($data as $key => $value) {
+	    foreach ($httpoptions['body'] as $key2 => $value2) {
+		$httpoptions['body'][$key2] = str_replace('{'.$key.'}', $value, $value2);
+	    }
+	}
+	//var_dump($httpoptions['body']);
+    }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    if ($httpoptions['method'] === 'GET') {
+	if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false) {
+	    $httpoptions['headers']['method'] = 'GET';
+	    curl_setopt( $ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
+	} else {
+	    curl_setopt( $ch, CURLOPT_HTTPHEADER, [ 'method' => 'GET' ] );
+	}
+    } else {
+	if ($httpoptions['method'] === 'PUT') {
+	    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+	} else { curl_setopt($ch, CURLOPT_POST, 1); }
+
+	if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false) {
+	    //var_dump($httpoptions['headers']);
+	    curl_setopt( $ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
+	}
+	if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($httpoptions['body']));
+	}
+    }
+
+    //return false;
+    $response = curl_exec($ch);
+    if (curl_errno($ch) !== 0) {
+	$errorMsg = curl_error($ch);
+        error_log("send_http: ".$errorMsg);
+    } else { $result = true; }
+    curl_close ($ch);
+    //echo "$response\n";
+    //TODO: check response back from Slack API?
+    // good => {"ok":true,"channel":"D2QFJ2HV3","ts":"1622659682.000200","message":{"type":"message","subtype":"bot_message","text":"Bonjour syn,\n\nVotre mot de passe a \u00e9t\u00e9 chang\u00e9.\n\nSi vous n'\u00eates pas \u00e0 l'origine de cette demande, contactez votre administrateur imm\u00e9diatement.","ts":"1622659682.000200","username":"self-service-password","bot_id":"B024HLURB2L"}}
+    // bad => {"ok":false,"error":"channel_not_found"} (could be a missing @ before username/api doc doesnt mention it, though obvious, ...)
+    // bad => {"ok":false,"error":"not_authed"} (could be a pebkac setting http headers ...)
+
+    return $result;
+}
+
 /* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)
  * Send a mail, replace strings in body
  * @param mailer PHPMailer object
