@@ -46,4 +46,42 @@ integrating with Slack:
 Rocket.Chat Configuration
 -------------------------
 
-TODO
+Integrating with Rocket.Chat, we would first create a custom Role,
+connecting to your administration interface: https://chat.example.com/admin/permissions
+
+Create a Role, named "Self Service Password", global scope, click Save.
+We would then grant that Role with the following privileges: "Bypass rate limit
+for REST API" (optional), "Create Direct Messages", "Create Personal Access Token",
+"Send Many Messages" (optional).
+
+Next we would create a new bot user, from https://chat.example.com/admin/users
+
+Create a new user, named "self-service-password", same username, we could
+set an email address - and confirm it is verified - maybe set a nickname.
+Set a password, make sure the "Join default channels" and "Send welcome email"
+are disabled. In the "Roles" selection, pick the one we created above.
+
+Next, we would login to Rocket.Chat, using that bot account credentials.
+Click your profile picture, enter the "My Account" menu. Then to the "Personal
+Access Tokens" page, and create a new Token. A popup shows up, giving you a
+pair of User ID and Token.
+
+Having those credentials ready, we may now configure Self Service Password
+integrating with Rocket.Chat:
+
+.. code:: php
+
+    $http_notifications_address = 'https://chat.example.com/api/v1/chat.postMessage';
+    $http_notifications_body = array(
+            "alias"  => "self-service-password",
+            "roomId" => "@{login}",
+            "text"   => "{data}"
+        );
+    $http_notifications_headers = array(
+            "Content-Type: application/json",
+            "X-Auth-Token: auth-token-generated-previously",
+            "X-User-Id: auth-user-generated-previously"
+            "Content-Type: application/x-www-form-urlencoded"
+        );
+    $http_notifications_method = 'POST';
+    $http_notifications_params = false;

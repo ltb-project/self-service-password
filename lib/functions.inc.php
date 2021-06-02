@@ -651,9 +651,11 @@ function send_http($username, $httpoptions, $body, $data) {
 
     $url = $httpoptions['address'];
     if (isset($httpoptions['params']) and $httpoptions['params'] !== false) {
+	// FIXME: params format / shouldn't we use an array instead?
 	foreach ($data as $key => $value) {
 	    $httpoptions['params'] = str_replace('{'.$key.'}', $value, $httpoptions['params']);
 	}
+	// FIXME: $url '/' separator. also, '?' prefixing params. And '&' separating them.
 	$url .= $httpoptions['params'];
     }
     if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
@@ -666,6 +668,10 @@ function send_http($username, $httpoptions, $body, $data) {
 	    }
 	}
 	//var_dump($httpoptions['body']);
+    }
+    if (isset($httpoptions['notlsverify']) && $httpoptions['notlsverify'] !== false) {
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     }
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -684,11 +690,27 @@ function send_http($username, $httpoptions, $body, $data) {
 	} else { curl_setopt($ch, CURLOPT_POST, 1); }
 
 	if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false) {
+	    $content_type = false;
+	    for ($i = 0; $i < sizeof($httpoptions['headers']); $i++) {
+		if (strncasecmp($httpoptions['headers'][$i], 'Content-Type:', 13) === 0) {
+		    $content_type = explode(' ', $httpoptions['headers'][$i])[1];
+		    break;
+		}
+	    }
+	    if (! $content_type) {
+		$content_type = 'application/x-www-form-urlencoded';
+	    }
 	    //var_dump($httpoptions['headers']);
 	    curl_setopt( $ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
+	} else {
+	    $content_type = 'application/x-www-form-urlencoded';
 	}
 	if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
-	    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($httpoptions['body']));
+	    if (strcasecmp($content_type, 'application/x-www-form-urlencoded') === 0) {
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($httpoptions['body']));
+	    } else {
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($httpoptions['body']));
+	    }
 	}
     }
 
@@ -700,10 +722,12 @@ function send_http($username, $httpoptions, $body, $data) {
     } else { $result = true; }
     curl_close ($ch);
     //echo "$response\n";
-    //TODO: check response back from Slack API?
-    // good => {"ok":true,"channel":"D2QFJ2HV3","ts":"1622659682.000200","message":{"type":"message","subtype":"bot_message","text":"Bonjour syn,\n\nVotre mot de passe a \u00e9t\u00e9 chang\u00e9.\n\nSi vous n'\u00eates pas \u00e0 l'origine de cette demande, contactez votre administrateur imm\u00e9diatement.","ts":"1622659682.000200","username":"self-service-password","bot_id":"B024HLURB2L"}}
-    // bad => {"ok":false,"error":"channel_not_found"} (could be a missing @ before username/api doc doesnt mention it, though obvious, ...)
-    // bad => {"ok":false,"error":"not_authed"} (could be a pebkac setting http headers ...)
+    //TODO: check response back from API? kinda implementation specific ...
+    // Slack good => {"ok":true,"channel":"D2QFJ2HV3","ts":"1622659682.000200","message":{"type":"message","subtype":"bot_message","text":"Bonjour syn,\n\nVotre mot de passe a \u00e9t\u00e9 chang\u00e9.\n\nSi vous n'\u00eates pas \u00e0 l'origine de cette demande, contactez votre administrateur imm\u00e9diatement.","ts":"1622659682.000200","username":"self-service-password","bot_id":"B024HLURB2L"}}
+    // Slack bad => {"ok":false,"error":"channel_not_found"} (could be a missing @ before username/api doc doesnt mention it, though obvious, ...)
+    // Slack bad => {"ok":false,"error":"not_authed"} (could be a pebkac setting http headers ...)
+    // Rocket.Chat good => {"ts":1622667027668,"channel":"@admin0","message":{"alias":"self-service-password","msg":"Bonjour admin0,\n\nVotre mot de passe a été changé.\n\nSi vous n'êtes pas à l'origine de cette demande, contactez votre administrateur immédiatement.","attachments":[],"parseUrls":true,"groupable":false,"ts":"2021-06-02T20:50:27.157Z","u":{"_id":"2Y5frSAt3bRw2JwAf","username":"self-service-password","name":"self-service-password"},"rid":"2Y5frSAt3bRw2JwAfRjM9W7NDFs8RMNr4L","_id":"GAKTYZwR28ehTiX7h","_updatedAt":"2021-06-02T20:50:27.654Z","urls":[],"mentions":[],"channels":[]},"success":true}
+    // Rocket.Chat bad => <!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Bad Request</pre>\n</body>\n</html>
 
     return $result;
 }
