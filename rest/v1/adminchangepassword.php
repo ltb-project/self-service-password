@@ -67,7 +67,7 @@ if( !$userdn ) {
 } else {
 
 # Get user email for notification
-if ( $notify_on_change ) {
+if ( $mail_notify_on_change ) {
     $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
     if ( $mailValues["count"] > 0 ) {
         $mail = $mailValues[0];
@@ -152,10 +152,23 @@ if ( $result === "" )  {
 # Notify password change
 #==============================================================================
 if ($result === "passwordchanged") {
-    if ($mail and $notify_on_change) {
+    if ($mail and $mail_notify_on_change) {
         $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
+        }
+    }
+    if ($http_notifications_address and $http_notify_on_change) {
+        $data = array( "login" => $login, "password" => $newpassword);
+        $httpoptions = array(
+                "address" => $http_notifications_address,
+                "body"    => $http_notifications_body,
+                "headers" => $http_notifications_headers,
+                "method"  => $http_notifications_method,
+                "params"  => $http_notifications_params
+            );
+        if (! send_http($httpoptions, $messages["changemessage"], $data)) {
+            error_log("Error while sending change http notification to $http_notifications_address (user $login)");
         }
     }
 }

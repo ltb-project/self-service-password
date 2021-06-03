@@ -93,7 +93,7 @@ if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxm
 if ((($crypt_tokens and ($use_tokens or $use_httpreset or $use_sms))
      or ($use_questions and $crypt_answers))
     and (empty($keyphrase) or $keyphrase == "secret")) {
-	$dependency_check_results[] = "nokeyphrase";
+    $dependency_check_results[] = "nokeyphrase";
 }
 
 
