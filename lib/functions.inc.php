@@ -630,104 +630,114 @@ if(!function_exists('str_putcsv'))
 }
 
 
-/* @function boolean send_http(string $username, object $httpoptions, string $body, array $data)
+/* @function boolean send_http(array $httpoptions, string $body, array $data)
  * Send an http notification, replace strings in body
- * @param username Destination
- * @param httpoptions Sender
- * @param body Body
+ * @param httpoptions Array of Options - headers, body, params, method, address
+ * @param body Notification message
  * @param data Data for string replacement
  * @return result
  */
-function send_http($username, $httpoptions, $body, $data) {
+function send_http($httpoptions, $body, $data) {
     $ch = curl_init();
     $result = false;
 
     if (! isset($httpoptions['address'])
-	    or $httpoptions['address'] === false
-	    or ! isset($httpoptions['method'])
-	    or array_search($httpoptions['method'], [ 'GET', 'POST', 'PUT' ]) === false) {
-	return $result;
+            or $httpoptions['address'] === false
+            or strncmp($httpoptions['address'], 'http', 4) !== 0
+            or ! isset($httpoptions['method'])
+            or array_search($httpoptions['method'], [ 'GET', 'POST', 'PUT' ]) === false) {
+        return $result;
     }
 
     $url = $httpoptions['address'];
-    if (isset($httpoptions['params']) and $httpoptions['params'] !== false) {
-	// FIXME: params format / shouldn't we use an array instead?
-	foreach ($data as $key => $value) {
-	    $httpoptions['params'] = str_replace('{'.$key.'}', $value, $httpoptions['params']);
-	}
-	// FIXME: $url '/' separator. also, '?' prefixing params. And '&' separating them.
-	$url .= $httpoptions['params'];
-    }
-    if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
-	foreach ($httpoptions['body'] as $key => $value) {
-	    $httpoptions['body'][$key] = str_replace('{data}', $body, $value);
-	}
-	foreach ($data as $key => $value) {
-	    foreach ($httpoptions['body'] as $key2 => $value2) {
-		$httpoptions['body'][$key2] = str_replace('{'.$key.'}', $value, $value2);
-	    }
-	}
-	//var_dump($httpoptions['body']);
+    if (isset($httpoptions['params']) and $httpoptions['params'] !== false and sizeof($httpoptions['params']) > 0) {
+        if (substr($url, -1) !== '/') {
+            $url .= "/";
+        }
+        foreach ($httpoptions['params'] as $key => $value) {
+            $httpoptions['params'][$key] = str_replace('{data}', urlencode($body), $value);
+        }
+        foreach ($data as $key => $value) {
+            foreach ($httpoptions['params'] as $key2 => $value2) {
+                $httpoptions['params'][$key2] = str_replace('{'.$key.'}', urlencode($value), $value2);
+            }
+        }
+        //var_dump($httpoptions['params']);
+        $url .= '?'.implode($httpoptions['params'], '&');
     }
     if (isset($httpoptions['notlsverify']) && $httpoptions['notlsverify'] !== false) {
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     }
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
     curl_setopt($ch, CURLOPT_URL, $url);
 
     if ($httpoptions['method'] === 'GET') {
-	if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false) {
-	    $httpoptions['headers']['method'] = 'GET';
-	    curl_setopt( $ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
-	} else {
-	    curl_setopt( $ch, CURLOPT_HTTPHEADER, [ 'method' => 'GET' ] );
-	}
+        if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false and sizeof($httpoptions['headers']) > 0) {
+            $httpoptions['headers']['method'] = 'GET';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
+        } else {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'method' => 'GET' ]);
+        }
     } else {
-	if ($httpoptions['method'] === 'PUT') {
-	    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-	} else { curl_setopt($ch, CURLOPT_POST, 1); }
+        if ($httpoptions['method'] === 'PUT') {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        } else {
+            curl_setopt($ch, CURLOPT_POST, 1);
+        }
 
-	if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false) {
-	    $content_type = false;
-	    for ($i = 0; $i < sizeof($httpoptions['headers']); $i++) {
-		if (strncasecmp($httpoptions['headers'][$i], 'Content-Type:', 13) === 0) {
-		    $content_type = explode(' ', $httpoptions['headers'][$i])[1];
-		    break;
-		}
-	    }
-	    if (! $content_type) {
-		$content_type = 'application/x-www-form-urlencoded';
-	    }
-	    //var_dump($httpoptions['headers']);
-	    curl_setopt( $ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
-	} else {
-	    $content_type = 'application/x-www-form-urlencoded';
-	}
-	if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
-	    if (strcasecmp($content_type, 'application/x-www-form-urlencoded') === 0) {
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($httpoptions['body']));
-	    } else {
-		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($httpoptions['body']));
-	    }
-	}
+        if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
+            foreach ($httpoptions['body'] as $key => $value) {
+                $httpoptions['body'][$key] = str_replace('{data}', $body, $value);
+            }
+            foreach ($data as $key => $value) {
+                foreach ($httpoptions['body'] as $key2 => $value2) {
+                    $httpoptions['body'][$key2] = str_replace('{'.$key.'}', $value, $value2);
+                }
+            }
+            //var_dump($httpoptions['body']);
+        }
+
+        if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false and sizeof($httpoptions['headers']) > 0) {
+            $content_type = false;
+            for ($i = 0; $i < sizeof($httpoptions['headers']); $i++) {
+                if (strncasecmp($httpoptions['headers'][$i], 'Content-Type:', 13) === 0) {
+                    $content_type = explode(' ', $httpoptions['headers'][$i])[1];
+                    break;
+                }
+            }
+            if (! $content_type) {
+                $content_type = 'application/x-www-form-urlencoded';
+            }
+            //var_dump($httpoptions['headers']);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
+        } else {
+            $content_type = 'application/x-www-form-urlencoded';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [ "Content-Type: $content_type" ]);
+        }
+        if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
+            if (strcasecmp($content_type, 'application/x-www-form-urlencoded') === 0) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($httpoptions['body']));
+            } else {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($httpoptions['body']));
+            }
+        }
     }
 
-    //return false;
     $response = curl_exec($ch);
     if (curl_errno($ch) !== 0) {
-	$errorMsg = curl_error($ch);
+        $errorMsg = curl_error($ch);
         error_log("send_http: ".$errorMsg);
-    } else { $result = true; }
+    } else {
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpcode >= 400) {
+            error_log("send_http returned code: $httpcode, response: ".$response);
+        } else {
+            $result = true;
+        }
+    }
     curl_close ($ch);
-    //echo "$response\n";
-    //TODO: check response back from API? kinda implementation specific ...
-    // Slack good => {"ok":true,"channel":"D2QFJ2HV3","ts":"1622659682.000200","message":{"type":"message","subtype":"bot_message","text":"Bonjour syn,\n\nVotre mot de passe a \u00e9t\u00e9 chang\u00e9.\n\nSi vous n'\u00eates pas \u00e0 l'origine de cette demande, contactez votre administrateur imm\u00e9diatement.","ts":"1622659682.000200","username":"self-service-password","bot_id":"B024HLURB2L"}}
-    // Slack bad => {"ok":false,"error":"channel_not_found"} (could be a missing @ before username/api doc doesnt mention it, though obvious, ...)
-    // Slack bad => {"ok":false,"error":"not_authed"} (could be a pebkac setting http headers ...)
-    // Rocket.Chat good => {"ts":1622667027668,"channel":"@admin0","message":{"alias":"self-service-password","msg":"Bonjour admin0,\n\nVotre mot de passe a été changé.\n\nSi vous n'êtes pas à l'origine de cette demande, contactez votre administrateur immédiatement.","attachments":[],"parseUrls":true,"groupable":false,"ts":"2021-06-02T20:50:27.157Z","u":{"_id":"2Y5frSAt3bRw2JwAf","username":"self-service-password","name":"self-service-password"},"rid":"2Y5frSAt3bRw2JwAfRjM9W7NDFs8RMNr4L","_id":"GAKTYZwR28ehTiX7h","_updatedAt":"2021-06-02T20:50:27.654Z","urls":[],"mentions":[],"channels":[]},"success":true}
-    // Rocket.Chat bad => <!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Bad Request</pre>\n</body>\n</html>
 
     return $result;
 }

@@ -155,14 +155,13 @@ if ( $result === "" ) {
 # Notify password change
 #==============================================================================
 if ($result === "sshkeychanged") {
+    $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
     if ($mail and $notify_on_sshkey_change) {
-        $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }
-    if ($http_notifications_address and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
+    if ($http_notifications_address and $notify_on_sshkey_change) {
         $httpoptions = array(
                 "address" => $http_notifications_address,
                 "body"    => $http_notifications_body,
@@ -170,8 +169,8 @@ if ($result === "sshkeychanged") {
                 "method"  => $http_notifications_method,
                 "params"  => $http_notifications_params
             );
-        if ( ! send_http($login, $httpoptions, $messages["changesshkeymessage"], $data) ) {
-            error_log("Error while sending change http notification for $login");
+        if (! send_http($httpoptions, $messages["changesshkeymessage"], $data)) {
+            error_log("Error while sending change http notification to $http_notifications_address (user $login)");
         }
     }
 }

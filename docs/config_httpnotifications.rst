@@ -41,7 +41,7 @@ integrating with Slack:
             "Content-Type: application/x-www-form-urlencoded"
         );
     $http_notifications_method = 'POST';
-    $http_notifications_params = false;
+    $http_notifications_params = array();
 
 Rocket.Chat Configuration
 -------------------------
@@ -81,7 +81,27 @@ integrating with Rocket.Chat:
             "Content-Type: application/json",
             "X-Auth-Token: auth-token-generated-previously",
             "X-User-Id: auth-user-generated-previously"
-            "Content-Type: application/x-www-form-urlencoded"
         );
     $http_notifications_method = 'POST';
-    $http_notifications_params = false;
+    $http_notifications_params = array();
+
+Generic GET Configuration
+-------------------------
+
+While the samples above could be reused integrating with services receiving
+HTTP POST based notifications, in theory, we may also submit those using an
+HTTP GET request.
+
+A basic configuration, ignoring any authentication considerations, could
+look like the following:
+
+.. code:: php
+
+    $http_notifications_address = 'https://my.example.com/api/notify-user';
+    $http_notifications_body = array();
+    $http_notifications_headers = array();
+    $http_notifications_method = 'GET';
+    $http_notifications_params = array(
+            "username" => "{login}",
+            "text"     => "{data}"
+        );

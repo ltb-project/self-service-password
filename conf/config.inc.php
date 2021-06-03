@@ -248,7 +248,7 @@ $http_notifications_address = false;
 $http_notifications_body = false;
 $http_notifications_headers = array();
 $http_notifications_method = 'POST';
-$http_notifications_params = false;
+$http_notifications_params = array();
 
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
 $mail_sendmailpath = '/usr/sbin/sendmail';

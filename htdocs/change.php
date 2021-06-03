@@ -216,14 +216,13 @@ if ( $result === "" ) {
 # Notify password change
 #==============================================================================
 if ($result === "passwordchanged") {
+    $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
     if ($mail and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }
     if ($http_notifications_address and $notify_on_change) {
-        $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
         $httpoptions = array(
                 "address" => $http_notifications_address,
                 "body"    => $http_notifications_body,
@@ -231,8 +230,8 @@ if ($result === "passwordchanged") {
                 "method"  => $http_notifications_method,
                 "params"  => $http_notifications_params
             );
-        if ( ! send_http($login, $httpoptions, $messages["changemessage"], $data) ) {
-            error_log("Error while sending change http notification for $login");
+        if (! send_http($httpoptions, $messages["changemessage"], $data)) {
+            error_log("Error while sending change http notification to $http_notifications_address (user $login)");
         }
     }
 }
