@@ -115,7 +115,7 @@ option can now be used to encrypt answers:
 You can set this option to ``false`` to keep the old behavior.
 
 .. warning:: If you enable this option, you must change the default
-  value of the `security keyphrase <config_general#security>`__
+  value of the `security keyphrase <config_general.html#security>`__
 
 A script is provided to encrypt all clear text answers in LDAP
 directory, to allow a swooth migration. Just run the script (it will use

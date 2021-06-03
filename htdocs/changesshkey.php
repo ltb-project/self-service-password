@@ -115,7 +115,7 @@ if ( $result === "" ) {
                 } else {
 
                     # Get user email for notification
-                    if ( $notify_on_sshkey_change ) {
+                    if ( $mail_notify_on_sshkey_change ) {
                         $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
                         if ( $mailValues["count"] > 0 ) {
                             $mail = $mailValues[0];
@@ -155,13 +155,14 @@ if ( $result === "" ) {
 # Notify password change
 #==============================================================================
 if ($result === "sshkeychanged") {
-    $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
-    if ($mail and $notify_on_sshkey_change) {
+    if ($mail and $mail_notify_on_sshkey_change) {
+        $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
         if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }
-    if ($http_notifications_address and $notify_on_sshkey_change) {
+    if ($http_notifications_address and $http_notify_on_sshkey_change) {
+        $data = array( "login" => $login, "sshkey" => $sshkey);
         $httpoptions = array(
                 "address" => $http_notifications_address,
                 "body"    => $http_notifications_body,

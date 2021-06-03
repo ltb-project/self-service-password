@@ -105,3 +105,13 @@ look like the following:
             "username" => "{login}",
             "text"     => "{data}"
         );
+
+Change password notification
+----------------------------
+
+Use this option to send an HTTP notification to the user, just after a
+successful password change:
+
+.. code:: php
+
+   $http_notify_on_change = true;

@@ -181,7 +181,9 @@ $who_change_sshkey = "user";
 
 # Notify users anytime their sshPublicKey is changed
 ## Requires mail configuration below
-$notify_on_sshkey_change = false;
+$mail_notify_on_sshkey_change = false;
+## Or HTTP notifications configuration
+$http_notify_on_sshkey_change = false;
 
 ## Questions/answers
 # Use questions/answers?
@@ -241,7 +243,7 @@ $mail_from = "admin@example.com";
 $mail_from_name = "Self Service Password";
 $mail_signature = "";
 # Notify users anytime their password is changed
-$notify_on_change = false;
+$mail_notify_on_change = false;
 
 # HTTP notifications settings / Disable them
 $http_notifications_address = false;
@@ -249,6 +251,7 @@ $http_notifications_body = false;
 $http_notifications_headers = array();
 $http_notifications_method = 'POST';
 $http_notifications_params = array();
+$http_notify_on_change = false;
 
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
 $mail_sendmailpath = '/usr/sbin/sendmail';
@@ -419,4 +422,12 @@ if (isset($header_name_extra_config)) {
             require  __DIR__ . "/config.inc.".$extraConfig.".php";
         }
     }
+}
+
+# Legacy configuration options support / translation
+if (isset($notify_on_change)) {
+    $mail_notify_on_change = $notify_on_change;
+}
+if (isset($notify_on_sshkey_change)) {
+    $mail_notify_on_sshkey_change = $notify_on_sshkey_change;
 }
