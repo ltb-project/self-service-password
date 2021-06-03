@@ -251,7 +251,10 @@ $http_notifications_body = false;
 $http_notifications_headers = array();
 $http_notifications_method = 'POST';
 $http_notifications_params = array();
+# Use http notifications confirming password changes
 $http_notify_on_change = false;
+# Use http notifications submitting password resets
+$use_http = false;
 
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
 $mail_sendmailpath = '/usr/sbin/sendmail';

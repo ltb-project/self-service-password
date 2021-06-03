@@ -80,6 +80,7 @@ $messages['resetmessage'] = "Hallo {login},\n\nKlik hier om uw wachtwoord te res
 $messages['resetsubject'] = "Reset uw wachtwoord";
 $messages['sendtokenhelp'] = "Voer uw gebruiksnaam en emailadres in om uw wachtwoord te resetten. Klik daarna op Versturen.";
 $messages['sendtokenhelpnomail'] = "Voer uw gebruiksnaam in om uw wachtwoord te resetten. Klik daarna op Versturen.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Uw emailadres";
 $messages['mailrequired'] = "Emailadres is verplicht";
 $messages['mailnomatch'] = "Het email adres komt niet overeen met de gebruikersnaam";
@@ -88,6 +89,7 @@ $messages['tokennotsent'] = "Fout bij het versturen van de email";
 $messages['tokenrequired'] = "Token is verplicht";
 $messages['tokennotvalid'] = "Token is ongeldig";
 $messages['resetbytokenhelp'] = "Het token dat per email verstuurd is, stelt u in staat uw wachtwoord te wijzigen. Om een nieuw token te verkrijgen kunt u <a href=\"?action=sendtoken\">hier klikken</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Het token dat per sms verstuurd is, stelt u in staat uw wachtwoord te wijzigen. om een nieuw token te verkrijgen kunt u, <a href=\"?action=sendsms\">hier klikken</a>.";
 $messages['changemessage'] = "Hallo {login},\n\nuw wachtwoord is aangepast.\n\nindien dit niet uw verzoek was, neem dan onmiddelijk contact op met de helpdesk.";
 $messages['changesubject'] = "Uw wachtwoord is aangepast";
@@ -154,3 +156,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

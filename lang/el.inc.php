@@ -81,6 +81,7 @@ $messages['resetmessage'] = "Γειά σας {login},\n\nΕπιλέξτε αυτ
 $messages['resetsubject'] = "Αλλάξτε τον κωδικό σας";
 $messages['sendtokenhelp'] = "Καταχωρήστε το όνομα χρήστη και τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να αλλάξετε τον κωδικό σας. Όταν λάβετε το email, επιλέξτε το σύνδεσμο που περιέχει για να ολοκληρώσετε την αλλαγή κωδικού.";
 $messages['sendtokenhelpnomail'] = "Καταχωρήστε το όνομα χρήστη για να αλλάξετε τον κωδικό σας. Όταν λάβετε το email, επιλέξτε το σύνδεσμο που περιέχει για να ολοκληρώσετε την αλλαγή κωδικού.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Απαιτείται η διεύθυνση ηλεκτρονικού ταχυδρομείου σας";
 $messages['mailnomatch'] = "Η διεύθυνση ηλεκτρονικού ταχυδρομείου δεν αντιστοιχεί σε αυτό το όνομα χρήστη";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "Λάθος στην αποστολή του ηλε�
 $messages['tokenrequired'] = "Απαιτείται μοναδικό αναγνωριστικό";
 $messages['tokennotvalid'] = "Το μοναδικό αναγνωριστικό δεν είναι έγκυρο";
 $messages['resetbytokenhelp'] = "Ο σύνδεσμος που στάλθηκε μέσω email σας επιτρέπει να αλλάξετε τον κωδικό σας. Για να ζητήσετε νέο σύνδεσμο μέσω email, <a href=\"?action=sendtoken\">κλικ εδώ</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Ο σύνδεσμος που στάλθηκε μέσω sms σας επιτρέπει να αλλάξετε τον κωδικό σας. Για να ζητήσετε νέο σύνδεσμο μέσω sms, <a href=\"?action=sendsms\">κλικ εδώ</a>.";
 $messages['changemessage'] = "Hello {login},\n\nΟ κωδικός σας άλλαξε.\n\nΑν δεν έχετε ζητήσει αλλαγή κωδικού, παρακαλούμε να επικοινωνήσετε αμέσως με το διαχειριστή σας.";
 $messages['changesubject'] = "Ο κωδικός σας άλλαξε";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

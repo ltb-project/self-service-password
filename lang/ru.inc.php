@@ -79,6 +79,7 @@ $messages['resetmessage'] = "Привет {login},\n\nКликните здес�
 $messages['resetsubject'] = "Сбросьте Ваш пароль";
 $messages['sendtokenhelp'] = "Введите Ваш логин и Ваш электронный адрес для сброса пароля. Затем кликните на ссылке в полученном электронном письме.";
 $messages['sendtokenhelpnomail'] = "Введите Ваш логин для сброса пароля. Затем кликните на ссылке в полученном электронном письме.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Электронный адрес";
 $messages['mailrequired'] = "Введите Ваш электронный адрес";
 $messages['mailnomatch'] = "Ваш электронный адрес не совпадает с указанным логином";
@@ -87,6 +88,7 @@ $messages['tokennotsent'] = "Ошибка отправки электронно�
 $messages['tokenrequired'] = "Необходим token ";
 $messages['tokennotvalid'] = "Token недействителен";
 $messages['resetbytokenhelp'] = "Присланный в электронном письме token позволяет сбросить пароль. Для получения нового token, <a href=\"?action=sendtoken\">кликните здесь</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['changemessage'] = "Привет {login},\n\nВаш пароль изменен.\n\nЕсли Вы ошибочно выполнили это действие, незамедлительно обратитесь к системному администратору.";
 $messages['changesubject'] = "Ваш пароль изменен";
 $messages['badcaptcha'] = "Captcha был введен неправильно. Попробуйте еще раз.";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

@@ -81,6 +81,7 @@ $messages['resetmessage'] = "Hej {login},\n\nKlikk her for å bytte passord:\n{u
 $messages['resetsubject'] = "Bytt ditt passord";
 $messages['sendtokenhelp'] = "Angi brukernavn og epost-adresse for å tilbakestille ditt passord. Klikk på lenken i eposten du mottar for å fullføre tilbakestillingen av passordet.";
 $messages['sendtokenhelpnomail'] = "Angi ditt brukernavn for å tilbakestille ditt passord. En epost vil bli sendt til epost kontoen tilknyttet brukernavnet- Når du mottar eposten, klikk på lenken i meldingen for å fullføre tilbakestillingen av passordet.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Epost";
 $messages['mailrequired'] = "Du må fylle inn din epostadresse";
 $messages['mailnomatch'] = "Angitt epostadresse stemmer ikke med tidigere angitt adresse";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "Feil ved sending av spost";
 $messages['tokenrequired'] = "Du må oppgi engangspassord";
 $messages['tokennotvalid'] = "Engangspassord er feil";
 $messages['resetbytokenhelp'] = "Lenken som sendes via epost gjør det mulig å bytte passord. For å få en ny lenke, <a href=\"?action=sendtoken\">klikk her</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Engangspassord som sendes via SMS gjør det mulig å bytte passord. For å få en nytt engangspassord, <a href=\"?action=sendsms\">klikk her</a>.";
 $messages['changemessage'] = "Hei {login},\n\nDitt passord er endret.\n\nOm du ikke har utført dette passord byttet, kontakt Helpdesk umiddelbart.";
 $messages['changesubject'] = "Ditt passord er endret";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

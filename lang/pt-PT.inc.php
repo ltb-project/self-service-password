@@ -80,6 +80,7 @@ $messages['resetmessage'] = "Olá {login},\n\nClica aqui para redefinires a tua 
 $messages['resetsubject'] = "Redefine a tua password";
 $messages['sendtokenhelp'] = "Introduz o teu username e e-mail para redefinires a password. Em seguida clica no link enviado para o teu e-mail.";
 $messages['sendtokenhelpnomail'] = "Introduz o teu username para redefinires a password. Em seguida clica no link enviado para o teu e-mail.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "O e-mail é necessario.";
 $messages['mailnomatch'] = "O e-mail não coincide com o registado para este utilizador.";
@@ -88,6 +89,7 @@ $messages['tokennotsent'] = "Erro durante o envio do e-mail de confirmacao.";
 $messages['tokenrequired'] = "O código é necessário.";
 $messages['tokennotvalid'] = "Código inválido.";
 $messages['resetbytokenhelp'] = "O código enviado por e-mail permite que redefinas a password. Para receberes um novo código, <a href=\"?action=sendtoken\">Clica aqui</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['changemessage'] = "Olá {login},\n\nA tua password foi alterada.\n\nSe não pediste isto, por favor contacta o teu administrador imediatamente.";
 $messages['changesubject'] = "A tua password foi alterada.";
 $messages['badcaptcha'] = "O captcha nao foi digitado corretamente. Tenta de novo.";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

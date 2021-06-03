@@ -81,6 +81,7 @@ $messages['resetmessage'] = "Dobrý deň {login},\n\nKliknite sem pre resetovani
 $messages['resetsubject'] = "Zmena Vášho hesla";
 $messages['sendtokenhelp'] = "Zadajte Vaše prihlasovacie meno a e-mail pre resetovanie hesla. Keď dostanete e-mail, kliknite na odkaz v e-maily pre dokončenie zmeny hesla.";
 $messages['sendtokenhelpnomail'] = "Zadajte Vaše prihlasovacie meno pre resetovanie hesla. Keď dostanete e-mail, kliknite na odkaz v e-maily pre dokončenie zmeny hesla.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "Zadanie e-mailu je povinné";
 $messages['mailnomatch'] = "E-mail sa nezhoduje s prihlasovacím menom";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "Chyba pri posielaní potvrdzujúceho e-mailu";
 $messages['tokenrequired'] = "Token je povinný";
 $messages['tokennotvalid'] = "Token nie je správny";
 $messages['resetbytokenhelp'] = "Odkaz poslaný e-mailom Vám umožní resetovať heslo. Ak chcete požiadať o nový odkaz pomocou e-mailu, <a href=\"?action=sendtoken\">kliknite sem</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Token poslaný SMSkou povolí reset Vášho hesla. Ak chcete získať nový token, <a href=\"?action=sendsms\">kliknite sem</a>.";
 $messages['changemessage'] = "Dobrý deň {login},\n\nvaše heslo bolo zmenené.\n\nAk ste nežiadali o zmenu hesla, prosím ihneď kontaktujte vášho administrátora.";
 $messages['changesubject'] = "Vaše heslo bolo zmenené";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

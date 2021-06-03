@@ -221,6 +221,13 @@ if ( $result === ""  || $populate_questions) {
 
                     $entry = ldap_get_attributes($ldap, $entry);
                     $entry['dn'] = $userdn;
+
+                    if ( $use_ratelimit ) {
+                        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+                            $result = "throttle";
+                            error_log("Question - User $login too fast");
+                        }
+                    }
                 }
             }
         }
@@ -279,7 +286,7 @@ if ($result === "passwordchanged") {
                 "method"  => $http_notifications_method,
                 "params"  => $http_notifications_params
             );
-        if (! send_http($httpoptions, $messages["changesshkeymessage"], $data)) {
+        if (! send_http($httpoptions, $messages["changemessage"], $data)) {
             error_log("Error while sending change http notification to $http_notifications_address (user $login)");
         }
     }

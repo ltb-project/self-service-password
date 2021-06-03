@@ -81,6 +81,7 @@ $messages['resetmessage'] = "Pozdravljeni, {login},\n\nKliknite tukaj, da ponast
 $messages['resetsubject'] = "Ponastavite geslo";
 $messages['sendtokenhelp'] = "Za ponastavitev gesla vnesite uporabniško ime in e-naslov. Ko dobite sporočilo, kliknite na povezavo.";
 $messages['sendtokenhelpnomail'] = "Za ponastavitev gesla vnesite uporabniško ime. Ko dobite sporočilo, kliknite na povezavo.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "E-naslov";
 $messages['mailrequired'] = "E-naslov je zahtevan";
 $messages['mailnomatch'] = "E-naslov se ne ujema s podanim uporabniškim imenom";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "Napaka pri pošiljanju potrditvenega sporočila";
 $messages['tokenrequired'] = "Zahtevan je žeton";
 $messages['tokennotvalid'] = "Žeton ni pravilen";
 $messages['resetbytokenhelp'] = "Povezava, poslana v sporočilu, vam omogoča ponastavitev gesla. Za novo sporočilo s povezavo <a href=\"?action=sendtoken\">kliknite tukaj</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Žeton, poslan preko SMS, vam omogoča ponastavitev gesla. Za nov žeton <a href=\"?action=sendsms\">kliknite tukaj</a>.";
 $messages['changemessage'] = "Pozdravljeni, {login},\n\nVaše geslo je bilo spremenjeno.\n\nČe niste zahtevali ponastavitve gesla, kontaktirajte IT podporo!";
 $messages['changesubject'] = "Vaše geslo je bilo spremenjeno";
@@ -157,3 +159,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

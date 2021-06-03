@@ -87,6 +87,7 @@ $messages['resetmessage'] = "{login} 您好，\n\n點選以下連結重新設定
 $messages['resetsubject'] = "重新設定您的密碼";
 $messages['sendtokenhelp'] = "輸入您的帳號和信箱重新設定您的密碼。收到郵件後，點選連結完成重新設定密碼。";
 $messages['sendtokenhelpnomail'] = "輸入您的帳號重新設定您的密碼。收到郵件後，點選連結完成重新設定密碼。";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "信箱";
 $messages['mailrequired'] = "請輸入您的信箱";
 $messages['mailnomatch'] = "信箱與帳號信箱不符";
@@ -95,6 +96,7 @@ $messages['tokennotsent'] = "重新設定密碼郵件發送錯誤";
 $messages['tokenrequired'] = "請提供金鑰";
 $messages['tokennotvalid'] = "金鑰無效";
 $messages['resetbytokenhelp'] = "您可以通過郵件中的連結重新設定您的密碼。<a href=\"?action=sendtoken\">點選這裡</a>讀取新連結。";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "您可以通過簡訊中的金鑰重新設定您的密碼。<a href=\"?action=sendsms\">點選這裡</a>讀取新金鑰。";
 $messages['changemessage'] = "{login} 您好，\n\n您的密碼已修改。\n\n若您沒有修改密碼，請立即聯繫您的管理員。";
 $messages['changesubject'] = "您的密碼已修改";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

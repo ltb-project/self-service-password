@@ -81,6 +81,7 @@ $messages['resetmessage'] = "Merhaba {login},\n\nParolanızı sıfırlamak için
 $messages['resetsubject'] = "Parolanızı sıfırlayın";
 $messages['sendtokenhelp'] = "Parolanızı sıfırlamak için kullanıcı adınızı ve e-posta adresinizi girin. İşlemi tamamlamak için e-postanın içindeki linke tıklayın.";
 $messages['sendtokenhelpnomail'] = "Parolanızı sıfırlamak için kullanıcı adınızı girin. İşlemi tamamlamak için e-postanın içindeki linke tıklayın.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "E-posta adresi";
 $messages['mailrequired'] = "E-posta adresiniz gereklidir";
 $messages['mailnomatch'] = "E-posta adresi ile kullanıcı adı uyuşmuyor";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "Doğrulama e-postası gönderilirken hata oluştu";
 $messages['tokenrequired'] = "Belirteç gerekli";
 $messages['tokennotvalid'] = "Belirteç geçerli değil";
 $messages['resetbytokenhelp'] = "E-postayla gönderilen link ile parolanızı sıfırlayabilirsiniz. Yeni bir link talep etmek için <a href=\"?action=sendtoken\">buraya</a> tıklayın.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "SMS ile gönderilen belirteçle parolanızı sıfırlayabilirsiniz. Yeni bir belirteç almak için <a href=\"?action=sendsms\">buraya</a> tıklayın.";
 $messages['changemessage'] = "Merhaba {login},\n\nParolanız değiştirildi.\n\nEğer bu değişikliği siz yapmadıysanız en kısa sürede sistem yöneticinizle irtibata geçin.";
 $messages['changesubject'] = "Parolanız değiştirildi";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

@@ -81,6 +81,7 @@ $messages['resetmessage'] = "Dobrý den {login},\n\nKlikněte zde pro obnovu hes
 $messages['resetsubject'] = "Obnovte své heslo";
 $messages['sendtokenhelp'] = "Zadejte vaše přihlašovací jméno a e-mail pro obnovu hesla. Po přijetí e-mailu klikněte na odkaz umístěný uvnitř e-mailu.";
 $messages['sendtokenhelpnomail'] = "Zadejte vaše přihlašovací jméno pro obnovu hesla. Po přijetí e-mailu klikněte na odkaz umístěný uvnitř e-mailu.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Pošta";
 $messages['mailrequired'] = "E-mailová adresa je povinná";
 $messages['mailnomatch'] = "E-mailová adresa neodpovídá zadanému uživatelskému jménu";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "Chyba při odeslání potvrzovacího e-mailu";
 $messages['tokenrequired'] = "Řetězec je povinný";
 $messages['tokennotvalid'] = "Řetězec je neplatný";
 $messages['resetbytokenhelp'] = "Odkaz zaslaný v e-mailu slouží pro obnovu hesla. K zaslání nového odkazu přes e-mail <a href=\"?action=sendtoken\">klikněte zde</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Kód pro obnovu hesla vám byl zaslán pomocí SMS. K získání nového kódu <a href=\"?action=sendsms\">klikněte zde</a>.";
 $messages['changemessage'] = "Dobrý den {login},\n\nvaše heslo bylo změněno.\n\nPokud jste změnu neprovedl/a, okamžitě kontaktujte správce.";
 $messages['changesubject'] = "Vaše heslo bylo změněno";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

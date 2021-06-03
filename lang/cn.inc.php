@@ -79,6 +79,7 @@ $messages['resetmessage'] = "您好 {login},\n\n点击这里重置密码:\n{url}
 $messages['resetsubject'] = "重置密码";
 $messages['sendtokenhelp'] = "输入账户和邮件地址重置密码，点击发送邮件。";
 $messages['sendtokenhelpnomail'] = "输入账户重置密码，点击发送邮件。";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "电子邮件";
 $messages['mailrequired'] = "需要邮箱地址";
 $messages['mailnomatch'] = "输入的邮箱地址不是该账号的注册地址";
@@ -87,6 +88,7 @@ $messages['tokennotsent'] = "发送确认邮件时遇到错误";
 $messages['tokenrequired'] = "需要凭证";
 $messages['tokennotvalid'] = "凭证无效";
 $messages['resetbytokenhelp'] = "重置密码的凭证已通过电子邮件发送，点击<a href=\"?action=sendtoken\">这里</a>获取新凭证.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['changemessage'] = "您好 {login},\n\n密码已更改。\n\n如果您没有提交这个请求，请立即联系系统管理员。";
 $messages['changesubject'] = "密码已更改";
 $messages['badcaptcha'] = "没有输入正确的captcha，请再次尝试。";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

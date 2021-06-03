@@ -87,6 +87,7 @@ $messages['resetmessage'] = "Olá {login},\n\nClique aqui para redefinir sua sen
 $messages['resetsubject'] = "Redefina sua senha";
 $messages['sendtokenhelp'] = "Entre com o seu nome de usuário e e-mail para redefinir sua senha. Em seguida clique no link enviado pelo e-mail.";
 $messages['sendtokenhelpnomail'] = "Entre com o seu nome de usuário para redefinir sua senha. Em seguida clique no link enviado pelo e-mail.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "O e-mail é necessário";
 $messages['mailnomatch'] = "O e-mail não coincide com nenhum usuário";
@@ -95,6 +96,7 @@ $messages['tokennotsent'] = "Erro durante o envio do e-mail de confirmação";
 $messages['tokenrequired'] = "O código é necessário";
 $messages['tokennotvalid'] = "Código inválido";
 $messages['resetbytokenhelp'] = "O código enviado por e-mail permite que você redefina a senha. Para enviar um novo código, <a href=\"?action=sendtoken\">Clique aqui</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "O token enviado por sms permite você alterar sua senha. Para recer um novo token, <a href=\"?action=sendsms\">clique aqui</a>.";
 $messages['changemessage'] = "Olá {login},\n\nSua senha foi alterada.\n\nSe você não solicitou esta requisição, por favor contacte seu administrador imediatamente.";
 $messages['changesubject'] = "Sua senha foi alterada";
@@ -154,3 +156,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

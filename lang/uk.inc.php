@@ -80,6 +80,7 @@ $messages['resetmessage'] = "Шановний {login},\n\nКлацніть ту�
 $messages['resetsubject'] = "Скиньте Ваш пароль";
 $messages['sendtokenhelp'] = "Введіть ім'я користувача та адресу електронної пошти для відновлення пароля. Виконуйте інструкції вказані в електронному листі, щоб завершити скидання пароля.";
 $messages['sendtokenhelpnomail'] = "Введіть ім'я користувача для відновлення пароля. Виконуйте інструкції вказані в електронному листі, щоб завершити скидання пароля.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Електронна пошта";
 $messages['mailrequired'] = "Введіть вашу електрону пошту";
 $messages['mailnomatch'] = "Ваша електронна пошта не збігається з логіном";
@@ -88,6 +89,7 @@ $messages['tokennotsent'] = "Помилка надсилання електро�
 $messages['tokenrequired'] = "Потрібен жетон";
 $messages['tokennotvalid'] = "Жетон недійсний";
 $messages['resetbytokenhelp'] = "Надісланий в електронному листі жетон дозволяє скинути пароль. Для отримання нового жетона, <a href=\"?action=sendtoken\">клацніть тут</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['changemessage'] = "Шановний {login},\n\nВаш пароль змінено.\n\nЯкщо Ви не змінювали пароль, негайно зверніться до системного адміністратора.";
 $messages['changesubject'] = "Ваш пароль змінено";
 $messages['badcaptcha'] = "Captcha був введений неправильно. Спробуйте ще раз.";
@@ -153,3 +155,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

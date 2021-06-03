@@ -87,6 +87,7 @@ $messages['resetmessage'] = "{login} 您好，\n\n点击以下链接重置您的
 $messages['resetsubject'] = "重置您的密码";
 $messages['sendtokenhelp'] = "输入您的用户名和邮箱重置您的密码。收到邮件后，点击链接完成重置密码。";
 $messages['sendtokenhelpnomail'] = "输入您的用户名重置您的密码。收到邮件后，点击链接完成重置密码。";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "邮箱";
 $messages['mailrequired'] = "请输入您的邮箱";
 $messages['mailnomatch'] = "邮箱与用户邮箱不一致";
@@ -95,6 +96,7 @@ $messages['tokennotsent'] = "重置密码邮件发送错误";
 $messages['tokenrequired'] = "请提供口令";
 $messages['tokennotvalid'] = "口令无效";
 $messages['resetbytokenhelp'] = "您可以通过邮件中的链接重置您的密码。<a href=\"?action=sendtoken\">点击这里</a>获取新链接。";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "您可以通过短信中的口令重置您的密码。<a href=\"?action=sendsms\">点击这里</a>获取新口令。";
 $messages['changemessage'] = "{login} 您好，\n\n您的密码已修改。\n\n如果您没有修改密码，请立即联系您的管理员。";
 $messages['changesubject'] = "您的密码已修改";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

@@ -87,6 +87,7 @@ $messages['resetmessage'] = "Zdravo {login},\n\nKliknite ovde da resetujete lozi
 $messages['resetsubject'] = "Resetovanje lozinke";
 $messages['sendtokenhelp'] = "Unestie svoje korisničko ime i email adresu da bi ste resetovali lozinku. Kada dobijete email, kliknite na link u emailu da bi ste nastavili proceduru.";
 $messages['sendtokenhelpnomail'] = "Unesite svoje korisničko ime da resetujete lozinku. Email će biti poslat na adresu povezanu sa Vašim korisničkim nalogom. Kada dobijete email, kliknite na link u emailu da bi ste nastavili proceduru.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Pošta";
 $messages['mailrequired'] = "Potrebna je Vaša email adresa";
 $messages['mailnomatch'] = "Email adresa koju ste uneli se ne poklapa sa korisničkim nalogom";
@@ -95,6 +96,7 @@ $messages['tokennotsent'] = "Greška prilikom slanja emaila za potvrdu";
 $messages['tokenrequired'] = "Potreban je token";
 $messages['tokennotvalid'] = "Token nije validan";
 $messages['resetbytokenhelp'] = "Link koji je poslat na Vaš email, će Vam omogućiti resetovanje lozinke. Da ponovo zatražite email, kliknite <a href=\"?action=sendtoken\">OVDE</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Token koji je poslat na SMS će Vam omogućiti da resetujete lozinku. Da zatražite novi token, kliknite <a href=\"?action=sendsms\">OVDE</a>.";
 $messages['changemessage'] = "Zdravo {login},\n\nVaša lozinka je promenjena.\n\nUkoliko niste tražili promenu lozinke, odmah se javite IT službi.";
 $messages['changesubject'] = "Vaša lozinka je promenjena";
@@ -152,3 +154,4 @@ $messages['questionspopulatehint'] = "Unesite samo korisničko ime da bi ste pro
 $messages['badquality'] = "Kvalitet Vaše lozinke je veoma nizak";
 $messages['tooyoung'] = "Lozinka je skorije menjana";
 $messages['inhistory'] = "Lozinka je u istoriji starih lozinki";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

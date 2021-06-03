@@ -79,6 +79,7 @@ $messages['resetmessage'] = "Buongiorno {login},\n\nClicca qui per reimpostare l
 $messages['resetsubject'] = "Reimposta la tua password";
 $messages['sendtokenhelp'] = "Inserisci la tua login e il tuo indirizzo email per reimpostare la tua password. Quindi clicca sul link che riceverai via mail.";
 $messages['sendtokenhelpnomail'] = "Inserisci la tua login per reimpostare la tua password. Quindi clicca sul link che riceverai via mail.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Indirizzo mail obbligatorio";
 $messages['mailnomatch'] = "La mail non corrisponde al login";
@@ -87,6 +88,7 @@ $messages['tokennotsent'] = "Errore nell'invio della mail di conferma";
 $messages['tokenrequired'] = "Codice di verifica obbligatorio";
 $messages['tokennotvalid'] = "Codice di verifica non valido";
 $messages['resetbytokenhelp'] = "Il codice di verifica spedito via mail ti consente di reimpostare la password. Per avere un nuovo codice, <a href=\"?action=sendtoken\">clicca qui</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['changemessage'] = "Buongiorno {login},\n\nLa tua password e' stata cambiata.\n\nSe non hai richiesto questa modifica, per favore contatta immediatamente il tuo amministratore di rete.";
 $messages['changesubject'] = "La tua password e' stata cambiata";
 $messages['badcaptcha'] = "Il codice captcha non e' corretto. Riprova.";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

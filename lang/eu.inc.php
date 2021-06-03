@@ -80,6 +80,7 @@ $messages['resetmessage'] = "Kaixo {login},\n\nPasahitza berrezartzeko esteka ho
 $messages['resetsubject'] = "Pasahitza berrezarri";
 $messages['sendtokenhelp'] = "Sartu zure erabiltzaile izena eta e-mail helbidea psahitza berrezartzeko. Ondoren e-mail bidez jasoko duzun estekan sakatu.";
 $messages['sendtokenhelpnomail'] = "Sartu zure erabiltzaile izena pasahitza berrezartzeko. Ondoren e-mail bidez jasoko duzun estekan sakatu.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "Posta elektronikoa";
 $messages['mailrequired'] = "Posta elektronikoa ez duzu jarri";
 $messages['mailnomatch'] = "Posta elektronikoak ez du erabiltzailearekin bat egiten";
@@ -88,6 +89,7 @@ $messages['tokennotsent'] = "Errorea mezua bidaltzerakoan";
 $messages['tokenrequired'] = "Kodea behar da";
 $messages['tokennotvalid'] = "Kodea ez dago ondo";
 $messages['resetbytokenhelp'] = "Posta bidez bidalitako kodeak pasahitza berrezartzeko balio du. Beste kode bat lortzeko, <a href=\"?action=sendtoken\">sakatu hemen</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "SMS bidez bidalitako kodeak pasahitza berrezartzeko balio du. Beste kode bat lortzeko, <a href=\"?action=sendsms\">sakatu hemen</a>.";
 $messages['changemessage'] = "Kaixo {login},\n\nZure pasahitza eguneratu da.\n\nAldaketa zuk ez baduzu egin, mesedez jarri kontaktuan zure administrariarekin.";
 $messages['changesubject'] = "Zure pasahitza aldatua izan da";
@@ -153,3 +155,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

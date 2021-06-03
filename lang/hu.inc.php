@@ -81,6 +81,7 @@ $messages['resetmessage'] = "Kedves {login},\n\nKattintson ide a jelszava megvá
 $messages['resetsubject'] = "Jelszó megváltoztatása";
 $messages['sendtokenhelp'] = "Kérem, írja be a felhasználónevét és e-mail címét jelszava megújításához. A további teendőket e-mailben kapja meg.";
 $messages['sendtokenhelpnomail'] = "Kérem, írja be a felhasználónevét jelszava megújításához. A további teendőket e-mailben kapja meg.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "E-mail cím megadása kötelező";
 $messages['mailnomatch'] = "Az e-mail cím / felhasználónév páros hibás.";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "Hiba a visszaigazoló email küldése közben";
 $messages['tokenrequired'] = "Kód hiányzik";
 $messages['tokennotvalid'] = "Kód nem megfelelő";
 $messages['resetbytokenhelp'] = "Az e-mailben kapott link segítségével új jelszót állíthat be. Új link kéréséhez, <a href=\"?action=sendtoken\">kattintson ide</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "Az SMS-ben kapott kóddal új jelszót állíthat be. Új kód kéréséhez <a href=\"?action=sendsms\">kattintson ide</a>.";
 $messages['changemessage'] = "Tisztelt {login},\n\nA jelszava megváltozott.\n\nAmennyiben nem Ön kezdeményezte jelszava megváltoztatását, kérem, lépjen kapcsolatba az oldal adminisztrátorával!";
 $messages['changesubject'] = "Jelszava sikeresen módosítva.";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

@@ -89,6 +89,7 @@ $messages['resetmessage'] = "Tere {login},\n\nVajuta siia, et muuta parooli:\n{u
 $messages['resetsubject'] = "Lähtesta parool";
 $messages['sendtokenhelp'] = "Sisesta oma kasutajanimi ja e-posti aadress, et lähtestada oma parool. Seejärel saad sa oma e-postile kirja, mis sisaldab vajalikku linki parooli lähtestamiseks.";
 $messages['sendtokenhelpnomail'] = "Sisesta oma kasutajanimi, et lähtestada parooli. Seejärel saad sa oma e-postile kirja, mis sisaldab vajalikku linki parooli lähtestamiseks.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "E-post";
 $messages['mailrequired'] = "Sinu e-posti aadress on kohustuslik";
 $messages['mailnomatch'] = "Sellise e-posti aadressi ning kasutajanimega kasutajat ei leitud";
@@ -97,6 +98,7 @@ $messages['tokennotsent'] = "Viga kinnituskirja saatmisel";
 $messages['tokenrequired'] = "Token on kohustuslik";
 $messages['tokennotvalid'] = "Token on kehtetu";
 $messages['resetbytokenhelp'] = "E-posti teel saadetud link võimaldab sul lähtestada parooli. Uue lingi saamiseks e-postile, <a href=\"?action=sendtoken\">vajuta siia</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "SMS teel saadetud ajutine kood võimaldab sul lähtestada parooli. Uue ajutise koodi saamiseks SMS'iga, <a href=\"?action=sendsms\">vajuta siia</a>.";
 $messages['changemessage'] = "Tere {login},\n\nSinu parool on muudetud.\n\nKui sa ei ole soovinud oma parooli muuta, võta koheselt ühendust administraatoriga.";
 $messages['changesubject'] = "Sinu parool on muudetud";
@@ -154,3 +156,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

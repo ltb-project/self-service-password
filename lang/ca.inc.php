@@ -82,6 +82,7 @@ $messages['resetmessage'] = "Hola {login},\n\nFer clic aquÃ­ per restaurar la 
 $messages['resetsubject'] = "Restaurar la contrasenya";
 $messages['sendtokenhelp'] = "Escriviu el vostre usuari i correu per restaurar la contrasenya. Rebreu un correu per confirmar-ho.";
 $messages['sendtokenhelpnomail'] = "Escriviu el vostre usuari per restaurar la contrasenya. Rebreu un correu per confirmar-ho.";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['mail'] = "Correu";
 $messages['mailrequired'] = "Cal el vostre correu";
@@ -91,6 +92,7 @@ $messages['tokennotsent'] = "Error enviant el correu de confirmació";
 $messages['tokenrequired'] = "Cal una fitxa";
 $messages['tokennotvalid'] = "La fitxa no és vàlida";
 $messages['resetbytokenhelp'] = "La fitxa enviada per correu us permet restaurar la contrasenya. Per aconseguir una nova fitxa, <a href=\"?action=sendtoken\">fer clic aquÃ­</a>.";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['changemessage'] = "Hola {login},\n\nHeu canviat la vostra contrasenya.\n\nSi no heu sol·licitat aquest servei, poseu-vos en contacte amb el vostre administrador inmediatament.";
 $messages['changesubject'] = "Heu canviat la vostra contrasenya";
 $messages['badcaptcha'] = "El captcha no és correcte. Torneu a provar-ho.";
@@ -156,3 +158,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";

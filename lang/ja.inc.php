@@ -81,6 +81,7 @@ $messages['resetmessage'] = "{login}さん\n\nパスワードをリセットす�
 $messages['resetsubject'] = "パスワードのリセット";
 $messages['sendtokenhelp'] = "パスワードをリセットするにはログインIDとメールアドレスを入力してください。受信したメールに含まれるリンクをクリックすると、パスワードをリセットできます。";
 $messages['sendtokenhelpnomail'] = "パスワードをリセットするにはログインIDを入力してください。受信したメールに含まれるリンクをクリックすると、パスワードをリセットできます。";
+$messages['sendtokenhttphelp'] = "Enter your user name and confirm your email address, to submit a password reset link using HTTP notifications.";
 $messages['mail'] = "メールアドレス";
 $messages['mailrequired'] = "メールアドレスを入力してください";
 $messages['mailnomatch'] = "メールアドレスがログインIDのものと一致しません";
@@ -89,6 +90,7 @@ $messages['tokennotsent'] = "確認用のメールを送信する際にエラー
 $messages['tokenrequired'] = "トークンを入力してください";
 $messages['tokennotvalid'] = "トークンが間違っています";
 $messages['resetbytokenhelp'] = "メールで送信されたリンクからパスワードをリセットできます。新しいリンクをメールで送信するよう要求するには<a href=\"?action=sendtoken\">ここをクリックしてください</a>。";
+$messages['resetbytokenhttphelp'] = "The link sent as an HTTP notification allows you to reset your password. To request a new link via HTTP, <a href=\"?action=sendhttp\">click here</a>.";
 $messages['resetbysmshelp'] = "SMSで送信されたトークンを使ってパスワードをリセットできます。新しいトークンを取得するには<a href=\"?action=sendsms\">ここをクリックしてください</a>。";
 $messages['changemessage'] = "{login}さん\n\nあなたのパスワードは変更されました。\n\nあなたがパスワードのリセットを要求していない場合は、直ちに管理者に問い合わせてください。";
 $messages['changesubject'] = "パスワードが変更されました";
@@ -152,3 +154,4 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['httpnotificationmissingconfiguration'] = "Missing configuration sending password resets link using HTTP notifications.";
