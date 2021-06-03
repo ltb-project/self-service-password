@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "Kies een vraag en beantwoord deze om het wa
 $messages['changehelp'] = "Voer uw huidige wachtwoord en een nieuw wachtwoord in en klik op versturen om uw wachtwoord te wijzigen";
 $messages['changehelpreset'] = "Wachtwoord vergeten?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset uw wachtwoord door een vraag te beantwoorden</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Reset uw wachtwoord per email</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset uw wachtwoord door middel van een SMS bericht</a>";
 $messages['resetmessage'] = "Hallo {login},\n\nKlik hier om uw wachtwoord te resetten:\n{url}\n\nAls u geen wachtwoord reset heeft aangevraagd is het verstandig om de helpdesk op de hoogte te stellen. U kunt deze e-mail daarna verwijderen.";
@@ -116,6 +117,7 @@ $messages['getuser'] = "Haal gebruiker op";
 $messages['menuquestions'] = "Vraag";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "PHP XML moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['tokenattempts'] = "Ongeldig token, probeer nog eens";
 $messages['emptychangeform'] = "Wijzig uw wachtword";

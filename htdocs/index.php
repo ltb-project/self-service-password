@@ -90,7 +90,7 @@ if ( ! function_exists('mb_internal_encoding') ) { $dependency_check_results[] =
 if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxml"; }
 
 # Check keyphrase setting
-if ((($crypt_tokens and ($use_tokens or $use_http or $use_sms))
+if ((($crypt_tokens and ($use_tokens or $use_httpreset or $use_sms))
      or ($use_questions and $crypt_answers))
     and (empty($keyphrase) or $keyphrase == "secret")) {
 	$dependency_check_results[] = "nokeyphrase";
@@ -179,7 +179,7 @@ if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
-if ( $use_http ) { array_push( $available_actions, "resetbytoken", "sendhttp"); }
+if ( $use_httpreset ) { array_push( $available_actions, "resetbytoken", "sendhttp"); }
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
@@ -220,6 +220,7 @@ $smarty->assign('show_help', $show_help);
 $smarty->assign('use_questions', $use_questions);
 $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
+$smarty->assign('use_httpreset', $use_httpreset);
 $smarty->assign('change_sshkey', $change_sshkey);
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('default_action', $default_action);

@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "Aukeratu galdera bat eta erantzuna idatzi p
 $messages['changehelp'] = "Idatzi zure pasahitz zaharra eta ondoren berria";
 $messages['changehelpreset'] = "¿Pasahitza ahaztu duzu?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Berrezarri pasahitza galdera bati erantzunez</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Berrezarri pasahitza e-mail bidez</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Berrezarri pasahitza SMS bidez</a>";
 $messages['resetmessage'] = "Kaixo {login},\n\nPasahitza berrezartzeko esteka honetan klik egin:\n{url}\n\n Ez baduzu pasahitz berrezarketa eskatu, ez da behar ezer egitea.";
@@ -115,6 +116,7 @@ $messages['loginrequired'] = "Zure erabiltzaile izena beharrezkoa da";
 $messages['menuquestions'] = "Galdera";
 $messages['menutoken'] = "Posta helbidea";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "PHP XML instaltuta egon behar da tresna hau erabiltzeko";
 $messages['tokenattempts'] = "Kode okerra, saiatu berriz";
 $messages['emptychangeform'] = "Pasahitza aldatu";

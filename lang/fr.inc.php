@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "Choisissez une question et répondez-y pour
 $messages['changehelp'] = "Entrez votre ancien mot de passe et choisissez-en un nouveau.";
 $messages['changehelpreset'] = "Mot de passe oublié ?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Réinitialisez votre mot de passe en répondant à des questions</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Réinitialisez votre mot de passe via un challenge par notification HTTP</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Réinitialisez votre mot de passe via un challenge par mail</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Réinitialisez votre mot de passe par SMS</a>";
 $messages['resetmessage'] = "Bonjour {login},\n\nCliquez ici pour réinitialiser votre mot de passe :\n{url}\n\nSi vous n'êtes pas à l'origine de cette demande, merci de l'ignorer.";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Vous devriez installer PHP mbstring";
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Mail";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "Notification HTTP";
 $messages['nophpxml'] = "Vous devriez installer PHP XML pour utiliser cet outil";
 $messages['tokenattempts'] = "Jeton invalide, essayez encore";
 $messages['emptychangeform'] = "Changez votre mot de passe";

@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "选择一个问题后回答可重置密码.
 $messages['changehelp'] = "输入旧密码后更改新密码.";
 $messages['changehelpreset'] = "是否忘记密码?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">回答问题重置密码</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">使用邮件重置密码</a>";
 $messages['resetmessage'] = "您好 {login},\n\n点击这里重置密码:\n{url}\n\n如果您没有提交这个请求则忽略。";
 $messages['resetsubject'] = "重置密码";
@@ -114,6 +115,7 @@ $messages['smscrypttokensrequired'] = "You can't use reset by SMS without crypt_
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "使用该工具需要安装PHP-xml";
 $messages['tokenattempts'] = "Invalid token, try again";
 $messages['emptychangeform'] = "Change your password";

@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "Zvolte otázku a odpověď pro obnovu hesla
 $messages['changehelp'] = "Vložte vaše staré a nové heslo";
 $messages['changehelpreset'] = "Zapomněli jste heslo?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Obnova hesla pomocí kontrolních otázek</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Obnova hesla pomocí e-mailu</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Obnova hesla pomocí SMS</a>";
 $messages['resetmessage'] = "Dobrý den {login},\n\nKlikněte zde pro obnovu hesla:\n{url}\n\nPokud jste nepožadovali obnovu hesla, prosím ignorujte tuto zprávu.";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Nainstalujte PHP mbstring";
 $messages['menuquestions'] = "Otázka";
 $messages['menutoken'] = "E-mail";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Pro použití tohoto nástroje nainstalujte PHP XML";
 $messages['tokenattempts'] = "Chybný kód, zkuste to znovu";
 $messages['emptychangeform'] = "Změnit heslo";

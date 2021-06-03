@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "Выберите вопрос и ответ
 $messages['changehelp'] = "Введите Ваш старый пароль и выберите новый";
 $messages['changehelpreset'] = "Забыли Ваш пароль?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\"> Сбросьте Ваш пароль, ответив на вопросы</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Сбросьте Ваш пароль с помощью Е-mail</a>";
 $messages['resetmessage'] = "Привет {login},\n\nКликните здесь для сброса пароля:\n{url}\n\nЕсли Вы ошибочно выбрали, можете проигнорировать эти строки.";
 $messages['resetsubject'] = "Сбросьте Ваш пароль";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "You should install PHP mbstring";
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Для использования данной программы Вам необходимо установить PHP-xml";
 $messages['tokenattempts'] = "Invalid token, try again";
 $messages['emptychangeform'] = "Change your password";

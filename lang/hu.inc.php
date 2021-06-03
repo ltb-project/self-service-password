@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "Új jelszó megadásához válasszon egy k�
 $messages['changehelp'] = "Kérem, írja be régi jelszavát és adjon meg egy újat.";
 $messages['changehelpreset'] = "Elfelejtett jelszó?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Jelszó megváltoztatásához válaszoljon a kérdésre</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Jelszó megváltoztatása E-mailen keresztül</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Jelszó megváltoztatása SMS-en keresztül</a>";
 $messages['resetmessage'] = "Kedves {login},\n\nKattintson ide a jelszava megváltoztatásához:\n{url}\n\nTekintse tárgytalannak az e-mailt, amennyiben nem Ön kezdeményezte a jelszóváltoztatást,";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Telepítse fel a PHP mbstring-et";
 $messages['menuquestions'] = "Titkos kérdés";
 $messages['menutoken'] = "E-mail";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "A program használatához telepíteni kell a PHP XML csomagot";
 $messages['tokenattempts'] = "Érvénytelen token, próbálja újra";
 $messages['emptychangeform'] = "Változtasd meg a jelszavad";

@@ -26,11 +26,19 @@
                 </li>
                 {/if}
                 {if $use_tokens}
-                <li class="{if ($action == 'resetbytoken' and $source != 'sms') or $action == 'sendtoken'}active{/if}">
+                <li class="{if ($action == 'resetbytoken' and $source != 'sms' and $source != 'http') or $action == 'sendtoken'}active{/if}">
                   <a href="?action=sendtoken"
                      data-toggle="menu-popover"
                      data-content="{$msg_changehelptoken|strip_tags:false}"
                   ><i class="fa fa-fw fa-envelope"></i> {$msg_menutoken}</a>
+                </li>
+                {/if}
+                {if $use_httpreset}
+                <li class="{if ($action == 'resetbytoken' and $source == 'http') or $action == 'sendhttp'}active{/if}">
+                  <a href="?action=sendhttp"
+                     data-toggle="menu-popover"
+                     data-content="{$msg_changehelphttp|strip_tags:false}"
+                  ><i class="fa fa-fw fa-mobile"></i> {$msg_menuhttp}</a>
                 </li>
                 {/if}
                 {if $use_sms}

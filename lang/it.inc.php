@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "Scegli una domanda e rispondi per reimposta
 $messages['changehelp'] = "Immetti la tua vecchia password e scegline una nuova.";
 $messages['changehelpreset'] = "Hai dimenticato la password?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reimposta la tua password rispondendo alle domande</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Reimposta la tua password con una verifica via mail</a>";
 $messages['resetmessage'] = "Buongiorno {login},\n\nClicca qui per reimpostare la tua password:\n{url}\n\nSe non sei stato tu a richiedere il reset, per piacere ignora questa email.";
 $messages['resetsubject'] = "Reimposta la tua password";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Devi installare PHP mbstring";
 $messages['menuquestions'] = "Domande";
 $messages['menutoken'] = "Mail";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Devi installare PHP XML per usare questo strumento";
 $messages['tokenattempts'] = "Token non valido, riprova";
 $messages['emptychangeform'] = "Cambia la tua password";

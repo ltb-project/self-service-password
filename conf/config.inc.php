@@ -254,7 +254,10 @@ $http_notifications_params = array();
 # Use http notifications confirming password changes
 $http_notify_on_change = false;
 # Use http notifications submitting password resets
-$use_http = false;
+$use_httpreset = false;
+# TODO/maybe: use an alternate attribute submitting HTTP notifications?
+# $http_notifications_login_attribute = "uid";
+# $http_notifications_ldap_filter = "(&(objectClass=person)($http_notifications_ldap_login_attribute={login}))";
 
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
 $mail_sendmailpath = '/usr/sbin/sendmail';

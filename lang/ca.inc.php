@@ -76,6 +76,7 @@ $messages['resetbyquestionshelp'] = "Trieu una pregunta i responeu-la per restau
 $messages['changehelp'] = "Escriviu la contrasenya anterior i trieu la nova.";
 $messages['changehelpreset'] = "Heu oblidat la contrasenya?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Restaurar la contrasenya responent preguntes</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Restaurar la contrasenya amb confirmació per correu</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
 $messages['resetmessage'] = "Hola {login},\n\nFer clic aquÃ­ per restaurar la vostra contrasenya:\n{url}\n\nSi no heu demanat aquest servei, si us plau ignoreu-lo.";
@@ -118,6 +119,7 @@ $messages['nophpmbstring'] = "Ha d'instal·lar PHP mbstring";
 $messages['menuquestions'] = "Pregunte";
 $messages['menutoken'] = "Correu";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Cal instal·lar PHP XML per fer servir aquesta eina";
 $messages['tokenattempts'] = "Invalid token, try again";
 $messages['emptychangeform'] = "Change your password";

@@ -79,6 +79,7 @@ $messages['resetbyquestionshelp'] = "Você deve escolher uma pergunta e respond�
 $messages['changehelp'] = "Informe a senha atual e escolha uma nova.";
 $messages['changehelpreset'] = "Esqueceu a senha?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Redefina sua senha através de perguntas e respostas.</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Redefina sua senha através do e-mail</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Altere sua senha com SMS</a>";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Alterar a chave SSH</a>";
@@ -123,6 +124,7 @@ $messages['nophpmbstring'] = "Você deve instalar a biblioteca PHP mbstring";
 $messages['menuquestions'] = "Pergunta";
 $messages['menutoken'] = "E-mail";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['menusshkey'] = "Chave SSH";
 $messages['nophpxml'] = "Você deve instalar o PHP XML para utilizar esta ferramenta";
 $messages['tokenattempts'] = "Token inválido, tente novamente";

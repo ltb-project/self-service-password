@@ -35,6 +35,8 @@ $captchaphrase = "";
 
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
     $login = strval($_REQUEST["login"]);
+    if (isset($_POST["mail"]) and $_POST["mail"]) {
+        $usermail = strval($_POST["mail"]);
     if (isset($_REQUEST["usermail"]) and $_REQUEST["usermail"]) {
         $usermail = strval($_REQUEST["usermail"]);
     } else {

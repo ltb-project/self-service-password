@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "Επιλέξετε μια ερώτηση κ
 $messages['changehelp'] = "Καταχωρήστε τον ισχύοντα κωδικό σας και επιλέξτε ένα νέο.";
 $messages['changehelpreset'] = "Ξεχάσατε τον κωδικό σας;";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Αλλάξτε τον κωδικό σας απαντώντας σε ερωτήσεις</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Αποστολή email με σύνδεσμο αλλαγής κωδικού</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Αλλάξτε τον κωδικό σας μέσω SMS</a>";
 $messages['resetmessage'] = "Γειά σας {login},\n\nΕπιλέξτε αυτό το σύνδεσμο για να αλλάξετε τον κωδικό σας:\n{url}\n\nΑν δεν έχετε ζητήσει αλλαγή κωδικού, παρακαλούμε να αγνοήσετε αυτό το μήνυμα.";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Απαιτείται η εγκατάσταση τ�
 $messages['menuquestions'] = "Ερώτηση";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP XML για τη χρήση αυτής της λειτουργίας";
 $messages['tokenattempts'] = "Μοναδικό αναγνωριστικό μη έγκυρο, προσπαθήστε πάλι";
 $messages['emptychangeform'] = "Αλλάξτε τον κωδικό σας";

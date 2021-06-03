@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "パスワードをリセットするには�
 $messages['changehelp'] = "現在のパスワードと新しいパスワードを入力してください。";
 $messages['changehelpreset'] = "パスワード忘れましたか?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">秘密の質問に回答してパスワードをリセットする</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">メールでパスワードをリセットするためのリンクを送信する</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">SMSでパスワードをリセットする</a>";
 $messages['resetmessage'] = "{login}さん\n\nパスワードをリセットするにはこのリンクをクリックしてください:\n{url}\n\nあなたがパスワードのリセットを要求していない場合、このメールは無視してください。";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "PHP mbstringをインストールしてくださ�
 $messages['menuquestions'] = "秘密の質問";
 $messages['menutoken'] = "メール";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "このツールを使うにはPHP XMLをインストールしてください";
 $messages['tokenattempts'] = "トークンが正しくありません。もう一度入力してください";
 $messages['emptychangeform'] = "パスワードの変更";

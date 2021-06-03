@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "Wählen Sie eine Frage Sicherheitsfrage aus
 $messages['changehelp'] = "Um ein neues Passwort festzulegen müssen Sie zuerst Ihr aktuelles eingeben.";
 $messages['changehelpreset'] = "Passwort vergessen?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Rücksetzen Ihres Passworts durch Beantwortung von Fragen</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Rücksetzen Ihres Passworts über Mailaustausch</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Rücksetzen Ihres Passworts per SMS</a>";
 $messages['resetmessage'] = "Hallo {login},\n\nKlicken Sie hier um Ihr Passwort zurückzusetzen:\n{url}\n\nFalls Sie keine Rücksetzung beantragt haben, ignorieren Sie dies bitte.";
@@ -116,6 +117,7 @@ $messages['nophpmbstring'] = "Sie müssen PHP mbstring installieren";
 $messages['menuquestions'] = "Frage";
 $messages['menutoken'] = "Rücksetzen per E–Mail";
 $messages['menusms'] = "Rücksetzen per SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Sie benötigen die PHP XML Erweiterung um dieses Tool zu nutzen";
 $messages['tokenattempts'] = "Ungültiges Token, versuchen Sie es erneut";
 $messages['emptychangeform'] = "Passwort ändern";

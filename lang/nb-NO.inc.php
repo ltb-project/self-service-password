@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "Velg ett spørsmål og svar på det for å 
 $messages['changehelp'] = "Angi ditt gamle passord og ett nytt passord.";
 $messages['changehelpreset'] = "Glemt ditt passord?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Bytt ditt passord ved å svare på spørsmål</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Bytt ditt passord via epost</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Bytt ditt passord via SMS</a>";
 $messages['resetmessage'] = "Hej {login},\n\nKlikk her for å bytte passord:\n{url}\n\nOm du ikke har bedt om tilbakestilling av passord, bør du ignorere denne forespørselen.";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Du bør installere PHP mbstring";
 $messages['menuquestions'] = "Spørsmål";
 $messages['menutoken'] = "Epost";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Du bør installere PHP XML for å anvende dette verktøyet";
 $messages['tokenattempts'] = "Ugyldig engangspassord, forsøk igjen";
 $messages['emptychangeform'] = "Bytt ditt passord";

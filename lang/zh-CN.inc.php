@@ -79,6 +79,7 @@ $messages['resetbyquestionshelp'] = "选择回答其中一个问题重置您的�
 $messages['changehelp'] = "输入您的旧密码并设置新密码.";
 $messages['changehelpreset'] = "忘记密码?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">回答问题重置密码</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">通过邮件发送密码重置链接</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">通过短信重置密码</a>";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">更改 SSH 密钥</a>";
@@ -123,6 +124,7 @@ $messages['nophpmbstring'] = "您需要安装 PHP mbstring";
 $messages['menuquestions'] = "问题";
 $messages['menutoken'] = "邮件";
 $messages['menusms'] = "短信";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['menusshkey'] = "SSH 密钥";
 $messages['nophpxml'] = "您需要安装 PHP XML 才能使用本工具";
 $messages['tokenattempts'] = "Invalid token, try again";

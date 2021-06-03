@@ -79,6 +79,7 @@ $messages['setquestionshelp'] = "Initialize or change your password reset questi
 $messages['changehelp'] = "Enter your old password and choose a new one.";
 $messages['changehelpreset'] = "Forgot your password?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Reset your password by answering questions</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Email a password reset link</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Change your SSH Key</a>";
@@ -123,6 +124,7 @@ $messages['nophpmbstring'] = "You should install PHP mbstring";
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['menusshkey'] = "SSH Key";
 $messages['nophpxml'] = "You should install PHP XML to use this tool";
 $messages['tokenattempts'] = "Invalid token, try again";

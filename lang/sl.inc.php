@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "Izberite vprašanje in odgovorite nanj, da 
 $messages['changehelp'] = "Vnesite staro geslo in izberite novo.";
 $messages['changehelpreset'] = "Ste pozabili geslo?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Ponastavite geslo z odgovorom na varnostno vprašanje</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Pošlji ponastavitev gesla po e-pošti</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Ponastavite geslo preko SMS</a>";
 $messages['resetmessage'] = "Pozdravljeni, {login},\n\nKliknite tukaj, da ponastavite geslo:\n{url}\n\nČe niste zahtevali ponastavitve gesla, prezrite to sporočilo.";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Namestiti morate PHP mbstring";
 $messages['menuquestions'] = "Vprašanje";
 $messages['menutoken'] = "E-mail";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Namestiti morate PHP XML";
 $messages['tokenattempts'] = "Neveljaven žeton. Poizkusite ponovno.";
 $messages['emptychangeform'] = "Spremenite svoje geslo";

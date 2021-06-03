@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "Parolanızı sıfırlamak için seçtiğini
 $messages['changehelp'] = "Eski parolanızı girin ve yeni bir parola belirleyin.";
 $messages['changehelpreset'] = "Parolanızı mı unuttunuz?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Soru yanıtlayarak parolanızı sıfırlayın</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Parola sıfırlama e-postası alın</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">SMS ile parolanızı sıfırlayın</a>";
 $messages['resetmessage'] = "Merhaba {login},\n\nParolanızı sıfırlamak için buraya tıklayın:\n{url}\n\nEğer parola sıfırlama talep etmediyseniz bu e-postayı dikkate almayın.";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "PHP mbstring yüklemelisiniz";
 $messages['menuquestions'] = "Question";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Bu aracı kullanabilmek için PHP XML yüklemelisiniz";
 $messages['tokenattempts'] = "Invalid token, try again";
 $messages['emptychangeform'] = "Change your password";

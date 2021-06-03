@@ -79,6 +79,7 @@ $messages['resetbyquestionshelp'] = "Odaberite pitanje i odgovorite na njega da 
 $messages['changehelp'] = "Unesite Vašu staru lozinku i posle toga odaberite novu.";
 $messages['changehelpreset'] = "Zaboravili ste lozinku?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Resetujte lozinku odgovaranjem na pitanja</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Pošaljite zahtev za resetovanje lozinke email-om</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Resetujte lozinku putem SMS-a</a>";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Promenite Vaš SSH ključ</a>";
@@ -123,6 +124,7 @@ $messages['nophpmbstring'] = "Treba instalirati PHP mbstring";
 $messages['menuquestions'] = "Pitanje";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['menusshkey'] = "SSH ključ";
 $messages['nophpxml'] = "Treba instalirati PHP XML da bi ste koristili ovu alatku";
 $messages['tokenattempts'] = "Loš token, Pokušajte ponovo";

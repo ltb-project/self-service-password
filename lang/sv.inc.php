@@ -75,6 +75,7 @@ $messages['resetbyquestionshelp'] = "Välj en fråga och svara på den för att 
 $messages['changehelp'] = "Ange ditt nuvarande lösenord och ett nytt lösenord.";
 $messages['changehelpreset'] = "Glömt ditt lösenord?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Byt ditt lösenord genom att svara på frågor</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Byt ditt lösenord via epost</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Byt ditt lösenord via SMS</a>";
 $messages['resetmessage'] = "Hej {login},\n\nKlicka här för att byta lösenord:\n{url}\n\nOm du inte har begärt ett lösenordsbyte bortse från detta meddelande.";
@@ -114,6 +115,7 @@ $messages['nophpmbstring'] = "Du borde installera PHP mbstring";
 $messages['menuquestions'] = "Återställa glömt lösenord via säkerhetsfrågor";
 $messages['menutoken'] = "Återställa glömt lösenord via Epost";
 $messages['menusms'] = "Återställa glömt lösenord via SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Du borde installera PHP XML för att använda detta verktyg";
 $messages['tokenattempts'] = "Felaktig Lösenkod, försök igen";
 $messages['emptychangeform'] = "Byt ditt nuvarande lösenord";

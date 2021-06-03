@@ -74,6 +74,7 @@ $messages['resetbyquestionshelp'] = "Elija una pregunta y respóndala para reset
 $messages['changehelp'] = "Ingrese su contraseña anterior y elija una nueva.";
 $messages['changehelpreset'] = "¿Ha olvidado su contraseña?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Resetee su contraseña respondiendo preguntas</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Resetee su contraseña usando su e-mail</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Resetee su contraseña mediante un SMS</a>";
 $messages['resetmessage'] = "Hola {login},\n\nClick aquí para restear su contraseña:\n{url}\n\n Si usted no es el emisor de esta petición, por favor ignórela.";
@@ -115,6 +116,7 @@ $messages['loginrequired'] = "Se necesita su nombre de usuario";
 $messages['menuquestions'] = "Pregunta";
 $messages['menutoken'] = "Correo";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Debe instalar PHP XML para utilizar esta herramienta";
 $messages['tokenattempts'] = "Código inválido, intentelo de nuevo";
 $messages['emptychangeform'] = "Cambie su contraseña";

@@ -76,6 +76,7 @@ $messages['resetbyquestionshelp'] = "Wybierz pytanie oraz odpowiedź w celu pono
 $messages['changehelp'] = "Wprowadź Twoje stare hasło oraz wybierz nowe.";
 $messages['changehelpreset'] = "Nie pamiętasz swojego hasła?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Ustaw ponownie swoje hasło poprzez odpowiedzi na pytania</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Ustaw ponownie swoje hasło za pomocą email</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Zresetuj hasło za pomocą wiadomości SMS</a>";
 $messages['resetmessage'] = "Dzień dobry {login},\n\nKliknij tutaj w celu ustawienia swojego hasła:\n{url}\n\nJeśli to nie Ty wybierałeś zmianę hasła, zignoruj tę wiadomość.";
@@ -116,6 +117,7 @@ $messages['nophpmbstring'] = "Wymagane jest zainstalowanie PHP-MBSTRING zanim u�
 $messages['menuquestions'] = "Pytanie";
 $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['nophpxml'] = "Wymagane jest zainstalowanie PHP-XML zanim użyjesz tego narzędzia";
 $messages['tokenattempts'] = "Nieprawidłowy Token, spróbuj ponownie";
 $messages['emptychangeform'] = "Zmień swoje hasło";

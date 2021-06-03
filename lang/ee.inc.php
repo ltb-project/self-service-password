@@ -81,6 +81,7 @@ $messages['resetbyquestionshelp'] = "Vali küsimus ning vasta sellele, et lähte
 $messages['changehelp'] = "Sisesta oma vana parool ning seejärel uus.";
 $messages['changehelpreset'] = "Unustasid parooli?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Lähtesta parool vastates salajasele küsimusele</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Saada e-kiri lähtestamise lingiga</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Lähtesta parool SMS'iga</a>";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Muuda SSH võtit</a>";
@@ -125,6 +126,7 @@ $messages['nophpmbstring'] = "Sul on vaja paigaldada PHP mbstring";
 $messages['menuquestions'] = "Küsimus";
 $messages['menutoken'] = "E-kiri";
 $messages['menusms'] = "SMS";
+$messages['menuhttp'] = "HTTP Notification";
 $messages['menusshkey'] = "SSH võti";
 $messages['nophpxml'] = "Sul on vaja paigaldada PHP XML, et kasutada seda tööriista";
 $messages['tokenattempts'] = "Vale ajutine kood, proovi uuesti";
