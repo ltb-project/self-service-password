@@ -1,0 +1,7 @@
+language: php
+php:
+  - '7.2'
+  - '7.3'
+script:
+  - composer install
+  - phpunit --configuration phpunit.xml

@@ -69,6 +69,7 @@ if ( $result === "" && $use_captcha ) {
     if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
         $result = "badcaptcha";
     }
+    unset($_SESSION['phrase']);
 }
 
 #==============================================================================
@@ -88,6 +89,9 @@ if ( $result === "" ) {
         # Bind
         if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
             $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        } elseif ( isset($ldap_krb5ccname) ) {
+            putenv("KRB5CCNAME=".$ldap_krb5ccname);
+            $bind = ldap_sasl_bind($ldap, NULL, NULL, 'GSSAPI') or error_log('Failed to GSSAPI bind.');
         } else {
             $bind = ldap_bind($ldap);
         }
@@ -154,10 +158,12 @@ if ( $result === "" ) {
                                 $extended_error = explode(', ', $extended_error);
                                 if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
                                     error_log("LDAP - Bind user password needs to be changed");
+                                    $who_change_password = "manager";
                                     $result = "";
                                 }
                                 if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
                                     error_log("LDAP - Bind user password is expired");
+                                    $who_change_password = "manager";
                                     $result = "";
                                 }
                                 unset($extended_error);

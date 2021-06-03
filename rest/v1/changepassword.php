@@ -103,10 +103,12 @@ if ( !$bind ) {
             $extended_error = explode(', ', $extended_error);
             if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
                 error_log("LDAP - Bind user password needs to be changed");
+                $who_change_password = "manager";
                 $result = "";
             }
             if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
                 error_log("LDAP - Bind user password is expired");
+                $who_change_password = "manager";
                 $result = "";
             }
             unset($extended_error);
