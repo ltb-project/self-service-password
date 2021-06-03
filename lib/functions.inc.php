@@ -317,9 +317,9 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     }
 
     # pwned?
-    if ($use_pwnedpasswords) {
+    if ($use_pwnedpasswords and version_compare(PHP_VERSION, '7.2.5') >= 0) {
         $pwned_passwords = new PwnedPasswords\PwnedPasswords;
-        $insecure = $pwned_passwords->isInsecure($password);
+        $insecure = $pwned_passwords->isPwned($password);
         if ($insecure) { $result="pwned"; }
     }
 
