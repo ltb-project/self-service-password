@@ -14,7 +14,7 @@
     {elseif show_help and $source === "http"}
         <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i>{$msg_resetbytokenhttphelp|unescape: "html" nofilter}</p></div>
     {elseif $show_help}
-        <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i> {$msg_resetbytokenhelp|unescape: "html" nofilter}</p></div>
+        <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i>{$msg_resetbytokenhelp|unescape: "html" nofilter}</p></div>
     {/if}
     {if $result !== "tokenrequired" and $result !== "tokennotvalid"}
         {if $pwd_show_policy !== "never" and $pwd_show_policy_pos === 'above'}

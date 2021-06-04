@@ -38,7 +38,7 @@
                   <a href="?action=sendhttp"
                      data-toggle="menu-popover"
                      data-content="{$msg_changehelphttp|strip_tags:false}"
-                  ><i class="fa fa-fw fa-mobile"></i> {$msg_menuhttp}</a>
+                  ><i class="fa fa-fw fa-commenting-o"></i> {$msg_menuhttp}</a>
                 </li>
                 {/if}
                 {if $use_sms}

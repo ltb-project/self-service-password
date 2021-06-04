@@ -75,7 +75,7 @@ $messages['resetbyquestionshelp'] = "Επιλέξετε μια ερώτηση κ
 $messages['changehelp'] = "Καταχωρήστε τον ισχύοντα κωδικό σας και επιλέξτε ένα νέο.";
 $messages['changehelpreset'] = "Ξεχάσατε τον κωδικό σας;";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Αλλάξτε τον κωδικό σας απαντώντας σε ερωτήσεις</a>";
-$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset link using HTTP notification</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Αποστολή email με σύνδεσμο αλλαγής κωδικού</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Αλλάξτε τον κωδικό σας μέσω SMS</a>";
 $messages['resetmessage'] = "Γειά σας {login},\n\nΕπιλέξτε αυτό το σύνδεσμο για να αλλάξετε τον κωδικό σας:\n{url}\n\nΑν δεν έχετε ζητήσει αλλαγή κωδικού, παρακαλούμε να αγνοήσετε αυτό το μήνυμα.";
@@ -88,6 +88,8 @@ $messages['mailrequired'] = "Απαιτείται η διεύθυνση ηλεκ
 $messages['mailnomatch'] = "Η διεύθυνση ηλεκτρονικού ταχυδρομείου δεν αντιστοιχεί σε αυτό το όνομα χρήστη";
 $messages['tokensent'] = "Στάλθηκε ηλεκτρονικό μήνυμα επιβεβαίωσης";
 $messages['tokennotsent'] = "Λάθος στην αποστολή του ηλεκτρονικού μηνύματος επιβεβαίωσης";
+$messages['httpnotsent'] = "Error when sending reset link as an HTTP notification";
+$messages['httpsent'] = "Password reset link was sent as an HTTP notification";
 $messages['tokenrequired'] = "Απαιτείται μοναδικό αναγνωριστικό";
 $messages['tokennotvalid'] = "Το μοναδικό αναγνωριστικό δεν είναι έγκυρο";
 $messages['resetbytokenhelp'] = "Ο σύνδεσμος που στάλθηκε μέσω email σας επιτρέπει να αλλάξετε τον κωδικό σας. Για να ζητήσετε νέο σύνδεσμο μέσω email, <a href=\"?action=sendtoken\">κλικ εδώ</a>.";
@@ -122,6 +124,7 @@ $messages['emptychangeform'] = "Αλλάξτε τον κωδικό σας";
 $messages['emptysendtokenform'] = "Αποστολή συνδέσμου αλλαγής κωδικού μέσω Email";
 $messages['emptyresetbyquestionsform'] = "Επαναφέρετε τον κωδικό σας";
 $messages['emptysetquestionsform'] = "Ορίστε τις ερωτήσεις αλλαγής κωδικού";
+$messages['emptysendhttpform'] = "Submit password reset link using HTTP notification";
 $messages['emptysendsmsform'] = "Ζητήστε ένα μοναδικό αναγνωριστικό αλλαγής κωδικού";
 $messages['sameaslogin'] = "Ο νέος σας κωδικός είναι ίδιος με το όνομα χρήστη";
 $messages['policydifflogin'] = "Ο νέος σας κωδικός δεν πρέπει να είναι ίδιος με το όνομα χρήστη";

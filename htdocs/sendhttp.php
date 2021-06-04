@@ -37,13 +37,13 @@ if (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
     $login = strval($_REQUEST["login"]);
     if (isset($_POST["mail"]) and $_POST["mail"]) {
         $usermail = strval($_POST["mail"]);
-    if (isset($_REQUEST["usermail"]) and $_REQUEST["usermail"]) {
+    } else if (isset($_REQUEST["usermail"]) and $_REQUEST["usermail"]) {
         $usermail = strval($_REQUEST["usermail"]);
     } else {
         $result = "mailrequired";
     }
 } else {
-    $result = "loginrequired";
+    $result = "emptysendhttpform";
 }
 if ($use_captcha) {
     if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) {
@@ -146,7 +146,6 @@ if ( $result === "" ) {
                             error_log("Mail - User $login too fast");
                         }
                     }
-
                 }
             }
         }
@@ -209,12 +208,19 @@ if ( $result === "" ) {
     }
 
     $data = array( "login" => $login, "mail" => $usermail, "url" => $reset_url ) ;
+    $httpoptions = array(
+            "address" => $http_notifications_address,
+            "body"    => $http_notifications_body,
+            "headers" => $http_notifications_headers,
+            "method"  => $http_notifications_method,
+            "params"  => $http_notifications_params
+        );
 
     # Send notification
-    if ( send_http($httpoptions, $messages["resetmessage"] $data) ) {
-        $result = "tokensent";
+    if ( send_http($httpoptions, $messages["resetmessage"], $data) ) {
+        $result = "httpsent";
     } else {
-        $result = "tokennotsent";
+        $result = "httpnotsent";
         error_log("Error while sending token to $login");
     }
 }

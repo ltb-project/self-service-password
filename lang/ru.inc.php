@@ -74,7 +74,7 @@ $messages['resetbyquestionshelp'] = "Выберите вопрос и ответ
 $messages['changehelp'] = "Введите Ваш старый пароль и выберите новый";
 $messages['changehelpreset'] = "Забыли Ваш пароль?";
 $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\"> Сбросьте Ваш пароль, ответив на вопросы</a>";
-$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset lin using HTTP notificationk</a>";
+$messages['changehelphttp'] = "<a href=\"?action=sendhttp\">Submit password reset link using HTTP notification</a>";
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Сбросьте Ваш пароль с помощью Е-mail</a>";
 $messages['resetmessage'] = "Привет {login},\n\nКликните здесь для сброса пароля:\n{url}\n\nЕсли Вы ошибочно выбрали, можете проигнорировать эти строки.";
 $messages['resetsubject'] = "Сбросьте Ваш пароль";
@@ -86,6 +86,8 @@ $messages['mailrequired'] = "Введите Ваш электронный адр
 $messages['mailnomatch'] = "Ваш электронный адрес не совпадает с указанным логином";
 $messages['tokensent'] = "Электронное письмо для подтверждения выслано";
 $messages['tokennotsent'] = "Ошибка отправки электронного письма для подтверждения";
+$messages['httpnotsent'] = "Error when sending reset link as an HTTP notification";
+$messages['httpsent'] = "Password reset link was sent as an HTTP notification";
 $messages['tokenrequired'] = "Необходим token ";
 $messages['tokennotvalid'] = "Token недействителен";
 $messages['resetbytokenhelp'] = "Присланный в электронном письме token позволяет сбросить пароль. Для получения нового token, <a href=\"?action=sendtoken\">кликните здесь</a>.";
@@ -122,6 +124,7 @@ $messages['emptychangeform'] = "Change your password";
 $messages['emptysendtokenform'] = "Email a password reset link";
 $messages['emptyresetbyquestionsform'] = "Reset your password";
 $messages['emptysetquestionsform'] = "Set your password reset questions";
+$messages['emptysendhttpform'] = "Submit password reset link using HTTP notification";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
