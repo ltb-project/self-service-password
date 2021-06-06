@@ -190,7 +190,7 @@ per login and per hour, and same for ip address:
 
 .. code:: php
 
-   $enable_ratelimit = true;
+   $use_ratelimit = true;
 
 Other possible options for rate limiting:
 
