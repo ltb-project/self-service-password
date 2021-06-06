@@ -11,6 +11,7 @@ RUN buildDeps=" \
         libonig-dev \
     " \
     runtimeDeps=" \
+	apache2/buster-backports \
         curl \
         libicu-dev \
         libldap2-dev \
@@ -21,7 +22,9 @@ RUN buildDeps=" \
         libzip-dev \
 	locales \
 	locales-all \
+	sendmail \
     " \
+    && echo deb http://deb.debian.org/debian buster-backports main >>/etc/apt/sources.list \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
     && docker-php-ext-install bcmath bz2 iconv intl mbstring opcache curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \

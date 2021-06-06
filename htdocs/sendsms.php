@@ -114,6 +114,7 @@ if ( $result === "" && $use_captcha ) {
     if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
         $result = "badcaptcha";
     }
+    unset($_SESSION['phrase']);
 }
 
 #==============================================================================
@@ -282,6 +283,7 @@ if ( $result === "buildtoken" ) {
     session_start();
     $_SESSION['login'] = $login;
     $_SESSION['time']  = time();
+    $_SESSION['smstoken'] = $smstoken;
 
     $token = encrypt(session_id(), $keyphrase);
 
@@ -311,7 +313,7 @@ if ( $result === "redirect" ) {
         $reset_url = $method."://".$server_name.$script_name;
     }
 
-    $reset_url .= "?action=resetbytoken&source=sms&token=".urlencode($token);
+    $reset_url .= "?action=resetbytoken&source=sms&token=".urlencode($token)."&smstoken=".urlencode($smstoken);
 
     if ( !empty($reset_request_log) ) {
         error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN") . "\n\n", 3, $reset_request_log);

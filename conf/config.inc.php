@@ -38,6 +38,8 @@ $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
 $ldap_binddn = "cn=manager,dc=example,dc=com";
 $ldap_bindpw = 'secret';
+// for GSSAPI authentication, comment out ldap_bind* and uncomment ldap_krb5ccname lines
+//$ldap_krb5ccname = "/path/to/krb5cc";
 $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
