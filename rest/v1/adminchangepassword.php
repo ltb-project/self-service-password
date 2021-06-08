@@ -68,9 +68,12 @@ if( !$userdn ) {
 
 # Get user email for notification
 if ( $notify_on_change ) {
-    $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-    if ( $mailValues["count"] > 0 ) {
-        $mail = $mailValues[0];
+    for ($i = 0; $i < sizeof($mail_attributes); $i++) {
+        $mailValues = ldap_get_values($ldap, $entry, $mail_attributes[$i]);
+        if ( $mailValues["count"] > 0 ) {
+            $mail = $mailValues[0];
+            break;
+        }
     }
 }
 
