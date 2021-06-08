@@ -651,18 +651,20 @@ function send_http($httpoptions, $body, $data) {
 
     $url = $httpoptions['address'];
     if (isset($httpoptions['params']) and $httpoptions['params'] !== false and sizeof($httpoptions['params']) > 0) {
-        if (substr($url, -1) !== '/') {
-            $url .= "/";
-        }
         foreach ($httpoptions['params'] as $key => $value) {
-            $httpoptions['params'][$key] = str_replace('{data}', urlencode($body), $value);
+            $httpoptions['params'][$key] = str_replace('{data}', $body, $value);
         }
         foreach ($data as $key => $value) {
             foreach ($httpoptions['params'] as $key2 => $value2) {
-                $httpoptions['params'][$key2] = str_replace('{'.$key.'}', urlencode($value), $value2);
+                $httpoptions['params'][$key2] = str_replace('{'.$key.'}', $value, $value2);
             }
         }
         //var_dump($httpoptions['params']);
+        $separator = '?';
+        foreach ($httpoptions['params'] as $key => $value) {
+            $url .= $separator . urlencode($key) . '='  . urlencode($value);
+            $separator = '&';
+        }
         $url .= '?'.implode($httpoptions['params'], '&');
     }
     if (isset($httpoptions['notlsverify']) && $httpoptions['notlsverify'] !== false) {
