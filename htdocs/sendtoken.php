@@ -118,53 +118,53 @@ if ( $result === "" ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
-
-    # Compare mail values
-    $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-    unset($mailValues["count"]);
-    $match = 0;
-
-    if (!$mail_address_use_ldap) {
-        # Match with user submitted values
-        foreach ($mailValues as $mailValue) {
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                $mailValue = str_ireplace("smtp:", "", $mailValue);
-            }
-            if (strcasecmp($mail, $mailValue) == 0) {
-                $match = 1;
-                break;
+        # Compare mail values
+        for ($match = false, $i = 0; $i < sizeof($mail_attributes) and ! $match; $i++) {
+            $mail_attribute = $mail_attributes[$i];
+            $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+            unset($mailValues["count"]);
+            if (! $mail_address_use_ldap) {
+                # Match with user submitted values
+                foreach ($mailValues as $mailValue) {
+                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                        $mailValue = str_ireplace("smtp:", "", $mailValue);
+                    }
+                    if (strcasecmp($mail, $mailValue) == 0) {
+                        $match = true;
+                        break;
+                    }
+                }
+            } else {
+                # Use first available mail adress in ldap
+                if (count($mailValues) > 0) {
+                    $mailValue = $mailValues[0];
+                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                        $mailValue = str_ireplace("smtp:", "", $mailValue);
+                    }
+                    $mail = $mailValue;
+                    $match = true;
+                }
             }
         }
-    } else {
-        # Use first available mail adress in ldap
-        if(count($mailValues) > 0) {
-            $mailValue = $mailValues[0];
-            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                $mailValue = str_ireplace("smtp:", "", $mailValue);
+
+        if (! $match) {
+            if (! $mail_address_use_ldap) {
+                $result = "mailnomatch";
+                error_log("Mail $mail does not match for user $login");
+            } else {
+                $result = "mailnomatch";
+                error_log("Mail not found for user $login");
             }
-            $mail = $mailValue;
-            $match = true;
+        }
+        if ($use_ratelimit) {
+            if (! allowed_rate($login, $_SERVER[$client_ip_header], $rrl_config)) {
+                $result = "throttle";
+                error_log("Mail - User $login too fast");
+            }
         }
     }
 
-    if (!$match) {
-        if (!$mail_address_use_ldap) {
-            $result = "mailnomatch";
-            error_log("Mail $mail does not match for user $login");
-        } else {
-            $result = "mailnomatch";
-            error_log("Mail not found for user $login");
-        }
-    }
-    if ( $use_ratelimit ) {
-        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
-            $result = "throttle";
-            error_log("Mail - User $login too fast");
-        }
-    }
-
-
-}}}}}
+}}}}
 
 #==============================================================================
 # Build and store token

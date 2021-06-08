@@ -115,14 +115,21 @@ if ( $result === "" ) {
                 } else {
 
                     # Get user email for notification
-                    if ( $mail_notify_on_sshkey_change ) {
-                        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-                        if ( $mailValues["count"] > 0 ) {
-                            $mail = $mailValues[0];
+                    if ($mail_notify_on_sshkey_change) {
+                        for ($i = 0; $i < sizeof($mail_attributes); $i++) {
+                            $mailValues = ldap_get_values($ldap, $entry, $mail_attributes[$i]);
+                            if ($mailValues["count"] > 0) {
+                                if (strcasecmp($mail_attributes[$i], "proxyAddresses") == 0) {
+                                    $mail = str_ireplace("smtp:", "", $mailValues[0]);
+                                } else {
+                                    $mail = $mailValues[0];
+                                }
+                                break;
+                            }
                         }
                     }
 
-                    # Bind with old password
+                    # Confirm user credentials are valid
                     $bind = ldap_bind($ldap, $userdn, $password);
                     if ( !$bind ) {
                         $result = "badcredentials";
@@ -152,12 +159,12 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Notify password change
+# Notify SSH Key change
 #==============================================================================
 if ($result === "sshkeychanged") {
     if ($mail and $mail_notify_on_sshkey_change) {
         $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data) ) {
+        if (! send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data)) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }

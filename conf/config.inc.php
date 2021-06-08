@@ -233,7 +233,7 @@ $token_lifetime = "3600";
 
 ## Mail
 # LDAP mail attribute
-$mail_attribute = "mail";
+$mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" );
 # Get mail address directly from LDAP (only first mail entry)
 # and hide mail input field
 # default = false

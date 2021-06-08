@@ -148,10 +148,17 @@ if ( $result === "" ) {
                 }
 
                 # Get user email for notification
-                if ( $mail_notify_on_change ) {
-                    $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-                    if ( $mailValues["count"] > 0 ) {
-                        $mail = $mailValues[0];
+                if ($mail_notify_on_change) {
+                    for ($i = 0; $i < sizeof($mail_attributes); $i++) {
+                        $mailValues = ldap_get_values($ldap, $entry, $mail_attributes[$i]);
+                        if ($mailValues["count"] > 0) {
+                            if (strcasecmp($mail_attributes[$i], "proxyAddresses") == 0) {
+                                $mail = str_ireplace("smtp:", "", $mailValues[0]);
+                            } else {
+                                $mail = $mailValues[0];
+                            }
+                            break;
+                        }
                     }
                 }
             }
@@ -204,7 +211,7 @@ if ( $result === "passwordchanged" ) {
 if ($result === "passwordchanged") {
     if ($mail and $mail_notify_on_change) {
         $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+        if (! send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data)) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }

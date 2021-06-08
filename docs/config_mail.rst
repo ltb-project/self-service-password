@@ -6,11 +6,11 @@ Mail
 LDAP Attribute
 --------------
 
-Set the LDAP attribute where user email is stored:
+Set the LDAP attributes where user email may be stored:
 
 .. code:: php
 
-   $mail_attribute = "mail";
+   $mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" );
 
 .. tip:: Only the first value of this attribute will be used to get the
   mail address.
