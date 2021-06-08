@@ -665,7 +665,6 @@ function send_http($httpoptions, $body, $data) {
             $url .= $separator . urlencode($key) . '='  . urlencode($value);
             $separator = '&';
         }
-        $url .= '?'.implode($httpoptions['params'], '&');
     }
     if (isset($httpoptions['notlsverify']) && $httpoptions['notlsverify'] !== false) {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
