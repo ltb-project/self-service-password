@@ -74,3 +74,22 @@ Then you can enable it in configuration:
    $ovh_consumerkey="CCC";
    $ovh_smssender="MYSENDER";
 
+Signal
+------
+
+Provider website: https://www.signal.org
+
+This provider uses the instant messanger signal to send tokens.
+
+Install signal-cli:
+https://github.com/AsamK/signal-cli
+
+You've to configure / register signal-cli:
+https://github.com/AsamK/signal-cli#readme
+
+.. code:: php
+
+   $sms_api_lib = "lib/smsapi-signal-cli.inc.php";
+   $signal_user = '+18881234567';
+   $signal_config = '<path to signal-cli config folder>';
+   $signal_cli = '<path to signal-cli binaray>';
