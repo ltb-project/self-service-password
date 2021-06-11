@@ -39,7 +39,7 @@ function send_sms_by_api($mobile, $message) {
       return 0;
     }
 
-    $command = escapeshellcmd($signal_cli).' -u '.escapeshellarg($signal_user).' --config '.escapeshellarg($signal_config).' send -m '.escapeshellcmd($message).' '.escapeshellarg($mobile);
+    $command = escapeshellcmd($signal_cli).' -u '.escapeshellarg($signal_user).' --config '.escapeshellarg($signal_config).' send -m '.escapeshellarg($message).' '.escapeshellarg($mobile);
 
     $v = '';
     $o = '';
