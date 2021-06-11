@@ -39,10 +39,11 @@ function send_sms_by_api($mobile, $message) {
       return 0;
     }
 
-    $cmd = $signal_cli . " -u \"" . $signal_user . "\" send -m " . "\"" . $message . "\" \"" . $mobile . "\"";
-    $r = '';
+    $command = escapeshellcmd($signal_cli).' -u '.escapeshellarg($signal_user).' --config '.escapeshellarg($signal_config).' send -m '.escapeshellcmd($message).' '.escapeshellarg($mobile);
+
+    $v = '';
     $o = '';
-    exec($cmd, $o, $v);
+    exec($command, $o, $v);
 
     if ($v !== 0) {
         error_log('Error sending message: ' . $o);
