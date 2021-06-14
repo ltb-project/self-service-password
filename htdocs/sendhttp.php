@@ -115,32 +115,35 @@ if ( $result === "" ) {
                 $entry = ldap_first_entry($ldap, $search);
                 $userdn = ldap_get_dn($ldap, $entry);
 
-                if( !$userdn ) {
+                if (! $userdn) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
                 } else {
 
                     # Compare mail values
-                    $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-                    unset($mailValues["count"]);
-                    $match = 0;
+                    $match = false;
+                    for ($i = 0; $match != true && $i < sizeof($mail_attributes); $i++) {
+                        $mail_attribute = $mail_attributes[0];
+                        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+                        unset($mailValues["count"]);
 
-                    # Match with user submitted values
-                    foreach ($mailValues as $mailValue) {
-                        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                            $mailValue = str_ireplace("smtp:", "", $mailValue);
-                        }
-                        if (strcasecmp($usermail, $mailValue) == 0) {
-                            $match = 1;
-                            break;
+                        # Match with user submitted values
+                        foreach ($mailValues as $mailValue) {
+                            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                                $mailValue = str_ireplace("smtp:", "", $mailValue);
+                            }
+                            if (strcasecmp($usermail, $mailValue) == 0) {
+                                $match = true;
+                                break;
+                            }
                         }
                     }
 
-                    if (!$match) {
+                    if (! $match) {
                         $result = "mailnomatch";
                         error_log("Mail $mail does not match for user $login");
                     }
-                    if ( $use_ratelimit ) {
+                    if ($use_ratelimit) {
                         if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
                             $result = "throttle";
                             error_log("Mail - User $login too fast");
