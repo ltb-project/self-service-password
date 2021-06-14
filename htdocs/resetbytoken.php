@@ -224,7 +224,7 @@ if ($result === "passwordchanged") {
                 "method"  => $http_notifications_method,
                 "params"  => $http_notifications_params
             );
-        if (! send_http($httpoptions, $messages["changesshkeymessage"], $data)) {
+        if (! send_http($httpoptions, $messages["changemessage"], $data)) {
             error_log("Error while sending change http notification to $http_notifications_address (user $login)");
         }
     }
