@@ -220,7 +220,7 @@ Other possible options for rate limiting:
    $ratelimit_dbdir = '/tmp';
    $max_attempts_per_user = 2;
    $max_attempts_per_ip = 2;
-   $max_attempts_block_seconds = "60";
+   $max_attempts_block_seconds = "3600";
    $client_ip_header = 'REMOTE_ADDR';
 
 Default action

@@ -99,7 +99,7 @@ $max_attempts_per_user = 2;
 # block attempts for same IP ?
 $max_attempts_per_ip = 2;
 # how many time to refuse subsequent requests ?
-$max_attempts_block_seconds = "60";
+$max_attempts_block_seconds = "3600";
 # Header to use for client IP (HTTP_X_FORWARDED_FOR ?)
 $client_ip_header = 'REMOTE_ADDR';
 
