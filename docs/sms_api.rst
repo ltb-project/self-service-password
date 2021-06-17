@@ -57,7 +57,7 @@ Code sample provided in SSP sources:
 https://raw.githubusercontent.com/ltb-project/self-service-password/master/lib/smsapi-ovh.inc.php
 
 Get credentials here:
-https://api.ovh.com/createToken/index.cgi?GET=/sms&GET=/sms/*&PUT=/sms/*&DELETE=/sms/*&POST=/sms/*
+`<https://api.ovh.com/createToken/index.cgi?GET=/sms&GET=/sms/*&PUT=/sms/*&DELETE=/sms/*&POST=/sms/*>`_
 
 Go to lib/ovhsms and type:
 
