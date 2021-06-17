@@ -59,9 +59,10 @@ https://raw.githubusercontent.com/ltb-project/self-service-password/master/lib/s
 Get credentials here:
 https://api.ovh.com/createToken/index.cgi?GET=/sms&GET=/sms/*&PUT=/sms/*&DELETE=/sms/*&POST=/sms/*
 
-Go to lib/ovhsms and type
+Go to lib/ovhsms and type:
 
 .. code:: sh
+
    composer install
 
 Then you can enable it in configuration:
