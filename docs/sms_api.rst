@@ -62,6 +62,7 @@ https://api.ovh.com/createToken/index.cgi?GET=/sms&GET=/sms/*&PUT=/sms/*&DELETE=
 Go to lib/ovhsms and type
 
 .. code:: sh
+
    composer install
 
 Then you can enable it in configuration:
