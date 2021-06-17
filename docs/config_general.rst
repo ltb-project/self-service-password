@@ -207,7 +207,7 @@ displayed and replaced by a generic "bad credentials" error:
 
 You may want to limit number of tries per user/ip in a short time 
 (especially with sms option). If you enable this defaults are 2 tries
-per login and per hour, and same for ip address:
+per login and per minute, and same for ip address:
 
 .. code:: php
 
