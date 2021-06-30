@@ -96,6 +96,13 @@ Set one of them in ``$lang``:
 
    $lang = "en";
 
+Language is picked according to browser choice among the available ones. All languages 
+are allowed by default, to restrict them add ``$allowed_lang`` array:
+
+.. code:: php
+
+   $allowed_lang = array("en");
+
 Menu
 ----
 
