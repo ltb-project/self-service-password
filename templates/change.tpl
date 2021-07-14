@@ -15,7 +15,7 @@
         {if $msg_changehelpextramessage}
             <p>{$msg_changehelpextramessage}</p>
         {/if}
-        {if !$show_menu and ($use_question or $use_tokens or $use_sms or $change_sshkey) }
+        {if !$show_menu and ($use_question or $use_tokens or $use_httpreset or $use_sms or $change_sshkey) }
             <p>{$msg_changehelpextramessage}</p>
             <ul>
                 {if $use_questions}
@@ -23,6 +23,9 @@
                 {/if}
                 {if $use_tokens}
                     <li>{$mgs_use_tokens}</li>
+                {/if}
+                {if $use_httpreset}
+                    <li>{$mgs_use_httpreset}</li>
                 {/if}
                 {if $use_sms}
                     <li>{$mgs_use_sms}</li>

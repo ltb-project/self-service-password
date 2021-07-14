@@ -30,11 +30,11 @@ Change password notification
 ----------------------------
 
 Use this option to send a confirmation mail to the user, just after a
-successful mail change:
+successful password change:
 
 .. code:: php
 
-   $notify_on_change = true;
+   $mail_notify_on_change = true;
 
 PHPMailer
 ---------

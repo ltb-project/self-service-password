@@ -181,7 +181,9 @@ $who_change_sshkey = "user";
 
 # Notify users anytime their sshPublicKey is changed
 ## Requires mail configuration below
-$notify_on_sshkey_change = false;
+$mail_notify_on_sshkey_change = false;
+## Or HTTP notifications configuration
+$http_notify_on_sshkey_change = false;
 
 ## Questions/answers
 # Use questions/answers?
@@ -241,7 +243,22 @@ $mail_from = "admin@example.com";
 $mail_from_name = "Self Service Password";
 $mail_signature = "";
 # Notify users anytime their password is changed
-$notify_on_change = false;
+$mail_notify_on_change = false;
+
+# HTTP notifications settings / Disable them
+$http_notifications_address = false;
+$http_notifications_body = false;
+$http_notifications_headers = array();
+$http_notifications_method = 'POST';
+$http_notifications_params = array();
+# Use http notifications confirming password changes
+$http_notify_on_change = false;
+# Use http notifications submitting password resets
+$use_httpreset = false;
+# TODO/maybe: use an alternate attribute submitting HTTP notifications?
+# $http_notifications_login_attribute = "uid";
+# $http_notifications_ldap_filter = "(&(objectClass=person)($http_notifications_ldap_login_attribute={login}))";
+
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
 $mail_sendmailpath = '/usr/sbin/sendmail';
 $mail_protocol = 'smtp';
@@ -288,7 +305,7 @@ $sms_token_length = 6;
 # Max attempts allowed for SMS token
 $max_attempts = 3;
 
-# Encryption, decryption keyphrase, required if $use_tokens = true and $crypt_tokens = true, or $use_sms, or $crypt_answer
+# Encryption, decryption keyphrase, required if $use_tokens = true and $crypt_tokens = true, or $use_http = true and $crypt_tokens = true, or $use_sms, or $crypt_answer
 # Please change it to anything long, random and complicated, you do not have to remember it
 # Changing it will also invalidate all previous tokens and SMS codes
 $keyphrase = "secret";
@@ -411,4 +428,12 @@ if (isset($header_name_extra_config)) {
             require  __DIR__ . "/config.inc.".$extraConfig.".php";
         }
     }
+}
+
+# Legacy configuration options support / translation
+if (isset($notify_on_change)) {
+    $mail_notify_on_change = $notify_on_change;
+}
+if (isset($notify_on_sshkey_change)) {
+    $mail_notify_on_sshkey_change = $notify_on_sshkey_change;
 }

@@ -19,7 +19,7 @@
 #
 #==============================================================================
 
-# This page is called to send a reset token by mail
+# This page is called to send a reset token by http
 
 #==============================================================================
 # POST parameters
@@ -27,32 +27,33 @@
 # Initiate vars
 $result = "";
 $login = $presetLogin;
-$mail = "";
 $ldap = "";
 $userdn = "";
 $token = "";
 $usermail = "";
 $captchaphrase = "";
 
-if (!$mail_address_use_ldap) {
+if (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
+    $login = strval($_REQUEST["login"]);
     if (isset($_POST["mail"]) and $_POST["mail"]) {
-        $mail = strval($_POST["mail"]);
         $usermail = strval($_POST["mail"]);
-    } elseif (isset($_GET["usermail"]) and $_GET["usermail"]) {
-        $usermail = strval($_GET["usermail"]);
-        $result = "checkdatabeforesubmit";
+    } else if (isset($_REQUEST["usermail"]) and $_REQUEST["usermail"]) {
+        $usermail = strval($_REQUEST["usermail"]);
     } else {
         $result = "mailrequired";
     }
+} else {
+    $result = "emptysendhttpform";
 }
 if ($use_captcha) {
-    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-    else { $result = "captcharequired"; }
+    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) {
+        $captchaphrase = strval($_POST["captchaphrase"]);
+    } else {
+        $result = "captcharequired";
+    }
 }
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
-else { $result = "loginrequired"; }
-if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) {
-    $result = "emptysendtokenform";
+if (strncmp($http_notifications_address, 'http', 4) !== 0) {
+    $result = "httpnotificationmissingconfiguration";
 }
 
 # Check the entered username for characters that our installation doesn't support
@@ -85,86 +86,74 @@ if ( $result === "" ) {
         error_log("LDAP - Unable to use StartTLS");
     } else {
 
-    # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    } else {
-        $bind = ldap_bind($ldap);
-    }
-
-    if ( !$bind ) {
-        $result = "ldaperror";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-            error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+        # Bind
+        if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        } else {
+            $bind = ldap_bind($ldap);
         }
-    } else {
 
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+        if ( !$bind ) {
+            $result = "ldaperror";
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+            }
+        } else {
 
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-    } else {
+            # Search for user
+            $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+            $search = ldap_search($ldap, $ldap_base, $ldap_filter);
 
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "ldaperror";
+                error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+            } else {
 
-    if( !$userdn ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    } else {
-        # Compare mail values
-        for ($match = false, $i = 0; $i < sizeof($mail_attributes) and ! $match; $i++) {
-            $mail_attribute = $mail_attributes[$i];
-            $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-            unset($mailValues["count"]);
-            if (! $mail_address_use_ldap) {
-                # Match with user submitted values
-                foreach ($mailValues as $mailValue) {
-                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                        $mailValue = str_ireplace("smtp:", "", $mailValue);
+                # Get user DN
+                $entry = ldap_first_entry($ldap, $search);
+                $userdn = ldap_get_dn($ldap, $entry);
+
+                if (! $userdn) {
+                    $result = "badcredentials";
+                    error_log("LDAP - User $login not found");
+                } else {
+
+                    # Compare mail values
+                    $match = false;
+                    for ($i = 0; $match != true && $i < sizeof($mail_attributes); $i++) {
+                        $mail_attribute = $mail_attributes[0];
+                        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+                        unset($mailValues["count"]);
+
+                        # Match with user submitted values
+                        foreach ($mailValues as $mailValue) {
+                            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                                $mailValue = str_ireplace("smtp:", "", $mailValue);
+                            }
+                            if (strcasecmp($usermail, $mailValue) == 0) {
+                                $match = true;
+                                break;
+                            }
+                        }
                     }
-                    if (strcasecmp($mail, $mailValue) == 0) {
-                        $match = true;
-                        break;
+
+                    if (! $match) {
+                        $result = "mailnomatch";
+                        error_log("Mail $mail does not match for user $login");
+                    }
+                    if ($use_ratelimit) {
+                        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+                            $result = "throttle";
+                            error_log("Mail - User $login too fast");
+                        }
                     }
                 }
-            } else {
-                # Use first available mail adress in ldap
-                if (count($mailValues) > 0) {
-                    $mailValue = $mailValues[0];
-                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                        $mailValue = str_ireplace("smtp:", "", $mailValue);
-                    }
-                    $mail = $mailValue;
-                    $match = true;
-                }
-            }
-        }
-
-        if (! $match) {
-            if (! $mail_address_use_ldap) {
-                $result = "mailnomatch";
-                error_log("Mail $mail does not match for user $login");
-            } else {
-                $result = "mailnomatch";
-                error_log("Mail not found for user $login");
-            }
-        }
-        if ($use_ratelimit) {
-            if (! allowed_rate($login, $_SERVER[$client_ip_header], $rrl_config)) {
-                $result = "throttle";
-                error_log("Mail - User $login too fast");
             }
         }
     }
-
-}}}}
+}
 
 #==============================================================================
 # Build and store token
@@ -190,7 +179,7 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Send token by mail
+# Send token by http
 #==============================================================================
 if ( $result === "" ) {
 
@@ -213,7 +202,7 @@ if ( $result === "" ) {
         $reset_url = $method."://".$server_name.$script_name;
     }
 
-    $reset_url .= "?action=resetbytoken&token=".urlencode($token);
+    $reset_url .= "?action=resetbytoken&source=http&token=".urlencode($token);
 
     if ( !empty($reset_request_log) ) {
         error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN") . "\n\n", 3, $reset_request_log);
@@ -221,13 +210,20 @@ if ( $result === "" ) {
         error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN"));
     }
 
-    $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+    $data = array( "login" => $login, "mail" => $usermail, "url" => $reset_url ) ;
+    $httpoptions = array(
+            "address" => $http_notifications_address,
+            "body"    => $http_notifications_body,
+            "headers" => $http_notifications_headers,
+            "method"  => $http_notifications_method,
+            "params"  => $http_notifications_params
+        );
 
-    # Send message
-    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
-        $result = "tokensent";
+    # Send notification
+    if ( send_http($httpoptions, $messages["resetmessage"], $data) ) {
+        $result = "httpsent";
     } else {
-        $result = "tokennotsent";
-        error_log("Error while sending token to $mail (user $login)");
+        $result = "httpnotsent";
+        error_log("Error while sending token to $login");
     }
 }

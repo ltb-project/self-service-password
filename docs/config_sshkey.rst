@@ -47,11 +47,16 @@ If you want the LDAP manager account to edit that attribute, we may instead set 
     $who_change_sshkey = "manager"
 
 SSH Public Key changes notification
-----------------------------------
+-----------------------------------
 
-Use this option to send a confirmation mail to the user, just after a
-successful mail change:
+Use this option to send a confirmation mail to the user, just after a successful SSH Public Key change - see <config_mail.html#phpmailer> setting up PHPMailer:
 
 .. code:: php
 
-   $notify_on_sshkey_change = true;
+   $mail_notify_on_sshkey_change = true;
+
+Or that one, to send HTTP notifications instead - see :ref:`config_httpnotifications` integrating with some third-party web service:
+
+.. code:: php
+
+   $http_notify_on_sshkey_change = true;

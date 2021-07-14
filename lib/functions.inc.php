@@ -144,7 +144,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|httpnotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|missingconfiguration|throttle/" , $msg ) ) {
     return "danger";
     }
 
@@ -629,6 +629,119 @@ if(!function_exists('str_putcsv'))
     }
 }
 
+
+/* @function boolean send_http(array $httpoptions, string $body, array $data)
+ * Send an http notification, replace strings in body
+ * @param httpoptions Array of Options - headers, body, params, method, address
+ * @param body Notification message
+ * @param data Data for string replacement
+ * @return result
+ */
+function send_http($httpoptions, $body, $data) {
+    $ch = curl_init();
+    $result = false;
+
+    if (! isset($httpoptions['address'])
+            or $httpoptions['address'] === false
+            or strncmp($httpoptions['address'], 'http', 4) !== 0
+            or ! isset($httpoptions['method'])
+            or array_search($httpoptions['method'], [ 'GET', 'POST', 'PUT' ]) === false) {
+        return $result;
+    }
+
+    $url = $httpoptions['address'];
+    if (isset($httpoptions['params']) and $httpoptions['params'] !== false and sizeof($httpoptions['params']) > 0) {
+        foreach ($httpoptions['params'] as $key => $value) {
+            $httpoptions['params'][$key] = str_replace('{data}', $body, $value);
+        }
+        foreach ($data as $key => $value) {
+            foreach ($httpoptions['params'] as $key2 => $value2) {
+                $httpoptions['params'][$key2] = str_replace('{'.$key.'}', $value, $value2);
+            }
+        }
+        //var_dump($httpoptions['params']);
+        $separator = '?';
+        foreach ($httpoptions['params'] as $key => $value) {
+            $url .= $separator . urlencode($key) . '='  . urlencode($value);
+            $separator = '&';
+        }
+    }
+    if (isset($httpoptions['notlsverify']) && $httpoptions['notlsverify'] !== false) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    if ($httpoptions['method'] === 'GET') {
+        if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false and sizeof($httpoptions['headers']) > 0) {
+            $httpoptions['headers']['method'] = 'GET';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
+        } else {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'method' => 'GET' ]);
+        }
+    } else {
+        if ($httpoptions['method'] === 'PUT') {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        } else {
+            curl_setopt($ch, CURLOPT_POST, 1);
+        }
+
+        if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
+            foreach ($httpoptions['body'] as $key => $value) {
+                $httpoptions['body'][$key] = str_replace('{data}', $body, $value);
+            }
+            foreach ($data as $key => $value) {
+                foreach ($httpoptions['body'] as $key2 => $value2) {
+                    $httpoptions['body'][$key2] = str_replace('{'.$key.'}', $value, $value2);
+                }
+            }
+            //var_dump($httpoptions['body']);
+        }
+
+        if (isset($httpoptions['headers']) and $httpoptions['headers'] !== false and sizeof($httpoptions['headers']) > 0) {
+            $content_type = false;
+            for ($i = 0; $i < sizeof($httpoptions['headers']); $i++) {
+                if (strncasecmp($httpoptions['headers'][$i], 'Content-Type:', 13) === 0) {
+                    $content_type = explode(' ', $httpoptions['headers'][$i])[1];
+                    break;
+                }
+            }
+            if (! $content_type) {
+                $content_type = 'application/x-www-form-urlencoded';
+            }
+            //var_dump($httpoptions['headers']);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpoptions['headers']);
+        } else {
+            $content_type = 'application/x-www-form-urlencoded';
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [ "Content-Type: $content_type" ]);
+        }
+        if (isset($httpoptions['body']) and $httpoptions['body'] !== false) {
+            if (strcasecmp($content_type, 'application/x-www-form-urlencoded') === 0) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($httpoptions['body']));
+            } else {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($httpoptions['body']));
+            }
+        }
+    }
+
+    $response = curl_exec($ch);
+    if (curl_errno($ch) !== 0) {
+        $errorMsg = curl_error($ch);
+        error_log("send_http: ".$errorMsg);
+    } else {
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpcode >= 400) {
+            error_log("send_http returned code: $httpcode, response: ".$response);
+        } else {
+            $result = true;
+        }
+    }
+    curl_close ($ch);
+
+    return $result;
+}
 
 /* @function boolean send_mail(PHPMailer $mailer, string $mail, string $mail_from, string $subject, string $body, array $data)
  * Send a mail, replace strings in body
