@@ -33,20 +33,6 @@
 # false: log only errors and do not display them (use this in production)
 $debug = false;
 
-# LDAP
-$ldap_url = "ldap://localhost";
-$ldap_starttls = false;
-$ldap_binddn = "cn=manager,dc=example,dc=com";
-$ldap_bindpw = 'secret';
-// for GSSAPI authentication, comment out ldap_bind* and uncomment ldap_krb5ccname lines
-//$ldap_krb5ccname = "/path/to/krb5cc";
-$ldap_base = "dc=example,dc=com";
-$ldap_login_attribute = "uid";
-$ldap_fullname_attribute = "cn";
-$ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
-$ldap_use_exop_passwd = false;
-$ldap_use_ppolicy_control = false;
-
 # Active Directory mode
 # true: use unicodePwd as password field
 # false: LDAPv3 standard behavior
@@ -57,6 +43,28 @@ $ad_options['force_unlock'] = false;
 $ad_options['force_pwd_change'] = false;
 # Allow user with expired password to change password
 $ad_options['change_expired_password'] = false;
+# Set AD attribute for username on emails using sendtoken
+# example: $email_field = "displayName" or $email_field = "CN"
+$email_field = "displayName"
+
+# LDAP
+$ldap_url = "ldap://localhost";
+$ldap_starttls = false;
+$ldap_binddn = "cn=manager,dc=example,dc=com";
+$ldap_bindpw = 'secret';
+// for GSSAPI authentication, comment out ldap_bind* and uncomment ldap_krb5ccname lines
+//$ldap_krb5ccname = "/path/to/krb5cc";
+$ldap_base = "dc=example,dc=com";
+$ldap_login_attribute = "uid";
+$ldap_fullname_attribute = "cn";
+# Check and Set options for ad_mode
+if ( !empty($ad_mode) ) {
+    $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
+} else {
+    $ldap_filter = "(&(objectClass=user)(sAMAccountName={login})(!(userAccountControl:1.2.840.113556.1.4.803:=2)))";
+}
+$ldap_use_exop_passwd = false;
+$ldap_use_ppolicy_control = false;
 
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
@@ -193,8 +201,14 @@ $multiple_answers = false;
 $multiple_answers_one_str = false;
 
 # Answer attribute should be hidden to users!
-$answer_objectClass = "extensibleObject";
-$answer_attribute = "info";
+# Check and Set options for ad_mode
+if ( !empty($ad_mode) ) {
+    $answer_objectClass = "extensibleObject";
+    $answer_attribute = "info";
+} else {
+    $answer_objectClass = "user";
+    $answer_attribute = "comment";
+}
 
 # Crypt answers inside the directory
 $crypt_answers = true;

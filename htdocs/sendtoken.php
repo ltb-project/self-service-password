@@ -133,14 +133,21 @@ if ( $result === "" ) {
                     }
                 }
             } else {
-                # Use first available mail adress in ldap
-                if (count($mailValues) > 0) {
-                    $mailValue = $mailValues[0];
-                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                        $mailValue = str_ireplace("smtp:", "", $mailValue);
+                # Check if AD_Mode is not used
+                if ( !empty($ad_mode) ) {
+                    # Use first available mail adress in ldap
+                    if (count($mailValues) > 0) {
+                        $mailValue = $mailValues[0];
+                            if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                            $mailValue = str_ireplace("smtp:", "", $mailValue);
+                            }
+                        $mail = $mailValue;
+                        $match = true;
                     }
-                    $mail = $mailValue;
-                    $match = true;
+                } else {
+                    # Retreive Username for AD
+                    #Set Username Varible for E-Mail
+                    $email_name = reset(ldap_get_values($ldap, $entry, $email_field));
                 }
             }
         }
@@ -219,7 +226,13 @@ if ( $result === "" ) {
         error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN"));
     }
 
-    $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+    # Send $Username as "login" if in AD_Mode
+    if ( !empty($ad_mode) ) {
+        $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+    } else {
+        $data = array( "login" => $email_name , "mail" => $mail, "url" => $reset_url ) ;
+    }
+    
 
     # Send message
     if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
