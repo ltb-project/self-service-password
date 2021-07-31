@@ -136,6 +136,7 @@ $messages['pwned'] = "La password scelta non è sicura in quanto pubblicata da p
 $messages['policypwned'] = "La password non deve essere stata precedentemente pubblicata in intrusioni informatiche internazionali";
 $messages['throttle'] = "Troppo veloce! Per favore ritenta fra poco (se sei un essere umano)";
 $messages['policydiffminchars'] = "Numero minimo di nuovi caratteri unici:";
+$messages['diffminchars'] = "La nuova password è troppo simile a quella vecchia";
 $messages['changesshkeyhelp'] = "Inserire la password e la nuova chiave SSH.";
 $messages['specialatends'] = "La nuova password ha il suo unico carattere speciale all'inizio o alla fine";
 $messages['policyspecialatends'] = "La nuova password non può aveere il suo unico carattere speciale all'inizio o alla fine";
