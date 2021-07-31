@@ -4,16 +4,12 @@ os:
   - linux
 
 matrix:
-  include:
-  - dist: bionic
-
-  - dist: focal
-
-  - dist: precise
-
-  - dist: trusty
-
-  - dist: xenial
+    include:
+        - dist: trusty
+        - dist: xenial
+        - dist: bionic
+        - dist: focal
+        - dist: precise
 
 php:
   - '5.4'
