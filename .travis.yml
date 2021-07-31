@@ -5,11 +5,20 @@ os:
 
 
 dist:
-  - Focal
-  - Bionic
-  - Xenial
-  - Trusty
-  - Precise
+  "Focal"
+  "Bionic"
+  "Xenial"
+  "Trusty"
+  "Precise"
+
+matrix:
+  include:
+  - dist: bionic
+  - dist: focal
+  - dist: precise
+  - dist: trusty
+  - dist: xenial
+
 
 php:
   - '5.4'
