@@ -1,0 +1,19 @@
+name: CI PHPUnit
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  run:
+    name: test on ${{ matrix.operating-system }} and ${{ matrix.php-versions}}
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-16.04', 'ubuntu-1804', 'ubuntu20.04']
+        php-versions: ['5.3', '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1' ]
+        
+    steps:
+    - uses: actions/checkout@v1
