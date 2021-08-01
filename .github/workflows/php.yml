@@ -20,6 +20,6 @@ jobs:
     
     - name: PHPUnit Tests
       uses: php/actions/phpunit@v2
-        wiht:
-          command: tests/
+      with:
+        command: tests/
     
