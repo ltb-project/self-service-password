@@ -105,15 +105,15 @@ jobs:
 
 before_install:
   # If PHP >= 7.0, force use of PHPUnit 5.7
+  - if {[version_compare($TRAVIS_PHP_VERSION, '5.4.0') >= 0) && version_compare($TRAVIS_PHP_VERSION, '5.6.0') <= 0)]};"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-4.phar && chmod +x ~/bin/phpunit; fi
+  - if {[version_compare($TRAVIS_PHP_VERSION, '5.6.0') >= 0) && version_compare($TRAVIS_PHP_VERSION, '7.0.0') <= 0)]};"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-5.phar && chmod +x ~/bin/phpunit; fi
+  - if {[version_compare($TRAVIS_PHP_VERSION, '7.0.0') >= 0) && version_compare($TRAVIS_PHP_VERSION, '7.1.0') <= 0)]};"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-6.phar && chmod +x ~/bin/phpunit; fi
+  - if {[version_compare($TRAVIS_PHP_VERSION, '7.1.0') >= 0) && version_compare($TRAVIS_PHP_VERSION, '7.2.0') <= 0)]};"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-7.phar && chmod +x ~/bin/phpunit; fi
+  - if {[version_compare($TRAVIS_PHP_VERSION, '7.2.0') >= 0) && version_compare($TRAVIS_PHP_VERSION, '7.3.0') <= 0)]};"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-8.phar && chmod +x ~/bin/phpunit; fi
+  - if [version_compare($TRAVIS_PHP_VERSION, '7.3.0') >= 0)];"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-9.phar && chmod +x ~/bin/phpunit; fi
 
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '5.4.0', '5.5.99 ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-4.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '5.6.0', '5.6.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-5.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.0.0', '7.0.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-6.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.1.0', '7.1.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-7.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.2.0', '7.2.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-8.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.3', '>=' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-9.phar && chmod +x ~/bin/phpunit; fi
-
-script: phpunit tests
+script: 
+ phpunit tests
 
 #notifications:
 #  irc: "irc.freenode.org#ltb-project"
