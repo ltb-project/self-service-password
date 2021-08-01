@@ -8,31 +8,31 @@ dist: focal
 jobs:
 
     include:
-        - dist: focal
-          php: '5.4'
-        - dist: focal
-          php: '5.5'
-        - dist: focal
-          php: '5.6'
-        - dist: focal
-          php: '7.0'
-        - dist: focal
-          php: '7.1'
-        - dist: focal
-          php: '7.2'
-        - dist: focal
-          php: '7.3'
+#        - dist: focal
+#          php: '5.4'
+#        - dist: focal
+#          php: '5.5'
+#        - dist: focal
+#          php: '5.6'
+#        - dist: focal
+#          php: '7.0'
+#        - dist: focal
+#          php: '7.1'
+#        - dist: focal
+#          php: '7.2'
+#        - dist: focal
+#          php: '7.3'
         - dist: focal
           php: '7.4'
         - dist: focal
           php: '8.0'
 
-        - dist: bionic
-          php: '5.4'
-        - dist: bionic
-          php: '5.5'
-        - dist: bionic
-          php: '5.6'
+#        - dist: bionic
+#          php: '5.4'
+#        - dist: bionic
+#          php: '5.5'
+#        - dist: bionic
+#          php: '5.6'
         - dist: bionic
           php: '7.0'
         - dist: bionic
@@ -46,10 +46,10 @@ jobs:
         - dist: bionic
           php: '8.0'
 
-        - dist: xenial
-          php: '5.4'
-        - dist: xenial
-          php: '5.5'
+#        - dist: xenial
+#          php: '5.4'
+#        - dist: xenial
+#          php: '5.5'
         - dist: xenial
           php: '5.6'
         - dist: xenial
@@ -98,19 +98,19 @@ jobs:
           php: '7.2'
         - dist: precise
           php: '7.3'
-        - dist: precise
-          php: '7.4'
-        - dist: precise
-          php: '8.0'
+#        - dist: precise
+#          php: '7.4'
+#        - dist: precise
+#          php: '8.0'
 
 before_install:
   # If PHP >= 7.0, force use of PHPUnit 5.7
 
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '5.4', '5.5' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-4.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '5.6', '5.6' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-5.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.0', '7.0' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-6.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.1', '7.1' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-7.phar && chmod +x ~/bin/phpunit; fi
-  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.2', '7.2' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-8.phar && chmod +x ~/bin/phpunit; fi
+  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '5.4.0', '5.5.99 ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-4.phar && chmod +x ~/bin/phpunit; fi
+  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '5.6.0', '5.6.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-5.phar && chmod +x ~/bin/phpunit; fi
+  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.0.0', '7.0.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-6.phar && chmod +x ~/bin/phpunit; fi
+  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.1.0', '7.1.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-7.phar && chmod +x ~/bin/phpunit; fi
+  - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.2.0', '7.2.99' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-8.phar && chmod +x ~/bin/phpunit; fi
   - if php -r "exit( (int)! version_compare( '$TRAVIS_PHP_VERSION', '7.3', '>=' ) );"; then mkdir -p ~/bin && wget -O ~/bin/phpunit https://phar.phpunit.de/phpunit-9.phar && chmod +x ~/bin/phpunit; fi
 
 script: phpunit tests
