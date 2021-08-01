@@ -8,7 +8,7 @@ on:
 
 jobs:
   run:
-    name: test on ${{ matrix.operating-system }} and ${{ matrix.php-versions}}
+    name: test on Ubunut version ${{ matrix.operating-system }} with PHP of ${{ matrix.php-versions}}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
@@ -20,4 +20,6 @@ jobs:
     
     - name: PHPUnit Tests
       uses: php/actions/phpunit@v2
+        wiht:
+          command: tests/
     
