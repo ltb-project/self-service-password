@@ -158,16 +158,17 @@ if ( $result === "" ) {
 
                 # Get user DN
                 $entry = ldap_first_entry($ldap, $search);
-                $userdn = ldap_get_dn($ldap, $entry);
+                if( $entry ) {
+                    $userdn = ldap_get_dn($ldap, $entry);
+                }
 
                 if( !$userdn ) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
+                } else {
+                    # Get sms values
+                    $smsValues = ldap_get_values($ldap, $entry, $sms_attribute);
                 }
-
-                # Get sms values
-                $smsValues = ldap_get_values($ldap, $entry, $sms_attribute);
-
                 # Check sms number
                 if ( $smsValues["count"] > 0 ) {
                     $sms = $smsValues[0];
