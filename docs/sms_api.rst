@@ -94,3 +94,29 @@ https://github.com/AsamK/signal-cli#readme
    $signal_user = '+18881234567';
    $signal_config = '<path to signal-cli config folder>';
    $signal_cli = '<path to signal-cli binaray>';
+
+Aliyun
+------
+
+Provider website: https://www.signal.org
+
+Code sample provided in SSP sources:
+https://raw.githubusercontent.com/ltb-project/self-service-password/master/lib/smsapi-aliyun.inc.php
+
+Go to lib/aliyun-dysms-php-sdk/api_demo and type:
+
+.. code:: sh
+
+   composer install
+
+Then you can enable it in configuration:
+
+.. code:: php
+
+   $sms_api_lib = "lib/aliyun-dysms-php-sdk/api_demo/SmsDemo.php";
+   $accessKeyId = "xxxxx";
+   $accessKeySecret = "xxxxxx";
+   $region = "xxxxx"
+   $endPointName = "xxxxx";
+   $request->setSignName("xxxxxx");
+   $request->setTemplateCode("xxxxxxx");
