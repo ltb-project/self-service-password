@@ -98,7 +98,7 @@ https://github.com/AsamK/signal-cli#readme
 Aliyun
 ------
 
-Provider website: https://www.signal.org
+Provider website: https://www.aliyun.com
 
 Code sample provided in SSP sources:
 https://raw.githubusercontent.com/ltb-project/self-service-password/master/lib/smsapi-aliyun.inc.php
