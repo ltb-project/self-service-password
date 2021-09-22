@@ -1,5 +1,5 @@
         <div class="form-group">
-            <div class="col-sm-4 text-right"><img src="captcha.php" alt="captcha" /></div>
+            <div class="col-sm-4 control-label captcha"><img src="captcha.php" alt="captcha" /></div>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-fw fa-check-circle"></i></span>
