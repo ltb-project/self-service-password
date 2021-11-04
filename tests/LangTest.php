@@ -1,6 +1,8 @@
 <?php
 
-class LangTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class LangTest extends TestCase
 {
     /**
      * Test language files for missing and excess translations
