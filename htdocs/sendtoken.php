@@ -47,12 +47,11 @@ if (!$mail_address_use_ldap) {
 }
 if ($use_captcha) {
     if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-     else { $result = "captcharequired"; }
+    else { $result = "captcharequired"; }
 }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
- else { $result = "loginrequired"; }
-if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
- { $result = "emptysendtokenform"; }
+else { $result = "loginrequired"; }
+if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) { $result = "emptysendtokenform"; }
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -63,7 +62,13 @@ if ( $result === "" ) {
 # Check captcha
 #==============================================================================
 if ( $result === "" && $use_captcha ) {
+    # Use PHP session to register token
+    # We do not generate cookie
+    ini_set("session.use_cookies",0);
+    ini_set("session.use_only_cookies",1);
+    session_name("token");
     session_start();
+
     if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
         $result = "badcaptcha";
     }
@@ -169,13 +174,14 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
 
-    # Use PHP session to register token
-    # We do not generate cookie
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
-
-    session_name("token");
-    session_start();
+    if ( ! $use_captcha ) {
+        # Use PHP session to register token
+        # We do not generate cookie
+        ini_set("session.use_cookies",0);
+        ini_set("session.use_only_cookies",1);
+        session_name("token");
+        session_start();
+    }
     $_SESSION['login'] = $login;
     $_SESSION['time']  = time();
 
