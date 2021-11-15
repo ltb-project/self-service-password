@@ -13,7 +13,7 @@
         <div class="result alert alert-warning">
         <p><i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changehelp}</p>
         {if $msg_changehelpextramessage}
-            <p>{$msg_changehelpextramessage}</p>
+            <p>{$msg_changehelpextramessage|unescape: "html" nofilter}</p>
         {/if}
         {if !$show_menu and ($use_question or $use_tokens or $use_sms or $change_sshkey) }
             <p>{$msg_changehelpextramessage}</p>
