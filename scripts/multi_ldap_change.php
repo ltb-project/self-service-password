@@ -36,7 +36,7 @@ foreach ($secondaries_ldap as $s_ldap) {
     $ldap = ldap_connect($s_ldap['ldap_url']);
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    if ( $s_ldap['ldap_starttls'] && !ldap_start_tls($ldap) ) {
+    if (!empty($s_ldap['ldap_starttls']) && !ldap_start_tls($ldap) ) {
         $result = "ldaperror";
         fwrite($log_file, "LDAP - Unable to use StartTLS");
     } else {

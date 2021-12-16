@@ -51,6 +51,7 @@ $ldap_use_ppolicy_control = false;
 # true: use unicodePwd as password field
 # false: LDAPv3 standard behavior
 $ad_mode = false;
+$ad_options=[];
 # Force account unlock when password is changed
 $ad_options['force_unlock'] = false;
 # Force user change password at next login
@@ -62,12 +63,14 @@ $ad_options['change_expired_password'] = false;
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
 # false: just update the password
 $samba_mode = false;
+$samba_options=[];
 # Set password min/max age in Samba attributes
 #$samba_options['min_age'] = 5;
 #$samba_options['max_age'] = 45;
 #$samba_options['expire_days'] = 90;
 
 # Shadow options - require shadowAccount objectClass
+$shadow_options=[];
 # Update shadowLastChange
 $shadow_options['update_shadowLastChange'] = false;
 $shadow_options['update_shadowExpire'] = false;
@@ -85,6 +88,7 @@ $shadow_options['shadow_expire_days'] = -1;
 # auto (will check the hash of current password)
 # This option is not used with ad_mode = true
 $hash = "clear";
+$hash_options=[];
 
 # Prefix to use for salt with CRYPT
 $hash_options['crypt_salt_prefix'] = "$6$";
