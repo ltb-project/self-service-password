@@ -15,6 +15,7 @@ RUN buildDeps=" \
         curl \
         libicu-dev \
         libldap2-dev \
+	libldap-common \
 	libgd3 \
 	libjpeg62-turbo \
 	libpng16-16 \
