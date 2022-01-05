@@ -151,17 +151,10 @@ if ( $result === "" ) {
 }
 
 #==============================================================================
-# Check for sshPublicKey objectClass
-#==============================================================================
-if ( $result === "") {
-    $result = check_sshkey_objectclass($ldap, $userdn, $required_sshkey_objectclass );
-}
-
-#==============================================================================
 # Change sshPublicKey
 #==============================================================================
 if ( $result === "" ) {
-    $result = change_sshkey($ldap, $userdn, $change_sshkey_attribute, $sshkey);
+    $result = change_sshkey($ldap, $userdn, $change_sshkey_objectClass, $change_sshkey_attribute, $sshkey);
 }
 
 #==============================================================================

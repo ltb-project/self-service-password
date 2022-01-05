@@ -174,8 +174,8 @@ $change_sshkey = false;
 # What attribute should be changed by the changesshkey action?
 $change_sshkey_attribute = "sshPublicKey";
 
-# which objectClass is required for that attribute
-$required_sshkey_objectclass = "";
+# What objectClass is required for that attribute?
+$change_sshkey_objectClass = "";
 
 # Ensure the SSH Key submitted uses a type we trust
 $ssh_valid_key_types = array('ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519');
