@@ -556,6 +556,38 @@ function check_sshkey ( $sshkey, $valid_types ) {
     return true;
 }
 
+# Check for sshPublicKey objectClass
+# @return result code
+function check_sshkey_objectclass( $ldap, $dn, $required_class ) {
+
+    $result = "";
+
+    if ($required_class === "") return $result;
+
+    # search for required objectClass
+    $search = ldap_read( $ldap, $dn, "(objectClass=$required_class)", array("objectClass") );
+    $errno = ldap_errno($ldap);
+    if ( $errno ) {
+        $result = "ldaperror";
+        error_log( "LDAP - Search error $errno  (".ldap_error($ldap).")");
+    } else {
+        # add required objectClass, if not found
+        $entry = ldap_first_entry($ldap, $search);
+        if ( !$entry ) {
+            $userdata["objectClass"][] = $required_class;
+            $mod_result = ldap_mod_add( $ldap, $dn, $userdata );
+            $errno = ldap_errno( $ldap );
+            if ( $errno ) {
+                $result = "sshkeyobjectclasserror";
+                error_log( "LDAP - add objectClass $required_class error $errno (".ldap_error($ldap).")");
+            }
+        }
+    }
+
+    return $result;
+}
+
+
 # Change sshPublicKey attribute
 # @return result code
 function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {

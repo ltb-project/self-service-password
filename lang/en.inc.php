@@ -37,6 +37,7 @@ $messages['nomatch'] = "Passwords mismatch";
 $messages['badcredentials'] = "Login or password incorrect";
 $messages['passworderror'] = "Password was refused by the LDAP directory";
 $messages['sshkeyerror'] = "SSH Key was refused by the LDAP directory";
+$messages['sshkeyobjectclasserror'] = "Required objectClass for SSH Key was refused by the LDAP directory";
 $messages['title'] = "Self service password";
 $messages['login'] = "Login";
 $messages['oldpassword'] = "Old password";
