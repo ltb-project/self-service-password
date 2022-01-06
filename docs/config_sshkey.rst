@@ -31,7 +31,7 @@ LDAP ObjectClass
 
 Set the LDAP objectClass that defines the attribute. If the objectClass is specified,
 it is added to the user record if it does not already exist.
-If the object class is not specified, no check is made - default value is ````:
+If the object class is not specified, no check is made - default value is ``ldapPublicKey``:
 
 .. code:: php
 
