@@ -558,11 +558,38 @@ function check_sshkey ( $sshkey, $valid_types ) {
 
 # Change sshPublicKey attribute
 # @return result code
-function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
+function change_sshkey( $ldap, $dn, $objectClass, $attribute, $sshkey ) {
 
     $result = "";
 
     $userdata[$attribute] = $sshkey;
+
+    # check for required objectclass, if configured
+    if ($objectClass !== "") {
+        # Check objectClass presence and pull back previous answers.
+        $search = ldap_search($ldap, $dn, "(objectClass=*)", array("objectClass") );
+
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+            $result = "ldaperror";
+            error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+        } else {
+
+            # Get objectClass values from user entry
+            $entry = ldap_first_entry($ldap, $search);
+            $ocValues = ldap_get_values($ldap, $entry, "objectClass");
+
+            # Remove 'count' key
+            unset($ocValues["count"]);
+
+            if (! in_array( $objectClass, $ocValues ) ) {
+                # Answer objectClass is not present, add it
+                array_push($ocValues, $objectClass );
+                $ocValues = array_values( $ocValues );
+                $userdata["objectClass"] = $ocValues;
+            }
+        }
+    }
 
     # Commit modification on directory
     $replace = ldap_mod_replace($ldap, $dn, $userdata);
