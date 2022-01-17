@@ -84,6 +84,7 @@ $shadow_options['shadow_expire_days'] = -1;
 # SMD5
 # MD5
 # CRYPT
+# ARGON2
 # clear (the default)
 # auto (will check the hash of current password)
 # This option is not used with ad_mode = true
