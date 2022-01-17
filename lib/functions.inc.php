@@ -111,6 +111,19 @@ function make_crypt_password($password, $hash_options) {
     return $hash;
 }
 
+# Create ARGON2 password
+function make_argon2_password($password) {
+
+    $options = [
+               'memory_cost' => 4096,
+               'time_cost'   => 3,
+               'threads'     => 1,
+    ];
+
+    $hash = '{ARGON2}' . password_hash($password,PASSWORD_ARGON2I,$options);
+    return $hash;
+}
+
 # Create MD4 password (Microsoft NT password format)
 function make_md4_password($password) {
     if (function_exists('hash')) {
@@ -402,6 +415,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         }
         if ( $hash == "CRYPT" ) {
             $password = make_crypt_password($password, $hash_options);
+        }
+         if ( $hash == "ARGON2" ) {
+            $password = make_argon2_password($password);
         }
     }
 
