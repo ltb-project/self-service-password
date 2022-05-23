@@ -164,11 +164,18 @@ field:
 .. code:: php
 
    $ad_mode = true;
+   $ldap_starttls = false;
 
 You must also use SSL on LDAP connection because AD refuses to change a
 password on a clear connection. See this
 `documentation <https://ltb-project.org/documentation/active_directory_certificates.html>`__
 to manage Active Directory certificates.
+
+Tls must be in for AD:
+
+.. code:: php
+
+   $ldap_starttls = false;
 
 Adapt the search filter too:
 
