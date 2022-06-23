@@ -2,6 +2,14 @@
 # Some notes on packaging Self Service Password
 #==============================================================================
 
+# 0 - Version update
+#==============================================================================
+
+Update version in following files:
+* htdocs/index.php
+* packaging/rpm/SPECS/self-service-password.spec
+* packaging/debian/changelog
+
 # 1 - Archive tar.gz
 #==============================================================================
 
@@ -58,3 +66,7 @@ $ rpm --addsign RPMS/noarch/self-service-password*
 
 From current directory, do:
 $ docker build -t self-service-password -f ./docker/Dockerfile ../
+
+Tag the `latest` image with the major and minor version, for example:
+$ docker tag ltbproject/self-service-password:latest ltbproject/self-service-password:latest:1.4.4
+$ docker tag ltbproject/self-service-password:latest ltbproject/self-service-password:latest:1.4
