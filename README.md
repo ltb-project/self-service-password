@@ -33,7 +33,7 @@ It has the following features:
 
 ## Prerequisite
 
-* PHP (7 or later)
+* PHP (>=7 an <8.1)
 * PHP extensions required:
   * php-curl (haveibeenpwned api)
   * php-gd (captcha)
