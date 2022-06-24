@@ -194,7 +194,7 @@ $smarty->escape_html = true;
 $smarty->setTemplateDir('../templates/');
 $smarty->setCompileDir($compile_dir);
 $smarty->setCacheDir($cache_dir);
-$smarty->debugging = $debug;
+$smarty->debugging = $smarty_debug;
 
 error_reporting(0);
 if ($debug) {

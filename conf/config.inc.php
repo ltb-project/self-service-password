@@ -391,6 +391,9 @@ $use_restapi = false;
 #$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
 #$smarty_cache_dir = "/var/cache/self-service-password/cache";
 
+# Smarty debug mode - will popup debug information on web interface
+$smarty_debug = false;
+
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require __DIR__ . '/config.inc.local.php';
