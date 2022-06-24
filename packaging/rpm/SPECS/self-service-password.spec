@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.4.3
+%define ssp_version	1.4.4
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,6 +121,13 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Fri Jun 24 2022 - Clement Oudot <clem@ltb-project.org> - 1.4.4-1
+- Update bootstrap to v3.4.1 by @bohze in #663
+- Separate Smarty debug and debug by @coudot in #666
+- Typo in resetbytoken resulting in mails not being sent by @faust64 in #529
+- Don't send notification if modification failed by @faust64 in #542
+- PHP Fatal error: Uncaught TypeError: ldap_get_dn() in #648
+- REST files are not shipped in packages in #660
 * Wed May 12 2021 - Clement Oudot <clem@ltb-project.org> - 1.4.3-1
 - gh#516: Docker image does not have sendmail in it
 - gh#517: fix(mail): add sendmail to Docker image

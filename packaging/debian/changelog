@@ -1,3 +1,14 @@
+ltb-project-self-service-password (1.4.4-1) unstable; urgency=high
+
+    * Update bootstrap to v3.4.1 by @bohze in #663
+    * Separate Smarty debug and debug by @coudot in #666
+    * Typo in resetbytoken resulting in mails not being sent by @faust64 in #529
+    * Don't send notification if modification failed by @faust64 in #542
+    * PHP Fatal error: Uncaught TypeError: ldap_get_dn() in #648
+    * REST files are not shipped in packages in #660
+
+ -- Clement Oudot <clem@ltb-project.org>  Fri, 24 Jun 2022 12:00:00 +0200
+
 ltb-project-self-service-password (1.4.3-1) unstable; urgency=high
 
     * gh#516: Docker image does not have sendmail in it
