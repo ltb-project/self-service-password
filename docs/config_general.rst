@@ -157,6 +157,16 @@ You can turn on debug mode with ``$debug``:
 
    $debug = true;
 
+.. tip:: Debug messages will be printed in server logs.
+
+This is also possible to enable Smarty debug, for web interface issues:
+
+.. code:: php
+
+   $smarty_debug = true;
+
+.. tip:: Debug messages will appear on web interface.
+
 Security
 --------
 
