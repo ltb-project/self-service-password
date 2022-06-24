@@ -1,2 +1,3 @@
 sphinx-prompt
 sphinxcontrib.openapi
+mistune < 2.0.0
