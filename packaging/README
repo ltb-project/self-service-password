@@ -68,5 +68,6 @@ From current directory, do:
 $ docker build -t self-service-password -f ./docker/Dockerfile ../
 
 Tag the `latest` image with the major and minor version, for example:
-$ docker tag ltbproject/self-service-password:latest ltbproject/self-service-password:latest:1.4.4
-$ docker tag ltbproject/self-service-password:latest ltbproject/self-service-password:latest:1.4
+$ docker tag self-service-password:latest ltbproject/self-service-password:1.4.4
+$ docker tag self-service-password:latest ltbproject/self-service-password:1.4
+$ docker tag self-service-password:latest ltbproject/self-service-password:latest
