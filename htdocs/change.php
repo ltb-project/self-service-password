@@ -147,9 +147,9 @@ if ( $result === "" ) {
                         $shadow_options['update_shadowExpire'] = false;
                     }
 
-                    $entry = ldap_get_attributes($ldap, $entry);
                     $userdn = ldap_get_dn($ldap, $entry);
-                    $entry['dn'] = $userdn;
+                    $entry_array = ldap_get_attributes($ldap, $entry);
+                    $entry_array['dn'] = $userdn;
 
                     # Bind with old password
                     $bind = ldap_bind($ldap, $userdn, $oldpassword);
@@ -194,7 +194,7 @@ if ( $result === "" ) {
 # Check password strength
 #==============================================================================
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login, $entry );
+    $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array );
 }
 
 #==============================================================================
