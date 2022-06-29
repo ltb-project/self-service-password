@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.4.4
+%define ssp_version	1.4.5
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,6 +121,8 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Wed Jun 29 2022 - Clement Oudot <clem@ltb-project.org> - 1.4.5-1
+- Latest version of 1.4.4 not working by @Max7641 in #670
 * Fri Jun 24 2022 - Clement Oudot <clem@ltb-project.org> - 1.4.4-1
 - Update bootstrap to v3.4.1 by @bohze in #663
 - Separate Smarty debug and debug by @coudot in #666

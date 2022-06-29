@@ -1,3 +1,9 @@
+ltb-project-self-service-password (1.4.5-1) unstable; urgency=high
+
+    * Latest version of 1.4.4 not working by @Max7641 in #670
+
+ -- Clement Oudot <clem@ltb-project.org>  Wed, 29 Jun 2022 12:00:00 +0200
+
 ltb-project-self-service-password (1.4.4-1) unstable; urgency=high
 
     * Update bootstrap to v3.4.1 by @bohze in #663
