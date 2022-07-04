@@ -21,6 +21,8 @@
 
 # This page is called to send random generated password to user by SMS
 
+require_once("../lib/LtbAttributeValue_class.php");
+
 #==============================================================================
 # POST parameters
 #==============================================================================
@@ -166,19 +168,19 @@ if ( $result === "" ) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
                 } else {
-                    # Get sms values
-                    $smsValues = ldap_get_values($ldap, $entry, $sms_attribute);
+                    # Get first sms number for configured ldap attributes in sms_attributes.
+                    $smsValue = LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $sms_attributes);
                 }
                 # Check sms number
-                if ( $smsValues["count"] > 0 ) {
-                    $sms = $smsValues[0];
+                if ( $smsValue ) {
+                    $sms = $smsValue->value;
                     if ( $sms_sanitize_number ) {
                         $sms = preg_replace('/[^0-9]/', '', $sms);
                     }
                     if ( $sms_truncate_number ) {
                         $sms = substr($sms, -$sms_truncate_number_length);
                     }
-                   $smsdisplay = $sms;
+                    $smsdisplay = $sms;
                     if ( $sms_partially_hide_number ) {
                         $smsdisplay = substr_replace($sms, '****', 4 , 4);
                     }

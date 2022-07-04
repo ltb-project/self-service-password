@@ -277,10 +277,10 @@ $use_sms = true;
 $sms_method = "mail";
 $sms_api_lib = "lib/smsapi.inc.php";
 # GSM number attribute
-$sms_attribute = "mobile";
+$sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 # Partially hide number
 $sms_partially_hide_number = true;
-# Send SMS mail to address
+# Send SMS mail to address. {sms_attribute} will be replaced by real sms number
 $smsmailto = "{sms_attribute}@service.provider.com";
 # Subject when sending email to SMTP to SMS provider
 $smsmail_subject = "Provider code";
