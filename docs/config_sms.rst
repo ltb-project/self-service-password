@@ -60,11 +60,17 @@ trough mail configuration (see :ref:`config_mail`).
 
 You can adjust some settings here, depending on provider guidelines:
 
+To set SMS mail to address.
+Within smssmailto {sms_attribute} will be replaced by sms number.
+
 .. code:: php
 
-   # Send SMS mail to address
    $smsmailto = "{sms_attribute}@service.provider.com";
-   # Subject when sending email to SMTP to SMS provider
+
+Subject when sending email to SMTP to SMS provider
+
+.. code:: php
+
    $smsmail_subject = "Provider code";
 
 API
@@ -102,11 +108,12 @@ See also :ref:`sms_api`.
 Mobile attribute
 ----------------
 
-Set here which LDAP attribute hold the user mobile phone:
+Set here which LDAP attributes hold the user mobile phone, first found
+will be used :
 
 .. code:: php
 
-   $sms_attribute = "mobile";
+   $sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 
 You can also partially hide the value when it is displayed on the
 confirmation page:
