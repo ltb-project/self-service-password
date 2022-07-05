@@ -24,7 +24,7 @@ class LtbAttributeValue {
     public $value;
 
     public function __construct($attribute, $value) {
-        $this->attribute = $attribue;
+        $this->attribute = $attribute;
         $this->value = $value;
     }
 
