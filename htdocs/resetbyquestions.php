@@ -21,6 +21,8 @@
 
 # This page is called to reset a password trusting question/anwser
 
+require_once("../lib/LtbAttributeValue_class.php");
+
 #==============================================================================
 # POST parameters
 #==============================================================================
@@ -164,15 +166,12 @@ if ( $result === ""  || $populate_questions) {
 
                     # Get user email for notification
                     if ($notify_on_change) {
-                        for ($i = 0; $i < sizeof($mail_attributes); $i++) {
-                            $mailValues = ldap_get_values($ldap, $entry, $mail_attributes[$i]);
-                            if ($mailValues["count"] > 0) {
-                                if (strcasecmp($mail_attributes[$i], "proxyAddresses") == 0) {
-                                    $mail = str_ireplace("smtp:", "", $mailValues[0]);
-                                } else {
-                                    $mail = $mailValues[0];
-                                }
-                                break;
+                        $mailValue =  LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $mail_attributes);
+                        if ( $mailValue ) {
+                            if (strcasecmp($mailValue->attribute, "proxyAddresses") == 0) {
+                                $mail = str_ireplace("smtp:", "", $mailValue->value);
+                            } else {
+                                $mail = $mailValue->value;
                             }
                         }
                     }
