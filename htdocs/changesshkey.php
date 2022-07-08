@@ -118,14 +118,7 @@ if ( $result === "" ) {
 
                     # Get user email for notification
                     if ($notify_on_sshkey_change) {
-                        $mailValue =  LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $mail_attributes);
-                        if ( $mailValue ) {
-                            if (strcasecmp($mailValue->attribute, "proxyAddresses") == 0) {
-                                $mail = str_ireplace("smtp:", "", $mailValue->value);
-                            } else {
-                                $mail = $mailValue->value;
-                            }
-                        }
+                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
                     }
 
                     # Confirm user credentials are valid
