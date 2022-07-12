@@ -28,7 +28,7 @@ class LtbAttributeValue {
         $this->value = $value;
     }
 
-    /** function LtbAttributeValue.ldap_get_first_available_value($ldap, $entry, $attributes)
+    /** function LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $attributes)
      * Get from ldap entry first value of first existing attribute  within $attributes in order
      * @param $ldap ldap connection object
      * @param $entry ldap entry to parse
@@ -48,4 +48,24 @@ class LtbAttributeValue {
         return false;
     }
 
+    /** function LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry) {
+     * Get from ldap entry first value corresponding to $mail_attributes (globally configuraed)
+     * @param $ldap ldap connection object
+     * @param $entry ldap entry to parse
+     * @return mail to use for notification or empty string if not found
+     */
+    function ldap_get_mail_for_notification($ldap, $entry) {
+        # mail_attibutes are set globally in configuration
+        global $mail_attributes;
+        $mailValue =  LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $mail_attributes);
+        $mail="";
+        if ( $mailValue ) {
+            if (strcasecmp($mailValue->attribute, "proxyAddresses") == 0) {
+                $mail = str_ireplace("smtp:", "", $mailValue->value);
+            } else {
+                $mail = $mailValue->value;
+            }
+        }
+        return $mail;
+    }
 }

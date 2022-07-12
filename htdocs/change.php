@@ -21,6 +21,8 @@
 
 # This page is called to change password
 
+require_once("../lib/LtbAttributeValue_class.php");
+
 #==============================================================================
 # POST parameters
 #==============================================================================
@@ -121,20 +123,9 @@ if ( $result === "" ) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
                 } else {
-
                     # Get user email for notification
                     if ($notify_on_change) {
-                        for ($i = 0; $i < sizeof($mail_attributes); $i++) {
-                            $mailValues = ldap_get_values($ldap, $entry, $mail_attributes[$i]);
-                            if ($mailValues["count"] > 0) {
-                                if (strcasecmp($mail_attributes[$i], "proxyAddresses") == 0) {
-                                    $mail = str_ireplace("smtp:", "", $mailValues[0]);
-                                } else {
-                                    $mail = $mailValues[0];
-                                }
-                                break;
-                            }
-                        }
+                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
                     }
 
                     # Check objectClass to allow samba and shadow updates
