@@ -118,29 +118,32 @@ if ( $result === "" ) {
         error_log("LDAP - User $login not found");
     } else {
         # Compare mail values
+        $entry_attributes = ldap_get_attributes($ldap, $entry);
         for ($match = false, $i = 0; $i < sizeof($mail_attributes) and ! $match; $i++) {
             $mail_attribute = $mail_attributes[$i];
-            $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-            unset($mailValues["count"]);
-            if (! $mail_address_use_ldap) {
-                # Match with user submitted values
-                foreach ($mailValues as $mailValue) {
-                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                        $mailValue = str_ireplace("smtp:", "", $mailValue);
+            if ( in_array($mail_attribute, $entry_attributes) ) {
+                $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+                unset($mailValues["count"]);
+                if (! $mail_address_use_ldap) {
+                    # Match with user submitted values
+                    foreach ($mailValues as $mailValue) {
+                        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                            $mailValue = str_ireplace("smtp:", "", $mailValue);
+                        }
+                        if (strcasecmp($mail, $mailValue) == 0) {
+                            $match = true;
+                        }
                     }
-                    if (strcasecmp($mail, $mailValue) == 0) {
+                } else {
+                    # Use first available mail adress in ldap
+                    if (count($mailValues) > 0) {
+                        $mailValue = $mailValues[0];
+                        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                            $mailValue = str_ireplace("smtp:", "", $mailValue);
+                        }
+                        $mail = $mailValue;
                         $match = true;
                     }
-                }
-            } else {
-                # Use first available mail adress in ldap
-                if (count($mailValues) > 0) {
-                    $mailValue = $mailValues[0];
-                    if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                        $mailValue = str_ireplace("smtp:", "", $mailValue);
-                    }
-                    $mail = $mailValue;
-                    $match = true;
                 }
             }
         }
