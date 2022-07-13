@@ -25,7 +25,7 @@
 $messages['phpupgraderequired'] = "PHP upgrade vereist";
 $messages['nophpldap'] = "PHP LDAP moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['nophpmhash'] = "PHP mhash moet geinstalleerd zijn om Samba mode te kunnen gebruiken";
-$messages['nokeyphrase'] = "Token encryptie vereist een randam string in de keyphrase setting";
+$messages['nokeyphrase'] = "Token encryptie vereist een willekeurige string in de keyphrase setting";
 $messages['ldaperror'] = "Kan geen toegang tot de LDAP directory verkrijgen";
 $messages['loginrequired'] = "Gebruikersnaam is vereist";
 $messages['oldpasswordrequired'] = "Huidige wachtwoord is een verplicht veld";
@@ -116,7 +116,7 @@ $messages['menutoken'] = "Email";
 $messages['menusms'] = "SMS";
 $messages['nophpxml'] = "PHP XML moet geinstalleerd zijn om deze tool te kunnen gebruiken";
 $messages['tokenattempts'] = "Ongeldig token, probeer nog eens";
-$messages['emptychangeform'] = "Wijzig uw wachtword";
+$messages['emptychangeform'] = "Wijzig uw wachtwoord";
 $messages['emptysendtokenform'] = "Email een wachtwoord reset link";
 $messages['emptyresetbyquestionsform'] = "Reset uw wachtwoord";
 $messages['emptysetquestionsform'] = "Stel uw wachtwoord reset vragen in";

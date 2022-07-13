@@ -26,6 +26,17 @@ Set the LDAP attribute that should be used storing SSH public keys - defaults to
 
    $change_sshkey_attribute = "sshPublicKey";
 
+LDAP ObjectClass
+----------------
+
+Set the LDAP objectClass that defines the attribute. If the objectClass is specified,
+it is added to the user record if it does not already exist.
+If the object class is not specified, no check is made - default value is ``ldapPublicKey``:
+
+.. code:: php
+
+   $change_sshkey_objectClass = "ldapPublicKey";
+
 Valid SSH Key Types
 -------------------
 

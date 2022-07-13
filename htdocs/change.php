@@ -21,6 +21,8 @@
 
 # This page is called to change password
 
+require_once("../lib/LtbAttributeValue_class.php");
+
 #==============================================================================
 # POST parameters
 #==============================================================================
@@ -116,26 +118,14 @@ if ( $result === "" ) {
 
                 # Get user DN
                 $entry = ldap_first_entry($ldap, $search);
-                $userdn = ldap_get_dn($ldap, $entry);
 
-                if( !$userdn ) {
+                if( !$entry ) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
                 } else {
-
                     # Get user email for notification
                     if ($notify_on_change) {
-                        for ($i = 0; $i < sizeof($mail_attributes); $i++) {
-                            $mailValues = ldap_get_values($ldap, $entry, $mail_attributes[$i]);
-                            if ($mailValues["count"] > 0) {
-                                if (strcasecmp($mail_attributes[$i], "proxyAddresses") == 0) {
-                                    $mail = str_ireplace("smtp:", "", $mailValues[0]);
-                                } else {
-                                    $mail = $mailValues[0];
-                                }
-                                break;
-                            }
-                        }
+                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
                     }
 
                     # Check objectClass to allow samba and shadow updates
@@ -148,8 +138,9 @@ if ( $result === "" ) {
                         $shadow_options['update_shadowExpire'] = false;
                     }
 
-                    $entry = ldap_get_attributes($ldap, $entry);
-                    $entry['dn'] = $userdn;
+                    $userdn = ldap_get_dn($ldap, $entry);
+                    $entry_array = ldap_get_attributes($ldap, $entry);
+                    $entry_array['dn'] = $userdn;
 
                     # Bind with old password
                     $bind = ldap_bind($ldap, $userdn, $oldpassword);
@@ -194,7 +185,7 @@ if ( $result === "" ) {
 # Check password strength
 #==============================================================================
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login, $entry );
+    $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array );
 }
 
 #==============================================================================

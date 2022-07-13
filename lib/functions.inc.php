@@ -111,6 +111,19 @@ function make_crypt_password($password, $hash_options) {
     return $hash;
 }
 
+# Create ARGON2 password
+function make_argon2_password($password) {
+
+    $options = [
+               'memory_cost' => 4096,
+               'time_cost'   => 3,
+               'threads'     => 1,
+    ];
+
+    $hash = '{ARGON2}' . password_hash($password,PASSWORD_ARGON2I,$options);
+    return $hash;
+}
+
 # Create MD4 password (Microsoft NT password format)
 function make_md4_password($password) {
     if (function_exists('hash')) {
@@ -403,6 +416,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
         if ( $hash == "CRYPT" ) {
             $password = make_crypt_password($password, $hash_options);
         }
+         if ( $hash == "ARGON2" ) {
+            $password = make_argon2_password($password);
+        }
     }
 
     # Set password value
@@ -522,47 +538,87 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     return $result;
 }
 
-
-# Verifies sshPublicKey is valid
+/* @function check_sshkey(string $sshkey, array $valid_types)
+ * Verifies sshPublicKey is valid
+ * @param string $sshkey Publich SSH Keys
+ * @param array $valid_types List of valid SSH Key types
+ * @return boolean
+ */
 function check_sshkey ( $sshkey, $valid_types ) {
-    $key_parts = preg_split('/[\s]+/', $sshkey);
 
-    if (count($key_parts) < 2) {
-        return false;
-    }
-    if (count($key_parts) > 3) {
-        return false;
-    }
+    $keys = preg_split('/\n|\r\n?/', $sshkey);
+    $found = 0;
+    for ($c = 0; $c < count($keys); $c++) {
+        if (preg_match('/^[ \t]*$/', $keys[$c])) {
+            continue;
+        }
+        $key_parts = preg_split('/[\s]+/', $keys[$c]);
 
-    $algorithm = $key_parts[0];
-    if (count($valid_types) > 0) {
-        if (! in_array($algorithm, $valid_types)) {
+        if (count($key_parts) < 2) {
             return false;
         }
+        if (count($key_parts) > 3) {
+            return false;
+        }
+
+        $algorithm = $key_parts[0];
+        if (count($valid_types) > 0) {
+            if (! in_array($algorithm, $valid_types)) {
+                return false;
+            }
+        }
+
+        $key = $key_parts[1];
+        $key_base64_decoded = base64_decode($key, true);
+        if ($key_base64_decoded == FALSE) {
+            return false;
+        }
+
+        $ealg = base64_encode($algorithm . " AAAA");
+        $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
+        if ((string) $check !== (string) $algorithm) {
+            return false;
+        }
+        $found++;
     }
 
-    $key = $key_parts[1];
-    $key_base64_decoded = base64_decode($key, true);
-    if ($key_base64_decoded == FALSE) {
-        return false;
-    }
-
-    $ealg = base64_encode($algorithm . " AAAA");
-    $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
-    if ((string) $check !== (string) $algorithm) {
-        return false;
-    }
-
-    return true;
+    return $found > 0 ? true : false;
 }
 
 # Change sshPublicKey attribute
 # @return result code
-function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
+function change_sshkey( $ldap, $dn, $objectClass, $attribute, $sshkey ) {
 
     $result = "";
+    $keys = preg_split('/\n|\r\n?/', $sshkey);
+    $userdata[$attribute] = $keys[0];
 
-    $userdata[$attribute] = $sshkey;
+    # check for required objectclass, if configured
+    if ($objectClass !== "") {
+        # Check objectClass presence and pull back previous answers.
+        $search = ldap_search($ldap, $dn, "(objectClass=*)", array("objectClass") );
+
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+            $result = "ldaperror";
+            error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+        } else {
+
+            # Get objectClass values from user entry
+            $entry = ldap_first_entry($ldap, $search);
+            $ocValues = ldap_get_values($ldap, $entry, "objectClass");
+
+            # Remove 'count' key
+            unset($ocValues["count"]);
+
+            if (! in_array( $objectClass, $ocValues ) ) {
+                # Answer objectClass is not present, add it
+                array_push($ocValues, $objectClass );
+                $ocValues = array_values( $ocValues );
+                $userdata["objectClass"] = $ocValues;
+            }
+        }
+    }
 
     # Commit modification on directory
     $replace = ldap_mod_replace($ldap, $dn, $userdata);
@@ -573,7 +629,22 @@ function change_sshkey( $ldap, $dn, $attribute, $sshkey ) {
         $result = "sshkeyerror";
         error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
     } else {
-        $result = "sshkeychanged";
+        for ($c = 1; $c < count($keys); $c++) {
+            if (preg_match('/^[ \t]*$/', $keys[$c])) {
+                continue;
+            }
+            $userdata[$attribute] = $keys[$c];
+            $add = ldap_mod_add($ldap, $dn, $userdata);
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "sshkeyerror";
+                error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
+                break;
+            }
+        }
+        if ($result === "") {
+            $result = "sshkeychanged";
+        }
     }
 
     return $result;

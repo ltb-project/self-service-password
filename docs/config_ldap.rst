@@ -167,7 +167,7 @@ field:
 
 You must also use SSL on LDAP connection because AD refuses to change a
 password on a clear connection. See this
-`documentation <https://ltb-project.org/documentation/general/active_directory_certificates>`__
+`documentation <https://ltb-project.org/documentation/active_directory_certificates.html>`__
 to manage Active Directory certificates.
 
 Adapt the search filter too:

@@ -10,7 +10,7 @@ Self Service Password is a PHP application that allows users to change their pas
 
 The application can be used on standard LDAPv3 directories (OpenLDAP, OpenDS, ApacheDS, Sun Oracle DSEE, Novell, etc.) and also on Active Directory.
 
-![Screenshot](http://ltb-project.org/wiki/_media/documentation/self-service-password/1.0/ssp_1_0_change_password.png?w=800&h=666&tok=abc22c)
+![Screenshot](https://ltb-project.org/documentation/_images/ssp_1_0_change_password.png)
 
 It has the following features:
 * Samba mode to change Samba passwords
@@ -33,7 +33,7 @@ It has the following features:
 
 ## Prerequisite
 
-* PHP (7 or later)
+* PHP (>=7 an <8.1)
 * PHP extensions required:
   * php-curl (haveibeenpwned api)
   * php-gd (captcha)

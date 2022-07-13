@@ -51,6 +51,7 @@ $ldap_use_ppolicy_control = false;
 # true: use unicodePwd as password field
 # false: LDAPv3 standard behavior
 $ad_mode = false;
+$ad_options=[];
 # Force account unlock when password is changed
 $ad_options['force_unlock'] = false;
 # Force user change password at next login
@@ -62,12 +63,14 @@ $ad_options['change_expired_password'] = false;
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
 # false: just update the password
 $samba_mode = false;
+$samba_options=[];
 # Set password min/max age in Samba attributes
 #$samba_options['min_age'] = 5;
 #$samba_options['max_age'] = 45;
 #$samba_options['expire_days'] = 90;
 
 # Shadow options - require shadowAccount objectClass
+$shadow_options=[];
 # Update shadowLastChange
 $shadow_options['update_shadowLastChange'] = false;
 $shadow_options['update_shadowExpire'] = false;
@@ -81,10 +84,12 @@ $shadow_options['shadow_expire_days'] = -1;
 # SMD5
 # MD5
 # CRYPT
+# ARGON2
 # clear (the default)
 # auto (will check the hash of current password)
 # This option is not used with ad_mode = true
 $hash = "clear";
+$hash_options=[];
 
 # Prefix to use for salt with CRYPT
 $hash_options['crypt_salt_prefix'] = "$6$";
@@ -169,6 +174,9 @@ $change_sshkey = false;
 
 # What attribute should be changed by the changesshkey action?
 $change_sshkey_attribute = "sshPublicKey";
+
+# What objectClass is required for that attribute?
+$change_sshkey_objectClass = "ldapPublicKey";
 
 # Ensure the SSH Key submitted uses a type we trust
 $ssh_valid_key_types = array('ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519');
@@ -269,10 +277,10 @@ $use_sms = true;
 $sms_method = "mail";
 $sms_api_lib = "lib/smsapi.inc.php";
 # GSM number attribute
-$sms_attribute = "mobile";
+$sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 # Partially hide number
 $sms_partially_hide_number = true;
-# Send SMS mail to address
+# Send SMS mail to address. {sms_attribute} will be replaced by real sms number
 $smsmailto = "{sms_attribute}@service.provider.com";
 # Subject when sending email to SMTP to SMS provider
 $smsmail_subject = "Provider code";
@@ -382,6 +390,9 @@ $use_restapi = false;
 # Cache directory
 #$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
 #$smarty_cache_dir = "/var/cache/self-service-password/cache";
+
+# Smarty debug mode - will popup debug information on web interface
+$smarty_debug = false;
 
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {

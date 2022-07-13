@@ -12,6 +12,7 @@ directory:
 -  MD5
 -  SMD5
 -  CRYPT
+-  ARGON2
 -  clear
 -  auto
 
