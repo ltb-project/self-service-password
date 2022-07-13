@@ -12,25 +12,24 @@
     {if $show_help }
         <div class="result alert alert-warning">
         <p><i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changehelp}</p>
-        {if $msg_changehelpextramessage}
-            <p>{$msg_changehelpextramessage|unescape: "html" nofilter}</p>
-        {/if}
         {if !$show_menu and ($use_question or $use_tokens or $use_sms or $change_sshkey) }
             <p>{$msg_changehelpextramessage}</p>
             <ul>
                 {if $use_questions}
-                    <li>{$mgs_use_questions}</li>
+                    <li>{$msg_use_questions}</li>
                 {/if}
                 {if $use_tokens}
-                    <li>{$mgs_use_tokens}</li>
+                    <li>{$msg_use_tokens}</li>
                 {/if}
                 {if $use_sms}
-                    <li>{$mgs_use_sms}</li>
+                    <li>{$msg_use_sms}</li>
                 {/if}
                 {if $change_sshkey}
-                    <li>{$mgs_change_sshkey}</li>
+                    <li>{$msg_change_sshkey}</li>
                 {/if}
             </ul>
+        {elseif $msg_changehelpextramessage}
+            <p>{$msg_changehelpextramessage}</p>
         {/if}
         </div>
     {/if}
