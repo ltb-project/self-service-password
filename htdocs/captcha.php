@@ -21,10 +21,19 @@
 
 require_once("../lib/vendor/autoload.php");
 use Gregwar\Captcha\CaptchaBuilder;
+
+# cookie for captcha session
+ini_set("session.use_cookies",1);
+ini_set("session.use_only_cookies",1);
+session_name("captcha");
 session_start();
 
 $captcha = new CaptchaBuilder;
 $_SESSION['phrase'] = $captcha->getPhrase();
+
+# session is stored and closed now, used only for captcha
+session_write_close();
+
 header('Content-Type: image/jpeg');
 $captcha
     ->build()

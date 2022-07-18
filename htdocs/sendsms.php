@@ -37,13 +37,16 @@ $smstoken = "";
 $token = "";
 $sessiontoken = "";
 $attempts = 0;
-$captchaphrase = "";
 
-if ($use_captcha) {
-    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-    elseif (!(isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"]))) { $result = "captcharequired"; }
-}
-if (!$crypt_tokens) {
+#==============================================================================
+# Check captcha
+#==============================================================================
+if ($use_captcha) { $result = global_captcha_check();}
+
+if (! ($result === "") ) {
+    # result was already set
+    # done this way to keep indentation
+} elseif (!$crypt_tokens) {
     $result = "crypttokensrequired";
 } elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
     $token = strval($_REQUEST["token"]);
@@ -106,17 +109,6 @@ if (!$crypt_tokens) {
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
-}
-
-#==============================================================================
-# Check captcha
-#==============================================================================
-if ( $result === "" && $use_captcha ) {
-    session_start();
-    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
-        $result = "badcaptcha";
-    }
-    unset($_SESSION['phrase']);
 }
 
 #==============================================================================
