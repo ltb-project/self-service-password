@@ -158,6 +158,7 @@ $rrl_config = array(
     "max_per_ip"   => $max_attempts_per_ip,
     "per_time"     => $max_attempts_block_seconds,
     "dbdir"        => isset($ratelimit_dbdir) ? $ratelimit_dbdir : sys_get_temp_dir(),
+    "filter_by_ip" => isset($ratelimit_filter_by_ip_jsonfile) ? $ratelimit_filter_by_ip_jsonfile : ""
 );
 
 #==============================================================================

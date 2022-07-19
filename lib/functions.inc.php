@@ -776,58 +776,88 @@ function hook_command($hook, $login, $newpassword, $oldpassword = null, $hook_pa
     return $command;
 }
 
+/* read $rrldb as a json array and update key matching $selector
+   with now timestamp
+   and keep other timestamps if in per_time timeframe then persist it
+   return count of timestamps records
+*/
+function updatedb_selector_count($rrldb,$selector,$per_time,$now,$wouldblock) {
+    if (!file_exists($rrldb)) {
+        file_put_contents($rrldb,"{}");
+    }
+    $dbfh = fopen($rrldb . ".lock","w");
+    if (!$dbfh) { throw new Exception('nowrite to '.$rrldb); }
+    flock($dbfh,LOCK_EX,$fblock);
+    $arraycontent = (array) json_decode(file_get_contents($rrldb));
+    $atts = [$now];
+    if (array_key_exists($selector,$arraycontent)) {
+        foreach ($arraycontent[$selector] as $when) {
+            if ( $when > ($now - $per_time) ) {
+                array_push($atts,$when);
+            }
+        }
+    }
+    $arraycontent[$selector] = $atts;
+    file_put_contents($rrldb,json_encode($arraycontent));
+    flock($dbfh,LOCK_UN);
+    return count($atts);
+}
+
+# handle non numeric value like 'infinite'
+function parse_rate_max($attribute_value,$default)
+{
+    if ( is_numeric($attribute_value) )
+    {
+        return $attribute_value;
+    }
+    elseif ( $attribute_value === 'infinite' )
+    {
+        return 0;
+    }
+    return $default;
+}
 /* function allowed_rate(string $login, string $ip_addr, array $rrl_config)
  * Check if this login / this IP reached the limit fixed
+ * apply specific paramters based on ip_addr if filter_by_ip file was configured
  * @return bool allowed
  */
 function allowed_rate($login,$ip_addr,$rrl_config) {
     $now = time();
     $fblock=1;
-    if ($rrl_config["max_per_user"] > 0) {
-        $rrludb = $rrl_config["dbdir"] . "/ssp_rrl_users.json";
-        if (!file_exists($rrludb)) {
-            file_put_contents($rrludb,"{}");
-        }
-        $dbfh = fopen($rrludb . ".lock","w");
-        if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
-        flock($dbfh,LOCK_EX,$fblock);
-        $users = (array) json_decode(file_get_contents($rrludb));
-        $atts = [$now];
-        if (array_key_exists($login,$users)) {
-            foreach ($users[$login] as $when) {
-                if ( $when > ($now - $rrl_config['per_time']) ) {
-                    array_push($atts,$when);
-                }
+
+    $max_per_user = $rrl_config["max_per_user"];
+    $max_per_ip = $rrl_config["max_per_ip"];
+    $per_time = $rrl_config["per_time"];
+
+    if ($rrl_config["filter_by_ip"]) {
+        $arraycontent = (array) json_decode(file_get_contents($rrl_config["filter_by_ip"]));
+        if (array_key_exists($ip_addr,$arraycontent)) {
+            $filter_by_ip= (array) $arraycontent[$ip_addr];
+            if (array_key_exists("max_per_user",$filter_by_ip)) {
+                $max_per_user = parse_rate_max($filter_by_ip["max_per_user"],$max_per_user);
+            }
+            if (array_key_exists("max_per_ip",$filter_by_ip)) {
+                $max_per_ip = parse_rate_max($filter_by_ip["max_per_ip"],$max_per_ip);
+            }
+            if (array_key_exists("per_time",$filter_by_ip)) {
+                $per_time = parse_rate_max($filter_by_ip["per_time"],$per_time);
+            }
+            if ( $per_time == 0 )
+            {
+                return true;
             }
         }
-        $users[$login] = $atts;
-        file_put_contents($rrludb,json_encode($users));
-        flock($dbfh,LOCK_UN);
-        if (count($atts) > $rrl_config["max_per_user"]) {
+    }
+
+    if ($max_per_user > 0) {
+        $count =  updatedb_selector_count( $rrl_config["dbdir"] . "/ssp_rrl_users.json",$login,$per_time,$now,$fblock);
+        if ($count > $max_per_user) {
             return false;
         }
     }
-    if ($rrl_config["max_per_ip"] > 0) {
-        $rrlidb = $rrl_config["dbdir"] . "/ssp_rrl_ips.json";
-        if (!file_exists($rrlidb)) {
-            file_put_contents($rrlidb,"{}");
-        }
-        $dbfh = fopen($rrlidb . ".lock","w");
-        if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
-        flock($dbfh,LOCK_EX,$fblock);
-        $ips = (array) json_decode(file_get_contents($rrlidb));
-        $atts = [$now];
-        if (array_key_exists($ip_addr,$ips)) {
-            foreach ($ips[$ip_addr] as $when) {
-                if ( $when > ($now - $rrl_config['per_time']) ) {
-                    array_push($atts,$when);
-                }
-            }
-        }
-        $ips[$ip_addr] = $atts;
-        file_put_contents($rrlidb,json_encode($ips));
-        flock($dbfh,LOCK_UN);
-        if (count($atts) > $rrl_config["max_per_ip"]) {
+    if ($max_per_ip > 0) {
+        $count =  updatedb_selector_count( $rrl_config["dbdir"] . "/ssp_rrl_ips.json",$ip_addr,$per_time,$now,$fblock);
+        if ($count > $max_per_ip) {
             return false;
         }
     }
