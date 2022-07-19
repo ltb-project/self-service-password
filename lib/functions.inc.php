@@ -813,7 +813,7 @@ function allowed_rate($login,$ip_addr,$rrl_config) {
             file_put_contents($rrlidb,"{}");
         }
         $dbfh = fopen($rrlidb . ".lock","w");
-        if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
+        if (!$dbfh) { throw new Exception('nowrite to '.$rrlidb); }
         flock($dbfh,LOCK_EX,$fblock);
         $ips = (array) json_decode(file_get_contents($rrlidb));
         $atts = [$now];

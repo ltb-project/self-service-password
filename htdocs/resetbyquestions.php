@@ -226,6 +226,15 @@ if ( $result === ""  || $populate_questions) {
     }
 }
 
+if ($result === "") {
+    if ( $use_ratelimit ) {
+        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+            $result = "throttle";
+            error_log("LDAP - User $login too fast");
+        }
+    }
+}
+
 #==============================================================================
 # Check and register new passord
 #==============================================================================
