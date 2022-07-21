@@ -168,7 +168,8 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry );
+    $entry_array = ldap_get_attributes($ldap, $entry);
+    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry_array );
 }
 
 # Change password
