@@ -223,8 +223,9 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
 }
 
 # Check password strength
+# @param array entry_array ldap entry ( ie not resource or LDAP\Result )
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array ) {
     extract( $pwd_policy_config );
 
     $result = "";
@@ -313,9 +314,9 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     # Contains values from forbidden ldap fields?
     if ( !empty($pwd_forbidden_ldap_fields) ) {
         foreach ( $pwd_forbidden_ldap_fields as $field ) {
-            $values = $entry[$field];
-            if (!is_array($entry[$field])) {
-                $values = array($entry[$field]);
+            $values = $entry_array[$field];
+            if (!is_array($values)) {
+                $values = array($values);
             }
             foreach ($values as $key => $value) {
                 if ($key === 'count') {

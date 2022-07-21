@@ -218,8 +218,8 @@ if ( $result === ""  || $populate_questions) {
                         }
                     }
 
-                    $entry = ldap_get_attributes($ldap, $entry);
-                    $entry['dn'] = $userdn;
+                    $entry_array = ldap_get_attributes($ldap, $entry);
+                    $entry_array['dn'] = $userdn;
                 }
             }
         }
@@ -236,7 +236,7 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry );
+    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry_array );
 }
 
 # Change password
