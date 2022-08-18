@@ -19,7 +19,7 @@ Activation
 
 You can enable or disable this feature with ``$use_tokens``:
 
-.. code:: php
+.. code-block:: php
 
    $use_tokens = true;
 
@@ -31,7 +31,7 @@ See :ref:`config_mail`.
 You can also avoid to request the mail to the user, only the login will
 be asekd, and the mail will be read in LDAP:
 
-.. code:: php
+.. code-block:: php
 
    $mail_address_use_ldap = true;
 
@@ -40,7 +40,7 @@ Security
 
 You can crypt tokens, to protect the session identifier:
 
-.. code:: php
+.. code-block:: php
 
    $crypt_tokens = true;
 
@@ -50,7 +50,7 @@ You can crypt tokens, to protect the session identifier:
 You should set a token lifetime, so they are deleted if unused. The
 value is in seconds:
 
-.. code:: php
+.. code-block:: php
 
    $token_lifetime = "3600";
 
@@ -63,7 +63,7 @@ Log
 By default, generated URLs are logged in the default Apache error log.
 This behavior can be changed, to log in a specific file:
 
-.. code:: php
+.. code-block:: php
 
    $reset_request_log = "/var/log/self-service-password";
 
@@ -77,7 +77,7 @@ By default, reset URL is computed using server name and port, but these
 values can be wrong if the application is behind a reverse proxy. In
 this case you can set yourself the reset URL:
 
-.. code:: php
+.. code-block:: php
 
    $reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
 

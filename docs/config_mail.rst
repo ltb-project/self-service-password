@@ -8,7 +8,7 @@ LDAP Attribute
 
 Set the LDAP attributes where user email may be stored:
 
-.. code:: php
+.. code-block:: php
 
    $mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" );
 
@@ -20,7 +20,7 @@ Sender name
 
 You can change the default ``From`` header and add a signature:
 
-.. code:: php
+.. code-block:: php
 
    $mail_from = "admin@example.com";
    $mail_from_name = "Self Service Password administrator";
@@ -32,7 +32,7 @@ Change password notification
 Use this option to send a confirmation mail to the user, just after a
 successful mail change:
 
-.. code:: php
+.. code-block:: php
 
    $notify_on_change = true;
 
@@ -41,7 +41,7 @@ PHPMailer
 
 You can set all parameters for PHPMailer:
 
-.. code:: php
+.. code-block:: php
 
    $mail_sendmailpath = '/usr/sbin/sendmail';
    $mail_protocol = 'smtp';

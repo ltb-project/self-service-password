@@ -11,7 +11,7 @@ LinkMobility (pswin)
 
 Provider website: https://www.linkmobility.com/
 
-.. code:: php
+.. code-block:: php
 
    function send_sms_by_api($mobile, $message) {
        $post = [
@@ -40,7 +40,7 @@ https://raw.githubusercontent.com/ltb-project/self-service-password/master/lib/s
 
 You can enable it in configuration:
 
-.. code:: php
+.. code-block:: php
 
    $sms_api_lib = "lib/smsapi-twilio.inc.php";
    $twilio_sid = '<sid>';
@@ -67,7 +67,7 @@ Go to lib/ovhsms and type:
 
 Then you can enable it in configuration:
 
-.. code:: php
+.. code-block:: php
 
    $sms_api_lib = "lib/ovhsms/smsapi-ovh.inc.php";
    $ovh_appkey="KKK";
@@ -88,7 +88,7 @@ https://github.com/AsamK/signal-cli
 You've to configure / register signal-cli:
 https://github.com/AsamK/signal-cli#readme
 
-.. code:: php
+.. code-block:: php
 
    $sms_api_lib = "lib/smsapi-signal-cli.inc.php";
    $signal_user = '+18881234567';
