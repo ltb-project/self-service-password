@@ -58,7 +58,7 @@ If you want the LDAP manager account to edit that attribute, we may instead set 
     $who_change_sshkey = "manager"
 
 SSH Public Key changes notification
-----------------------------------
+-----------------------------------
 
 Use this option to send a confirmation mail to the user, just after a
 successful mail change:
