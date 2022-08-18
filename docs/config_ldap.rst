@@ -49,7 +49,8 @@ To use StartTLS, set ``true`` in ``$ldap_starttls``:
    TLS_REQCERT allow
 
 If you face issues with non matching TLS versions between SSP and your
-LDAP server, you can try to set this option:
+LDAP server, you should try to modify ``TLS_CIPHER_SUITE`` to match
+the requirements of your server. For example:
 
 ::
 
