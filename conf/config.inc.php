@@ -107,6 +107,8 @@ $max_attempts_per_ip = 2;
 $max_attempts_block_seconds = "60";
 # Header to use for client IP (HTTP_X_FORWARDED_FOR ?)
 $client_ip_header = 'REMOTE_ADDR';
+# JSON file to filter by IP
+#$ratelimit_filter_by_ip_jsonfile = "/usr/share/self-service-password/conf/rrl_filter_by_ip.json";
 
 # Local password policy
 # This is applied before directory password policy
@@ -379,7 +381,8 @@ $use_restapi = false;
 
 # Hide some messages to not disclose sensitive information
 # These messages will be replaced by badcredentials error
-#$obscure_failure_messages = array("mailnomatch");
+# by default mailnomatch is obscured since it can disclose account existence
+$obscure_failure_messages = array("mailnomatch");
 
 # HTTP Header name that may hold a login to preset in forms
 #$header_name_preset_login="Auth-User";

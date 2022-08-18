@@ -223,8 +223,9 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
 }
 
 # Check password strength
+# @param array entry_array ldap entry ( ie not resource or LDAP\Result )
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array ) {
     extract( $pwd_policy_config );
 
     $result = "";
@@ -313,9 +314,9 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     # Contains values from forbidden ldap fields?
     if ( !empty($pwd_forbidden_ldap_fields) ) {
         foreach ( $pwd_forbidden_ldap_fields as $field ) {
-            $values = $entry[$field];
-            if (!is_array($entry[$field])) {
-                $values = array($entry[$field]);
+            $values = $entry_array[$field];
+            if (!is_array($values)) {
+                $values = array($values);
             }
             foreach ($values as $key => $value) {
                 if ($key === 'count') {
@@ -538,38 +539,51 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     return $result;
 }
 
-
-# Verifies sshPublicKey is valid
+/* @function check_sshkey(string $sshkey, array $valid_types)
+ * Verifies sshPublicKey is valid
+ * @param string $sshkey Publich SSH Keys
+ * @param array $valid_types List of valid SSH Key types
+ * @return boolean
+ */
 function check_sshkey ( $sshkey, $valid_types ) {
-    $key_parts = preg_split('/[\s]+/', $sshkey);
 
-    if (count($key_parts) < 2) {
-        return false;
-    }
-    if (count($key_parts) > 3) {
-        return false;
-    }
+    $keys = preg_split('/\n|\r\n?/', $sshkey);
+    $found = 0;
+    for ($c = 0; $c < count($keys); $c++) {
+        if (preg_match('/^[ \t]*$/', $keys[$c])) {
+            continue;
+        }
+        $key_parts = preg_split('/[\s]+/', $keys[$c]);
 
-    $algorithm = $key_parts[0];
-    if (count($valid_types) > 0) {
-        if (! in_array($algorithm, $valid_types)) {
+        if (count($key_parts) < 2) {
             return false;
         }
+        if (count($key_parts) > 3) {
+            return false;
+        }
+
+        $algorithm = $key_parts[0];
+        if (count($valid_types) > 0) {
+            if (! in_array($algorithm, $valid_types)) {
+                return false;
+            }
+        }
+
+        $key = $key_parts[1];
+        $key_base64_decoded = base64_decode($key, true);
+        if ($key_base64_decoded == FALSE) {
+            return false;
+        }
+
+        $ealg = base64_encode($algorithm . " AAAA");
+        $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
+        if ((string) $check !== (string) $algorithm) {
+            return false;
+        }
+        $found++;
     }
 
-    $key = $key_parts[1];
-    $key_base64_decoded = base64_decode($key, true);
-    if ($key_base64_decoded == FALSE) {
-        return false;
-    }
-
-    $ealg = base64_encode($algorithm . " AAAA");
-    $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
-    if ((string) $check !== (string) $algorithm) {
-        return false;
-    }
-
-    return true;
+    return $found > 0 ? true : false;
 }
 
 # Change sshPublicKey attribute
@@ -577,8 +591,8 @@ function check_sshkey ( $sshkey, $valid_types ) {
 function change_sshkey( $ldap, $dn, $objectClass, $attribute, $sshkey ) {
 
     $result = "";
-
-    $userdata[$attribute] = $sshkey;
+    $keys = preg_split('/\n|\r\n?/', $sshkey);
+    $userdata[$attribute] = $keys[0];
 
     # check for required objectclass, if configured
     if ($objectClass !== "") {
@@ -616,7 +630,22 @@ function change_sshkey( $ldap, $dn, $objectClass, $attribute, $sshkey ) {
         $result = "sshkeyerror";
         error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
     } else {
-        $result = "sshkeychanged";
+        for ($c = 1; $c < count($keys); $c++) {
+            if (preg_match('/^[ \t]*$/', $keys[$c])) {
+                continue;
+            }
+            $userdata[$attribute] = $keys[$c];
+            $add = ldap_mod_add($ldap, $dn, $userdata);
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "sshkeyerror";
+                error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
+                break;
+            }
+        }
+        if ($result === "") {
+            $result = "sshkeychanged";
+        }
     }
 
     return $result;
@@ -776,58 +805,89 @@ function hook_command($hook, $login, $newpassword, $oldpassword = null, $hook_pa
     return $command;
 }
 
+/* read $rrldb as a json array and update key matching $selector
+   with now timestamp
+   and keep other timestamps if in per_time timeframe then persist it
+   return count of timestamps records
+*/
+function updatedb_selector_count($rrldb,$selector,$per_time,$now,$wouldblock) {
+    if (!file_exists($rrldb)) {
+        file_put_contents($rrldb,"{}");
+    }
+    $dbfh = fopen($rrldb . ".lock","w");
+    if (!$dbfh) { throw new Exception('nowrite to '.$rrldb); }
+    flock($dbfh,LOCK_EX,$fblock);
+    $arraycontent = (array) json_decode(file_get_contents($rrldb));
+    $atts = [$now];
+    if (array_key_exists($selector,$arraycontent)) {
+        foreach ($arraycontent[$selector] as $when) {
+            if ( $when > ($now - $per_time) ) {
+                array_push($atts,$when);
+            }
+        }
+    }
+    $arraycontent[$selector] = $atts;
+    file_put_contents($rrldb,json_encode($arraycontent));
+    flock($dbfh,LOCK_UN);
+    return count($atts);
+}
+
+# handle non numeric value like 'infinite'
+function parse_rate_max($attribute_value,$default)
+{
+    if ( is_numeric($attribute_value) )
+    {
+        return $attribute_value;
+    }
+    elseif ( $attribute_value === 'infinite' )
+    {
+        return 0;
+    }
+    return $default;
+}
 /* function allowed_rate(string $login, string $ip_addr, array $rrl_config)
  * Check if this login / this IP reached the limit fixed
+ * apply specific paramters based on ip_addr if filter_by_ip file was configured
  * @return bool allowed
  */
 function allowed_rate($login,$ip_addr,$rrl_config) {
     $now = time();
     $fblock=1;
-    if ($rrl_config["max_per_user"] > 0) {
-        $rrludb = $rrl_config["dbdir"] . "/ssp_rrl_users.json";
-        if (!file_exists($rrludb)) {
-            file_put_contents($rrludb,"{}");
-        }
-        $dbfh = fopen($rrludb . ".lock","w");
-        if (!$dbfh) { throw new Exception('nowrite to '.$rrludb); }
-        flock($dbfh,LOCK_EX,$fblock);
-        $users = (array) json_decode(file_get_contents($rrludb));
-        $atts = [$now];
-        if (array_key_exists($login,$users)) {
-            foreach ($users[$login] as $when) {
-                if ( $when > ($now - $rrl_config['per_time']) ) {
-                    array_push($atts,$when);
-                }
+
+    $max_per_user = $rrl_config["max_per_user"];
+    $max_per_ip = $rrl_config["max_per_ip"];
+    $per_time = $rrl_config["per_time"];
+
+    if ($rrl_config["filter_by_ip"]) {
+        $arraycontent = (array) json_decode(file_get_contents($rrl_config["filter_by_ip"]));
+        if (array_key_exists($ip_addr,$arraycontent)) {
+            $filter_by_ip= (array) $arraycontent[$ip_addr];
+            if (array_key_exists("max_per_user",$filter_by_ip)) {
+                $max_per_user = parse_rate_max($filter_by_ip["max_per_user"],$max_per_user);
+            }
+            if (array_key_exists("max_per_ip",$filter_by_ip)) {
+                $max_per_ip = parse_rate_max($filter_by_ip["max_per_ip"],$max_per_ip);
+            }
+            if (array_key_exists("per_time",$filter_by_ip)) {
+                $per_time = parse_rate_max($filter_by_ip["per_time"],$per_time);
+            }
+            if ( $per_time == 0 )
+            {
+                return true;
             }
         }
-        $users[$login] = $atts;
-        file_put_contents($rrludb,json_encode($users));
-        flock($dbfh,LOCK_UN);
-        if (count($atts) > $rrl_config["max_per_user"]) {
+    }
+
+    if ($max_per_user > 0) {
+        $count =  updatedb_selector_count( $rrl_config["dbdir"] . "/ssp_rrl_users.json",$login,$per_time,$now,$fblock);
+        if ($count > $max_per_user) {
             return false;
         }
     }
-    if ($rrl_config["max_per_ip"] > 0) {
-        $rrlidb = $rrl_config["dbdir"] . "/ssp_rrl_ips.json";
-        if (!file_exists($rrlidb)) {
-            file_put_contents($rrlidb,"{}");
-        }
-        $dbfh = fopen($rrlidb . ".lock","w");
-        if (!$dbfh) { throw new Exception('nowrite to '.$rrlidb); }
-        flock($dbfh,LOCK_EX,$fblock);
-        $ips = (array) json_decode(file_get_contents($rrlidb));
-        $atts = [$now];
-        if (array_key_exists($ip_addr,$ips)) {
-            foreach ($ips[$ip_addr] as $when) {
-                if ( $when > ($now - $rrl_config['per_time']) ) {
-                    array_push($atts,$when);
-                }
-            }
-        }
-        $ips[$ip_addr] = $atts;
-        file_put_contents($rrlidb,json_encode($ips));
-        flock($dbfh,LOCK_UN);
-        if (count($atts) > $rrl_config["max_per_ip"]) {
+    
+    if ($max_per_ip > 0) {
+        $count =  updatedb_selector_count( $rrl_config["dbdir"] . "/ssp_rrl_ips.json",$ip_addr,$per_time,$now,$fblock);
+        if ($count > $max_per_ip) {
             return false;
         }
     }

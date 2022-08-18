@@ -54,6 +54,8 @@ if ( $result === "" ) {
         $tokenid = $token;
     }
 
+    # select internal session by $tokenid without relying on cookie or url
+    # will gather login,time and smstoken values from session.
     ini_set("session.use_cookies",0);
     ini_set("session.use_only_cookies",1);
 
@@ -168,7 +170,8 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry );
+    $entry_array = ldap_get_attributes($ldap, $entry);
+    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry_array );
 }
 
 # Change password

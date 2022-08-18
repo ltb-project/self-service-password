@@ -34,12 +34,7 @@ $sshkey = "";
 $ldap = "";
 $userdn = "";
 $mail = "";
-$captchaphrase = "";
 
-if ($use_captcha) {
-    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-    else { $result = "captcharequired"; }
-}
 if (isset($_POST["password"]) and $_POST["password"]) { $password = strval($_POST["password"]); }
 else { $result = "passwordrequired"; }
 if (isset($_POST["sshkey"]) and $_POST["sshkey"]) {
@@ -60,13 +55,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Check captcha
 #==============================================================================
-if ( $result === "" && $use_captcha ) {
-    session_start();
-    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
-        $result = "badcaptcha";
-    }
-    unset($_SESSION['phrase']);
-}
+if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
 
 #==============================================================================
 # Check password
