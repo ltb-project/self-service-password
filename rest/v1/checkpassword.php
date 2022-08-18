@@ -24,7 +24,7 @@ if (isset($_POST["newpassword"]) and $_POST["newpassword"]) {
     $result['error'] = 0;
 } else {
     $result['error'] = 1;
-    $ret = "newpasswordrequired";
+    $ret = "newpassword required";
 }
 $result['result'] = $ret;
 $result['message'] = array_key_exists($ret,$messages) ? $messages[$ret] : $ret;
