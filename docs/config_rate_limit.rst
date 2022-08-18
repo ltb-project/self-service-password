@@ -5,13 +5,13 @@ You may want to limit number of tries per user/IP in a short time
 (especially with sms option). If you enable this, defaults are 2 tries
 per login and per minute, and same for IP address:
 
-.. code:: php
+.. code-block:: php
 
    $use_ratelimit = true;
 
 Other possible options for rate limiting:
 
-.. code:: php
+.. code-block:: php
 
    $ratelimit_dbdir = '/tmp';
    $max_attempts_per_user = 2;
@@ -23,7 +23,7 @@ You may want to control rate_limit by IP.
 To do so you have to specify full local path of file containing json of IP and expected behavior.
 By default ``$ratelimit_filter_by_ip_jsonfile`` is empty, no exclusion is applied.
 
-.. code:: php
+.. code-block:: php
 
    $ratelimit_filter_by_ip_jsonfile = '/var/www/conf/rrl_filter_by_ip.json';
 

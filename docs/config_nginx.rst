@@ -3,7 +3,7 @@ Nginx configuration
 
 Configuration with FastCGI:
 
-.. code:: nginx
+.. code-block:: nginx
 
    server {
    listen 80;
@@ -71,7 +71,7 @@ Configuration with FastCGI:
 
 Example of php.ini:
 
-.. code:: ini
+.. code-block:: ini
 
    session.save_path = /tmp
    upload_max_filesize = 10M

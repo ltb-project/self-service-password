@@ -8,7 +8,7 @@ To configure Self Service Password, you need to create a *local*
 configuration file named ``config.inc.local.php`` in
 ``self-service-password/conf``. For example :
 
-.. code:: php
+.. code-block:: php
 
    <?php
    // Override config.inc.php parameters below
@@ -31,7 +31,7 @@ Multi tenancy
 You can load a specific configuration file by passing a HTTP header.
 This feature is disable by default. To enable it:
 
-.. code:: php
+.. code-block:: php
 
    $header_name_extra_config = "SSP-Extra-Config";
 
@@ -40,7 +40,7 @@ Then if you send the header ``SSP-Extra-Config: domain1``, the file
 
 Using Apache, we may set such header using the following:
 
-.. code:: apache
+.. code-block:: apache
 
     <VirtualHost *:80>
        ServerName ssp.domain1.com
@@ -50,7 +50,7 @@ Using Apache, we may set such header using the following:
 
 Using Nginx, we could use instead:
 
-.. code:: nginx
+.. code-block:: nginx
 
    server {
        [...]
@@ -92,14 +92,14 @@ Available languages are:
 
 Set one of them in ``$lang``:
 
-.. code:: php
+.. code-block:: php
 
    $lang = "en";
 
 Language is picked according to browser choice among the available ones. All languages 
 are allowed by default, to restrict them add ``$allowed_lang`` array:
 
-.. code:: php
+.. code-block:: php
 
    $allowed_lang = array("en");
 
@@ -108,7 +108,7 @@ Menu
 
 To display a top menu, activate the option:
 
-.. code:: php
+.. code-block:: php
 
    $show_menu = true;
 
@@ -120,13 +120,13 @@ Messages
 Help messages provide information to users on how use the interface.
 They can be disabled with ``$show_help``:
 
-.. code:: php
+.. code-block:: php
 
    $show_help = false;
 
 You can add extra messages by setting values in these parameters:
 
-.. code:: php
+.. code-block:: php
 
    $messages['passwordchangedextramessage'] = "Congratulations!";
    $messages['changehelpextramessage'] = "Contact us if you are lost...";
@@ -140,7 +140,7 @@ Logo
 You change the default logo with your own. Set the path to your logo in
 ``$logo``:
 
-.. code:: php
+.. code-block:: php
 
    $logo = "images/ltb-logo.png";
 
@@ -152,7 +152,7 @@ Background
 You change the background image with your own. Set the path to image in
 ``$background_image``:
 
-.. code:: php
+.. code-block:: php
 
    $background_image = "images/unsplash-space.jpeg";
 
@@ -163,7 +163,7 @@ Custom CSS
 
 To easily customize CSS, you can use a separate CSS file:
 
-.. code:: php
+.. code-block:: php
 
     $custom_css = "css/custom.css";
 
@@ -172,7 +172,7 @@ Footer
 
 You can hide the footer bar:
 
-.. code:: php
+.. code-block:: php
 
     $display_footer = false;
 
@@ -181,7 +181,7 @@ Debug
 
 You can turn on debug mode with ``$debug``:
 
-.. code:: php
+.. code-block:: php
 
    $debug = true;
 
@@ -189,7 +189,7 @@ You can turn on debug mode with ``$debug``:
 
 This is also possible to enable Smarty debug, for web interface issues:
 
-.. code:: php
+.. code-block:: php
 
    $smarty_debug = true;
 
@@ -200,7 +200,7 @@ Security
 
 You need a key phrase if you use ciphered tokens (see :ref:`config_tokens`)
 
-.. code:: php
+.. code-block:: php
 
    $keyphrase = "secret";
 
@@ -208,7 +208,7 @@ There is also a protection on login to avoid LDAP injections. Some
 characters are forbidden, you can change the list of forbidden
 characters in login with ``$login_forbidden_chars``:
 
-.. code:: php
+.. code-block:: php
 
    $login_forbidden_chars = "*()&|";
 
@@ -218,7 +218,7 @@ characters in login with ``$login_forbidden_chars``:
 You can configure "obscure" messages, so that some errors are not
 displayed and replaced by a generic "bad credentials" error:
 
-.. code:: php
+.. code-block:: php
 
    $obscure_failure_messages = array("mailnomatch");
 
@@ -228,7 +228,7 @@ Default action
 By default, the password change page is displayed. You can configure
 which page should be displayed when no action is defined:
 
-.. code:: php
+.. code-block:: php
 
    $default_action = "change";
 
@@ -240,7 +240,7 @@ Possibles values are:
 
 You can disable the standard password change if you don't need it:
 
-.. code:: php
+.. code-block:: php
 
    $use_change = false;
 
@@ -255,7 +255,7 @@ prefill the login but sending an HTTP header.
 
 To enable this feature:
 
-.. code:: php
+.. code-block:: php
 
    $header_name_preset_login = "Auth-User";
 
@@ -264,7 +264,7 @@ Captcha
 
 To require a captcha, set ``$use_captcha``:
 
-.. code:: php
+.. code-block:: php
 
    $use_captcha = true;
 

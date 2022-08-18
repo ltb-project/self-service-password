@@ -22,7 +22,7 @@ This script must be executable by the user running Apache. It will take
 
 To declare this script, use:
 
-.. code:: php
+.. code-block:: php
 
    $prehook = "/usr/share/self-service-password/prehook.sh";
    $posthook = "/usr/share/self-service-password/posthook.sh";
@@ -30,7 +30,7 @@ To declare this script, use:
 You can choose to display an error if the script return code is greater
 than 0:
 
-.. code:: php
+.. code-block:: php
 
    $display_prehook_error = true;
    $display_posthook_error = true;
@@ -41,7 +41,7 @@ Another option can be enabled to encode the password in base64 before
 sending it to the script, which can avoid an execution issue if the
 password contains special characters:
 
-.. code:: php
+.. code-block:: php
 
    $prehook_password_encodebase64 = false;
    $posthook_password_encodebase64 = false;
@@ -50,13 +50,13 @@ By default With prehook script, the password will not be changed in LDAP directo
 You can change this behavior to ignore script error. This could be useful to run prehook script and display a warning
 if it fails, but still try to update password in the directory.
 
-.. code:: php
+.. code-block:: php
 
     $ignore_prehook_error = true;
 
 Here is an example of a simple hook script:
 
-.. code:: bash
+.. code-block:: bash
 
    #!/bin/bash
 
@@ -93,13 +93,13 @@ You can configure multiple LDAP backend.
 
 To enable this option, you have to add the posthook :
 
-.. code:: php
+.. code-block:: php
 
     $posthook = "php /usr/share/self-service-password/multi_ldap_change.php";
 
 You need to add the list of your ldap backend :
 
-.. code:: php
+.. code-block:: php
 
     $secondaries_ldap[0]['ldap_url'] = 'ldap://ldap2.example.com';
     $secondaries_ldap[1]['ldap_url'] = 'ldap://ldap3.example.com';
@@ -107,7 +107,7 @@ You need to add the list of your ldap backend :
 It's necessary to activate the base64 enconding for special characters.
 You can be enabled this option with this configuration line :
 
-.. code:: php
+.. code-block:: php
 
     $posthook_password_encodebase64 = true;
 

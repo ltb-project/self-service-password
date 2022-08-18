@@ -30,7 +30,7 @@ Activation
 
 You can enable or disable this feature with ``$use_questions``:
 
-.. code:: php
+.. code-block:: php
 
    $use_questions = true;
 
@@ -41,7 +41,7 @@ By default, a user can only register an answer to one question. You can
 allow users to register an answer to more than one question with this
 parameter:
 
-.. code:: php
+.. code-block:: php
 
    $multiple_answers = true;
 
@@ -50,7 +50,7 @@ Then the user can use any valid answer to reset its password.
 You can also configure how many questions are displayed in the form.
 If you want to require 2 answers to 2 different questions, configure ``$questions_count``:
 
-.. code:: php
+.. code-block:: php
 
    $questions_count = 2;
 
@@ -62,7 +62,7 @@ The form will be displayed again with questions already registered for this user
 As this lowers the security, this is disabled by defaut.
 Configure ``$question_populate_enable`` to enable it:
 
-.. code:: php
+.. code-block:: php
 
    $question_populate_enable = true;
 
@@ -71,7 +71,7 @@ Attribute and object class
 
 Set the attribute in which the answer will be stored:
 
-.. code:: php
+.. code-block:: php
 
    $answer_attribute = "info";
 
@@ -81,7 +81,7 @@ Set the attribute in which the answer will be stored:
 If the above attribute is not in a standard user object class, configure
 the object class to use with this attribute:
 
-.. code:: php
+.. code-block:: php
 
    $answer_objectClass = "extensibleObject";
 
@@ -91,13 +91,13 @@ the object class to use with this attribute:
 If you enabled multiple answers, you can choose if they will be stored as multiple values
 of the attribute, or stored in a single value:
 
-.. code:: php
+.. code-block:: php
 
    $multiple_answers_one_str = true;
 
 On Active Directory, extensibleObject is not known. You can use for example:
 
-.. code:: php
+.. code-block:: php
 
    $answer_attribute = "comment";
    $answer_objectClass = "user";
@@ -108,7 +108,7 @@ Crypt answers
 Before 1.3 release, answers could not be encrypted in LDAP directory. An
 option can now be used to encrypt answers:
 
-.. code:: php
+.. code-block:: php
 
    $crypt_answers = true;
 
@@ -134,7 +134,7 @@ To add a question, you can create a new value in the
 ``$messages['questions']`` array, directly in local configuration file
 (``config.inc.local.php``):
 
-.. code:: php
+.. code-block:: php
 
    $messages['questions']['ice'] = "What is your favorite ice cream flavor?";
 
@@ -142,6 +142,6 @@ Or better, to be able to translate it, create it in every customized lang file u
 
 To disable the default questions form the main configuration file, set:
 
-.. code:: php
+.. code-block:: php
 
    $questions_use_default = true;

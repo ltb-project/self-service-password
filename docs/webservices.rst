@@ -10,7 +10,7 @@ You must allow and protect access (for example with htaccess).
 
 You must also enable rest_api in configuration:
 
-.. code:: php
+.. code-block:: php
 
    $use_restapi = true;
 

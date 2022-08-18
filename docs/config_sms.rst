@@ -36,7 +36,7 @@ Activation
 
 You can enable or disable this feature with $use_sms:
 
-.. code:: php
+.. code-block:: php
 
    $use_sms = true;
 
@@ -48,7 +48,7 @@ Method
 
 Choose which method to use, ``mail`` or ``api``:
 
-.. code:: php
+.. code-block:: php
 
    $sms_method = "mail";
 
@@ -63,13 +63,13 @@ You can adjust some settings here, depending on provider guidelines:
 To set SMS mail to address.
 Within smssmailto {sms_attribute} will be replaced by sms number.
 
-.. code:: php
+.. code-block:: php
 
    $smsmailto = "{sms_attribute}@service.provider.com";
 
 Subject when sending email to SMTP to SMS provider
 
-.. code:: php
+.. code-block:: php
 
    $smsmail_subject = "Provider code";
 
@@ -78,13 +78,13 @@ API
 
 If you choose API, you need to define which library will be called:
 
-.. code:: php
+.. code-block:: php
 
    $sms_api_lib = "lib/smsapi.inc.php";
 
 In this library, you must define the ``send_sms_by_api`` function:
 
-.. code:: php
+.. code-block:: php
 
    function send_sms_by_api($mobile, $message) {
 
@@ -111,26 +111,26 @@ Mobile attribute
 Set here which LDAP attributes hold the user mobile phone, first found
 will be used :
 
-.. code:: php
+.. code-block:: php
 
    $sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 
 You can also partially hide the value when it is displayed on the
 confirmation page:
 
-.. code:: php
+.. code-block:: php
 
    $sms_partially_hide_number = true;
 
 To remove any non digit character from SMS number;
 
-.. code:: php
+.. code-block:: php
 
    $sms_sanitize_number = true;
 
 To truncate SMS number:
 
-.. code:: php
+.. code-block:: php
 
    $sms_truncate_number = true;
    $sms_truncate_number_length = 10;
@@ -141,7 +141,7 @@ Message
 Set the message here, it uses by default the ``smsresetmessage`` message
 defined in lang files and the ``smstoken`` parameter:
 
-.. code:: php
+.. code-block:: php
 
    # Message
    $sms_message = "{smsresetmessage} {smstoken}";
@@ -151,13 +151,13 @@ Token
 
 You can set the token length:
 
-.. code:: php
+.. code-block:: php
 
    $sms_token_length = 6;
 
 You can also configure the allowed attempts:
 
-.. code:: php
+.. code-block:: php
 
    $max_attempts = 3;
 

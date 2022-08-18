@@ -7,26 +7,26 @@ Server address
 Use an LDAP URI to configure the location of your LDAP server in
 ``$ldap_url``:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_url = "ldap://localhost:389";
 
 You can set several URI, so that next server will be tried if the
 previous is down:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_url = "ldap://server1 ldap://server2";
 
 To use SSL, set ``ldaps`` in the URI:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_url = "ldaps://localhost";
 
 To use StartTLS, set ``true`` in ``$ldap_starttls``:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_starttls = true;
 
@@ -61,7 +61,7 @@ Credentials
 
 Configure DN and password in ``$ldap_bindn`` and ``$ldap_bindpw``, for example a service account:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_binddn = "cn=ssp,ou=dsa,dc=example,dc=com";
    $ldap_bindpw = "secret";
@@ -74,7 +74,7 @@ If you want an SSP account to do this on behalf of the user set the value of ``$
 
 To instead use user's credentials when writing in LDAP directory, replace ``manager`` with ``user`` in ``$who_change_password``:
 
-.. code:: php
+.. code-block:: php
 
    $who_change_password = "user";
 
@@ -86,7 +86,7 @@ To instead use user's credentials when writing in LDAP directory, replace ``mana
 
 For Kerberos authentication (GSSAPI) comment out comment out ``$ldap_bind*`` and uncomment ``$ldap_krb5ccname`` lines
 
-.. code:: php
+.. code-block:: php
 
    $ldap_krb5ccname = "/tmp/krb5cc_apache";
 
@@ -123,13 +123,13 @@ Search parameters
 
 You can set the base of the search in ``$ldap_base``:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_base = "dc=example,dc=com";
 
 The filter can be set in ``$ldap_filter``:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_filter = "(&(objectClass=person)(uid={login}))";
 
@@ -141,13 +141,13 @@ Extensions
 You can use LDAP password modify extended operation with
 ``$ldap_use_exop_passwd``:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_use_exop_passwd = true;
 
 You can also enable LDAP password policy control with ``$ldap_use_ppolicy_control``:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_use_ppolicy_control = true;
 
@@ -161,7 +161,7 @@ Password in Active Directory is not managed like in other LDAP
 directories. Use option ``$ad_mode`` to use ``unicodePwd`` as password
 field:
 
-.. code:: php
+.. code-block:: php
 
    $ad_mode = true;
 
@@ -172,7 +172,7 @@ to manage Active Directory certificates.
 
 Adapt the search filter too:
 
-.. code:: php
+.. code-block:: php
 
    $ldap_filter = "(&(objectClass=user)(sAMAccountName={login})(!(userAccountControl:1.2.840.113556.1.4.803:=2)))";
 
@@ -180,19 +180,19 @@ You can tune some options:
 
 -  Force unlock: will unlock a locked account when password is changed
 
-.. code:: php
+.. code-block:: php
 
    $ad_options['force_unlock'] = true;
 
 -  Force user to change password at next login:
 
-.. code:: php
+.. code-block:: php
 
    $ad_options['force_pwd_change'] = true;
 
 -  Allow user to change password if password is expired (this will force the password to be changed as manager):
 
-.. code:: php
+.. code-block:: php
 
    $ad_options['change_expired_password'] = true;
 
@@ -229,14 +229,14 @@ of the password in a second attribute (``sambaNTpassword``). It also
 store modification date in ``sambaPwdLastSet``. Use ``$samba_mode`` to
 manage these attributes:
 
-.. code:: php
+.. code-block:: php
 
    $samba_mode = true;
 
 You can also update ``sambaPwdCanChange`` and ``sambaPwdMustChange``
 attributes by settings minimal and maximal age, in days:
 
-.. code:: php
+.. code-block:: php
 
    $samba_options['min_age'] = 5;
    $samba_options['max_age'] = 45;
@@ -244,7 +244,7 @@ attributes by settings minimal and maximal age, in days:
 To set an expiration date for a Samba account (attribute
 ``sambaKickofftime``), configure a maximal age, in days:
 
-.. code:: php
+.. code-block:: php
 
    $samba_options['expire_days'] = 90;
 
@@ -259,7 +259,7 @@ Shadow
 If using ``shadowAccount`` object class for users, you can update the
 ``shadowLastChange`` attribute when changing password:
 
-.. code:: php
+.. code-block:: php
 
    $shadow_options['update_shadowLastChange'] = true;
 
@@ -267,7 +267,7 @@ You can also update the ``shadowExpire`` attribute to define when the
 password will expire. Use ``-1`` to never expire, else configure the
 number of days:
 
-.. code:: php
+.. code-block:: php
 
    $shadow_options['update_shadowExpire'] = true;
    $shadow_options['shadow_expire_days'] = 365;
