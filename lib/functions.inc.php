@@ -314,17 +314,21 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     # Contains values from forbidden ldap fields?
     if ( !empty($pwd_forbidden_ldap_fields) ) {
         foreach ( $pwd_forbidden_ldap_fields as $field ) {
-            $values = $entry_array[$field];
-            if (!is_array($values)) {
-                $values = array($values);
-            }
-            foreach ($values as $key => $value) {
-                if ($key === 'count') {
-                    continue;
+            # if entry does not hold requested attribute, continue
+            if ( array_key_exists($field,$entry_array) )
+            {
+                $values = $entry_array[$field];
+                if (!is_array($values)) {
+                    $values = array($values);
                 }
-                if (stripos($password, $value) !== false) {
-                    $result = "forbiddenldapfields";
-                    break 2;
+                foreach ($values as $key => $value) {
+                    if ($key === 'count') {
+                        continue;
+                    }
+                    if (stripos($password, $value) !== false) {
+                        $result = "forbiddenldapfields";
+                        break 2;
+                    }
                 }
             }
         }
