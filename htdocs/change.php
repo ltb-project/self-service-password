@@ -32,17 +32,12 @@ $login = $presetLogin;
 $confirmpassword = "";
 $newpassword = "";
 $oldpassword = "";
-$captchaphrase = "";
 $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 $extended_error_msg = "";
 
-if ($use_captcha) {
-    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-    else { $result = "captcharequired"; }
-}
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
 else { $result = "confirmpasswordrequired"; }
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
@@ -66,13 +61,7 @@ if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 #==============================================================================
 # Check captcha
 #==============================================================================
-if ( $result === "" && $use_captcha ) {
-    session_start();
-    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
-        $result = "badcaptcha";
-    }
-    unset($_SESSION['phrase']);
-}
+if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
 
 #==============================================================================
 # Check old password

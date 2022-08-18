@@ -15,20 +15,19 @@
         {if $msg_changehelpextramessage}
             <p>{$msg_changehelpextramessage|unescape: "html" nofilter}</p>
         {/if}
-        {if !$show_menu and ($use_question or $use_tokens or $use_sms or $change_sshkey) }
-            <p>{$msg_changehelpextramessage}</p>
+        {if !$show_menu and ($use_questions or $use_tokens or $use_sms or $change_sshkey) }
             <ul>
                 {if $use_questions}
-                    <li>{$mgs_use_questions}</li>
+                    <li>{$msg_changehelpquestions|unescape: "html" nofilter}</li>
                 {/if}
                 {if $use_tokens}
-                    <li>{$mgs_use_tokens}</li>
+                    <li>{$msg_changehelptoken|unescape: "html" nofilter}</li>
                 {/if}
                 {if $use_sms}
-                    <li>{$mgs_use_sms}</li>
+                    <li>{$msg_changehelpsms|unescape: "html" nofilter}</li>
                 {/if}
                 {if $change_sshkey}
-                    <li>{$mgs_change_sshkey}</li>
+                    <li>{$msg_changehelpsshkey|unescape: "html" nofilter}</li>
                 {/if}
             </ul>
         {/if}

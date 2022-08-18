@@ -33,7 +33,6 @@ $question = [];
 $answer = [];
 $newpassword = "";
 $confirmpassword = "";
-$captchaphrase = "";
 $ldap = "";
 $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
@@ -41,12 +40,9 @@ $mail = "";
 $extended_error_msg = "";
 $questions_count = $multiple_answers ? $questions_count : 1;
 
-if ($use_captcha) {
-    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-    else { $result = "captcharequired"; }
-}
 if (isset($_POST["confirmpassword"]) and $_POST["confirmpassword"]) { $confirmpassword = strval($_POST["confirmpassword"]); }
 else { $result = "confirmpasswordrequired"; }
+
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) { $newpassword = strval($_POST["newpassword"]); }
 else { $result = "newpasswordrequired"; }
 
@@ -63,6 +59,7 @@ if (isset($_POST["answer"]) and $_POST["answer"]) {
 } else {
     $result = "answerrequired";
 }
+
 if (isset($_POST["question"]) and $_POST["question"]) {
     if ($questions_count > 1) {
       $question = $_POST["question"];
@@ -89,13 +86,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Check captcha
 #==============================================================================
-if ( $result === "" && $use_captcha ) {
-    session_start();
-    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
-        $result = "badcaptcha";
-    }
-    unset($_SESSION['phrase']);
-}
+if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
 
 # Should we pre-populate the question?
 #   This should ensure that $login is valid and everything else is empty.
@@ -218,8 +209,8 @@ if ( $result === ""  || $populate_questions) {
                         }
                     }
 
-                    $entry = ldap_get_attributes($ldap, $entry);
-                    $entry['dn'] = $userdn;
+                    $entry_array = ldap_get_attributes($ldap, $entry);
+                    $entry_array['dn'] = $userdn;
                 }
             }
         }
@@ -236,7 +227,7 @@ if ( $result === "" ) {
 
 # Check password strength
 if ( $result === "" ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry );
+    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry_array );
 }
 
 # Change password

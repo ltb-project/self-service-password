@@ -1,3 +1,4 @@
+{if $result !== 'tokensent'}
 {if $show_help}
     <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i>
         {if $mail_address_use_ldap}
@@ -41,3 +42,4 @@
     </div>
 </form>
 </div>
+{/if}

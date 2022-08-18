@@ -223,8 +223,9 @@ function show_policy( $messages, $pwd_policy_config, $result ) {
 }
 
 # Check password strength
+# @param array entry_array ldap entry ( ie not resource or LDAP\Result )
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array ) {
     extract( $pwd_policy_config );
 
     $result = "";
@@ -313,9 +314,9 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     # Contains values from forbidden ldap fields?
     if ( !empty($pwd_forbidden_ldap_fields) ) {
         foreach ( $pwd_forbidden_ldap_fields as $field ) {
-            $values = $entry[$field];
-            if (!is_array($entry[$field])) {
-                $values = array($entry[$field]);
+            $values = $entry_array[$field];
+            if (!is_array($values)) {
+                $values = array($values);
             }
             foreach ($values as $key => $value) {
                 if ($key === 'count') {
@@ -538,38 +539,51 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     return $result;
 }
 
-
-# Verifies sshPublicKey is valid
+/* @function check_sshkey(string $sshkey, array $valid_types)
+ * Verifies sshPublicKey is valid
+ * @param string $sshkey Publich SSH Keys
+ * @param array $valid_types List of valid SSH Key types
+ * @return boolean
+ */
 function check_sshkey ( $sshkey, $valid_types ) {
-    $key_parts = preg_split('/[\s]+/', $sshkey);
 
-    if (count($key_parts) < 2) {
-        return false;
-    }
-    if (count($key_parts) > 3) {
-        return false;
-    }
+    $keys = preg_split('/\n|\r\n?/', $sshkey);
+    $found = 0;
+    for ($c = 0; $c < count($keys); $c++) {
+        if (preg_match('/^[ \t]*$/', $keys[$c])) {
+            continue;
+        }
+        $key_parts = preg_split('/[\s]+/', $keys[$c]);
 
-    $algorithm = $key_parts[0];
-    if (count($valid_types) > 0) {
-        if (! in_array($algorithm, $valid_types)) {
+        if (count($key_parts) < 2) {
             return false;
         }
+        if (count($key_parts) > 3) {
+            return false;
+        }
+
+        $algorithm = $key_parts[0];
+        if (count($valid_types) > 0) {
+            if (! in_array($algorithm, $valid_types)) {
+                return false;
+            }
+        }
+
+        $key = $key_parts[1];
+        $key_base64_decoded = base64_decode($key, true);
+        if ($key_base64_decoded == FALSE) {
+            return false;
+        }
+
+        $ealg = base64_encode($algorithm . " AAAA");
+        $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
+        if ((string) $check !== (string) $algorithm) {
+            return false;
+        }
+        $found++;
     }
 
-    $key = $key_parts[1];
-    $key_base64_decoded = base64_decode($key, true);
-    if ($key_base64_decoded == FALSE) {
-        return false;
-    }
-
-    $ealg = base64_encode($algorithm . " AAAA");
-    $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
-    if ((string) $check !== (string) $algorithm) {
-        return false;
-    }
-
-    return true;
+    return $found > 0 ? true : false;
 }
 
 # Change sshPublicKey attribute
@@ -577,8 +591,8 @@ function check_sshkey ( $sshkey, $valid_types ) {
 function change_sshkey( $ldap, $dn, $objectClass, $attribute, $sshkey ) {
 
     $result = "";
-
-    $userdata[$attribute] = $sshkey;
+    $keys = preg_split('/\n|\r\n?/', $sshkey);
+    $userdata[$attribute] = $keys[0];
 
     # check for required objectclass, if configured
     if ($objectClass !== "") {
@@ -616,7 +630,22 @@ function change_sshkey( $ldap, $dn, $objectClass, $attribute, $sshkey ) {
         $result = "sshkeyerror";
         error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
     } else {
-        $result = "sshkeychanged";
+        for ($c = 1; $c < count($keys); $c++) {
+            if (preg_match('/^[ \t]*$/', $keys[$c])) {
+                continue;
+            }
+            $userdata[$attribute] = $keys[$c];
+            $add = ldap_mod_add($ldap, $dn, $userdata);
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "sshkeyerror";
+                error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
+                break;
+            }
+        }
+        if ($result === "") {
+            $result = "sshkeychanged";
+        }
     }
 
     return $result;
