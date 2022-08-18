@@ -884,7 +884,6 @@ function allowed_rate($login,$ip_addr,$rrl_config) {
             return false;
         }
     }
-    
     if ($max_per_ip > 0) {
         $count =  updatedb_selector_count( $rrl_config["dbdir"] . "/ssp_rrl_ips.json",$ip_addr,$per_time,$now,$fblock);
         if ($count > $max_per_ip) {
