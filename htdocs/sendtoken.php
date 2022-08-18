@@ -32,7 +32,6 @@ $ldap = "";
 $userdn = "";
 $token = "";
 $usermail = "";
-$captchaphrase = "";
 
 if (!$mail_address_use_ldap) {
     if (isset($_POST["mail"]) and $_POST["mail"]) {
@@ -45,14 +44,11 @@ if (!$mail_address_use_ldap) {
         $result = "mailrequired";
     }
 }
-if ($use_captcha) {
-    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) { $captchaphrase = strval($_POST["captchaphrase"]); }
-     else { $result = "captcharequired"; }
-}
-if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
- else { $result = "loginrequired"; }
-if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"]))
- { $result = "emptysendtokenform"; }
+
+if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]);}
+else { $result = "loginrequired";}
+
+if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) { $result = "emptysendtokenform"; }
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -62,13 +58,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Check captcha
 #==============================================================================
-if ( $result === "" && $use_captcha ) {
-    session_start();
-    if ( !check_captcha($_SESSION['phrase'], $captchaphrase) ) {
-        $result = "badcaptcha";
-    }
-    unset($_SESSION['phrase']);
-}
+if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
 
 #==============================================================================
 # Check mail

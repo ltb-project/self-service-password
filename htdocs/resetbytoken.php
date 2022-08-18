@@ -54,6 +54,8 @@ if ( $result === "" ) {
         $tokenid = $token;
     }
 
+    # select internal session by $tokenid without relying on cookie or url
+    # will gather login,time and smstoken values from session.
     ini_set("session.use_cookies",0);
     ini_set("session.use_only_cookies",1);
 
