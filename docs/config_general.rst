@@ -40,7 +40,7 @@ Then if you send the header ``SSP-Extra-Config: domain1``, the file
 
 Using Apache, we may set such header using the following:
 
-.. code:: apache
+.. code-block:: apache
 
     <VirtualHost *:80>
        ServerName ssp.domain1.com
@@ -50,7 +50,7 @@ Using Apache, we may set such header using the following:
 
 Using Nginx, we could use instead:
 
-.. code:: nginx
+.. code-block:: nginx
 
    server {
        [...]

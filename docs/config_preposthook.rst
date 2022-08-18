@@ -56,7 +56,7 @@ if it fails, but still try to update password in the directory.
 
 Here is an example of a simple hook script:
 
-.. code:: bash
+.. code-block:: bash
 
    #!/bin/bash
 

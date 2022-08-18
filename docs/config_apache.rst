@@ -5,7 +5,7 @@ Apache configuration
 
 Here is an example of Apache configuration using a virtual host:
 
-.. code:: apache
+.. code-block:: apache
 
    <VirtualHost *:80>
        ServerName ssp.example.com
@@ -57,7 +57,7 @@ With Debian package, just enable the site like this:
 
 You can also configure Self Service Password in the default virtual host:
 
-.. code:: apache
+.. code-block:: apache
 
    Alias /ssp /usr/local/self-service-password/htdocs
 

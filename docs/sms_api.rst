@@ -61,7 +61,7 @@ Get credentials here:
 
 Go to lib/ovhsms and type:
 
-.. code:: sh
+.. prompt:: bash $
 
    composer install
 
