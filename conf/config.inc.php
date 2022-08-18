@@ -107,6 +107,8 @@ $max_attempts_per_ip = 2;
 $max_attempts_block_seconds = "60";
 # Header to use for client IP (HTTP_X_FORWARDED_FOR ?)
 $client_ip_header = 'REMOTE_ADDR';
+# JSON file to filter by IP
+#$ratelimit_filter_by_ip_jsonfile = "/usr/share/self-service-password/conf/rrl_filter_by_ip.json";
 
 # Local password policy
 # This is applied before directory password policy
