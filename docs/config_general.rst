@@ -21,10 +21,6 @@ Self Service Password default configuration file is
 in ``config.inc.local.php``. This prevents you to be disturbed by an
 upgrade.
 
-.. warning::
-  Do not copy ``config.inc.php`` into ``config.inc.local.php``, as the first one includes the second.
-  You would then create an infinite loop and crash your application.
-
 Multi tenancy
 -------------
 
