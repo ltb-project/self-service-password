@@ -22,6 +22,7 @@ mkdir -p $NAME-$VERSION/conf
 mkdir -p $NAME-$VERSION/htdocs
 mkdir -p $NAME-$VERSION/lang
 mkdir -p $NAME-$VERSION/lib
+mkdir -p $NAME-$VERSION/rest
 mkdir -p $NAME-$VERSION/scripts
 mkdir -p $NAME-$VERSION/templates
 
@@ -32,6 +33,7 @@ cp ../conf/*      $NAME-$VERSION/conf
 cp -a ../htdocs/* $NAME-$VERSION/htdocs
 cp ../lang/*      $NAME-$VERSION/lang
 cp -a ../lib/*    $NAME-$VERSION/lib
+cp -a ../rest/*   $NAME-$VERSION/rest
 cp ../scripts/*   $NAME-$VERSION/scripts
 cp ../templates/* $NAME-$VERSION/templates
 
