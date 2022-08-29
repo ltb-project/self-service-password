@@ -32,6 +32,15 @@ Now :ref:`rate limit configuration<config_rate_limit>` is applied to all feature
 
 Another improvement is the possibility to adapt rate limit by IP, see ``$ratelimit_filter_by_ip_jsonfile`` parameter.
 
+Argon2
+~~~~~~
+
+The password can now be hashed with Argon2. To use it, just set it into ``$hash`` parameter:
+
+.. code-block:: php
+
+    $hash = "ARGON2";
+
 Security
 ~~~~~~~~
 
