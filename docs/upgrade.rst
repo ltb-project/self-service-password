@@ -32,6 +32,11 @@ Now :ref:`rate limit configuration<config_rate_limit>` is applied to all feature
 
 Another improvement is the possibility to adapt rate limit by IP, see ``$ratelimit_filter_by_ip_jsonfile`` parameter.
 
+Security
+~~~~~~~~
+
+We now hide by default the error "mail not found", this can be reverted by editing the ``$obscure_failure_messages`` parameter. See :ref:`security documentation<security>` for more information.
+
 PHP compatibility
 ~~~~~~~~~~~~~~~~~
 

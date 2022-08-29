@@ -191,6 +191,8 @@ This is also possible to enable Smarty debug, for web interface issues:
 
 .. tip:: Debug messages will appear on web interface.
 
+.. _security:
+
 Security
 --------
 
