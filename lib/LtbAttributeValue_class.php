@@ -29,7 +29,7 @@ class LtbAttributeValue {
     }
 
     /** function LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $attributes)
-     * Get from ldap entry first value of first existing attribute  within $attributes in order
+     * Get from ldap entry first value of first existing attribute within $attributes in order
      * @param $ldap ldap connection object
      * @param $entry ldap entry to parse
      * @param $attributes array of attributes names
@@ -52,7 +52,7 @@ class LtbAttributeValue {
     }
 
     /** function LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry) {
-     * Get from ldap entry first value corresponding to $mail_attributes (globally configuraed)
+     * Get from ldap entry first value corresponding to $mail_attributes (globally configured)
      * @param $ldap ldap connection object
      * @param $entry ldap entry to parse
      * @return mail to use for notification or empty string if not found
