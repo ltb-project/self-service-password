@@ -4,6 +4,18 @@ Upgrade
 From 1.4 to 1.5
 ---------------
 
+Multiple attributes for mail and mobile
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can now configure multiple LDAP attributes for mail and mobile. The search will be done in each attribute, the first value found will be used.
+
+The old parameters ``$mail_attribute`` and ``$sms_attribute`` need to be replaced by ``$mail_attributes`` and ``$sms_attributes`` which are now an array of values:
+
+.. code-block:: php
+
+    $mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" );
+    $sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
+
 Rate limit
 ~~~~~~~~~~
 
