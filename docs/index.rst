@@ -9,6 +9,7 @@ LDAP Tool Box Self Service Password documentation
 
    presentation.rst
    installation.rst
+   upgrade.rst
    config_webserver.rst
    config_general.rst
    config_ldap.rst

@@ -1,3 +1,5 @@
+.. _config_rate_limit:
+
 Rate limit
 ==========
 
