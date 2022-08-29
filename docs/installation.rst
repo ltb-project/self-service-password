@@ -19,7 +19,7 @@ Install files in ``/usr/share/``:
 You need to install these prerequisites:
 
 * Apache or another web server
-* php (>=7 and <8.1)
+* php (>=7)
 * php-curl (haveibeenpwned api)
 * php-filter
 * php-gd (captcha)

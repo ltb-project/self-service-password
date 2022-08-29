@@ -19,3 +19,8 @@ Now :ref:`rate limit configuration<config_rate_limit>` is applied to all feature
     Before 1.5, it was just used with tokens.
 
 Another improvement is the possibility to adapt rate limit by IP, see ``$ratelimit_filter_by_ip_jsonfile`` parameter.
+
+PHP compatibility
+~~~~~~~~~~~~~~~~~
+
+Version 1.5 should now be working with latest PHP version.
