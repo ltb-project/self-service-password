@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
         libbz2-dev \
@@ -33,15 +33,16 @@ RUN buildDeps=" \
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -r /var/lib/apt/lists/* \
     && a2enmod rewrite
-RUN mkdir -p /usr/share/php/smarty3/ && \
-    curl -Lqs https://github.com/smarty-php/smarty/archive/v3.1.35.tar.gz | \
-    tar xzf - -C /usr/share/php/smarty3/ --strip-components=2
+RUN mkdir -p /usr/share/php/smarty4/ && \
+    curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.2.0.tar.gz | \
+    tar xzf - -C /usr/share/php/smarty4/ --strip-components=2
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY . /var/www
 RUN rmdir /var/www/html && \
     mv /var/www/htdocs /var/www/html && \
     mkdir -p /var/www/templates_c && \
-    chown -R www-data: /var/www/templates_c
+    chown -R www-data: /var/www/templates_c && \
+    sed -i 's/smarty3/smarty4/' /var/www/conf/config.inc.php
 ENV LC_CTYPE=en_US.UTF-8
 EXPOSE 80
 
