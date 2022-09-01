@@ -62,12 +62,13 @@ if ( $errno ) {
 
 # Get user DN
 $entry = ldap_first_entry($ldap, $search);
-$userdn = ldap_get_dn($ldap, $entry);
 
-if( !$userdn ) {
+if( !$entry ) {
     $result = "badcredentials";
     error_log("LDAP - User $login not found");
 } else {
+
+$userdn = ldap_get_dn($ldap, $entry);
 
 # Get user email for notification
 if ( $notify_on_change ) {
@@ -84,8 +85,8 @@ if ( !in_array( 'shadowAccount', $ocValues ) ) {
     $shadow_options['update_shadowExpire'] = false;
 }
 
-$entry = ldap_get_attributes($ldap, $entry);
-$entry['dn'] = $userdn;
+$entry_array = ldap_get_attributes($ldap, $entry);
+$entry_array['dn'] = $userdn;
 
 # Bind with old password
 $bind = ldap_bind($ldap, $userdn, $oldpassword);
@@ -121,7 +122,7 @@ if ( $result === "" )  {
     }
 
     if ($result === "") {
-        $result = check_password_strength($newpassword, $oldpassword, $pwd_policy_config, $login, $entry);
+        $result = check_password_strength($newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array);
 
         #==============================================================================
         # Change password
