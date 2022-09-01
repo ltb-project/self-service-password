@@ -72,7 +72,7 @@ $userdn = ldap_get_dn($ldap, $entry);
 
 # Get user email for notification
 if ( $notify_on_change ) {
-    $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+    $mail = (new LtbAttributeValue(null,null))->ldap_get_mail_for_notification($ldap, $entry);
 }
 
 # Check objectClass to allow samba and shadow updates
