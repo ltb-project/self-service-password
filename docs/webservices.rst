@@ -32,6 +32,12 @@ Check the strength of a password:
      -u 'authuser:authpwd' \
      http://ssp.example.com/rest/v1/checkpassword.php
 
+.. tip::
+
+   Provide also login and oldpassword if you configured the password policy to
+   check if new password is not the same as old password, not the same as login,
+   or does not contain values from the LDAP entry.
+
 Update password for a user checking the current password first:
 
 .. prompt:: bash $
