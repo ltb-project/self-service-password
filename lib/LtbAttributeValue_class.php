@@ -57,7 +57,7 @@ class LtbAttributeValue {
      * @param $entry ldap entry to parse
      * @return mail to use for notification or empty string if not found
      */
-    function ldap_get_mail_for_notification($ldap, $entry) {
+    public static function ldap_get_mail_for_notification($ldap, $entry) {
         # mail_attibutes are set globally in configuration
         global $mail_attributes;
         $mailValue =  LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $mail_attributes);
