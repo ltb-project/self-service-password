@@ -157,7 +157,7 @@ if ( $result === ""  || $populate_questions) {
 
                     # Get user email for notification
                     if ($notify_on_change) {
-                        $mail = (new LtbAttributeValue(null,null))->ldap_get_mail_for_notification($ldap, $entry);
+                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
                     }
 
                     # Get question/answer values
