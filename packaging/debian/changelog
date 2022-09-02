@@ -1,3 +1,92 @@
+ltb-project-self-service-password (1.5.0-1) unstable; urgency=high
+
+    * gh#494: allow more than one mail_attribute value
+    * gh#509: ssh-pub-key verification while change
+    * gh#510: feat(ssh): public key check ( #509 )
+    * gh#512: docs(sshkey)
+    * gh#513: fix(sshkeys): don't send mail notification when entry was not changed
+    * gh#514: fix(sshkey): should add one sshPublicKey per key
+    * gh#515: docs(multi-tenancy): adds samples setting multi-tenancy header
+    * gh#524: "Bind user password needs to be changed" when users change AD expired password
+    * gh#530: Change expired password as manager
+    * gh#536: adding Kerberos authentication support
+    * gh#538: Switch to a new Pwned Passwords module
+    * gh#539: fix(version): mismatch between htdocs/index.php and rest/v1/include.php
+    * gh#540: Refactor pwned passwords
+    * gh#541: core(update): apache 2.4.46
+    * gh#544: Rate limit not working on Ubuntu 20.04 apt install
+    * gh#545: docs(ratelimit): typo
+    * gh#546: feat(mails): using several mail attributes
+    * gh#547: Update de.inc.php
+    * gh#549: Added sms api for signal-cli
+    * gh#551: fix(docs): invalid nginx root serving ssp
+    * gh#556: Somthing missing in the OVH API doc
+    * gh#558: fix(docs): ratelimit check interval should be 1h, not 1min
+    * gh#559: chore(deps): bump phpmailer/phpmailer from 6.4.1 to 6.5.0 in /lib
+    * gh#562: Document $allowed_lang var
+    * gh#563: show_menu = false displays an empty UL
+    * gh#564: Updated IT translation
+    * gh#566: ansible role for ltb-project
+    * gh#571: Fix Error 500 when user is not found in ldap for sms reset
+    * gh#575: Updated catalan translation
+    * gh#576: fix(api): phpmailer needs to be included (#573)
+    * gh#579: Add a request example about the rest api interface
+    * gh#587: Captcha misaligned in the mobile version
+    * gh#588: fix: captcha misaligned in the mobile version
+    * gh#592: Fix 563
+    * gh#594: Update simplified Chinese translation
+    * gh#598: fix(docs) - see ltb-project/self-service-password#590
+    * gh#602: Errors when Using Captchas with Password Reset Emails
+    * gh#605: Display value associative table with line break HTML element <br>
+    * gh#606: Update fr translation
+    * gh#608: objectClass: ldapPublicKey should be added when needed
+    * gh#609: Fix some undefined warnings
+    * gh#610: security: service discloses existence of user accounts
+    * gh#611: docker: image build fails and/or ldap config missing
+    * gh#612: fix apache / bullseye
+    * gh#619: Issue 608
+    * gh#628: Implement Argon2 hashing
+    * gh#631: Add the ability to exclude IPs from rate limit settings.
+    * gh#635: Missing Documentation
+    * gh#642: Add some cosmetic css properties to sshkey textarea
+    * gh#646: Fix translation
+    * gh#647: chore(deps): bump guzzlehttp/psr7 from 2.1.0 to 2.2.1 in /lib
+    * gh#650: Fixing issue with ldaps or ldap startls
+    * gh#654: Rate limit for Password reset
+    * gh#655: AD doesnt accept TLS
+    * gh#658: Allow more than one mobile attribute
+    * gh#659: chore(deps): bump guzzlehttp/guzzle from 7.4.0 to 7.4.4 in /lib
+    * gh#661: Update bootstrap to v3.4.1
+    * gh#662: Compatibility with PHP 8.1
+    * gh#664: chore(deps): bump guzzlehttp/guzzle from 7.4.4 to 7.4.5 in /lib
+    * gh#669: Update TR translation
+    * gh#673: feat(sms): Allow more than one mobile attribute #658
+    * gh#675: Feat mail factorize attributes
+    * gh#676: Remove warning "Decoding error"
+    * gh#677: Use correct message identifiers
+    * gh#680: captcha use dedicated session cookie fix #602
+    * gh#682: PHP Notice:  Trying to access array offset on value of type resource
+    * gh#683: Rate limit optional support per ip (ratelimit_filter_by_ip)
+    * gh#684: Add rate limit checking for any password change request include fix #654
+    * gh#685: hide failure by default for mailnomatch issue #610
+    * gh#686: fix check password toward ldap attribute for token based methods
+    * gh#687: rest api checkpassword bugs
+    * gh#688: Fix password check ldap
+    * gh#695: Improve password check in REST API by reading user entry to honor pwd_forbidden_ldap_fields configuration parameter
+    * gh#696: Improve documentation, parse php code
+    * gh#697: blank page when reset with questions without answers set.
+    * gh#698: ldap_get_dn() expects parameter 2
+    * gh#699: Check parameters before calling hash_equals
+    * gh#700: Issue with AD "reset password on next logon"
+    * gh#701: Use require_once to avoid loop on local configuration file inclusion
+    * gh#702: Use require_once for file inclusion
+    * gh#703: Fix reset by questions display after password change
+    * gh#704: Use recent version of PHP and Smarty in our Docker image
+    * gh#705: Create upgrade doc for 1.5
+    * gh#708: Get entry in checkpassword REST service
+
+ -- Clement Oudot <clem@ltb-project.org>  Fri, 02 Sep 2022 12:00:00 +0200
+
 ltb-project-self-service-password (1.4.5-1) unstable; urgency=high
 
     * Latest version of 1.4.4 not working by @Max7641 in #670
