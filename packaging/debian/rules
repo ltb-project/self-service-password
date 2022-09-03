@@ -14,3 +14,6 @@ override_dh_fixperms:
 	dh_fixperms
 	chown www-data:www-data debian/self-service-password/var/cache/self-service-password/cache
 	chown www-data:www-data debian/self-service-password/var/cache/self-service-password/templates_c
+
+override_dh_builddeb:
+	dh_builddeb -- -Zxz
