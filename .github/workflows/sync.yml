@@ -1,0 +1,26 @@
+name: Synchronize back to master
+
+on:
+  push:
+    branches:
+      - 1.5
+
+jobs:
+  sync-branches:
+    runs-on: ubuntu-latest
+    name: Syncing branches
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 1.5
+      - run: |
+          git fetch --unshallow
+          git pull origin 1.5
+          git config user.email "automatic@github.com"
+          git config user.name "GitHub Actions"
+      - name: sync master
+        run: |
+          git checkout master
+          git pull --rebase
+          git merge 1.5 --ff-only
+          git push
