@@ -104,12 +104,21 @@ You are now ready to install:
 Docker
 ------
 
-Prepare a local configuration file for Self Service Password, for example ``/home/test/ssp.conf.php``.
+We provide an `official Docker image <https://hub.docker.com/r/ltbproject/self-service-password>`_.
+
+Prepare a local configuration file, for example ``ssp.conf.php``.
+
+.. code-block:: php
+
+    <?php // My SSP configuration
+    $keyphrase = "mysecret";
+    $debug = true;
+    ?>
 
 Start container, mounting that configuration file:
 
 .. prompt:: bash #
 
     docker run -p 80:80 \
-        -v /home/test/ssp.conf.php:/var/www/conf/config.inc.local.php \
+        -v $PWD/ssp.conf.php:/var/www/conf/config.inc.local.php \
         -it docker.io/ltbproject/self-service-password:latest
