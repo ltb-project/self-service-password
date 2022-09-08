@@ -58,6 +58,8 @@ $ad_options['force_unlock'] = false;
 $ad_options['force_pwd_change'] = false;
 # Allow user with expired password to change password
 $ad_options['change_expired_password'] = false;
+# Force who_change_password to be 'user', useful in AD environments
+$ad_force_low_privileged_change = false;
 
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too

@@ -172,6 +172,10 @@ if ( $result === "" ) {
                     }
                 }
 
+                if ($ad_force_low_privileged_change){
+                    $who_change_password = "user";
+                }
+
             }
         }
     }
