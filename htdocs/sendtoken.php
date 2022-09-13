@@ -101,6 +101,12 @@ if ( $result === "" ) {
 
     # Get user DN
     $entry = ldap_first_entry($ldap, $search);
+
+    if( !$entry ) {
+        $result = "badcredentials";
+        error_log("LDAP - User $login not found");
+    } else {
+
     $userdn = ldap_get_dn($ldap, $entry);
 
     if( !$userdn ) {
@@ -155,7 +161,7 @@ if ( $result === "" ) {
         }
     }
 
-}}}}
+}}}}}
 
 #==============================================================================
 # Build and store token
