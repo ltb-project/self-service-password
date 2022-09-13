@@ -138,12 +138,13 @@ if ( $result === ""  || $populate_questions) {
 
                 # Get user DN
                 $entry = ldap_first_entry($ldap, $search);
-                $userdn = ldap_get_dn($ldap, $entry);
 
-                if ( !$userdn ) {
+                if ( !$entry ) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
                 } else {
+
+                    $userdn = ldap_get_dn($ldap, $entry);
 
                     # Check objectClass to allow samba and shadow updates
                     $ocValues = ldap_get_values($ldap, $entry, 'objectClass');

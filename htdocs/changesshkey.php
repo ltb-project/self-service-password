@@ -98,12 +98,13 @@ if ( $result === "" ) {
 
                 # Get user DN
                 $entry = ldap_first_entry($ldap, $search);
-                $userdn = ldap_get_dn($ldap, $entry);
 
-                if ( !$userdn ) {
+                if ( !$entry ) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
                 } else {
+
+                    $userdn = ldap_get_dn($ldap, $entry);
 
                     # Get user email for notification
                     if ($notify_on_sshkey_change) {

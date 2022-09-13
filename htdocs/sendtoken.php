@@ -101,12 +101,14 @@ if ( $result === "" ) {
 
     # Get user DN
     $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
 
-    if( !$userdn ) {
+    if( !$entry ) {
         $result = "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
+
+        $userdn = ldap_get_dn($ldap, $entry);
+
         # Compare mail values
         $entry_attributes = ldap_get_attributes($ldap, $entry);
         for ($match = false, $i = 0; $i < sizeof($mail_attributes) and ! $match; $i++) {

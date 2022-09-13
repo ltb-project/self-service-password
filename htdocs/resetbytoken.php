@@ -134,26 +134,28 @@ if ( $result === "" ) {
 
                 # Get user DN
                 $entry = ldap_first_entry($ldap, $search);
-                $userdn = ldap_get_dn($ldap, $entry);
 
-                if( !$userdn ) {
+                if( !$entry ) {
                     $result = "badcredentials";
                     error_log("LDAP - User $login not found");
-                }
+                } else {
 
-                # Check objectClass to allow samba and shadow updates
-                $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
-                if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
-                    $samba_mode = false;
-                }
-                if ( !in_array( 'shadowAccount', $ocValues ) ) {
-                    $shadow_options['update_shadowLastChange'] = false;
-                    $shadow_options['update_shadowExpire'] = false;
-                }
+                    $userdn = ldap_get_dn($ldap, $entry);
 
-                # Get user email for notification
-                if ($notify_on_change) {
-                    $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+                    # Check objectClass to allow samba and shadow updates
+                    $ocValues = ldap_get_values($ldap, $entry, 'objectClass');
+                    if ( !in_array( 'sambaSamAccount', $ocValues ) and !in_array( 'sambaSAMAccount', $ocValues ) ) {
+                        $samba_mode = false;
+                    }
+                    if ( !in_array( 'shadowAccount', $ocValues ) ) {
+                        $shadow_options['update_shadowLastChange'] = false;
+                        $shadow_options['update_shadowExpire'] = false;
+                    }
+
+                    # Get user email for notification
+                    if ($notify_on_change) {
+                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+		    }
                 }
             }
         }
