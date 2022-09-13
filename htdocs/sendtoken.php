@@ -107,12 +107,8 @@ if ( $result === "" ) {
         error_log("LDAP - User $login not found");
     } else {
 
-    $userdn = ldap_get_dn($ldap, $entry);
+        $userdn = ldap_get_dn($ldap, $entry);
 
-    if( !$userdn ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    } else {
         # Compare mail values
         $entry_attributes = ldap_get_attributes($ldap, $entry);
         for ($match = false, $i = 0; $i < sizeof($mail_attributes) and ! $match; $i++) {
@@ -161,7 +157,7 @@ if ( $result === "" ) {
         }
     }
 
-}}}}}
+}}}}
 
 #==============================================================================
 # Build and store token
