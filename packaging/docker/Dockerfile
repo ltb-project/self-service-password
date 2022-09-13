@@ -13,6 +13,7 @@ RUN buildDeps=" \
     runtimeDeps=" \
         curl \
         libicu-dev \
+        libldap-common \
         libldap2-dev \
 	libgd3 \
 	libjpeg62-turbo \
