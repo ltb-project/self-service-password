@@ -1,3 +1,12 @@
+ltb-project-self-service-password (1.5.1-1) unstable; urgency=high
+
+    * gh#709: Error 404 with bootstrap.min.css.map
+    * gh#711: Error 500 when user is not found in directory for password reset by mail
+    * gh#714: Docker - missing libldap-common
+    * gh#716: Debian package not in the Apt repo
+
+ -- Clement Oudot <clem@ltb-project.org>  Fri, 16 Sep 2022 12:00:00 +0200
+
 ltb-project-self-service-password (1.5.0-1) unstable; urgency=high
 
     * gh#494: allow more than one mail_attribute value

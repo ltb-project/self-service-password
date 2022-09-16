@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.5.0
+%define ssp_version	1.5.1
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,7 +121,12 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
-* Wed Sep 02 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.0-1
+* Fri Sep 16 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.1-1
+- gh#709: Error 404 with bootstrap.min.css.map
+- gh#711: Error 500 when user is not found in directory for password reset by mail
+- gh#714: Docker - missing libldap-common
+- gh#716: Debian package not in the Apt repo
+* Fri Sep 02 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.0-1
 - gh#494: allow more than one mail_attribute value
 - gh#509: ssh-pub-key verification while change
 - gh#510: feat(ssh): public key check ( #509 )
