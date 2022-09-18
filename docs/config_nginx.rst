@@ -8,7 +8,7 @@ Configuration with FastCGI:
    server {
    listen 80;
 
-   root /usr/local/self-service-password/htdocs;
+   root /usr/share/self-service-password/htdocs;
    index index.php index.html index.htm;
 
    # Make site accessible from http://localhost/
