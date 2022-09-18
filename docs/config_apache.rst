@@ -10,7 +10,7 @@ Here is an example of Apache configuration using a virtual host:
    <VirtualHost *:80>
        ServerName ssp.example.com
 
-       DocumentRoot /usr/local/self-service-password/htdocs
+       DocumentRoot /usr/share/self-service-password/htdocs
        DirectoryIndex index.php
 
        AddDefaultCharset UTF-8
