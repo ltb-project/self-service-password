@@ -15,7 +15,7 @@ Here is an example of Apache configuration using a virtual host:
 
        AddDefaultCharset UTF-8
 
-       <Directory /usr/local/self-service-password/htdocs>
+       <Directory /usr/share/self-service-password/htdocs>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all granted
@@ -26,9 +26,9 @@ Here is an example of Apache configuration using a virtual host:
            </IfVersion>
        </Directory>
 
-       Alias /rest /usr/local/self-service-password/rest
+       Alias /rest /usr/share/self-service-password/rest
 
-       <Directory /usr/local/self-service-password/rest>
+       <Directory /usr/share/self-service-password/rest>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all denied
@@ -59,9 +59,9 @@ You can also configure Self Service Password in the default virtual host:
 
 .. code-block:: apache
 
-   Alias /ssp /usr/local/self-service-password/htdocs
+   Alias /ssp /usr/share/self-service-password/htdocs
 
-   <Directory /usr/local/self-service-password/htdocs>
+   <Directory /usr/share/self-service-password/htdocs>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all granted
@@ -74,9 +74,9 @@ You can also configure Self Service Password in the default virtual host:
            AddDefaultCharset UTF-8
    </Directory>
 
-   Alias /ssp/rest /usr/local/self-service-password/rest
+   Alias /ssp/rest /usr/share/self-service-password/rest
 
-   <Directory /usr/local/self-service-password/rest>
+   <Directory /usr/share/self-service-password/rest>
            AllowOverride None
            <IfVersion >= 2.3>
                Require all denied
