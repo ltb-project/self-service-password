@@ -39,13 +39,19 @@ Configure the repository:
 
 .. code-block:: ini
 
-    deb [arch=amd64] https://ltb-project.org/debian/stable stable main
+    deb [arch=amd64 signed-by=/etc/apt/keyrings/ltb-project.gpg] https://ltb-project.org/debian/stable stable main
+
+Create repository key folder, if it doesn't exist:
+
+.. prompt:: bash #
+
+    sudo mkdir -p /etc/apt/keyrings
 
 Import repository key:
 
 .. prompt:: bash #
 
-    wget -O - https://ltb-project.org/documentation/_static/RPM-GPG-KEY-LTB-project | sudo apt-key add -
+    wget -O - https://ltb-project.org/documentation/_static/RPM-GPG-KEY-LTB-project | gpg --dearmor -o /etc/apt/keyrings/ltb-project.gpg
 
 Then update:
 
