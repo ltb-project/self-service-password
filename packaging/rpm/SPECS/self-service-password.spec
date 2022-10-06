@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.5.1
+%define ssp_version	1.5.2
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,6 +121,12 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Thu Oct 06 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.2-1
+- gh#717: Update config_nginx.rst
+- gh#718: Update config_apache.rst
+- gh#720: SMS code won't send when captcha is enabled
+- gh#721: captcha in sendsms check when needed only
+- gh#722: Use gpg instead of apt-key during for deb install
 * Fri Sep 16 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.1-1
 - gh#709: Error 404 with bootstrap.min.css.map
 - gh#711: Error 500 when user is not found in directory for password reset by mail
