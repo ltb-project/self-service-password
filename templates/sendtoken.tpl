@@ -2,9 +2,9 @@
 {if $show_help}
     <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i>
         {if $mail_address_use_ldap}
-            {$msg_sendtokenhelpnomail}
+            {$msg_sendtokenhelpnomail|unescape: "html" nofilter}
         {else}
-            {$msg_sendtokenhelp}
+            {$msg_sendtokenhelp|unescape: "html" nofilter}
         {/if}
     </p></div>
 {/if}
