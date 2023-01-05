@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../lib/vendor/defuse-crypto.phar';
+require_once __DIR__ . '/../lib/vendor/autoload.php';
 
 class CheckPasswordTest extends \PHPUnit_Framework_TestCase
 {

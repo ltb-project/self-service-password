@@ -2,6 +2,7 @@
     "require": {
         "gregwar/captcha": "^1.1",
         "mxrxdxn/pwned-passwords": "^2.0",
-        "phpmailer/phpmailer": "^6.5.0"
+        "phpmailer/phpmailer": "^6.5.0",
+        "defuse/php-encryption": ">=2.0.3"
     }
 }

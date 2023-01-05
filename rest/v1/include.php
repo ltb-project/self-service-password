@@ -8,9 +8,9 @@ require_once("../../conf/config.inc.php");
 #==============================================================================
 # Includes
 #==============================================================================
-require_once("../../lib/vendor/defuse-crypto.phar");
-require_once("../../lib/functions.inc.php");
 require_once("../../lib/vendor/autoload.php");
+require_once("../../lib/functions.inc.php");
+
 
 #==============================================================================
 # VARIABLES
