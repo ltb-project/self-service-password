@@ -21,7 +21,7 @@
 
 # This page is called to reset a password trusting question/anwser
 
-require_once("../lib/LtbAttributeValue_class.php");
+require_once("../vendor/autoload.php");
 
 #==============================================================================
 # POST parameters
@@ -158,7 +158,7 @@ if ( $result === ""  || $populate_questions) {
 
                     # Get user email for notification
                     if ($notify_on_change) {
-                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+                        $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry);
                     }
 
                     # Get question/answer values
