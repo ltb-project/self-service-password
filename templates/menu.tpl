@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.php{if $default_action != 'change'}?action=change{/if}">
+              <a class="navbar-brand" href=".{if $default_action != 'change'}?action=change{/if}">
                 {if $logo}
                 <img src="{$logo}" alt="Logo" class="menu-logo img-responsive" />
                 {/if}
