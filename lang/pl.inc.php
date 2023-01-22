@@ -86,6 +86,7 @@ $messages['mail'] = "Email";
 $messages['mailrequired'] = "Wymagane jest podanie adresu email";
 $messages['mailnomatch'] = "Podany email nie pasuje do loginu";
 $messages['tokensent'] = "Potwierdzenie zmiany hasła zostało wysłane na podany adres email";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Błąd podczas wysyłania emaila z potwierdzeniem";
 $messages['tokenrequired'] = "Wymagany jest Token";
 $messages['tokennotvalid'] = "Token nie jest poprawny";

@@ -91,6 +91,7 @@ $messages['mail'] = "信箱";
 $messages['mailrequired'] = "請輸入您的信箱";
 $messages['mailnomatch'] = "信箱與帳號信箱不符";
 $messages['tokensent'] = "重新設定密碼郵件已發出";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "重新設定密碼郵件發送錯誤";
 $messages['tokenrequired'] = "請提供金鑰";
 $messages['tokennotvalid'] = "金鑰無效";

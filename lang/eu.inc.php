@@ -84,6 +84,7 @@ $messages['mail'] = "Posta elektronikoa";
 $messages['mailrequired'] = "Posta elektronikoa ez duzu jarri";
 $messages['mailnomatch'] = "Posta elektronikoak ez du erabiltzailearekin bat egiten";
 $messages['tokensent'] = "Mezu bat bidali zaizu pasahitza berrezartzeko estekarekin";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Errorea mezua bidaltzerakoan";
 $messages['tokenrequired'] = "Kodea behar da";
 $messages['tokennotvalid'] = "Kodea ez dago ondo";

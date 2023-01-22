@@ -85,6 +85,7 @@ $messages['mail'] = "Pošta";
 $messages['mailrequired'] = "E-mailová adresa je povinná";
 $messages['mailnomatch'] = "E-mailová adresa neodpovídá zadanému uživatelskému jménu";
 $messages['tokensent'] = "Potvrzovací e-mail byl odeslán";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Chyba při odeslání potvrzovacího e-mailu";
 $messages['tokenrequired'] = "Řetězec je povinný";
 $messages['tokennotvalid'] = "Řetězec je neplatný";

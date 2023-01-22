@@ -83,6 +83,7 @@ $messages['mail'] = "电子邮件";
 $messages['mailrequired'] = "需要邮箱地址";
 $messages['mailnomatch'] = "输入的邮箱地址不是该账号的注册地址";
 $messages['tokensent'] = "一封确认邮件已发送";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "发送确认邮件时遇到错误";
 $messages['tokenrequired'] = "需要凭证";
 $messages['tokennotvalid'] = "凭证无效";

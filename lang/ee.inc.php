@@ -93,6 +93,7 @@ $messages['mail'] = "E-post";
 $messages['mailrequired'] = "Sinu e-posti aadress on kohustuslik";
 $messages['mailnomatch'] = "Sellise e-posti aadressi ning kasutajanimega kasutajat ei leitud";
 $messages['tokensent'] = "Kinnituskiri saadetud";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Viga kinnituskirja saatmisel";
 $messages['tokenrequired'] = "Token on kohustuslik";
 $messages['tokennotvalid'] = "Token on kehtetu";
