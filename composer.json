@@ -1,11 +1,5 @@
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ltb-project/ltb-ldap.git"
-        }
-    ],
     "require": {
-        "ltb-project/ldap": "@dev"
+        "ltb-project/ldap": "v0.0.1-beta"
     }
 }

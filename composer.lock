@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d4e033456cab31c8f3a5be5e60803de6",
+    "packages": [
+        {
+            "name": "ltb-project/ldap",
+            "version": "v0.0.1-beta",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ltb-project/ltb-ldap.git",
+                "reference": "2527f9724d315cfb1ff2ad4f148984d264848c01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ltb-project/ltb-ldap/zipball/2527f9724d315cfb1ff2ad4f148984d264848c01",
+                "reference": "2527f9724d315cfb1ff2ad4f148984d264848c01",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ldap": ">=7.4",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ltb\\": "src/Ltb"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "ldap common tools for ltb-project self-service-password service-desk and white-pages white-pages.",
+            "support": {
+                "issues": "https://github.com/ltb-project/ltb-ldap/issues",
+                "source": "https://github.com/ltb-project/ltb-ldap/tree/v0.1.0-ldap_sort"
+            },
+            "time": "2023-01-23T16:14:05+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "ltb-project/ldap": 10
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
