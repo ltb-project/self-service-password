@@ -141,6 +141,16 @@ function make_ad_password($password) {
     return $adpassword;
 }
 
+function check_hash_type($ldap, $dn, $pwdattribute) {
+    $search_userpassword = ldap_read($ldap, $dn, "(objectClass=*)", array($pwdattribute));
+        if ($search_userpassword) {
+            $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap, $search_userpassword), $pwdattribute);
+            if (isset($userpassword) && preg_match('/^\{(\w+)\}/', $userpassword[0], $matches)) {
+                return strtoupper($matches[1]);
+            }
+        }
+}
+
 # Generate SMS token
 function generate_sms_token( $sms_token_length ) {
     $Range = explode(',', '48-57');
@@ -589,6 +599,96 @@ function check_sshkey ( $sshkey, $valid_types ) {
 
     return $found > 0 ? true : false;
 }
+
+# Change apppassword
+# @return result code
+
+function change_apppassword($pwdattribute, $ldap, $dn, $apppassword, $hash, $hash_options, $who_change_password, $password, $use_exop_passwd, $use_ppolicy_control) {
+
+    $result = "";
+    $error_code = "";
+    $error_msg = "";
+    $ppolicy_error_code = "";
+
+    # Get hash type if hash is set to auto
+    if ($hash == "auto") {
+        $hash = check_hash_type($ldap, $dn, $pwdattribute);
+    }
+
+    # Hash password if needed
+    if ($hash == "SSHA") {
+        $apppassword = make_ssha_password($apppassword);
+    }
+    if ($hash == "SSHA256") {
+        $apppassword = make_ssha256_password($apppassword);
+    }
+    if ($hash == "SSHA384") {
+        $apppassword = make_ssha384_password($apppassword);
+    }
+    if ($hash == "SSHA512") {
+        $apppassword = make_ssha512_password($apppassword);
+    }
+    if ($hash == "SHA") {
+        $apppassword = make_sha_password($apppassword);
+    }
+    if ($hash == "SHA256") {
+        $apppassword = make_sha256_password($apppassword);
+    }
+    if ($hash == "SHA384") {
+        $apppassword = make_sha384_password($apppassword);
+    }
+    if ($hash == "SHA512") {
+        $apppassword = make_sha512_password($apppassword);
+    }
+    if ($hash == "SMD5") {
+        $apppassword = make_smd5_password($apppassword);
+    }
+    if ($hash == "MD5") {
+        $apppassword = make_md5_password($apppassword);
+    }
+    if ($hash == "CRYPT") {
+        $apppassword = make_crypt_password($apppassword, $hash_options);
+    }
+    if ($hash == "ARGON2") {
+        $apppassword = make_argon2_password($apppassword);
+    }
+    if ($hash == "NTLM") {
+        $apppassword = make_md4_password($apppassword);
+    }
+
+    # Commit modification on directory
+
+    $userdata[$pwdattribute] = $apppassword;
+    
+    ldap_mod_replace($ldap, $dn, $userdata);
+    $error_code = ldap_errno($ldap);
+    $error_msg = ldap_error($ldap);
+    
+
+    if (!isset($error_code)) {
+        $result = "ldaperror";
+    } elseif ($error_code > 0) {
+        $result = "passworderror";
+        error_log("LDAP - Modify password error $error_code ($error_msg)");
+        if ($ppolicy_error_code === 5) {
+            $result = "badquality";
+        }
+        if ($ppolicy_error_code === 6) {
+            $result = "tooshort";
+        }
+        if ($ppolicy_error_code === 7) {
+            $result = "tooyoung";
+        }
+        if ($ppolicy_error_code === 8) {
+            $result = "inhistory";
+        }
+    } else {
+        $result = "passwordchanged";
+    }
+
+    return $result;
+}
+
 
 # Change sshPublicKey attribute
 # @return result code

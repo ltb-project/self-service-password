@@ -49,6 +49,16 @@
                   ><i class="fa fa-fw fa-terminal"></i> {$msg_menusshkey}</a>
                 </li>
                 {/if}
+				{if $change_apppwd}
+                    {foreach from=$change_apppwd item=app key=key}
+                        <li class="{if $action == 'changeapppwd%'|cat:$key}active{/if}">
+                            <a href="?action=changeapppwd%{$key}"
+                               data-toggle="menu-popover"
+                               data-content="hallo"
+                            ><i class="fa fa-fw fa-terminal"></i> {$app.label} </a>
+                        </li>
+                    {/foreach}
+                {/if}
               </ul>
             </div>
           </div>

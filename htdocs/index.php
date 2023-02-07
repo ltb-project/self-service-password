@@ -176,11 +176,25 @@ if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
+if ( $change_apppwd ) {
+    for ($i= 0; $i < count($change_apppwd); $i++) {
+        array_push( $available_actions, "changeapppwd%".$i);
+    }
+}
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
-if (file_exists($action.".php")) { require_once($action.".php"); }
+if (file_exists($action.".php")) { 
+    require_once($action.".php");
+} else {    //maybe an apppwd must be changed
+    $maybeapppwd = explode("%", $action);
+    if (count($maybeapppwd) == 2) {
+        if (is_numeric($maybeapppwd[1])) {
+            if(file_exists($maybeapppwd[0].".php")) { require_once($maybeapppwd[0].".php"); }
+        }
+    }
+}
 
 #==============================================================================
 # Smarty
@@ -217,6 +231,7 @@ $smarty->assign('use_questions', $use_questions);
 $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
+$smarty->assign('change_apppwd', $change_apppwd);
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('default_action', $default_action);
 //$smarty->assign('',);
