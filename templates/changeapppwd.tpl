@@ -11,9 +11,9 @@
 {if $result !== "passwordchanged"}
     {if $show_help }
         <div class="result alert alert-warning">
-        <p><i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changehelp}</p>
-        {if $msg_changehelpextramessage}
-            <p>{$msg_changehelpextramessage|unescape: "html" nofilter}</p>
+        <p><i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changeapppwdhelp}</p>
+        {if $change_apppwd[$action[1]]['msg_changehelpextramessage']}
+            <p>{$change_apppwd[$action[1]]['msg_changehelpextramessage']|unescape: "html" nofilter}</p>
         {/if}
         {if !$show_menu and ($use_questions or $use_tokens or $use_sms or $change_sshkey) }
             <ul>
@@ -33,8 +33,29 @@
         {/if}
         </div>
     {/if}
-    {if $pwd_show_policy !== "never" and $pwd_show_policy_pos === 'above'}
-        {include file="policy.tpl"}
+    {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_show_policy'] !== "never" and $pwd_show_policy_pos === 'above'}
+        {if $pwd_show_policy === "onerror" and !$pwd_show_policy_onerror }
+        {else}
+        <div class="help alert alert-warning">
+            <p>{$msg_policy|unescape: "html" nofilter}</p>
+            <ul>
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_min_length'] } <li>{$msg_policyminlength|unescape: "html" nofilter} {$apppwd_min_length}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_max_length'] } <li>{$msg_policymaxlength|unescape: "html" nofilter} {$apppwd_max_length}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_min_lower'] } <li>{$msg_policyminlower|unescape: "html" nofilter} {$apppwd_min_lower}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_min_upper'] } <li>{$msg_policyminupper|unescape: "html" nofilter} {$apppwd_min_upper}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_min_digit'] } <li>{$msg_policymindigit|unescape: "html" nofilter} {$apppwd_min_digit}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_min_special'] } <li>{$msg_policyminspecial|unescape: "html" nofilter} {$apppwd_min_special}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_complexity'] } <li>{$msg_policycomplex|unescape: "html" nofilter} {$apppwd_complexity}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_forbidden_chars'] } <li>{$msg_policyforbiddenchars|unescape: "html" nofilter} {$apppwd_forbidden_chars}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_diff_last_min_chars'] } <li>{$msg_policydiffminchars|unescape: "html" nofilter} {$apppwd_diff_last_min_chars}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_no_reuse'] } <li>{$msg_policynoreuse|unescape: "html" nofilter}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_diff_login'] } <li>{$msg_policydifflogin|unescape: "html" nofilter}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['use_pwnedpasswords'] } <li>{$msg_policypwned|unescape: "html" nofilter}</li> {/if}
+                {if $change_apppwd[$action[1]]['pwd_policy_config']['pwd_no_special_at_ends'] } <li>{$msg_policyspecialatends|unescape: "html" nofilter}</li> {/if}
+            </ul>
+        </div>
+        {/if}
+
     {/if}
     <div class="alert alert-info">
     <form action="#" method="post" class="form-horizontal">
@@ -57,7 +78,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="newapppassword" class="col-sm-4 control-label">{$msg_newpassword}</label>
+            <label for="newapppassword" class="col-sm-4 control-label">{$msg_newapppassword}</label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
@@ -66,7 +87,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="confirmapppassword" class="col-sm-4 control-label">{$msg_confirmpassword}</label>
+            <label for="confirmapppassword" class="col-sm-4 control-label">{$msg_confirmapppassword}</label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>

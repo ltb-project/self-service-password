@@ -150,6 +150,31 @@ $pwd_policy_config = array(
     "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields
 );
 
+if ($change_apppwd) {
+    for ($i = 0; $i < count($change_apppwd); $i++) {
+        if (!isset($change_apppwd[$i]['pwd_policy_config'])) { $app['pwd_policy_config'] = array(); }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_show_policy'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_show_policy'] = $pwd_show_policy; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_length'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_length'] = $pwd_min_length; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_max_length'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_max_length'] = $pwd_max_length; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_lower'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_lower'] = $pwd_min_lower; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_upper'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_upper'] = $pwd_min_upper; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_digit'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_digit'] = $pwd_min_digit; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_special'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_special'] = $pwd_min_special; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_special_chars'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_special_chars'] = $pwd_special_chars; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_chars'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_chars'] = $pwd_forbidden_chars; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_no_reuse'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_no_reuse'] = $pwd_no_reuse; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_diff_last_min_chars'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_diff_last_min_chars'] = $pwd_diff_last_min_chars; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_diff_login'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_diff_login'] = $pwd_diff_login; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_complexity'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_complexity'] = $pwd_complexity; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['use_pwnedpasswords'])) { $change_apppwd[$i]['pwd_policy_config']['use_pwnedpasswords'] = $use_pwnedpasswords; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_no_special_at_ends'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_no_special_at_ends'] = $pwd_no_special_at_ends; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_words'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_words'] = $pwd_forbidden_words; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_ldap_fields'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_ldap_fields'] = $pwd_forbidden_ldap_fields; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_show_policy_pos'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_show_policy_pos'] = "above"; } 
+        }
+}
+unset($app);
+
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
 # rate-limiting config array
@@ -265,6 +290,34 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_diff_login)) { $smarty->assign('pwd_diff_login', $pwd_diff_login); }
     if (isset($use_pwnedpasswords)) { $smarty->assign('use_pwnedpasswords', $use_pwnedpasswords); }
     if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
+}
+
+if (isset($maybeapppwd[1])) {
+    if (isset( $change_apppwd) && isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_show_policy_pos']) ) {
+        $smarty->assign('apppwd_show_policy_pos', $pwd_show_policy_pos);
+        $smarty->assign('apppwd_show_policy', $pwd_show_policy);
+        $smarty->assign('apppwd_show_policy_onerror', true);
+        if ( $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_show_policy'] === "onerror" ) {
+            if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends/" , $result) ) {
+                $smarty->assign('apppwd_show_policy_onerror', false);
+            } else {
+                $smarty->assign('apppwd_show_policy_onerror', true);
+            }
+        }
+        if (isset($pwd_min_length)) { $smarty->assign('apppwd_min_length', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_length']); }
+        if (isset($pwd_max_length)) { $smarty->assign('apppwd_max_length', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_max_length']); }
+        if (isset($pwd_min_lower)) { $smarty->assign('apppwd_min_lower', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_lower']); }
+        if (isset($pwd_min_upper)) { $smarty->assign('apppwd_min_upper', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_upper']); }
+        if (isset($pwd_min_digit)) { $smarty->assign('apppwd_min_digit', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_digit']); }
+        if (isset($pwd_min_special)) { $smarty->assign('apppwd_min_special', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_special']); }
+        if (isset($pwd_complexity)) { $smarty->assign('apppwd_complexity', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_complexity']); }
+        if (isset($pwd_diff_last_min_chars)) { $smarty->assign('apppwd_diff_last_min_chars', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_diff_last_min_chars']); }
+        if (isset($pwd_forbidden_chars)) { $smarty->assign('apppwd_forbidden_chars', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_forbidden_chars']); }
+        if (isset($pwd_no_reuse)) { $smarty->assign('apppwd_no_reuse', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_no_reuse']); }
+        if (isset($pwd_diff_login)) { $smarty->assign('apppwd_diff_login', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_diff_login']); }
+        if (isset($use_pwnedpasswords)) { $smarty->assign('appuse_pwnedpasswords', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['use_pwnedpasswords']); }
+        if (isset($pwd_no_special_at_ends)) { $smarty->assign('apppwd_no_special_at_ends', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_no_special_at_ends']); }
+    }
 }
 // TODO : Make it clean function show_policy - END
 if (isset($smsdisplay)) { $smarty->assign('smsdisplay', $smsdisplay); }
