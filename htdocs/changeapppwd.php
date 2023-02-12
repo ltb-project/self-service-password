@@ -1,9 +1,23 @@
 <?php
-
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
+#==============================================================================
+# LTB Self Service Password
+#
+# Copyright (C) 2009 Clement OUDOT
+# Copyright (C) 2009 LTB-project.org
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# GPL License: http://www.gnu.org/licenses/gpl.txt
+#
+#==============================================================================
 
 require_once("../lib/LtbAttributeValue_class.php");
 
@@ -38,16 +52,13 @@ if (! isset($request["login"]) and ! isset($post["confirmapppassword"]) and ! is
 
 # Get the app configuration
 $appconf;
-if (is_numeric(explode("%", $_GET["action"])[1])) {
+if (is_numeric(explode("%", $_GET["action"])[1]) && explode("%", $_GET["action"])[1] < count($change_apppwd) ) {
     $appindex = explode("%", $_GET["action"])[1];
     $appconf = $change_apppwd[$appindex];
 } else { 
     $result = "unknownapp"; 
     error_log($result);
 }
-
-error_log("ich mache was.");
-error_log($appconf['label']);
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -132,13 +143,11 @@ if ( $result === "" ) {
                                 $extended_error = explode(', ', $extended_error);
                                 if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
                                     error_log("LDAP - Bind user password needs to be changed");
-                                    $who_change_password = "manager";
-                                    $result = "";
+                                    $result = "accountexpired";
                                 }
                                 if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
                                     error_log("LDAP - Bind user password is expired");
-                                    $who_change_password = "manager";
-                                    $result = "";
+                                    $result = "accountexpired";
                                 }
                                 unset($extended_error);
                             }
@@ -146,7 +155,7 @@ if ( $result === "" ) {
                     }
                     if ( $result === "" )  {
                         # Rebind as Manager if needed
-                        if ( $who_change_password == "manager" ) {
+                        if ( $appconf['who_change_password'] == "manager" ) {
                             $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
                         }
                     }
