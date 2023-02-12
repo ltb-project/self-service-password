@@ -397,10 +397,38 @@ $obscure_failure_messages = array("mailnomatch");
 # Smarty debug mode - will popup debug information on web interface
 $smarty_debug = false;
 
+$pwd_forbidden_chars = "";
+
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require_once __DIR__ . '/config.inc.local.php';
 }
+
+if ($change_apppwd) {
+    for ($i = 0; $i < count($change_apppwd); $i++) {
+        if (!isset($change_apppwd[$i]['pwd_policy_config'])) { $app['pwd_policy_config'] = array(); }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_show_policy'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_show_policy'] = $pwd_show_policy; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_length'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_length'] = $pwd_min_length; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_max_length'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_max_length'] = $pwd_max_length; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_lower'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_lower'] = $pwd_min_lower; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_upper'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_upper'] = $pwd_min_upper; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_digit'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_digit'] = $pwd_min_digit; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_min_special'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_min_special'] = $pwd_min_special; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_special_chars'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_special_chars'] = $pwd_special_chars; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_chars'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_chars'] = $pwd_forbidden_chars; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_no_reuse'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_no_reuse'] = $pwd_no_reuse; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_diff_last_min_chars'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_diff_last_min_chars'] = $pwd_diff_last_min_chars; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_diff_login'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_diff_login'] = $pwd_diff_login; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_complexity'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_complexity'] = $pwd_complexity; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['use_pwnedpasswords'])) { $change_apppwd[$i]['pwd_policy_config']['use_pwnedpasswords'] = $use_pwnedpasswords; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_no_special_at_ends'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_no_special_at_ends'] = $pwd_no_special_at_ends; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_words'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_words'] = $pwd_forbidden_words; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_ldap_fields'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_forbidden_ldap_fields'] = $pwd_forbidden_ldap_fields; }
+        if (!isset($change_apppwd[$i]['pwd_policy_config']['pwd_show_policy_pos'])) { $change_apppwd[$i]['pwd_policy_config']['pwd_show_policy_pos'] = "above"; } 
+        if (!isset($change_apppwd[$i]['use_captcha'])) { $change_apppwd[$i]['use_captcha'] = $use_captcha; }        
+    }
+}
+unset($i);
 
 # Smarty
 if (!defined("SMARTY")) {
