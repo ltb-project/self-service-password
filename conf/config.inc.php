@@ -325,6 +325,7 @@ $logo = "images/ltb-logo.png";
 # Background image
 $background_image = "images/unsplash-space.jpeg";
 
+# Path is relative to htdocs/html and should start with "css"
 $custom_css = "";
 $display_footer = true;
 
