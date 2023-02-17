@@ -70,6 +70,7 @@ $messages['answerrequired'] = "请提供答案";
 $messages['questionrequired'] = "请选择问题";
 $messages['passwordrequired'] = "请输入您的密码";
 $messages['sshkeyrequired'] = "请提供 SSH 密钥";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "输入的 SSH 秘钥看上去是无效的";
 $messages['answermoderror'] = "您的答案没有被记录";
 $messages['answerchanged'] = "您的答案已被记录";

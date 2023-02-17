@@ -70,6 +70,7 @@ $messages['answerrequired'] = "لم تعط أي اجابة";
 $messages['questionrequired'] = "لم يتم اختيار اي سؤال";
 $messages['passwordrequired'] = "كلمة السر مطلوبة";
 $messages['sshkeyrequired'] = "SSH مطلوب مفتاح";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "المدخل غير صالح SSH يبدو أن مفتاح";
 $messages['answermoderror'] = "لم يتم تسجيل إجابتك";
 $messages['answerchanged'] = "تم تسجيل إجابتك";

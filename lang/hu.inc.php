@@ -126,6 +126,7 @@ $messages['menusshkey'] = "SSH kulcs";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Változasd meg SSH kulcsot</a>";
 $messages['sshkeychanged'] = "Az SSH kulcs megváltozott";
 $messages['sshkeyrequired'] = "SSH kulcs szükséges";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['changesshkeysubject'] = "Az SSH kulcs megváltozott";
 $messages['sshkey'] = "SSH kulcs";

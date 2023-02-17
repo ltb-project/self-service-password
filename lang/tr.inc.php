@@ -126,6 +126,7 @@ $messages['menusshkey'] = "SSH Anahtarı";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSH Anahtarınızı değiştirin</a>";
 $messages['sshkeychanged'] = "SSH Anahtarınız değiştirildi";
 $messages['sshkeyrequired'] = "SSH Anahtarı gerekiyor";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Girilen SSH anahtarı geçerli gözükmüyor";
 $messages['changesshkeysubject'] = "SSH Anahtarınız değiştirildi";
 $messages['sshkey'] = "SSH Anahtarı";

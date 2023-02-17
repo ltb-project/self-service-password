@@ -127,6 +127,7 @@ $messages['menusshkey'] = "SSH gakoa";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSH gakoa aldatu</a>";
 $messages['sshkeychanged'] = "SSH gakoa aldatu da";
 $messages['sshkeyrequired'] = "SSH gakoa beharrezkoa da";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['changesshkeysubject'] = "SSH gakoa aldatu da";
 $messages['sshkey'] = "SSH gakoa";

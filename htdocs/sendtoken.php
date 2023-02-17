@@ -45,6 +45,10 @@ if (!$mail_address_use_ldap) {
     }
 }
 
+if (isset($valid_server_names) && sizeof($valid_server_names) > 0
+    && array_search($_SERVER['SERVER_NAME'], $valid_server_names) === NULL) {
+    $result = "invalidservername";
+}
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]);}
 else { $result = "loginrequired";}
 

@@ -71,6 +71,7 @@ $messages['answerrequired'] = "請提供答案";
 $messages['questionrequired'] = "請選擇問題";
 $messages['passwordrequired'] = "請輸入您的密碼";
 $messages['sshkeyrequired'] = "需要 SSH 金鑰";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['answermoderror'] = "您的答案沒有被記錄";
 $messages['answerchanged'] = "您的答案已被記錄";

@@ -126,6 +126,7 @@ $messages['menusshkey'] = "Clé SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Changez votre clé SSH</a>";
 $messages['sshkeychanged'] = "Votre clé SSH a été modifiée";
 $messages['sshkeyrequired'] = "La clé SSH est requise";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Cette clé SSH ne semble pas valide";
 $messages['changesshkeysubject'] = "Votre clé SSH a été modifiée";
 $messages['sshkey'] = "Clé SSH";

@@ -126,6 +126,7 @@ $messages['menusshkey'] = "SSHキー";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSHキーを変更する</a>";
 $messages['sshkeychanged'] = "あなたのSSHキーが変更されました";
 $messages['sshkeyrequired'] = "SSHキーが必要です";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['changesshkeysubject'] = "あなたのSSHキーが変更されました";
 $messages['sshkey'] = "SSHキー";

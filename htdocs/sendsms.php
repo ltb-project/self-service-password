@@ -38,7 +38,10 @@ $token = "";
 $sessiontoken = "";
 $attempts = 0;
 
-if (!$crypt_tokens) {
+if (isset($valid_server_names) && sizeof($valid_server_names) > 0
+    && array_search($_SERVER['SERVER_NAME'], $valid_server_names) === NULL) {
+    $result = "invalidservername";
+} elseif (!$crypt_tokens) {
     $result = "crypttokensrequired";
 } elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
     $token = strval($_REQUEST["token"]);

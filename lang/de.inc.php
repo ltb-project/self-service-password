@@ -127,6 +127,7 @@ $messages['changesshkeyhelp'] = "Geben Sie Ihr Passwort und den neuen SSH-Schlü
 $messages['sshkeyerror'] = "SSH-Schlüssel wurde durch das LDAP-Verzeichnis abgelehnt";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Ändern Sie Ihren SSH-Schlüssel</a>";
 $messages['sshkeyrequired'] = "SSH-Schlüssel ist erforderlich";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Der eingegebene SSH-Schlüssel ist ungültig";
 $messages['sshkey'] = "SSH-Schlüssel";
 $messages['sshkeychanged'] = "Ihr SSH-Schlüssel wurde geändert";

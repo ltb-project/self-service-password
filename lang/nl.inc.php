@@ -128,6 +128,7 @@ $messages['menusshkey'] = "SSH sleutel";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Wijzig uw SSH sleutel</a>";
 $messages['sshkeychanged'] = "Uw SSH sleutel is gewijzigd";
 $messages['sshkeyrequired'] = "SSH sleutel is nodig";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['changesshkeysubject'] = "Uw SSH sleutel is gewijzigd";
 $messages['sshkey'] = "SSH sleutel";

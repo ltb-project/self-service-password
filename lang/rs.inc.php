@@ -71,6 +71,7 @@ $messages['answerrequired'] = "Niste dali odgovor";
 $messages['questionrequired'] = "Niste odabrali pitanje";
 $messages['passwordrequired'] = "Potrebna je Vaša lozinka";
 $messages['sshkeyrequired'] = "Potreban je SSH ključ";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['answermoderror'] = "Vaš odgovor nije registrovan";
 $messages['answerchanged'] = "Vaš odgovor je registrovan";

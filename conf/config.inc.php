@@ -390,6 +390,10 @@ $obscure_failure_messages = array("mailnomatch");
 # The name of an HTTP Header that may hold a reference to an extra config file to include.
 #$header_name_extra_config="SSP-Extra-Config";
 
+# Restricting valid server names, issuing SMS or Mail reset password links.
+# default to unset: would accept any value / legacy behavior
+#$valid_server_names = array();
+
 # Cache directory
 #$smarty_compile_dir = "/var/cache/self-service-password/templates_c";
 #$smarty_cache_dir = "/var/cache/self-service-password/cache";

@@ -127,6 +127,7 @@ $messages['menusshkey'] = "SSH ключ";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Змінити SSH Key</a>";
 $messages['sshkeychanged'] = "Ваш SSH ключ був змінений";
 $messages['sshkeyrequired'] = "SSH ключ необхідний";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['changesshkeysubject'] = "Ваш SSH ключ був змінений";
 $messages['sshkey'] = "SSH ключ";

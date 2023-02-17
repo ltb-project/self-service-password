@@ -1,5 +1,4 @@
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"></head><body><pre>&lt;?php
+<?php
 #==============================================================================
 # LTB Self Service Password
 #
@@ -128,6 +127,8 @@ $messages['emptysendsmsform'] = "Obteniu un codi de restabliment";
 $messages['sameaslogin'] = "La vostra nova contrasenya és idèntica al vostre usuari";
 $messages['policydifflogin'] = "La vostra nova contrasenya no pot ser la mateixa que el vostre usuari";
 $messages['sshkeyrequired'] = "Es requereix una clau SSH";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
+$messages['invalidsshkey'] = "Cette clé SSH ne semble pas valide";
 $messages['changesshkeysubject'] = "La seva clau de SSH s'ha canviat";
 $messages['emptysshkeychangeform'] = "Canvia la clau d'SSH";
 $messages['sshkey'] = "claus SSH";
@@ -157,4 +158,3 @@ $messages["questionspopulatehint"] = "Introduïu només el vostre usuari per obt
 $messages['badquality'] = "La qualitat de la contrasenya és molt baixa";
 $messages['tooyoung'] = "La contrasenya s'ha canviat massa recentment";
 $messages['inhistory'] = "La contresenya es troba dins l'històric de les contrasenyes antigues";
-</pre></body></html>

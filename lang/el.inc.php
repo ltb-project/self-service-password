@@ -128,6 +128,7 @@ $messages['sshkeychanged'] = "SSH Key σας άλλαξε";
 $messages['sshkeyerror'] = "SSH Key απορρίφθηκε από τον κατάλογο LDAP";
 $messages['emptysshkeychangeform'] = "Αλλάξτε SSH Key σας";
 $messages['sshkeyrequired'] = "SSH Key απαιτείται";
+$messages['invalidservername'] = "The HOST header sent with this request is not trusted requesting password resets.";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['menusshkey'] = "SSH Key";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Αλλάξτε SSH Key σας</a>";
