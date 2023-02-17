@@ -207,7 +207,7 @@ if ( $result === "passwordchanged" ) {
 #==============================================================================
 if ($mail and $notify_on_change and $result === 'passwordchanged') {
     $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-    if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+    if ( !\Ltb\Mail::send_mail_global($mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
         error_log("Error while sending change email to $mail (user $login)");
     }
 }

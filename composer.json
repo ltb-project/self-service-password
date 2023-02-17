@@ -1,5 +1,5 @@
 {
     "require": {
-        "ltb-project/ldap": "v0.0.1-beta"
+        "ltb-project/ldap": "v0.0.3-alpha"
     }
 }

@@ -153,7 +153,7 @@ if ( $result === "" ) {
 if ($result === "sshkeychanged") {
     if ($mail and $notify_on_sshkey_change) {
         $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
-        if (! send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data)) {
+        if (! \Ltb\Mail::send_mail_global($mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data)) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }

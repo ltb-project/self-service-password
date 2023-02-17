@@ -11,21 +11,27 @@
 
 namespace Symfony\Component\Finder\Iterator;
 
+use Symfony\Component\Finder\SplFileInfo;
+
 /**
  * ExcludeDirectoryFilterIterator filters out directories.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @extends \FilterIterator<string, SplFileInfo>
+ * @implements \RecursiveIterator<string, SplFileInfo>
  */
 class ExcludeDirectoryFilterIterator extends \FilterIterator implements \RecursiveIterator
 {
-    private $iterator;
-    private $isRecursive;
-    private $excludedDirs = [];
-    private $excludedPattern;
+    /** @var \Iterator<string, SplFileInfo> */
+    private \Iterator $iterator;
+    private bool $isRecursive;
+    private array $excludedDirs = [];
+    private ?string $excludedPattern = null;
 
     /**
-     * @param \Iterator $iterator    The Iterator to filter
-     * @param string[]  $directories An array of directories to exclude
+     * @param \Iterator<string, SplFileInfo> $iterator    The Iterator to filter
+     * @param string[]                       $directories An array of directories to exclude
      */
     public function __construct(\Iterator $iterator, array $directories)
     {
@@ -49,11 +55,8 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
 
     /**
      * Filters the iterator values.
-     *
-     * @return bool True if the value should be kept, false otherwise
      */
-    #[\ReturnTypeWillChange]
-    public function accept()
+    public function accept(): bool
     {
         if ($this->isRecursive && isset($this->excludedDirs[$this->getFilename()]) && $this->isDir()) {
             return false;
@@ -69,20 +72,12 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return $this->isRecursive && $this->iterator->hasChildren();
     }
 
-    /**
-     * @return self
-     */
-    #[\ReturnTypeWillChange]
-    public function getChildren()
+    public function getChildren(): self
     {
         $children = new self($this->iterator->getChildren(), []);
         $children->excludedDirs = $this->excludedDirs;

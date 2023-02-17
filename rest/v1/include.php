@@ -66,33 +66,6 @@ if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxm
 # Check keyphrase setting
 if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
 
-
-#==============================================================================
-# Email Config
-#==============================================================================
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-$mailer = new PHPMailer;
-$mailer->Priority      = $mail_priority;
-$mailer->CharSet       = $mail_charset;
-$mailer->ContentType   = $mail_contenttype;
-$mailer->WordWrap      = $mail_wordwrap;
-$mailer->Sendmail      = $mail_sendmailpath;
-$mailer->Mailer        = $mail_protocol;
-$mailer->SMTPDebug     = $mail_smtp_debug;
-$mailer->Debugoutput   = $mail_debug_format;
-$mailer->Host          = $mail_smtp_host;
-$mailer->Port          = $mail_smtp_port;
-$mailer->SMTPSecure    = $mail_smtp_secure;
-$mailer->SMTPAutoTLS   = $mail_smtp_autotls;
-$mailer->SMTPAuth      = $mail_smtp_auth;
-$mailer->Username      = $mail_smtp_user;
-$mailer->Password      = $mail_smtp_pass;
-$mailer->SMTPKeepAlive = $mail_smtp_keepalive;
-$mailer->SMTPOptions   = $mail_smtp_options;
-$mailer->Timeout       = $mail_smtp_timeout;
-
 #==============================================================================
 # Other default values
 #==============================================================================

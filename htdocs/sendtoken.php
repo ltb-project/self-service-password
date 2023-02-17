@@ -187,6 +187,9 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
 
+    # needed for Ltb\Mail::send_mail_global
+    require_once("../vendor/autoload.php");
+
     if ( empty($reset_url) ) {
 
         # Build reset by token URL
@@ -217,7 +220,7 @@ if ( $result === "" ) {
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
 
     # Send message
-    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
+    if ( \Ltb\Mail::send_mail_global($mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
         $result = "tokensent";
     } else {
         $result = "tokennotsent";

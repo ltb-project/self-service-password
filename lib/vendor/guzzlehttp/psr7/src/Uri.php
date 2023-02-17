@@ -14,7 +14,7 @@ use Psr\Http\Message\UriInterface;
  * @author Tobias Schultze
  * @author Matthew Weier O'Phinney
  */
-class Uri implements UriInterface
+class Uri implements UriInterface, \JsonSerializable
 {
     /**
      * Absolute http and https URIs require a host per RFC 7230 Section 2.7
@@ -172,8 +172,12 @@ class Uri implements UriInterface
             $uri .= $scheme . ':';
         }
 
-        if ($authority != ''|| $scheme === 'file') {
+        if ($authority != '' || $scheme === 'file') {
             $uri .= '//' . $authority;
+        }
+
+        if ($authority != '' && $path != '' && $path[0] != '/') {
+            $path = '/' . $path;
         }
 
         $uri .= $path;
@@ -525,6 +529,11 @@ class Uri implements UriInterface
         return $new;
     }
 
+    public function jsonSerialize(): string
+    {
+        return $this->__toString();
+    }
+
     /**
      * Apply parse_url parts to a URI.
      *
@@ -726,8 +735,6 @@ class Uri implements UriInterface
             if ($this->scheme === '' && false !== strpos(explode('/', $this->path, 2)[0], ':')) {
                 throw new MalformedUriException('A relative URI must not have a path beginning with a segment containing a colon');
             }
-        } elseif (isset($this->path[0]) && $this->path[0] !== '/') {
-            throw new MalformedUriException('The path of a URI with an authority must start with a slash "/" or be empty');
         }
     }
 }
