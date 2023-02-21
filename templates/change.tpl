@@ -37,7 +37,7 @@
         {include file="policy.tpl"}
     {/if}
     <div class="alert alert-info">
-    <form action="#" method="post" class="form-horizontal">
+    <form action="#" method="post" class="form-horizontal" onsubmit="document.getElementById('submit-button').setAttribute('disabled', '')">
         <div class="form-group">
             <label for="login" class="col-sm-4 control-label">{$msg_login}</label>
             <div class="col-sm-8">
@@ -79,7 +79,7 @@
         {/if}
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
-                <button type="submit" class="btn btn-success">
+                <button id="submit-button" type="submit" class="btn btn-success">
                     <i class="fa fa-fw fa-check-square-o"></i> {$msg_submit}
                 </button>
             </div>
