@@ -46,14 +46,14 @@ if (isset($post["password"]) and $post["password"]) { $password = strval($post["
 else { $result = "passwordrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
 else { $result = "loginrequired"; }
-if (! isset($request["login"]) and ! isset($post["confirmapppassword"]) and ! isset($post["newapppassword"]) and ! isset($post["password"])) {
+if (! isset($_REQUEST["login"]) and ! isset($post["confirmapppassword"]) and ! isset($post["newapppassword"]) and ! isset($post["password"])) {
     $result = "emptychangeform";
 }
 
 # Get the app configuration
 $appconf;
-if (is_numeric(explode("%", $_GET["action"])[1]) && explode("%", $_GET["action"])[1] < count($change_apppwd) ) {
-    $appindex = explode("%", $_GET["action"])[1];
+if (is_numeric(explode("%", $action)[1]) && explode("%", $action)[1] < count($change_apppwd) ) {
+    $appindex = explode("%", $action)[1];
     $appconf = $change_apppwd[$appindex];
 } else { 
     $result = "unknownapp"; 
@@ -121,7 +121,7 @@ if ( $result === "" ) {
                     error_log("LDAP - User $login not found");
                 } else {
                     # Get user email for notification
-                    if ($notify_on_change) {
+                    if ($appconf['notify_on_change']) {
                         $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
                     }
 
@@ -129,7 +129,7 @@ if ( $result === "" ) {
                     $entry_array = ldap_get_attributes($ldap, $entry);
                     $entry_array['dn'] = $userdn;
 
-                    # Bind with old password
+                    # Bind with current password
                     $bind = ldap_bind($ldap, $userdn, $password);
                     if ( !$bind ) {
                         $result = "badcredentials";
@@ -185,13 +185,13 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
     if ( isset($appconf['prehook']) ) {
-        $command = hook_command($appconf['prehook'], $login, $newapppassword, $password, $prehook_password_encodebase64);
+        $command = hook_command($appconf['prehook'], $login, $newapppassword, $password, $appconf['prehook_password_encodebase64']);
         exec($command, $prehook_output, $prehook_return);
     }
-    if ( ! isset($prehook_return) || $prehook_return === 0 || $ignore_prehook_error ) {
-        $result = change_apppassword($appconf['attribute'], $ldap, $userdn, $newapppassword, $appconf['hash'], $appconf['hash_options'], $appconf['who_change_password'], $password, $use_exop_passwd, $use_ppolicy_control);
-        if ( $result === "passwordchanged" && isset($posthook) ) {
-            $command = hook_command($appconf['posthook'], $login, $newapppassword, $password, $posthook_password_encodebase64);
+    if ( ! isset($prehook_return) || $prehook_return === 0 || $appconf['ignore_prehook_error'] ) {
+        $result = change_apppassword($appconf['attribute'], $ldap, $userdn, $newapppassword, $appconf['hash'], $appconf['hash_options'], $password, $appconf['ldap_use_ppolicy_control']);
+        if ( $result === "passwordchanged" && isset($appconf['posthook']) ) {
+            $command = hook_command($appconf['posthook'], $login, $newapppassword, $password, $appconf['posthook_password_encodebase64']);
             exec($command, $posthook_output, $posthook_return);
         }
         if ( $result !== "passwordchanged" ) {

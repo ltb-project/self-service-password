@@ -18,7 +18,7 @@ require_once("../lib/vendor/autoload.php");
 require_once("../lib/functions.inc.php");
 if ($use_captcha) {
     require_once("../lib/captcha.inc.php");
-} else {
+} else if ($change_apppwd != false) {
     for ($i = 0; $i < count($change_apppwd); $i++) {
         if (isset($change_apppwd['use_captcha']) && $change_apppwd['use_captcha']) {
             require_once("../lib/captcha.inc.php");
@@ -184,7 +184,7 @@ if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
-if ( $change_apppwd ) {
+if ( $change_apppwd != false ) {
     for ($i= 0; $i < count($change_apppwd); $i++) {
         array_push( $available_actions, "changeapppwd%".$i);
     }
@@ -193,14 +193,14 @@ if ( $change_apppwd ) {
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
-if (file_exists($action.".php")) { 
+$action_exploded = explode("%", $action);
+$action_mode = $action_exploded[0];
+if (count($action_exploded) === 1 && file_exists($action.".php")) {
     require_once($action.".php");
-} else {    //maybe an apppwd must be changed
-    $maybeapppwd = explode("%", $action);
-    if (count($maybeapppwd) == 2) {
-        if (is_numeric($maybeapppwd[1])) {
-            if(file_exists($maybeapppwd[0].".php")) { require_once($maybeapppwd[0].".php"); }
-        }
+} else if (count($action_exploded) === 2 && file_exists($action_mode.".php")) {
+    if ($action_mode === "changeapppwd") {
+        require_once($action_mode.".php");
+        $apppwd_index = $action_exploded[1];
     }
 }
 
@@ -239,7 +239,17 @@ $smarty->assign('use_questions', $use_questions);
 $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
-$smarty->assign('change_apppwd', $change_apppwd);
+if($change_apppwd === false) {
+    $smarty->assign('change_apppwd', $change_apppwd);
+} else {
+    $change_apppwd_labels = array();
+    for ($i= 0; $i < count($change_apppwd); $i++) {
+        $change_apppwd_labels[$i] = array();
+        $change_apppwd_labels[$i]['label'] = $change_apppwd[$i]['label'];
+        $change_apppwd_labels[$i]['msg_changehelpextramessage'] = $change_apppwd[$i]['msg_changehelpextramessage'];
+    }
+    $smarty->assign('change_apppwd', $change_apppwd_labels);
+}
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('default_action', $default_action);
 //$smarty->assign('',);
@@ -248,7 +258,7 @@ if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
 if (isset($token)) { $smarty->assign('token', $token); }
 if (isset($use_captcha)) { $smarty->assign('use_captcha', $use_captcha); }
-if (isset($maybeapppwd[1]) && isset($change_apppwd[$maybeapppwd[1]]['use_captcha'])) { $smarty->assign('use_apppwd_captcha', $change_apppwd[$maybeapppwd[1]]['use_captcha']); }
+if (isset($apppwd_index) && isset($change_apppwd[$apppwd_index]['use_captcha'])) { $smarty->assign('use_apppwd_captcha', $change_apppwd[$apppwd_index]['use_captcha']); }
 // TODO : Make it clean function show_policy - START
 if (isset($pwd_show_policy_pos)) {
     $smarty->assign('pwd_show_policy_pos', $pwd_show_policy_pos);
@@ -276,31 +286,31 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
 }
 
-if (isset($maybeapppwd[1])) {
-    if (isset($change_apppwd) && isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_show_policy_pos']) ) {
-        $smarty->assign('apppwd_show_policy_pos', $pwd_show_policy_pos);
-        $smarty->assign('apppwd_show_policy', $pwd_show_policy);
+if (isset($apppwd_index)) {
+    if (isset($change_apppwd) && isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_show_policy_pos']) ) {
+        $smarty->assign('apppwd_show_policy_pos', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_show_policy_pos']);
+        $smarty->assign('apppwd_show_policy', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_show_policy']);
         $smarty->assign('apppwd_show_policy_onerror', true);
-        if ( $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_show_policy'] === "onerror" ) {
+        if ( $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_show_policy'] === "onerror" ) {
             if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends/" , $result) ) {
                 $smarty->assign('apppwd_show_policy_onerror', false);
             } else {
                 $smarty->assign('apppwd_show_policy_onerror', true);
             }
         }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_length'])) { $smarty->assign('apppwd_min_length', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_length']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_max_length'])) { $smarty->assign('apppwd_max_length', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_max_length']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_lower'])) { $smarty->assign('apppwd_min_lower', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_lower']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_upper'])) { $smarty->assign('apppwd_min_upper', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_upper']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_digit'])) { $smarty->assign('apppwd_min_digit', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_digit']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_special'])) { $smarty->assign('apppwd_min_special', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_min_special']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_complexity'])) { $smarty->assign('apppwd_complexity', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_complexity']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_diff_last_min_chars'])) { $smarty->assign('apppwd_diff_last_min_chars', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_diff_last_min_chars']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_forbidden_chars'])) { $smarty->assign('apppwd_forbidden_chars', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_forbidden_chars']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_no_reuse'])) { $smarty->assign('apppwd_no_reuse', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_no_reuse']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_diff_login'])) { $smarty->assign('apppwd_diff_login', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_diff_login']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['use_pwnedpasswords'])) { $smarty->assign('appuse_pwnedpasswords', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['use_pwnedpasswords']); }
-        if (isset($change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_no_special_at_ends'])) { $smarty->assign('apppwd_no_special_at_ends', $change_apppwd[$maybeapppwd[1]]['pwd_policy_config']['pwd_no_special_at_ends']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_length'])) { $smarty->assign('apppwd_min_length', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_length']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_max_length'])) { $smarty->assign('apppwd_max_length', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_max_length']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_lower'])) { $smarty->assign('apppwd_min_lower', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_lower']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_upper'])) { $smarty->assign('apppwd_min_upper', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_upper']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_digit'])) { $smarty->assign('apppwd_min_digit', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_digit']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_special'])) { $smarty->assign('apppwd_min_special', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_min_special']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_complexity'])) { $smarty->assign('apppwd_complexity', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_complexity']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_diff_last_min_chars'])) { $smarty->assign('apppwd_diff_last_min_chars', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_diff_last_min_chars']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_forbidden_chars'])) { $smarty->assign('apppwd_forbidden_chars', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_forbidden_chars']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_no_reuse'])) { $smarty->assign('apppwd_no_reuse', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_no_reuse']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_diff_login'])) { $smarty->assign('apppwd_diff_login', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_diff_login']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['use_pwnedpasswords'])) { $smarty->assign('appuse_pwnedpasswords', $change_apppwd[$apppwd_index]['pwd_policy_config']['use_pwnedpasswords']); }
+        if (isset($change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_no_special_at_ends'])) { $smarty->assign('apppwd_no_special_at_ends', $change_apppwd[$apppwd_index]['pwd_policy_config']['pwd_no_special_at_ends']); }
     }
 }
 // TODO : Make it clean function show_policy - END
