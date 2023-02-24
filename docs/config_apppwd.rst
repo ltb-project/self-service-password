@@ -45,6 +45,7 @@ multiple.
 
 So, if you want this feature to manage two app passwords, you have to put two
 arrays into the array $change_apppwd, one for each:
+
 .. code-block:: php
 
    $change_apppwd = array(
