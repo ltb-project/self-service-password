@@ -157,3 +157,4 @@ $messages['changeapppwdhelp'] = "To change your App-Password, you have to enter 
 $messages['changehelpapppwd'] = "change your password for ";
 $messages['newapppassword'] = "new App-Password";
 $messages['confirmapppassword'] = "confirm App-Passwort";
+$messages['menuapppwd'] = "Password for ";

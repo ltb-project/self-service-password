@@ -1,5 +1,3 @@
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"></head><body><pre>&lt;?php
 #==============================================================================
 # LTB Self Service Password
 #
@@ -157,4 +155,8 @@ $messages["questionspopulatehint"] = "Introduïu només el vostre usuari per obt
 $messages['badquality'] = "La qualitat de la contrasenya és molt baixa";
 $messages['tooyoung'] = "La contrasenya s'ha canviat massa recentment";
 $messages['inhistory'] = "La contresenya es troba dins l'històric de les contrasenyes antigues";
-</pre></body></html>
+$messages['changeapppwdhelp'] = "To change your App-Password, you have to enter your credentials.";
+$messages['changehelpapppwd'] = "change your password for ";
+$messages['newapppassword'] = "new App-Password";
+$messages['confirmapppassword'] = "confirm App-Passwort";
+$messages['menuapppwd'] = "Password for ";
