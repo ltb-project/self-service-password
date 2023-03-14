@@ -20,7 +20,7 @@ if ($use_captcha) {
     require_once("../lib/captcha.inc.php");
 } else if ($change_apppwd != false) {
     for ($i = 0; $i < count($change_apppwd); $i++) {
-        if (isset($change_apppwd['use_captcha']) && $change_apppwd['use_captcha']) {
+        if (isset($change_apppwd[$i]['use_captcha']) && $change_apppwd[$i]['use_captcha']) {
             require_once("../lib/captcha.inc.php");
         }
     }
