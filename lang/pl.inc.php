@@ -79,7 +79,7 @@ $messages['changehelpquestions'] = "<a href=\"?action=resetbyquestions\">Ustaw p
 $messages['changehelptoken'] = "<a href=\"?action=sendtoken\">Ustaw ponownie swoje hasło za pomocą email</a>";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Zresetuj hasło za pomocą wiadomości SMS</a>";
 $messages['resetmessage'] = "Dzień dobry {login},\n\nKliknij tutaj w celu ustawienia swojego hasła:\n{url}\n\nJeśli to nie Ty wybierałeś zmianę hasła, zignoruj tę wiadomość.";
-$messages['resetsubject'] = "[BSD Serwis][Zmiana hasła] Ustaw ponownie swoje hasło";
+$messages['resetsubject'] = "Ustaw ponownie swoje hasło";
 $messages['sendtokenhelp'] = "Wprowadź swój login oraz adres email w celu ponownego ustawienia hasła. Następnie wybierz Wyślij w celu wysłania listu.";
 $messages['sendtokenhelpnomail'] = "Wprowadź swój login w celu ponownego ustawienia hasła. Następnie wybierz Wyślij w celu wysłania listu.";
 $messages['mail'] = "Email";
