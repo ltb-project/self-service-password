@@ -91,6 +91,6 @@
 {/if}
 {elseif $msg_passwordchangedextramessage}
     <div class="result alert alert-{$result_criticity}">
-    <p><i class="fa fa-fw {$result_fa_class}" aria-hidden="true"></i> {$msg_passwordchangedextramessage}</p>
+    <p><i class="fa fa-fw {$result_fa_class}" aria-hidden="true"></i> {$msg_passwordchangedextramessage|unescape: "html" nofilter}</p>
     </div>
 {/if}
