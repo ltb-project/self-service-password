@@ -36,7 +36,7 @@ Source1: self-service-password-apache.conf
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires(pre): coreutils
-Requires: php, php-gd, php-ldap, php-mbstring, php-Smarty
+Requires: php, php-gd, php-ldap, php-mbstring
 
 %description
 Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory.
