@@ -91,6 +91,7 @@ $messages['mail'] = "Pošta";
 $messages['mailrequired'] = "Potrebna je Vaša email adresa";
 $messages['mailnomatch'] = "Email adresa koju ste uneli se ne poklapa sa korisničkim nalogom";
 $messages['tokensent'] = "Email za potvrdu je poslat";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Greška prilikom slanja emaila za potvrdu";
 $messages['tokenrequired'] = "Potreban je token";
 $messages['tokennotvalid'] = "Token nije validan";

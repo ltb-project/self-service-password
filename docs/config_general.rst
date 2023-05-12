@@ -220,6 +220,16 @@ displayed and replaced by a generic "bad credentials" error:
 
    $obscure_failure_messages = array("mailnomatch");
 
+For the reset process via mail token, there is also a specific parameter,
+enabled by default, to avoid account disclosure:
+
+.. code-block:: php
+
+   $obscure_usernotfound_sendtoken = true;
+
+Set this parameter to ``false`` if you want to show an error if the account entered
+by the user do not exist in the directory.
+
 Default action
 --------------
 

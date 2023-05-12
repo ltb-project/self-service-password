@@ -84,6 +84,7 @@ $messages['mail'] = "E-Mail";
 $messages['mailrequired'] = "Ihre E-Mail-Adresse wird benötigt";
 $messages['mailnomatch'] = "Die angegebene E-Mail-Adresse ist nicht für den Benutzernamen hinterlegt";
 $messages['tokensent'] = "Eine Bestätigungsmail wurde versandt";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Fehler beim Versenden der Bestätigungsmail";
 $messages['tokenrequired'] = "Token benötigt";
 $messages['tokennotvalid'] = "Token ungültig";

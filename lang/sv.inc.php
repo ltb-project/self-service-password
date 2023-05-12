@@ -85,6 +85,7 @@ $messages['mail'] = "Epost";
 $messages['mailrequired'] = "Du måste fylla i en epostadress";
 $messages['mailnomatch'] = "Angiven epostadress stämmer inte med tidigare angiven adress";
 $messages['tokensent'] = "Epostmeddelande skickat";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Fel när epost skickades";
 $messages['tokenrequired'] = "Du måste ange Lösenkod";
 $messages['tokennotvalid'] = "Lösenkoden är felaktig";

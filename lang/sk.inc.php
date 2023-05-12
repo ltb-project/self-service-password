@@ -85,6 +85,7 @@ $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "Zadanie e-mailu je povinné";
 $messages['mailnomatch'] = "E-mail sa nezhoduje s prihlasovacím menom";
 $messages['tokensent'] = "Potvrdzujúci email bol poslaný";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Chyba pri posielaní potvrdzujúceho e-mailu";
 $messages['tokenrequired'] = "Token je povinný";
 $messages['tokennotvalid'] = "Token nie je správny";

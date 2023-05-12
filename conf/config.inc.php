@@ -384,6 +384,7 @@ $use_restapi = false;
 # These messages will be replaced by badcredentials error
 # by default mailnomatch is obscured since it can disclose account existence
 $obscure_failure_messages = array("mailnomatch");
+$obscure_usernotfound_sendtoken = true;
 
 # HTTP Header name that may hold a login to preset in forms
 #$header_name_preset_login="Auth-User";

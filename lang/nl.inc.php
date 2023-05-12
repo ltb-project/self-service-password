@@ -84,6 +84,7 @@ $messages['mail'] = "Uw emailadres";
 $messages['mailrequired'] = "Emailadres is verplicht";
 $messages['mailnomatch'] = "Het email adres komt niet overeen met de gebruikersnaam";
 $messages['tokensent'] = "De bevestigingsmail is verstuurd";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Fout bij het versturen van de email";
 $messages['tokenrequired'] = "Token is verplicht";
 $messages['tokennotvalid'] = "Token is ongeldig";
