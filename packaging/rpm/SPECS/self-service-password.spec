@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.5.2
+%define ssp_version	1.5.3
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -121,6 +121,20 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Mon May 15 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.3-1
+- gh#723: Update gpg install command
+- gh#735: Links not interpreted in $messages['sendtokenhelpnomail']
+- gh#736: User account disclosure risk (Token method)
+- gh#741: Add support for Arabic locale
+- gh#744: Update Dutch lang file
+- gh#749: Prevent account disclosure in password reset by mail token page
+- gh#754: Added comment/note over $custom_css
+- gh#760: Problem to install on EL9
+- gh#764: Polish translation error
+- gh#766: Help Menu vs PHP Version issues?
+- gh#767: Bump guzzlehttp/psr7 from 2.4.0 to 2.5.0 in /lib
+- gh#768: Restrict languages to php files
+- gh#771: Restrict languages to php files
 * Thu Oct 06 2022 - Clement Oudot <clem@ltb-project.org> - 1.5.2-1
 - gh#717: Update config_nginx.rst
 - gh#718: Update config_apache.rst
