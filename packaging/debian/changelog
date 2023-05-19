@@ -1,3 +1,21 @@
+ltb-project-self-service-password (1.5.3-1) unstable; urgency=high
+
+    * gh#723: Update gpg install command
+    * gh#735: Links not interpreted in $messages['sendtokenhelpnomail']
+    * gh#736: User account disclosure risk (Token method)
+    * gh#741: Add support for Arabic locale
+    * gh#744: Update Dutch lang file
+    * gh#749: Prevent account disclosure in password reset by mail token page
+    * gh#754: Added comment/note over $custom_css
+    * gh#760: Problem to install on EL9
+    * gh#764: Polish translation error
+    * gh#766: Help Menu vs PHP Version issues?
+    * gh#767: Bump guzzlehttp/psr7 from 2.4.0 to 2.5.0 in /lib
+    * gh#768: Restrict languages to php files
+    * gh#771: Restrict languages to php files
+
+ -- Clement Oudot <clem@ltb-project.org>  Mon, 15 May 2023 12:00:00 +0200
+
 ltb-project-self-service-password (1.5.2-1) unstable; urgency=high
 
     * gh#717: Update config_nginx.rst

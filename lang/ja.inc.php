@@ -85,6 +85,7 @@ $messages['mail'] = "メールアドレス";
 $messages['mailrequired'] = "メールアドレスを入力してください";
 $messages['mailnomatch'] = "メールアドレスがログインIDのものと一致しません";
 $messages['tokensent'] = "確認用のメールを送信しました";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "確認用のメールを送信する際にエラーが発生しました";
 $messages['tokenrequired'] = "トークンを入力してください";
 $messages['tokennotvalid'] = "トークンが間違っています";

@@ -91,6 +91,7 @@ $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Your email address is required";
 $messages['mailnomatch'] = "The email address does not match the submitted user name";
 $messages['tokensent'] = "A confirmation email has been sent";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Error when sending confirmation email";
 $messages['tokenrequired'] = "Token is required";
 $messages['tokennotvalid'] = "Token is not valid";

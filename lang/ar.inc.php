@@ -91,6 +91,7 @@ $messages['mail'] = "بريد إلكتروني";
 $messages['mailrequired'] = "عنوان بريدك الإلكتروني مطلوب";
 $messages['mailnomatch'] = "عنوان البريد الإلكتروني لا يتطابق مع اسم المستخدم المقدم";
 $messages['tokensent'] = "تم إرسال رسالة تأكيد بالبريد الإلكتروني";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "خطأ عند إرسال بريد إلكتروني للتأكيد";
 $messages['tokenrequired'] = "الرمز مطلوب";
 $messages['tokennotvalid'] = "الرمز غير صالح";

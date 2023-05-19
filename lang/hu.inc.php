@@ -85,6 +85,7 @@ $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "E-mail cím megadása kötelező";
 $messages['mailnomatch'] = "Az e-mail cím / felhasználónév páros hibás.";
 $messages['tokensent'] = "Visszaigazoló email kiküldve";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Hiba a visszaigazoló email küldése közben";
 $messages['tokenrequired'] = "Kód hiányzik";
 $messages['tokennotvalid'] = "Kód nem megfelelő";

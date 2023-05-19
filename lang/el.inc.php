@@ -85,6 +85,7 @@ $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Απαιτείται η διεύθυνση ηλεκτρονικού ταχυδρομείου σας";
 $messages['mailnomatch'] = "Η διεύθυνση ηλεκτρονικού ταχυδρομείου δεν αντιστοιχεί σε αυτό το όνομα χρήστη";
 $messages['tokensent'] = "Στάλθηκε ηλεκτρονικό μήνυμα επιβεβαίωσης";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Λάθος στην αποστολή του ηλεκτρονικού μηνύματος επιβεβαίωσης";
 $messages['tokenrequired'] = "Απαιτείται μοναδικό αναγνωριστικό";
 $messages['tokennotvalid'] = "Το μοναδικό αναγνωριστικό δεν είναι έγκυρο";

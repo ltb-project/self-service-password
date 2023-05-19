@@ -84,6 +84,7 @@ $messages['mail'] = "Correo electrónico";
 $messages['mailrequired'] = "Su e-mail es necesario";
 $messages['mailnomatch'] = "El e-mail no coincide con el de inicio de sesión presentado";
 $messages['tokensent'] = "Un correo de confirmación ha sido enviado";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Error al enviar el correo de confirmación";
 $messages['tokenrequired'] = "Un código es requerido";
 $messages['tokennotvalid'] = "El código no es válido";

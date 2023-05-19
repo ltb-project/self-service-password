@@ -91,6 +91,7 @@ $messages['mail'] = "E-mail";
 $messages['mailrequired'] = "O e-mail é necessário";
 $messages['mailnomatch'] = "O e-mail não coincide com nenhum usuário";
 $messages['tokensent'] = "O e-mail de confirmação foi enviado";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Erro durante o envio do e-mail de confirmação";
 $messages['tokenrequired'] = "O código é necessário";
 $messages['tokennotvalid'] = "Código inválido";

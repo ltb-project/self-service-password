@@ -83,6 +83,7 @@ $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Indirizzo mail obbligatorio";
 $messages['mailnomatch'] = "La mail non corrisponde al login";
 $messages['tokensent'] = "Una mail di conferma e' stata spedita";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Errore nell'invio della mail di conferma";
 $messages['tokenrequired'] = "Codice di verifica obbligatorio";
 $messages['tokennotvalid'] = "Codice di verifica non valido";

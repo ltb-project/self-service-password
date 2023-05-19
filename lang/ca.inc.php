@@ -87,6 +87,7 @@ $messages['mail'] = "Correu";
 $messages['mailrequired'] = "Cal el vostre correu";
 $messages['mailnomatch'] = "El correu no coincideix amb el registrat per l'usuari";
 $messages['tokensent'] = "Hem enviat un correu de confirmació";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Error en enviar el correu de confirmació";
 $messages['tokenrequired'] = "Cal un testimoni";
 $messages['tokennotvalid'] = "El testimoni no és vàlid";

@@ -85,6 +85,7 @@ $messages['mail'] = "Epost";
 $messages['mailrequired'] = "Du må fylle inn din epostadresse";
 $messages['mailnomatch'] = "Angitt epostadresse stemmer ikke med tidigere angitt adresse";
 $messages['tokensent'] = "Epost melding sendt";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Feil ved sending av spost";
 $messages['tokenrequired'] = "Du må oppgi engangspassord";
 $messages['tokennotvalid'] = "Engangspassord er feil";

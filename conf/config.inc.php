@@ -325,6 +325,7 @@ $logo = "images/ltb-logo.png";
 # Background image
 $background_image = "images/unsplash-space.jpeg";
 
+# Path is relative to htdocs/html and the custom CSS file should be created in css/ directory. For example: "css/sample.css"
 $custom_css = "";
 $display_footer = true;
 
@@ -383,6 +384,7 @@ $use_restapi = false;
 # These messages will be replaced by badcredentials error
 # by default mailnomatch is obscured since it can disclose account existence
 $obscure_failure_messages = array("mailnomatch");
+$obscure_usernotfound_sendtoken = true;
 
 # HTTP Header name that may hold a login to preset in forms
 #$header_name_preset_login="Auth-User";

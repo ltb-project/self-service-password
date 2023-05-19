@@ -84,6 +84,7 @@ $messages['mail'] = "Adresse mail";
 $messages['mailrequired'] = "Vous devez indiquer votre adresse mail";
 $messages['mailnomatch'] = "L'adresse mail ne correspond pas à l'identifiant donné";
 $messages['tokensent'] = "Un mail de confirmation a été envoyé";
+$messages['tokensent_ifexists'] = "Si ce compte existe, un mail de confirmation lui a été envoyé";
 $messages['tokennotsent'] = "Erreur lors de l'envoi du mail de confirmation";
 $messages['tokenrequired'] = "Le jeton de réinitialisation est requis";
 $messages['tokennotvalid'] = "Le jeton n'est pas valide";

@@ -85,6 +85,7 @@ $messages['mail'] = "E-naslov";
 $messages['mailrequired'] = "E-naslov je zahtevan";
 $messages['mailnomatch'] = "E-naslov se ne ujema s podanim uporabniškim imenom";
 $messages['tokensent'] = "Potrditveno sporočilo je bilo poslano";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Napaka pri pošiljanju potrditvenega sporočila";
 $messages['tokenrequired'] = "Zahtevan je žeton";
 $messages['tokennotvalid'] = "Žeton ni pravilen";

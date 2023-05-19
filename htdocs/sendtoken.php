@@ -103,7 +103,7 @@ if ( $result === "" ) {
     $entry = ldap_first_entry($ldap, $search);
 
     if( !$entry ) {
-        $result = "badcredentials";
+        $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "badcredentials";
         error_log("LDAP - User $login not found");
     } else {
 
@@ -142,10 +142,10 @@ if ( $result === "" ) {
 
         if (! $match) {
             if (! $mail_address_use_ldap) {
-                $result = "mailnomatch";
+                $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "mailnomatch";
                 error_log("Mail $mail does not match for user $login");
             } else {
-                $result = "mailnomatch";
+                $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "mailnomatch";
                 error_log("Mail not found for user $login");
             }
         }
@@ -218,7 +218,7 @@ if ( $result === "" ) {
 
     # Send message
     if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
-        $result = "tokensent";
+        $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "tokensent";
     } else {
         $result = "tokennotsent";
         error_log("Error while sending token to $mail (user $login)");

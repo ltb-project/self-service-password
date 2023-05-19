@@ -3,7 +3,7 @@
 #==============================================================================
 # Version
 #==============================================================================
-$version = "1.5.2";
+$version = "1.5.3";
 
 #==============================================================================
 # Configuration
@@ -42,18 +42,9 @@ else { $source="unknown"; }
 #==============================================================================
 require_once("../lib/detectbrowserlanguage.php");
 # Available languages
-$languages = array();
-if ($handle = opendir('../lang')) {
-    while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
-            $entry_lang = str_replace(".inc.php", "", $entry);
-            if ($entry_lang === $lang || empty($allowed_lang) || in_array($entry_lang, $allowed_lang) ) {
-                array_push($languages, $entry_lang);
-            }
-        }
-    }
-    closedir($handle);
-}
+$files = glob("../lang/*.php");
+$languages = str_replace(".inc.php", "", $files);
+$languages = str_replace("../lang/", "", $languages);
 $lang = detectLanguage($lang, $languages);
 require_once("../lang/$lang.inc.php");
 

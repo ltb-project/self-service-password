@@ -83,6 +83,7 @@ $messages['mail'] = "Электронный адрес";
 $messages['mailrequired'] = "Введите Ваш электронный адрес";
 $messages['mailnomatch'] = "Ваш электронный адрес не совпадает с указанным логином";
 $messages['tokensent'] = "Электронное письмо для подтверждения выслано";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Ошибка отправки электронного письма для подтверждения";
 $messages['tokenrequired'] = "Необходим token ";
 $messages['tokennotvalid'] = "Token недействителен";
