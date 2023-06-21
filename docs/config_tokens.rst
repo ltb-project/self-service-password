@@ -29,7 +29,7 @@ Mail configuration
 See :ref:`config_mail`.
 
 You can also avoid to request the mail to the user, only the login will
-be asekd, and the mail will be read in LDAP:
+be asked, and the mail will be read in LDAP:
 
 .. code-block:: php
 
