@@ -30,6 +30,7 @@ Requires: php
 Requires: php-gd
 Requires: php-ldap
 Requires: php-mbstring
+Requires: php-Smarty
 
 
 %description
