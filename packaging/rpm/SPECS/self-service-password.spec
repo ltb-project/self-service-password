@@ -117,6 +117,13 @@ fi
 if [ -f "%{ssp_destdir}/conf/config.inc.php" ]; then
     mv %{ssp_destdir}/conf/config.inc.php %{_sysconfdir}/%{name}/config.inc.php
 fi
+# Move configuration override too
+if [ -f "%{ssp_destdir}/config.inc.local.php" ]; then
+    mv %{ssp_destdir}/config.inc.local.php %{_sysconfdir}/%{name}/config.inc.local.php
+fi
+if [ -f "%{ssp_destdir}/conf/config.inc.local.php" ]; then
+    mv %{ssp_destdir}/conf/config.inc.local.php %{_sysconfdir}/%{name}/config.inc.local.php
+fi
 
 #=================================================
 # Files
