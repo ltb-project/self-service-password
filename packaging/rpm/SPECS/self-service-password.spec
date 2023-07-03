@@ -80,13 +80,9 @@ install -m 644 %{SOURCE1} \
 
 # Adapt Smarty paths
 sed -i \
-  's:/usr/share/php/smarty3:/usr/share/php/Smarty:' \
-  conf/config.inc.php
-sed -i \
-  's:^#$smarty_cache_dir.*:$smarty_cache_dir = "'%{ssp_cachedir}/cache'";:' \
-  conf/config.inc.php
-sed -i \
-  's:^#$smarty_compile_dir.*:$smarty_compile_dir = "'%{ssp_cachedir}/templates_c'";:' \
+  -e 's:/usr/share/php/smarty3:/usr/share/php/Smarty:' \
+  -e 's:^#$smarty_cache_dir.*:$smarty_cache_dir = "'%{ssp_cachedir}/cache'";:' \
+  -e 's:^#$smarty_compile_dir.*:$smarty_compile_dir = "'%{ssp_cachedir}/templates_c'";:' \
   conf/config.inc.php
 
 # Move conf file to %%_sysconfdir
