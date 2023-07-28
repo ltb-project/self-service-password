@@ -28,8 +28,7 @@
                 </p>
             </div>
         {/if}
-	{assign var=action value="%"|explode:$action}
-        {include file="{$action[0]}.tpl"}
+        {include file="$action.tpl"}
         {/if}
     </div>
 </div>

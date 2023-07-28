@@ -35,12 +35,9 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 $extended_error_msg = "";
-$appindex = 0;
-if (isset($default_appindex)) { $appindex = $default_appindex; }
-if (isset($_GET["appindex"]) && isset($change_apppwd[$_GET["appindex"]])) { $appindex = $_GET["appindex"]; }
-else { $result = "unknownapp"; }
 
 $post = filter_input_array(INPUT_POST);
+
 if(isset($INPUT_REQUEST)) { $request = filter_input_array(INPUT_REQUEST); }
 if (isset($post["confirmapppassword"]) and $post["confirmapppassword"]) { $confirmapppassword = strval($post["confirmapppassword"]); }
 else { $result = "confirmpasswordrequired"; }
@@ -54,7 +51,21 @@ if (! isset($_REQUEST["login"]) and ! isset($post["confirmapppassword"]) and ! i
     $result = "emptychangeform";
 }
 
-$appconf = $change_apppwd[$appindex];
+
+$appindex = 0;
+if (isset($default_appindex)) { $appindex = $default_appindex; }
+if (isset($_GET["appindex"])) {
+    if (isset($change_apppwd[$_GET["appindex"]])) {
+        $appindex = $_GET["appindex"];
+    } else {
+        $result = "unknownapp";
+    }
+}
+
+if ($result === "") {
+    $appconf = $change_apppwd[$appindex];
+    if ($appconf['use_captcha']) { require_once ("../lib/captcha.inc.php"); }
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {

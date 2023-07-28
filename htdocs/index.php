@@ -16,15 +16,7 @@ require_once("../conf/config.inc.php");
 require_once("../lib/vendor/defuse-crypto.phar");
 require_once("../lib/vendor/autoload.php");
 require_once("../lib/functions.inc.php");
-if ($use_captcha) {
-    require_once("../lib/captcha.inc.php");
-} else if ($change_apppwd != false) {
-    for ($i = 0; $i < count($change_apppwd); $i++) {
-        if (isset($change_apppwd[$i]['use_captcha']) && $change_apppwd[$i]['use_captcha']) {
-            require_once("../lib/captcha.inc.php");
-        }
-    }
-}
+if ($use_captcha) { require_once("../lib/captcha.inc.php"); }
 // should be included by ../lib/vendor/autoload.php
 //if ($use_pwnedpasswords) {
 //    require_once("../lib/vendor/mxrxdxn/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
@@ -337,6 +329,7 @@ if (isset($obscure_failure_messages) && in_array($result, $obscure_failure_messa
 # Set error message, criticity and fa_class
 
 if ($result) {
+    echo $result;
     $smarty->assign('error', $messages[$result]);
     // TODO : Make it clean $error_sms - START
     if ($action == 'sendsms') {

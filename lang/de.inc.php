@@ -161,4 +161,4 @@ $messages["questionspopulatehint"] = "Geben Sie Ihren Benutzernamen ein, um die 
 $messages['badquality'] = "Geringe Passwortqualität";
 $messages['tooyoung'] = "Das Passwort wurde zu häufig geändert";
 $messages['inhistory'] = "Das Passwort wurde früher bereits verwendet";
-$messages['unknownapp'] = "Die angeforderte Änderung kann nicht durchgeführt werden";
+$messages['unknownapp'] = "Die im Link angegebene Applikation kann nicht gefunden werden";

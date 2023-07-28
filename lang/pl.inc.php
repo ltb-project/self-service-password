@@ -160,3 +160,4 @@ $messages['changehelpapppwd'] = "change your password for ";
 $messages['newapppassword'] = "new App-Password";
 $messages['confirmapppassword'] = "confirm App-Passwort";
 $messages['menuapppwd'] = "Password for ";
+$messages['unknownapp'] = "The application specified in the link cannot be found";
