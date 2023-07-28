@@ -245,6 +245,7 @@ Possibles values are:
 -  ``change``
 -  ``sendtoken``
 -  ``sendsms``
+-  ``changeapppwd`` (to specify which apppwd, set ``$default_appindex`` to the desired number, i.e. ``$default_appindex = 1;``)
 
 You can disable the standard password change if you don't need it:
 

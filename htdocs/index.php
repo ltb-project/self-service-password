@@ -228,7 +228,6 @@ if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
 if (isset($token)) { $smarty->assign('token', $token); }
 if (isset($use_captcha)) { $smarty->assign('use_captcha', $use_captcha); }
-if (isset($appindex) && isset($change_apppwd[$appindex]['use_captcha'])) { $smarty->assign('use_apppwd_captcha', $change_apppwd[$appindex]['use_captcha']); }
 // TODO : Make it clean function show_policy - START
 if (isset($pwd_show_policy_pos)) {
     $smarty->assign('pwd_show_policy_pos', $pwd_show_policy_pos);

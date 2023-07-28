@@ -64,7 +64,6 @@ if (isset($_GET["appindex"])) {
 
 if ($result === "") {
     $appconf = $change_apppwd[$appindex];
-    if ($appconf['use_captcha']) { require_once ("../lib/captcha.inc.php"); }
 }
 
 # Check the entered username for characters that our installation doesn't support

@@ -96,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            {if ($use_apppwd_captcha)}
+            {if ($use_captcha)}
                  {include file="captcha.tpl"}
             {/if}
             <div class="form-group">
