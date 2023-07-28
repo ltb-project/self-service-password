@@ -328,7 +328,6 @@ if (isset($obscure_failure_messages) && in_array($result, $obscure_failure_messa
 # Set error message, criticity and fa_class
 
 if ($result) {
-    echo $result;
     $smarty->assign('error', $messages[$result]);
     // TODO : Make it clean $error_sms - START
     if ($action == 'sendsms') {
