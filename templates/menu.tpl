@@ -51,8 +51,8 @@
                 {/if}
 		{if $change_apppwd}
                     {foreach from=$change_apppwd item=app key=key}
-                        <li class="{if $action == 'changeapppwd%'|cat:$key}active{/if}">
-                            <a href="?action=changeapppwd%{$key}"
+                        <li class="{if $action == 'changeapppwd' and $key == $appindex }active{/if}">
+                            <a href="?action=changeapppwd&appindex={$key}"
                                data-toggle="menu-popover"
                                data-content="{$msg_changehelpapppwd|strip_tags:false|cat:$app.label}"
                             ><i class="fa fa-fw fa-terminal"></i> {$msg_menuapppwd|cat:$app.label} </a>

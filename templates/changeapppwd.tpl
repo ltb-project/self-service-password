@@ -12,8 +12,8 @@
     {if $show_help }
         <div class="result alert alert-warning">
         <p><i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changeapppwdhelp}</p>
-        {if $change_apppwd[$action[1]]['msg_changehelpextramessage']}
-            <p>{$change_apppwd[$action[1]]['msg_changehelpextramessage']|unescape: "html" nofilter}</p>
+        {if $change_apppwd[$appindex]['msg_changehelpextramessage']}
+            <p>{$change_apppwd[$appindex]['msg_changehelpextramessage']|unescape: "html" nofilter}</p>
         {/if}
         {if !$show_menu and ($use_questions or $use_tokens or $use_sms or $change_sshkey) }
             <ul>

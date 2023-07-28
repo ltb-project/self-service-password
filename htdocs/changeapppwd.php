@@ -35,6 +35,10 @@ $userdn = "";
 if (!isset($pwd_forbidden_chars)) { $pwd_forbidden_chars=""; }
 $mail = "";
 $extended_error_msg = "";
+$appindex = 0;
+if (isset($default_appindex)) { $appindex = $default_appindex; }
+if (isset($_GET["appindex"]) && isset($change_apppwd[$_GET["appindex"]])) { $appindex = $_GET["appindex"]; }
+else { $result = "unknownapp"; }
 
 $post = filter_input_array(INPUT_POST);
 if(isset($INPUT_REQUEST)) { $request = filter_input_array(INPUT_REQUEST); }
@@ -50,15 +54,7 @@ if (! isset($_REQUEST["login"]) and ! isset($post["confirmapppassword"]) and ! i
     $result = "emptychangeform";
 }
 
-# Get the app configuration
-$appconf;
-if (is_numeric(explode("%", $action)[1]) && explode("%", $action)[1] < count($change_apppwd) ) {
-    $appindex = explode("%", $action)[1];
-    $appconf = $change_apppwd[$appindex];
-} else { 
-    $result = "unknownapp"; 
-    error_log($result);
-}
+$appconf = $change_apppwd[$appindex];
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
