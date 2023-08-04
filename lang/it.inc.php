@@ -22,10 +22,10 @@
 #==============================================================================
 # Italian
 #==============================================================================
-$messages['phpupgraderequired'] = "PHP upgrade required";
+$messages['phpupgraderequired'] = "Aggiornare PHP ad una versione successiva";
 $messages['nophpldap'] = "Devi installare PHP LDAP per usare questo strumento";
 $messages['nophpmhash'] = "Devi installare PHP mhash per usare il modo Samba";
-$messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['nokeyphrase'] = "La cifratura del token richiede una stringa generata casualmente nelle impostazioni del keyphrase";
 $messages['ldaperror'] = "Non posso accedere alla directory LDAP";
 $messages['loginrequired'] = "Nome utente obbligatorio";
 $messages['oldpasswordrequired'] = "Vecchia password obbligatoria";
@@ -36,7 +36,7 @@ $messages['nomatch'] = "Password non corrispondenti";
 $messages['badcredentials'] = "Login o password non corretti";
 $messages['passworderror'] = "Password rifiutata dalla directory LDAP";
 $messages['title'] = "Self service password";
-$messages['login'] = "Login";
+$messages['login'] = "Accedi";
 $messages['oldpassword'] = "Vecchia password";
 $messages['newpassword'] = "Nuova password";
 $messages['confirmpassword'] = "Conferma";
@@ -83,7 +83,7 @@ $messages['mail'] = "Mail";
 $messages['mailrequired'] = "Indirizzo mail obbligatorio";
 $messages['mailnomatch'] = "La mail non corrisponde al login";
 $messages['tokensent'] = "Una mail di conferma e' stata spedita";
-$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
+$messages['tokensent_ifexists'] = "Se l'account esiste, una email di conferma e' stata inviata all'indirizzo email associato";
 $messages['tokennotsent'] = "Errore nell'invio della mail di conferma";
 $messages['tokenrequired'] = "Codice di verifica obbligatorio";
 $messages['tokennotvalid'] = "Codice di verifica non valido";
@@ -91,7 +91,7 @@ $messages['resetbytokenhelp'] = "Il codice di verifica spedito via mail ti conse
 $messages['changemessage'] = "Buongiorno {login},\n\nLa tua password e' stata cambiata.\n\nSe non hai richiesto questa modifica, per favore contatta immediatamente il tuo amministratore di rete.";
 $messages['changesubject'] = "La tua password e' stata cambiata";
 $messages['badcaptcha'] = "Il codice captcha non e' corretto. Riprova.";
-$messages['captcharequired'] = "The captcha is required.";
+$messages['captcharequired'] = "Il captcha e' richiesto.";
 $messages['captcha'] = "Captcha";
 $messages['notcomplex'] = "La tua password non e' abbastanza complessa";
 $messages['policycomplex'] = "Numero minimo di tipi di carattere:";
@@ -101,7 +101,7 @@ $messages['smsnotsent'] = "Errore durante l'invio dell'SMS";
 $messages['sms'] = "Numero dell'SMS";
 $messages['smstoken'] = "Codice dell'SMS";
 $messages['smsnonumber'] = "Numero di telefono non trovato";
-$messages['username'] = "Username";
+$messages['username'] = "Nome utente";
 $messages['sendsmshelp'] = "Inserisci la tua login per ricevere il codice di verifica per il reset della password. Inserisci poi il codice ricevuto via SMS.";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reimposta la tua password tramite SMS</a>";
 $messages['userfullname'] = "Nome completo dell'utente";
