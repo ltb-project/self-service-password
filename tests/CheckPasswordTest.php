@@ -36,17 +36,22 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
 
         $login = "coudot";
         $oldpassword = "secret";
-        $entry_array = array('cn' => array('common name'), 'sn' => array('surname'));
+        $entry_array = array('cn' => array('common name'), 'sn' => array('surname'), 'apppwd_attribute' => array("{SSHA}7JWaNGUygodHyWt+DwPpOuYMDdKYJQQX"));
+        $appconf = array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'apppwd_attribute', 'hash' => "auto");
+        $appconf2 = array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'apppwd_attribute', 'hash' => "SSHA");
 
-        $this->assertEquals("sameaslogin", check_password_strength( "coudot", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("sameasold", check_password_strength( "secret", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("forbiddenchars", check_password_strength( "p@ssword", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("minspecial", check_password_strength( "password", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("mindigit", check_password_strength( "!password", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("minupper", check_password_strength( "!1password", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("minlower", check_password_strength( "!1PASSWORD", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("toobig", check_password_strength( "!1verylongPassword", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("tooshort", check_password_strength( "!1Pa", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
+        $this->assertEquals("sameaslogin", check_password_strength( "coudot", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("sameasold", check_password_strength( "secret", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("forbiddenchars", check_password_strength( "p@ssword", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("minspecial", check_password_strength( "password", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("mindigit", check_password_strength( "!password", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("minupper", check_password_strength( "!1password", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("minlower", check_password_strength( "!1PASSWORD", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("toobig", check_password_strength( "!1verylongPassword", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("tooshort", check_password_strength( "!1Pa", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("sameasapppwd", check_password_strength( "!TestMe123!", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("sameasapppwd", check_password_strength( "!TestMe123!", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf2 ) );
+        
 
         $pwd_policy_config = array(
             "pwd_show_policy"         => true,
@@ -68,19 +73,19 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
             "pwd_forbidden_ldap_fields"=> array('cn', 'sn'),
         );
 
-        $this->assertEquals("notcomplex", check_password_strength( "simple", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("specialatends", check_password_strength( "!simple", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("specialatends", check_password_strength( "simple?", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("forbiddenwords", check_password_strength( "companyname", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("forbiddenwords", check_password_strength( "trademark", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("forbiddenwords", check_password_strength( "working at companyname is fun", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("forbiddenldapfields", check_password_strength( "common name", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("forbiddenldapfields", check_password_strength( "my surname", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("diffminchars", check_password_strength( "C0mplex", "C0mplexC0mplex", $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("", check_password_strength( "C0mplex", "", $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("", check_password_strength( "C0mplex", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("", check_password_strength( "C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
-        $this->assertEquals("", check_password_strength( "%C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry_array ) );
+        $this->assertEquals("notcomplex", check_password_strength( "simple", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("specialatends", check_password_strength( "!simple", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("specialatends", check_password_strength( "simple?", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("forbiddenwords", check_password_strength( "companyname", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("forbiddenwords", check_password_strength( "trademark", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("forbiddenwords", check_password_strength( "working at companyname is fun", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("forbiddenldapfields", check_password_strength( "common name", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("forbiddenldapfields", check_password_strength( "my surname", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("diffminchars", check_password_strength( "C0mplex", "C0mplexC0mplex", $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("", check_password_strength( "C0mplex", "", $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("", check_password_strength( "C0mplex", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("", check_password_strength( "C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
+        $this->assertEquals("", check_password_strength( "%C0!mplex", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
     }
 
     /**
@@ -117,8 +122,9 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
                 "pwd_forbidden_words"     => array(),
                 "pwd_forbidden_ldap_fields"=> array(),
             );
+            $appconf = array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'apppwd_attribute', 'hash' => "auto");
 
-            $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login, array() ) );
+            $this->assertEquals("pwned", check_password_strength( "!1Password", $oldpassword, $pwd_policy_config, $login, array(), $appconf ) );
         }
 
     }

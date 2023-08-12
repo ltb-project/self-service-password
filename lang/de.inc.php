@@ -162,3 +162,4 @@ $messages['badquality'] = "Geringe Passwortqualität";
 $messages['tooyoung'] = "Das Passwort wurde zu häufig geändert";
 $messages['inhistory'] = "Das Passwort wurde früher bereits verwendet";
 $messages['unknownapp'] = "Die im Link angegebene Applikation kann nicht gefunden werden";
+$messages['sameasapppwd'] = "Das neue Passwort ist das gleiche wie das einer App!";

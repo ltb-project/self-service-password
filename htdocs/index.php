@@ -257,6 +257,7 @@ if (isset($pwd_show_policy_pos)) {
 
 if (isset($appindex)) {
     $smarty->assign('appindex', $appindex);
+    if (isset($change_apppwd[$appindex]['msg_passwordchangedextramessage'])) { $smarty->assign('msg_passwordchangedextramessage', $change_apppwd[$appindex]['msg_passwordchangedextramessage']); }
     if (isset($change_apppwd) && isset($change_apppwd[$appindex]['pwd_policy_config']['pwd_show_policy_pos']) ) {
         $smarty->assign('apppwd_show_policy_pos', $change_apppwd[$appindex]['pwd_policy_config']['pwd_show_policy_pos']);
         $smarty->assign('apppwd_show_policy', $change_apppwd[$appindex]['pwd_policy_config']['pwd_show_policy']);

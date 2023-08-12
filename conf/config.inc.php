@@ -437,6 +437,14 @@ if ($change_apppwd != false) {
         if (!isset($change_apppwd[$i]['who_change_password'])) { $change_apppwd[$i]['who_change_password'] = $who_change_password; }
         if (!isset($change_apppwd[$i]['msg_changehelpextramessage'])) { $change_apppwd[$i]['msg_changehelpextramessage'] = ""; }
         if (!isset($change_apppwd[$i]['notify_on_change'])) { $change_apppwd[$i]['notify_on_change'] = $notify_on_change; }
+        if (!isset($change_apppwd[$i]['hash_options'])) { $change_apppwd[$i]['hash_options'] = $hash_options; }
+        if (!isset($change_apppwd[$i]['msg_passwordchangedextramessage'])) { $change_apppwd[$i]['msg_passwordchangedextramessage'] = ""; }
+        if (!isset($change_apppwd[$i]['samba_mode'])) { $change_apppwd[$i]['samba_mode'] = false; }
+        if (!isset($change_apppwd[$i]['samba_options'])) { $change_apppwd[$i]['samba_options'] = array(); }
+        if (!isset($change_apppwd[$i]['shadow_options'])) { $change_apppwd[$i]['shadow_options'] = array(); }
+        if (!isset($change_apppwd[$i]['shadow_options']['update_shadowLastChange'])) { $change_apppwd[$i]['shadow_options']['update_shadowLastChange'] = false; }
+        if (!isset($change_apppwd[$i]['shadow_options']['update_shadowExpire'])) { $change_apppwd[$i]['shadow_options']['update_shadowExpire'] = false; }
+        if (!isset($change_apppwd[$i]['shadow_options']['shadow_expire_days'])) { $change_apppwd[$i]['shadow_options']['shadow_expire_days'] = -1; }
     }
     unset($i);
 }

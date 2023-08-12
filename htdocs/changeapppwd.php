@@ -77,7 +77,7 @@ if ( $newapppassword != $confirmapppassword ) { $result="nomatch"; }
 #==============================================================================
 # Check captcha
 #==============================================================================
-if ( ( $result === "" ) and $appconf['use_captcha']) { $result = global_captcha_check();}
+if ( ( $result === "" ) and $use_captcha ) { $result = global_captcha_check();}
 
 # Check password
 if ( $result === "" ) {
@@ -183,7 +183,7 @@ if ( $result === "" ) {
 # Check password strength
 #==============================================================================
 if ( $result === "" ) {
-    $result = check_password_strength( $newapppassword, $password, $appconf['pwd_policy_config'], $login, $entry_array );
+    $result = check_password_strength( $newapppassword, $password, $appconf['pwd_policy_config'], $login, $entry_array, $change_apppwd );
 }
 
 #==============================================================================
@@ -195,7 +195,8 @@ if ( $result === "" ) {
         exec($command, $prehook_output, $prehook_return);
     }
     if ( ! isset($prehook_return) || $prehook_return === 0 || $appconf['ignore_prehook_error'] ) {
-        $result = change_apppassword($appconf['attribute'], $ldap, $userdn, $newapppassword, $appconf['hash'], $appconf['hash_options'], $password, $appconf['ldap_use_ppolicy_control']);
+        $result = change_password($ldap, $userdn, $newapppassword, false, array(), $appconf['samba_mode'], $appconf['samba_options'], $appconf['shadow_options'], $appconf['hash'], $appconf['hash_options'], $appconf['who_change_password'], $password, false, $appconf['ldap_use_ppolicy_control'], true, $appconf['attribute']);
+        //$result = change_apppassword($appconf['attribute'], $ldap, $userdn, $newapppassword, $appconf['hash'], $appconf['hash_options'], $password, $appconf['ldap_use_ppolicy_control']);
         if ( $result === "passwordchanged" && isset($appconf['posthook']) ) {
             $command = hook_command($appconf['posthook'], $login, $newapppassword, $password, $appconf['posthook_password_encodebase64']);
             exec($command, $posthook_output, $posthook_return);
@@ -208,4 +209,17 @@ if ( $result === "" ) {
     }
 } else {
     error_log($result);
+}
+
+#==============================================================================
+# Notify password change
+#==============================================================================
+
+if ($result === "passwordchanged") {
+    if ($mail and $notify_on_change) {
+        $data = array( "login" => $login, "mail" => $mail, "password" => $newapppassword);
+        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+            error_log("Error while sending change email to $mail (user $login)");
+        }
+    }
 }
