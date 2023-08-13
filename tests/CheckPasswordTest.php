@@ -37,8 +37,8 @@ class CheckPasswordTest extends \PHPUnit_Framework_TestCase
         $login = "coudot";
         $oldpassword = "secret";
         $entry_array = array('cn' => array('common name'), 'sn' => array('surname'), 'apppwd_attribute' => array("{SSHA}7JWaNGUygodHyWt+DwPpOuYMDdKYJQQX"));
-        $appconf = array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'apppwd_attribute', 'hash' => "auto");
-        $appconf2 = array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'apppwd_attribute', 'hash' => "SSHA");
+        $appconf = array(array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'apppwd_attribute', 'hash' => "auto"));
+        $appconf2 = array(array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'apppwd_attribute', 'hash' => "SSHA"));
 
         $this->assertEquals("sameaslogin", check_password_strength( "coudot", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
         $this->assertEquals("sameasold", check_password_strength( "secret", $oldpassword, $pwd_policy_config, $login, $entry_array, $appconf ) );
