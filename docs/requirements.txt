@@ -1,3 +1,4 @@
 sphinx-prompt
+sphinx-rtd-theme == 1.2.0
 sphinxcontrib.openapi
 mistune < 2.0.0
