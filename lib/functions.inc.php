@@ -141,7 +141,7 @@ function make_md4_password($password) {
  * @param array $hash_options additional options to be used by the hashing algorithm
  * @return string
  */
-function make_password(string $password, string $hash, array $hash_options): string {
+function make_password($password, $hash, $hash_options): string {
     if ($hash == "SSHA") {
         return make_ssha_password($password);
     }
@@ -195,7 +195,7 @@ function make_password(string $password, string $hash, array $hash_options): str
  * @param string $algo the hashing algorithm
  * @return bool true: password and hash do match
  */
-function check_password(string $password, string $hash, string $algo): bool {
+function check_password($password, $hash, $algo): bool {
     if ( $algo == "NTLM" ) {
         return ($hash === make_md4_password($password));
     }
@@ -267,7 +267,7 @@ function make_ad_password($password) {
  * @param string $pwdattribute the attribute where the hash is stored
  * @return string algorithm used with the hash
  */
-function get_hash_type(\LDAP\Connection|array $ldap, array|string $dn, string $pwdattribute): string {
+function get_hash_type($ldap, $dn, $pwdattribute): string {
     $search_userpassword = ldap_read($ldap, $dn, "(objectClass=*)", array($pwdattribute));
     if ($search_userpassword) {
         $matches = array();
