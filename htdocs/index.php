@@ -151,6 +151,9 @@ $rrl_config = array(
     "filter_by_ip" => isset($ratelimit_filter_by_ip_jsonfile) ? $ratelimit_filter_by_ip_jsonfile : ""
 );
 
+# Preset login with login_hint
+if (isset($_REQUEST["login_hint"]) and $_REQUEST["login_hint"]) { $presetLogin = strval($_REQUEST["login_hint"]); }
+
 #==============================================================================
 # Route to action
 #==============================================================================
