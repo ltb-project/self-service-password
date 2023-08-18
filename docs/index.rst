@@ -22,4 +22,4 @@ LDAP Tool Box Self Service Password documentation
    config_sshkey.rst
    config_rate_limit.rst
    webservices.rst
-
+   audit.rst

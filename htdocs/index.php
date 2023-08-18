@@ -83,7 +83,6 @@ if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxm
 # Check keyphrase setting
 if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
 
-
 #==============================================================================
 # Email Config
 #==============================================================================
@@ -172,6 +171,14 @@ if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
 if (file_exists($action.".php")) { require_once($action.".php"); }
+
+#==============================================================================
+# Audit
+#==============================================================================
+if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
+    require_once("../lib/audit.inc.php");
+    auditlog($audit_log_file, $userdn, $login, $action, $result);
+}
 
 #==============================================================================
 # Smarty

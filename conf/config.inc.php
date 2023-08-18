@@ -355,6 +355,9 @@ $use_restapi = false;
 #$messages['passwordchangedextramessage'] = NULL;
 #$messages['changehelpextramessage'] = NULL;
 
+# Audit
+#$audit_log_file = "/var/log/self-service-password/audit.log";
+
 ## Pre Hook
 # Launch a prehook script before changing password.
 # Script should return with 0, to allow password change.
