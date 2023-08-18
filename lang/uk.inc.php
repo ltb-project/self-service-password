@@ -84,6 +84,7 @@ $messages['mail'] = "Електронна пошта";
 $messages['mailrequired'] = "Введіть вашу електрону пошту";
 $messages['mailnomatch'] = "Ваша електронна пошта не збігається з логіном";
 $messages['tokensent'] = "Електронний лист для підтвердження надіслано";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "Помилка надсилання електронного листа для підтвердження";
 $messages['tokenrequired'] = "Потрібен жетон";
 $messages['tokennotvalid'] = "Жетон недійсний";

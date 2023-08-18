@@ -3,7 +3,7 @@
 #==============================================================================
 # Version
 #==============================================================================
-$version = "1.5.2";
+$version = "1.5.3";
 
 #==============================================================================
 # Configuration
@@ -36,18 +36,9 @@ else { $source="unknown"; }
 #==============================================================================
 require_once("../lib/detectbrowserlanguage.php");
 # Available languages
-$languages = array();
-if ($handle = opendir('../lang')) {
-    while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
-            $entry_lang = str_replace(".inc.php", "", $entry);
-            if ($entry_lang === $lang || empty($allowed_lang) || in_array($entry_lang, $allowed_lang) ) {
-                array_push($languages, $entry_lang);
-            }
-        }
-    }
-    closedir($handle);
-}
+$files = glob("../lang/*.php");
+$languages = str_replace(".inc.php", "", $files);
+$languages = str_replace("../lang/", "", $languages);
 $lang = detectLanguage($lang, $languages);
 require_once("../lang/$lang.inc.php");
 
@@ -91,7 +82,6 @@ if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxm
 
 # Check keyphrase setting
 if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
-
 
 #==============================================================================
 # Email Config
@@ -161,6 +151,9 @@ $rrl_config = array(
     "filter_by_ip" => isset($ratelimit_filter_by_ip_jsonfile) ? $ratelimit_filter_by_ip_jsonfile : ""
 );
 
+# Preset login with login_hint
+if (isset($_REQUEST["login_hint"]) and $_REQUEST["login_hint"]) { $presetLogin = strval($_REQUEST["login_hint"]); }
+
 #==============================================================================
 # Route to action
 #==============================================================================
@@ -181,6 +174,14 @@ if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
 if (file_exists($action.".php")) { require_once($action.".php"); }
+
+#==============================================================================
+# Audit
+#==============================================================================
+if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
+    require_once("../lib/audit.inc.php");
+    auditlog($audit_log_file, $userdn, $login, $action, $result);
+}
 
 #==============================================================================
 # Smarty

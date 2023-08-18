@@ -85,6 +85,7 @@ $messages['mail'] = "E-posta adresi";
 $messages['mailrequired'] = "E-posta adresiniz gereklidir";
 $messages['mailnomatch'] = "E-posta adresi ile kullanıcı adı uyuşmuyor";
 $messages['tokensent'] = "Doğrulama e-postası gönderildi";
+$messages['tokensent_ifexists'] = "Eğer hesap mevcutsa bir doğrulama e-postası hesaba ilişkili e-posta adresine gönderilmiştir";
 $messages['tokennotsent'] = "Doğrulama e-postası gönderilirken hata oluştu";
 $messages['tokenrequired'] = "Belirteç gerekli";
 $messages['tokennotvalid'] = "Belirteç geçerli değil";

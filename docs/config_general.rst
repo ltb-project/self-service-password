@@ -220,6 +220,16 @@ displayed and replaced by a generic "bad credentials" error:
 
    $obscure_failure_messages = array("mailnomatch");
 
+For the reset process via mail token, there is also a specific parameter,
+enabled by default, to avoid account disclosure:
+
+.. code-block:: php
+
+   $obscure_usernotfound_sendtoken = true;
+
+Set this parameter to ``false`` if you want to show an error if the account entered
+by the user do not exist in the directory.
+
 Default action
 --------------
 
@@ -249,13 +259,18 @@ Prefill user login
 ------------------
 
 If Self Service Password is called from another application, you can
-prefill the login but sending an HTTP header.
+prefill the login by sending an HTTP header.
 
-To enable this feature:
+To enable this feature, configure the name of the HTTP header:
 
 .. code-block:: php
 
    $header_name_preset_login = "Auth-User";
+
+It is also possible to prefill the login by using the ``login_hint``
+GET or POST parameter. This method does not require any configuration.
+
+Example: ``https://ssp.example.com/?actionresetbyquestions&login_hint=spiderman``
 
 Captcha
 -------

@@ -91,6 +91,7 @@ $messages['mail'] = "邮箱";
 $messages['mailrequired'] = "请输入您的邮箱地址";
 $messages['mailnomatch'] = "邮箱地址与已提交用户名对应的邮箱地址不一致";
 $messages['tokensent'] = "已发送重置密码邮件";
+$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
 $messages['tokennotsent'] = "发送重置密码邮件时出现错误";
 $messages['tokenrequired'] = "请提供凭据";
 $messages['tokennotvalid'] = "凭据无效";
