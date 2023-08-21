@@ -160,14 +160,14 @@ if ( $result === "" ) {
 #==============================================================================
 # Check password strength
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
     $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array );
 }
 
 #==============================================================================
 # Change password
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
     if ( isset($prehook) ) {
         $command = hook_command($prehook, $login, $newpassword, $oldpassword, $prehook_password_encodebase64);
         exec($command, $prehook_output, $prehook_return);
