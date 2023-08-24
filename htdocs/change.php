@@ -138,7 +138,7 @@ if ( $result === "" ) {
                         }
                     }
                 }
-                if ( $result === "" )  {
+                if ( !$result )  {
                     # Rebind as Manager if needed
                     if ( $who_change_password == "manager" ) {
                         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
