@@ -66,103 +66,89 @@ if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
 if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap = ldap_connect($ldap_url);
-    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
-        $result = "ldaperror";
-        error_log("LDAP - Unable to use StartTLS");
-    } else {
+    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
 
-    # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    } else {
-        $bind = ldap_bind($ldap);
-    }
+    $ldap = $ldap_connection[0];
+    $result = $ldap_connection[1];
 
-    if ( !$bind ) {
-        $result = "ldaperror";
+    if ( $ldap ) {
+
+        # Search for user
+        $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+        $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+
         $errno = ldap_errno($ldap);
         if ( $errno ) {
-            error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
-        }
-    } else {
+            $result = "ldaperror";
+            error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+        } else {
 
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+            # Get user DN
+            $entry = ldap_first_entry($ldap, $search);
 
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-    } else {
+            if( !$entry ) {
+                $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "badcredentials";
+                error_log("LDAP - User $login not found");
+            } else {
 
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
+                $userdn = ldap_get_dn($ldap, $entry);
 
-    if( !$entry ) {
-        $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "badcredentials";
-        error_log("LDAP - User $login not found");
-    } else {
-
-        $userdn = ldap_get_dn($ldap, $entry);
-
-        # Compare mail values
-        $entry_attributes = ldap_get_attributes($ldap, $entry);
-        for ($match = false, $i = 0; $i < sizeof($mail_attributes) and ! $match; $i++) {
-            $mail_attribute = $mail_attributes[$i];
-            if ( in_array($mail_attribute, $entry_attributes) ) {
-                $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
-                unset($mailValues["count"]);
-                if (! $mail_address_use_ldap) {
-                    # Match with user submitted values
-                    foreach ($mailValues as $mailValue) {
-                        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                            $mailValue = str_ireplace("smtp:", "", $mailValue);
-                        }
-                        if (strcasecmp($mail, $mailValue) == 0) {
-                            $match = true;
+                # Compare mail values
+                $entry_attributes = ldap_get_attributes($ldap, $entry);
+                for ($match = false, $i = 0; $i < sizeof($mail_attributes) and ! $match; $i++) {
+                    $mail_attribute = $mail_attributes[$i];
+                    if ( in_array($mail_attribute, $entry_attributes) ) {
+                        $mailValues = ldap_get_values($ldap, $entry, $mail_attribute);
+                        unset($mailValues["count"]);
+                        if (! $mail_address_use_ldap) {
+                            # Match with user submitted values
+                            foreach ($mailValues as $mailValue) {
+                                if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                                    $mailValue = str_ireplace("smtp:", "", $mailValue);
+                                }
+                                if (strcasecmp($mail, $mailValue) == 0) {
+                                    $match = true;
+                                }
+                            }
+                        } else {
+                            # Use first available mail adress in ldap
+                            if (count($mailValues) > 0) {
+                                $mailValue = $mailValues[0];
+                                if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
+                                    $mailValue = str_ireplace("smtp:", "", $mailValue);
+                                }
+                                $mail = $mailValue;
+                                $match = true;
+                            }
                         }
                     }
-                } else {
-                    # Use first available mail adress in ldap
-                    if (count($mailValues) > 0) {
-                        $mailValue = $mailValues[0];
-                        if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                            $mailValue = str_ireplace("smtp:", "", $mailValue);
-                        }
-                        $mail = $mailValue;
-                        $match = true;
+                }
+
+                if (! $match) {
+                    if (! $mail_address_use_ldap) {
+                        $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "mailnomatch";
+                        error_log("Mail $mail does not match for user $login");
+                    } else {
+                        $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "mailnomatch";
+                        error_log("Mail not found for user $login");
+                    }
+                }
+                if ($use_ratelimit) {
+                    if (! allowed_rate($login, $_SERVER[$client_ip_header], $rrl_config)) {
+                        $result = "throttle";
+                        error_log("Mail - User $login too fast");
                     }
                 }
             }
         }
-
-        if (! $match) {
-            if (! $mail_address_use_ldap) {
-                $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "mailnomatch";
-                error_log("Mail $mail does not match for user $login");
-            } else {
-                $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "mailnomatch";
-                error_log("Mail not found for user $login");
-            }
-        }
-        if ($use_ratelimit) {
-            if (! allowed_rate($login, $_SERVER[$client_ip_header], $rrl_config)) {
-                $result = "throttle";
-                error_log("Mail - User $login too fast");
-            }
-        }
     }
+}
 
-}}}}
 
 #==============================================================================
 # Build and store token
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
 
     # Use PHP session to register token
     # We do not generate cookie
@@ -185,7 +171,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Send token by mail
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
 
     if ( empty($reset_url) ) {
 
