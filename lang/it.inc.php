@@ -152,3 +152,4 @@ $messages["questionspopulatehint"] = "Inserisci solo il nome utente per ottenere
 $messages['badquality'] = "La qualità della password è troppo bassa";
 $messages['tooyoung'] = "La password è stata cambiata troppo di recente";
 $messages['inhistory'] = "La password è nello storico delle precedenti";
+$messages['invalidsshkey'] = "Input SSH Key looks invalid";
