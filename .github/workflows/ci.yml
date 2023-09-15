@@ -8,4 +8,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: php-actions/phpunit@v3
+    - name: PHPUnit Tests for php7.4
+        uses: php-actions/phpunit@v3
+        with:
+          configuration: tests/phpunit.xml
+          version: 5.7.25
+          php_version: 7.4
+          args: --coverage-text
