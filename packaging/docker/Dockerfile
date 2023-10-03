@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.1-apache-bullseye
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
         libbz2-dev \
