@@ -158,3 +158,5 @@ $messages['attributesmoderror'] = "Your information have not been updated";
 $messages['attributeschanged'] = "Your information have been updated";
 $messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
 $messages['phone'] = "Telephone number";
+$messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";

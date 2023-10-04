@@ -157,3 +157,5 @@ $messages['attributesmoderror'] = "La mise à jour de vos informations a échou�
 $messages['attributeschanged'] = "Vos informations ont bien été modifiées";
 $messages['setattributeshelp'] = "Vous pouvez mettre à jour les informations utilisées lors d'une demande de réinitialisation de mot de passe. Entrez votre identifiant et votre mot de passe puis saisissez vos nouvelles coordonnées.";
 $messages['phone'] = "Numéro de téléphone";
+$messages['sendtokenhelpupdatemail'] = "Vous pouvez mettre à jour votre adresse email sur <a href=\"?action=setattributes\">cette page</a>.";
+$messages['sendsmshelpupdatephone'] = "Vous pouvez mettre à jour votre numéro de téléphone sur <a href=\"?action=setattributes\">cette page</a>.";
