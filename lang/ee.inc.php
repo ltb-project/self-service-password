@@ -155,3 +155,7 @@ $messages["questionspopulatehint"] = "Enter only your login to retrieve the ques
 $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";

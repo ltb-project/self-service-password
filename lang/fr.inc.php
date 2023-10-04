@@ -153,3 +153,7 @@ $messages['badquality'] = "La qualité du mot de passe est insuffisante";
 $messages['tooyoung'] = "Le mot de passe a été changé trop récemment";
 $messages['inhistory'] = "Le mot de passe est déjà présent dans votre historique";
 $messages['throttle'] = "Trop de tentatives en trop peu de temps. Réessayez un peu plus tard (si vous êtes bien humain)";
+$messages['attributesmoderror'] = "La mise à jour de vos informations a échoué";
+$messages['attributeschanged'] = "Vos informations ont bien été modifiées";
+$messages['setattributeshelp'] = "Vous pouvez mettre à jour les informations utilisées lors d'une demande de réinitialisation de mot de passe. Entrez votre identifiant et votre mot de passe puis saisissez vos nouvelles coordonnées.";
+$messages['phone'] = "Numéro de téléphone";

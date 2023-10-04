@@ -158,3 +158,7 @@ $messages['badquality'] = "La qualitat de la contrasenya és molt baixa";
 $messages['tooyoung'] = "La contrasenya s'ha canviat massa recentment";
 $messages['inhistory'] = "La contresenya es troba dins l'històric de les contrasenyes antigues";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";

@@ -153,3 +153,7 @@ $messages["questionspopulatehint"] = "Daha önceden girdiğiniz soruları yükle
 $messages['badquality'] = "Parola kaliteniz çok düşük";
 $messages['tooyoung'] = "Parolanız çok kısa bir süre önce değiştirildi";
 $messages['inhistory'] = "Parola geçmiş parolalarınız arasında yer alıyor";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";

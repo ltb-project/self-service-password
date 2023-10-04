@@ -155,3 +155,7 @@ $messages['badquality'] = "Password quality is too low";
 $messages['tooyoung'] = "Password was changed too recently";
 $messages['inhistory'] = "Password is in history of old passwords";
 $messages['throttle'] = "Too fast! Please try again later (if ever you are human)";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";
