@@ -1,3 +1,4 @@
+{if $result !== "attributeschanged"}
 {if $show_help}
     <div class="help alert alert-warning">
     <p><i class="fa fa-fw fa-info-circle"></i> {$msg_setattributeshelp|unescape: "html" nofilter}</p>
@@ -59,3 +60,4 @@
     </div>
 </form>
 </div>
+{/if}
