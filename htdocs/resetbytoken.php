@@ -21,8 +21,6 @@
 
 # This page is called to reset a password when a valid token is found in URL
 
-require_once("../vendor/autoload.php");
-
 #==============================================================================
 # POST parameters
 #==============================================================================

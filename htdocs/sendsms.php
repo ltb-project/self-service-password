@@ -21,8 +21,6 @@
 
 # This page is called to send random generated password to user by SMS
 
-require_once("../vendor/autoload.php");
-
 #==============================================================================
 # POST parameters
 #==============================================================================

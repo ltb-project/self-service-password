@@ -1,6 +1,5 @@
 <?php
 require_once("./include.php");
-require_once("../../vendor/autoload.php");
 
 #==============================================================================
 # Action

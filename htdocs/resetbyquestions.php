@@ -21,8 +21,6 @@
 
 # This page is called to reset a password trusting question/anwser
 
-require_once("../vendor/autoload.php");
-
 #==============================================================================
 # POST parameters
 #==============================================================================

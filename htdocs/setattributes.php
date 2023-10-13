@@ -21,8 +21,6 @@
 
 # This page is called to set value for an LDAP attribute
 
-require_once("../vendor/autoload.php");
-
 #==============================================================================
 # POST parameters
 #==============================================================================
