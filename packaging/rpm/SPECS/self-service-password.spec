@@ -61,9 +61,10 @@ mkdir -p %{buildroot}/%{ssp_destdir}/conf
 mkdir -p %{buildroot}/%{ssp_destdir}/htdocs
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
+mkdir -p %{buildroot}/%{ssp_destdir}/scripts
 mkdir -p %{buildroot}/%{ssp_destdir}/templates
 mkdir -p %{buildroot}/%{ssp_cachedir}/templates_c
-mkdir -p %{buildroot}/%{ssp_destdir}/scripts
+mkdir -p %{buildroot}/%{ssp_destdir}/vendor
 mkdir -p %{buildroot}/etc/httpd/conf.d
 
 # Copy files
@@ -79,6 +80,7 @@ install -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
 cp -a          lib/vendor     %{buildroot}/%{ssp_destdir}/lib
 install -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
 install -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
+cp -a          vendor/*       %{buildroot}/%{ssp_destdir}/vendor
 ## Apache configuration
 install -m 644 %{SOURCE1}     %{buildroot}/etc/httpd/conf.d/self-service-password.conf
 
