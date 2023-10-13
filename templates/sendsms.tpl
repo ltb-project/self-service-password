@@ -54,7 +54,14 @@
     </div>
 {else}
     {if $show_help}
-    <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i> {$msg_sendsmshelp}</p></div>
+    <div class="help alert alert-warning">
+        <p><i class="fa fa-fw fa-info-circle"></i> {$msg_sendsmshelp}</p>
+        {if $attribute_phone_update}
+        <p><i class="fa fa-fw fa-pencil-square-o"></i>
+            {$msg_sendsmshelpupdatephone|unescape: "html" nofilter}
+        </p>
+        {/if}
+    </div>
     {/if}
     <div class="alert alert-info">
     <form action="#" method="post" class="form-horizontal">

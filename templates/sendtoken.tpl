@@ -5,8 +5,13 @@
             {$msg_sendtokenhelpnomail|unescape: "html" nofilter}
         {else}
             {$msg_sendtokenhelp|unescape: "html" nofilter}
+        {/if}</p>
+        {if $attribute_mail_update}
+        <p><i class="fa fa-fw fa-pencil-square-o"></i>
+            {$msg_sendtokenhelpupdatemail|unescape: "html" nofilter}
+        </p>
         {/if}
-    </p></div>
+    </div>
 {/if}
 <div class="alert alert-info">
 <form action="#" method="post" class="form-horizontal">

@@ -169,6 +169,7 @@ if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
+if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
@@ -273,6 +274,9 @@ if (isset($display_posthook_error)) { $smarty->assign('display_posthook_error', 
 if (isset($show_extended_error)) { $smarty->assign('show_extended_error', $show_extended_error); }
 if (isset($extended_error_msg)) { $smarty->assign('extended_error_msg', $extended_error_msg); }
 //if (isset($var)) { $smarty->assign('var', $var); }
+
+if (isset($use_attributes) && $use_attributes && isset($attribute_mail)) { $smarty->assign('attribute_mail_update', true); }
+if (isset($use_attributes) && $use_attributes && isset($attribute_phone)) { $smarty->assign('attribute_phone_update', true); }
 
 # Assign messages
 $smarty->assign('lang',$lang);
