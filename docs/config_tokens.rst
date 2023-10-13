@@ -14,6 +14,9 @@ Then, the user click on the link in the mail, an can set a new password.
 .. tip:: PHP sessions are used to store and retrieve token on server
   side.
 
+.. tip:: You can enable :ref:`set_attributes` feature to allow users to
+   update their mail address in the LDAP directory.
+
 Activation
 ----------
 

@@ -303,6 +303,12 @@ $max_attempts = 3;
 # Changing it will also invalidate all previous tokens and SMS codes
 $keyphrase = "secret";
 
+# Use attributes update page
+$use_attributes = false;
+$attribute_mail = "mail";
+$attribute_phone = "mobile";
+$who_change_attributes = "manager";
+
 # Reset URL (if behind a reverse proxy)
 #$reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
 
