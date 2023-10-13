@@ -82,63 +82,51 @@ if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
 if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap = ldap_connect($ldap_url);
-    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
-        $result = "ldaperror";
-        error_log("LDAP - Unable to use StartTLS");
-    } else {
+    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
 
-    # Bind
-    if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-    } else {
-        $bind = ldap_bind($ldap);
+    $ldap = $ldap_connection[0];
+    $result = $ldap_connection[1];
+
+    if ( $ldap ) {
+
+        # Search for user
+        $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+        $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+            $result = "ldaperror";
+            error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+        } else {
+
+            # Get user DN
+            $entry = ldap_first_entry($ldap, $search);
+
+            if( !$entry ) {
+                $result = "badcredentials";
+                error_log("LDAP - User $login not found");
+            } else {
+
+                $userdn = ldap_get_dn($ldap, $entry);
+
+                # Bind with password
+                $bind = ldap_bind($ldap, $userdn, $password);
+                if ( !$bind ) {
+                    $result = "badcredentials";
+                    $errno = ldap_errno($ldap);
+                    if ( $errno ) {
+                        error_log("LDAP - Bind user error $errno (".ldap_error($ldap).")");
+                    }
+                }
+            }
+        }
     }
-
-    if ( !$bind ) {
-        $result = "ldaperror";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-            error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
-        }
-    } else {
-
-    # Search for user
-    $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-    $search = ldap_search($ldap, $ldap_base, $ldap_filter);
-
-    $errno = ldap_errno($ldap);
-    if ( $errno ) {
-        $result = "ldaperror";
-        error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-    } else {
-
-    # Get user DN
-    $entry = ldap_first_entry($ldap, $search);
-
-    if( !$entry ) {
-        $result = "badcredentials";
-        error_log("LDAP - User $login not found");
-    } else {
-
-    $userdn = ldap_get_dn($ldap, $entry);
-
-    # Bind with password
-    $bind = ldap_bind($ldap, $userdn, $password);
-    if ( !$bind ) {
-        $result = "badcredentials";
-        $errno = ldap_errno($ldap);
-        if ( $errno ) {
-            error_log("LDAP - Bind user error $errno (".ldap_error($ldap).")");
-        }
-}}}}}}
+}
 
 #==============================================================================
 # Register answer
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
 
     # Rebind as Manager if needed
     if ( $who_change_password == "manager" ) {
@@ -212,5 +200,6 @@ if ( $result === "" ) {
     } else {
         $result = "answerchanged";
     }
+    }
+}
 
-}}
