@@ -57,16 +57,15 @@ http://ltb-project.org
 #=================================================
 %install
 # Create directories
-mkdir -p %{buildroot}/%{ssp_destdir}
 mkdir -p %{buildroot}/%{ssp_cachedir}/cache
+mkdir -p %{buildroot}/%{ssp_cachedir}/templates_c
+mkdir -p %{buildroot}/%{ssp_destdir}
 mkdir -p %{buildroot}/%{ssp_destdir}/conf
 mkdir -p %{buildroot}/%{ssp_destdir}/htdocs
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
-mkdir -p %{buildroot}/%{ssp_destdir}/templates
-mkdir -p %{buildroot}/%{ssp_cachedir}/templates_c
 mkdir -p %{buildroot}/%{ssp_destdir}/scripts
-mkdir -p %{buildroot}/%{_sysconfdir}/httpd/conf.d
+mkdir -p %{buildroot}/%{ssp_destdir}/templates
 
 # Copy files
 ## PHP
@@ -81,7 +80,9 @@ install -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
 cp -a          lib/vendor     %{buildroot}/%{ssp_destdir}/lib
 install -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
 install -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
+
 ## Apache configuration
+mkdir -p %{buildroot}/%{_sysconfdir}/httpd/conf.d
 install -m 644 %{SOURCE1} \
   %{buildroot}/%{_sysconfdir}/httpd/conf.d/self-service-password.conf
 
