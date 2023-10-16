@@ -12,8 +12,8 @@
 #=================================================
 # Variables
 #=================================================
-%define ssp_destdir     /usr/share/%{name}
-%define ssp_cachedir    /var/cache/%{name}
+%define ssp_destdir     %{_datadir}/%{name}
+%define ssp_cachedir    %{_localstatedir}/cache/%{name}
 
 #=================================================
 # Header
@@ -66,7 +66,7 @@ mkdir -p %{buildroot}/%{ssp_destdir}/lib
 mkdir -p %{buildroot}/%{ssp_destdir}/templates
 mkdir -p %{buildroot}/%{ssp_cachedir}/templates_c
 mkdir -p %{buildroot}/%{ssp_destdir}/scripts
-mkdir -p %{buildroot}/etc/httpd/conf.d
+mkdir -p %{buildroot}/%{_sysconfdir}/httpd/conf.d
 
 # Copy files
 ## PHP
@@ -83,7 +83,7 @@ install -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
 install -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
 ## Apache configuration
 install -m 644 %{SOURCE1} \
-  %{buildroot}/etc/httpd/conf.d/self-service-password.conf
+  %{buildroot}/%{_sysconfdir}/httpd/conf.d/self-service-password.conf
 
 # Adapt Smarty paths
 sed -i \
@@ -116,7 +116,7 @@ fi
 %files
 %license LICENCE
 %config(noreplace) %{ssp_destdir}/conf/config.inc.php
-%config(noreplace) /etc/httpd/conf.d/self-service-password.conf
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/self-service-password.conf
 %{ssp_destdir}
 %{ssp_cachedir}
 
