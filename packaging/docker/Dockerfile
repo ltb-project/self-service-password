@@ -27,7 +27,7 @@ RUN buildDeps=" \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
     && docker-php-ext-install bcmath bz2 iconv intl mbstring opcache curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-configure ldap \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap gd \
     && echo en_US.UTF-8 UTF-8 >/etc/locale.gen \
     && /usr/sbin/locale-gen \
