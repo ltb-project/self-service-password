@@ -18,7 +18,7 @@ RUN buildDeps=" \
 	libgd3 \
 	libjpeg62-turbo \
 	libpng16-16 \
-	libwebp6 \
+	libwebp7 \
         libzip-dev \
 	locales \
 	locales-all \
