@@ -32,6 +32,20 @@ Requires: php-ldap
 Requires: php-mbstring
 Requires: php-Smarty
 
+Provides: bundled(php-gregwar-captcha) = 1.1.9
+Provides: bundled(php-guzzlehttp-guzzle) = 7.4.5
+Provides: bundled(php-guzzlehttp-promises) = 1.5.1
+Provides: bundled(php-guzzlehttp-psr7) = 2.5.0
+Provides: bundled(php-mxrxdxn-pwned-passwords) = 2.1.0
+Provides: bundled(php-phpmailer) = 6.5.3
+Provides: bundled(php-psr-http-client) = 1.0.1
+Provides: bundled(php-psr-http-factory) = 1.0.2
+Provides: bundled(php-psr-http-message) = 1.1
+Provides: bundled(php-ralouphie-getallheaders) = 3.0.3
+Provides: bundled(php-symfony-deprecation-contracts) = 2.5.1
+Provides: bundled(php-symfony-finder) = 5.3.7
+Provides: bundled(php-symfony-polyfill) = 1.23.1
+
 
 %description
 Self Service Password is a simple PHP application that allows users to change
