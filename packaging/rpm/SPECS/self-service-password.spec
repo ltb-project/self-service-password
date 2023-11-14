@@ -9,6 +9,8 @@
 # Copyright (C) 2009-2012 LTB-project
 #=================================================
 
+%bcond_with network
+
 %global ssp_destdir     %{_datadir}/%{name}
 %global ssp_cachedir    %{_localstatedir}/cache/%{name}
 
@@ -16,13 +18,18 @@ Name: self-service-password
 Version: 1.5.4
 Release: 1%{?dist}
 Summary: LDAP password change web interface
-License: GPLv2+
+License: GPL-3.0-only
 URL: http://ltb-project.org
 
 Source0: https://github.com/ltb-project/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1: self-service-password-apache.conf
 
+# https://github.com/ltb-project/self-service-password/commit/5f4ab52677df291834dcdf1d367f47ae6b8745cd.patch
+Patch0:  self-service-password-1.5.3-phpunit_6+_fix.patch
+
 BuildArch: noarch
+
+%{?fedora:BuildRequires: phpunit9}
 
 Requires(pre): coreutils
 Requires(pre): httpd
@@ -60,7 +67,7 @@ http://ltb-project.org
 
                                                                                     
 %prep
-%setup -q
+%autosetup -p1
 
 
 %build
@@ -110,6 +117,13 @@ install -m 644  conf/config.inc.php \
   %{buildroot}/%{_sysconfdir}/%{name}/
 ln -s %{_sysconfdir}/%{name}/config.inc.php \
   %{buildroot}%{ssp_destdir}/conf/config.inc.php
+
+
+%check
+%if ! 0%{?with_network}
+rm tests/CheckPasswordTest.php
+%endif
+%{?fedora:phpunit9 --verbose --testdox --do-not-cache-result tests}
 
 
 %post
