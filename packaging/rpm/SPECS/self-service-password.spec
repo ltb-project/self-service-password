@@ -32,6 +32,10 @@ Requires: php-ldap
 Requires: php-mbstring
 Requires: php-Smarty
 
+Provides: bundled(fontawesome-fonts) = 4.7.0
+Provides: bundled(js-bootstrap) = 3.4.1
+Provides: bundled(js-jquery) = 3.5.1
+Provides: bundled(js-jquery-selectunique) = 0.1.0
 Provides: bundled(php-gregwar-captcha) = 1.1.9
 Provides: bundled(php-guzzlehttp-guzzle) = 7.4.5
 Provides: bundled(php-guzzlehttp-promises) = 1.5.1
