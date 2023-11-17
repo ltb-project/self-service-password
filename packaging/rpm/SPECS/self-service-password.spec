@@ -30,6 +30,7 @@ Patch0:  self-service-password-1.5.3-phpunit_6+_fix.patch
 BuildArch: noarch
 
 %{?fedora:BuildRequires: phpunit9}
+BuildRequires: php-fedora-autoloader-devel
 
 Requires(pre): coreutils
 Requires(pre): httpd
@@ -71,7 +72,8 @@ http://ltb-project.org
 
 
 %build
-# Nothing to build
+# Handle composer dependency
+phpab --template fedora --output lib/vendor/autoload.php lib/vendor
 
 
 %install
