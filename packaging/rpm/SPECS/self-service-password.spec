@@ -29,10 +29,11 @@ Patch0:  self-service-password-1.5.3-phpunit_6+_fix.patch
 
 BuildArch: noarch
 
-%{?fedora:BuildRequires: phpunit9}
+BuildRequires: coreutils
 BuildRequires: php-fedora-autoloader-devel
+BuildRequires: sed
+%{?fedora:BuildRequires: phpunit9}
 
-Requires(pre): coreutils
 Requires(pre): httpd
 Requires: php(language) >= 7.3
 Requires: php-gd
