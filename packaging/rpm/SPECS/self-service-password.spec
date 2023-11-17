@@ -34,7 +34,7 @@ BuildRequires: php-fedora-autoloader-devel
 
 Requires(pre): coreutils
 Requires(pre): httpd
-Requires: php
+Requires: php(language) >= 7.3
 Requires: php-gd
 Requires: php-ldap
 Requires: php-mbstring
