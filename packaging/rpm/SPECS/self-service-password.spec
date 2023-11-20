@@ -70,6 +70,10 @@ http://ltb-project.org
                                                                                     
 %prep
 %autosetup -p1
+# Clean hidden files in bundled php libs
+find lib/vendor \
+  \( -name .gitignore -o -name .travis.yml -o -name .pullapprove.yml \) \
+  -delete
 
 
 %build
