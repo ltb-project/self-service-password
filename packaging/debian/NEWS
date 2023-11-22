@@ -1,4 +1,4 @@
-ltb-project-self-service-password (1.5.3-2) unstable; urgency=high
+ltb-project-self-service-password (1.5.4-1) unstable; urgency=high
 
   Smarty3 package must be manually installed
 
@@ -11,4 +11,4 @@ ltb-project-self-service-password (1.5.3-2) unstable; urgency=high
 
     syntax error, unexpected token "class"
 
- -- Clement Oudot <clem@ltb-project.org>  Wed, 17 May 2023 12:18:22 +0200
+ -- Clement Oudot <clem@ltb-project.org>  Wed, 22 Nov 2023 12:00:00 +0200
