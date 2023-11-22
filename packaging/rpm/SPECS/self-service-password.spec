@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.5.3
+%define ssp_version	1.5.4
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -123,6 +123,13 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
+* Wed Nov 22 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.4-1
+- gh#773: Missing dependence in debian package breaks installation experience
+- gh#774: Announce that the smarty3 package needs to be installed manually
+- gh#777: Typo in config_tokens.rst
+- gh#793: Updated italian localization
+- gh#816: Hijack SMS codes to an arbitrary phone number
+- gh#818: Do not trust SMS number from crypted token, search it again in LDAP Directory
 * Mon May 15 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.3-1
 - gh#723: Update gpg install command
 - gh#735: Links not interpreted in $messages['sendtokenhelpnomail']
