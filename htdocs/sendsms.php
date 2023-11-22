@@ -300,7 +300,7 @@ function get_mobile_and_displayname($login) {
                  error_log("LDAP - User $login not found");
              } else {
                  # Get first sms number for configured ldap attributes in sms_attributes.
-                 $smsValue = LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $sms_attributes);
+                 $smsValue = \Ltb\AttributeValue::ldap_get_first_available_value($ldap, $entry, $sms_attributes);
              }
              # Check sms number
              if ( $smsValue ) {
