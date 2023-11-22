@@ -1,0 +1,14 @@
+ltb-project-self-service-password (1.5.3-2) unstable; urgency=high
+
+  Smarty3 package must be manually installed
+
+  Smarty3 package, on which this software relies, is currently broken
+  on Ubuntu, so it was removed from packages dependences since
+  version 1.5.3-1.
+  Install smarty3 package manually and follow instructions on
+  https://self-service-password.readthedocs.io/en/latest/installation.html#debian-ubuntu
+  if you face this error:
+
+    syntax error, unexpected token "class"
+
+ -- Clement Oudot <clem@ltb-project.org>  Wed, 17 May 2023 12:18:22 +0200
