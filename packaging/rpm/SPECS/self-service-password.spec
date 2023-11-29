@@ -23,6 +23,7 @@ URL: http://ltb-project.org
 
 Source0: https://github.com/ltb-project/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1: self-service-password-apache.conf
+Source2: self-service-password-config_inc_local
 
 # https://github.com/ltb-project/self-service-password/commit/5f4ab52677df291834dcdf1d367f47ae6b8745cd.patch
 Patch0:  self-service-password-1.5.3-phpunit_6+_fix.patch
@@ -124,6 +125,8 @@ install -m 644  conf/config.inc.php \
   %{buildroot}/%{_sysconfdir}/%{name}/
 ln -s %{_sysconfdir}/%{name}/config.inc.php \
   %{buildroot}%{ssp_destdir}/conf/config.inc.php
+install -p -m 644 %{SOURCE2} \
+  %{buildroot}/%{_sysconfdir}/%{name}/config.inc.local.php
 
 
 %check
@@ -154,6 +157,7 @@ fi
 %license LICENCE
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/config.inc.php
+%config(noreplace) %{_sysconfdir}/%{name}/config.inc.local.php
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/self-service-password.conf
 %{ssp_destdir}
 %dir %{ssp_cachedir}
