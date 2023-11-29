@@ -96,20 +96,20 @@ mkdir -p %{buildroot}/%{ssp_destdir}/templates
 
 # Copy files
 ## PHP
-install -m 644 htdocs/*.php   %{buildroot}/%{ssp_destdir}/htdocs
-cp -a          htdocs/css     %{buildroot}/%{ssp_destdir}/htdocs
-cp -a          htdocs/images  %{buildroot}/%{ssp_destdir}/htdocs
-cp -a          htdocs/js      %{buildroot}/%{ssp_destdir}/htdocs
-cp -a          htdocs/vendor  %{buildroot}/%{ssp_destdir}/htdocs
-install -m 644 lang/*         %{buildroot}/%{ssp_destdir}/lang
-install -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
-cp -a          lib/vendor     %{buildroot}/%{ssp_destdir}/lib
-install -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
-install -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
+install -p -m 644 htdocs/*.php   %{buildroot}/%{ssp_destdir}/htdocs
+cp -a             htdocs/css     %{buildroot}/%{ssp_destdir}/htdocs
+cp -a             htdocs/images  %{buildroot}/%{ssp_destdir}/htdocs
+cp -a             htdocs/js      %{buildroot}/%{ssp_destdir}/htdocs
+cp -a             htdocs/vendor  %{buildroot}/%{ssp_destdir}/htdocs
+install -p -m 644 lang/*         %{buildroot}/%{ssp_destdir}/lang
+install -p -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
+cp -a             lib/vendor     %{buildroot}/%{ssp_destdir}/lib
+install -p -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
+install -p -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
 
 ## Apache configuration
 mkdir -p %{buildroot}/%{_sysconfdir}/httpd/conf.d
-install -m 644 %{SOURCE1} \
+install -p -m 644 %{SOURCE1} \
   %{buildroot}/%{_sysconfdir}/httpd/conf.d/self-service-password.conf
 
 # Adapt Smarty paths
@@ -121,7 +121,7 @@ sed -i \
 
 # Move conf file to %%_sysconfdir
 mkdir -p %{buildroot}/%{_sysconfdir}/%{name}
-install -m 644  conf/config.inc.php \
+install -p -m 644 conf/config.inc.php \
   %{buildroot}/%{_sysconfdir}/%{name}/
 ln -s %{_sysconfdir}/%{name}/config.inc.php \
   %{buildroot}%{ssp_destdir}/conf/config.inc.php
