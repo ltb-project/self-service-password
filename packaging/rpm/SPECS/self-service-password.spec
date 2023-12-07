@@ -19,7 +19,7 @@ Version: 1.5.4
 Release: 1%{?dist}
 Summary: LDAP password change web interface
 License: GPL-3.0-only
-URL: http://ltb-project.org
+URL:     https://ltb-project.org/documentation/self-service-password.html
 
 Source0: https://github.com/ltb-project/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1: self-service-password-apache.conf
