@@ -81,3 +81,4 @@ this case you can set yourself the reset URL:
 
    $reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
 
+.. warning:: Make sure your webserver/reverse-proxy hosting self-service-password is only answering to a dedicated Full Qualified Domain Name. Else you should define a hard-coded ``$reset_url`` parameter for preventing self-service-password to forge urls based on arbitrary host headers.
