@@ -40,7 +40,7 @@ require_once("../lib/detectbrowserlanguage.php");
 $files = glob("../lang/*.php");
 $languages = str_replace(".inc.php", "", $files);
 $languages = str_replace("../lang/", "", $languages);
-$lang = detectLanguage($lang, $languages);
+$lang = detectLanguage($lang, array_intersect($languages,$allowed_lang));
 require_once("../lang/$lang.inc.php");
 
 # Remove default questions
