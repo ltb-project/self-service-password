@@ -43,11 +43,17 @@ function send_sms_by_api($mobile, $message) {
 
     $v = '';
     $o = '';
-    exec($command, $o, $v);
+    exec($command." 2>&1", $o, $v);
 
     if ($v !== 0) {
-        error_log('Error sending message: ' . $o);
-        return 0;
+      error_log('Error sending message: ');
+      $o_size = count($o);
+      for ($x = 0; $x < $o_size; $x++) {
+        error_log(' ' . $o[$x]);
+      }
+
+      return 0;
+
     }
     return 1;
 }
