@@ -225,6 +225,7 @@ $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
+$smarty->assign('sms_use_ldap', $sms_use_ldap);
 $smarty->assign('default_action', $default_action);
 //$smarty->assign('',);
 

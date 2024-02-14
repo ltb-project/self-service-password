@@ -284,6 +284,7 @@ $use_sms = true;
 # SMS method (mail, api)
 $sms_method = "mail";
 $sms_api_lib = "lib/smsapi.inc.php";
+$sms_use_ldap = false;
 # GSM number attribute
 $sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 # Partially hide number
