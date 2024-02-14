@@ -147,6 +147,7 @@ $messages['forbiddenwords'] = "Ihr Passwort enthält verbotene Worte oder Zeiche
 $messages['policyforbiddenwords'] = "Ihr Passwort darf nicht enthalten:";
 $messages['forbiddenldapfields'] = "Ihr Passwort enthält Werte aus Ihrem LDAP-Eintrag";
 $messages['policyforbiddenldapfields'] = "Ihr Passwort darf keine Werte aus folgenden LDAP-Feldern enthalten:";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "Name";
 $messages['ldap_givenName'] = "Vorname";
 $messages['ldap_sn'] = "Nachname";

@@ -145,6 +145,7 @@ $messages['forbiddenwords'] = "Vaša lozinka sadrži zabranjene reči ili nizove
 $messages['policyforbiddenwords'] = "Vaša lozinka ne sme da sadrži:";
 $messages['forbiddenldapfields'] = "Vaša lozinka sadrži vrednosti iz LDAP unosa";
 $messages['policyforbiddenldapfields'] = "Vaša lozinka ne sme da sadrži vrednosti iz sledećih LDAP vrednosti:";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "nadimak";
 $messages['ldap_givenName'] = "ime";
 $messages['ldap_sn'] = "prezime";

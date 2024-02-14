@@ -149,6 +149,7 @@ $messages['forbiddenwords'] = "La vostra contrasenya contenen paraules o cadenes
 $messages['policyforbiddenwords'] = "La vostra contrasenya no pot contenir:";
 $messages['forbiddenldapfields'] = "La vostra contrasenya conté valors de camps d'LDAP";
 $messages['policyforbiddenldapfields'] = "La vostra contrasenya no pot contenir valors dels següents camps d'LDAP:";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "Nom de pila";
 $messages['ldap_givenName'] = "Nom complet";
 $messages['ldap_sn'] = "Cognom";

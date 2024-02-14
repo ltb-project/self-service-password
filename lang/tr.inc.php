@@ -145,6 +145,7 @@ $messages['forbiddenwords'] = "Parolanız yasaklı kelimeler içeriyor";
 $messages['policyforbiddenwords'] = "Parolanız bunu içeremez:";
 $messages['forbiddenldapfields'] = "Parolanız LDAP girdinizden bilgiler içeriyor";
 $messages['policyforbiddenldapfields'] = "Parolanız bu LDAP alanlarından değerler içeremez:";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "yerel ad";
 $messages['ldap_givenName'] = "verilen ad";
 $messages['ldap_sn'] = "soyad";
