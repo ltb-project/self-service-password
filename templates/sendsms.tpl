@@ -77,6 +77,18 @@
         {if ($use_captcha)}
              {include file="captcha.tpl"}
         {/if}
+        {if !$sms_use_ldap}
+        <div class="form-group">
+          <label for="telephone" class="col-sm-4 control-label">{$msg_phone}</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-fw fa-envelope-o"></i></span>
+                <input type="text" name="telephone" id="telephone" value="{$telepohne}" class="form-control" placeholder="{$msg_phone}" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        {/if}
+
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                 <button type="submit" class="btn btn-success">
