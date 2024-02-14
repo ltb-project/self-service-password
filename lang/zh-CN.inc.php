@@ -145,6 +145,7 @@ $messages['forbiddenwords'] = "您的密码包含禁止词语或字串";
 $messages['policyforbiddenwords'] = "您的密码必须不包含：";
 $messages['forbiddenldapfields'] = "您的密码包含来自您的 LDAP 条目中的内容";
 $messages['policyforbiddenldapfields'] = "您的密码不能包含来自下列 LDAP 条目中的内容：";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "姓名";
 $messages['ldap_givenName'] = "名";
 $messages['ldap_sn'] = "姓";

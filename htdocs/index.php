@@ -138,7 +138,10 @@ $pwd_policy_config = array(
     "use_pwnedpasswords"        => $use_pwnedpasswords,
     "pwd_no_special_at_ends"    => $pwd_no_special_at_ends,
     "pwd_forbidden_words"       => $pwd_forbidden_words,
-    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields
+    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields,
+    "pwd_display_entropy"       => $pwd_display_entropy,
+    "pwd_check_entropy"         => $pwd_check_entropy,
+    "pwd_min_entropy"           => $pwd_min_entropy
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
@@ -251,6 +254,9 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_forbidden_chars)) { $smarty->assign('pwd_forbidden_chars', $pwd_forbidden_chars); }
     if (isset($pwd_no_reuse)) { $smarty->assign('pwd_no_reuse', $pwd_no_reuse); }
     if (isset($pwd_diff_login)) { $smarty->assign('pwd_diff_login', $pwd_diff_login); }
+    if (isset($pwd_display_entropy)) { $smarty->assign('pwd_display_entropy', $pwd_display_entropy); }
+    if (isset($pwd_check_entropy)) { $smarty->assign('pwd_check_entropy', $pwd_check_entropy); }
+    if (isset($pwd_min_entropy)) { $smarty->assign('pwd_min_entropy', $pwd_min_entropy); }
     if (isset($use_pwnedpasswords)) { $smarty->assign('use_pwnedpasswords', $use_pwnedpasswords); }
     if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
 }

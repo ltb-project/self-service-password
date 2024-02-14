@@ -145,6 +145,7 @@ $messages['forbiddenwords'] = "تحتوي كلمات السر الخاصة بك 
 $messages['policyforbiddenwords'] = ":يجب ألا تحتوي كلمة السر الخاصة بك على ";
 $messages['forbiddenldapfields'] = "الخاص بك LDAP تحتوي كلمة السر الخاصة بك على قيم من حقول";
 $messages['policyforbiddenldapfields'] = ": التالية LDAP يجب أن لا تحتوي كلمة السر الخاصة بك على قيم من حقول";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "الإسم الكامل";
 $messages['ldap_givenName'] = "الإسم الشخصي";
 $messages['ldap_sn'] = "الإسم العائلي";

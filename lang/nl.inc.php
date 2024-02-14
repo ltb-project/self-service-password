@@ -147,6 +147,7 @@ $messages['forbiddenwords'] = "Uw wachtwoord bevat verboden woorden of strings";
 $messages['policyforbiddenwords'] = "In uw wachtwoord mag niet hetvolgende voorkomen:";
 $messages['forbiddenldapfields'] = "Uw wachtwoord mag geen gegevens bevatten uit uw LDAP";
 $messages['policyforbiddenldapfields'] = "Uw wachtwoord mag geen waardes bevatten van de volgende LDAP velden:";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";

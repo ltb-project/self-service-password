@@ -16,6 +16,19 @@
         {if $pwd_diff_login } <li>{$msg_policydifflogin|unescape: "html" nofilter}</li> {/if}
         {if $use_pwnedpasswords } <li>{$msg_policypwned|unescape: "html" nofilter}</li> {/if}
         {if $pwd_no_special_at_ends } <li>{$msg_policyspecialatends|unescape: "html" nofilter}</li> {/if}
+        {if $pwd_display_entropy } <li>
+                                       <i id="ppolicy-checkentropy-feedback" class="fa fa-li"> </i>
+                                       {if $pwd_check_entropy }
+                                           <span trspan="checkentropyLabel" data-CHECKENTROPY_REQUIRED="1" data-CHECKENTROPY_REQUIRED_LEVEL="{$pwd_min_entropy}">{$msg_policyentropy|unescape: "html" nofilter}</span>
+                                       {else}
+                                           <span trspan="checkentropyLabel" data-CHECKENTROPY_REQUIRED="0">{$msg_policyentropy|unescape: "html" nofilter}</span>
+                                       {/if}
+                                       <div id="entropybar" class="progress">
+                                         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                       </div>
+                                       <div id="entropybar-msg" class="alert alert-warning entropyHidden"></div>
+                                   </li>
+        {/if}
     </ul>
 </div>
 {/if}

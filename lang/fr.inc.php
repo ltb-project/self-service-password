@@ -144,6 +144,7 @@ $messages['forbiddenwords'] = "Votre mot de passe contient des mots interdits";
 $messages['policyforbiddenwords'] = "Votre mot de passe ne doit pas contenir ::";
 $messages['forbiddenldapfields'] = "Votre mot de passe contient des valeurs de votre entrée LDAP";
 $messages['policyforbiddenldapfields'] = "Votre mot de passe ne doit pas contenir la valeur des attributs de votre entrée :";
+$messages['policyentropy'] = "Force du mot de passe";
 $messages['ldap_cn'] = "nom complet";
 $messages['ldap_givenName'] = "prénom";
 $messages['ldap_sn'] = "nom de famille";
