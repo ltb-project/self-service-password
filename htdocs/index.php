@@ -174,6 +174,7 @@ if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "set
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
+if ( $pwd_display_entropy ) { array_push( $available_actions, "checkentropy" ); }
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
