@@ -86,7 +86,7 @@
             <div class="col-sm-8">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-fw fa-envelope-o"></i></span>
-                <input type="text" name="telephone" id="telephone" value="{$telepohne}" class="form-control" placeholder="{$msg_phone}" autocomplete="off" />
+                <input type="phone" name="phone" id="phone" value="{$phone}" class="form-control" placeholder="{$msg_phone}" autocomplete="off" />
             </div>
           </div>
         </div>
