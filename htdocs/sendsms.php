@@ -36,6 +36,15 @@ $token = "";
 $sessiontoken = "";
 $attempts = 0;
 
+if (!$sms_use_ldap) {
+    if (isset($_POST["phone"]) and $_POST["phone"]) {
+        $phone = strval($_POST["phone"]);
+        $usermail = strval($_POST["phone"]);
+    } else {
+        $result = "phonerequired";
+    }
+}
+
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
 } elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
@@ -112,6 +121,7 @@ if ( $result === "" ) {
 #==============================================================================
 if ( $result === "" ) {
     [$result, $sms, $displayname] = get_mobile_and_displayname($login);
+    var_dump($sms);
 
     if ($sms) {
         $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
@@ -152,7 +162,7 @@ if ( $result === "sendsms" ) {
 
     # Send message
 
-    if( !$sms_method ) { $sms_method = "mail"; }
+    if( !$sms_method ) { $sms_method = "mail"; } # A quoi cela sert ?
 
     if ( $sms_method === "mail" ) {
 
@@ -272,7 +282,6 @@ function get_mobile_and_displayname($login) {
 
     # Connect to LDAP
     $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
-
     $ldap = $ldap_connection[0];
     $result = $ldap_connection[1];
 
@@ -294,7 +303,6 @@ function get_mobile_and_displayname($login) {
                  $userdn = ldap_get_dn($ldap, $entry);
                  $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
              }
-
              if( !$userdn ) {
                  $result = "badcredentials";
                  error_log("LDAP - User $login not found");
