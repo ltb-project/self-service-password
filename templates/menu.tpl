@@ -3,7 +3,7 @@
           <div class="container-fluid">
             <a class="navbar-brand" href="index.php{if $default_action != 'change'}?action=change{/if}">
               {if $logo}
-              <img src="{$logo}" alt="Logo" class="menu-logo img-responsive" />
+              <img src="{$logo}" alt="Logo" class="menu-logo img-fluid" />
               {/if}
               {$msg_title}
             </a>
