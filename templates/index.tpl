@@ -8,7 +8,7 @@
         {/if}
         {if $logo }
         <a href="index.php">
-        <img src="{$logo}" alt="Logo" class="logo img-responsive center-block" />
+        <img src="{$logo}" alt="Logo" class="logo img-fluid mx-auto d-block" />
         </a>
         {/if}
         {if count($dependency_errors)}
