@@ -1,7 +1,7 @@
 {if $pwd_show_policy === "onerror" and !$pwd_show_policy_onerror }
 {else}
 <div class="help alert alert-warning">
-    <p>{$msg_policy|unescape: "html" nofilter}</p>
+    {$msg_policy|unescape: "html" nofilter}
     <ul>
         {if $pwd_min_length } <li>{$msg_policyminlength|unescape: "html" nofilter} {$pwd_min_length}</li> {/if}
         {if $pwd_max_length } <li>{$msg_policymaxlength|unescape: "html" nofilter} {$pwd_max_length}</li> {/if}

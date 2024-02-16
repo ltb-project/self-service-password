@@ -1,8 +1,8 @@
 {if $result !== 'sshkeychanged'}
     {if $show_help }
-        <div class="help alert alert-warning"><p>
+        <div class="help alert alert-warning">
         <i class="fa fa-fw fa-info-circle"></i> {$msg_changesshkeyhelp}
-        </p></div>
+        </div>
     {/if}
     <div class="alert alert-info">
     <form action="#" method="post" class="form-horizontal">

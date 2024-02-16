@@ -1,15 +1,14 @@
 {if $result !== 'tokensent'}
 {if $show_help}
-    <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i>
+    <div class="help alert alert-warning"><i class="fa fa-fw fa-info-circle"></i>
         {if $mail_address_use_ldap}
             {$msg_sendtokenhelpnomail|unescape: "html" nofilter}
         {else}
             {$msg_sendtokenhelp|unescape: "html" nofilter}
-        {/if}</p>
+        {/if}
         {if $attribute_mail_update}
-        <p><i class="fa fa-fw fa-pencil-square-o"></i>
+        <br /><i class="fa fa-fw fa-pencil-square-o"></i>
             {$msg_sendtokenhelpupdatemail|unescape: "html" nofilter}
-        </p>
         {/if}
     </div>
 {/if}

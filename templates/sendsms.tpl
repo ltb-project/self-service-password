@@ -55,11 +55,10 @@
 {else}
     {if $show_help}
     <div class="help alert alert-warning">
-        <p><i class="fa fa-fw fa-info-circle"></i> {$msg_sendsmshelp}</p>
+        <i class="fa fa-fw fa-info-circle"></i> {$msg_sendsmshelp}
         {if $attribute_phone_update}
-        <p><i class="fa fa-fw fa-pencil-square-o"></i>
+        <br /><i class="fa fa-fw fa-pencil-square-o"></i>
             {$msg_sendsmshelpupdatephone|unescape: "html" nofilter}
-        </p>
         {/if}
     </div>
     {/if}

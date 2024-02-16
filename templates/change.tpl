@@ -1,19 +1,19 @@
 {if $prehook_return and $display_prehook_error and $prehook_return > 0}
     <div class="result alert alert-warning">
-    <p><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> {$prehook_output[0]}</p>
+    <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> {$prehook_output[0]}
     </div>
 {/if}
 {if $posthook_return and $display_posthook_error and $posthook_return > 0}
     <div class="result alert alert-warning">
-    <p><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> {$posthook_output[0]}</p>
+    <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> {$posthook_output[0]}
     </div>
 {/if}
 {if $result !== "passwordchanged"}
     {if $show_help }
         <div class="result alert alert-warning">
-        <p><i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changehelp}</p>
+        <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changehelp}
         {if $msg_changehelpextramessage}
-            <p>{$msg_changehelpextramessage|unescape: "html" nofilter}</p>
+           <br />{$msg_changehelpextramessage|unescape: "html" nofilter}
         {/if}
         {if !$show_menu and ($use_questions or $use_tokens or $use_sms or $change_sshkey) }
             <ul>
@@ -91,6 +91,6 @@
 {/if}
 {elseif $msg_passwordchangedextramessage}
     <div class="result alert alert-{$result_criticity}">
-    <p><i class="fa fa-fw {$result_fa_class}" aria-hidden="true"></i> {$msg_passwordchangedextramessage|unescape: "html" nofilter}</p>
+    <i class="fa fa-fw {$result_fa_class}" aria-hidden="true"></i> {$msg_passwordchangedextramessage|unescape: "html" nofilter}
     </div>
 {/if}
