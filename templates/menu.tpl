@@ -1,5 +1,5 @@
     <div class="container">
-        <div class="navbar navbar-expand-lg bg-body-tertiary" role="navigation">
+        <div class="navbar navbar-expand-lg bg-body-tertiary shadow" role="navigation">
           <div class="container-fluid">
             <a class="navbar-brand" href="index.php{if $default_action != 'change'}?action=change{/if}">
               {if $logo}
