@@ -1,6 +1,6 @@
 {include file="header.tpl"}
-<div class="panel panel-success">
-    <div class="panel-body">
+<div class="card card-success">
+    <div class="card-body">
         {if $show_menu }
             {include file="menu.tpl"}
         {else}
