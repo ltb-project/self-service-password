@@ -59,25 +59,6 @@
     }
   };
 
-  checkpassword = function(password, evType) {
-    var e, info;
-    e = jQuery.Event("checkpassword");
-    info = {
-      password: password,
-      evType: evType,
-      setResult: setResult
-    };
-    return $(document).trigger(e, info);
-  };
-  if ( $('#ppolicy-checkentropy-feedback').length && $('#newpassword').length) {
-    checkpassword('');
-    $('#newpassword').keyup(function(e) {
-      checkpassword(e.target.value);
-    });
-    $('#newpassword').focusout(function(e) {
-      checkpassword(e.target.value, "focusout");
-    });
-  }
 
   $(document).on('checkpassword', function(event, context) {
     var entropyrequired, entropyrequiredlevel, evType, newpasswordVal, password, setResult;
@@ -143,5 +124,25 @@
       }
     }
   });
+
+  checkpassword = function(password, evType) {
+    var e, info;
+    e = jQuery.Event("checkpassword");
+    info = {
+      password: password,
+      evType: evType,
+      setResult: setResult
+    };
+    return $(document).trigger(e, info);
+  };
+  if ( $('#ppolicy-checkentropy-feedback').length && $('#newpassword').length) {
+    checkpassword('');
+    $('#newpassword').keyup(function(e) {
+      checkpassword(e.target.value);
+    });
+    $('#newpassword').focusout(function(e) {
+      checkpassword(e.target.value, "focusout");
+    });
+  }
 
 }).call(this);
