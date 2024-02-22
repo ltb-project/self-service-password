@@ -36,6 +36,7 @@ $messages['confirmpasswordrequired'] = "Palun kinnita uus parool";
 $messages['passwordchanged'] = "Sinu parool on muudetud";
 $messages['sshkeychanged'] = "Sinu SSH võti on muudetud";
 $messages['nomatch'] = "Paroolid ei kattu";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Kasutajanimi või parool on vale";
 $messages['passworderror'] = "Parooli muudatus lükati tagasi LDAP kataloogi poolt";
 $messages['sshkeyerror'] = "SSH võtme muudatus lükati tagasi LDAP kataloogi poolt";

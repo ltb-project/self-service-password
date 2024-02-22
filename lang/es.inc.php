@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Su contraseña nueva es necesaria";
 $messages['confirmpasswordrequired'] = "Por favor confirme su nueva contraseña";
 $messages['passwordchanged'] = "Su contraseña ha sido cambiada";
 $messages['nomatch'] = "Las contraseñas difieren";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Su nombre de usuario o su contraseña es incorrecta";
 $messages['passworderror'] = "Su contraseña fue rechazada";
 $messages['title'] = "Autoservicio de cambio de contraseñas";

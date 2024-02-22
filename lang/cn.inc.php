@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "需要输入新密码";
 $messages['confirmpasswordrequired'] = "请确认新密码";
 $messages['passwordchanged'] = "密码已修改";
 $messages['nomatch'] = "密码不匹配";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "用户名或密码不正确";
 $messages['passworderror'] = "密码被拒";
 $messages['title'] = "统一登录平台自助改密";

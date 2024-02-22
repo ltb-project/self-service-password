@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Ihr neues Passwort wird benötigt";
 $messages['confirmpasswordrequired'] = "Bitte bestätigen Sie Ihr neues Passwort";
 $messages['passwordchanged'] = "Ihr Passwort wurde erfolgreich geändert";
 $messages['nomatch'] = "Die angegebenen Passwörter stimmen nicht überein";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Benutzername oder Passwort sind inkorrekt";
 $messages['passworderror'] = "Das Passwort wurde vom LDAP-Verzeichnis nicht akzeptiert";
 $messages['title'] = "Passwortverwaltung";

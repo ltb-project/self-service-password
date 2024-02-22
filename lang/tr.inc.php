@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Yeni parolanız gereklidir";
 $messages['confirmpasswordrequired'] = "Lütfen yeni parolanızı doğrulayın";
 $messages['passwordchanged'] = "Parolanız değiştirildi";
 $messages['nomatch'] = "Parolalar uyuşmuyor";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Kullanıcı adı ya da parola hatalı";
 $messages['passworderror'] = "Parola LDAP dizini tarafından reddedildi";
 $messages['title'] = "Self servis parola";

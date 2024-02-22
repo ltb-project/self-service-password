@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Du kan nå opprette et nytt passord";
 $messages['confirmpasswordrequired'] = "Vennligst bekreft ditt nye passord";
 $messages['passwordchanged'] = "Ditt passord er nå endret";
 $messages['nomatch'] = "Oppgitte passord er ulika";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Passord eller Brukernavn er feil";
 $messages['passworderror'] = "Passordet var ikke godtatt av LDAP katalogen";
 $messages['title'] = "Self service passord";

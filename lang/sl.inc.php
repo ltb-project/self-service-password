@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Vnesti morate novo geslo";
 $messages['confirmpasswordrequired'] = "Potrdite novo geslo";
 $messages['passwordchanged'] = "Geslo je bilo spremenjeno";
 $messages['nomatch'] = "Gesli se ne ujemata";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Napačno uporabniško ime ali geslo";
 $messages['passworderror'] = "Strežnik LDAP je zavrnil geslo";
 $messages['title'] = "Spreminjanje gesla";

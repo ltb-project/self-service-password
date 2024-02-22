@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "新しいパスワードを入力してく�
 $messages['confirmpasswordrequired'] = "新しいパスワードの確認を入力してください";
 $messages['passwordchanged'] = "パスワードは変更されました";
 $messages['nomatch'] = "パスワードが合致しません";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "ログインIDかパスワードが間違っています";
 $messages['passworderror'] = "パスワードはLDAPディレクトリーに拒否されました";
 $messages['title'] = "Self service password";

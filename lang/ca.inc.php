@@ -36,6 +36,7 @@ $messages['newpasswordrequired'] = "Cal la contrasenya actual";
 $messages['confirmpasswordrequired'] = "Si us plau, confirmeu la contrasenya nova";
 $messages['passwordchanged'] = "La seva contrasenya ha canviat";
 $messages['nomatch'] = "Les contrasenyes no són iguals";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "El nom d'usuari o la contrasenya són incorrectes";
 $messages['passworderror'] = "El servidor ha refusat la contrasenya";
 $messages['title'] = "Autoservei de canvi de contrasenyes";

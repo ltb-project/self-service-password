@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Ez duzu pasahitz berria idatzi";
 $messages['confirmpasswordrequired'] = "Pasahitz berria bi aldiz idatzi behar da";
 $messages['passwordchanged'] = "Zure pasahitza ondo eguneratu da";
 $messages['nomatch'] = "Pasahitz berria bi aldiz idatzi duzu baina ez dute kointziditzen";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Zure erabiltzaile izena edo pasahitz zaharra ez daude ondo";
 $messages['passworderror'] = "Zure pasahitz berria ez da onartu";
 $messages['title'] = "Pasahitza aldatzeko autozerbitzua";

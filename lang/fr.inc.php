@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Vous devez indiquer votre nouveau mot de pas
 $messages['confirmpasswordrequired'] = "Vous devez confirmer votre nouveau mot de passe";
 $messages['passwordchanged'] = "Votre mot de passe a été changé";
 $messages['nomatch'] = "Les mots de passe ne correspondent pas";
+$messages['insufficiententropy'] = "Entropie insuffisante pour le nouveau mot de passe";
 $messages['badcredentials'] = "Identifiant ou mot de passe incorrect";
 $messages['passworderror'] = "Le mot de passe a été refusé";
 $messages['title'] = "Gestion du mot de passe";

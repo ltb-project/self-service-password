@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Az új jelszó megadása kötelező!";
 $messages['confirmpasswordrequired'] = "Kérem, hagyja jóvá az új jelszavát!";
 $messages['passwordchanged'] = "A jelszó sikeresen megváltozott!";
 $messages['nomatch'] = "A beírt új jelszavak nem egyeznek meg!";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "A felhasználónév vagy a jelszó nem megfelelő!";
 $messages['passworderror'] = "A jelszó megváltoztatását visszautasította az LDAP szolgáltatás";
 $messages['title'] = "Önkiszolgáló jelszókezelő";

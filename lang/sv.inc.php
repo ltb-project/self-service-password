@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Du måste ange ditt nya lösenord";
 $messages['confirmpasswordrequired'] = "Var god bekräfta ditt nya lösenord";
 $messages['passwordchanged'] = "Ditt lösenord är nu ändrat";
 $messages['nomatch'] = "Angivna lösenord är olika";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Lösenord eller Användarnamn är felaktiga";
 $messages['passworderror'] = "Lösenordet godtogs inte av LDAPkatalogen";
 $messages['title'] = "Self service password";
