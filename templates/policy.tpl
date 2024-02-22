@@ -2,7 +2,7 @@
 {else}
 <div class="help alert shadow alert-warning">
     {$msg_policy|unescape: "html" nofilter}
-    <ul>
+    <ul class="fa-ul text-left">
         {if $pwd_min_length } <li>{$msg_policyminlength|unescape: "html" nofilter} {$pwd_min_length}</li> {/if}
         {if $pwd_max_length } <li>{$msg_policymaxlength|unescape: "html" nofilter} {$pwd_max_length}</li> {/if}
         {if $pwd_min_lower } <li>{$msg_policyminlower|unescape: "html" nofilter} {$pwd_min_lower}</li> {/if}
@@ -26,7 +26,7 @@
                                        <div id="entropybar" class="progress">
                                          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                        </div>
-                                       <div id="entropybar-msg" class="alert alert-warning entropyHidden"></div>
+                                       <div id="entropybar-msg" class="alert alert-secondary entropyHidden"></div>
                                    </li>
         {/if}
     </ul>
