@@ -11,7 +11,7 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
     {
 
         # Load functions
-        require_once("lib/functions.inc.php");
+        require_once __DIR__ . '/../lib/functions.inc.php';
 
         # Password policy
         $pwd_policy_config = array(
@@ -90,7 +90,7 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
     {
 
         # Load functions
-        require_once("lib/functions.inc.php");
+        require_once __DIR__ . '/../lib/functions.inc.php';
 
         $login = "coudot";
         $oldpassword = "secret";
