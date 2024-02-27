@@ -179,49 +179,6 @@ function get_fa_class( $msg) {
 
 }
 
-# Display policy bloc
-# @return HTML code
-function show_policy( $messages, $pwd_policy_config, $result ) {
-    extract( $pwd_policy_config );
-
-    # Should we display it?
-    if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
-    if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned||specialatendsforbiddenwords|forbiddenldapfields/" , $result) ) { return; }
-    }
-
-    # Display bloc
-    echo "<div class=\"help alert alert-warning\">\n";
-    echo "<p>".$messages["policy"]."</p>\n";
-    echo "<ul>\n";
-    if ( $pwd_min_length      ) { echo "<li>".$messages["policyminlength"]      ." $pwd_min_length</li>\n"; }
-    if ( $pwd_max_length      ) { echo "<li>".$messages["policymaxlength"]      ." $pwd_max_length</li>\n"; }
-    if ( $pwd_min_lower       ) { echo "<li>".$messages["policyminlower"]       ." $pwd_min_lower</li>\n"; }
-    if ( $pwd_min_upper       ) { echo "<li>".$messages["policyminupper"]       ." $pwd_min_upper</li>\n"; }
-    if ( $pwd_min_digit       ) { echo "<li>".$messages["policymindigit"]       ." $pwd_min_digit</li>\n"; }
-    if ( $pwd_min_special     ) { echo "<li>".$messages["policyminspecial"]     ." $pwd_min_special</li>\n"; }
-    if ( $pwd_complexity      ) { echo "<li>".$messages["policycomplex"]        ." $pwd_complexity</li>\n"; }
-    if ( $pwd_forbidden_chars ) { echo "<li>".$messages["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
-    if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."</li>\n"; }
-    if ( $pwd_diff_last_min_chars ) { echo "<li>".$messages['policydiffminchars']." $pwd_diff_last_min_chars</li>\n"; }
-    if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."</li>\n"; }
-    if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."</li>\n"; }
-    if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
-    if ( !empty($pwd_forbidden_words)) { echo "<li>".$messages["policyforbiddenwords"] ." " . implode(', ', $pwd_forbidden_words) ."</li>\n"; }
-    if ( !empty($pwd_forbidden_ldap_fields)) {
-        $pwd_forbidden_ldap_fields = array_map(
-            function($field) use ($messages) {
-                if (empty($messages['ldap_' . $field])) {
-                    return $field;
-                }
-               return $messages['ldap_' . $field];
-            }, $pwd_forbidden_ldap_fields);
-        echo "<li>".$messages["policyforbiddenldapfields"] ." " . implode(', ', $pwd_forbidden_ldap_fields) ."</li>\n";
-    }
-    echo "</ul>\n";
-    echo "</div>\n";
-}
-
 # Check password strength
 # @param array entry_array ldap entry ( ie not resource or LDAP\Result )
 # @return result code
