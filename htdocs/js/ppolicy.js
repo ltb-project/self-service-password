@@ -201,7 +201,7 @@
 
 
     if ( window.policy.use_pwnedpasswords) {
-      setResult('ppolicy-use_pwnedpasswords-feedback', "unknown");
+      setResult('ppolicy-use_pwnedpasswords-feedback', "info");
     }
 
   });
