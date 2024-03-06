@@ -54,8 +54,12 @@
     </div>
 {else}
     {if $show_help}
-    <div class="help alert alert-warning">
-        <p><i class="fa fa-fw fa-info-circle"></i> {$msg_sendsmshelp}</p>
+    <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i>
+      {if $sms_use_ldap}
+          {$msg_sendsmshelpnosms|unescape: "html" nofilter}
+      {else}
+          {$msg_sendsmshelp|unescape: "html" nofilter}
+      {/if}</p>
         {if $attribute_phone_update}
         <p><i class="fa fa-fw fa-pencil-square-o"></i>
             {$msg_sendsmshelpupdatephone|unescape: "html" nofilter}
