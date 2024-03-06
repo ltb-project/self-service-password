@@ -77,6 +77,7 @@
              {include file="captcha.tpl"}
         {/if}
         {if !$sms_use_ldap}
+
         <div class="form-group">
           <label for="telephone" class="col-sm-4 control-label">{$msg_phone}</label>
             <div class="col-sm-8">
