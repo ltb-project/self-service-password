@@ -84,7 +84,7 @@ $messages['mail'] = "E-Mail";
 $messages['mailrequired'] = "Ihre E-Mail-Adresse wird benötigt";
 $messages['mailnomatch'] = "Die angegebene E-Mail-Adresse ist nicht für den Benutzernamen hinterlegt";
 $messages['tokensent'] = "Eine Bestätigungsmail wurde versandt";
-$messages['tokensent_ifexists'] = "If the account exists, a confirmation email has been sent to the associated email address";
+$messages['tokensent_ifexists'] = "Wenn das Konto existiert, wurde eine Bestätigungs-E-Mail an die zugehörige E-Mail-Adresse gesendet";
 $messages['tokennotsent'] = "Fehler beim Versenden der Bestätigungsmail";
 $messages['tokenrequired'] = "Token benötigt";
 $messages['tokennotvalid'] = "Token ungültig";
@@ -136,7 +136,6 @@ $messages['emptysshkeychangeform'] = "Ändern Sie Ihren SSH-Schlüssel";
 $messages['changesshkeymessage'] = "Hallo Benutzer {login}, \n\nder SSH-Schlüssel wurde geändert.\n\nWenn Sie diese Änderung nicht eingeleitet haben, wenden Sie sich bitte umgehend an Ihren Administrator.";
 $messages['menusshkey'] = "SSH-Schlüssel";
 $messages['changesshkeysubject'] = "Ihr SSH-Schlüssel wurde geändert";
-
 $messages['changeapppwdhelp'] = "Um das App-Passwort zu ändern, müssen Sie zuerst ihr Accountpasswort angeben";
 $messages['changehelpapppwd'] = "Ändern sie Ihr Passwort für ";
 $messages['newapppassword'] = "neues App Passwort";
@@ -161,5 +160,11 @@ $messages["questionspopulatehint"] = "Geben Sie Ihren Benutzernamen ein, um die 
 $messages['badquality'] = "Geringe Passwortqualität";
 $messages['tooyoung'] = "Das Passwort wurde zu häufig geändert";
 $messages['inhistory'] = "Das Passwort wurde früher bereits verwendet";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";
+$messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
 $messages['unknownapp'] = "Die im Link angegebene Applikation kann nicht gefunden werden";
 $messages['sameasapppwd'] = "Das neue Passwort ist das gleiche wie das einer App!";
