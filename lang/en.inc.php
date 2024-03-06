@@ -109,8 +109,6 @@ $messages['notcomplex'] = "Your password does not have enough different classes 
 $messages['policycomplex'] = "Minimum number of different classes of characters:";
 $messages['sms'] = "SMS number";
 $messages['smsresetmessage'] = "Your password reset token is:";
-$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
-$messages['sendsmshelpnosms'] ="Enter your login to get password reset token. Then type token in sent SMS.";
 $messages['smssent'] = "A confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Error when sending SMS";
 $messages['smsnonumber'] = "Can't find mobile number";
@@ -162,3 +160,5 @@ $messages['setattributeshelp'] = "You can update the information used to reset y
 $messages['phone'] = "Telephone number";
 $messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
 $messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
+$messages['sendsmshelpnosms'] ="Enter your login to get password reset token. Then type token in sent SMS.";
