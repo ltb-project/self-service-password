@@ -44,10 +44,13 @@ if (!$sms_use_ldap) {
     if (isset($_POST["phone"]) and $_POST["phone"]) {
         $phone = strval($_POST["phone"]);
     } else {
-        $result = "phonerequired";
+        $result = "smsrequired";
     }
 }
 
+#==============================================================================
+# Crypt tokens
+#==============================================================================
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
 } elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
@@ -108,15 +111,16 @@ if (!$crypt_tokens) {
     $result = "emptysendsmsform";
 }
 
+# Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
-    # Check captcha
-    if ($use_captcha) {
-        $result = global_captcha_check();
-    }
-    # Check the entered username for characters that our installation doesn't support
-    if (  $result === "" ) {
         $result = check_username_validity($login,$login_forbidden_chars);
-    }
+}
+
+#==============================================================================
+# Check captcha
+#==============================================================================
+if ( $result === "" and $use_captcha) {
+        $result = global_captcha_check();
 }
 
 #==============================================================================
@@ -126,7 +130,18 @@ if ( $result === "" ) {
     [$result, $sms, $displayname] = get_mobile_and_displayname($login);
     var_dump($sms);
 
-    if ($sms) {
+    if (! $sms_use_ldap) {
+
+        #foreach ($mailValues as $mailValue) {
+            if (strcasecmp($sms, $phone) == 0) {
+                $match = true;
+            }
+        #}
+    }
+    if (!$match and !$sms_use_ldap){
+        $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "smsnomatch";
+        error_log("SMS number $phone does not matche for user $login");
+    }elseif ($sms) {
         $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
         $smsdisplay = $sms;
         if ( $sms_partially_hide_number ) {

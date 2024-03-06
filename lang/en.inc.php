@@ -160,3 +160,5 @@ $messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a h
 $messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
 $messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['sendsmshelpnosms'] ="Enter your login to get password reset token. Then type token in sent SMS.";
+$messages['smsrequired'] = "Your SMS phone is required";
+$messages['smsnomatch'] = "The SMS number does not match the submitted login";

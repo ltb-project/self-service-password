@@ -53,53 +53,53 @@
     </form>
     </div>
 {else}
-    {if $show_help}
+  {if $show_help}
     <div class="help alert alert-warning"><p><i class="fa fa-fw fa-info-circle"></i>
       {if $sms_use_ldap}
           {$msg_sendsmshelpnosms|unescape: "html" nofilter}
       {else}
           {$msg_sendsmshelp|unescape: "html" nofilter}
       {/if}</p>
-        {if $attribute_phone_update}
+      {if $attribute_phone_update}
         <p><i class="fa fa-fw fa-pencil-square-o"></i>
             {$msg_sendsmshelpupdatephone|unescape: "html" nofilter}
         </p>
-        {/if}
+      {/if}
     </div>
-    {/if}
-    <div class="alert alert-info">
-    <form action="#" method="post" class="form-horizontal">
-        <div class="form-group">
-            <label for="login" class="col-sm-4 control-label">{$msg_login}</label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                    <input type="text" name="login" id="login" value="{$login}" class="form-control" placeholder="{$msg_login}" autocomplete="off" />
-                </div>
-            </div>
-        </div>
-        {if ($use_captcha)}
-             {include file="captcha.tpl"}
-        {/if}
-        {if !$sms_use_ldap}
-        <div class="form-group">
-          <label for="telephone" class="col-sm-4 control-label">{$msg_sms}</label>
-            <div class="col-sm-8">
+  {/if}
+  <div class="alert alert-info">
+  <form action="#" method="post" class="form-horizontal">
+      <div class="form-group">
+          <label for="login" class="col-sm-4 control-label">{$msg_login}</label>
+          <div class="col-sm-8">
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-phone"></i></span>
-                <input type="phone" name="phone" id="phone" value="{$phone}" class="form-control" placeholder="{$msg_sms}" autocomplete="off" />
-            </div>
+                  <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                  <input type="text" name="login" id="login" value="{$login}" class="form-control" placeholder="{$msg_login}" autocomplete="off" />
+              </div>
+          </div>
+      </div>
+      {if ($use_captcha)}
+           {include file="captcha.tpl"}
+      {/if}
+      {if !$sms_use_ldap}
+      <div class="form-group">
+        <label for="telephone" class="col-sm-4 control-label">{$msg_sms}</label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-fw fa-phone"></i></span>
+              <input type="phone" name="phone" id="phone" value="{$phone}" class="form-control" placeholder="{$msg_sms}" autocomplete="off" />
           </div>
         </div>
-        {/if}
+      </div>
+      {/if}
 
-        <div class="form-group">
-            <div class="col-sm-offset-4 col-sm-8">
-                <button type="submit" class="btn btn-success">
-                    <i class="fa fa-fw fa-search"></i> {$msg_getuser}
-                </button>
-            </div>
-        </div>
-    </form>
-    </div>
+      <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+              <button type="submit" class="btn btn-success">
+                  <i class="fa fa-fw fa-search"></i> {$msg_getuser}
+              </button>
+          </div>
+      </div>
+  </form>
+  </div>
 {/if}
