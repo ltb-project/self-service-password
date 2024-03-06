@@ -36,10 +36,13 @@ $token = "";
 $sessiontoken = "";
 $attempts = 0;
 
+#==============================================================================
+# Verify if phone needs to be entered
+#==============================================================================
+
 if (!$sms_use_ldap) {
     if (isset($_POST["phone"]) and $_POST["phone"]) {
         $phone = strval($_POST["phone"]);
-        $usermail = strval($_POST["phone"]);
     } else {
         $result = "phonerequired";
     }
