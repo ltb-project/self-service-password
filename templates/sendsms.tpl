@@ -82,11 +82,11 @@
 =======
         {if !$sms_use_ldap}
         <div class="form-group">
-          <label for="telephone" class="col-sm-4 control-label">{$msg_phone}</label>
+          <label for="telephone" class="col-sm-4 control-label">{$msg_sms}</label>
             <div class="col-sm-8">
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-envelope-o"></i></span>
-                <input type="phone" name="phone" id="phone" value="{$phone}" class="form-control" placeholder="{$msg_phone}" autocomplete="off" />
+                <span class="input-group-addon"><i class="fa fa-fw fa-phone"></i></span>
+                <input type="phone" name="phone" id="phone" value="{$phone}" class="form-control" placeholder="{$msg_sms}" autocomplete="off" />
             </div>
           </div>
         </div>
