@@ -138,7 +138,10 @@ $pwd_policy_config = array(
     "use_pwnedpasswords"        => $use_pwnedpasswords,
     "pwd_no_special_at_ends"    => $pwd_no_special_at_ends,
     "pwd_forbidden_words"       => $pwd_forbidden_words,
-    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields
+    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields,
+    "pwd_display_entropy"       => $pwd_display_entropy,
+    "pwd_check_entropy"         => $pwd_check_entropy,
+    "pwd_min_entropy"           => $pwd_min_entropy
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
@@ -171,6 +174,7 @@ if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "set
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
+if ( $pwd_display_entropy ) { array_push( $available_actions, "checkentropy" ); }
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
@@ -251,8 +255,34 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_forbidden_chars)) { $smarty->assign('pwd_forbidden_chars', $pwd_forbidden_chars); }
     if (isset($pwd_no_reuse)) { $smarty->assign('pwd_no_reuse', $pwd_no_reuse); }
     if (isset($pwd_diff_login)) { $smarty->assign('pwd_diff_login', $pwd_diff_login); }
+    if (isset($pwd_display_entropy)) { $smarty->assign('pwd_display_entropy', $pwd_display_entropy); }
+    if (isset($pwd_check_entropy)) { $smarty->assign('pwd_check_entropy', $pwd_check_entropy); }
+    if (isset($pwd_min_entropy)) { $smarty->assign('pwd_min_entropy', $pwd_min_entropy); }
     if (isset($use_pwnedpasswords)) { $smarty->assign('use_pwnedpasswords', $use_pwnedpasswords); }
     if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
+
+    // send policy to a JSON object usable in javascript (window.policy.[parameter])
+    $smarty->assign('json_policy', base64_encode(json_encode(
+                                                array(
+                                                  "pwd_min_length" => $pwd_min_length,
+                                                  "pwd_max_length" => $pwd_max_length,
+                                                  "pwd_min_lower" => $pwd_min_lower,
+                                                  "pwd_min_upper" => $pwd_min_upper,
+                                                  "pwd_min_digit" => $pwd_min_digit,
+                                                  "pwd_min_special" => $pwd_min_special,
+                                                  "pwd_complexity" => $pwd_complexity,
+                                                  "pwd_diff_last_min_chars" => $pwd_diff_last_min_chars,
+                                                  "pwd_forbidden_chars" => $pwd_forbidden_chars,
+                                                  "pwd_no_reuse" => $pwd_no_reuse,
+                                                  "pwd_diff_login" => $pwd_diff_login,
+                                                  "pwd_display_entropy" => $pwd_display_entropy,
+                                                  "pwd_check_entropy" => $pwd_check_entropy,
+                                                  "pwd_min_entropy" => $pwd_min_entropy,
+                                                  "use_pwnedpasswords" => $use_pwnedpasswords,
+                                                  "pwd_no_special_at_ends" => $pwd_no_special_at_ends,
+                                                  "pwd_special_chars" => $pwd_special_chars
+                                                )
+                                              )));
 }
 // TODO : Make it clean function show_policy - END
 if (isset($smsdisplay)) { $smarty->assign('smsdisplay', $smsdisplay); }

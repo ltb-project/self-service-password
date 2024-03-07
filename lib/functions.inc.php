@@ -19,6 +19,31 @@
 #
 #==============================================================================
 
+/*
+  Pre-requisites: install zxcvbn library
+
+  Make sure to have this in composer.json:
+
+    "require": {
+        "bjeavons/zxcvbn-php": "^1.0"
+    }
+
+  and run: composer update
+
+*/
+
+require_once __DIR__ . '/../vendor/autoload.php';
+use ZxcvbnPhp\Zxcvbn;
+
+try{
+  $zxcvbn = new Zxcvbn();
+  error_log("Module Zxcvbn successfully loaded");
+}
+catch(Throwable $e){
+  error_log("Could not load Zxcvbn module: ".$e);
+  exit(1);
+}
+
 # Create SSHA password
 function make_ssha_password($password) {
     $salt = random_bytes(4);
@@ -157,7 +182,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy/" , $msg ) ) {
     return "danger";
     }
 
@@ -339,6 +364,38 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         $pwned_passwords = new PwnedPasswords\PwnedPasswords;
         $insecure = $pwned_passwords->isPwned($password);
         if ($insecure) { $result="pwned"; }
+    }
+
+
+    # check entropy
+    $zxcvbn = new Zxcvbn();
+    if( isset($pwd_check_entropy) && $pwd_check_entropy == true )
+    {
+        if( isset($pwd_min_entropy) && is_int($pwd_min_entropy) )
+        {
+            // force encoding to utf8, as iso-8859-1 is not supported by zxcvbn
+            //$password = mb_convert_encoding($p, 'UTF-8', 'ISO-8859-1');
+            error_log("checkEntropy: password taken directly");
+            $entropy = $zxcvbn->passwordStrength("$password");
+            $entropy_level = intval($entropy["score"]);
+            $entropy_message = $entropy['feedback']['warning'] ? strval($entropy['feedback']['warning']) : "";
+            error_log( "checkEntropy: level $entropy_level msg: $entropy_message" );
+            if( is_int($entropy_level) && $entropy_level >= $pwd_min_entropy )
+            {
+                ; // password etropy check ok
+            }
+            else
+            {
+                error_log("checkEntropy: insufficient entropy: level = $entropy_level but minimal required = $pwd_min_entropy");
+                $result="insufficiententropy";
+            }
+        }
+        else
+        {
+            error_log("checkEntropy: missing required parameter pwd_min_entropy");
+            $result="insufficiententropy";
+        }
+
     }
 
     return $result;

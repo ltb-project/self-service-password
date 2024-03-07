@@ -144,6 +144,12 @@ $pwd_forbidden_ldap_fields = array();
 $pwd_complexity = 0;
 # use pwnedpasswords api v2 to securely check if the password has been on a leak
 $use_pwnedpasswords = false;
+# show password entropy bar (require php zxcvbn module)
+$pwd_display_entropy = false;
+# enforce password entropy check
+$pwd_check_entropy = false;
+# minimum entropy level required (when $pwd_check_entropy enabled)
+$pwd_min_entropy = 3;
 # Show policy constraints message:
 # always
 # never
