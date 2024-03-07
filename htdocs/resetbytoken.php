@@ -21,6 +21,8 @@
 
 # This page is called to reset a password when a valid token is found in URL
 
+require_once("../lib/LtbAttributeValue_class.php");
+
 #==============================================================================
 # POST parameters
 #==============================================================================
@@ -97,12 +99,28 @@ if ( $result === "" ) {
 if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+    $ldap = ldap_connect($ldap_url);
+    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
+        $result = "ldaperror";
+        error_log("LDAP - Unable to use StartTLS");
+    } else {
 
-    $ldap = $ldap_connection[0];
-    $result = $ldap_connection[1];
+        # Bind
+        if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        } else {
+            $bind = ldap_bind($ldap);
+        }
 
-    if ( $ldap ) {
+        if ( !$bind ) {
+            $result = "ldaperror";
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+            }
+        } else {
 
             # Search for user
             $ldap_filter = str_replace("{login}", $login, $ldap_filter);
@@ -136,10 +154,11 @@ if ( $result === "" ) {
 
                     # Get user email for notification
                     if ($notify_on_change) {
-                        $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry);
-                    }
+                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+		    }
                 }
             }
+        }
     }
 }
 
@@ -147,18 +166,18 @@ if ( $result === "" ) {
 # Check and register new passord
 #==============================================================================
 # Match new and confirm password
-if ( !$result ) {
+if ( $result === "" ) {
     if ( $newpassword != $confirmpassword ) { $result="nomatch"; }
 }
 
 # Check password strength
-if ( !$result ) {
+if ( $result === "" ) {
     $entry_array = ldap_get_attributes($ldap, $entry);
     $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry_array );
 }
 
 # Change password
-if ( !$result ) {
+if ($result === "") {
     if ( isset($prehook) ) {
         $command = hook_command($prehook, $login, $newpassword, null, $prehook_password_encodebase64);
         exec($command, $prehook_output, $prehook_return);

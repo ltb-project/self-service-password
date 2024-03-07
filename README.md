@@ -1,7 +1,7 @@
 # LDAP Tool Box Self Service Password
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/372/badge)](https://bestpractices.coreinfrastructure.org/projects/372)
-[![Build Status](https://github.com/ltb-project/self-service-password/actions/workflows/ci.yml/badge.svg)](https://github.com/ltb-project/self-service-password/actions/workflows/ci.yml)
+[![Build Status](https://travis-ci.org/ltb-project/self-service-password.svg?branch=master)](https://travis-ci.org/ltb-project/self-service-password)
 [![Documentation Status](https://readthedocs.org/projects/self-service-password/badge/?version=latest)](https://self-service-password.readthedocs.io/en/latest/?badge=latest)
 
 ## Presentation

@@ -4,7 +4,6 @@
 #==============================================================================
 require_once(__DIR__."/../conf/config.inc.php");
 require_once(__DIR__."/../lib/functions.inc.php");
-require_once(__DIR__."/../vendor/autoload.php");
 
 #==============================================================================
 # Action
@@ -34,13 +33,29 @@ foreach ($secondaries_ldap as $s_ldap) {
     }
 
     # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+    $ldap = ldap_connect($s_ldap['ldap_url']);
+    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    if (!empty($s_ldap['ldap_starttls']) && !ldap_start_tls($ldap) ) {
+        $result = "ldaperror";
+        fwrite($log_file, "LDAP - Unable to use StartTLS");
+    } else {
 
-    $ldap = $ldap_connection[0];
-    $result = $ldap_connection[1];
+    # Bind
+    if ( isset($s_ldap['ldap_binddn']) && isset($s_ldap['ldap_bindpw']) ) {
+        $bind = ldap_bind($ldap, $s_ldap['ldap_binddn'], $s_ldap['ldap_bindpw']);
+    } else if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+    } else {
+        $bind = ldap_bind($ldap);
+    }
 
-    if (!$ldap) {
-        fwrite($log_file, "Error code: $result");
+    if ( !$bind ) {
+        $result = "ldaperror";
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+        fwrite($log_file, "LDAP - Bind error $errno  (".ldap_error($ldap).")");
+        }
     } else {
 
     # Search for user
@@ -110,7 +125,7 @@ foreach ($secondaries_ldap as $s_ldap) {
             }
         }
     }
-    if ( !$result )  {
+    if ( $result === "" )  {
 
         # Rebind as Manager if needed
         if ( $who_change_password == "manager" ) {
@@ -124,7 +139,7 @@ foreach ($secondaries_ldap as $s_ldap) {
         #==============================================================================
         # Change password
         #==============================================================================
-        if ( !$result ) {
+        if ( $result === "" ) {
             if (isset($s_ldap['ad_mode'])) {
                 $s_ad_mode = $s_ldap['ad_mode'];
             } else {
@@ -138,7 +153,7 @@ foreach ($secondaries_ldap as $s_ldap) {
                 }
             }
         }
-    }}}
+    }}}}
 }
 
 fclose($log_file);

@@ -1,6 +1,6 @@
 <?php
 
-class HookTest extends \PHPUnit\Framework\TestCase
+class HookTest extends \PHPUnit_Framework_TestCase
 {
     public function testCommand()
     {

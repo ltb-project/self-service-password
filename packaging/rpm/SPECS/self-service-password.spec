@@ -14,7 +14,7 @@
 #=================================================
 %define ssp_name	self-service-password
 %define ssp_realname	ltb-project-%{name}
-%define ssp_version	1.5.4
+%define ssp_version	1.5.3
 %define ssp_destdir     /usr/share/%{name}
 %define ssp_cachedir    /var/cache/%{name}
 
@@ -61,10 +61,9 @@ mkdir -p %{buildroot}/%{ssp_destdir}/conf
 mkdir -p %{buildroot}/%{ssp_destdir}/htdocs
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
-mkdir -p %{buildroot}/%{ssp_destdir}/scripts
 mkdir -p %{buildroot}/%{ssp_destdir}/templates
 mkdir -p %{buildroot}/%{ssp_cachedir}/templates_c
-mkdir -p %{buildroot}/%{ssp_destdir}/vendor
+mkdir -p %{buildroot}/%{ssp_destdir}/scripts
 mkdir -p %{buildroot}/etc/httpd/conf.d
 
 # Copy files
@@ -80,7 +79,6 @@ install -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
 cp -a          lib/vendor     %{buildroot}/%{ssp_destdir}/lib
 install -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
 install -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
-cp -a          vendor/*       %{buildroot}/%{ssp_destdir}/vendor
 ## Apache configuration
 install -m 644 %{SOURCE1}     %{buildroot}/etc/httpd/conf.d/self-service-password.conf
 
@@ -123,13 +121,6 @@ rm -rf %{buildroot}
 # Changelog
 #=================================================
 %changelog
-* Wed Nov 22 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.4-1
-- gh#773: Missing dependence in debian package breaks installation experience
-- gh#774: Announce that the smarty3 package needs to be installed manually
-- gh#777: Typo in config_tokens.rst
-- gh#793: Updated italian localization
-- gh#816: Hijack SMS codes to an arbitrary phone number
-- gh#818: Do not trust SMS number from crypted token, search it again in LDAP Directory
 * Mon May 15 2023 - Clement Oudot <clem@ltb-project.org> - 1.5.3-1
 - gh#723: Update gpg install command
 - gh#735: Links not interpreted in $messages['sendtokenhelpnomail']

@@ -1,6 +1,6 @@
 <?php
 
-class CheckSshkeyTest extends \PHPUnit\Framework\TestCase
+class CheckSshkeyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test check_sshkey function

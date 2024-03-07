@@ -4,7 +4,6 @@
 #
 # Copyright (C) 2009 Clement OUDOT
 # Copyright (C) 2009 LTB-project.org
-# Copyright (C) 2023 Markus Beckschulte
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

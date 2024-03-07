@@ -13,9 +13,6 @@ reset code trough SMS.
 A message is sent either to an Email to SMS gateway, either trough an
 API (called with PHP code or by script).
 
-.. tip:: You can enable :ref:`set_attributes` feature to allow users to
-   update their phone number in the LDAP directory.
-
 SMS provider
 ------------
 

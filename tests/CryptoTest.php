@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../lib/vendor/defuse-crypto.phar';
 require_once __DIR__ . '/../lib/functions.inc.php';
 
-class CryptoTest extends \PHPUnit\Framework\TestCase
+class CryptoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test encrypt and decrypt functions

@@ -1,6 +1,6 @@
 FROM php:8.1-apache
 # Install PHP extensions and PECL modules.
-ENV BUILDDEP=" \
+RUN buildDeps=" \
         libbz2-dev \
         libsasl2-dev \
         libcurl4-gnutls-dev \
@@ -9,10 +9,7 @@ ENV BUILDDEP=" \
 	libjpeg62-turbo-dev \
 	libwebp-dev \
         libonig-dev \
-        git \
-        zip \
-    "
-RUN buildDeps="${BUILDDEP}" \
+    " \
     runtimeDeps=" \
         curl \
         libicu-dev \
@@ -21,7 +18,7 @@ RUN buildDeps="${BUILDDEP}" \
 	libgd3 \
 	libjpeg62-turbo \
 	libpng16-16 \
-	libwebp7 \
+	libwebp6 \
         libzip-dev \
 	locales \
 	locales-all \
@@ -34,6 +31,8 @@ RUN buildDeps="${BUILDDEP}" \
     && docker-php-ext-install ldap gd \
     && echo en_US.UTF-8 UTF-8 >/etc/locale.gen \
     && /usr/sbin/locale-gen \
+    && apt-get purge -y --auto-remove $buildDeps \
+    && rm -r /var/lib/apt/lists/* \
     && a2enmod rewrite
 RUN mkdir -p /usr/share/php/smarty4/ && \
     curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.2.0.tar.gz | \
@@ -45,11 +44,6 @@ RUN rmdir /var/www/html && \
     mkdir -p /var/www/templates_c && \
     chown -R www-data: /var/www/templates_c && \
     sed -i 's/smarty3/smarty4/' /var/www/conf/config.inc.php
-COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
-RUN cd /var/www && /usr/bin/composer install
-RUN buildDeps="${BUILDDEP}" \
-    && apt-get purge -y --auto-remove $buildDeps \
-    && rm -r /var/lib/apt/lists/*
 ENV LC_CTYPE=en_US.UTF-8
 EXPOSE 80
 

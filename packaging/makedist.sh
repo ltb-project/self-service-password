@@ -37,11 +37,6 @@ cp -a ../rest/*   $NAME-$VERSION/rest
 cp ../scripts/*   $NAME-$VERSION/scripts
 cp ../templates/* $NAME-$VERSION/templates
 
-# Download composer dependencies
-cp ../composer* $NAME-$VERSION
-composer -d $NAME-$VERSION update
-rm $NAME-$VERSION/composer*
-
 # Create archive
 tar -cf $NAME-$VERSION.tar $NAME-$VERSION/
 

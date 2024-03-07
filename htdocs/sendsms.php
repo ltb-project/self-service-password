@@ -21,6 +21,8 @@
 
 # This page is called to send random generated password to user by SMS
 
+require_once("../lib/LtbAttributeValue_class.php");
+
 #==============================================================================
 # POST parameters
 #==============================================================================
@@ -87,9 +89,9 @@ if (!$crypt_tokens) {
     }
 } elseif (isset($_REQUEST["encrypted_sms_login"])) {
     $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
+    $sms = $decrypted_sms_login[0];
     $login = $decrypted_sms_login[1];
-    [$result, $sms] = get_mobile_and_displayname($login);
-    if (!$result) { $result = "sendsms"; }
+    $result = "sendsms";
 } elseif (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
     $login = strval($_REQUEST["login"]);
 } else {
@@ -111,19 +113,83 @@ if ( $result === "" ) {
 # Check sms
 #==============================================================================
 if ( $result === "" ) {
-    [$result, $sms, $displayname] = get_mobile_and_displayname($login);
 
-    if ($sms) {
-        $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
-        $smsdisplay = $sms;
-        if ( $sms_partially_hide_number ) {
-            $smsdisplay = substr_replace($sms, '****', 4 , 4);
+    # Connect to LDAP
+    $ldap = ldap_connect($ldap_url);
+    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
+        $result = "ldaperror";
+        error_log("LDAP - Unable to use StartTLS");
+    } else {
+
+        # Bind
+        if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        } else {
+            $bind = ldap_bind($ldap);
         }
-        $result = "smsuserfound";
-        if ( $use_ratelimit ) {
-            if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
-                $result = "throttle";
-                error_log("LDAP - User $login too fast");
+
+        if ( !$bind ) {
+            $result = "ldaperror";
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
+            }
+        } else {
+
+            # Search for user
+            $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+            $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+
+            $errno = ldap_errno($ldap);
+            if ( $errno ) {
+                $result = "ldaperror";
+                error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+            } else {
+
+                # Get user DN
+                $entry = ldap_first_entry($ldap, $search);
+                if( $entry ) {
+                    $userdn = ldap_get_dn($ldap, $entry);
+                }
+
+                if( !$userdn ) {
+                    $result = "badcredentials";
+                    error_log("LDAP - User $login not found");
+                } else {
+                    # Get first sms number for configured ldap attributes in sms_attributes.
+                    $smsValue = LtbAttributeValue::ldap_get_first_available_value($ldap, $entry, $sms_attributes);
+                }
+                # Check sms number
+                if ( $smsValue ) {
+                    $sms = $smsValue->value;
+                    if ( $sms_sanitize_number ) {
+                        $sms = preg_replace('/[^0-9]/', '', $sms);
+                    }
+                    if ( $sms_truncate_number ) {
+                        $sms = substr($sms, -$sms_truncate_number_length);
+                    }
+                    $smsdisplay = $sms;
+                    if ( $sms_partially_hide_number ) {
+                        $smsdisplay = substr_replace($sms, '****', 4 , 4);
+                    }
+                }
+
+                if ( !$sms ) {
+                    $result = "smsnonumber";
+                    error_log("No SMS number found for user $login");
+                } else {
+                    $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
+                    $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
+                    $result = "smsuserfound";
+                    if ( $use_ratelimit ) {
+                        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+                            $result = "throttle";
+                            error_log("LDAP - User $login too fast");
+                        }
+                    }
+                }
             }
         }
     }
@@ -250,74 +316,4 @@ if ( $result === "redirect" ) {
     # Redirect
     header("Location: " . $reset_url);
     exit;
-}
-
-function get_mobile_and_displayname($login) {
-
-    $sms = "";
-    $result = "";
-    $displayname = "";
-    global $ldap_url;
-    global $ldap_starttls;
-    global $ldap_binddn;
-    global $ldap_bindpw;
-    global $ldap_base;
-    global $ldap_filter;
-    global $ldap_fullname_attribute;
-    global $sms_attributes;
-    global $sms_sanitize_number;
-    global $sms_truncate_number;
-    $search_attributes = $sms_attributes;
-    $search_attributes[] = $ldap_fullname_attribute;
-
-    # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
-
-    $ldap = $ldap_connection[0];
-    $result = $ldap_connection[1];
-
-    if ( $ldap ) {
-
-         # Search for user
-         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-         $search = ldap_search($ldap, $ldap_base, $ldap_filter, $search_attributes);
-
-         $errno = ldap_errno($ldap);
-         if ( $errno ) {
-             $result = "ldaperror";
-             error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-         } else {
-
-             # Get user DN
-             $entry = ldap_first_entry($ldap, $search);
-             if( $entry ) {
-                 $userdn = ldap_get_dn($ldap, $entry);
-                 $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
-             }
-
-             if( !$userdn ) {
-                 $result = "badcredentials";
-                 error_log("LDAP - User $login not found");
-             } else {
-                 # Get first sms number for configured ldap attributes in sms_attributes.
-                 $smsValue = \Ltb\AttributeValue::ldap_get_first_available_value($ldap, $entry, $sms_attributes);
-             }
-             # Check sms number
-             if ( $smsValue ) {
-                 $sms = $smsValue->value;
-                 if ( $sms_sanitize_number ) {
-                     $sms = preg_replace('/[^0-9]/', '', $sms);
-                 }
-                 if ( $sms_truncate_number ) {
-                     $sms = substr($sms, -$sms_truncate_number_length);
-                 }
-             }
-
-             if ( !$sms ) {
-                 $result = "smsnonumber";
-                 error_log("No SMS number found for user $login");
-             }
-         }
-    }
-    return [ $result, $sms, $displayname ];
 }

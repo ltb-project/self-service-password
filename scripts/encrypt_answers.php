@@ -25,20 +25,32 @@
 require_once(__DIR__."/../conf/config.inc.php");
 require_once(__DIR__."/../lib/vendor/defuse-crypto.phar");
 require_once(__DIR__."/../lib/functions.inc.php");
-require_once(__DIR__."/../vendor/autoload.php");
 
 #==============================================================================
 # Search all users and encrypt answer
 #==============================================================================
 
 # Connect to LDAP
-$ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+$ldap = ldap_connect($ldap_url);
+ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
+    fwrite(STDERR, "LDAP - Unable to use StartTLS\n");
+    exit(1);
+}
 
-$ldap = $ldap_connection[0];
-$result = $ldap_connection[1];
+# Bind
+if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
+    $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+} else {
+    $bind = ldap_bind($ldap);
+}
 
-if (!$ldap) {
-    fwrite(STDERR, "Error code: $result");
+if (!$bind) {
+    $errno = ldap_errno($ldap);
+    if ( $errno ) {
+        fwrite(STDERR, "LDAP - Bind error $errno  (".ldap_error($ldap).")\n");
+    }
     exit(1);
 }
 

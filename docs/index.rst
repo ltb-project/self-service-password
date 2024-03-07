@@ -20,7 +20,7 @@ LDAP Tool Box Self Service Password documentation
    config_mail.rst
    config_preposthook.rst
    config_sshkey.rst
+   config_apppwd.rst
    config_rate_limit.rst
    webservices.rst
-   audit.rst
-   set_attributes.rst
+
