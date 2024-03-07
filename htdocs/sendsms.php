@@ -40,7 +40,7 @@ $attempts = 0;
 # Verify if phone needs to be entered
 #==============================================================================
 
-if (!$sms_use_ldap) {
+if (!isset($_POST["smstoken"]) and !$sms_use_ldap ) {
     if (isset($_POST["phone"]) and $_POST["phone"]) {
         $phone = strval($_POST["phone"]);
     } else {
@@ -128,28 +128,29 @@ if ( $result === "" and $use_captcha) {
 #==============================================================================
 if ( $result === "" ) {
     [$result, $sms, $displayname] = get_mobile_and_displayname($login);
-    var_dump($sms);
-
-    if (! $sms_use_ldap) {
-
-        #foreach ($mailValues as $mailValue) {
+    if ($sms){
+        if (!$sms_use_ldap) {
+            # TODO: Add possibility to loop over different phone numbers.
+            #foreach ($mailValues as $mailValue) {
             if (strcasecmp($sms, $phone) == 0) {
                 $match = true;
+                $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
+                $result = "sendsms";
             }
-        #}
-    }
-    if (!$match and !$sms_use_ldap){
-        $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "smsnomatch";
-        error_log("SMS number $phone does not matche for user $login");
-    }elseif ($sms) {
-        $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
-        $smsdisplay = $sms;
-        if ( $sms_partially_hide_number ) {
-            $smsdisplay = substr_replace($sms, '****', 4 , 4);
+            if (!$match){
+                $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "smsnomatch";
+                error_log("SMS number $phone does not matche for user $login");
+            }
+        }else{
+            $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
+            $smsdisplay = $sms;
+            if ( $sms_partially_hide_number ) {
+                $smsdisplay = substr_replace($sms, '****', 4 , 4);
+            }
+            $result = "smsuserfound";
         }
-        $result = "smsuserfound";
         if ( $use_ratelimit ) {
-            if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+            if ( !allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
                 $result = "throttle";
                 error_log("LDAP - User $login too fast");
             }
