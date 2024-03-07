@@ -1,5 +1,5 @@
-{if error_sms and $error_sms == 'smscrypttokensrequired'}
-{elseif error_sms and $error_sms == 'smsuserfound'}
+{if $error_sms and $error_sms == 'smscrypttokensrequired'}
+{elseif $error_sms and $error_sms == 'smsuserfound'}
     <div class="alert shadow alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="row mb-3">
