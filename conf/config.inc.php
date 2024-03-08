@@ -31,16 +31,16 @@
 # Debug mode
 # true: log and display any errors or warnings (use this in configuration/testing)
 # false: log only errors and do not display them (use this in production)
-$debug = true;
+$debug = false;
 
 # LDAP
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
-$ldap_binddn = "cn=Manager,dc=venture-brothers,dc=com";
-$ldap_bindpw = 'dirtysecret';
+$ldap_binddn = "cn=manager,dc=example,dc=com";
+$ldap_bindpw = 'secret';
 // for GSSAPI authentication, comment out ldap_bind* and uncomment ldap_krb5ccname lines
 //$ldap_krb5ccname = "/path/to/krb5cc";
-$ldap_base = "dc=venture-brothers,dc=com";
+$ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
@@ -144,6 +144,12 @@ $pwd_forbidden_ldap_fields = array();
 $pwd_complexity = 0;
 # use pwnedpasswords api v2 to securely check if the password has been on a leak
 $use_pwnedpasswords = false;
+# show password entropy bar (require php zxcvbn module)
+$pwd_display_entropy = false;
+# enforce password entropy check
+$pwd_check_entropy = false;
+# minimum entropy level required (when $pwd_check_entropy enabled)
+$pwd_min_entropy = 3;
 # Show policy constraints message:
 # always
 # never
@@ -247,7 +253,7 @@ $mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" )
 # default = false
 $mail_address_use_ldap = false;
 # Who the email should come from
-$mail_from = "admin@venture-brothers.com";
+$mail_from = "admin@example.com";
 $mail_from_name = "Self Service Password";
 $mail_signature = "";
 # Notify users anytime their password is changed
@@ -275,14 +281,10 @@ $mail_priority = 3;
 ## SMS
 # Use sms
 $use_sms = true;
-# SMS method (mail, api)
-$sms_method = "api";
-$sms_api_lib = "lib/smsapi-signal-cli.inc.php";
-$signal_user = '+33630001317';
-$signal_config = '/home/armando/.local/share/signal-cli/';
-$signal_cli = '/home/armando/bin/applications/signal-cli/signal-cli';
 $sms_use_ldap = true;
-
+# SMS method (mail, api)
+$sms_method = "mail";
+$sms_api_lib = "lib/smsapi.inc.php";
 # GSM number attribute
 $sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 # Partially hide number
@@ -306,7 +308,7 @@ $max_attempts = 3;
 # Encryption, decryption keyphrase, required if $use_tokens = true and $crypt_tokens = true, or $use_sms, or $crypt_answer
 # Please change it to anything long, random and complicated, you do not have to remember it
 # Changing it will also invalidate all previous tokens and SMS codes
-$keyphrase = "klfjhqskdfhqskdfjhqskljdfhsqlkjdhfqskjdhfqskjh";
+$keyphrase = "secret";
 
 # Use attributes update page
 $use_attributes = false;
@@ -367,7 +369,7 @@ $use_restapi = false;
 #$messages['changehelpextramessage'] = NULL;
 
 # Audit
-$audit_log_file = "/var/log/self-service-password/audit.log";
+#$audit_log_file = "/var/log/self-service-password/audit.log";
 
 ## Pre Hook
 # Launch a prehook script before changing password.
