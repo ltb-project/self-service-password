@@ -46,6 +46,17 @@ You can enable or disable this feature with $use_sms:
 .. warning:: If you enable this option, you must change the default
   value of the security keyphrase.
 
+SMS configuration
+------------------
+
+You can avoid to request the SMS number to the user, only the login will
+be asked, and the mail will be read in LDAP:
+
+.. code-block:: php
+
+   $sms_use_ldap = true;
+
+
 Method
 ------
 
@@ -105,7 +116,7 @@ Read the provider guidelines to know how to access its API.
 
 .. tip:: An example is given in lib/smsapi-example.inc.php. Copy this
   file to lib/smsapi.inc.php and start coding!
-  
+
 See also :ref:`sms_api`.
 
 Mobile attribute
