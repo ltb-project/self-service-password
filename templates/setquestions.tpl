@@ -1,6 +1,6 @@
 {if $show_help}
     <div class="help alert alert-warning">
-    <p><i class="fa fa-fw fa-info-circle"></i> {$msg_setquestionshelp|unescape: "html" nofilter}</p>
+    <i class="fa fa-fw fa-info-circle"></i> {$msg_setquestionshelp|unescape: "html" nofilter}
     </div>
 {/if}
 <div class="alert alert-info">
