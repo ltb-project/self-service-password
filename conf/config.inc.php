@@ -281,8 +281,8 @@ $mail_priority = 3;
 ## SMS
 # Use sms
 $use_sms = true;
-# Get SMS number directly from LDAP (only first number entry)
-# and hide SMS number input field
+# Get telephone number directly from LDAP (only first number entry)
+# and hide telephone number input field
 # default = false
 $sms_use_ldap = false;
 # SMS method (mail, api)
