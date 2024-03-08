@@ -1,6 +1,19 @@
 Upgrade
 =======
 
+From 1.5 to 1.6
+---------------
+
+SMS configuration
+------------------
+
+We now demand by default the telephone number to the user, if you want to ask only the login and to read the telephone number from LDAP:
+
+.. code-block:: php
+
+   $sms_use_ldap = true;
+
+
 From 1.4 to 1.5
 ---------------
 

@@ -49,8 +49,8 @@ You can enable or disable this feature with $use_sms:
 SMS configuration
 ------------------
 
-You can avoid to request the SMS number to the user, only the login will
-be asked, and the mail will be read in LDAP:
+You can avoid to request the telephone number to the user, only the login will
+be asked, and the telephone number will be read from LDAP:
 
 .. code-block:: php
 
