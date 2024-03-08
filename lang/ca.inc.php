@@ -103,7 +103,7 @@ $messages['notcomplex'] = "La vostra contrasenya no té prou tipus diferents de 
 $messages['policycomplex'] = "Mínim de classes de caràcters diferents:";
 $messages['sms'] = "SMS Numero";
 $messages['smsresetmessage'] = "El testimoni de restabliment de contrasenya és:";
-$messages['sendsmshelp'] = "Introdueixi el seu nom d'usuari per obtenir un testimoni de restabliment de contrasenya. A continuació, escriviu el testimoni en l'SMS enviat.";
+$messages['sendsmshelpnosms'] = "Introdueixi el seu nom d'usuari per obtenir un testimoni de restabliment de contrasenya. A continuació, escriviu el testimoni en l'SMS enviat.";
 $messages['smssent'] = "Un codi de confirmació ha estat enviat per SMS";
 $messages['smsnotsent'] = "Error enviant el SMS";
 $messages['smsnonumber'] = "No es pot trobar el número de telèfon mòbil";
@@ -162,7 +162,10 @@ $messages['inhistory'] = "La contresenya es troba dins l'històric de les contra
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['attributesmoderror'] = "Your information have not been updated";
 $messages['attributeschanged'] = "Your information have been updated";
-$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and password and set your new details.";
 $messages['phone'] = "Telephone number";
 $messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
 $messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
+$messages['smsrequired'] = "Your SMS phone is required";
+$messages['smsnomatch'] = "The SMS number does not match the submitted login";

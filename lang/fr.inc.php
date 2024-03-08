@@ -100,7 +100,7 @@ $messages['notcomplex'] = "Votre mot de passe n'a pas assez de classes de caract
 $messages['policycomplex'] = "Nombre minimum de classes de caractères :";
 $messages['sms'] = "Numéro SMS";
 $messages['smsresetmessage'] = "Votre jeton est:";
-$messages['sendsmshelp'] = "Entrez votre identifiant pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";
+$messages['sendsmshelpnosms'] = "Entrez votre identifiant pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";
 $messages['smssent'] = "Le code de confirmation a été envoyé par SMS.";
 $messages['smsnotsent'] = "Erreur lors de l'envoi du SMS";
 $messages['smsnonumber'] = "Le numéro de mobile n'a pas été trouvé.";
@@ -161,3 +161,6 @@ $messages['setattributeshelp'] = "Vous pouvez mettre à jour les informations ut
 $messages['phone'] = "Numéro de téléphone";
 $messages['sendtokenhelpupdatemail'] = "Vous pouvez mettre à jour votre adresse email sur <a href=\"?action=setattributes\">cette page</a>.";
 $messages['sendsmshelpupdatephone'] = "Vous pouvez mettre à jour votre numéro de téléphone sur <a href=\"?action=setattributes\">cette page</a>.";
+$messages['sendsmshelp'] = "Entrez votre identifiant et votre numéro de téléphone pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";
+$messages['smsrequired'] = "Vous devez indiquer votre numéro de téléphone";
+$messages['smsnomatch'] = "Le numéro de téléphone ne correspond pas à l'identifiant donné";
