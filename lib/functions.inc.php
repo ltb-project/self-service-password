@@ -157,7 +157,11 @@ function make_md4_password($password) {
         $hash = strtoupper( bin2hex( mhash( MHASH_MD4, iconv( "UTF-8", "UTF-16LE", $password ) ) ) );
     }
     return $hash;
-}
+}$messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
+$messages['sendsmshelpnosms'] ="Enter your login to get password reset token. Then type token in sent SMS.";
+$messages['smsrequired'] = "Your SMS phone is required";
+$messages['smsnomatch'] = "The SMS number does not match the submitted login";
 
 # Create AD password (Microsoft Active Directory password format)
 function make_ad_password($password) {
