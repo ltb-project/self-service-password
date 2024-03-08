@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Zadanie nového hesla je povinné";
 $messages['confirmpasswordrequired'] = "Prosím zopakujte Vaše nové heslo";
 $messages['passwordchanged'] = "Vaše heslo bolo zmenené";
 $messages['nomatch'] = "Heslá nesúhlasia";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Prihlasovacie meno alebo heslo je nesprávne";
 $messages['passworderror'] = "Heslo bolo odmietnuté LDAP adresári";
 $messages['title'] = "Zmena hesla";

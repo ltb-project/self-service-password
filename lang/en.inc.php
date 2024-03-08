@@ -34,6 +34,7 @@ $messages['confirmpasswordrequired'] = "Please confirm your new password";
 $messages['passwordchanged'] = "Your password was changed";
 $messages['sshkeychanged'] = "Your SSH Key was changed";
 $messages['nomatch'] = "Passwords mismatch";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Login or password incorrect";
 $messages['passworderror'] = "Password was refused by the LDAP directory";
 $messages['sshkeyerror'] = "SSH Key was refused by the LDAP directory";

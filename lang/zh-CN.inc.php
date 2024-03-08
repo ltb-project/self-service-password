@@ -34,6 +34,7 @@ $messages['confirmpasswordrequired'] = "请确认您的新密码";
 $messages['passwordchanged'] = "您的密码已修改";
 $messages['sshkeychanged'] = "您的 SSH 密钥已更改";
 $messages['nomatch'] = "密码不一致";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "用户名或密码不正确";
 $messages['passworderror'] = "密码被 LDAP 目录服务拒绝";
 $messages['sshkeyerror'] = "SSH 密钥被 LDAP 目录服务拒绝";

@@ -34,6 +34,7 @@ $messages['confirmpasswordrequired'] = "請確認您的新密碼";
 $messages['passwordchanged'] = "您的密碼已修改完成";
 $messages['sshkeychanged'] = "您的 SSH 金鑰已修改完成";
 $messages['nomatch'] = "密碼不符";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "帳號或密碼不正確";
 $messages['passworderror'] = "密碼被 LDAP 伺服器拒絶";
 $messages['sshkeyerror'] = "SSH 金鑰被 LDAP 伺服器拒絶";

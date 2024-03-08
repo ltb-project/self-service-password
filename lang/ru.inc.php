@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Введите Ваш новый парол�
 $messages['confirmpasswordrequired'] = "Повторите Ваш новый пароль";
 $messages['passwordchanged'] = "Ваш пароль изменен";
 $messages['nomatch'] = "Проверьте правильность написания пароля";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Проверьте правильность написания логина или пароля";
 $messages['passworderror'] = "Ваш пароль отклонен LDAP directory";
 $messages['title'] = "Self service password";

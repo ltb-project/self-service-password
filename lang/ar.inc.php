@@ -34,6 +34,7 @@ $messages['confirmpasswordrequired'] = "يرجى تأكيد كلمة السر ا
 $messages['passwordchanged'] = "تم تغيير كلمة السر الخاصة بك";
 $messages['sshkeychanged'] = "الخاص بك SSH تم تغيير مفتاح";
 $messages['nomatch'] = "كلمات السر غير متطابقة";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "اسم المستخدم أو كلمة السر غير صحيحة";
 $messages['passworderror'] = "LDAP تم رفض كلمة السر من طرف دليل";
 $messages['sshkeyerror'] = "LDAP من طرف دليل SSH تم رفض مفتاح";

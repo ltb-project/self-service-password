@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Wymagane jest Twoje nowe hasło";
 $messages['confirmpasswordrequired'] = "Potwierdź proszę Twoje nowe hasło";
 $messages['passwordchanged'] = "Twoje hasło zostało zmienione";
 $messages['nomatch'] = "Hasła nie są zgodne";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Login lub hasło nie są poprawne";
 $messages['passworderror'] = "Hasło zostało odrzucone przez bazę LDAP";
 $messages['title'] = "Samodzielna zmiana hasła";

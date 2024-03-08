@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Nuova password obbligatoria";
 $messages['confirmpasswordrequired'] = "Per favore conferma la nuova password";
 $messages['passwordchanged'] = "La tua password è stata cambiata";
 $messages['nomatch'] = "Password non corrispondenti";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Login o password non corretti";
 $messages['passworderror'] = "Password rifiutata dalla directory LDAP";
 $messages['title'] = "Self service password";

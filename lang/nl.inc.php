@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Nieuwe wachtwoord is een verplicht veld";
 $messages['confirmpasswordrequired'] = "Bevestig het nieuwe wachtwoord";
 $messages['passwordchanged'] = "Het wachtwoord is gewijzigd";
 $messages['nomatch'] = "Nieuwe wachtwoord en Bevestigen zijn ongelijk";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Gebruikersnaam of wachtwoord onjuist";
 $messages['passworderror'] = "Wachtwoord niet geaccepteerd door de LDAP directory";
 $messages['title'] = "Wachtwoord Self Service";

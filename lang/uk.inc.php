@@ -34,6 +34,7 @@ $messages['newpasswordrequired'] = "Введіть Ваш новий парол�
 $messages['confirmpasswordrequired'] = "Повторіть Ваш новий пароль";
 $messages['passwordchanged'] = "Ваш пароль змінено";
 $messages['nomatch'] = "Перевірте правильність написання пароля";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Перевірте правильність написання логіна або пароля";
 $messages['passworderror'] = "Ваш пароль відхилено LDAP директорією";
 $messages['title'] = "Self service password";

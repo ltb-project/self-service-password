@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Απαιτείται η καταχώρηση
 $messages['confirmpasswordrequired'] = "Απαιτείται η επιβεβαίωση του νέου σας κωδικού";
 $messages['passwordchanged'] = "Ο κωδικός σας άλλαξε";
 $messages['nomatch'] = "Δεν καταχωρήσατε δύο φορές τον ίδιο νέο κωδικό";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Το όνομα χρήστη ή ο κωδικός είναι λάθος";
 $messages['passworderror'] = "Ο κωδικός δεν έγινε δεκτός από την υπηρεσία καταλόγου";
 $messages['title'] = "Αλλαγή/Ανάκτηση Κωδικού";
