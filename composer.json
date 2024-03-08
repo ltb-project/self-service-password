@@ -1,5 +1,12 @@
 {
     "require": {
-        "ltb-project/ldap": "v0.1.0"
+        "ltb-project/ldap": "v0.1.0",
+        "twbs/bootstrap": "v5.3.2"
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "rm -rf htdocs/vendor/bootstrap",
+            "cp -R vendor/twbs/bootstrap/dist htdocs/vendor/bootstrap"
+        ]
     }
 }
