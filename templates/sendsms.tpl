@@ -55,7 +55,12 @@
 {else}
     {if $show_help}
     <div class="help alert shadow alert-warning">
-        <i class="fa fa-fw fa-info-circle"></i> {$msg_sendsmshelp}
+        <i class="fa fa-fw fa-info-circle"></i>
+        {if $sms_use_ldap}
+            {$msg_sendsmshelpnosms|unescape: "html" nofilter}
+        {else}
+            {$msg_sendsmshelp|unescape: "html" nofilter}
+        {/if}
         {if $attribute_phone_update}
         <br /><i class="fa fa-fw fa-pencil-square-o"></i>
             {$msg_sendsmshelpupdatephone|unescape: "html" nofilter}
@@ -77,13 +82,12 @@
              {include file="captcha.tpl"}
         {/if}
         {if !$sms_use_ldap}
-
-        <div class="form-group">
-          <label for="telephone" class="col-sm-4 control-label">{$msg_phone}</label>
+          <div class="row mb-3">
+          <label for="telephone" class="col-sm-4 col-form-label text-end">{$msg_phone}</label>
             <div class="col-sm-8">
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-envelope-o"></i></span>
-                <input type="text" name="telephone" id="telephone" value="{$telepohne}" class="form-control" placeholder="{$msg_phone}" autocomplete="off" />
+                <span class="input-group-text"><i class="fa fa-fw fa-phone"></i></span>
+                <input type="text" name="phone" id="phone" value="{$phone}" class="form-control" placeholder="{$msg_phone}" autocomplete="off" />
             </div>
           </div>
         </div>
