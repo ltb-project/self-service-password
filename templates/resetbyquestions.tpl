@@ -1,16 +1,16 @@
 {if $prehook_return and $display_prehook_error and $prehook_return > 0}
-    <div class="result alert alert-warning">
+    <div class="result alert shadow alert-warning">
     <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> {$prehook_output[0]}
     </div>
 {/if}
 {if $posthook_return and $display_posthook_error and $posthook_return > 0}
-    <div class="result alert alert-warning">
+    <div class="result alert shadow alert-warning">
     <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> {$posthook_output[0]}
     </div>
 {/if}
 {if $result !== 'passwordchanged'}
     {if $show_help}
-    <div class="help alert alert-warning">
+    <div class="help alert shadow alert-warning">
     <i class="fa fa-fw fa-info-circle"></i> {$msg_resetbyquestionshelp|unescape: "html" nofilter}
     {if $question_populate_enable }
         <br /><i class="fa fa-fw fa-info-circle"></i> {$msg_questionspopulatehint}
@@ -20,7 +20,7 @@
     {if $pwd_show_policy !== "never" and $pwd_show_policy_pos === 'above'}
         {include file="policy.tpl"}
     {/if}
-    <div class="alert alert-info">
+    <div class="alert shadow alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="row mb-3">
             <label for="login" class="col-sm-4 col-form-label text-end">{$msg_login}</label>

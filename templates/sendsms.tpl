@@ -1,6 +1,6 @@
 {if $error_sms and $error_sms == 'smscrypttokensrequired'}
 {elseif $error_sms and $error_sms == 'smsuserfound'}
-    <div class="alert alert-info">
+    <div class="alert shadow alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="row mb-3">
             <label class="col-sm-4 col-form-label text-end">{$msg_userfullname}</label>
@@ -31,7 +31,7 @@
     </form>
     </div>
 {elseif $error_sms and ($error_sms == 'smssent' or $error_sms == 'tokenattempts')}
-    <div class="alert alert-info">
+    <div class="alert shadow alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="row mb-3">
             <label for="smstoken" class="col-sm-4 col-form-label text-end">{$msg_smstoken}</label>
