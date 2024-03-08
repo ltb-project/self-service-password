@@ -31,16 +31,16 @@
 # Debug mode
 # true: log and display any errors or warnings (use this in configuration/testing)
 # false: log only errors and do not display them (use this in production)
-$debug = false;
+$debug = true;
 
 # LDAP
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
-$ldap_binddn = "cn=manager,dc=example,dc=com";
-$ldap_bindpw = 'secret';
+$ldap_binddn = "cn=Manager,dc=venture-brothers,dc=com";
+$ldap_bindpw = 'dirtysecret';
 // for GSSAPI authentication, comment out ldap_bind* and uncomment ldap_krb5ccname lines
 //$ldap_krb5ccname = "/path/to/krb5cc";
-$ldap_base = "dc=example,dc=com";
+$ldap_base = "dc=venture-brothers,dc=com";
 $ldap_login_attribute = "uid";
 $ldap_fullname_attribute = "cn";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
@@ -253,7 +253,7 @@ $mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" )
 # default = false
 $mail_address_use_ldap = false;
 # Who the email should come from
-$mail_from = "admin@example.com";
+$mail_from = "admin@venture-brothers.com";
 $mail_from_name = "Self Service Password";
 $mail_signature = "";
 # Notify users anytime their password is changed
@@ -286,9 +286,13 @@ $use_sms = true;
 # default = false
 $sms_use_ldap = false;
 # SMS method (mail, api)
-$sms_method = "mail";
-$sms_api_lib = "lib/smsapi.inc.php";
-$sms_use_ldap = false;
+$sms_method = "api";
+$sms_api_lib = "lib/smsapi-signal-cli.inc.php";
+$signal_user = '+33630001317';
+$signal_config = '/home/armando/.local/share/signal-cli/';
+$signal_cli = '/home/armando/bin/applications/signal-cli/signal-cli';
+$sms_use_ldap = true;
+
 # GSM number attribute
 $sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 # Partially hide number
@@ -312,7 +316,7 @@ $max_attempts = 3;
 # Encryption, decryption keyphrase, required if $use_tokens = true and $crypt_tokens = true, or $use_sms, or $crypt_answer
 # Please change it to anything long, random and complicated, you do not have to remember it
 # Changing it will also invalidate all previous tokens and SMS codes
-$keyphrase = "secret";
+$keyphrase = "klfjhqskdfhqskdfjhqskljdfhsqlkjdhfqskjdhfqskjh";
 
 # Use attributes update page
 $use_attributes = false;
@@ -373,7 +377,7 @@ $use_restapi = false;
 #$messages['changehelpextramessage'] = NULL;
 
 # Audit
-#$audit_log_file = "/var/log/self-service-password/audit.log";
+$audit_log_file = "/var/log/self-service-password/audit.log";
 
 ## Pre Hook
 # Launch a prehook script before changing password.

@@ -122,6 +122,7 @@
                 }
             ],
             "time": "2023-11-25T22:23:28+00:00"
+<<<<<<< HEAD
         },
         {
             "name": "twbs/bootstrap",
@@ -172,6 +173,8 @@
                 "source": "https://github.com/twbs/bootstrap/tree/v5.3.2"
             },
             "time": "2023-09-14T14:19:27+00:00"
+=======
+>>>>>>> 408b687 (Intermediate commit to rebase)
         }
     ],
     "packages-dev": [],
