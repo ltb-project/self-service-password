@@ -19,7 +19,7 @@
 #
 #==============================================================================
 
-require_once("../lib/LtbAttributeValue_class.php");
+# require_once("../lib/LtbAttributeValue_class.php");
 
 #==============================================================================
 # POST parameters
@@ -39,15 +39,15 @@ $extended_error_msg = "";
 $post = filter_input_array(INPUT_POST);
 
 if(isset($INPUT_REQUEST)) { $request = filter_input_array(INPUT_REQUEST); }
-if (isset($post["confirmapppassword"]) and $post["confirmapppassword"]) { $confirmapppassword = strval($post["confirmapppassword"]); }
+if (isset($post["confirmpassword"]) and $post["confirmpassword"]) { $confirmapppassword = strval($post["confirmpassword"]); }
 else { $result = "confirmpasswordrequired"; }
-if (isset($post["newapppassword"]) and $post["newapppassword"]) { $newapppassword = strval($post["newapppassword"]); }
+if (isset($post["newpassword"]) and $post["newpassword"]) { $newapppassword = strval($post["newpassword"]); }
 else { $result = "newpasswordrequired"; }
-if (isset($post["password"]) and $post["password"]) { $password = strval($post["password"]); }
+if (isset($post["oldpassword"]) and $post["oldpassword"]) { $password = strval($post["oldpassword"]); }
 else { $result = "passwordrequired"; }
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]); }
 else { $result = "loginrequired"; }
-if (! isset($_REQUEST["login"]) and ! isset($post["confirmapppassword"]) and ! isset($post["newapppassword"]) and ! isset($post["password"])) {
+if (! isset($_REQUEST["login"]) and ! isset($post["confirmpassword"]) and ! isset($post["newpassword"]) and ! isset($post["oldpassword"])) {
     $result = "emptychangeform";
 }
 
@@ -62,9 +62,7 @@ if (isset($_GET["appindex"])) {
     }
 }
 
-if ($result === "") {
-    $appconf = $change_apppwd[$appindex];
-}
+$appconf = $change_apppwd[$appindex];
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -302,3 +300,30 @@ if ($result === "passwordchanged") {
         }
     }
 }
+
+#==============================================================================
+# Reuse config-variables and message-variables
+#==============================================================================
+
+$pwd_show_policy_pos = $appconf['pwd_policy_config']['pwd_show_policy_pos'];
+$pwd_show_policy = $appconf['pwd_policy_config']['pwd_show_policy'];
+$pwd_min_length = $appconf['pwd_policy_config']['pwd_min_length'];
+$pwd_max_length = $appconf['pwd_policy_config']['pwd_max_length'];
+$pwd_min_lower = $appconf['pwd_policy_config']['pwd_min_lower'];
+$pwd_min_upper = $appconf['pwd_policy_config']['pwd_min_upper'];
+$pwd_min_digit = $appconf['pwd_policy_config']['pwd_min_digit'];
+$pwd_min_special = $appconf['pwd_policy_config']['pwd_min_special'];
+$pwd_complexity = $appconf['pwd_policy_config']['pwd_complexity'];
+$pwd_diff_last_min_chars = $appconf['pwd_policy_config']['pwd_diff_last_min_chars'];
+$pwd_forbidden_chars = $appconf['pwd_policy_config']['pwd_forbidden_chars'];
+$pwd_no_reuse = $appconf['pwd_policy_config']['pwd_no_reuse'];
+$pwd_diff_login = $appconf['pwd_policy_config']['pwd_diff_login'];
+$pwd_display_entropy = false;
+$pwd_check_entropy = false;
+$pwd_min_entropy = 3;
+$use_pwnedpasswords = $appconf['pwd_policy_config']['use_pwnedpasswords'];
+$pwd_no_special_at_ends = $appconf['pwd_policy_config']['pwd_no_special_at_ends'];
+
+$messages['sameasold'] = $messages['sameasaccountpassword'];
+$messages['policynoreuse'] = $messages['policynoreuseapppwd'];
+
