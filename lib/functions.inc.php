@@ -454,21 +454,19 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
     }
     
     # is same as an app-password?
-    if ($change_apppwd != false) {
-        foreach ( $change_apppwd as $app) {
-            if (isset($app['pwd_policy_config']['pwd_no_reuse']) && $app['pwd_policy_config']['pwd_no_reuse']) {
-                if (array_key_exists($app['attribute'], $entry_array)) {
-                    if ($app['hash'] == 'auto') {
-                        $matches = [];
-                        if ( preg_match( '/^\{(\w+)\}/', $entry_array[$app['attribute']][0], $matches ) ) {
-                            $hash_for_app = strtoupper($matches[1]);
-                        }
-                    } else {
-                        $hash_for_app = $app['hash'];
+    foreach ( $change_apppwd as $app) {
+        if (isset($app['pwd_policy_config']['pwd_no_reuse']) && $app['pwd_policy_config']['pwd_no_reuse']) {
+            if (array_key_exists($app['attribute'], $entry_array)) {
+                if ($app['hash'] == 'auto') {
+                    $matches = [];
+                    if ( preg_match( '/^\{(\w+)\}/', $entry_array[$app['attribute']][0], $matches ) ) {
+                        $hash_for_app = strtoupper($matches[1]);
                     }
-                    if ( check_password($password, $entry_array[$app['attribute']][0], $hash_for_app) ) {
-                        $result = "sameasapppwd";
-                    }
+                } else {
+                    $hash_for_app = $app['hash'];
+                }
+                if ( check_password($password, $entry_array[$app['attribute']][0], $hash_for_app) ) {
+                    $result = "sameasapppwd";
                 }
             }
         }

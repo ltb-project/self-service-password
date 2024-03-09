@@ -173,7 +173,7 @@ if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
-if ( $change_apppwd != false ) { array_push( $available_actions, "changeapppwd"); }
+if ( !empty($change_apppwd) ) { array_push( $available_actions, "changeapppwd"); }
 if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
 if ( $pwd_display_entropy ) { array_push( $available_actions, "checkentropy" ); }
 
@@ -225,11 +225,17 @@ $smarty->assign('use_questions', $use_questions);
 $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
-if($change_apppwd === false) {
-    $smarty->assign('change_apppwd', $change_apppwd);
+if(empty($change_apppwd)) {
+    $smarty->assign('change_apppwd', false);
 } else {
     $change_apppwd_labels = array();
-    for ($i= 0; $i < count($change_apppwd); $i++) {
+    for ($i = 0; $i < count($change_apppwd); $i++) {
+        if (!isset($change_apppwd[$i]['label'])) { 
+            $change_apppwd[$i]['label'] = "app".$i;
+        } # default generic label
+        if (!isset($change_apppwd[$i]['msg_changehelpextramessage'])) { 
+            $change_apppwd[$i]['msg_changehelpextramessage'] = ""; 
+        } # default empty help message
         $change_apppwd_labels[$i] = array();
         $change_apppwd_labels[$i]['label'] = $change_apppwd[$i]['label'];
         $change_apppwd_labels[$i]['msg_changehelpextramessage'] = $change_apppwd[$i]['msg_changehelpextramessage'];

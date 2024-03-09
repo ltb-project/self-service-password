@@ -79,102 +79,181 @@ if ( $newapppassword != $confirmapppassword ) { $result="nomatch"; }
 #==============================================================================
 if ( ( $result === "" ) and $use_captcha ) { $result = global_captcha_check();}
 
+#==============================================================================
+# Default configuration
+#==============================================================================
+if (!isset($appconf['ldap_use_ppolicy_control'])) { 
+    $appconf['ldap_use_ppolicy_control'] = false; 
+} //it is possible to define different password policies for multiple attributes, as far as I know only in OpenLDAP
+if (!isset($appconf['pwd_policy_config'])) { 
+    $appconf['pwd_policy_config'] = array(); 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_show_policy'])) { 
+    $appconf['pwd_policy_config']['pwd_show_policy'] = $pwd_show_policy; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_min_length'])) { 
+    $appconf['pwd_policy_config']['pwd_min_length'] = $pwd_min_length; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_max_length'])) { 
+    $appconf['pwd_policy_config']['pwd_max_length'] = $pwd_max_length; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_min_lower'])) { 
+    $appconf['pwd_policy_config']['pwd_min_lower'] = $pwd_min_lower; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_min_upper'])) { 
+    $appconf['pwd_policy_config']['pwd_min_upper'] = $pwd_min_upper; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_min_digit'])) { 
+    $appconf['pwd_policy_config']['pwd_min_digit'] = $pwd_min_digit; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_min_special'])) { 
+    $appconf['pwd_policy_config']['pwd_min_special'] = $pwd_min_special; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_special_chars'])) { 
+    $appconf['pwd_policy_config']['pwd_special_chars'] = $pwd_special_chars; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_forbidden_chars'])) { 
+    $appconf['pwd_policy_config']['pwd_forbidden_chars'] = ""; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_no_reuse'])) { 
+    $appconf['pwd_policy_config']['pwd_no_reuse'] = $pwd_no_reuse; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_diff_last_min_chars'])) { 
+    $appconf['pwd_policy_config']['pwd_diff_last_min_chars'] = $pwd_diff_last_min_chars; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_diff_login'])) { 
+    $appconf['pwd_policy_config']['pwd_diff_login'] = $pwd_diff_login; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_complexity'])) { 
+    $appconf['pwd_policy_config']['pwd_complexity'] = $pwd_complexity; 
+}
+if (!isset($appconf['pwd_policy_config']['use_pwnedpasswords'])) { 
+    $appconf['pwd_policy_config']['use_pwnedpasswords'] = $use_pwnedpasswords; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_no_special_at_ends'])) { 
+    $appconf['pwd_policy_config']['pwd_no_special_at_ends'] = $pwd_no_special_at_ends; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_forbidden_words'])) { 
+    $appconf['pwd_policy_config']['pwd_forbidden_words'] = $pwd_forbidden_words; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_forbidden_ldap_fields'])) { 
+    $appconf['pwd_policy_config']['pwd_forbidden_ldap_fields'] = $pwd_forbidden_ldap_fields; 
+}
+if (!isset($appconf['pwd_policy_config']['pwd_show_policy_pos'])) { 
+    $appconf['pwd_policy_config']['pwd_show_policy_pos'] = $pwd_show_policy_pos; 
+}
+if (!isset($appconf['who_change_password'])) { 
+    $appconf['who_change_password'] = $who_change_password; 
+}
+if (!isset($appconf['msg_changehelpextramessage'])) { 
+    $appconf['msg_changehelpextramessage'] = ""; 
+}
+if (!isset($appconf['notify_on_change'])) { 
+    $appconf['notify_on_change'] = $notify_on_change; 
+}
+if (!isset($appconf['hash_options'])) { 
+    $appconf['hash_options'] = $hash_options; 
+}
+if (!isset($appconf['msg_passwordchangedextramessage'])) { 
+    $appconf['msg_passwordchangedextramessage'] = ""; 
+}
+if (!isset($appconf['samba_mode'])) { 
+    $appconf['samba_mode'] = false; 
+}
+if (!isset($appconf['samba_options'])) { 
+    $appconf['samba_options'] = array(); 
+}
+if (!isset($appconf['shadow_options'])) { 
+    $appconf['shadow_options'] = array(); 
+}
+if (!isset($appconf['shadow_options']['update_shadowLastChange'])) { 
+    $appconf['sha$dow_options']['update_shadowLastChange'] = false; 
+}
+if (!isset($appconf['shadow_options']['update_shadowExpire'])) { 
+    $appconf['shadow_options']['update_shadowExpire'] = false; 
+}
+if (!isset($appconf['shadow_options']['shadow_expire_days'])) { 
+    $appconf['shadow_options']['shadow_expire_days'] = -1; 
+}
+
+#==============================================================================
 # Check password
+#==============================================================================
 if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap = ldap_connect($ldap_url);
-    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    if ( $ldap_starttls && !ldap_start_tls($ldap) ) {
-        $result = "ldaperror";
-        error_log("LDAP - Unable to use StartTLS");
-    } else {
+    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
 
-        # Bind
-        if ( isset($ldap_binddn) && isset($ldap_bindpw) ) {
-            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-        } elseif ( isset($ldap_krb5ccname) ) {
-            putenv("KRB5CCNAME=".$ldap_krb5ccname);
-            $bind = ldap_sasl_bind($ldap, NULL, NULL, 'GSSAPI') or error_log('Failed to GSSAPI bind.');
-        } else {
-            $bind = ldap_bind($ldap);
-        }
+    $ldap = $ldap_connection[0];
+    $result = $ldap_connection[1];
 
-        if ( !$bind ) {
+    if ($ldap) {
+
+        # Search for user
+        $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+        $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
             $result = "ldaperror";
-            $errno = ldap_errno($ldap);
-            if ( $errno ) {
-                error_log("LDAP - Bind error $errno  (".ldap_error($ldap).")");
-            }
+            error_log("LDAP - Search error $errno  (".ldap_error($ldap).")");
         } else {
 
-            # Search for user
-            $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-            $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+            # Get user DN
+            $entry = ldap_first_entry($ldap, $search);
 
-            $errno = ldap_errno($ldap);
-            if ( $errno ) {
-                $result = "ldaperror";
-                error_log("LDAP - Search error $errno  (".ldap_error($ldap).")");
+            if( !$entry ) {
+                $result = "badcredentials";
+                error_log("LDAP - User $login not found");
             } else {
+                # Get user email for notification
+                if ($appconf['notify_on_change']) {
+                    $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+                }
 
-                # Get user DN
-                $entry = ldap_first_entry($ldap, $search);
+                $userdn = ldap_get_dn($ldap, $entry);
+                $entry_array = ldap_get_attributes($ldap, $entry);
+                $entry_array['dn'] = $userdn;
 
-                if( !$entry ) {
+                # Bind with current password
+                $bind = ldap_bind($ldap, $userdn, $password);
+                if ( !$bind ) {
                     $result = "badcredentials";
-                    error_log("LDAP - User $login not found");
-                } else {
-                    # Get user email for notification
-                    if ($appconf['notify_on_change']) {
-                        $mail = LtbAttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+                    $errno = ldap_errno($ldap);
+                    if ( $errno ) {
+                        error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
                     }
-
-                    $userdn = ldap_get_dn($ldap, $entry);
-                    $entry_array = ldap_get_attributes($ldap, $entry);
-                    $entry_array['dn'] = $userdn;
-
-                    # Bind with current password
-                    $bind = ldap_bind($ldap, $userdn, $password);
-                    if ( !$bind ) {
-                        $result = "badcredentials";
-                        $errno = ldap_errno($ldap);
-                        if ( $errno ) {
-                            error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
-                        }
-                        if ( ($errno == 49) && $ad_mode ) {
-                            if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
-                                error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
-                                $extended_error = explode(', ', $extended_error);
-                                if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
-                                    error_log("LDAP - Bind user password needs to be changed");
-                                    $result = "accountexpired";
-                                }
-                                if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
-                                    error_log("LDAP - Bind user password is expired");
-                                    $result = "accountexpired";
-                                }
-                                unset($extended_error);
+                    if ( ($errno == 49) && $ad_mode ) {
+                        if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
+                            error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
+                            $extended_error = explode(', ', $extended_error);
+                            if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
+                                error_log("LDAP - Bind user password needs to be changed");
+                                $result = "accountexpired";
                             }
-                        }
-                    }
-                    if ( $result === "" )  {
-                        # Rebind as Manager if needed
-                        if ( $appconf['who_change_password'] == "manager" ) {
-                            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+                            if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
+                                error_log("LDAP - Bind user password is expired");
+                                $result = "accountexpired";
+                            }
+                            unset($extended_error);
                         }
                     }
                 }
-
-                if ( $use_ratelimit ) {
-                    if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
-                        $result = "throttle";
-                        error_log("LDAP - User $login too fast");
+                if ( $result === "" )  {
+                    # Rebind as Manager if needed
+                    if ( $appconf['who_change_password'] == "manager" ) {
+                        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
                     }
                 }
-
             }
+
+            if ( $use_ratelimit ) {
+                if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+                    $result = "throttle";
+                    error_log("LDAP - User $login too fast");
+                }
+            }
+
         }
     }
 }
