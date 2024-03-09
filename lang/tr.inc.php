@@ -168,3 +168,5 @@ $messages['setattributeshelp'] = "Parolanızı sıfırlamak için kullanılan bi
 $messages['phone'] = "Telefon numarası";
 $messages['sendtokenhelpupdatemail'] = "E-posta adresinizi <a href=\"?action=setattributes\">bu sayfada</a> güncelleyebilirsiniz.";
 $messages['sendsmshelpupdatephone'] = "Telefon numaranızı <a href=\"?action=setattributes\">bu sayfada</a> güncelleyebilirsiniz.";
+$messages['sameasaccountpassword'] = "Your new password is identical to your login password";
+$messages['policynoreuseapppwd'] = "Your new password may not be the same as your login password";

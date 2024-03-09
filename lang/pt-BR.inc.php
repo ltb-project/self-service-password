@@ -168,3 +168,5 @@ $messages['setattributeshelp'] = "Você pode atualizar as informações usadas p
 $messages['phone'] = "Número de telefone";
 $messages['sendtokenhelpupdatemail'] = "Você pode atualizar seu endereço de email <a href=\"?action=setattributes\">nesta página</a>.";
 $messages['sendsmshelpupdatephone'] = "Você pode atualizar seu número de telefone <a href=\"?action=setattributes\">nesta página</a>.";
+$messages['sameasaccountpassword'] = "Your new password is identical to your login password";
+$messages['policynoreuseapppwd'] = "Your new password may not be the same as your login password";
