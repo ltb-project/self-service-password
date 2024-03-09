@@ -3,7 +3,7 @@
 #==============================================================================
 # Version
 #==============================================================================
-$version = "1.5.3";
+$version = "1.6.0";
 
 #==============================================================================
 # Configuration
@@ -13,6 +13,7 @@ require_once("../conf/config.inc.php");
 #==============================================================================
 # Includes
 #==============================================================================
+require_once("../vendor/autoload.php");
 require_once("../lib/vendor/defuse-crypto.phar");
 require_once("../lib/vendor/autoload.php");
 require_once("../lib/functions.inc.php");
@@ -37,7 +38,7 @@ require_once("../lib/detectbrowserlanguage.php");
 $files = glob("../lang/*.php");
 $languages = str_replace(".inc.php", "", $files);
 $languages = str_replace("../lang/", "", $languages);
-$lang = detectLanguage($lang, $languages);
+$lang = detectLanguage($lang, array_intersect($languages,$allowed_lang));
 require_once("../lang/$lang.inc.php");
 
 # Remove default questions
@@ -80,7 +81,6 @@ if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxm
 
 # Check keyphrase setting
 if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
-
 
 #==============================================================================
 # Email Config
@@ -136,7 +136,10 @@ $pwd_policy_config = array(
     "use_pwnedpasswords"        => $use_pwnedpasswords,
     "pwd_no_special_at_ends"    => $pwd_no_special_at_ends,
     "pwd_forbidden_words"       => $pwd_forbidden_words,
-    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields
+    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields,
+    "pwd_display_entropy"       => $pwd_display_entropy,
+    "pwd_check_entropy"         => $pwd_check_entropy,
+    "pwd_min_entropy"           => $pwd_min_entropy
 );
 
 
@@ -151,6 +154,9 @@ $rrl_config = array(
     "dbdir"        => isset($ratelimit_dbdir) ? $ratelimit_dbdir : sys_get_temp_dir(),
     "filter_by_ip" => isset($ratelimit_filter_by_ip_jsonfile) ? $ratelimit_filter_by_ip_jsonfile : ""
 );
+
+# Preset login with login_hint
+if (isset($_REQUEST["login_hint"]) and $_REQUEST["login_hint"]) { $presetLogin = strval($_REQUEST["login_hint"]); }
 
 #==============================================================================
 # Route to action
@@ -168,11 +174,21 @@ if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "set
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 if ( $change_apppwd != false ) { array_push( $available_actions, "changeapppwd"); }
+if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
+if ( $pwd_display_entropy ) { array_push( $available_actions, "checkentropy" ); }
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
 if (file_exists($action.".php")) { require_once($action.".php"); }
+
+#==============================================================================
+# Audit
+#==============================================================================
+if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
+    require_once("../lib/audit.inc.php");
+    auditlog($audit_log_file, $userdn, $login, $action, $result);
+}
 
 #==============================================================================
 # Smarty
@@ -251,8 +267,34 @@ if (isset($pwd_show_policy_pos)) {
     if (isset($pwd_forbidden_chars)) { $smarty->assign('pwd_forbidden_chars', $pwd_forbidden_chars); }
     if (isset($pwd_no_reuse)) { $smarty->assign('pwd_no_reuse', $pwd_no_reuse); }
     if (isset($pwd_diff_login)) { $smarty->assign('pwd_diff_login', $pwd_diff_login); }
+    if (isset($pwd_display_entropy)) { $smarty->assign('pwd_display_entropy', $pwd_display_entropy); }
+    if (isset($pwd_check_entropy)) { $smarty->assign('pwd_check_entropy', $pwd_check_entropy); }
+    if (isset($pwd_min_entropy)) { $smarty->assign('pwd_min_entropy', $pwd_min_entropy); }
     if (isset($use_pwnedpasswords)) { $smarty->assign('use_pwnedpasswords', $use_pwnedpasswords); }
     if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
+
+    // send policy to a JSON object usable in javascript (window.policy.[parameter])
+    $smarty->assign('json_policy', base64_encode(json_encode(
+                                                array(
+                                                  "pwd_min_length" => $pwd_min_length,
+                                                  "pwd_max_length" => $pwd_max_length,
+                                                  "pwd_min_lower" => $pwd_min_lower,
+                                                  "pwd_min_upper" => $pwd_min_upper,
+                                                  "pwd_min_digit" => $pwd_min_digit,
+                                                  "pwd_min_special" => $pwd_min_special,
+                                                  "pwd_complexity" => $pwd_complexity,
+                                                  "pwd_diff_last_min_chars" => $pwd_diff_last_min_chars,
+                                                  "pwd_forbidden_chars" => $pwd_forbidden_chars,
+                                                  "pwd_no_reuse" => $pwd_no_reuse,
+                                                  "pwd_diff_login" => $pwd_diff_login,
+                                                  "pwd_display_entropy" => $pwd_display_entropy,
+                                                  "pwd_check_entropy" => $pwd_check_entropy,
+                                                  "pwd_min_entropy" => $pwd_min_entropy,
+                                                  "use_pwnedpasswords" => $use_pwnedpasswords,
+                                                  "pwd_no_special_at_ends" => $pwd_no_special_at_ends,
+                                                  "pwd_special_chars" => $pwd_special_chars
+                                                )
+                                              )));
 }
 
 if (isset($appindex)) {
@@ -305,6 +347,9 @@ if (isset($display_posthook_error)) { $smarty->assign('display_posthook_error', 
 if (isset($show_extended_error)) { $smarty->assign('show_extended_error', $show_extended_error); }
 if (isset($extended_error_msg)) { $smarty->assign('extended_error_msg', $extended_error_msg); }
 //if (isset($var)) { $smarty->assign('var', $var); }
+
+if (isset($use_attributes) && $use_attributes && isset($attribute_mail)) { $smarty->assign('attribute_mail_update', true); }
+if (isset($use_attributes) && $use_attributes && isset($attribute_phone)) { $smarty->assign('attribute_phone_update', true); }
 
 # Assign messages
 $smarty->assign('lang',$lang);

@@ -19,6 +19,31 @@
 #
 #==============================================================================
 
+/*
+  Pre-requisites: install zxcvbn library
+
+  Make sure to have this in composer.json:
+
+    "require": {
+        "bjeavons/zxcvbn-php": "^1.0"
+    }
+
+  and run: composer update
+
+*/
+
+require_once __DIR__ . '/../vendor/autoload.php';
+use ZxcvbnPhp\Zxcvbn;
+
+try{
+  $zxcvbn = new Zxcvbn();
+  error_log("Module Zxcvbn successfully loaded");
+}
+catch(Throwable $e){
+  error_log("Could not load Zxcvbn module: ".$e);
+  exit(1);
+}
+
 # Create SSHA password
 function make_ssha_password($password) {
     $salt = random_bytes(4);
@@ -294,7 +319,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|unknownapp|sameasapppwd/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy|unknownapp|sameasapppwd/" , $msg ) ) {
     return "danger";
     }
 
@@ -314,49 +339,6 @@ function get_fa_class( $msg) {
     if ( $criticity === "warning" ) { return "fa-exclamation-triangle"; }
     if ( $criticity === "success" ) { return "fa-check-square"; }
 
-}
-
-# Display policy bloc
-# @return HTML code
-function show_policy( $messages, $pwd_policy_config, $result ) {
-    extract( $pwd_policy_config );
-
-    # Should we display it?
-    if ( !$pwd_show_policy or $pwd_show_policy === "never" ) { return; }
-    if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned||specialatendsforbiddenwords|forbiddenldapfields/" , $result) ) { return; }
-    }
-
-    # Display bloc
-    echo "<div class=\"help alert alert-warning\">\n";
-    echo "<p>".$messages["policy"]."</p>\n";
-    echo "<ul>\n";
-    if ( $pwd_min_length      ) { echo "<li>".$messages["policyminlength"]      ." $pwd_min_length</li>\n"; }
-    if ( $pwd_max_length      ) { echo "<li>".$messages["policymaxlength"]      ." $pwd_max_length</li>\n"; }
-    if ( $pwd_min_lower       ) { echo "<li>".$messages["policyminlower"]       ." $pwd_min_lower</li>\n"; }
-    if ( $pwd_min_upper       ) { echo "<li>".$messages["policyminupper"]       ." $pwd_min_upper</li>\n"; }
-    if ( $pwd_min_digit       ) { echo "<li>".$messages["policymindigit"]       ." $pwd_min_digit</li>\n"; }
-    if ( $pwd_min_special     ) { echo "<li>".$messages["policyminspecial"]     ." $pwd_min_special</li>\n"; }
-    if ( $pwd_complexity      ) { echo "<li>".$messages["policycomplex"]        ." $pwd_complexity</li>\n"; }
-    if ( $pwd_forbidden_chars ) { echo "<li>".$messages["policyforbiddenchars"] ." $pwd_forbidden_chars</li>\n"; }
-    if ( $pwd_no_reuse        ) { echo "<li>".$messages["policynoreuse"]                                 ."</li>\n"; }
-    if ( $pwd_diff_last_min_chars ) { echo "<li>".$messages['policydiffminchars']." $pwd_diff_last_min_chars</li>\n"; }
-    if ( $pwd_diff_login      ) { echo "<li>".$messages["policydifflogin"]                               ."</li>\n"; }
-    if ( $use_pwnedpasswords  ) { echo "<li>".$messages["policypwned"]                               ."</li>\n"; }
-    if ( $pwd_no_special_at_ends  ) { echo "<li>".$messages["policyspecialatends"] ."</li>\n"; }
-    if ( !empty($pwd_forbidden_words)) { echo "<li>".$messages["policyforbiddenwords"] ." " . implode(', ', $pwd_forbidden_words) ."</li>\n"; }
-    if ( !empty($pwd_forbidden_ldap_fields)) {
-        $pwd_forbidden_ldap_fields = array_map(
-            function($field) use ($messages) {
-                if (empty($messages['ldap_' . $field])) {
-                    return $field;
-                }
-               return $messages['ldap_' . $field];
-            }, $pwd_forbidden_ldap_fields);
-        echo "<li>".$messages["policyforbiddenldapfields"] ." " . implode(', ', $pwd_forbidden_ldap_fields) ."</li>\n";
-    }
-    echo "</ul>\n";
-    echo "</div>\n";
 }
 
 # Check password strength
@@ -497,6 +479,38 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         $pwned_passwords = new PwnedPasswords\PwnedPasswords;
         $insecure = $pwned_passwords->isPwned($password);
         if ($insecure) { $result="pwned"; }
+    }
+
+
+    # check entropy
+    $zxcvbn = new Zxcvbn();
+    if( isset($pwd_check_entropy) && $pwd_check_entropy == true )
+    {
+        if( isset($pwd_min_entropy) && is_int($pwd_min_entropy) )
+        {
+            // force encoding to utf8, as iso-8859-1 is not supported by zxcvbn
+            //$password = mb_convert_encoding($p, 'UTF-8', 'ISO-8859-1');
+            error_log("checkEntropy: password taken directly");
+            $entropy = $zxcvbn->passwordStrength("$password");
+            $entropy_level = intval($entropy["score"]);
+            $entropy_message = $entropy['feedback']['warning'] ? strval($entropy['feedback']['warning']) : "";
+            error_log( "checkEntropy: level $entropy_level msg: $entropy_message" );
+            if( is_int($entropy_level) && $entropy_level >= $pwd_min_entropy )
+            {
+                ; // password etropy check ok
+            }
+            else
+            {
+                error_log("checkEntropy: insufficient entropy: level = $entropy_level but minimal required = $pwd_min_entropy");
+                $result="insufficiententropy";
+            }
+        }
+        else
+        {
+            error_log("checkEntropy: missing required parameter pwd_min_entropy");
+            $result="insufficiententropy";
+        }
+
     }
 
     return $result;

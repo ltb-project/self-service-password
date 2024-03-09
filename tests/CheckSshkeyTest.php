@@ -1,6 +1,6 @@
 <?php
 
-class CheckSshkeyTest extends \PHPUnit_Framework_TestCase
+class CheckSshkeyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test check_sshkey function
@@ -8,7 +8,7 @@ class CheckSshkeyTest extends \PHPUnit_Framework_TestCase
     public function testCheckSshkeyValidity()
     {
         # Load functions
-        require_once("lib/functions.inc.php");
+        require_once __DIR__ . '/../lib/functions.inc.php';
 
         # Valid SSH Keys Configuration
         $ssh_valid_key_types = array('ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519');

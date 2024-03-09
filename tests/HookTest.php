@@ -1,11 +1,11 @@
 <?php
 
-class HookTest extends \PHPUnit_Framework_TestCase
+class HookTest extends \PHPUnit\Framework\TestCase
 {
     public function testCommand()
     {
         # Load functions
-        require_once("lib/functions.inc.php");
+        require_once __DIR__ . '/../lib/functions.inc.php';
 
         $login = "jdoe";
         $newpassword = "jane";
@@ -20,7 +20,7 @@ class HookTest extends \PHPUnit_Framework_TestCase
     public function testCommandWithSpecialCharacters()
     {
         # Load functions
-        require_once("lib/functions.inc.php");
+        require_once __DIR__ . '/../lib/functions.inc.php';
         setlocale(LC_CTYPE, "en_US.UTF-8");
 
         $login = "jdoé";

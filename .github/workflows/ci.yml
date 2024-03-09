@@ -1,0 +1,23 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      uses: php-actions/composer@v6
+      with:
+        php_version: 7.4
+        command: update
+        php_extensions: ldap
+    - name: PHPUnit Tests for php7.4
+      uses: php-actions/phpunit@v3
+      with:
+        configuration: tests/phpunit.xml
+        version: 5.7.25
+        php_version: 7.4
+        args: --coverage-text

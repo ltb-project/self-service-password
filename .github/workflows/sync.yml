@@ -22,5 +22,5 @@ jobs:
         run: |
           git checkout master
           git pull --rebase
-          git merge 1.5 --ff-only
+          git merge 1.5
           git push

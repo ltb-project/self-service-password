@@ -1,5 +1,4 @@
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"></head><body><pre>&lt;?php
+<?php
 #==============================================================================
 # LTB Self Service Password
 #
@@ -37,6 +36,7 @@ $messages['newpasswordrequired'] = "Cal la contrasenya actual";
 $messages['confirmpasswordrequired'] = "Si us plau, confirmeu la contrasenya nova";
 $messages['passwordchanged'] = "La seva contrasenya ha canviat";
 $messages['nomatch'] = "Les contrasenyes no són iguals";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "El nom d'usuari o la contrasenya són incorrectes";
 $messages['passworderror'] = "El servidor ha refusat la contrasenya";
 $messages['title'] = "Autoservei de canvi de contrasenyes";
@@ -150,6 +150,7 @@ $messages['forbiddenwords'] = "La vostra contrasenya contenen paraules o cadenes
 $messages['policyforbiddenwords'] = "La vostra contrasenya no pot contenir:";
 $messages['forbiddenldapfields'] = "La vostra contrasenya conté valors de camps d'LDAP";
 $messages['policyforbiddenldapfields'] = "La vostra contrasenya no pot contenir valors dels següents camps d'LDAP:";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "Nom de pila";
 $messages['ldap_givenName'] = "Nom complet";
 $messages['ldap_sn'] = "Cognom";
@@ -165,3 +166,11 @@ $messages['confirmapppassword'] = "confirm App-Password";
 $messages['menuapppwd'] = "Password for ";
 $messages['unknownapp'] = "The application specified in the link cannot be found";
 $messages['sameasapppwd'] = "The new password is the same as that of an app!";
+$messages['invalidsshkey'] = "Input SSH Key looks invalid";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";
+$messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
+

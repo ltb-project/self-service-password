@@ -11,6 +11,7 @@ require_once("../../conf/config.inc.php");
 require_once("../../lib/vendor/defuse-crypto.phar");
 require_once("../../lib/functions.inc.php");
 require_once("../../lib/vendor/autoload.php");
+require_once("../../vendor/autoload.php");
 
 #==============================================================================
 # VARIABLES
@@ -121,7 +122,10 @@ $pwd_policy_config = array(
     "use_pwnedpasswords"        => $use_pwnedpasswords,
     "pwd_no_special_at_ends"    => $pwd_no_special_at_ends,
     "pwd_forbidden_words"       => $pwd_forbidden_words,
-    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields
+    "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields,
+    "pwd_display_entropy"       => $pwd_display_entropy,
+    "pwd_check_entropy"         => $pwd_check_entropy,
+    "pwd_min_entropy"           => $pwd_min_entropy
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }

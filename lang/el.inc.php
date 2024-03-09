@@ -33,6 +33,7 @@ $messages['newpasswordrequired'] = "Απαιτείται η καταχώρηση
 $messages['confirmpasswordrequired'] = "Απαιτείται η επιβεβαίωση του νέου σας κωδικού";
 $messages['passwordchanged'] = "Ο κωδικός σας άλλαξε";
 $messages['nomatch'] = "Δεν καταχωρήσατε δύο φορές τον ίδιο νέο κωδικό";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "Το όνομα χρήστη ή ο κωδικός είναι λάθος";
 $messages['passworderror'] = "Ο κωδικός δεν έγινε δεκτός από την υπηρεσία καταλόγου";
 $messages['title'] = "Αλλαγή/Ανάκτηση Κωδικού";
@@ -145,6 +146,7 @@ $messages['forbiddenwords'] = "Your passwords contains forbidden words or string
 $messages['policyforbiddenwords'] = "Your password must not contain:";
 $messages['forbiddenldapfields'] = "Your password contains values from your LDAP entry";
 $messages['policyforbiddenldapfields'] = "Your password may not contain values from the following LDAP fields:";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
@@ -160,3 +162,9 @@ $messages['confirmapppassword'] = "confirm App-Password";
 $messages['menuapppwd'] = "Password for ";
 $messages['unknownapp'] = "The application specified in the link cannot be found";
 $messages['sameasapppwd'] = "The new password is the same as that of an app!";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";
+$messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";

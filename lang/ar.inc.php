@@ -34,6 +34,7 @@ $messages['confirmpasswordrequired'] = "يرجى تأكيد كلمة السر ا
 $messages['passwordchanged'] = "تم تغيير كلمة السر الخاصة بك";
 $messages['sshkeychanged'] = "الخاص بك SSH تم تغيير مفتاح";
 $messages['nomatch'] = "كلمات السر غير متطابقة";
+$messages['insufficiententropy'] = "Insufficient entropy for new password";
 $messages['badcredentials'] = "اسم المستخدم أو كلمة السر غير صحيحة";
 $messages['passworderror'] = "LDAP تم رفض كلمة السر من طرف دليل";
 $messages['sshkeyerror'] = "LDAP من طرف دليل SSH تم رفض مفتاح";
@@ -145,6 +146,7 @@ $messages['forbiddenwords'] = "تحتوي كلمات السر الخاصة بك 
 $messages['policyforbiddenwords'] = ":يجب ألا تحتوي كلمة السر الخاصة بك على ";
 $messages['forbiddenldapfields'] = "الخاص بك LDAP تحتوي كلمة السر الخاصة بك على قيم من حقول";
 $messages['policyforbiddenldapfields'] = ": التالية LDAP يجب أن لا تحتوي كلمة السر الخاصة بك على قيم من حقول";
+$messages['policyentropy'] = "Password strength";
 $messages['ldap_cn'] = "الإسم الكامل";
 $messages['ldap_givenName'] = "الإسم الشخصي";
 $messages['ldap_sn'] = "الإسم العائلي";
@@ -160,3 +162,10 @@ $messages['confirmapppassword'] = "confirm App-Password";
 $messages['menuapppwd'] = "Password for ";
 $messages['unknownapp'] = "The application specified in the link cannot be found";
 $messages['sameasapppwd'] = "The new password is the same as that of an app!";
+$messages['attributesmoderror'] = "Your information have not been updated";
+$messages['attributeschanged'] = "Your information have been updated";
+$messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and passwird and set your new details.";
+$messages['phone'] = "Telephone number";
+$messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
+
