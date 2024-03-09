@@ -166,7 +166,7 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
                 "pwd_min_entropy"          => 3
             );
 
-            $this->assertEquals("insufficiententropy", check_password_strength( "secret", $oldpassword, $pwd_policy_config, $login, array() ) );
+            $this->assertEquals("insufficiententropy", check_password_strength( "secret", $oldpassword, $pwd_policy_config, $login, array(), array() ) );
         }
 
     }
@@ -208,7 +208,7 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
                 "pwd_min_entropy"          => 3
             );
 
-            $this->assertEquals("", check_password_strength( "Th!Sis@Str0ngP@ss0rd", $oldpassword, $pwd_policy_config, $login, array() ) );
+            $this->assertEquals("", check_password_strength( "Th!Sis@Str0ngP@ss0rd", $oldpassword, $pwd_policy_config, $login, array(), array() ) );
         }
 
     }
