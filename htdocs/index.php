@@ -230,14 +230,14 @@ if(empty($change_custompwdfield)) {
 } else {
     $change_custompwdfield_labels = array();
     for ($i = 0; $i < count($change_custompwdfield); $i++) {
+        $change_custompwdfield_labels[$i] = array();
         if (!isset($change_custompwdfield[$i]['label'])) { 
             $change_custompwdfield[$i]['label'] = "Custom Password ".$i;
         } # default generic label
         if (!isset($change_custompwdfield[$i]['msg_changehelpextramessage'])) { 
             $change_custompwdfield[$i]['msg_changehelpextramessage'] = ""; 
         } # default empty help message
-        $change_custompwdfield_labels[$i] = array();
-        $change_custompwdfieldpwd_labels[$i]['label'] = $change_custompwdfield[$i]['label'];
+        $change_custompwdfield_labels[$i]['label'] = $change_custompwdfield[$i]['label'];
         $change_custompwdfield_labels[$i]['msg_changehelpextramessage'] = $change_custompwdfield[$i]['msg_changehelpextramessage'];
     }
     $smarty->assign('change_custompwdfield', $change_custompwdfield_labels);

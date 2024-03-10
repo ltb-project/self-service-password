@@ -326,7 +326,8 @@ $pwd_no_special_at_ends = $custompwdfield['pwd_policy_config']['pwd_no_special_a
 $messages['sameasold'] = $messages['sameasaccountpassword'];
 $messages['policynoreuse'] = $messages['policynoreusecustompwdfield'];
 if (!isset($custompwdfield['label'])) { 
-    $custompwdfield['label'] = "Custom Password ".$i;
-} # default generic label
-$messages['changehelpcustompwdfield'] = $messages['changehelpcustompwdfield'].$custompwdfield['label']
+    $messages['newcustompassword'] = $messages['changehelpcustompwdfield']."custom password"; # default generic label
+} else {
+    $messages['newcustompassword'] = $messages['changehelpcustompwdfield'].$custompwdfield['label'];
+}
 
