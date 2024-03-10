@@ -173,7 +173,7 @@ if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
 if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
 if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
-if ( !empty($change_apppwd) ) { array_push( $available_actions, "changeapppwd"); }
+if ( !empty($change_custompwdfield) ) { array_push( $available_actions, "changecustompwdfield"); }
 if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
 if ( $pwd_display_entropy ) { array_push( $available_actions, "checkentropy" ); }
 
@@ -225,22 +225,22 @@ $smarty->assign('use_questions', $use_questions);
 $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
-if(empty($change_apppwd)) {
-    $smarty->assign('change_apppwd', false);
+if(empty($change_custompwdfield)) {
+    $smarty->assign('change_custompwdfield', false);
 } else {
-    $change_apppwd_labels = array();
-    for ($i = 0; $i < count($change_apppwd); $i++) {
-        if (!isset($change_apppwd[$i]['label'])) { 
-            $change_apppwd[$i]['label'] = "app".$i;
+    $change_custompwdfield_labels = array();
+    for ($i = 0; $i < count($change_custompwdfield); $i++) {
+        if (!isset($change_custompwdfield[$i]['label'])) { 
+            $change_custompwdfield[$i]['label'] = "Custom Password ".$i;
         } # default generic label
-        if (!isset($change_apppwd[$i]['msg_changehelpextramessage'])) { 
-            $change_apppwd[$i]['msg_changehelpextramessage'] = ""; 
+        if (!isset($change_custompwdfield[$i]['msg_changehelpextramessage'])) { 
+            $change_custompwdfield[$i]['msg_changehelpextramessage'] = ""; 
         } # default empty help message
-        $change_apppwd_labels[$i] = array();
-        $change_apppwd_labels[$i]['label'] = $change_apppwd[$i]['label'];
-        $change_apppwd_labels[$i]['msg_changehelpextramessage'] = $change_apppwd[$i]['msg_changehelpextramessage'];
+        $change_custompwdfield_labels[$i] = array();
+        $change_custompwdfieldpwd_labels[$i]['label'] = $change_custompwdfield[$i]['label'];
+        $change_custompwdfield_labels[$i]['msg_changehelpextramessage'] = $change_custompwdfield[$i]['msg_changehelpextramessage'];
     }
-    $smarty->assign('change_apppwd', $change_apppwd_labels);
+    $smarty->assign('change_custompwdfield', $change_custompwdfield_labels);
 }
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('default_action', $default_action);
@@ -303,9 +303,9 @@ if (isset($pwd_show_policy_pos)) {
                                               )));
 }
 
-if (isset($appindex)) {
-    $smarty->assign('appindex', $appindex);
-    if (isset($change_apppwd[$appindex]['msg_passwordchangedextramessage'])) { $smarty->assign('msg_passwordchangedextramessage', $change_apppwd[$appindex]['msg_passwordchangedextramessage']); }
+if (isset($custompwdindex)) {
+    $smarty->assign('custompwdindex', $custompwdindex);
+    if (isset($change_custompwdfield[$custompwdindex]['msg_passwordchangedextramessage'])) { $smarty->assign('msg_passwordchangedextramessage', $change_custompwdfield[$custompwdindex]['msg_passwordchangedextramessage']); }
 }
 // TODO : Make it clean function show_policy - END
 if (isset($smsdisplay)) { $smarty->assign('smsdisplay', $smsdisplay); }

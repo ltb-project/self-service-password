@@ -319,7 +319,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy|unknownapp|sameasapppwd/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy|unknowncustompwdfield|sameascustompwd/" , $msg ) ) {
     return "danger";
     }
 
@@ -344,7 +344,7 @@ function get_fa_class( $msg) {
 # Check password strength
 # @param array entry_array ldap entry ( ie not resource or LDAP\Result )
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_apppwd ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield ) {
     extract( $pwd_policy_config );
 
     $result = "";
@@ -453,20 +453,20 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         }
     }
     
-    # is same as an app-password?
-    foreach ( $change_apppwd as $app) {
-        if (isset($app['pwd_policy_config']['pwd_no_reuse']) && $app['pwd_policy_config']['pwd_no_reuse']) {
-            if (array_key_exists($app['attribute'], $entry_array)) {
-                if ($app['hash'] == 'auto') {
+    # is same as a custom password?
+    foreach ( $change_custompwdfield as $custompwdfield) {
+        if (isset($custompwdfield['pwd_policy_config']['pwd_no_reuse']) && $custompwdfield['pwd_policy_config']['pwd_no_reuse']) {
+            if (array_key_exists($custompwdfield['attribute'], $entry_array)) {
+                if ($custompwdfield['hash'] == 'auto') {
                     $matches = [];
-                    if ( preg_match( '/^\{(\w+)\}/', $entry_array[$app['attribute']][0], $matches ) ) {
-                        $hash_for_app = strtoupper($matches[1]);
+                    if ( preg_match( '/^\{(\w+)\}/', $entry_array[$custompwdfield['attribute']][0], $matches ) ) {
+                        $hash_for_custom_pwd = strtoupper($matches[1]);
                     }
                 } else {
-                    $hash_for_app = $app['hash'];
+                    $hash_for_custom_pwd = $custompwdfield['hash'];
                 }
-                if ( check_password($password, $entry_array[$app['attribute']][0], $hash_for_app) ) {
-                    $result = "sameasapppwd";
+                if ( check_password($password, $entry_array[$custompwdfield['attribute']][0], $hash_for_custom_pwd) ) {
+                    $result = "sameascustompwd";
                 }
             }
         }
@@ -516,7 +516,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control, $app_mode, $app_attribute ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control, $custom_pwd_field_mode, $custom_pwd_attribute ) {
 
     $result = "";
     $error_code = "";
@@ -525,8 +525,8 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
     $time = time();
     
-    if ( $app_mode ) {
-        $pwd_attribute = $app_attribute;
+    if ( $custom_pwd_field_mode ) {
+        $pwd_attribute = $custom_pwd_attribute;
     } else {
         $pwd_attribute = "userPassword";
     }

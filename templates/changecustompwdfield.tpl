@@ -9,12 +9,12 @@
     </div>
 {/if}
 {if $result !== "passwordchanged"}
-    {if $result !== "unknownapp"}
+    {if $result !== "unknowncustompwdfield"}
         {if $show_help }
             <div class="result alert shadow alert-warning">
-            <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changeapppwdhelp}
-            {if $change_apppwd[$appindex]['msg_changehelpextramessage']}
-                <br />{$change_apppwd[$appindex]['msg_changehelpextramessage']|unescape: "html" nofilter}
+            <i class="fa fa-fw fa-exclamation-circle" aria-hidden="true"></i> {$msg_changecustompwdfieldhelp}
+            {if $change_custompwdfield[$custompwdindex]['msg_changehelpextramessage']}
+                <br />{$change_custompwdfield[$custompwdindex]['msg_changehelpextramessage']|unescape: "html" nofilter}
             {/if}
             {if !$show_menu and ($use_questions or $use_tokens or $use_sms or $change_sshkey) }
                 <ul>
@@ -58,20 +58,20 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="newapppassword" class="col-sm-4 col-form-label text-end">{$msg_newapppassword}</label>
+                <label for="newcustompassword" class="col-sm-4 col-form-label text-end">{$msg_newcustompassword}</label>
                 <div class="col-sm-8">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="password" autocomplete="new-password" name="newapppassword" id="newpassword" class="form-control" placeholder="{$msg_newpassword}" />
+                        <input type="password" autocomplete="new-password" name="newcustompassword" id="newpassword" class="form-control" placeholder="{$msg_newpassword}" />
                     </div>
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="confirmapppassword" class="col-sm-4 col-form-label text-end">{$msg_confirmapppassword}</label>
+                <label for="confirmcustompassword" class="col-sm-4 col-form-label text-end">{$msg_confirmcustompassword}</label>
                 <div class="col-sm-8">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="password" autocomplete="new-password" name="confirmapppassword" id="confirmpassword" class="form-control" placeholder="{$msg_confirmpassword}" />
+                        <input type="password" autocomplete="new-password" name="confirmcustompassword" id="confirmpassword" class="form-control" placeholder="{$msg_confirmpassword}" />
                     </div>
                 </div>
             </div>

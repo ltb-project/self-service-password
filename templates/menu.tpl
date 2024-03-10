@@ -53,14 +53,14 @@
                   ><i class="fa fa-fw fa-terminal"></i> {$msg_menusshkey}</a>
                 </li>
                 {/if}
-		{if $change_apppwd}
-                    {foreach from=$change_apppwd item=app key=key}
+		{if $change_custompwdfield}
+                    {foreach from=$change_custompwdfield item=custompwdfield key=key}
                         <li class="nav-item">
-                            <a href="?action=changeapppwd&appindex={$key}"
+                            <a href="?action=changecustompwdfield&custompwdindex={$key}"
                                data-toggle="menu-popover"
-                               data-content="{$msg_changehelpapppwd|strip_tags:false|cat:$app.label}"
-                               class="nav-link {if $action == 'changeapppwd' and $key == $appindex and $result !== "unknownapp" }active{/if}"
-                            ><i class="fa fa-fw fa-terminal"></i> {$msg_menuapppwd|cat:$app.label} </a>
+                               data-content="{$msg_changehelpcustompwdfield|strip_tags:false|cat:$custompwdfield.label}"
+                               class="nav-link {if $action == 'changecustompwdfield' and $key == $custompwdindex and $result !== "unknowncustompwdfield" }active{/if}"
+                            ><i class="fa fa-fw fa-terminal"></i> {$msg_menucustompwdfield|cat:$custompwdfield.label} </a>
                         </li>
                     {/foreach}
                 {/if}
