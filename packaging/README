@@ -10,7 +10,14 @@ Update version in following files:
 * packaging/rpm/SPECS/self-service-password.spec
 * packaging/debian/changelog
 
-# 1 - Archive tar.gz
+# 1 - Update dependencies
+#==============================================================================
+
+From the self-service-password root directory, run:
+$ composer update
+
+
+# 2 - Archive tar.gz
 #==============================================================================
 
 From current directory, do:
@@ -22,7 +29,7 @@ For example:
 $ ./makedist 0.4
 
 
-# 2 - Debian
+# 3 - Debian
 #==============================================================================
 
 Form current directory, do:
@@ -31,7 +38,7 @@ $ dpkg-buildpackage -b -kLTB
 If you do not have LTB GPG secret key, do:
 $ dpkg-buildpackage -b -us -uc
 
-# 3 - RPM (RHEL, CentOS, Fedora, ...)
+# 4 - RPM (RHEL, CentOS, Fedora, ...)
 #==============================================================================
 
 Prepare your build environment, for example in /home/clement/build.
@@ -61,7 +68,7 @@ $ rpmbuild -ba SPECS/self-service-password.spec
 Sign RPM:
 $ rpm --addsign RPMS/noarch/self-service-password*
 
-# 4 - Docker
+# 5 - Docker
 #==============================================================================
 
 From current directory, do:

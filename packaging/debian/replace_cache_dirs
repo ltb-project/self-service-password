@@ -1,4 +1,18 @@
 #!/bin/sh
 
-sed -i 's:^#$smarty_cache_dir.*:$smarty_cache_dir = "/var/cache/self-service-password/cache";:' debian/self-service-password/usr/share/self-service-password/conf/config.inc.php
-sed -i 's:^#$smarty_compile_dir.*:$smarty_compile_dir = "/var/cache/self-service-password/templates_c";:' debian/self-service-password/usr/share/self-service-password/conf/config.inc.php
+sed -i \
+  -e 's:^#$smarty_cache_dir.*:$smarty_cache_dir = "/var/cache/self-service-password/cache";:' \
+  -e 's:^#$smarty_compile_dir.*:$smarty_compile_dir = "/var/cache/self-service-password/templates_c";:' \
+  debian/self-service-password/etc/self-service-password/config.inc.php
+
+# Load configuration files from /etc/self-service-password/
+for file in $( grep -r -l -E "\([^(]+\/conf\/[^)]+\)" debian/self-service-password ) ; do
+  sed -i -e \
+    's#([^(]\+/conf/\([^")]\+\)")#("/etc/self-service-password/\1")#' \
+    ${file}
+done
+
+# Clean hidden files in bundled php libs
+find debian/self-service-password/usr/share/self-service-password \
+  \( -name .gitignore -o -name .travis.yml -o -name .pullapprove.yml \) \
+  -delete
