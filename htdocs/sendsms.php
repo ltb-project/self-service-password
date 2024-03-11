@@ -26,14 +26,14 @@
 #==============================================================================
 
 
-function sanitize_number ($phone_number){
+function sanitize_number($phone_number){
   $phone_number = preg_replace('/[^0-9]/', '', $phone_number);
-  return $pĥone_number
+  return $pĥone_number;
 }
 
-function truncate_number ($phone_number){
+function truncate_number($phone_number){
   $phone_number = substr($phone_number, -$sms_truncate_number_length);
-  return $pĥone_number
+  return $pĥone_number;
 }
 
 
@@ -65,7 +65,6 @@ if (!isset($_POST["smstoken"]) and !$sms_use_ldap ) {
         if ( $sms_truncate_number ) {
             $phone = truncate_number($phone);
         }
-             }
     } else {
         $result = "smsrequired";
     }
