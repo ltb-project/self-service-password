@@ -14,7 +14,7 @@ Prerequisites:
 * php-ldap
 * php-mbstring (reset mail)
 * php-openssl (token crypt, probably built-in)
-* Smarty (version >=3)
+* smarty (3 or 4)
 
 Tarball can be downloaded from `LTB project website <https://ltb-project.org/download.html>`_.
 
@@ -39,14 +39,6 @@ Adapt ownership of Smarty cache repositories so Apache user can write into them.
 
 Debian / Ubuntu
 ---------------
-
-.. warning:: You need to install first the package `smarty3`_. If you face the error ``syntax error, unexpected token "class"``, try to install a newer version of the package:
-
-   ``# wget http://ftp.us.debian.org/debian/pool/main/s/smarty3/smarty3_3.1.47-2_all.deb``
-
-   ``# dpkg -i smarty3_3.1.47-2_all.deb``
-
-.. _smarty3: https://packages.debian.org/sid/smarty3
 
 Configure the repository:
 
@@ -79,7 +71,7 @@ You are now ready to install:
 CentOS / RedHat
 ---------------
 
-.. warning::  You may need to install first the package `php-Smarty`_ which is not in official repositories.
+.. warning::  You must install the package `php-Smarty`_.You can get it from EPEL repositories.
 
 .. _php-Smarty: https://pkgs.org/download/php-Smarty
 

@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 export DH_VERBOSE=1
-export DH_COMPAT=7
+export DH_COMPAT=11
 
 %:
 	dh $@
@@ -17,3 +17,7 @@ override_dh_fixperms:
 
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
+
+override_dh_auto_test:
+	dh_auto_test
+	type phpunit >/dev/null 2>&1 && phpunit ../tests
