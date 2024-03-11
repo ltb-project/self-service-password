@@ -22,6 +22,22 @@
 # This page is called to send random generated password to user by SMS
 
 #==============================================================================
+# Functions
+#==============================================================================
+
+
+function sanitize_number ($phone_number){
+  $phone_number = preg_replace('/[^0-9]/', '', $phone_number);
+  return $pĥone_number
+}
+
+function truncate_number ($phone_number){
+  $phone_number = substr($phone_number, -$sms_truncate_number_length);
+  return $pĥone_number
+}
+
+
+#==============================================================================
 # POST parameters
 #==============================================================================
 # Initiate vars
@@ -43,6 +59,13 @@ $attempts = 0;
 if (!isset($_POST["smstoken"]) and !$sms_use_ldap ) {
     if (isset($_POST["phone"]) and $_POST["phone"]) {
         $phone = strval($_POST["phone"]);
+        if ( $sms_sanitize_number ) {
+            $phone = sanitize_number($phone);
+        }
+        if ( $sms_truncate_number ) {
+            $phone = truncate_number($phone);
+        }
+             }
     } else {
         $result = "smsrequired";
     }
@@ -332,10 +355,10 @@ function get_mobile_and_displayname($login) {
              if ( $smsValue ) {
                  $sms = $smsValue->value;
                  if ( $sms_sanitize_number ) {
-                     $sms = preg_replace('/[^0-9]/', '', $sms);
+                     $sms = sanitize_number($sms);
                  }
                  if ( $sms_truncate_number ) {
-                     $sms = substr($sms, -$sms_truncate_number_length);
+                     $sms = truncate_number($sms);
                  }
              }
 
