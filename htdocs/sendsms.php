@@ -161,7 +161,7 @@ if ( $result === "" ) {
             }
             if (!$match){
                 $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "smsnomatch";
-                error_log("SMS number $phone does not matche for user $login");
+                error_log("SMS number $phone does not match for user $login");
             }
         }else{
             $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
