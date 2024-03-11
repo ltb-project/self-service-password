@@ -130,8 +130,7 @@ if ( $result === "" ) {
     [$result, $sms, $displayname] = get_mobile_and_displayname($login);
     if ($sms){
         if (!$sms_use_ldap) {
-            # TODO: Add possibility to loop over different phone numbers.
-            #foreach ($mailValues as $mailValue) {
+            $match = false;
             if (strcasecmp($sms, $phone) == 0) {
                 $match = true;
                 $encrypted_sms_login = encrypt("$sms:$login", $keyphrase);
@@ -181,7 +180,7 @@ if ( $result === "sendsms" ) {
 
     # Send message
 
-    if( !$sms_method ) { $sms_method = "mail"; } # A quoi cela sert ?
+    if( !$sms_method ) { $sms_method = "mail"; }
 
     if ( $sms_method === "mail" ) {
 
