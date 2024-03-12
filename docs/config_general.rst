@@ -92,7 +92,7 @@ Set one of them in ``$lang``:
 
    $lang = "en";
 
-Language is picked according to browser choice among the available ones. All languages 
+Language is picked according to browser choice among the available ones. All languages
 are allowed by default, to restrict them add ``$allowed_lang`` array:
 
 .. code-block:: php
@@ -220,15 +220,16 @@ displayed and replaced by a generic "bad credentials" error:
 
    $obscure_failure_messages = array("mailnomatch");
 
-For the reset process via mail token, there is also a specific parameter,
+For the reset process via mail token and send sms token, there are also a specific parameters,
 enabled by default, to avoid account disclosure:
 
 .. code-block:: php
 
    $obscure_usernotfound_sendtoken = true;
+   $obscure_notfound_sendsms = true;
 
-Set this parameter to ``false`` if you want to show an error if the account entered
-by the user do not exist in the directory.
+Set these parameter to ``false`` if you want to show an error if the information of the account
+entered by the user do not exist in the directory.
 
 Default action
 --------------
@@ -308,4 +309,3 @@ To require a captcha, set ``$use_captcha``:
 .. |image21| image:: images/tr.png
 .. |image22| image:: images/ua.png
 .. |image23| image:: images/rs.png
-

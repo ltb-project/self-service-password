@@ -13,6 +13,12 @@ We now demand by default the telephone number to the user, if you want to ask on
 
    $sms_use_ldap = true;
 
+The default notification's behaviour for sms is obscured. To change this behaviour into explicit information for the user ( for example: wrong username, wrong phone number), the following option must be set to false:
+
+.. code-block:: php
+
+   $obscure_notfound_sendsms = false;
+
 
 From 1.4 to 1.5
 ---------------
