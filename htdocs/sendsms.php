@@ -44,6 +44,7 @@ function truncate_number($phone_number){
 $result = "";
 $login = $presetLogin;
 $sms = "";
+$phone = "";
 $smsdisplay = "";
 $ldap = "";
 $userdn = "";
@@ -52,90 +53,108 @@ $token = "";
 $sessiontoken = "";
 $attempts = 0;
 
-#==============================================================================
-# Verify if phone needs to be entered
-#==============================================================================
-
-if (!isset($_POST["smstoken"]) and !$sms_use_ldap ) {
-    if (isset($_POST["phone"]) and $_POST["phone"]) {
-        $phone = strval($_POST["phone"]);
-        if ( $sms_sanitize_number ) {
-            $phone = sanitize_number($phone);
-        }
-        if ( $sms_truncate_number ) {
-            $phone = truncate_number($phone);
-        }
-    } else {
-        $result = "smsrequired";
-    }
-}
 
 #==============================================================================
-# Crypt tokens
+# Verify minimal information for treatment
+# Encryption needs to be activated
+# Login needs to be given
+# By default, phone needs to be given (this can be deactivated in configuration.)
 #==============================================================================
 if (!$crypt_tokens) {
     $result = "crypttokensrequired";
-} elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
-    $token = strval($_REQUEST["token"]);
-    $smstoken = strval($_REQUEST["smstoken"]);
-
-    # Open session with the token
-    $tokenid = decrypt($token, $keyphrase);
-
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
-
-    session_id($tokenid);
-    session_name("smstoken");
-    session_start();
-    $login        = $_SESSION['login'];
-    $sessiontoken = $_SESSION['smstoken'];
-    $attempts     = $_SESSION['attempts'];
-
-    if ( !$login or !$sessiontoken) {
-        $result = "tokennotvalid";
-        error_log("Unable to open session $smstokenid");
-    } elseif ($sessiontoken != $smstoken) {
-        if ($attempts < $max_attempts) {
-            $_SESSION['attempts'] = $attempts + 1;
-            $result = "tokenattempts";
-            error_log("SMS token $smstoken not valid, attempt $attempts");
+}else{
+    if (!isset($_POST["smstoken"]) and !$sms_use_ldap ) {
+        if (isset($_REQUEST["phone"]) and $_REQUEST["phone"]) {
+            $phone = strval($_REQUEST["phone"]);
+            if ($sms_sanitize_number) {
+                $phone = sanitize_number($phone);
+            }
+            if ($sms_truncate_number) {
+                $phone = truncate_number($phone);
+            }
+        }else{
+            $result = "smsrequired";
+        }
+        if (isset($_POST["login"]) and $_POST["login"]) {
+            $login = strval($_REQUEST["login"]);
+            $login_validity_test = check_username_validity($login,$login_forbidden_chars);
+            if ($login_validity_test){
+                $result = $login_validity_test;
+            }
         } else {
-            $result = "tokennotvalid";
-            error_log("SMS token $smstoken not valid");
+            $login= false;
+            $result = "loginrequired";
         }
-    } elseif (isset($token_lifetime)) {
-        # Manage lifetime with session content
-        $tokentime = $_SESSION['time'];
-        if ( time() - $tokentime > $token_lifetime ) {
-            $result = "tokennotvalid";
-            error_log("Token lifetime expired");
+        if ((!$login) and (!$phone)){
+            $result = "emptysendsmsform";
         }
     }
-    # Delete token if not valid or all is ok
-    if ( $result === "tokennotvalid" ) {
-        $_SESSION = array();
-        session_destroy();
-    }
-    if ( $result === "" ) {
-        $_SESSION = array();
-        session_destroy();
-        $result = "buildtoken";
-    }
-} elseif (isset($_REQUEST["encrypted_sms_login"])) {
-    $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
-    $login = $decrypted_sms_login[1];
-    [$result, $sms] = get_mobile_and_displayname($login);
-    if (!$result) { $result = "sendsms"; }
-} elseif (isset($_REQUEST["login"]) and $_REQUEST["login"]) {
-    $login = strval($_REQUEST["login"]);
-} else {
-    $result = "emptysendsmsform";
-}
+#==============================================================================
+# Crypt tokens
+#==============================================================================
+    elseif (isset($_REQUEST["smstoken"]) and isset($_REQUEST["token"])) {
 
-# Check the entered username for characters that our installation doesn't support
-if ( $result === "" ) {
+        $token = strval($_REQUEST["token"]);
+        $smstoken = strval($_REQUEST["smstoken"]);
+
+        # Open session with the token
+        $tokenid = decrypt($token, $keyphrase);
+
+        ini_set("session.use_cookies",0);
+        ini_set("session.use_only_cookies",1);
+
+        session_id($tokenid);
+        session_name("smstoken");
+        session_start();
+        $login        = $_SESSION['login'];
+        $sessiontoken = $_SESSION['smstoken'];
+        $attempts     = $_SESSION['attempts'];
+
+        if ( !$login or !$sessiontoken) {
+            #$result = "tokennotvalid";
+            $result = $obscure_notfound_sendsms ? "smssent" : "tokennotvalid";
+            error_log("Unable to open session $smstokenid");
+        } elseif ($sessiontoken != $smstoken) {
+            if ($attempts < $max_attempts) {
+                $_SESSION['attempts'] = $attempts + 1;
+                #$result = "tokenattempts";
+                $result = $obscure_notfound_sendsms ? "smssent" : "tokenattempts";
+                error_log("SMS token $smstoken not valid, attempt $attempts");
+            } else {
+                #$result = "tokennotvalid";
+                $result = $obscure_notfound_sendsms ? "smssent" : "tokennotvalid";
+                error_log("SMS token $smstoken not valid");
+            }
+        } elseif (isset($token_lifetime)) {
+            # Manage lifetime with session content
+            $tokentime = $_SESSION['time'];
+            if ( time() - $tokentime > $token_lifetime ) {
+                #$result = "tokennotvalid";
+                $result = $obscure_notfound_sendsms ? "smssent" : "tokennotvalid";
+                error_log("Token lifetime expired");
+            }
+        }
+        # Delete token if not valid or all is ok
+        if ( $result === "tokennotvalid" ) {
+            $_SESSION = array();
+            session_destroy();
+        }
+        if ( $result === "" ) {
+            $_SESSION = array();
+            session_destroy();
+            $result = "buildtoken";
+        }
+    } elseif (isset($_REQUEST["encrypted_sms_login"])) {
+        $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
+        $login = $decrypted_sms_login[1];
+        [$result, $phone] = get_mobile_and_displayname($login);
+        if (!$result) { $result = "sendsms"; }
+    } elseif (isset($_REQUEST["login"]) and $_REQUEST["login"] and $sms_use_ldap) {
+        $login = strval($_REQUEST["login"]);
         $result = check_username_validity($login,$login_forbidden_chars);
+    }else{
+        $result = "emptysendsmsform";
+    }
 }
 
 #==============================================================================
@@ -159,7 +178,7 @@ if ( $result === "" ) {
                 $result = "sendsms";
             }
             if (!$match){
-                $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "smsnomatch";
+                $result = $obscure_notfound_sendsms ? "smssent" : "smsnomatch";
                 error_log("SMS number $phone does not match for user $login");
             }
         }else{
@@ -178,6 +197,7 @@ if ( $result === "" ) {
         }
     }
 }
+
 
 #==============================================================================
 # Generate sms token and send by sms
@@ -307,6 +327,7 @@ function get_mobile_and_displayname($login) {
     $sms = "";
     $result = "";
     $displayname = "";
+    global $userdn;
     global $ldap_url;
     global $ldap_starttls;
     global $ldap_binddn;
@@ -317,6 +338,7 @@ function get_mobile_and_displayname($login) {
     global $sms_attributes;
     global $sms_sanitize_number;
     global $sms_truncate_number;
+    global $obscure_notfound_sendsms;
     $search_attributes = $sms_attributes;
     $search_attributes[] = $ldap_fullname_attribute;
 
@@ -325,46 +347,44 @@ function get_mobile_and_displayname($login) {
     $ldap = $ldap_connection[0];
     $result = $ldap_connection[1];
 
-    if ( $ldap ) {
+    if ($ldap) {
 
-         # Search for user
-         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-         $search = ldap_search($ldap, $ldap_base, $ldap_filter, $search_attributes);
+        # Search for user
+        $ldap_filter = str_replace("{login}", $login, $ldap_filter);
+        $search = ldap_search($ldap, $ldap_base, $ldap_filter, $search_attributes);
 
-         $errno = ldap_errno($ldap);
-         if ( $errno ) {
-             $result = "ldaperror";
-             error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
-         } else {
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+            $result = "ldaperror";
+            error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
+        } else {
 
-             # Get user DN
-             $entry = ldap_first_entry($ldap, $search);
-             if( $entry ) {
-                 $userdn = ldap_get_dn($ldap, $entry);
-                 $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
-             }
-             if( !$userdn ) {
-                 $result = "badcredentials";
-                 error_log("LDAP - User $login not found");
-             } else {
-                 # Get first sms number for configured ldap attributes in sms_attributes.
-                 $smsValue = \Ltb\AttributeValue::ldap_get_first_available_value($ldap, $entry, $sms_attributes);
-             }
-             # Check sms number
-             if ( $smsValue ) {
-                 $sms = $smsValue->value;
-                 if ( $sms_sanitize_number ) {
-                     $sms = sanitize_number($sms);
-                 }
-                 if ( $sms_truncate_number ) {
-                     $sms = truncate_number($sms);
-                 }
-             }
-
-             if ( !$sms ) {
-                 $result = "smsnonumber";
-                 error_log("No SMS number found for user $login");
-             }
+            # Get user DN
+            $entry = ldap_first_entry($ldap, $search);
+            if( $entry ) {
+                $userdn = ldap_get_dn($ldap, $entry);
+                $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
+            }
+            if( !$userdn ) {
+                $result = $obscure_notfound_sendsms ? "smssent" : "badcredentials";
+                error_log("LDAP - User $login not found");
+            } else {
+                # Get first sms number for configured ldap attributes in sms_attributes.
+                $smsValue = \Ltb\AttributeValue::ldap_get_first_available_value($ldap, $entry, $sms_attributes);
+                # Check sms number
+                if ( $smsValue ) {
+                    $sms = $smsValue->value;
+                    if ( $sms_sanitize_number ) {
+                        $sms = sanitize_number($sms);
+                    }
+                    if ( $sms_truncate_number ) {
+                        $sms = truncate_number($sms);
+                    }
+                }else{
+                    $result = $obscure_notfound_sendsms ? "smssent" : "smsnonumber";
+                    error_log("No SMS number found for user $login");
+                }
+            }
          }
     }
     return [ $result, $sms, $displayname ];
