@@ -35,7 +35,7 @@ $messages['passwordchanged'] = "Your password was changed";
 $messages['sshkeychanged'] = "Your SSH Key was changed";
 $messages['nomatch'] = "Passwords mismatch";
 $messages['insufficiententropy'] = "Insufficient entropy for new password";
-$messages['badcredentials'] = "Login or password incorrect";
+$messages['badcredentials'] = "Login and/or password incorrect";
 $messages['passworderror'] = "Password was refused by the LDAP directory";
 $messages['sshkeyerror'] = "SSH Key was refused by the LDAP directory";
 $messages['title'] = "Self service password";
@@ -162,5 +162,6 @@ $messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a h
 $messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
 $messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token sent in SMS.";
 $messages['sendsmshelpnosms'] ="Enter your login to get password reset token. Then type token sent in SMS.";
-$messages['smsrequired'] = "Your SMS phone is required";
-$messages['smsnomatch'] = "The SMS number does not match the submitted login";
+$messages['smsrequired'] = "Your SMS phone is required.";
+$messages['smsnomatch'] = "The SMS number does not match the submitted login.";
+$messages['smssent_ifexists'] = "If the account exists, a sms has been sent to the associated phone number.";

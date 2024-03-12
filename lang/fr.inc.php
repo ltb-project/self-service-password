@@ -162,5 +162,6 @@ $messages['phone'] = "Numéro de téléphone";
 $messages['sendtokenhelpupdatemail'] = "Vous pouvez mettre à jour votre adresse email sur <a href=\"?action=setattributes\">cette page</a>.";
 $messages['sendsmshelpupdatephone'] = "Vous pouvez mettre à jour votre numéro de téléphone sur <a href=\"?action=setattributes\">cette page</a>.";
 $messages['sendsmshelp'] = "Entrez votre identifiant et votre numéro de téléphone pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";
-$messages['smsrequired'] = "Vous devez indiquer votre numéro de téléphone";
-$messages['smsnomatch'] = "Le numéro de téléphone ne correspond pas à l'identifiant donné";
+$messages['smsrequired'] = "Vous devez indiquer votre numéro de téléphone.";
+$messages['smsnomatch'] = "Le numéro de téléphone ne correspond pas à l'identifiant donné.";
+$messages['smssent_ifexists'] = "Si ce compte existe, un sms avec un token lui a été envoyé.";

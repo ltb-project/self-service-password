@@ -162,5 +162,6 @@ $messages['phone'] = "Número de telefone";
 $messages['sendtokenhelpupdatemail'] = "Você pode atualizar seu endereço de email <a href=\"?action=setattributes\">nesta página</a>.";
 $messages['sendsmshelpupdatephone'] = "Você pode atualizar seu número de telefone <a href=\"?action=setattributes\">nesta página</a>.";
 $messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
-$messages['smsrequired'] = "Your SMS phone is required";
-$messages['smsnomatch'] = "The SMS number does not match the submitted login";
+$messages['smsrequired'] = "Your SMS phone is required.";
+$messages['smsnomatch'] = "The SMS number does not match the submitted login.";
+$messages['smssent_ifexists'] = "If the account exists, a sms has been sent to the associated phone number.";
