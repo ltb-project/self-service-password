@@ -14,16 +14,10 @@ require_once("../conf/config.inc.php");
 # Includes
 #==============================================================================
 require_once("../vendor/autoload.php");
-require_once("../lib/vendor/defuse-crypto.phar");
-require_once("../lib/vendor/autoload.php");
 require_once("../lib/functions.inc.php");
 if ($use_captcha) {
     require_once("../lib/captcha.inc.php");
 }
-// should be included by ../lib/vendor/autoload.php
-//if ($use_pwnedpasswords) {
-//    require_once("../lib/vendor/mxrxdxn/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
-//}
 
 #==============================================================================
 # VARIABLES
