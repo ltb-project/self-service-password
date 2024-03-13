@@ -1,7 +1,7 @@
 .. _config_custompwdfield:
 
 Custom Password Fields
-=============
+======================
 
 Background
 ----------
