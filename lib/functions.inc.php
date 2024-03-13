@@ -60,7 +60,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy|noreseturl|nocrypttokens|smsnomatch/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy|noreseturl|nocrypttokens|smsnomatch|unknowncustompwdfield|sameascustompwd/" , $msg ) ) {
     return "danger";
     }
 
@@ -85,7 +85,7 @@ function get_fa_class( $msg) {
 # Check password strength
 # @param array entry_array ldap entry ( ie not resource or LDAP\Result )
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield ) {
     extract( $pwd_policy_config );
 
     $result = "";
@@ -194,6 +194,25 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         }
     }
 
+    # is same as a custom password?
+    foreach ( $change_custompwdfield as $custompwdfield) {
+        if (isset($custompwdfield['pwd_policy_config']['pwd_no_reuse']) && $custompwdfield['pwd_policy_config']['pwd_no_reuse']) {
+            if (array_key_exists($custompwdfield['attribute'], $entry_array)) {
+                if ($custompwdfield['hash'] == 'auto') {
+                    $matches = [];
+                    if ( preg_match( '/^\{(\w+)\}/', $entry_array[$custompwdfield['attribute']][0], $matches ) ) {
+                        $hash_for_custom_pwd = strtoupper($matches[1]);
+                    }
+                } else {
+                    $hash_for_custom_pwd = $custompwdfield['hash'];
+                }
+                if ( check_password($password, $entry_array[$custompwdfield['attribute']][0], $hash_for_custom_pwd) ) {
+                    $result = "sameascustompwd";
+                }
+            }
+        }
+    }
+
     # pwned?
     if ($use_pwnedpasswords and version_compare(PHP_VERSION, '7.2.5') >= 0) {
         $pwned_passwords = new PwnedPasswords\PwnedPasswords;
@@ -238,7 +257,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
 # Change password
 # @return result code
-function change_password( $ldapInstance, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control ) {
+function change_password( $ldapInstance, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control, $custom_pwd_field_mode, $custom_pwd_attribute ) {
 
     $result = "";
     $error_code = "";
@@ -247,6 +266,12 @@ function change_password( $ldapInstance, $dn, $password, $ad_mode, $ad_options, 
 
     $time = time();
     $userdata = [];
+
+    if ( $custom_pwd_field_mode ) {
+        $pwd_attribute = $custom_pwd_attribute;
+    } else {
+        $pwd_attribute = "userPassword";
+    }
 
     # Set Samba password value
     if ( $samba_mode ) {
@@ -284,7 +309,7 @@ function change_password( $ldapInstance, $dn, $password, $ad_mode, $ad_options, 
     } else {
         # Else just replace with new password
         if (!$ad_mode) {
-            $userdata["userPassword"] = $password;
+            $userdata[$pwd_attribute] = $password;
         }
         if ( $use_ppolicy_control ) {
             list($error_code, $error_msg, $ppolicy_error_code) = $ldapInstance->modify_attributes_using_ppolicy($dn, $userdata);
