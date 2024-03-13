@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 # Install PHP extensions and PECL modules.
 ENV BUILDDEP=" \
         libbz2-dev \
@@ -12,6 +12,18 @@ ENV BUILDDEP=" \
         git \
         zip \
     "
+LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
+      org.opencontainers.image.base.name='docker.io/library/php:8.2-apache' \
+      org.opencontainers.image.description='Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory' \
+      org.opencontainers.image.url='https://ltb-project.org/documentation/self-service-password.html' \
+      org.opencontainers.image.ref.name='self-service-password' \
+      org.opencontainers.image.documentation='https://self-service-password.readthedocs.io/' \
+      org.opencontainers.image.title='self-service-password docker image' \
+      org.opencontainers.image.source='https://github.com/ltb-project/self-service-password/' \
+      org.opencontainers.image.vendor='LTB-project.org' \
+      org.opencontainers.image.version='1.6.0' \
+      org.opencontainers.image.licenses='GPL-2+'
+
 RUN buildDeps="${BUILDDEP}" \
     runtimeDeps=" \
         curl \
@@ -36,7 +48,7 @@ RUN buildDeps="${BUILDDEP}" \
     && /usr/sbin/locale-gen \
     && a2enmod rewrite
 RUN mkdir -p /usr/share/php/smarty4/ && \
-    curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.2.0.tar.gz | \
+    curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.4.1.tar.gz | \
     tar xzf - -C /usr/share/php/smarty4/ --strip-components=2
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY . /var/www
