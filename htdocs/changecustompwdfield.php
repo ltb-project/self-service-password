@@ -140,6 +140,15 @@ if (!isset($custompwdfield['pwd_policy_config']['pwd_forbidden_ldap_fields'])) {
 if (!isset($custompwdfield['pwd_policy_config']['pwd_show_policy_pos'])) {
     $custompwdfield['pwd_policy_config']['pwd_show_policy_pos'] = $pwd_show_policy_pos;
 }
+if (!isset($custompwdfield['pwd_policy_config']['pwd_display_entropy'])) {
+    $custompwdfield['pwd_policy_config']['pwd_display_entropy'] = $pwd_display_entropy;
+}
+if (!isset($custompwdfield['pwd_policy_config']['pwd_check_entropy'])) {
+    $custompwdfield['pwd_policy_config']['pwd_check_entropy'] = $pwd_check_entropy;
+}
+if (!isset($custompwdfield['pwd_policy_config']['pwd_min_entropy'])) {
+    $custompwdfield['pwd_policy_config']['pwd_min_entropy'] = $pwd_min_entropy;
+}
 if (!isset($custompwdfield['who_change_password'])) {
     $custompwdfield['who_change_password'] = $who_change_password;
 }
@@ -237,7 +246,7 @@ if ( $result === "" ) {
                         }
                     }
                 }
-                if ( $result === "" )  {
+                if ( !$result )  {
                     # Rebind as Manager if needed
                     if ( $custompwdfield['who_change_password'] == "manager" ) {
                         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
@@ -259,14 +268,14 @@ if ( $result === "" ) {
 #==============================================================================
 # Check password strength
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
     $result = check_password_strength( $newcustompwd, $password, $custompwdfield['pwd_policy_config'], $login, $entry_array, $change_custompwdfield );
 }
 
 #==============================================================================
 # Change password
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
     if ( isset($custompwdfield['prehook']) ) {
         $command = hook_command($custompwdfield['prehook'], $login, $newcustompwd, $password, $custompwdfield['prehook_password_encodebase64']);
         exec($command, $prehook_output, $prehook_return);
@@ -317,9 +326,9 @@ $pwd_diff_last_min_chars = $custompwdfield['pwd_policy_config']['pwd_diff_last_m
 $pwd_forbidden_chars = $custompwdfield['pwd_policy_config']['pwd_forbidden_chars'];
 $pwd_no_reuse = $custompwdfield['pwd_policy_config']['pwd_no_reuse'];
 $pwd_diff_login = $custompwdfield['pwd_policy_config']['pwd_diff_login'];
-$pwd_display_entropy = false;
-$pwd_check_entropy = false;
-$pwd_min_entropy = 3;
+$pwd_display_entropy = $custompwdfield['pwd_policy_config']['pwd_display_entropy'];
+$pwd_check_entropy = $custompwdfield['pwd_policy_config']['pwd_check_entropy'];
+$pwd_min_entropy = $custompwdfield['pwd_policy_config']['pwd_min_entropy'];
 $use_pwnedpasswords = $custompwdfield['pwd_policy_config']['use_pwnedpasswords'];
 $pwd_no_special_at_ends = $custompwdfield['pwd_policy_config']['pwd_no_special_at_ends'];
 
