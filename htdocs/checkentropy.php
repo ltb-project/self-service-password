@@ -56,6 +56,7 @@ function checkEntropyJSON($password_base64)
 
     error_log("checkEntropy: level " . $response_params["level"] . " msg: " . $response_params["message"]);
 
+    error_log("response:".json_encode($response_params));
     print json_encode($response_params);
     exit(0);
 }
@@ -65,6 +66,13 @@ if( isset($pwd_display_entropy) && $pwd_display_entropy == true )
     // new password sent in the url, base64 encoded
     $newpass = htmlspecialchars($_POST["password"]);
     checkEntropyJSON($newpass);
+}
+if(isset($change_custompwdfield)) {
+    foreach ($change_custompwdfield as $custompwdfield) {
+        if ( isset($custompwdfield['pwd_policy_config']) && isset($custompwdfield['pwd_policy_config']['pwd_display_entropy']) && $custompwdfield['pwd_policy_config']['pwd_display_entropy']) {
+            checkEntropyJSON($newpass);
+        }
+    }
 }
 
 ?>

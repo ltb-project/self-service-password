@@ -246,6 +246,7 @@ Possibles values are:
 -  ``change``
 -  ``sendtoken``
 -  ``sendsms``
+-  ``changecustompwdfield`` (to specify which custom password field, set ``$default_custompwdindex`` to the desired number, i.e. ``$default_custompwdindex = 1;``)
 
 You can disable the standard password change if you don't need it:
 
