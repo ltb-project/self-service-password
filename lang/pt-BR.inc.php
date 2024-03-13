@@ -141,6 +141,13 @@ $messages['policydiffminchars'] = "Número mínimo de novos caracteres únicos:"
 $messages['diffminchars'] = "Sua nova senha é muito similar à sua senha antiga";
 $messages['specialatends'] = "Sua nova senha tem o único caracter especial no início ou fim";
 $messages['policyspecialatends'] = "Sua nova senha pode não ter o único caracter especial no início ou fim";
+$messages['changecustompwdfieldhelp'] = "To change your password, you have to enter your credentials.";
+$messages['changehelpcustompwdfield'] = "change your password for ";
+$messages['newcustompassword'] = "new password for ";
+$messages['confirmcustompassword'] = "confirm new password";
+$messages['menucustompwdfield'] = "Password for ";
+$messages['unknowncustompwdfield'] = "The password field specified in the link cannot be found";
+$messages['sameascustompwd'] = "The new password is the same as the same as another!";
 $messages['checkdatabeforesubmit'] = "Por favor verifique suas informações antes de submeter o formulário";
 $messages['forbiddenwords'] = "Suas senhas contêm palavras ou strings proibidas";
 $messages['policyforbiddenwords'] = "Sua senha não deve conter:";
@@ -161,3 +168,5 @@ $messages['setattributeshelp'] = "Você pode atualizar as informações usadas p
 $messages['phone'] = "Número de telefone";
 $messages['sendtokenhelpupdatemail'] = "Você pode atualizar seu endereço de email <a href=\"?action=setattributes\">nesta página</a>.";
 $messages['sendsmshelpupdatephone'] = "Você pode atualizar seu número de telefone <a href=\"?action=setattributes\">nesta página</a>.";
+$messages['sameasaccountpassword'] = "Your new password is identical to your login password";
+$messages['policynoreusecustompwdfield'] = "Your new password may not be the same as your login password";
