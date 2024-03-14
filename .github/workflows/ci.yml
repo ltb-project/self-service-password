@@ -13,7 +13,7 @@ jobs:
       with:
         php_version: 7.4
         command: update
-        php_extensions: ldap
+        php_extensions: ldap gd mbstring
     - name: PHPUnit Tests for php7.4
       uses: php-actions/phpunit@v3
       with:
