@@ -100,7 +100,7 @@
     }
 
     if (window.policy.pwd_no_reuse && window.policy.pwd_no_reuse == true) {
-      if( $( "#oldpassword" ) && $( "#oldpassword" ).val().length > 0 && password.length > 0 )
+      if( $( "#oldpassword" ).length )
       {
         oldpassword = $( "#oldpassword" ).val();
         report( password != oldpassword , 'ppolicy-pwd_no_reuse-feedback');
@@ -112,7 +112,7 @@
     }
 
     if (window.policy.pwd_diff_login && window.policy.pwd_diff_login == true) {
-      if( $( "#login" ) && $( "#login" ).val().length > 0 && password.length > 0 )
+      if( $( "#login" ).length )
       {
         login = $( "#login" ).val();
         report( password != login, 'ppolicy-pwd_diff_login-feedback');
@@ -124,7 +124,7 @@
     }
 
     if (window.policy.pwd_diff_last_min_chars > 0) {
-      if( $( "#oldpassword" ) && $( "#oldpassword" ).val().length > 0 && password.length > 0 )
+      if( $( "#oldpassword" ).length && $( "#oldpassword" ).val().length > 0 && password.length > 0 )
       {
         minDiffChars = window.policy.pwd_diff_last_min_chars;
         oldpassword = $( "#oldpassword" ).val();
