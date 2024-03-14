@@ -22,22 +22,6 @@
 # This page is called to send random generated password to user by SMS
 
 #==============================================================================
-# Functions
-#==============================================================================
-
-
-function sanitize_number($phone_number){
-  $phone_number = preg_replace('/[^0-9]/', '', $phone_number);
-  return $phone_number;
-}
-
-function truncate_number($phone_number){
-  $phone_number = substr($phone_number, -$sms_truncate_number_length);
-  return $phone_number;
-}
-
-
-#==============================================================================
 # POST parameters
 #==============================================================================
 # Initiate vars
@@ -320,6 +304,20 @@ if ( $result === "redirect" ) {
     # Redirect
     header("Location: " . $reset_url);
     exit;
+}
+#
+#==============================================================================
+# Functions
+#==============================================================================
+
+function sanitize_number($phone_number){
+  $phone_number = preg_replace('/[^0-9]/', '', $phone_number);
+  return $phone_number;
+}
+
+function truncate_number($phone_number){
+  $phone_number = substr($phone_number, -$sms_truncate_number_length);
+  return $phone_number;
 }
 
 function get_mobile_and_displayname($login) {
