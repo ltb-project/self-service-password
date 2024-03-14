@@ -28,12 +28,12 @@
 
 function sanitize_number($phone_number){
   $phone_number = preg_replace('/[^0-9]/', '', $phone_number);
-  return $pĥone_number;
+  return $phone_number;
 }
 
 function truncate_number($phone_number){
   $phone_number = substr($phone_number, -$sms_truncate_number_length);
-  return $pĥone_number;
+  return $phone_number;
 }
 
 
