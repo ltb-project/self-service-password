@@ -414,6 +414,10 @@ $obscure_usernotfound_sendtoken = true;
 # Smarty debug mode - will popup debug information on web interface
 $smarty_debug = false;
 
+## Custom Password Fields
+# Change Custom Password Fields
+$change_custompwdfield = array();
+
 # Allow to override current settings with local configuration
 if (file_exists (__DIR__ . '/config.inc.local.php')) {
     require_once __DIR__ . '/config.inc.local.php';

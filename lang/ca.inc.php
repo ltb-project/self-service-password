@@ -159,6 +159,13 @@ $messages["questionspopulatehint"] = "Introduïu només el vostre usuari per obt
 $messages['badquality'] = "La qualitat de la contrasenya és molt baixa";
 $messages['tooyoung'] = "La contrasenya s'ha canviat massa recentment";
 $messages['inhistory'] = "La contresenya es troba dins l'històric de les contrasenyes antigues";
+$messages['changecustompwdfieldhelp'] = "To change your password, you have to enter your credentials.";
+$messages['changehelpcustompwdfield'] = "change your password for ";
+$messages['newcustompassword'] = "new password for ";
+$messages['confirmcustompassword'] = "confirm new password";
+$messages['menucustompwdfield'] = "Password for ";
+$messages['unknowncustompwdfield'] = "The password field specified in the link cannot be found";
+$messages['sameascustompwd'] = "The new password is the same as the same as another!";
 $messages['invalidsshkey'] = "Input SSH Key looks invalid";
 $messages['attributesmoderror'] = "Your information have not been updated";
 $messages['attributeschanged'] = "Your information have been updated";
@@ -166,3 +173,5 @@ $messages['setattributeshelp'] = "You can update the information used to reset y
 $messages['phone'] = "Telephone number";
 $messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
 $messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sameasaccountpassword'] = "Your new password is identical to your login password";
+$messages['policynoreusecustompwdfield'] = "Your new password may not be the same as your login password";

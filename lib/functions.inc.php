@@ -159,11 +159,148 @@ function make_md4_password($password) {
     return $hash;
 }
 
+/**
+ * Generate a hash with the given algorithm and options.
+ * @param string $password the password to hash
+ * @param string $hash the algorithm to be used
+ * @param array $hash_options additional options to be used by the hashing algorithm
+ * @return string
+ */
+function make_password($password, $hash, $hash_options): string {
+    if ($hash == "SSHA") {
+        return make_ssha_password($password);
+    }
+    if ($hash == "SSHA256") {
+        return make_ssha256_password($password);
+    }
+    if ($hash == "SSHA384") {
+        return make_ssha384_password($password);
+    }
+    if ($hash == "SSHA512") {
+        return make_ssha512_password($password);
+    }
+    if ($hash == "SHA") {
+        return make_sha_password($password);
+    }
+    if ($hash == "SHA256") {
+        return make_sha256_password($password);
+    }
+    if ($hash == "SHA384") {
+        return make_sha384_password($password);
+    }
+    if ($hash == "SHA512") {
+        return make_sha512_password($password);
+    }
+    if ($hash == "SMD5") {
+        return make_smd5_password($password);
+    }
+    if ($hash == "MD5") {
+        return make_md5_password($password);
+    }
+    if ($hash == "CRYPT") {
+        return make_crypt_password($password, $hash_options);
+    }
+    if ($hash == "ARGON2") {
+        return make_argon2_password($password);
+    }
+    if ($hash == "NTLM") {
+        return make_md4_password($password);
+    }
+    if ($hash == "clear") {
+        return $password;
+    }
+    error_log("unkown hashing algorithm: " . $hash);
+    throw new Exception("unkown hashing algorithm: " . $hash);
+}
+/**
+ * @function check_password(string $password, string $hash, string $algo)
+ * Check if a password matches to a given hash.
+ * @param string $password (new) Password to match against the hash
+ * @param string $hash the stored hash the password has to match
+ * @param string $algo the hashing algorithm
+ * @return bool true: password and hash do match
+ */
+function check_password($password, $hash, $algo): bool {
+    if ( $algo == "NTLM" ) {
+        return ($hash === make_md4_password($password));
+    }
+    if ( $algo == "SHA" ) {
+        return ($hash === make_sha_password($password));
+    }
+    if ( $algo == "SHA256" ) {
+        return ($hash === make_sha256_password($password));
+    }
+    if ( $algo == "SHA384" ) {
+        return ($hash === make_sha384_password($password));
+    }
+    if ( $algo == "SHA512" ) {
+        return ($hash === make_sha512_password($password));
+    }
+    if ( $algo == "MD5" ) {
+        return ($hash === make_md5_password($password));
+    }
+    if ( $algo == "SSHA" ) {
+        $salt = substr(base64_decode(substr($hash, 6)), 20);
+        $hash2 = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
+        return ($hash === $hash2);
+    }
+    if ( $algo == "SSHA256" ) {
+        $salt = substr(base64_decode(substr($hash, 9)), 32);
+        $hash2 = "{SSHA256}".base64_encode(hash('sha256', $password.$salt, true).$salt);
+        return ($hash === $hash2);
+    }
+    if ( $algo == "SSHA384" ) {
+        $salt = substr(base64_decode(substr($hash, 9)), 48);
+        $hash2 = "{SSHA384}".base64_encode(hash('sha384', $password.$salt, true).$salt);
+        return ($hash === $hash2);
+    }
+    if ( $algo == "SSHA512" ) {
+        $salt = substr(base64_decode(substr($hash, 9)), 64);   //salt of given hash (remove {SSHA512}, decode it, and only the bits after 512/8=64 bits)
+        $hash2 = "{SSHA512}".base64_encode(hash('sha512', $password.$salt, true).$salt);
+        return ($hash === $hash2);
+    }
+    if ( $algo == "SMD5") {
+        $salt = substr(base64_decode(substr($hash, 6)), 16);
+        $hash2 = "{SMD5}" . base64_encode(pack("H*", md5($password . $salt)) . $salt);
+        return ($hash === $hash2);
+    }
+    if ( $algo == "CRYPT" ) {
+        return password_verify($password, substr($hash, 7));
+    }
+    if ( $algo == "ARGON2" ) {
+        return password_verify($password, substr($hash, 8));
+    }
+    if ( $algo == "clear" ) {
+        return ($password === $hash);
+    }
+    error_log("unkown hashing algorithm: " . $hash);
+    throw new Exception("unkown hashing algorithm: " . $algo);
+}
+
 # Create AD password (Microsoft Active Directory password format)
 function make_ad_password($password) {
     $password = "\"" . $password . "\"";
     $adpassword = mb_convert_encoding($password, "UTF-16LE", "UTF-8");
     return $adpassword;
+}
+
+/**
+ * @function check_hash_type(\LDAP\Connection|array $ldap, array|string $dn, string $pwdattribute)
+ * Read the password attribute and return the algorithm used to hash the password.
+ * @param \LDAP\Connection|array $ldap An LDAP\Connection instance, returned by ldap_connect()
+ * @param array|string $dn The base DN for the directory.
+ * @param string $pwdattribute the attribute where the hash is stored
+ * @return string algorithm used with the hash
+ */
+function get_hash_type($ldap, $dn, $pwdattribute): string {
+    $search_userpassword = ldap_read($ldap, $dn, "(objectClass=*)", array($pwdattribute));
+    if ($search_userpassword) {
+        $matches = array();
+        $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap, $search_userpassword), $pwdattribute);
+        if (isset($userpassword) && preg_match('/^\{(\w+)\}/', $userpassword[0], $matches)) {
+            return strtoupper($matches[1]);
+        }
+    }
 }
 
 # Generate SMS token
@@ -182,7 +319,7 @@ function generate_sms_token( $sms_token_length ) {
 # Get message criticity
 function get_criticity( $msg ) {
 
-    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy/" , $msg ) ) {
+    if ( preg_match( "/nophpldap|phpupgraderequired|nophpmhash|nokeyphrase|ldaperror|nomatch|badcredentials|passworderror|tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|answermoderror|answernomatch|mailnomatch|tokennotsent|tokennotvalid|notcomplex|smsnonumber|smscrypttokensrequired|nophpmbstring|nophpxml|smsnotsent|sameaslogin|pwned|invalidsshkey|sshkeyerror|specialatends|forbiddenwords|forbiddenldapfields|diffminchars|badquality|tooyoung|inhistory|throttle|attributesmoderror|insufficiententropy|unknowncustompwdfield|sameascustompwd/" , $msg ) ) {
     return "danger";
     }
 
@@ -207,7 +344,7 @@ function get_fa_class( $msg) {
 # Check password strength
 # @param array entry_array ldap entry ( ie not resource or LDAP\Result )
 # @return result code
-function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array ) {
+function check_password_strength( $password, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield ) {
     extract( $pwd_policy_config );
 
     $result = "";
@@ -316,6 +453,25 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         }
     }
 
+    # is same as a custom password?
+    foreach ( $change_custompwdfield as $custompwdfield) {
+        if (isset($custompwdfield['pwd_policy_config']['pwd_no_reuse']) && $custompwdfield['pwd_policy_config']['pwd_no_reuse']) {
+            if (array_key_exists($custompwdfield['attribute'], $entry_array)) {
+                if ($custompwdfield['hash'] == 'auto') {
+                    $matches = [];
+                    if ( preg_match( '/^\{(\w+)\}/', $entry_array[$custompwdfield['attribute']][0], $matches ) ) {
+                        $hash_for_custom_pwd = strtoupper($matches[1]);
+                    }
+                } else {
+                    $hash_for_custom_pwd = $custompwdfield['hash'];
+                }
+                if ( check_password($password, $entry_array[$custompwdfield['attribute']][0], $hash_for_custom_pwd) ) {
+                    $result = "sameascustompwd";
+                }
+            }
+        }
+    }
+
     # pwned?
     if ($use_pwnedpasswords and version_compare(PHP_VERSION, '7.2.5') >= 0) {
         $pwned_passwords = new PwnedPasswords\PwnedPasswords;
@@ -360,7 +516,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control ) {
+function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control, $custom_pwd_field_mode, $custom_pwd_attribute ) {
 
     $result = "";
     $error_code = "";
@@ -368,6 +524,12 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     $ppolicy_error_code = "";
 
     $time = time();
+
+    if ( $custom_pwd_field_mode ) {
+        $pwd_attribute = $custom_pwd_attribute;
+    } else {
+        $pwd_attribute = "userPassword";
+    }
 
     # Set Samba password value
     if ( $samba_mode ) {
@@ -386,58 +548,14 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
     # Get hash type if hash is set to auto
     if ( !$ad_mode && $hash == "auto" ) {
-        $search_userpassword = ldap_read( $ldap, $dn, "(objectClass=*)", array("userPassword") );
-        if ( $search_userpassword ) {
-            $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap,$search_userpassword), "userPassword");
-            if ( isset($userpassword) ) {
-                if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
-                    $hash = strtoupper($matches[1]);
-                }
-            }
-        }
+        $hash = get_hash_type($ldap, $dn, $pwd_attribute);
     }
 
     # Transform password value
     if ( $ad_mode ) {
         $password = make_ad_password($password);
     } elseif (!$use_exop_passwd) {
-        # Hash password if needed
-        if ( $hash == "SSHA" ) {
-            $password = make_ssha_password($password);
-        }
-        if ( $hash == "SSHA256" ) {
-            $password = make_ssha256_password($password);
-        }
-        if ( $hash == "SSHA384" ) {
-            $password = make_ssha384_password($password);
-        }
-        if ( $hash == "SSHA512" ) {
-            $password = make_ssha512_password($password);
-        }
-        if ( $hash == "SHA" ) {
-            $password = make_sha_password($password);
-        }
-        if ( $hash == "SHA256" ) {
-            $password = make_sha256_password($password);
-        }
-        if ( $hash == "SHA384" ) {
-            $password = make_sha384_password($password);
-        }
-        if ( $hash == "SHA512" ) {
-            $password = make_sha512_password($password);
-        }
-        if ( $hash == "SMD5" ) {
-            $password = make_smd5_password($password);
-        }
-        if ( $hash == "MD5" ) {
-            $password = make_md5_password($password);
-        }
-        if ( $hash == "CRYPT" ) {
-            $password = make_crypt_password($password, $hash_options);
-        }
-         if ( $hash == "ARGON2" ) {
-            $password = make_argon2_password($password);
-        }
+        $password = make_password($password, $hash, $hash_options);
     }
 
     # Set password value
@@ -521,7 +639,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     } else {
         # Else just replace with new password
         if (!$ad_mode) {
-            $userdata["userPassword"] = $password;
+            $userdata[$pwd_attribute] = $password;
         }
         if ( $use_ppolicy_control ) {
             $ppolicy_replace = ldap_mod_replace_ext($ldap, $dn, $userdata, [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]]);
