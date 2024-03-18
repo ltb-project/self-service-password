@@ -57,7 +57,7 @@ if (isset($_POST["oldpassword"]) and $_POST["oldpassword"]) {
 
 if (isset($_POST["newpassword"]) and $_POST["newpassword"]) {
     $newpassword = $_POST["newpassword"];
-    $ret = check_password_strength($newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array);
+    $ret = check_password_strength($newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield);
     $result['error'] = 0;
 } else {
     $result['error'] = 1;

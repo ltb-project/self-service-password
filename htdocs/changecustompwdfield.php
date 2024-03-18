@@ -237,7 +237,7 @@ if ( $result === "" ) {
                         }
                     }
                 }
-                if ( $result === "" )  {
+                if ( !$result )  {
                     # Rebind as Manager if needed
                     if ( $custompwdfield['who_change_password'] == "manager" ) {
                         $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
@@ -259,14 +259,14 @@ if ( $result === "" ) {
 #==============================================================================
 # Check password strength
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
     $result = check_password_strength( $newcustompwd, $password, $custompwdfield['pwd_policy_config'], $login, $entry_array, $change_custompwdfield );
 }
 
 #==============================================================================
 # Change password
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
     if ( isset($custompwdfield['prehook']) ) {
         $command = hook_command($custompwdfield['prehook'], $login, $newcustompwd, $password, $custompwdfield['prehook_password_encodebase64']);
         exec($command, $prehook_output, $prehook_return);

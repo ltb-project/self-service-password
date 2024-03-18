@@ -53,7 +53,7 @@
                 <div class="col-sm-8">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="password" autocomplete="current-password" name="password" id="oldpassword" class="form-control" placeholder="{$msg_password}" />
+                        <input type="password" autocomplete="current-password" name="oldpassword" id="oldpassword" class="form-control" placeholder="{$msg_password}" />
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <div class="col-sm-8">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="password" autocomplete="new-password" name="newcustompassword" id="newpassword" class="form-control" placeholder="{$msg_newpassword}" />
+                        <input type="password" autocomplete="new-password" name="newpassword" id="newpassword" class="form-control" placeholder="{$msg_newpassword}" />
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="col-sm-8">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
-                        <input type="password" autocomplete="new-password" name="confirmcustompassword" id="confirmpassword" class="form-control" placeholder="{$msg_confirmpassword}" />
+                        <input type="password" autocomplete="new-password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="{$msg_confirmpassword}" />
                     </div>
                 </div>
             </div>
