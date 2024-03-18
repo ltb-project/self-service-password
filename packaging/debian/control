@@ -8,8 +8,29 @@ Standards-Version: 3.8.3
 Homepage: http://ltb-project.org/wiki/documentation/self-service-password
 
 Package: self-service-password
-Depends: php5|php, php5-gd|php-gd, php5-ldap|php-ldap, php5-mbstring|php-mbstring
+Depends: php (>= 7.3), php-gd, php-ldap, php-mbstring, sed, smarty4 | smarty3
 Architecture: all
 Description: LDAP password change web interface
  Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory.
  Self Service Password is provided by LDAP Tool Box project: http://ltb-project.org
+ Self Service Password bundles some dependencies:
+ - fontawesome-fonts = 6.5.1
+ - js-bootstrap = 5.3.3
+ - js-jquery = 3.7.1
+ - js-jquery-selectunique = 0.1.0
+ - php-bjeavons-zxcvbn-php = 1.3.1
+ - php-defuse-php-encryption = 2.4.0
+ - php-gregwar-captcha = 1.2.1
+ - php-guzzlehttp-guzzle = 7.8.1
+ - php-guzzlehttp-promises = 2.0.2
+ - php-guzzlehttp-psr7 = 2.6.2
+ - php-ltb-project-ldap = 0.1.0
+ - php-mxrxdxn-pwned-passwords = 2.1.0
+ - php-phpmailer = 6.9.1
+ - php-psr-http-client = 1.0.3
+ - php-psr-http-factory = 1.0.2
+ - php-psr-http-message = 2.0
+ - php-ralouphie-getallheaders = 3.0.3
+ - php-symfony-deprecation-contracts = 2.5.1
+ - php-symfony-finder = 7.0.0
+ - php-symfony-polyfill = 1.29.0

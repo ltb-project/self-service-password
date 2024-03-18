@@ -1,3 +1,9 @@
+ltb-project-self-service-password (1.6.0-1) unstable; urgency=high
+
+    * gh852: deb cleanup
+
+ -- Clement Oudot <clem@ltb-project.org>  Mon, 11 Mar 2023 12:00:00 +0200
+
 ltb-project-self-service-password (1.5.4-1) unstable; urgency=high
 
     * gh#773: Missing dependence in debian package breaks installation experience

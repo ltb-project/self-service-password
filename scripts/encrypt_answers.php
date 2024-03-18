@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,6 @@
 # Includes
 #==============================================================================
 require_once(__DIR__."/../conf/config.inc.php");
-require_once(__DIR__."/../lib/vendor/defuse-crypto.phar");
 require_once(__DIR__."/../lib/functions.inc.php");
 require_once(__DIR__."/../vendor/autoload.php");
 

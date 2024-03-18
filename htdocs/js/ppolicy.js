@@ -75,6 +75,16 @@
       }
     };
 
+    removePPolicyCriteria = function(criteria, feedback) {
+      // first consider the criteria as fullfilled
+      report( true , feedback);
+      // remove criteria from the list of ppolicy checks
+      delete window.policy[criteria];
+      // remove the <li> tag parent to given feedback
+      $( "#" + feedback ).parent().remove();
+    };
+
+
     // Criteria checks
     if (window.policy.pwd_min_length > 0) {
       report(password.length >= window.policy.pwd_min_length, 'ppolicy-pwd_min_length-feedback');
@@ -107,7 +117,7 @@
       }
       else
       {
-        report( true , 'ppolicy-pwd_no_reuse-feedback');
+        removePPolicyCriteria("pwd_no_reuse", 'ppolicy-pwd_no_reuse-feedback');
       }
     }
 
@@ -124,7 +134,7 @@
     }
 
     if (window.policy.pwd_diff_last_min_chars > 0) {
-      if( $( "#oldpassword" ).length && $( "#oldpassword" ).val().length > 0 && password.length > 0 )
+      if( $( "#oldpassword" ).length )
       {
         minDiffChars = window.policy.pwd_diff_last_min_chars;
         oldpassword = $( "#oldpassword" ).val();
@@ -141,7 +151,7 @@
       }
       else
       {
-        report( true , 'ppolicy-pwd_diff_last_min_chars-feedback');
+        removePPolicyCriteria("pwd_diff_last_min_chars", 'ppolicy-pwd_diff_last_min_chars-feedback');
       }
     }
 
