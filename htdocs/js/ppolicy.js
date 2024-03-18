@@ -51,10 +51,10 @@
         return value === "good" || value === "info";
       };
     })(this))) {
-      $('.help').removeClass('border-danger').addClass('border-success');
+      $('.ppolicy').removeClass('border-danger').addClass('border-success');
       return (ref = $('#newpassword').get(0)) != null ? ref.setCustomValidity('') : void 0;
     } else {
-      $('.help').removeClass('border-success').addClass('border-danger');
+      $('.ppolicy').removeClass('border-success').addClass('border-danger');
       return (ref1 = $('#newpassword').get(0)) != null ? ref1.setCustomValidity("Insufficient quality") : void 0;
     }
   };
