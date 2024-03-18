@@ -4,7 +4,7 @@ Upgrade
 From 1.5 to 1.6
 ---------------
 
-bundled dependencies
+Bundled dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
 The dependencies are now explicitly listed in the self-service-password package, including the bundled ones.
@@ -19,8 +19,8 @@ The license of self-service-password is still GPL2+, but now the bundled depende
 * in copyright file for deb package
 * in License tag in rpm package
 
-configuration
-~~~~~~~~~~~~~
+Configuration location
+~~~~~~~~~~~~~~~~~~~~~~
 
 The configuration files are now in ``/etc/self-service-password`` directory.
 
@@ -33,7 +33,24 @@ Please take in consideration that ``config.inc.php`` is now replaced systematica
 
 The very old configuration files, present directly under ``/usr/share/self-service-password/`` are **NOT** migrated during the upgrade process, and must be upgraded manually. These files have been deprecated since version 0.9, released in 2015 of October. If you are migrating from version this old, you must move your configuration files manually. Move your ``config.inc.local.php`` into ``/etc/self-service-password``. If you have modified ``config.inc.php``, just identify the modified parameters and add/replace them into a ``/etc/self-service-password/config.inc.local.php``. Avoid as much as possible editing the ``/etc/self-service-password/config.inc.php`` file.
 
-cache cleaning
+Reset URL
+~~~~~~~~~
+
+To avoid any security issue, the `$reset_url` is now initialized to a default value, that you need to configure.
+
+If you run in a virtual host or behind a reverse proxy virtual host, you can use generic values. For example:
+
+.. code-block:: php
+
+   $reset_url = ($_SERVER['HTTPS'] ? "https" : "http") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'];
+
+Else you need to force the URL according to the DNS of the application:
+
+.. code-block:: php
+
+   $reset_url = "https://reset.acme.com";
+
+Cache cleaning
 ~~~~~~~~~~~~~~
 
 Now the cache is being cleaned-up during self-service-password upgrade / install.
@@ -41,7 +58,7 @@ Now the cache is being cleaned-up during self-service-password upgrade / install
 This is intended to avoid smarty problems due to self-service-password templates upgrade, and possibly smarty upgrade itself.
 
 
-dependencies update
+Dependencies update
 ~~~~~~~~~~~~~~~~~~~
 
 Packaged dependencies:
@@ -74,18 +91,15 @@ Bundled dependencies:
 * jquery-selectunique has been kept in version 0.1.0
 * font-awesome has been updated from version 4.7.0 to version 6.5.1
 
-Note that hidden files (.gitignore,...) from bundled dependencies are now removed from packages.
+Note that hidden files (.gitignore, ...) from bundled dependencies are now removed from packages.
 
-
-for developers
+For developers
 ~~~~~~~~~~~~~~
 
 During the build process of rpm or deb packages, the unit tests are now run:
 
 * for any version of debian / ubuntu
 * for fedora OS
-
-
 
 From 1.4 to 1.5
 ---------------
