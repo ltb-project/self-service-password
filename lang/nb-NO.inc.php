@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Du burde installera PHP LDAP for å anvenda detta verktøyet";
 $messages['nophpmhash'] = "Du burde installera PHP mhash for att använda Samba mode";
 $messages['nokeyphrase'] = "Token kryptering krever en tilfeldig generert streng i keyphrase innstilling";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Kan ikke koble til LDAP katalogen";
 $messages['loginrequired'] = "Du må angi ditt brukernavn";
 $messages['oldpasswordrequired'] = "Du må angi ditt gamle passord";

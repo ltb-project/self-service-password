@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "このツールを使うにはPHP LDAPをインストールしてください";
 $messages['nophpmhash'] = "Sambaモードを使うにはPHP mhashをインストールしてください";
 $messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "LDAPディレクトリーにアクセスできません";
 $messages['loginrequired'] = "ログインIDを入力してください";
 $messages['oldpasswordrequired'] = "現在のパスワードを入力してください";

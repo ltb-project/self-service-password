@@ -221,34 +221,16 @@ if ( $result === "buildtoken" ) {
 #==============================================================================
 if ( $result === "redirect" ) {
 
-    if ( empty($reset_url) ) {
-
-        # Build reset by token URL
-        $method = "http";
-        if ( !empty($_SERVER['HTTPS']) ) { $method .= "s"; }
-        $server_name = $_SERVER['SERVER_NAME'];
-        $server_port = $_SERVER['SERVER_PORT'];
-        $script_name = $_SERVER['SCRIPT_NAME'];
-
-        # Force server port if non standard port
-        if (   ( $method === "http"  and $server_port != "80"  )
-            or ( $method === "https" and $server_port != "443" )) {
-            $server_name .= ":".$server_port;
-        }
-
-        $reset_url = $method."://".$server_name.$script_name;
-    }
-
-    $reset_url .= "?action=resetbytoken&source=sms&token=".urlencode($token)."&smstoken=".urlencode($smstoken);
+    $resetbytoken_url = $script_name . "?action=resetbytoken&source=sms&token=".urlencode($token)."&smstoken=".urlencode($smstoken);
 
     if ( !empty($reset_request_log) ) {
-        error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN") . "\n\n", 3, $reset_request_log);
+        error_log("Redirect user to " . ( $debug ? "$reset_url" : "HIDDEN") . "\n\n", 3, $reset_request_log);
     } else {
-        error_log("Send reset URL " . ( $debug ? "$reset_url" : "HIDDEN") );
+        error_log("Redirect user to " . ( $debug ? "$reset_url" : "HIDDEN") );
     }
 
     # Redirect
-    header("Location: " . $reset_url);
+    header("Location: " . $resetbytoken_url);
     exit;
 }
 

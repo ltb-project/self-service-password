@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "You should install PHP LDAP to use this tool";
 $messages['nophpmhash'] = "You should install PHP mhash to use Samba mode";
 $messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Cannot access LDAP directory";
 $messages['loginrequired'] = "Your login is required";
 $messages['oldpasswordrequired'] = "Your old password is required";

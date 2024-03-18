@@ -245,6 +245,13 @@ $crypt_tokens = true;
 # Token lifetime in seconds
 $token_lifetime = "3600";
 
+# Reset URL (mandatory)
+$reset_url = "http://ssp.example.com/";
+# If inside a virtual host
+#$reset_url = ($_SERVER['HTTPS'] ? "https" : "http") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME'];
+# If behind a reverse proxy with a virtual host
+#$reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
+
 ## Mail
 # LDAP mail attribute
 $mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" );
@@ -314,9 +321,6 @@ $use_attributes = false;
 #$attribute_mail = "mail";
 #$attribute_phone = "mobile";
 #$who_change_attributes = "manager";
-
-# Reset URL (if behind a reverse proxy)
-#$reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
 
 # Display help messages
 $show_help = true;
