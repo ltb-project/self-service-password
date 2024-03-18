@@ -1,6 +1,6 @@
 {if $pwd_show_policy === "onerror" and !$pwd_show_policy_onerror }
 {else}
-<div class="help alert shadow alert-warning">
+<div class="ppolicy alert shadow alert-warning">
     {$msg_policy|unescape: "html" nofilter}
     <ul class="fa-ul text-left">
 
