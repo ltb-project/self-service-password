@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "PHP eguneratzea beharrezkoa da";
 $messages['nophpldap'] = "Webgune hau erabiltzeko PHP LDAP instalatu beharko duzu";
 $messages['nophpmhash'] = "Samba erabiltzeko PHP-ren mhash moduloa instalatu behar da";
 $messages['nokeyphrase'] = "Token-ak zifratzeko konfigurazioan ausazko esaldi bat idatzi behar duzu";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Ezin da LDAP direktorioa atzitu";
 $messages['loginrequired'] = "Ez duzu erabiltzaile izena idatzi";
 $messages['oldpasswordrequired'] = "Ez duzu pasahitz zaharra idatzi";
