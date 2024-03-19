@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "Wymagana aktualizacja PHP";
 $messages['nophpldap'] = "Wymagane jest zainstalowanie PHP-LDAP zanim użyjesz tego narzędzia";
 $messages['nophpmhash'] = "Wymagane jest zainstalowanie PHP-mhash przed użyciem trybu Samba";
 $messages['nokeyphrase'] = "Szyfrowanie Tokena wymaga losowego ciągu keyphrase w konfiguracji";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
 $messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Nie można połączyć się z bazą LDAP";
 $messages['loginrequired'] = "Wymagany jest Twój login";

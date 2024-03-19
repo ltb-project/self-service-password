@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP LDAP για τη λειτουργία αυτής της εφαρμογής";
 $messages['nophpmhash'] = "Απαιτείται η εγκατάσταση του πρόσθετου PHP mhash για τη χρήση Samba";
 $messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
 $messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Αδυναμία πρόσβασης στην υπηρεσία καταλόγου";
 $messages['loginrequired'] = "Απαιτείται η καταχώρηση του ονόματος χρήστη";

@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "Potrbno je ažuriranje PHP-a";
 $messages['nophpldap'] = "Potrebno je instalirati PHP LDAP da bi ste koristili ovu alatku";
 $messages['nophpmhash'] = "Potrebno je instalirati PHP mhash da bi ste koristili SAMBA mod";
 $messages['nokeyphrase'] = "Enkripcija Tokena zahteva nasumičan niz karaktera u podešavanju keyphrase-a";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
 $messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Ne mogu da pristupim LDAP direktorijumu";
 $messages['loginrequired'] = "Potrebno je vaše korisničko ime";
