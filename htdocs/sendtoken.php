@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -174,25 +174,6 @@ if ( !$result ) {
 # Send token by mail
 #==============================================================================
 if ( !$result ) {
-
-    if ( empty($reset_url) ) {
-
-        # Build reset by token URL
-        $method = "http";
-        if ( !empty($_SERVER['HTTPS']) ) { $method .= "s"; }
-        $server_name = $_SERVER['SERVER_NAME'];
-        $server_port = $_SERVER['SERVER_PORT'];
-        $script_name = $_SERVER['SCRIPT_NAME'];
-
-        # Force server port if non standard port
-        if (   ( $method === "http"  and $server_port != "80"  )
-            or ( $method === "https" and $server_port != "443" )
-        ) {
-            $server_name .= ":".$server_port;
-        }
-
-        $reset_url = $method."://".$server_name.$script_name;
-    }
 
     $reset_url .= "?action=resetbytoken&token=".urlencode($token);
 

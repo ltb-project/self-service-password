@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,8 @@ $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Du burde installera PHP LDAP for å anvenda detta verktøyet";
 $messages['nophpmhash'] = "Du burde installera PHP mhash for att använda Samba mode";
 $messages['nokeyphrase'] = "Token kryptering krever en tilfeldig generert streng i keyphrase innstilling";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Kan ikke koble til LDAP katalogen";
 $messages['loginrequired'] = "Du må angi ditt brukernavn";
 $messages['oldpasswordrequired'] = "Du må angi ditt gamle passord";

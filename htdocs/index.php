@@ -14,16 +14,10 @@ require_once("../conf/config.inc.php");
 # Includes
 #==============================================================================
 require_once("../vendor/autoload.php");
-require_once("../lib/vendor/defuse-crypto.phar");
-require_once("../lib/vendor/autoload.php");
 require_once("../lib/functions.inc.php");
 if ($use_captcha) {
     require_once("../lib/captcha.inc.php");
 }
-// should be included by ../lib/vendor/autoload.php
-//if ($use_pwnedpasswords) {
-//    require_once("../lib/vendor/mxrxdxn/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php");
-//}
 
 #==============================================================================
 # VARIABLES
@@ -81,8 +75,14 @@ if ( ! function_exists('mb_internal_encoding') ) { $dependency_check_results[] =
 # Check PHP xml presence
 if ( ! function_exists('utf8_decode') ) { $dependency_check_results[] = "nophpxml"; }
 
+# Check crypt_tokens option
+if ( $use_sms and !$crypt_tokens ) { $dependency_check_results[] = "nocrypttokens"; }
+
 # Check keyphrase setting
 if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( empty($keyphrase) or $keyphrase == "secret") ) { $dependency_check_results[] = "nokeyphrase"; }
+
+# Check reset_url setting
+if ( $use_tokens and empty($reset_url) ) { $dependency_check_results[] = "noreseturl"; }
 
 #==============================================================================
 # Email Config

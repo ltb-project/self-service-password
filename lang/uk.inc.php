@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 # Copyright (C) 2016 Oleh Kravchenko <oleg@kaa.org.ua>
 #
 # This program is free software; you can redistribute it and/or
@@ -27,6 +27,8 @@ $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Для використання цієї програми Вам потрібно встановити PHP ldap";
 $messages['nophpmhash'] = "Для використання Samba режиму, спочатку встановіть PHP mhash";
 $messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Немає доступу до LDAP директорії";
 $messages['loginrequired'] = "Введіть Ваш логін";
 $messages['oldpasswordrequired'] = "Введіть Ваш старий пароль";

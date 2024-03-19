@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,8 @@ $messages['phpupgraderequired'] = "Potrbno je ažuriranje PHP-a";
 $messages['nophpldap'] = "Potrebno je instalirati PHP LDAP da bi ste koristili ovu alatku";
 $messages['nophpmhash'] = "Potrebno je instalirati PHP mhash da bi ste koristili SAMBA mod";
 $messages['nokeyphrase'] = "Enkripcija Tokena zahteva nasumičan niz karaktera u podešavanju keyphrase-a";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Ne mogu da pristupim LDAP direktorijumu";
 $messages['loginrequired'] = "Potrebno je vaše korisničko ime";
 $messages['oldpasswordrequired'] = "Potrebna je Vaša stara lozinka";

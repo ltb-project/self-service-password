@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../lib/vendor/defuse-crypto.phar';
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../lib/functions.inc.php';
 
 class CryptoTest extends \PHPUnit\Framework\TestCase

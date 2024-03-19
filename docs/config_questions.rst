@@ -138,7 +138,11 @@ To add a question, you can create a new value in the
 
    $messages['questions']['ice'] = "What is your favorite ice cream flavor?";
 
-Or better, to be able to translate it, create it in every customized lang file under ``conf/``.
+Or better, to be able to translate it, create it in every customized lang file under
+configuration directory:
+
+* ``conf/`` directory for self-service-password archive
+* ``/etc/self-service-password`` directory for rpm/deb packages
 
 To disable the default questions form the main configuration file, set:
 

@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,8 @@ $messages['phpupgraderequired'] = "PHP frissítés szükséges";
 $messages['nophpldap'] = "A program használatához telepíteni kell a PHP LDAP csomagot";
 $messages['nophpmhash'] = "A Samba üzemmód használatához telepíteni kell a PHP mhash csomagot";
 $messages['nokeyphrase'] = "A token titkosításához random stringre van szükség";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Nem érhető el az LDAP szolgáltatás";
 $messages['loginrequired'] = "A felhasználónév megadása kötelező!";
 $messages['oldpasswordrequired'] = "A régi jelszó megadása kötelező!";

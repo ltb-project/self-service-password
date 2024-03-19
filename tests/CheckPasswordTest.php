@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../lib/vendor/defuse-crypto.phar';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class CheckPasswordTest extends \PHPUnit\Framework\TestCase
 {
@@ -96,8 +96,6 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
         $oldpassword = "secret";
 
         if ( version_compare(PHP_VERSION, '7.2.5') >= 0 ) {
-            //require_once __DIR__ . '/../lib/vendor/mxrxdxn/pwned-passwords/src/PwnedPasswords/PwnedPasswords.php';
-            require_once __DIR__ . '/../lib/vendor/autoload.php';
             $pwd_policy_config = array(
                 "pwd_show_policy"         => true,
                 "pwd_min_length"          => 6,
@@ -136,7 +134,6 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
         $oldpassword = "secret";
 
         if ( version_compare(PHP_VERSION, '7.2.5') >= 0 ) {
-            require_once __DIR__ . '/../lib/vendor/autoload.php';
             $pwd_policy_config = array(
                 "pwd_show_policy"          => true,
                 "pwd_min_length"           => 6,
@@ -178,7 +175,6 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
         $oldpassword = "secret";
 
         if ( version_compare(PHP_VERSION, '7.2.5') >= 0 ) {
-            require_once __DIR__ . '/../lib/vendor/autoload.php';
             $pwd_policy_config = array(
                 "pwd_show_policy"          => true,
                 "pwd_min_length"           => 6,

@@ -16,10 +16,10 @@ configuration file named ``config.inc.local.php`` in
    ?>
 
 Self Service Password default configuration file is
-``self-service-password/conf/config.inc.php``. It includes
-``config.inc.local.php``. Consequently, you can override all parameters
-in ``config.inc.local.php``. This prevents you to be disturbed by an
-upgrade.
+``/etc/self-service-password/config.inc.php``. It includes
+``config.inc.local.php``. Consequently, you should override all parameters
+in a dedicated file ``config.inc.local.php``. This prevents you to be disturbed
+by an upgrade.
 
 Multi tenancy
 -------------
@@ -32,7 +32,7 @@ This feature is disable by default. To enable it:
    $header_name_extra_config = "SSP-Extra-Config";
 
 Then if you send the header ``SSP-Extra-Config: domain1``, the file
-``conf/config.inc.domain1.php`` will be loaded.
+``config.inc.domain1.php`` will be loaded.
 
 Using Apache, we may set such header using the following:
 

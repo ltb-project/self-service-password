@@ -2,8 +2,8 @@
 #==============================================================================
 # LTB Self Service Password
 #
-# Copyright (C) 2009 Clement OUDOT
-# Copyright (C) 2009 LTB-project.org
+# Copyright (C) 2024 Clement OUDOT
+# Copyright (C) 2024 LTB-project.org
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,6 +28,8 @@ $messages['phpupgraderequired'] = "PHP vajab uuendamist";
 $messages['nophpldap'] = "Sul on vaja paigaldada PHP LDAP, et kasutada seda tööriista";
 $messages['nophpmhash'] = "Sul on vaja paigaldada PHP mhash, et kasutada Samba režiimi";
 $messages['nokeyphrase'] = "Tokeni krüpteerimine nõuab juhuslikku märgijada võtmejada seadistuses";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
+$messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Ei ole võimalik saada ühendust LDAP kataloogiga";
 $messages['loginrequired'] = "Sinu kasutajanimi on kohustuslik";
 $messages['oldpasswordrequired'] = "Sinu vana parool on kohustuslik";
