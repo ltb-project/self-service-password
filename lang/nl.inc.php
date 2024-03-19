@@ -166,4 +166,3 @@ $messages['sendsmshelpupdatephone'] = "You can update your phone number on <a hr
 $messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['smsrequired'] = "Your SMS phone is required.";
 $messages['smsnomatch'] = "The SMS number does not match the submitted login.";
-$messages['smssent_ifexists'] = "If the account exists, a sms has been sent to the associated phone number.";
