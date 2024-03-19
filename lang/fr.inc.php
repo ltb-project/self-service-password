@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "Use mise à jour de PHP est requise";
 $messages['nophpldap'] = "Vous devriez installer PHP LDAP pour utiliser cet outil";
 $messages['nophpmhash'] = "Vous devriez installer PHP mhash pour utiliser le mode Samba";
 $messages['nokeyphrase'] = "Vous devez configurer keyphrase pour que le chiffrement fonctionne";
+$messages['nocrypttokens'] = "Les jetons chiffrés sont requis pour la fonctionnalité de réinitialisation par SMS";
 $messages['noreseturl'] = "La fonction de réinitialisation par mail nécessite de configurer l'URL de réinitialisation";
 $messages['ldaperror'] = "Erreur d'accès à l'annuaire";
 $messages['loginrequired'] = "Vous devez indiquer votre identifiant";

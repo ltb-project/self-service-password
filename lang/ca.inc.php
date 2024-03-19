@@ -29,6 +29,7 @@ $messages['phpupgraderequired'] = "Es requereix una actualització de PHP";
 $messages['nophpldap'] = "Cal instal·lar PHP LDAP per fer servir aquesta eina";
 $messages['nophpmhash'] = "Cal instal·lar PHP mhash per fer servir el mode Samba";
 $messages['nokeyphrase'] = "El xifrat per testimoni requereix una cadena aleatòria a la configuració de la frase clau";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
 $messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "No es pot accedir al servidor LDAP";
 $messages['loginrequired'] = "Cal el nom d'usuari";

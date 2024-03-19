@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "PHP 版本需要更新";
 $messages['nophpldap'] = "您需要安裝 PHP LDAP 才能使用此工具";
 $messages['nophpmhash'] = "您需要安裝 PHP mhash 才能使用 Samba 模式";
 $messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
 $messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "無法連接至 LDAP 伺服器";
 $messages['loginrequired'] = "請輸入帳號";

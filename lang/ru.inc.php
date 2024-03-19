@@ -26,6 +26,7 @@ $messages['phpupgraderequired'] = "PHP upgrade required";
 $messages['nophpldap'] = "Для использования данной программы Вам необходимо установить PHP-Ldap";
 $messages['nophpmhash'] = "Для использования Samba mode установите сначала PHP mhash";
 $messages['nokeyphrase'] = "Token encryption requires a random string in keyphrase setting";
+$messages['nocrypttokens'] = "Crypted tokens are mandatory for reset by SMS feature";
 $messages['noreseturl'] = "Reset by mail tokens feature requires configuration of reset URL";
 $messages['ldaperror'] = "Нет доступа к LDAP directory";
 $messages['loginrequired'] = "Введите Ваш login";
