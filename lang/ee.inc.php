@@ -115,6 +115,7 @@ $messages['sms'] = "SMS number";
 $messages['smsresetmessage'] = "Sinu parooli lähtestamise ajutine kood on:";
 $messages['sendsmshelpnosms'] = "Sisesta oma kasutajanimi, et saada parooli lähtestamise ajutine kood. Kasuta SMS teel saadud ajutist koodi.";
 $messages['smssent'] = "Kinnituskood saadetud SMS'iga";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Viga SMS saatmisel";
 $messages['smsnonumber'] = "Ei leia mobiiltelefoni numbrit";
 $messages['userfullname'] = "Ees- ja perenimi";

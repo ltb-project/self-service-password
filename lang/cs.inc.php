@@ -105,6 +105,7 @@ $messages['sms'] = "Telefonní číslo";
 $messages['smsresetmessage'] = "Řetezec pro obnovu hesla je:";
 $messages['sendsmshelpnosms'] = "Vložte své uživatelské jméno pro získání kódu pro obnovu hesla. Poté přepište kód z doručené SMS.";
 $messages['smssent'] = "Ověřovací kód byl odeslán pomocí SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Chyba při odesílání SMS";
 $messages['smsnonumber'] = "Telefonní číslo nenalezeno";
 $messages['userfullname'] = "Celé jméno";

@@ -109,6 +109,7 @@ $messages['smsuserfound'] = "Check that user information are correct and press S
 $messages['sendsmshelpnosms'] = "Enter your login to get password reset token. Then type token in sent SMS.";
 $messages['smsnotsent'] = "Error when sending SMS";
 $messages['smssent'] = "A confirmation code has been send by SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['changehelpsms'] = "<a href=\"?action=sendsms\">Reset your password with a SMS</a>";
 $messages['resetbysmshelp'] = "The token sent by sms allows you to reset your password. To get a new token, <a href=\"?action=sendsms\">click here</a>.";
 $messages['smsresetmessage'] = "Your password reset token is:";

@@ -105,6 +105,7 @@ $messages['sms'] = "Mobilnummer";
 $messages['smsresetmessage'] = "Lösenkod:";
 $messages['sendsmshelpnosms'] = "Ange användarnamn för att får en Lösenkod. Ange sedan Lösenkoden som står i SMSet.";
 $messages['smssent'] = "En Lösenkod är skickad via SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Fel vid sändning av SMS";
 $messages['smsnonumber'] = "Kan inte hitta mobilnummer";
 $messages['userfullname'] = "Namn";

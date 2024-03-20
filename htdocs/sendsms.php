@@ -155,7 +155,7 @@ if ( $result === "" ) {
                 $result = "sendsms";
             }
             if (!$match){
-                list($result, $token) = obscure_info_sendsms("smssent","smsnomatch");
+                list($result, $token) = obscure_info_sendsms("smssent_ifexists","smsnomatch");
                 error_log("SMS number $phone does not match for user $login");
             }
         }else{
@@ -358,7 +358,7 @@ function get_mobile_and_displayname($login) {
                 $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
             }
             if (!$userdn) {
-                list($result, $token) = obscure_info_sendsms("smssent","badcredentials");
+                list($result, $token) = obscure_info_sendsms("smssent_ifexists","badcredentials");
                 error_log("LDAP - User $login not found");
             } else {
                 # Get first sms number for configured ldap attributes in sms_attributes.
@@ -373,7 +373,7 @@ function get_mobile_and_displayname($login) {
                         $sms = truncate_number($sms);
                     }
                 }else{
-                    list($result, $token) = obscure_info_sendsms("smssent","smsnonumber");
+                    list($result, $token) = obscure_info_sendsms("smssent_ifexists","smsnonumber");
                     error_log("No SMS number found for user $login");
                 }
             }

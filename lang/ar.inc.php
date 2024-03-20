@@ -113,6 +113,7 @@ $messages['sms'] = "رقم الرسائل القصيرة";
 $messages['smsresetmessage'] = ": رمز إعادة تعيين كلمة السر الخاصة بك هو";
 $messages['sendsmshelpnosms'] = ".أدخل اسم المستخدم الخاصة بك للحصول على رمز إعادة تعيين كلمة السر. ثم اكتب الرمز المرسل في الرسائل القصيرة";
 $messages['smssent'] = "تم إرسال رمز التأكيد عن طريق الرسائل القصيرة";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "خطأ عند إرسال الرسائل القصيرة";
 $messages['smsnonumber'] = "لا يمكن العثور على رقم الهاتف المحمول";
 $messages['userfullname'] = "الإسم الكامل للمستخدم";

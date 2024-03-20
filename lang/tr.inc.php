@@ -105,6 +105,7 @@ $messages['sms'] = "SMS numarası";
 $messages['smsresetmessage'] = "Parola sıfırlama belirteciniz:";
 $messages['sendsmshelpnosms'] = "SMS almak için kullanıcı adınızı, sonrasında da SMS ile yollanan belirteci girin.";
 $messages['smssent'] = "SMS ile bir doğrulama kodu gönderildi";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "SMS gönderilirken hata oluştu";
 $messages['smsnonumber'] = "Mobil numara bulunamıyor";
 $messages['userfullname'] = "Kullanıcının tam adı";

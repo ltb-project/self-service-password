@@ -103,6 +103,7 @@ $messages['sms'] = "Número SMS";
 $messages['smsresetmessage'] = "O teu código para redefinir a password é:";
 $messages['sendsmshelpnosms'] = "Indica o teu username para obteres o código para redefinir a tua password. Depois digita o código enviado por SMS.";
 $messages['smssent'] = "Um código de confirmação foi enviado via SMS.";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Erro ao enviar SMS.";
 $messages['smsnonumber'] = "Nao foi possível encontrar o teu número de telemóvel.";
 $messages['userfullname'] = "Nome completo";

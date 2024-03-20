@@ -104,6 +104,7 @@ $messages['sms'] = "SMS Zenbakia";
 $messages['smsresetmessage'] = "Pasahitza berrezartzeko kodea hau da:";
 $messages['sendsmshelpnosms'] = "Zure erabiltzaile izena idatzi pasahitza kode bidez berrezartzeko. Kodea SMS bidez iritsiko zaizu.";
 $messages['smssent'] = "SMS bat bidali da kodearekin";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Errorea SMS-a bidaltzean";
 $messages['smsnonumber'] = "Telefono zenbakirik ez dago";
 $messages['userfullname'] = "Erabiltzailearen izen osoa";

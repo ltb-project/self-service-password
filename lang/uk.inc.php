@@ -112,6 +112,7 @@ $messages['userfullname'] = "Повне ім'я";
 $messages['getuser'] = "Отримати користувача";
 $messages['resetbysmshelp'] = "Жетон який дозволяє скинути пароль, відправлено через SMS. Щоб отримати новий жетон, <a href=\"?action=sendsms\">клацніть тут</a>.";
 $messages['smssent'] = "Код підтвердження був відправлений через SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsuserfound'] = "Перевірте, що інформація про користувача вірна та натисніть «Відправити SMS», щоб отримати жетон";
 $messages['nophpmbstring'] = "Ви повинні встановити PHP mbstring";
 $messages['menuquestions'] = "Question";

@@ -105,6 +105,7 @@ $messages['sms'] = "Αριθμός SMS";
 $messages['smsresetmessage'] = "Το μοναδικό αναγνωριστικό αλλαγής του κωδικού σας είναι:";
 $messages['sendsmshelpnosms'] = "Καταχωρήστε το όνομα χρήστη για να λάβετε μοναδικό αναγνωριστικό αλλαγής κωδικού. Στη συνέχεια καταχωρήστε το μοναδικό αναγνωριστικό που λάβατε μέσω SMS.";
 $messages['smssent'] = "Ένας κωδικός επιβεβαίωσης στάλθηκε μέσω SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Λάθος στην αποστολή SMS";
 $messages['smsnonumber'] = "Δεν υπάρχει αριθμός κινητού τηλεφώνου";
 $messages['userfullname'] = "Ονοματεπώνυμο χρήστη";

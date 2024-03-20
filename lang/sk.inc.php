@@ -105,6 +105,7 @@ $messages['sms'] = "SMS číslo";
 $messages['smsresetmessage'] = "Váš token pre zmenu hesla je:";
 $messages['sendsmshelpnosms'] = "Zadajte Vaše prihlasovacie meno pre získanie tokenu pre zmenu hesla. Potom zadajte token v odoslanej SMS.";
 $messages['smssent'] = "Potvrdzovací kód bol poslaný SMSkou";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Chyba pri posielaní SMSky";
 $messages['smsnonumber'] = "Telefónne číslo sa nenašlo";
 $messages['userfullname'] = "Meno a priezvisko";

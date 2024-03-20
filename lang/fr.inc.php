@@ -104,6 +104,7 @@ $messages['sms'] = "Numéro SMS";
 $messages['smsresetmessage'] = "Votre jeton est:";
 $messages['sendsmshelpnosms'] = "Entrez votre identifiant pour obtenir votre code de confirmation. Entrez ensuite le code reçu par SMS.";
 $messages['smssent'] = "Le code de confirmation a été envoyé par SMS.";
+$messages['smssent_ifexists'] = "Si ce compte exsite, le code de confirmation a été envoyé par SMS.";
 $messages['smsnotsent'] = "Erreur lors de l'envoi du SMS";
 $messages['smsnonumber'] = "Le numéro de mobile n'a pas été trouvé.";
 $messages['userfullname'] = "Nom complet";

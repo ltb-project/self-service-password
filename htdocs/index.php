@@ -336,7 +336,7 @@ if ($result) {
     $smarty->assign('error', $messages[$result]);
     // TODO : Make it clean $error_sms - START
     if ($action == 'sendsms') {
-        if (isset($result) && ($result == 'smscrypttokensrequired' || $result == 'smsuserfound' || $result == 'smssent' || $result == 'tokenattempts')) {
+        if (isset($result) && ($result == 'smscrypttokensrequired' || $result == 'smsuserfound' || $result == 'smssent' || $result == 'smssent_ifexists' || $result == 'tokenattempts')) {
             $smarty->assign('error_sms', $result);
         } else {
             $smarty->assign('error_sms', false);

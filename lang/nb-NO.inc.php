@@ -105,6 +105,7 @@ $messages['sms'] = "Mobilnummer";
 $messages['smsresetmessage'] = "Ditt engangspassord er:";
 $messages['sendsmshelpnosms'] = "Angi brukernavn for å få tilsendt engangspassord. Angi engangspassordet fra SMS'en.";
 $messages['smssent'] = "Engangspassord er sendt på SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Feil ved sending av SMS";
 $messages['smsnonumber'] = "Kan ikke finne mobilnummer";
 $messages['userfullname'] = "Navn";

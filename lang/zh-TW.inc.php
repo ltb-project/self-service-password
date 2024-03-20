@@ -112,6 +112,7 @@ $messages['policycomplex'] = "最少字元類型：";
 $messages['sms'] = "簡訊號碼";
 $messages['smsresetmessage'] = "您的密碼重新設定金鑰：";
 $messages['smssent'] = "金鑰簡訊已發送";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "簡訊發送錯誤";
 $messages['smsnonumber'] = "未發現手機號碼";
 $messages['userfullname'] = "帳號全名";

@@ -107,6 +107,7 @@ $messages['sms'] = "SMS Numero";
 $messages['smsresetmessage'] = "El testimoni de restabliment de contrasenya és:";
 $messages['sendsmshelpnosms'] = "Introdueixi el seu nom d'usuari per obtenir un testimoni de restabliment de contrasenya. A continuació, escriviu el testimoni en l'SMS enviat.";
 $messages['smssent'] = "Un codi de confirmació ha estat enviat per SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Error enviant el SMS";
 $messages['smsnonumber'] = "No es pot trobar el número de telèfon mòbil";
 $messages['userfullname'] = "Nom d'usuari complert";

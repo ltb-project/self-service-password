@@ -112,6 +112,7 @@ $messages['policycomplex'] = "Minimum number of different classes of characters:
 $messages['sms'] = "SMS number";
 $messages['smsresetmessage'] = "Your password reset token is:";
 $messages['smssent'] = "A confirmation code has been send by SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Error when sending SMS";
 $messages['smsnonumber'] = "Can't find mobile number";
 $messages['userfullname'] = "User full name";

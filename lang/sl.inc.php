@@ -105,6 +105,7 @@ $messages['sms'] = "Številka SMS";
 $messages['smsresetmessage'] = "Žeton za ponastavitev gesla je:";
 $messages['sendsmshelpnosms'] = "Vnesite uporabniško ime, da dobite žeton za ponastavitev gesla. Potem vnesite žeton v poslani SMS.";
 $messages['smssent'] = "Potrditvena koda je bila poslana preko SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Napaka pri pošiljanju SMS";
 $messages['smsnonumber'] = "Ne najdem številke mobilnega telefona";
 $messages['userfullname'] = "Polno ime uporabnika";

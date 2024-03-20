@@ -105,6 +105,7 @@ $messages['sms'] = "SMS szám";
 $messages['smsresetmessage'] = "Jelszava megváltoztatásához írja be az alábbi kódot:";
 $messages['sendsmshelpnosms'] = "Írja be felhasználónevét, majd az SMS-ben kapott aktiváló kódot.";
 $messages['smssent'] = "Aktiváló kód SMS-ben kiküldve";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Hiba az SMS küldése közben";
 $messages['smsnonumber'] = "Mobilszám nem található";
 $messages['userfullname'] = "Teljes név";

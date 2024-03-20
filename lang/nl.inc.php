@@ -104,6 +104,7 @@ $messages['sms'] = "Mobiele telefoon";
 $messages['smsresetmessage'] = "Uw wachtwoord reset token is:";
 $messages['sendsmshelpnosms'] = "Voer uw login informatie in om uw wachtwoord reset token te ontvangen. Voer vervolgens het token in wat toegestuurd is via SMS.";
 $messages['smssent'] = "Een bevestigingscode is verzonden via SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Fout tijdens het versturen van een SMS";
 $messages['smsnonumber'] = "Mobiele nummer niet gevonden";
 $messages['userfullname'] = "Volledige naam van gebruiker";

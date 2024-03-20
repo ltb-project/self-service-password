@@ -104,6 +104,7 @@ $messages['sms'] = "Número SMS";
 $messages['smsresetmessage'] = "Su código para resetear su contraseña es:";
 $messages['sendsmshelpnosms'] = "Introduzca su nombre de usuario para obtener un reseteo de contraseña por código. Luego teclee el código y enviéela en un SMS.";
 $messages['smssent'] = "Un código de confirmación ha sido enviado por SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Error al enviar el SMS";
 $messages['smsnonumber'] = "No se pudo encontrar el número del móvil";
 $messages['userfullname'] = "Nombre completo del usuario";

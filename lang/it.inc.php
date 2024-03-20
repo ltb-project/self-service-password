@@ -111,6 +111,7 @@ $messages['userfullname'] = "Nome completo dell'utente";
 $messages['getuser'] = "Ottieni utente";
 $messages['resetbysmshelp'] = "Il codice inviato via SMS ti permette di reimpostare la password. Per ricevere un nuovo codice, <a href=\"?action=sendsms\">clicca qui</a>.";
 $messages['smssent'] = "Un codice di conferma è stato inviato via SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsuserfound'] = "Controlla che i dati siano corretti e premi 'Invia' per ricevere il codice via SMS";
 $messages['nophpmbstring'] = "Devi installare PHP mbstring";
 $messages['menuquestions'] = "Domande";

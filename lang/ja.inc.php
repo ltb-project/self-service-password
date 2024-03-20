@@ -105,6 +105,7 @@ $messages['sms'] = "SMS番号";
 $messages['smsresetmessage'] = "パスワードリセット用のトークン:";
 $messages['sendsmshelpnosms'] = "パスワードリセット用のトークンを取得するにはログインIDを入力してください。その後、SMSで送信されたトークンを入力してください。";
 $messages['smssent'] = "確認用のトークンをSMSで送信しました";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "SMSを送信する際にエラーが発生しました";
 $messages['smsnonumber'] = "携帯電話番号を取得できません";
 $messages['userfullname'] = "氏名";

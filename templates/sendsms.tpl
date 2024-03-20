@@ -30,7 +30,7 @@
         </div>
     </form>
     </div>
-{elseif $error_sms and ($error_sms == 'smssent' or $error_sms == 'tokenattempts')}
+{elseif $error_sms and ($error_sms == 'smssent' or $error_sms == 'smssent_ifexists' or $error_sms == 'tokenattempts')}
     <div class="alert shadow alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="row mb-3">

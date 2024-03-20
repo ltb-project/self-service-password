@@ -113,6 +113,7 @@ $messages['sms'] = "Broj telefona za SMS";
 $messages['smsresetmessage'] = "Vaš token za resetovanje lozinke je:";
 $messages['sendsmshelpnosms'] = "Unesite svoje korisničko ime da dobijete token za resetovanje lozinke. Zatim ukucajte token koji ćete dobiti SMS-om.";
 $messages['smssent'] = "Vaš token je poslat SMS-om";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Greška prilikom slanja SMS-a";
 $messages['smsnonumber'] = "Nema broja mobilnog telefona";
 $messages['userfullname'] = "Puno ime korisnika";

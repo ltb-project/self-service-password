@@ -112,6 +112,7 @@ $messages['policycomplex'] = "最少不同字符类型数量：";
 $messages['sms'] = "短信号码";
 $messages['smsresetmessage'] = "您的密码重置口令：";
 $messages['smssent'] = "口令短信已发送";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "短信发送错误";
 $messages['smsnonumber'] = "未发现手机号码";
 $messages['userfullname'] = "用户全名";

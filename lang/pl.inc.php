@@ -106,6 +106,7 @@ $messages['sms'] = "Numer SMS";
 $messages['smsresetmessage'] = "Twój Token resetowania hasła to:";
 $messages['sendsmshelpnosms'] = "Wprowadź swój login, aby otrzymać Token resetowania hasła. Następnie wpisz token w wysłanej wiadomości SMS.";
 $messages['smssent'] = "Kod potwierdzający został wysłany SMS-em";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Błąd podczas wysyłania wiadomości SMS";
 $messages['smsnonumber'] = "Nie znaleziono numeru telefonu komórkowego";
 $messages['userfullname'] = "Pełna nazwa użytkownika";

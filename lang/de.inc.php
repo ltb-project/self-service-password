@@ -104,6 +104,7 @@ $messages['sms'] = "Mobilfunknummer";
 $messages['smsresetmessage'] = "Ihr Bestätigungscode für die Passwortrücksetzung lautet:";
 $messages['sendsmshelpnosms'] = "Geben Sie Ihren Benutzernamen ein, um einen Bestätigungscode für die Passwortrücksetzung zu erhalten. Geben Sie nachfolgend den per SMS erhaltenen Bestätigungscode ein.";
 $messages['smssent'] = "Ein Bestätigungscode wurde per SMS versandt";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Fehler beim Versenden der SMS";
 $messages['smsnonumber'] = "Kann Mobilfunknummer nicht finden";
 $messages['userfullname'] = "Vollständiger Name des Benutzers";
