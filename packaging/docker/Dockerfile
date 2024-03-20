@@ -56,7 +56,8 @@ RUN rmdir /var/www/html && \
     mv /var/www/htdocs /var/www/html && \
     mkdir -p /var/www/templates_c && \
     chown -R www-data: /var/www/templates_c && \
-    sed -i 's/smarty3/smarty4/' /var/www/conf/config.inc.php
+    sed -i 's/smarty3/smarty4/' /var/www/conf/config.inc.php && \
+    cp -a /var/www/conf/config.inc.php /var/www/config.inc.php.orig
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 RUN cd /var/www && /usr/bin/composer install
 RUN buildDeps="${BUILDDEP}" \
@@ -64,4 +65,4 @@ RUN buildDeps="${BUILDDEP}" \
     && rm -r /var/lib/apt/lists/*
 ENV LC_CTYPE=en_US.UTF-8
 EXPOSE 80
-
+CMD ["/var/www/entrypoint.sh"]
