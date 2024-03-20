@@ -111,8 +111,9 @@ $messages['notcomplex'] = "Sua senha não possui diferentes tipos de caracteres 
 $messages['policycomplex'] = "Quantidade mínima de tipos de caracteres: ";
 $messages['sms'] = "Número SMS";
 $messages['smsresetmessage'] = "Seu código para redefinir a senha é:";
-$messages['sendsmshelp'] = "Informe seu nome de usuário para obter o código para redefinir sua senha. Depois digite o código enviado no SMS.";
+$messages['sendsmshelpnosms'] = "Informe seu nome de usuário para obter o código para redefinir sua senha. Depois digite o código enviado no SMS.";
 $messages['smssent'] = "Um código de confirmação foi enviado via SMS";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "Erro ao enviar SMS";
 $messages['smsnonumber'] = "Não foi possível encontrar o número";
 $messages['userfullname'] = "Nome completo";
@@ -163,3 +164,6 @@ $messages['setattributeshelp'] = "Você pode atualizar as informações usadas p
 $messages['phone'] = "Número de telefone";
 $messages['sendtokenhelpupdatemail'] = "Você pode atualizar seu endereço de email <a href=\"?action=setattributes\">nesta página</a>.";
 $messages['sendsmshelpupdatephone'] = "Você pode atualizar seu número de telefone <a href=\"?action=setattributes\">nesta página</a>.";
+$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
+$messages['smsrequired'] = "Your SMS phone is required.";
+$messages['smsnomatch'] = "The SMS number does not match the submitted login.";

@@ -103,8 +103,9 @@ $messages['notcomplex'] = "Parolanız yeterli sayıda değişik sınıf karakter
 $messages['policycomplex'] = "Minimum değişik karakter sınıfı sayısı:";
 $messages['sms'] = "SMS numarası";
 $messages['smsresetmessage'] = "Parola sıfırlama belirteciniz:";
-$messages['sendsmshelp'] = "SMS almak için kullanıcı adınızı, sonrasında da SMS ile yollanan belirteci girin.";
+$messages['sendsmshelpnosms'] = "SMS almak için kullanıcı adınızı, sonrasında da SMS ile yollanan belirteci girin.";
 $messages['smssent'] = "SMS ile bir doğrulama kodu gönderildi";
+$messages['smssent_ifexists'] = "If account exists, a confirmation code has been send by SMS";
 $messages['smsnotsent'] = "SMS gönderilirken hata oluştu";
 $messages['smsnonumber'] = "Mobil numara bulunamıyor";
 $messages['userfullname'] = "Kullanıcının tam adı";
@@ -163,3 +164,6 @@ $messages['setattributeshelp'] = "Parolanızı sıfırlamak için kullanılan bi
 $messages['phone'] = "Telefon numarası";
 $messages['sendtokenhelpupdatemail'] = "E-posta adresinizi <a href=\"?action=setattributes\">bu sayfada</a> güncelleyebilirsiniz.";
 $messages['sendsmshelpupdatephone'] = "Telefon numaranızı <a href=\"?action=setattributes\">bu sayfada</a> güncelleyebilirsiniz.";
+$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
+$messages['smsrequired'] = "Your SMS phone is required.";
+$messages['smsnomatch'] = "The SMS number does not match the submitted login.";

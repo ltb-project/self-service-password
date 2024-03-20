@@ -225,6 +225,7 @@ $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
 $smarty->assign('change_sshkey', $change_sshkey);
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
+$smarty->assign('sms_use_ldap', $sms_use_ldap);
 $smarty->assign('default_action', $default_action);
 //$smarty->assign('',);
 
@@ -335,7 +336,7 @@ if ($result) {
     $smarty->assign('error', $messages[$result]);
     // TODO : Make it clean $error_sms - START
     if ($action == 'sendsms') {
-        if (isset($result) && ($result == 'smscrypttokensrequired' || $result == 'smsuserfound' || $result == 'smssent' || $result == 'tokenattempts')) {
+        if (isset($result) && ($result == 'smscrypttokensrequired' || $result == 'smsuserfound' || $result == 'smssent' || $result == 'smssent_ifexists' || $result == 'tokenattempts')) {
             $smarty->assign('error_sms', $result);
         } else {
             $smarty->assign('error_sms', false);

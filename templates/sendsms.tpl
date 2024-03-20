@@ -1,5 +1,5 @@
-{if error_sms and $error_sms == 'smscrypttokensrequired'}
-{elseif error_sms and $error_sms == 'smsuserfound'}
+{if $error_sms and $error_sms == 'smscrypttokensrequired'}
+{elseif $error_sms and $error_sms == 'smsuserfound'}
     <div class="alert shadow alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="row mb-3">
@@ -30,7 +30,7 @@
         </div>
     </form>
     </div>
-{elseif $error_sms and ($error_sms == 'smssent' or $error_sms == 'tokenattempts')}
+{elseif $error_sms and ($error_sms == 'smssent' or $error_sms == 'smssent_ifexists' or $error_sms == 'tokenattempts')}
     <div class="alert shadow alert-info">
     <form action="#" method="post" class="form-horizontal">
         <div class="row mb-3">
@@ -55,7 +55,12 @@
 {else}
     {if $show_help}
     <div class="help alert shadow alert-warning">
-        <i class="fa fa-fw fa-info-circle"></i> {$msg_sendsmshelp}
+        <i class="fa fa-fw fa-info-circle"></i>
+        {if $sms_use_ldap}
+            {$msg_sendsmshelpnosms|unescape: "html" nofilter}
+        {else}
+            {$msg_sendsmshelp|unescape: "html" nofilter}
+        {/if}
         {if $attribute_phone_update}
         <br /><i class="fa fa-fw fa-pencil-square-o"></i>
             {$msg_sendsmshelpupdatephone|unescape: "html" nofilter}
@@ -75,6 +80,17 @@
         </div>
         {if ($use_captcha)}
              {include file="captcha.tpl"}
+        {/if}
+        {if !$sms_use_ldap}
+          <div class="row mb-3">
+          <label for="telephone" class="col-sm-4 col-form-label text-end">{$msg_phone}</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-fw fa-phone"></i></span>
+                <input type="text" name="phone" id="phone" value="{$phone}" class="form-control" placeholder="{$msg_phone}" autocomplete="off" />
+            </div>
+          </div>
+        </div>
         {/if}
         <div class="row mb-3">
             <div class="offset-sm-4 col-sm-8">

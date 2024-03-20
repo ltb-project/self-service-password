@@ -4,6 +4,22 @@ Upgrade
 From 1.5 to 1.6
 ---------------
 
+SMS configuration
+~~~~~~~~~~~~~~~~~
+
+We now demand by default the telephone number to the user, if you want to ask only the login and to read the telephone number from LDAP:
+
+.. code-block:: php
+
+   $sms_use_ldap = true;
+
+The default notification's behaviour for sms is obscured. To change this behaviour into explicit information for the user ( for example: wrong username, wrong phone number), the following option must be set to false:
+
+.. code-block:: php
+
+   $obscure_notfound_sendsms = false;
+
+
 Bundled dependencies
 ~~~~~~~~~~~~~~~~~~~~
 

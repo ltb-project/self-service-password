@@ -95,7 +95,7 @@ $hash_options=[];
 $hash_options['crypt_salt_prefix'] = "$6$";
 $hash_options['crypt_salt_length'] = "6";
 
-# USE rate-limiting by IP and/or by user 
+# USE rate-limiting by IP and/or by user
 $use_ratelimit = false;
 # dir for json db's (system default tmpdir)
 #$ratelimit_dbdir = '/tmp';
@@ -288,6 +288,10 @@ $mail_priority = 3;
 ## SMS
 # Use sms
 $use_sms = true;
+# Get telephone number directly from LDAP (only first number entry)
+# and hide telephone number input field
+# default = false
+$sms_use_ldap = false;
 # SMS method (mail, api)
 $sms_method = "mail";
 $sms_api_lib = "lib/smsapi.inc.php";
@@ -404,6 +408,7 @@ $use_restapi = false;
 # by default mailnomatch is obscured since it can disclose account existence
 $obscure_failure_messages = array("mailnomatch");
 $obscure_usernotfound_sendtoken = true;
+$obscure_notfound_sendsms = true;
 
 # HTTP Header name that may hold a login to preset in forms
 #$header_name_preset_login="Auth-User";
