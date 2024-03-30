@@ -44,128 +44,6 @@ catch(Throwable $e){
   exit(1);
 }
 
-# Create SSHA password
-function make_ssha_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA}" . base64_encode(pack("H*", sha1($password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SSHA256 password
-function make_ssha256_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA256}" . base64_encode(pack("H*", hash('sha256', $password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SSHA384 password
-function make_ssha384_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA384}" . base64_encode(pack("H*", hash('sha384', $password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SSHA512 password
-function make_ssha512_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SSHA512}" . base64_encode(pack("H*", hash('sha512', $password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create SHA password
-function make_sha_password($password) {
-    $hash = "{SHA}" . base64_encode(pack("H*", sha1($password)));
-    return $hash;
-}
-
-# Create SHA256 password
-function make_sha256_password($password) {
-    $hash = "{SHA256}" . base64_encode(pack("H*", hash('sha256', $password)));
-    return $hash;
-}
-
-# Create SHA384 password
-function make_sha384_password($password) {
-    $hash = "{SHA384}" . base64_encode(pack("H*", hash('sha384', $password)));
-    return $hash;
-}
-
-# Create SHA512 password
-function make_sha512_password($password) {
-    $hash = "{SHA512}" . base64_encode(pack("H*", hash('sha512', $password)));
-    return $hash;
-}
-
-# Create SMD5 password
-function make_smd5_password($password) {
-    $salt = random_bytes(4);
-    $hash = "{SMD5}" . base64_encode(pack("H*", md5($password . $salt)) . $salt);
-    return $hash;
-}
-
-# Create MD5 password
-function make_md5_password($password) {
-    $hash = "{MD5}" . base64_encode(pack("H*", md5($password)));
-    return $hash;
-}
-
-# Create CRYPT password
-function make_crypt_password($password, $hash_options) {
-
-    $salt_length = 2;
-    if ( isset($hash_options['crypt_salt_length']) ) {
-        $salt_length = $hash_options['crypt_salt_length'];
-    }
-
-    // Generate salt
-    $possible = '0123456789'.
-                'abcdefghijklmnopqrstuvwxyz'.
-                'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.
-                './';
-    $salt = "";
-
-    while( strlen( $salt ) < $salt_length ) {
-        $salt .= substr( $possible, random_int( 0, strlen( $possible ) - 1 ), 1 );
-    }
-
-    if ( isset($hash_options['crypt_salt_prefix']) ) {
-        $salt = $hash_options['crypt_salt_prefix'] . $salt;
-    }
-
-    $hash = '{CRYPT}' . crypt( $password,  $salt);
-    return $hash;
-}
-
-# Create ARGON2 password
-function make_argon2_password($password) {
-
-    $options = [
-               'memory_cost' => 4096,
-               'time_cost'   => 3,
-               'threads'     => 1,
-    ];
-
-    $hash = '{ARGON2}' . password_hash($password,PASSWORD_ARGON2I,$options);
-    return $hash;
-}
-
-# Create MD4 password (Microsoft NT password format)
-function make_md4_password($password) {
-    if (function_exists('hash')) {
-        $hash = strtoupper( hash( "md4", iconv( "UTF-8", "UTF-16LE", $password ) ) );
-    } else {
-        $hash = strtoupper( bin2hex( mhash( MHASH_MD4, iconv( "UTF-8", "UTF-16LE", $password ) ) ) );
-    }
-    return $hash;
-}
-
-# Create AD password (Microsoft Active Directory password format)
-function make_ad_password($password) {
-    $password = "\"" . $password . "\"";
-    $adpassword = mb_convert_encoding($password, "UTF-16LE", "UTF-8");
-    return $adpassword;
-}
-
 # Generate SMS token
 function generate_sms_token( $sms_token_length ) {
     $Range = explode(',', '48-57');
@@ -365,179 +243,59 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     $result = "";
     $error_code = "";
     $error_msg = "";
-    $ppolicy_error_code = "";
+    $ppolicy_error_code = false;
 
     $time = time();
+    $userdata = [];
 
     # Set Samba password value
     if ( $samba_mode ) {
-        $userdata["sambaNTPassword"] = make_md4_password($password);
-        $userdata["sambaPwdLastSet"] = $time;
-        if ( isset($samba_options['min_age']) && $samba_options['min_age'] > 0 ) {
-             $userdata["sambaPwdCanChange"] = $time + ( $samba_options['min_age'] * 86400 );
-        }
-        if ( isset($samba_options['max_age']) && $samba_options['max_age'] > 0 ) {
-             $userdata["sambaPwdMustChange"] = $time + ( $samba_options['max_age'] * 86400 );
-        }
-        if ( isset($samba_options['expire_days']) && $samba_options['expire_days'] > 0 ) {
-             $userdata["sambaKickoffTime"] = $time + ( $samba_options['expire_days'] * 86400 );
-        }
+        $userdata = \Ltb\Password::set_samba_data($userdata, $samba_options, $password, $time);
     }
 
-    # Get hash type if hash is set to auto
-    if ( !$ad_mode && $hash == "auto" ) {
-        $search_userpassword = ldap_read( $ldap, $dn, "(objectClass=*)", array("userPassword") );
-        if ( $search_userpassword ) {
-            $userpassword = ldap_get_values($ldap, ldap_first_entry($ldap,$search_userpassword), "userPassword");
-            if ( isset($userpassword) ) {
-                if ( preg_match( '/^\{(\w+)\}/', $userpassword[0], $matches ) ) {
-                    $hash = strtoupper($matches[1]);
-                }
-            }
+    if (!$ad_mode && !$use_exop_passwd) {
+        if ($hash === "auto") {
+            $old_password_hashed = \Ltb\Ldap::get_password_value($ldap, $dn, "userPassword");
+            $hash = \Ltb\Password::get_hash_type($old_password_hashed);
         }
-    }
-
-    # Transform password value
-    if ( $ad_mode ) {
-        $password = make_ad_password($password);
-    } elseif (!$use_exop_passwd) {
-        # Hash password if needed
-        if ( $hash == "SSHA" ) {
-            $password = make_ssha_password($password);
-        }
-        if ( $hash == "SSHA256" ) {
-            $password = make_ssha256_password($password);
-        }
-        if ( $hash == "SSHA384" ) {
-            $password = make_ssha384_password($password);
-        }
-        if ( $hash == "SSHA512" ) {
-            $password = make_ssha512_password($password);
-        }
-        if ( $hash == "SHA" ) {
-            $password = make_sha_password($password);
-        }
-        if ( $hash == "SHA256" ) {
-            $password = make_sha256_password($password);
-        }
-        if ( $hash == "SHA384" ) {
-            $password = make_sha384_password($password);
-        }
-        if ( $hash == "SHA512" ) {
-            $password = make_sha512_password($password);
-        }
-        if ( $hash == "SMD5" ) {
-            $password = make_smd5_password($password);
-        }
-        if ( $hash == "MD5" ) {
-            $password = make_md5_password($password);
-        }
-        if ( $hash == "CRYPT" ) {
-            $password = make_crypt_password($password, $hash_options);
-        }
-         if ( $hash == "ARGON2" ) {
-            $password = make_argon2_password($password);
-        }
+        $password = \Ltb\Password::make_password($password, $hash, $hash_options);
+    } elseif ($ad_mode) {
+        $password = \Ltb\Password::make_ad_password($password);
     }
 
     # Set password value
     if ( $ad_mode ) {
-        $userdata["unicodePwd"] = $password;
-        if ( $ad_options['force_unlock'] ) {
-            $userdata["lockoutTime"] = 0;
-        }
-        if ( $ad_options['force_pwd_change'] ) {
-            $userdata["pwdLastSet"] = 0;
-        }
+        $userdata = \Ltb\Password::set_ad_data($userdata, $ad_options, $password);
     }
 
-    # Shadow options
-    if ( $shadow_options['update_shadowLastChange'] ) {
-        $userdata["shadowLastChange"] = floor($time / 86400);
-    }
-
-    if ( $shadow_options['update_shadowExpire'] ) {
-        if ( $shadow_options['shadow_expire_days'] > 0) {
-          $userdata["shadowExpire"] = floor(($time / 86400) + $shadow_options['shadow_expire_days']);
-        } else {
-          $userdata["shadowExpire"] = $shadow_options['shadow_expire_days'];
-        }
-    }
+    $userdata = \Ltb\Password::set_shadow_data($userdata, $shadow_options, $time);
 
     # Commit modification on directory
 
     # Special case: AD mode with password changed as user
     if ( $ad_mode and $who_change_password === "user" ) {
-        # The AD password change procedure is modifying the attribute unicodePwd by
-        # first deleting unicodePwd with the old password and them adding it with the
-        # the new password
-        $oldpassword = make_ad_password($oldpassword);
-
-        $modifications = array(
-            array(
-                "attrib" => "unicodePwd",
-                "modtype" => LDAP_MODIFY_BATCH_REMOVE,
-                "values" => array($oldpassword),
-            ),
-            array(
-                "attrib" => "unicodePwd",
-                "modtype" => LDAP_MODIFY_BATCH_ADD,
-                "values" => array($password),
-            ),
-        );
-
-        $bmod = ldap_modify_batch($ldap, $dn, $modifications);
-        $error_code = ldap_errno($ldap);
-        $error_msg = ldap_error($ldap);
+        $error = \Ltb\Ldap::change_ad_password_as_user($ldap, $dn, $oldpassword, $password);
+        $error_code = $error[0];
+        $error_msg = $error[1];
     } elseif ($use_exop_passwd) {
-        $exop_passwd = FALSE;
-        if ( $use_ppolicy_control ) {
-            $ctrls = array();
-            $exop_passwd = ldap_exop_passwd($ldap, $dn, $oldpassword, $password, $ctrls);
-            $error_code = ldap_errno($ldap);
-            $error_msg = ldap_error($ldap);
-            if (!$exop_passwd) {
-                if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE])) {
-                    $value = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value'];
-                    if (isset($value['error'])) {
-                        $ppolicy_error_code = $value['error'];
-                        error_log("LDAP - Ppolicy error code: $ppolicy_error_code");
-                    }
-                }
-            }
-        } else {
-            $exop_passwd = ldap_exop_passwd($ldap, $dn, $oldpassword, $password);
-            $error_code = ldap_errno($ldap);
-            $error_msg = ldap_error($ldap);
-        }
-        if ($exop_passwd === TRUE) {
-            # If password change works update other data
-            if (!empty($userdata)) {
-                ldap_mod_replace($ldap, $dn, $userdata);
-                $error_code = ldap_errno($ldap);
-                $error_msg = ldap_error($ldap);
-            }
-        }
+        $error = \Ltb\Ldap::change_password_with_exop($ldap, $dn, $oldpassword, $password, $use_ppolicy_control);
+        $error_code = $error[0];
+        $error_msg = $error[1];
+        $ppolicy_error_code = $error[2];
     } else {
         # Else just replace with new password
         if (!$ad_mode) {
             $userdata["userPassword"] = $password;
         }
         if ( $use_ppolicy_control ) {
-            $ppolicy_replace = ldap_mod_replace_ext($ldap, $dn, $userdata, [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]]);
-            if (ldap_parse_result($ldap, $ppolicy_replace, $error_code, $matcheddn, $error_msg, $referrals, $ctrls)) {
-                if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE])) {
-                    $value = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value'];
-                    if (isset($value['error'])) {
-                        $ppolicy_error_code = $value['error'];
-                        error_log("LDAP - Ppolicy error code: $ppolicy_error_code");
-                    }
-                }
-            }
+            $error = \Ltb\Ldap::modify_attributes_using_ppolicy($ldap, $dn, $userdata);
+            $error_code = $error[0];
+            $error_msg = $error[1];
+            $ppolicy_error_code = $error[2];
         } else {
-            ldap_mod_replace($ldap, $dn, $userdata);
-            $error_code = ldap_errno($ldap);
-            $error_msg = ldap_error($ldap);
+            $error = \Ltb\Ldap::modify_attributes($ldap, $dn, $userdata);
+            $error_code = $error[0];
+            $error_msg = $error[1];
         }
     }
 
@@ -546,10 +304,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
     } elseif ( $error_code > 0 ) {
         $result = "passworderror";
         error_log("LDAP - Modify password error $error_code ($error_msg)");
-        if ( $ppolicy_error_code === 5 ) { $result = "badquality"; }
-        if ( $ppolicy_error_code === 6 ) { $result = "tooshort"; }
-        if ( $ppolicy_error_code === 7 ) { $result = "tooyoung"; }
-        if ( $ppolicy_error_code === 8 ) { $result = "inhistory"; }
+        if ( $ppolicy_error_code != false && $ppolicy_error_code > 4 ) { 
+            $result = \Ltb\Ldap::PPOLICY_ERROR_CODE_TO_RESULT_MAPPER[$ppolicy_error_code]; 
+        }
     } else {
         $result = "passwordchanged";
     }
