@@ -68,7 +68,7 @@ if ( ( $result === "" ) and $use_captcha) {
 if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+    $ldap_connection = $ldapInstance->connect();
 
     $ldap = $ldap_connection[0];
     $result = $ldap_connection[1];
@@ -186,7 +186,7 @@ if ( !$result ) {
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
 
     # Send message
-    if ( send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
+    if ( $mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
         $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "tokensent";
     } else {
         $result = "tokennotsent";

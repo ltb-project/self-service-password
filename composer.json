@@ -1,6 +1,6 @@
 {
     "require": {
-        "ltb-project/ldap": "v0.1.0",
+        "ltb-project/ldap": "dev-4-do-not-use-global-vars",
         "bjeavons/zxcvbn-php": "^1.0",
         "twbs/bootstrap": "v5.3.3",
         "defuse/php-encryption": "2.4.0",

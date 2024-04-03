@@ -61,7 +61,7 @@ if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
 if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+    $ldap_connection = $ldapInstance->connect();
 
     $ldap = $ldap_connection[0];
     $result = $ldap_connection[1];
@@ -90,7 +90,7 @@ if ( $result === "" ) {
 
                 # Get user email for notification
                 if ($notify_on_sshkey_change) {
-                    $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+                    $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry, $mail_attributes);
                 }
 
                 # Confirm user credentials are valid
@@ -134,7 +134,7 @@ if ( !$result ) {
 if ($result === "sshkeychanged") {
     if ($mail and $notify_on_sshkey_change) {
         $data = array( "login" => $login, "mail" => $mail, "sshkey" => $sshkey);
-        if (! send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data)) {
+        if (! $mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"].$mail_signature, $data)) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }
