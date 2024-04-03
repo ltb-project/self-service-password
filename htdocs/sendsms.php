@@ -201,7 +201,7 @@ if ($result === "sendsms") {
 
     if ($sms_method === "mail") {
 
-        if (send_mail($mailer, $smsmailto, $mail_from, $mail_from_name, $smsmail_subject, $sms_message, $data)) {
+        if ($mailer->send_mail($smsmailto, $mail_from, $mail_from_name, $smsmail_subject, $sms_message, $data)) {
             $token  = encrypt(session_id(), $keyphrase);
             $result = "smssent";
             if (!empty($reset_request_log)) {
@@ -335,7 +335,7 @@ function get_mobile_and_displayname($login) {
     $search_attributes[] = $ldap_fullname_attribute;
 
     # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+    $ldap_connection = $ldapInstance->connect();
     $ldap = $ldap_connection[0];
     $result = $ldap_connection[1];
 

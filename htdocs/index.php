@@ -87,28 +87,40 @@ if ( $use_tokens and empty($reset_url) ) { $dependency_check_results[] = "norese
 #==============================================================================
 # Email Config
 #==============================================================================
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-$mailer = new PHPMailer;
-$mailer->Priority      = $mail_priority;
-$mailer->CharSet       = $mail_charset;
-$mailer->ContentType   = $mail_contenttype;
-$mailer->WordWrap      = $mail_wordwrap;
-$mailer->Sendmail      = $mail_sendmailpath;
-$mailer->Mailer        = $mail_protocol;
-$mailer->SMTPDebug     = $mail_smtp_debug;
-$mailer->Debugoutput   = $mail_debug_format;
-$mailer->Host          = $mail_smtp_host;
-$mailer->Port          = $mail_smtp_port;
-$mailer->SMTPSecure    = $mail_smtp_secure;
-$mailer->SMTPAutoTLS   = $mail_smtp_autotls;
-$mailer->SMTPAuth      = $mail_smtp_auth;
-$mailer->Username      = $mail_smtp_user;
-$mailer->Password      = $mail_smtp_pass;
-$mailer->SMTPKeepAlive = $mail_smtp_keepalive;
-$mailer->SMTPOptions   = $mail_smtp_options;
-$mailer->Timeout       = $mail_smtp_timeout;
+$mailer = new \Ltb\Mail(
+                           $mail_priority,
+                           $mail_charset,
+                           $mail_contenttype,
+                           $mail_wordwrap,
+                           $mail_sendmailpath,
+                           $mail_protocol,
+                           $mail_smtp_debug,
+                           $mail_debug_format,
+                           $mail_smtp_host,
+                           $mail_smtp_port,
+                           $mail_smtp_secure,
+                           $mail_smtp_autotls,
+                           $mail_smtp_auth,
+                           $mail_smtp_user,
+                           $mail_smtp_pass,
+                           $mail_smtp_keepalive,
+                           $mail_smtp_options,
+                           $mail_smtp_timeout
+                       );
+
+#==============================================================================
+# LDAP Config
+#==============================================================================
+$ldapInstance = new \Ltb\Ldap(
+                                 $ldap_url,
+                                 $ldap_starttls,
+                                 $ldap_binddn,
+                                 $ldap_bindpw,
+                                 $ldap_network_timeout,
+                                 $ldap_user_base,
+                                 $ldap_size_limit,
+                                 $ldap_krb5ccname
+                             );
 
 #==============================================================================
 # Other default values
