@@ -189,7 +189,7 @@ if (!isset($custompwdfield['shadow_options']['shadow_expire_days'])) {
 if ( $result === "" ) {
 
     # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+    $ldap_connection = $ldapInstance->connect();
 
     $ldap = $ldap_connection[0];
     $result = $ldap_connection[1];
@@ -215,7 +215,7 @@ if ( $result === "" ) {
             } else {
                 # Get user email for notification
                 if ($custompwdfield['notify_on_change']) {
-                    $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+                    $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry, $mail_attributes);
                 }
 
                 $userdn = ldap_get_dn($ldap, $entry);
@@ -303,7 +303,7 @@ if ( !$result ) {
 if ($result === "passwordchanged") {
     if ($mail and $notify_on_change) {
         $data = array( "login" => $login, "mail" => $mail, "password" => $newcustompwd);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+        if ( !$mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }
