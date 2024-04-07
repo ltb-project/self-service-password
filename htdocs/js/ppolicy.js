@@ -236,7 +236,7 @@
       if (newpasswordVal.length > 0) {
         return $.ajax({
           dataType: "json",
-          url: "/?action=checkentropy&password=" + btoa(newpasswordVal),
+          url: location.pathname + "?action=checkentropy&password=" + btoa(newpasswordVal),
           context: document.body,
           success: function(data) {
             var level, msg;
