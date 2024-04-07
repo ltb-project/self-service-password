@@ -191,11 +191,11 @@ if ( !empty($change_custompwdfield) ) { array_push( $available_actions, "changec
 if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
 if ( $pwd_display_entropy ) { array_push( $available_actions, "checkentropy" ); }
 else {
-     foreach ($change_custompwdfield as $custompwdfield) {
-         if ( isset($custompwdfield['pwd_policy_config']) && isset($custompwdfield['pwd_policy_config']['pwd_display_entropy']) && $custompwdfield['pwd_policy_config']['pwd_display_entropy']) {
-             array_push( $available_actions, "checkentropy" );
-         }
-     }
+    foreach ($change_custompwdfield as $custompwdfield) {
+        if ( isset($custompwdfield['pwd_policy_config']) && isset($custompwdfield['pwd_policy_config']['pwd_display_entropy']) && $custompwdfield['pwd_policy_config']['pwd_display_entropy']) {
+            array_push( $available_actions, "checkentropy" );
+        }
+    }
 }
 
 # Ensure requested action is available, or fall back to default
