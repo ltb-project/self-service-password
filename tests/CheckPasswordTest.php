@@ -37,8 +37,26 @@ class CheckPasswordTest extends \PHPUnit\Framework\TestCase
         $login = "coudot";
         $oldpassword = "secret";
         $entry_array = array('cn' => array('common name'), 'sn' => array('surname'), 'customPasswordField' => array("{SSHA}7JWaNGUygodHyWt+DwPpOuYMDdKYJQQX"));
-        $change_custompwdfield = array(array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'customPasswordField', 'hash' => "auto"));
-        $change_custompwdfield2 = array(array('pwd_policy_config' => array('pwd_no_reuse' => true), 'attribute' => 'customPasswordField', 'hash' => "SSHA"));
+        $change_custompwdfield = array(
+                                     array(
+                                         'pwd_policy_config' => array(
+                                             'pwd_no_reuse' => true,
+                                             'pwd_unique_across_custom_password_fields' => true
+                                         ),
+                                         'attribute' => 'customPasswordField',
+                                         'hash' => "auto"
+                                     )
+                                 );
+        $change_custompwdfield2 = array(
+                                      array(
+                                          'pwd_policy_config' => array(
+                                              'pwd_no_reuse' => true,
+                                              'pwd_unique_across_custom_password_fields' => true
+                                          ),
+                                          'attribute' => 'customPasswordField',
+                                          'hash' => "SSHA"
+                                      )
+                                  );
 
         $this->assertEquals("sameaslogin", check_password_strength( "coudot", $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield ) );
         $this->assertEquals("sameasold", check_password_strength( "secret", $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield ) );

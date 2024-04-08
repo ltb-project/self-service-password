@@ -19,7 +19,15 @@
 #
 #==============================================================================
 
-# require_once("../lib/LtbAttributeValue_class.php");
+# Set a default value if the variable is not initialized
+function set_default_value(&$variable, $defaultValue)
+{
+    if(!isset($variable))
+    {
+        $variable = $defaultValue;
+    }
+
+}
 
 #==============================================================================
 # POST parameters
@@ -62,6 +70,7 @@ if (isset($_GET["custompwdindex"])) {
     }
 }
 
+# Load custompwdfield configuration corresponding to the index
 $custompwdfield = $change_custompwdfield[$custompwdindex];
 
 # Check the entered username for characters that our installation doesn't support
@@ -80,107 +89,46 @@ if ( ( $result === "" ) and $use_captcha ) { $result = global_captcha_check();}
 #==============================================================================
 # Default configuration
 #==============================================================================
-if (!isset($custompwdfield['ldap_use_ppolicy_control'])) {
-    $custompwdfield['ldap_use_ppolicy_control'] = false;
-} //it is possible to define different password policies for multiple attributes, as far as I know only in OpenLDAP
-if (!isset($custompwdfield['pwd_policy_config'])) {
-    $custompwdfield['pwd_policy_config'] = array();
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_show_policy'])) {
-    $custompwdfield['pwd_policy_config']['pwd_show_policy'] = $pwd_show_policy;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_min_length'])) {
-    $custompwdfield['pwd_policy_config']['pwd_min_length'] = $pwd_min_length;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_max_length'])) {
-    $custompwdfield['pwd_policy_config']['pwd_max_length'] = $pwd_max_length;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_min_lower'])) {
-    $custompwdfield['pwd_policy_config']['pwd_min_lower'] = $pwd_min_lower;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_min_upper'])) {
-    $custompwdfield['pwd_policy_config']['pwd_min_upper'] = $pwd_min_upper;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_min_digit'])) {
-    $custompwdfield['pwd_policy_config']['pwd_min_digit'] = $pwd_min_digit;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_min_special'])) {
-    $custompwdfield['pwd_policy_config']['pwd_min_special'] = $pwd_min_special;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_special_chars'])) {
-    $custompwdfield['pwd_policy_config']['pwd_special_chars'] = $pwd_special_chars;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_forbidden_chars'])) {
-    $custompwdfield['pwd_policy_config']['pwd_forbidden_chars'] = "";
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_no_reuse'])) {
-    $custompwdfield['pwd_policy_config']['pwd_no_reuse'] = $pwd_no_reuse;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_diff_last_min_chars'])) {
-    $custompwdfield['pwd_policy_config']['pwd_diff_last_min_chars'] = $pwd_diff_last_min_chars;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_diff_login'])) {
-    $custompwdfield['pwd_policy_config']['pwd_diff_login'] = $pwd_diff_login;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_complexity'])) {
-    $custompwdfield['pwd_policy_config']['pwd_complexity'] = $pwd_complexity;
-}
-if (!isset($custompwdfield['pwd_policy_config']['use_pwnedpasswords'])) {
-    $custompwdfield['pwd_policy_config']['use_pwnedpasswords'] = $use_pwnedpasswords;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_no_special_at_ends'])) {
-    $custompwdfield['pwd_policy_config']['pwd_no_special_at_ends'] = $pwd_no_special_at_ends;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_forbidden_words'])) {
-    $custompwdfield['pwd_policy_config']['pwd_forbidden_words'] = $pwd_forbidden_words;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_forbidden_ldap_fields'])) {
-    $custompwdfield['pwd_policy_config']['pwd_forbidden_ldap_fields'] = $pwd_forbidden_ldap_fields;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_show_policy_pos'])) {
-    $custompwdfield['pwd_policy_config']['pwd_show_policy_pos'] = $pwd_show_policy_pos;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_display_entropy'])) {
-    $custompwdfield['pwd_policy_config']['pwd_display_entropy'] = $pwd_display_entropy;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_check_entropy'])) {
-    $custompwdfield['pwd_policy_config']['pwd_check_entropy'] = $pwd_check_entropy;
-}
-if (!isset($custompwdfield['pwd_policy_config']['pwd_min_entropy'])) {
-    $custompwdfield['pwd_policy_config']['pwd_min_entropy'] = $pwd_min_entropy;
-}
-if (!isset($custompwdfield['who_change_password'])) {
-    $custompwdfield['who_change_password'] = $who_change_password;
-}
-if (!isset($custompwdfield['msg_changehelpextramessage'])) {
-    $custompwdfield['msg_changehelpextramessage'] = "";
-}
-if (!isset($custompwdfield['notify_on_change'])) {
-    $custompwdfield['notify_on_change'] = $notify_on_change;
-}
-if (!isset($custompwdfield['hash_options'])) {
-    $custompwdfield['hash_options'] = $hash_options;
-}
-if (!isset($custompwdfield['msg_passwordchangedextramessage'])) {
-    $custompwdfield['msg_passwordchangedextramessage'] = "";
-}
-if (!isset($custompwdfield['samba_mode'])) {
-    $custompwdfield['samba_mode'] = false;
-}
-if (!isset($custompwdfield['samba_options'])) {
-    $custompwdfield['samba_options'] = array();
-}
-if (!isset($custompwdfield['shadow_options'])) {
-    $custompwdfield['shadow_options'] = array();
-}
-if (!isset($custompwdfield['shadow_options']['update_shadowLastChange'])) {
-    $custompwdfield['sha$dow_options']['update_shadowLastChange'] = false;
-}
-if (!isset($custompwdfield['shadow_options']['update_shadowExpire'])) {
-    $custompwdfield['shadow_options']['update_shadowExpire'] = false;
-}
-if (!isset($custompwdfield['shadow_options']['shadow_expire_days'])) {
-    $custompwdfield['shadow_options']['shadow_expire_days'] = -1;
+
+set_default_value($custompwdfield['ldap_use_ppolicy_control'], false);
+set_default_value($custompwdfield['who_change_password'], $who_change_password);
+set_default_value($custompwdfield['msg_changehelpextramessage'], "");
+set_default_value($custompwdfield['notify_on_change'], $notify_on_change);
+set_default_value($custompwdfield['hash_options'], $hash_options);
+set_default_value($custompwdfield['msg_passwordchangedextramessage'], "");
+set_default_value($custompwdfield['samba_mode'], false);
+set_default_value($custompwdfield['samba_options'], array());
+set_default_value($custompwdfield['shadow_options'], array());
+set_default_value($custompwdfield['shadow_options']['update_shadowLastChange'], false);
+set_default_value($custompwdfield['shadow_options']['update_shadowExpire'], false);
+set_default_value($custompwdfield['shadow_options']['shadow_expire_days'], -1);
+set_default_value($custompwdfield['pwd_policy_config'], array());
+$default_pwd_policy_config = [
+        "pwd_show_policy"                          => $pwd_show_policy,
+        "pwd_min_length"                           => $pwd_min_length,
+        "pwd_max_length"                           => $pwd_max_length,
+        "pwd_min_lower"                            => $pwd_min_lower,
+        "pwd_min_upper"                            => $pwd_min_upper,
+        "pwd_min_digit"                            => $pwd_min_digit,
+        "pwd_min_special"                          => $pwd_min_special,
+        "pwd_special_chars"                        => $pwd_special_chars,
+        "pwd_forbidden_chars"                      => "",
+        "pwd_no_reuse"                             => $pwd_no_reuse,
+        "pwd_diff_last_min_chars"                  => $pwd_diff_last_min_chars,
+        "pwd_diff_login"                           => $pwd_diff_login,
+        "pwd_complexity"                           => $pwd_complexity,
+        "use_pwnedpasswords"                       => $use_pwnedpasswords,
+        "pwd_no_special_at_ends"                   => $pwd_no_special_at_ends,
+        "pwd_forbidden_words"                      => $pwd_forbidden_words,
+        "pwd_forbidden_ldap_fields"                => $pwd_forbidden_ldap_fields,
+        "pwd_show_policy_pos"                      => $pwd_show_policy_pos,
+        "pwd_display_entropy"                      => $pwd_display_entropy,
+        "pwd_check_entropy"                        => $pwd_check_entropy,
+        "pwd_min_entropy"                          => $pwd_min_entropy,
+        "pwd_unique_across_custom_password_fields" => false
+];
+foreach ($default_pwd_policy_config as $param => $defaultValue) {
+    set_default_value($custompwdfield['pwd_policy_config'][$param], $defaultValue);
 }
 
 #==============================================================================
@@ -281,7 +229,7 @@ if ( !$result ) {
         exec($command, $prehook_output, $prehook_return);
     }
     if ( ! isset($prehook_return) || $prehook_return === 0 || $custompwdfield['ignore_prehook_error'] ) {
-        $result = change_password($ldap, $userdn, $newcustompwd, false, array(), $custompwdfield['samba_mode'], $custompwdfield['samba_options'], $custompwdfield['shadow_options'], $custompwdfield['hash'], $custompwdfield['hash_options'], $custompwdfield['who_change_password'], $password, false, $custompwdfield['ldap_use_ppolicy_control'], true, $custompwdfield['attribute']);
+        $result = change_password($ldapInstance, $userdn, $newcustompwd, false, array(), $custompwdfield['samba_mode'], $custompwdfield['samba_options'], $custompwdfield['shadow_options'], $custompwdfield['hash'], $custompwdfield['hash_options'], $custompwdfield['who_change_password'], $password, false, $custompwdfield['ldap_use_ppolicy_control'], true, $custompwdfield['attribute']);
         if ( $result === "passwordchanged" && isset($custompwdfield['posthook']) ) {
             $command = hook_command($custompwdfield['posthook'], $login, $newcustompwd, $password, $custompwdfield['posthook_password_encodebase64']);
             exec($command, $posthook_output, $posthook_return);
@@ -310,32 +258,33 @@ if ($result === "passwordchanged") {
 }
 
 #==============================================================================
-# Reuse config-variables and message-variables
+# Overload config and message variables with the current custompwdfield config
 #==============================================================================
 
-$pwd_show_policy_pos = $custompwdfield['pwd_policy_config']['pwd_show_policy_pos'];
-$pwd_show_policy = $custompwdfield['pwd_policy_config']['pwd_show_policy'];
-$pwd_min_length = $custompwdfield['pwd_policy_config']['pwd_min_length'];
-$pwd_max_length = $custompwdfield['pwd_policy_config']['pwd_max_length'];
-$pwd_min_lower = $custompwdfield['pwd_policy_config']['pwd_min_lower'];
-$pwd_min_upper = $custompwdfield['pwd_policy_config']['pwd_min_upper'];
-$pwd_min_digit = $custompwdfield['pwd_policy_config']['pwd_min_digit'];
-$pwd_min_special = $custompwdfield['pwd_policy_config']['pwd_min_special'];
-$pwd_complexity = $custompwdfield['pwd_policy_config']['pwd_complexity'];
+$pwd_show_policy_pos     = $custompwdfield['pwd_policy_config']['pwd_show_policy_pos'];
+$pwd_show_policy         = $custompwdfield['pwd_policy_config']['pwd_show_policy'];
+$pwd_min_length          = $custompwdfield['pwd_policy_config']['pwd_min_length'];
+$pwd_max_length          = $custompwdfield['pwd_policy_config']['pwd_max_length'];
+$pwd_min_lower           = $custompwdfield['pwd_policy_config']['pwd_min_lower'];
+$pwd_min_upper           = $custompwdfield['pwd_policy_config']['pwd_min_upper'];
+$pwd_min_digit           = $custompwdfield['pwd_policy_config']['pwd_min_digit'];
+$pwd_min_special         = $custompwdfield['pwd_policy_config']['pwd_min_special'];
+$pwd_complexity          = $custompwdfield['pwd_policy_config']['pwd_complexity'];
 $pwd_diff_last_min_chars = $custompwdfield['pwd_policy_config']['pwd_diff_last_min_chars'];
-$pwd_forbidden_chars = $custompwdfield['pwd_policy_config']['pwd_forbidden_chars'];
-$pwd_no_reuse = $custompwdfield['pwd_policy_config']['pwd_no_reuse'];
-$pwd_diff_login = $custompwdfield['pwd_policy_config']['pwd_diff_login'];
-$pwd_display_entropy = $custompwdfield['pwd_policy_config']['pwd_display_entropy'];
-$pwd_check_entropy = $custompwdfield['pwd_policy_config']['pwd_check_entropy'];
-$pwd_min_entropy = $custompwdfield['pwd_policy_config']['pwd_min_entropy'];
-$use_pwnedpasswords = $custompwdfield['pwd_policy_config']['use_pwnedpasswords'];
-$pwd_no_special_at_ends = $custompwdfield['pwd_policy_config']['pwd_no_special_at_ends'];
+$pwd_forbidden_chars     = $custompwdfield['pwd_policy_config']['pwd_forbidden_chars'];
+$pwd_no_reuse            = $custompwdfield['pwd_policy_config']['pwd_no_reuse'];
+$pwd_diff_login          = $custompwdfield['pwd_policy_config']['pwd_diff_login'];
+$pwd_display_entropy     = $custompwdfield['pwd_policy_config']['pwd_display_entropy'];
+$pwd_check_entropy       = $custompwdfield['pwd_policy_config']['pwd_check_entropy'];
+$pwd_min_entropy         = $custompwdfield['pwd_policy_config']['pwd_min_entropy'];
+$use_pwnedpasswords      = $custompwdfield['pwd_policy_config']['use_pwnedpasswords'];
+$pwd_no_special_at_ends  = $custompwdfield['pwd_policy_config']['pwd_no_special_at_ends'];
 
 $messages['sameasold'] = $messages['sameasaccountpassword'];
 $messages['policynoreuse'] = $messages['policynoreusecustompwdfield'];
 if (!isset($custompwdfield['label'])) {
-    $messages['newcustompassword'] = $messages['changehelpcustompwdfield']."custom password"; # default generic label
+    # default generic label
+    $messages['newcustompassword'] = $messages['changehelpcustompwdfield']."custom password";
 } else {
     $messages['newcustompassword'] = $messages['changehelpcustompwdfield'].$custompwdfield['label'];
 }
