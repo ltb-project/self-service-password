@@ -206,7 +206,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
                 } else {
                     $hash_for_custom_pwd = $custompwdfield['hash'];
                 }
-                if ( check_password($password, $entry_array[$custompwdfield['attribute']][0], $hash_for_custom_pwd) ) {
+                if ( \Ltb\Password::check_password($password, $entry_array[$custompwdfield['attribute']][0], $hash_for_custom_pwd) ) {
                     $result = "sameascustompwd";
                 }
             }
