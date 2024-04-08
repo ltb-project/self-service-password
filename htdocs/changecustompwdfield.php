@@ -281,7 +281,7 @@ if ( !$result ) {
         exec($command, $prehook_output, $prehook_return);
     }
     if ( ! isset($prehook_return) || $prehook_return === 0 || $custompwdfield['ignore_prehook_error'] ) {
-        $result = change_password($ldap, $userdn, $newcustompwd, false, array(), $custompwdfield['samba_mode'], $custompwdfield['samba_options'], $custompwdfield['shadow_options'], $custompwdfield['hash'], $custompwdfield['hash_options'], $custompwdfield['who_change_password'], $password, false, $custompwdfield['ldap_use_ppolicy_control'], true, $custompwdfield['attribute']);
+        $result = change_password($ldapInstance, $userdn, $newcustompwd, false, array(), $custompwdfield['samba_mode'], $custompwdfield['samba_options'], $custompwdfield['shadow_options'], $custompwdfield['hash'], $custompwdfield['hash_options'], $custompwdfield['who_change_password'], $password, false, $custompwdfield['ldap_use_ppolicy_control'], true, $custompwdfield['attribute']);
         if ( $result === "passwordchanged" && isset($custompwdfield['posthook']) ) {
             $command = hook_command($custompwdfield['posthook'], $login, $newcustompwd, $password, $custompwdfield['posthook_password_encodebase64']);
             exec($command, $posthook_output, $posthook_return);
