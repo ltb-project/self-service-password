@@ -238,7 +238,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
 # Change password
 # @return result code
-function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control ) {
+function change_password( $ldapInstance, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control ) {
 
     $result = "";
     $error_code = "";
@@ -255,7 +255,7 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
     if (!$ad_mode && !$use_exop_passwd) {
         if ($hash === "auto") {
-            $old_password_hashed = \Ltb\Ldap::get_password_value($ldap, $dn, "userPassword");
+            $old_password_hashed = $ldapInstance->get_password_value($dn, "userPassword");
             $hash = \Ltb\Password::get_hash_type($old_password_hashed);
         }
         $password = \Ltb\Password::make_password($password, $hash, $hash_options);
@@ -274,12 +274,12 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
 
     # Special case: AD mode with password changed as user
     if ( $ad_mode and $who_change_password === "user" ) {
-        list($error_code, $error_msg) = \Ltb\Ldap::change_ad_password_as_user($ldap, $dn, $oldpassword, $password);
+        list($error_code, $error_msg) = $ldapInstance->change_ad_password_as_user($dn, $oldpassword, $password);
     } elseif ($use_exop_passwd) {
-        list($error_code, $error_msg, $ppolicy_error_code) = \Ltb\Ldap::change_password_with_exop($ldap, $dn, $oldpassword, $password, $use_ppolicy_control);
+        list($error_code, $error_msg, $ppolicy_error_code) = $ldapInstance->change_password_with_exop($dn, $oldpassword, $password, $use_ppolicy_control);
         if( $error_code == 0 )
         {
-            list($error_code, $error_msg) = \Ltb\Ldap::modify_attributes($ldap, $dn, $userdata);
+            list($error_code, $error_msg) = $ldapInstance->modify_attributes($dn, $userdata);
         }
     } else {
         # Else just replace with new password
@@ -287,9 +287,9 @@ function change_password( $ldap, $dn, $password, $ad_mode, $ad_options, $samba_m
             $userdata["userPassword"] = $password;
         }
         if ( $use_ppolicy_control ) {
-            list($error_code, $error_msg, $ppolicy_error_code) = \Ltb\Ldap::modify_attributes_using_ppolicy($ldap, $dn, $userdata);
+            list($error_code, $error_msg, $ppolicy_error_code) = $ldapInstance->modify_attributes_using_ppolicy($dn, $userdata);
         } else {
-            list($error_code, $error_msg) = \Ltb\Ldap::modify_attributes($ldap, $dn, $userdata);
+            list($error_code, $error_msg) = $ldapInstance->modify_attributes($dn, $userdata);
         }
     }
 
