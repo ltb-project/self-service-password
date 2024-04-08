@@ -366,7 +366,11 @@ $use_captcha = false;
 # change
 # sendtoken
 # sendsms
+# changecustompwdfield
 $default_action = "change";
+
+## default page of custom password field to display
+#$default_custompwdindex = 0;
 
 ## Rest API
 $use_restapi = false;

@@ -156,8 +156,6 @@ $pwd_policy_config = array(
     "pwd_min_entropy"           => $pwd_min_entropy
 );
 
-
-
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 
 # rate-limiting config array
@@ -189,14 +187,7 @@ if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"
 if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
 if ( !empty($change_custompwdfield) ) { array_push( $available_actions, "changecustompwdfield"); }
 if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
-if ( $pwd_display_entropy ) { array_push( $available_actions, "checkentropy" ); }
-else {
-    foreach ($change_custompwdfield as $custompwdfield) {
-        if ( isset($custompwdfield['pwd_policy_config']) && isset($custompwdfield['pwd_policy_config']['pwd_display_entropy']) && $custompwdfield['pwd_policy_config']['pwd_display_entropy']) {
-            array_push( $available_actions, "checkentropy" );
-        }
-    }
-}
+array_push( $available_actions, "checkentropy" );
 
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }

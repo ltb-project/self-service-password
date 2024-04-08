@@ -194,9 +194,10 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
         }
     }
 
-    # is same as a custom password?
+    # ensure that the new password is different from any other custom password field marked as unique
     foreach ( $change_custompwdfield as $custompwdfield) {
-        if (isset($custompwdfield['pwd_policy_config']['pwd_no_reuse']) && $custompwdfield['pwd_policy_config']['pwd_no_reuse']) {
+        if (isset($custompwdfield['pwd_policy_config']['pwd_unique_across_custom_password_fields']) &&
+            $custompwdfield['pwd_policy_config']['pwd_unique_across_custom_password_fields']) {
             if (array_key_exists($custompwdfield['attribute'], $entry_array)) {
                 if ($custompwdfield['hash'] == 'auto') {
                     $matches = [];
@@ -206,7 +207,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
                 } else {
                     $hash_for_custom_pwd = $custompwdfield['hash'];
                 }
-                if ( check_password($password, $entry_array[$custompwdfield['attribute']][0], $hash_for_custom_pwd) ) {
+                if ( \Ltb\Password::check_password($password, $entry_array[$custompwdfield['attribute']][0], $hash_for_custom_pwd) ) {
                     $result = "sameascustompwd";
                 }
             }

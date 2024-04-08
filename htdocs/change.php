@@ -158,7 +158,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Check password strength
 #==============================================================================
-if ( $result === "" ) {
+if ( !$result ) {
     $result = check_password_strength( $newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield );
 }
 
