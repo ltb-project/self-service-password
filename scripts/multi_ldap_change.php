@@ -34,7 +34,17 @@ foreach ($secondaries_ldap as $s_ldap) {
     }
 
     # Connect to LDAP
-    $ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+    $ldapInstance = new \Ltb\Ldap(
+                                     $ldap_url,
+                                     $ldap_starttls,
+                                     $ldap_binddn,
+                                     $ldap_bindpw,
+                                     $ldap_network_timeout,
+                                     $ldap_user_base,
+                                     $ldap_size_limit,
+                                     $ldap_krb5ccname
+                                 );
+    $ldap_connection = $ldapInstance->connect();
 
     $ldap = $ldap_connection[0];
     $result = $ldap_connection[1];
@@ -130,7 +140,7 @@ foreach ($secondaries_ldap as $s_ldap) {
             } else {
                 $s_ad_mode = $ad_mode;
             }
-                $result = change_password($ldap, $userdn, $newpassword, $s_ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
+                $result = $ldapInstance->change_password($ldapInstance, $userdn, $newpassword, $s_ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control);
                 if ( $result !== "passwordchanged" ) {
                     fwrite($log_file, "Change on '".$s_ldap['ldap_url']." : KO\n");
                 } else {
