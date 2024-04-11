@@ -63,7 +63,7 @@ function checkEntropyJSON($password_base64)
 if( isset($pwd_display_entropy) && $pwd_display_entropy == true )
 {
     // new password sent in the url, base64 encoded
-    $newpass = htmlspecialchars($_GET["password"]);
+    $newpass = htmlspecialchars($_POST["password"]);
     checkEntropyJSON($newpass);
 }
 
