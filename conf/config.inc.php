@@ -46,6 +46,7 @@ $ldap_fullname_attribute = "cn";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
 $ldap_use_exop_passwd = false;
 $ldap_use_ppolicy_control = false;
+$ldap_network_timeout = 10;
 
 # Active Directory mode
 # true: use unicodePwd as password field

@@ -31,7 +31,7 @@ require_once(__DIR__."/../vendor/autoload.php");
 #==============================================================================
 
 # Connect to LDAP
-$ldap_connection = \Ltb\Ldap::connect($ldap_url, $ldap_starttls, $ldap_binddn, $ldap_bindpw, $ldap_network_timeout, $ldap_krb5ccname);
+$ldap_connection = $ldapInstance->connect();
 
 $ldap = $ldap_connection[0];
 $result = $ldap_connection[1];
