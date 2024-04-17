@@ -37,13 +37,14 @@ foreach ($secondaries_ldap as $s_ldap) {
     $ldapInstance = new \Ltb\Ldap(
                                      $ldap_url,
                                      $ldap_starttls,
-                                     $ldap_binddn,
-                                     $ldap_bindpw,
-                                     $ldap_network_timeout,
-                                     $ldap_user_base,
-                                     $ldap_size_limit,
-                                     $ldap_krb5ccname
+                                     isset($ldap_binddn) ? $ldap_binddn : null,
+                                     isset($ldap_bindpw) ? $ldap_bindpw : null,
+                                     isset($ldap_network_timeout) ? $ldap_network_timeout : null,
+                                     $ldap_base,
+                                     null,
+                                     isset($ldap_krb5ccname) ? $ldap_krb5ccname : null
                                  );
+
     $ldap_connection = $ldapInstance->connect();
 
     $ldap = $ldap_connection[0];

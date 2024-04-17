@@ -57,6 +57,13 @@ the requirements of your server. For example:
    TLS_CIPHER_SUITE TLSv1+RSA
 
 
+You can also define the ldap connection timeout:
+
+.. code-block:: php
+
+   $ldap_network_timeout = true;
+
+
 Credentials
 -----------
 

@@ -93,6 +93,20 @@ $mailer->SMTPOptions   = $mail_smtp_options;
 $mailer->Timeout       = $mail_smtp_timeout;
 
 #==============================================================================
+# LDAP Config
+#==============================================================================
+$ldapInstance = new \Ltb\Ldap(
+                                 $ldap_url,
+                                 $ldap_starttls,
+                                 isset($ldap_binddn) ? $ldap_binddn : null,
+                                 isset($ldap_bindpw) ? $ldap_bindpw : null,
+                                 isset($ldap_network_timeout) ? $ldap_network_timeout : null,
+                                 $ldap_base,
+                                 null,
+                                 isset($ldap_krb5ccname) ? $ldap_krb5ccname : null
+                             );
+
+#==============================================================================
 # Other default values
 #==============================================================================
 if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }
