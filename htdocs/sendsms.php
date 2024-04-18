@@ -19,6 +19,8 @@
 #
 #==============================================================================
 
+include_once(dirname(__FILE__) . "/../lib/smsapi.inc.php");
+
 # This page is called to send random generated password to user by SMS
 
 #==============================================================================
@@ -31,7 +33,6 @@ $sms = "";
 $phone = "";
 $smsdisplay = "";
 $ldap = "";
-$userdn = "";
 $smstoken = "";
 $token = "";
 $sessiontoken = "";
@@ -93,7 +94,11 @@ if (!$crypt_tokens) {
         $attempts     = $_SESSION['attempts'];
 
         if (!$login or !$sessiontoken) {
-            list($result, $token) = obscure_info_sendsms("tokenattempts","tokennotvalid");
+            list($result, $token) = obscure_info_sendsms("tokenattempts",
+                                                         "tokennotvalid",
+                                                         $token,
+                                                         $obscure_notfound_sendsms,
+                                                         $keyphrase);
             error_log("Unable to open session $smstokenid");
         } elseif ($sessiontoken != $smstoken) {
             # To have only x tries and not x+1 tries
@@ -124,7 +129,12 @@ if (!$crypt_tokens) {
     } elseif (isset($_REQUEST["encrypted_sms_login"])) {
         $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
         $login = $decrypted_sms_login[1];
-        [$result, $phone] = get_mobile_and_displayname($login);
+        [$result, $phone] = get_mobile_and_displayname(
+                                    $ldapInstance, $ldap_base, $ldap_filter,
+                                    $ldap_fullname_attribute, $sms_attributes,
+                                    $sms_sanitize_number, $sms_truncate_number,
+                                    $obscure_notfound_sendsms, $token,
+                                    $keyphrase, $login);
         if (!$result) { $result = "sendsms"; }
     } elseif (isset($_REQUEST["login"]) and $_REQUEST["login"] and $sms_use_ldap) {
         $login = strval($_REQUEST["login"]);
@@ -145,7 +155,12 @@ if ( $result === "" and $use_captcha) {
 # Check sms
 #==============================================================================
 if ( $result === "" ) {
-    [$result, $sms, $displayname] = get_mobile_and_displayname($login);
+    [$result, $sms, $displayname] = get_mobile_and_displayname(
+                                            $ldapInstance, $ldap_base, $ldap_filter,
+                                            $ldap_fullname_attribute, $sms_attributes,
+                                            $sms_sanitize_number, $sms_truncate_number,
+                                            $obscure_notfound_sendsms, $token,
+                                            $keyphrase, $login);
     if ($sms){
         if (!$sms_use_ldap) {
             $match = false;
@@ -155,7 +170,11 @@ if ( $result === "" ) {
                 $result = "sendsms";
             }
             if (!$match){
-                list($result, $token) = obscure_info_sendsms("smssent_ifexists","smsnomatch");
+                list($result, $token) = obscure_info_sendsms("smssent_ifexists",
+                                                             "smsnomatch",
+                                                             $token,
+                                                             $obscure_notfound_sendsms,
+                                                             $keyphrase);
                 error_log("SMS number $phone does not match for user $login");
             }
         }else{
@@ -220,10 +239,11 @@ if ($result === "sendsms") {
             $result = "smsnotsent";
             error_log('No API library found, set $sms_api_lib in configuration.');
         } else {
-            include_once("../".$sms_api_lib);
             $sms_message = str_replace('{smsresetmessage}', $messages['smsresetmessage'], $sms_message);
             $sms_message = str_replace('{smstoken}', $smstoken, $sms_message);
-            if (send_sms_by_api($sms, $sms_message)) {
+            $definedVariables = get_defined_vars(); // get all variables, including configuration
+            $smsInstance = createSMSInstance($sms_api_lib, $definedVariables);
+            if ($smsInstance->send_sms_by_api($sms, $sms_message)) {
                 $token  = encrypt(session_id(), $keyphrase);
                 $result = "smssent";
                 if ( !empty($reset_request_log) ) {
@@ -281,14 +301,12 @@ if ($result === "redirect") {
 #==============================================================================
 # Functions
 #==============================================================================
-function obscure_info_sendsms($obscure_message, $real_message){
-    global $token;
-    global $obscure_notfound_sendsms;
-
+function obscure_info_sendsms($obscure_message, $real_message, $token, $obscure_notfound_sendsms, $keyphrase)
+{
     if ($obscure_notfound_sendsms){
         $result = $obscure_message;
         if ($token === ""){
-            $token = create_fake_token();
+            $token = create_fake_token($keyphrase);
         }
     } else {
         $result = $real_message;
@@ -296,8 +314,7 @@ function obscure_info_sendsms($obscure_message, $real_message){
     return [$result, $token];
 }
 
-function create_fake_token(){
-    global $keyphrase;
+function create_fake_token($keyphrase){
     $salt = bin2hex(random_bytes(26));
     $token = encrypt($salt, $keyphrase);
     return $token;
@@ -313,23 +330,16 @@ function truncate_number($phone_number){
   return $phone_number;
 }
 
-function get_mobile_and_displayname($login) {
+function get_mobile_and_displayname($ldapInstance, $ldap_base, $ldap_filter,
+                                    $ldap_fullname_attribute, $sms_attributes,
+                                    $sms_sanitize_number, $sms_truncate_number,
+                                    $obscure_notfound_sendsms, $token,
+                                    $keyphrase, $login) {
 
     $sms = "";
     $result = "";
     $displayname = "";
-    global $userdn;
-    global $ldap_url;
-    global $ldap_starttls;
-    global $ldap_binddn;
-    global $ldap_bindpw;
-    global $ldap_base;
-    global $ldap_filter;
-    global $ldap_fullname_attribute;
-    global $sms_attributes;
-    global $sms_sanitize_number;
-    global $sms_truncate_number;
-    global $obscure_notfound_sendsms;
+    $userdn = "";
     $search_attributes = $sms_attributes;
     $search_attributes[] = $ldap_fullname_attribute;
 
@@ -357,7 +367,11 @@ function get_mobile_and_displayname($login) {
                 $displayname = ldap_get_values($ldap, $entry, $ldap_fullname_attribute);
             }
             if (!$userdn) {
-                list($result, $token) = obscure_info_sendsms("smssent_ifexists","badcredentials");
+                list($result, $token) = obscure_info_sendsms("smssent_ifexists",
+                                                             "badcredentials",
+                                                             $token,
+                                                             $obscure_notfound_sendsms,
+                                                             $keyphrase);
                 error_log("LDAP - User $login not found");
             } else {
                 # Get first sms number for configured ldap attributes in sms_attributes.
@@ -372,7 +386,11 @@ function get_mobile_and_displayname($login) {
                         $sms = truncate_number($sms);
                     }
                 }else{
-                    list($result, $token) = obscure_info_sendsms("smssent_ifexists","smsnonumber");
+                    list($result, $token) = obscure_info_sendsms("smssent_ifexists",
+                                                                 "smsnonumber",
+                                                                 $token,
+                                                                 $obscure_notfound_sendsms,
+                                                                 $keyphrase);
                     error_log("No SMS number found for user $login");
                 }
             }

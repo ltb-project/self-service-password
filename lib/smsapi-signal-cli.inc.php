@@ -1,4 +1,4 @@
-<?php
+<?php namespace smsapi;
 #==============================================================================
 # LTB Self Service Password
 #
@@ -26,35 +26,49 @@
  * $signal_cli = '<path to signal-cli>';
  */
 
-/* @function boolean send_sms_by_api(string $mobile, string $message)
- * Send SMS trough an API
- * @param mobile mobile number
- * @param message text to send
- * @return 1 if message sent, 0 if not
- */
-function send_sms_by_api($mobile, $message) {
-    global $signal_user, $signal_config, $signal_cli;
-    if (!$signal_user || !$signal_config || !$signal_cli) {
-      error_log('Trying to access signal without credentials. Set signal_user, signal_config and signal_cli in your config.inc.local.php');
-      return 0;
+class smsSignal
+{
+
+    public $signal_user;
+    public $signal_config;
+    public $signal_cli;
+
+    public function __construct($signal_user, $signal_config, $signal_cli)
+    {
+         $this->signal_user = $signal_user;
+         $this->signal_config = $signal_config;
+         $this->signal_cli = $signal_cli;
     }
 
-    $command = escapeshellcmd($signal_cli).' -u '.escapeshellarg($signal_user).' --config '.escapeshellarg($signal_config).' send -m '.escapeshellarg($message).' '.escapeshellarg($mobile);
+    /* @function boolean send_sms_by_api(string $mobile, string $message)
+     * Send SMS trough an API
+     * @param mobile mobile number
+     * @param message text to send
+     * @return 1 if message sent, 0 if not
+     */
+    function send_sms_by_api($mobile, $message) {
+        if (!$this->signal_user || !$this->signal_config || !$this->signal_cli) {
+          error_log('Trying to access signal without credentials. Set signal_user, signal_config and signal_cli in your config.inc.local.php');
+          return 0;
+        }
 
-    $v = '';
-    $o = '';
-    exec($command." 2>&1", $o, $v);
+        $command = escapeshellcmd($this->signal_cli).' -u '.escapeshellarg($this->signal_user).' --config '.escapeshellarg($this->signal_config).' send -m '.escapeshellarg($message).' '.escapeshellarg($mobile);
 
-    if ($v !== 0) {
-      error_log('Error sending message: ');
-      $o_size = count($o);
-      for ($x = 0; $x < $o_size; $x++) {
-        error_log(' ' . $o[$x]);
-      }
+        $v = '';
+        $o = '';
+        exec($command." 2>&1", $o, $v);
 
-      return 0;
+        if ($v !== 0) {
+          error_log('Error sending message: ');
+          $o_size = count($o);
+          for ($x = 0; $x < $o_size; $x++) {
+            error_log(' ' . $o[$x]);
+          }
 
+          return 0;
+
+        }
+        return 1;
     }
-    return 1;
+
 }
-

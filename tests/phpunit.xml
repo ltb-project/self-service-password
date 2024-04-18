@@ -6,4 +6,10 @@
 		</testsuite>
 	</testsuites>
 	<logging/>
+        <source>
+            <include>
+                <directory suffix=".php">../lib</directory>
+                <directory suffix=".php">../htdocs</directory>
+            </include>
+        </source>
 </phpunit>
