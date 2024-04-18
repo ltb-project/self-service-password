@@ -10,11 +10,14 @@ Update version in following files:
 * packaging/rpm/SPECS/self-service-password.spec
 * packaging/debian/changelog
 
-# 1 - Update dependencies
+# 1 - Update dependencies and run tests
 #==============================================================================
 
 From the self-service-password root directory, run:
-$ composer update
+$ composer update --no-dev
+
+Run tests:
+$ XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --configuration tests/phpunit.xml
 
 
 # 2 - Archive tar.gz

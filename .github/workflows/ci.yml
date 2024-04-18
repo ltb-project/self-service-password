@@ -11,13 +11,18 @@ jobs:
     - name: Install dependencies
       uses: php-actions/composer@v6
       with:
-        php_version: 7.4
+        php_version: 8.3
         command: update
-        php_extensions: ldap gd mbstring
-    - name: PHPUnit Tests for php7.4
+        php_extensions: ldap gd mbstring xdebug
+    - name: PHPUnit Tests for php8.3
       uses: php-actions/phpunit@v3
+      env:
+        XDEBUG_MODE: coverage
       with:
         configuration: tests/phpunit.xml
-        version: 5.7.25
-        php_version: 7.4
+        version: latest
+        php_version: 8.3
+        php_extensions: ldap gd mbstring xdebug
+        test_suffix: Test.php
         args: --coverage-text
+

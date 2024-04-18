@@ -75,7 +75,7 @@ trough mail configuration (see :ref:`config_mail`).
 You can adjust some settings here, depending on provider guidelines:
 
 To set SMS mail to address.
-Within smssmailto {sms_attribute} will be replaced by sms number.
+Within smsmailto {sms_attribute} will be replaced by sms number.
 
 .. code-block:: php
 
@@ -94,28 +94,51 @@ If you choose API, you need to define which library will be called:
 
 .. code-block:: php
 
-   $sms_api_lib = "lib/smsapi.inc.php";
+   $sms_api_lib = "lib/smsapi-<my-api>.inc.php";
 
-In this library, you must define the ``send_sms_by_api`` function:
+In this library, you must define a class with the ``send_sms_by_api`` function:
 
 .. code-block:: php
 
-   function send_sms_by_api($mobile, $message) {
+   <?php namespace smsapi;
 
-       # PHP code
-       # ...
+   class smsSignal
+   {
 
-       # Or call to external script
-       # $command = escapeshellcmd(/path/to/script).' '.escapeshellarg($mobile).' '.escapeshellarg($message);
-       # exec($command);
+       public $param1;
+       public $param2;
 
-       return 1;
-   }
+       public function __construct($param1, $param2)
+       {
+            $this->param1 = $param1;
+            $this->param2 = $param2;
+       }
+
+       function send_sms_by_api($mobile, $message)
+       {
+
+           # PHP code
+           # ...
+
+           # Or call to external script
+           # $command = escapeshellcmd(/path/to/script).' '.escapeshellarg($mobile).' '.escapeshellarg($message);
+           # exec($command);
+
+           return 1;
+       }
+
+.. tip:: You have to define the properties ($param1, $param2,...) plus the
+  constructor with the appropriate parameters you want to use in
+  send_sms_by_api function. In send_sms_by_api function, you can
+  use these properties with: ``$this->param1``.
+  Then you can declare these parameters in the config.inc.local.php file.
+  For example:
+  ``$param1 = "value1";``
 
 Read the provider guidelines to know how to access its API.
 
 .. tip:: An example is given in lib/smsapi-example.inc.php. Copy this
-  file to lib/smsapi.inc.php and start coding!
+  file to lib/smsapi-<my-api>.inc.php and start coding!
 
 See also :ref:`sms_api`.
 

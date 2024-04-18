@@ -18,5 +18,10 @@
             "rm -rf htdocs/vendor/font-awesome ",
             "cp -R vendor/fortawesome/font-awesome htdocs/vendor/font-awesome"
         ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "php-mock/php-mock-phpunit": "*",
+        "mockery/mockery": "*"
     }
 }

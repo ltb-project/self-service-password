@@ -13,21 +13,45 @@ Provider website: https://www.linkmobility.com/
 
 .. code-block:: php
 
-   function send_sms_by_api($mobile, $message) {
-       $post = [
-         'USER'  => 'api_username',
-         'PW'    => 'api_password',
-         'SND'   => 'SenderName',
-         'RCV'   => $mobile,
-         'TXT'   => $message,
-       ];
-       $ch = curl_init();
-       curl_setopt($ch, CURLOPT_URL, 'https://simple.pswin.com');
-       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-       $response = curl_exec($ch);
+   <?php namespace smsapi;
+   /*
+    * Add to your config.inc.local.php
+    *
+    * $signal_user= '+18881234567';
+    * $signal_config = '<path to config folder>';
+    * $signal_cli = '<path to signal-cli>';
+    */
 
-       return 1;
+   class smsLink
+   {
+
+        public $api_username;
+        public $api_password;
+        public $SenderName;
+
+        public function __construct($api_username, $api_password, $SenderName)
+        {
+             $this->api_username = $api_username;
+             $this->api_password = $api_password;
+             $this->SenderName = $SenderName;
+        }
+
+       function send_sms_by_api($mobile, $message) {
+           $post = [
+             'USER'  => $this->api_username,
+             'PW'    => $this->api_password,
+             'SND'   => $this->SenderName,
+             'RCV'   => $mobile,
+             'TXT'   => $message,
+           ];
+           $ch = curl_init();
+           curl_setopt($ch, CURLOPT_URL, 'https://simple.pswin.com');
+           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+           curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+           $response = curl_exec($ch);
+
+           return 1;
+       }
    }
 
 Twilio

@@ -1,4 +1,4 @@
-<?php
+<?php namespace smsapi;
 #==============================================================================
 # LTB Self Service Password
 #
@@ -19,20 +19,33 @@
 #
 #==============================================================================
 
-/* @function boolean send_sms_by_api(string $mobile, string $message)
- * Send SMS trough an API
- * @param mobile mobile number
- * @param message text to send
- * @return 1 if message sent, 0 if not
- */
-function send_sms_by_api($mobile, $message) {
+class smsExample
+{
 
-    # PHP code
-    # ...
+    public $example_param1;
+    public $example_param2;
 
-    # Or call to external script
-    # $command = escapeshellcmd(/path/to/script).' '.escapeshellarg($mobile).' '.escapeshellarg($message);
-    # exec($command);
+    public function __construct($example_param1, $example_param2)
+    {
+         $this->example_param1 = $example_param1;
+         $this->example_param2 = $example_param2;
+    }
 
-    return 1;
+    /* @function boolean send_sms_by_api(string $mobile, string $message)
+     * Send SMS trough an API
+     * @param mobile mobile number
+     * @param message text to send
+     * @return 1 if message sent, 0 if not
+     */
+    function send_sms_by_api($mobile, $message) {
+
+        # PHP code
+        # ...
+
+        # Or call to external script
+        # $command = escapeshellcmd(/path/to/script).' '.escapeshellarg($mobile).' '.escapeshellarg($message);
+        # exec($command);
+
+        return 1;
+    }
 }
