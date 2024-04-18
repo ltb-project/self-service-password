@@ -314,7 +314,7 @@ $sms_truncate_number_length = 10;
 # SMS token length
 $sms_token_length = 6;
 # Max attempts allowed for SMS token
-$max_attempts = 3;
+$sms_max_attempts_token = 3;
 
 # Encryption, decryption keyphrase, required if $use_tokens = true and $crypt_tokens = true, or $use_sms, or $crypt_answer
 # Please change it to anything long, random and complicated, you do not have to remember it

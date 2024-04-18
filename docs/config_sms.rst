@@ -173,6 +173,6 @@ You can also configure the allowed attempts:
 
 .. code-block:: php
 
-   $max_attempts = 3;
+   $sms_max_attempts_token = 3;
 
 After these attempts, the sent token is no more valid.
