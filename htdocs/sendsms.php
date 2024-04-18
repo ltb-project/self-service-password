@@ -37,7 +37,6 @@ $token = "";
 $sessiontoken = "";
 $attempts = 0;
 
-
 #==============================================================================
 # Verify minimal information for treatment
 # Encryption needs to be activated
@@ -97,7 +96,8 @@ if (!$crypt_tokens) {
             list($result, $token) = obscure_info_sendsms("tokenattempts","tokennotvalid");
             error_log("Unable to open session $smstokenid");
         } elseif ($sessiontoken != $smstoken) {
-            if ($attempts < $max_attempts) {
+            # To have only x tries and not x+1 tries
+            if ($attempts < ($sms_max_attempts_token - 1)) {
                 $_SESSION['attempts'] = $attempts + 1;
                 $result = "tokenattempts";
                 error_log("SMS token $smstoken not valid, attempt $attempts");
@@ -196,11 +196,10 @@ if ($result === "sendsms") {
 
     $data = array( "sms_attribute" => $sms, "smsresetmessage" => $messages['smsresetmessage'], "smstoken" => $smstoken) ;
 
-    # Send message
+    # The default sms method is mail
     if (!$sms_method) { $sms_method = "mail"; }
 
     if ($sms_method === "mail") {
-
         if ($mailer->send_mail($smsmailto, $mail_from, $mail_from_name, $smsmail_subject, $sms_message, $data)) {
             $token  = encrypt(session_id(), $keyphrase);
             $result = "smssent";

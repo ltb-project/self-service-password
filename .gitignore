@@ -1,2 +1,3 @@
 /vendor/
 /htdocs/vendor/
+composer.lock
