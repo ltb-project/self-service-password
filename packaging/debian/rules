@@ -20,4 +20,4 @@ override_dh_builddeb:
 
 override_dh_auto_test:
 	dh_auto_test
-	type phpunit >/dev/null 2>&1 && phpunit ../tests
+	if type ../vendor/bin/phpunit ; then ../vendor/bin/phpunit ../tests --configuration ../tests/phpunit.xml; fi

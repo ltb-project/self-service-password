@@ -140,7 +140,7 @@ done
 %if ! 0%{?with_network}
 rm tests/CheckPasswordTest.php
 %endif
-%{?fedora:phpunit9 --verbose --testdox --do-not-cache-result tests}
+if type vendor/bin/phpunit ; then vendor/bin/phpunit tests --configuration tests/phpunit.xml; fi
 
 
 %pre
