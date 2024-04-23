@@ -14,10 +14,13 @@ Update version in following files:
 #==============================================================================
 
 From the self-service-password root directory, run:
-$ composer update --no-dev
+$ composer update
 
 Run tests:
 $ XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --configuration tests/phpunit.xml
+
+After the tests, remove the useless dependencies:
+$ composer update --no-dev
 
 
 # 2 - Archive tar.gz
