@@ -13,10 +13,15 @@
         "post-update-cmd": [
             "rm -rf htdocs/vendor/bootstrap",
             "cp -R vendor/twbs/bootstrap/dist htdocs/vendor/bootstrap",
+            "rm -rf htdocs/vendor/bootstrap/site htdocs/vendor/bootstrap/js htdocs/vendor/bootstrap/package-lock.json htdocs/vendor/bootstrap/scss",
+            "rm -rf vendor/twbs/bootstrap",
             "rm -rf htdocs/vendor/jquery",
             "cp -R vendor/components/jquery htdocs/vendor/jquery",
-            "rm -rf htdocs/vendor/font-awesome ",
-            "cp -R vendor/fortawesome/font-awesome htdocs/vendor/font-awesome"
+            "rm -rf vendor/components/jquery",
+            "rm -rf htdocs/vendor/font-awesome",
+            "cp -R vendor/fortawesome/font-awesome htdocs/vendor/font-awesome",
+            "rm -rf htdocs/vendor/font-awesome/js htdocs/vendor/font-awesome/js-packages htdocs/vendor/font-awesome/less htdocs/vendor/font-awesome/metadata htdocs/vendor/font-awesome/otfs htdocs/vendor/font-awesome/scss htdocs/vendor/font-awesome/sprites htdocs/vendor/font-awesome/svgs",
+            "rm -rf vendor/fortawesome/font-awesome"
         ]
     },
     "require-dev": {
