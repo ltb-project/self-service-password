@@ -42,6 +42,9 @@ Requires: php-gd
 Requires: php-ldap
 Requires: php-mbstring
 Requires: php-Smarty
+%if 0%{!?el7}
+Recommends: php-sodium
+%endif
 
 Provides: bundled(fontawesome-fonts) = 6.5.1
 Provides: bundled(js-bootstrap) = 5.3.3
