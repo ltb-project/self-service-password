@@ -25,8 +25,8 @@
         ]
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": ">=8",
         "php-mock/php-mock-phpunit": "*",
-        "mockery/mockery": "*"
+        "mockery/mockery": ">=1.4"
     }
 }

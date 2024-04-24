@@ -21,7 +21,7 @@ class smsTwilioTest extends \PHPUnit\Framework\TestCase
 
         $mock_init = $this->getFunctionMock("smsapi", "curl_init");
         $mock_init->expects($this->any())->willReturnCallback(
-            function ($ch) {
+            function () {
                 $ch = array();
                 return $ch;
             }
@@ -105,7 +105,7 @@ class smsTwilioTest extends \PHPUnit\Framework\TestCase
 
         $mock_init = $this->getFunctionMock("smsapi", "curl_init");
         $mock_init->expects($this->any())->willReturnCallback(
-            function ($ch) {
+            function () {
                 $ch = array();
                 return $ch;
             }
