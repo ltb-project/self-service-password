@@ -1,10 +1,5 @@
 <?php
 
-function create_instance($class, $params) {
-    $reflection_class = new ReflectionClass($class);
-    return $reflection_class->newInstanceArgs($params);
-}
-
 function createSMSInstance($sms_api_lib, $config)
 {
     # Get all loaded classes
@@ -23,21 +18,23 @@ function createSMSInstance($sms_api_lib, $config)
         exit(1);
     }
 
-    # Inspect class properties of sms modules
-    $class_vars = get_class_vars($class);
+    # Inspect parameters of constructor
+    $reflection = new ReflectionClass($class);
+    $constructorParams = $reflection->getConstructor()->getParameters();
 
-    # Gather properties to pass to the class: all config params to pass to sms module
+    # Gather parameters to pass to the sms class: all config params to pass to sms module
     $params = [];
-    foreach (array_keys($class_vars) as $param)
-    {
-        if(!isset($config[$param]))
+    foreach ($constructorParams AS $param) {
+        if(!isset($config[$param->name]))
         {
-            error_log("Error: Missing param $param in $sms_api_lib");
+            error_log("Error: Missing param $param->name in $sms_api_lib");
             exit(1);
         }
-        array_push($params, $config[$param]);
+        array_push($params, $config[$param->name]);
     }
-    return create_instance($class, $params);
+
+    # return new instance of class, passing all grabbed parameters
+    return new $class(...$params);
 }
 
 ?>

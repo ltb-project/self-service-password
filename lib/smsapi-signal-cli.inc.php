@@ -29,9 +29,9 @@
 class smsSignal
 {
 
-    public $signal_user;
-    public $signal_config;
-    public $signal_cli;
+    private $signal_user;
+    private $signal_config;
+    private $signal_cli;
 
     public function __construct($signal_user, $signal_config, $signal_cli)
     {

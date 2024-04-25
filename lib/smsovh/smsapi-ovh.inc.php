@@ -39,10 +39,10 @@ if(file_exists(__DIR__ . '/vendor/autoload.php'))
 class smsOVH
 {
 
-    public $ovh_appkey;
-    public $ovh_appsecret;
-    public $ovh_consumerkey;
-    public $ovh_smssender;
+    private $ovh_appkey;
+    private $ovh_appsecret;
+    private $ovh_consumerkey;
+    private $ovh_smssender;
 
     public function __construct($ovh_appkey, $ovh_appsecret, $ovh_consumerkey, $ovh_smssender)
     {

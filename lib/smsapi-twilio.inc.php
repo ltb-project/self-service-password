@@ -35,10 +35,10 @@
 class smsTwilio
 {
 
-    public $twilio_sid;
-    public $twilio_auth_token;
-    public $twilio_outgoing_number;
-    public $twilio_lookup_first;
+    private $twilio_sid;
+    private $twilio_auth_token;
+    private $twilio_outgoing_number;
+    private $twilio_lookup_first;
 
     public function __construct($twilio_sid, $twilio_auth_token, $twilio_outgoing_number, $twilio_lookup_first)
     {

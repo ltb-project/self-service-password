@@ -47,11 +47,6 @@ final class smsOVHTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
                                          $ovh_consumerkey,
                                          $ovh_smssender);
 
-        $this->assertEquals("$ovh_appkey", $smsInstance->ovh_appkey, "Bad appkey");
-        $this->assertEquals("$ovh_appsecret", $smsInstance->ovh_appsecret, "Bad appsecret");
-        $this->assertEquals("$ovh_consumerkey", $smsInstance->ovh_consumerkey, "Bad consumerkey");
-        $this->assertEquals("$ovh_smssender", $smsInstance->ovh_smssender, "Bad smssender");
-
         $res = $smsInstance->send_sms_by_api($mobile, $message);
 
         $this->assertEquals(0, $res, "Wrong return code by ovh send_sms_by_api function");

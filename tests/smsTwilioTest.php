@@ -80,11 +80,6 @@ class smsTwilioTest extends \PHPUnit\Framework\TestCase
                                             $twilio_outgoing_number,
                                             $twilio_lookup_first);
 
-        $this->assertEquals("$twilio_sid", $smsInstance->twilio_sid, "Bad sid");
-        $this->assertEquals("$twilio_auth_token", $smsInstance->twilio_auth_token, "Bad auth_token");
-        $this->assertEquals("$twilio_outgoing_number", $smsInstance->twilio_outgoing_number, "Bad outgoing_number");
-        $this->assertEquals($twilio_lookup_first, $smsInstance->twilio_lookup_first, "Bad lookup_first");
-
         $res = $smsInstance->send_sms_by_api($mobile, $message);
 
         $this->assertEquals(1, $res, "Wrong return code by twilio send_sms_by_api function");
@@ -160,11 +155,6 @@ class smsTwilioTest extends \PHPUnit\Framework\TestCase
                                             $twilio_auth_token,
                                             $twilio_outgoing_number,
                                             $twilio_lookup_first);
-
-        $this->assertEquals("$twilio_sid", $smsInstance->twilio_sid, "Bad sid");
-        $this->assertEquals("$twilio_auth_token", $smsInstance->twilio_auth_token, "Bad auth_token");
-        $this->assertEquals("$twilio_outgoing_number", $smsInstance->twilio_outgoing_number, "Bad outgoing_number");
-        $this->assertEquals($twilio_lookup_first, $smsInstance->twilio_lookup_first, "Bad lookup_first");
 
         $res = $smsInstance->send_sms_by_api($mobile, $message);
 

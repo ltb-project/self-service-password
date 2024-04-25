@@ -30,10 +30,6 @@ class smsSignalTest extends \PHPUnit\Framework\TestCase
                                             $signal_config,
                                             $signal_cli);
 
-        $this->assertEquals("$signal_user", $smsInstance->signal_user, "Bad signal user");
-        $this->assertEquals("$signal_config", $smsInstance->signal_config, "Bad signal config");
-        $this->assertEquals("$signal_cli", $smsInstance->signal_cli, "Bad signal cli");
-
         $res = $smsInstance->send_sms_by_api($mobile, $message);
 
         $this->assertEquals(1, $res, "Wrong return code by send_sms_by_api function");

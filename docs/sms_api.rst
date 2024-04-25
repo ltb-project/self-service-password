@@ -25,9 +25,9 @@ Provider website: https://www.linkmobility.com/
    class smsLink
    {
 
-        public $api_username;
-        public $api_password;
-        public $SenderName;
+        private $api_username;
+        private $api_password;
+        private $SenderName;
 
         public function __construct($api_username, $api_password, $SenderName)
         {

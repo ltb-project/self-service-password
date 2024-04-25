@@ -22,8 +22,8 @@
 class smsExample
 {
 
-    public $example_param1;
-    public $example_param2;
+    private $example_param1;
+    private $example_param2;
 
     public function __construct($example_param1, $example_param2)
     {

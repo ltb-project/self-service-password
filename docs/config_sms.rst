@@ -105,8 +105,8 @@ In this library, you must define a class with the ``send_sms_by_api`` function:
    class smsSignal
    {
 
-       public $param1;
-       public $param2;
+       private $param1;
+       private $param2;
 
        public function __construct($param1, $param2)
        {
