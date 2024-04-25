@@ -113,15 +113,10 @@ if ( $result === "" ) {
                                 }
                             }
                         } else {
-                            # Use first available mail adress in ldap
-                            if (count($mailValues) > 0) {
-                                $mailValue = $mailValues[0];
-                                if (strcasecmp($mail_attribute, "proxyAddresses") == 0) {
-                                    $mailValue = str_ireplace("smtp:", "", $mailValue);
-                                }
-                                $mail = $mailValue;
+                            # Use first available mail address in ldap
+                            $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry, $mail_attributes);
+                            if( $mail != "")
                                 $match = true;
-                            }
                         }
                     }
                 }
