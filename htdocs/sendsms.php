@@ -129,7 +129,7 @@ if (!$crypt_tokens) {
     } elseif (isset($_REQUEST["encrypted_sms_login"])) {
         $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
         $login = $decrypted_sms_login[1];
-        [$result, $phone] = get_mobile_and_displayname(
+        [$result, $sms] = get_mobile_and_displayname(
                                     $ldapInstance, $ldap_base, $ldap_filter,
                                     $ldap_fullname_attribute, $sms_attributes,
                                     $sms_sanitize_number, $sms_truncate_number,
