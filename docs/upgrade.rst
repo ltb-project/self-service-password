@@ -19,6 +19,78 @@ The default notification's behaviour for sms is obscured. To change this behavio
 
    $obscure_notfound_sendsms = false;
 
+SMS API
+~~~~~~~
+
+If you use SMS API, you need to update the smsapi files.
+
+smsapi files describe the connection to a SMS API for password reset.
+
+Currently, three files are bundled in self-service-password:
+
+* ``lib/smsapi-signal-cli.inc.php``
+* ``lib/smsapi-twilio.inc.php``
+* ``lib/smsovh/smsapi-ovh.inc.php``
+
+The admin can create his own smsapi file, as described in the documentation:
+
+:doc:`config_sms`
+
+Before version 1.6.0, the smsapi file only had to contain a ``send_sms_by_api`` function.
+
+Here are the required adaptations:
+
+* you have to define a namespace as first directive of the file: ``namespace smsapi;``
+
+* you have to transform the file into a class:
+
+.. code-block:: php
+
+   namespace smsapi;
+
+   class smsMyCustomApi
+   {
+   }
+
+* if you need extra parameters, you should declare them as private properties of the class, and define the corresponding constructor:
+
+.. code-block:: php
+
+   namespace smsapi;
+
+   class smsMyCustomApi
+   {
+       private $param1;
+       private $param2;
+
+       public function __construct($param1, $param2)
+       {
+            $this->param1 = $param1;
+            $this->param2 = $param2;
+       }
+   }
+
+
+* you should adapt the parameters configured above in the ``send_sms_by_api`` function, by using ``$this->my-param``:
+
+.. code-block:: php
+
+   function send_sms_by_api($mobile, $message) {
+       if (!$this->param1 || !$this->param2 ) {
+         error_log('Missing parameter');
+         return 0;
+       }
+       ...
+       return 1;
+   }
+
+* the configuration keys present in ``config.inc.php`` or ``config.inc.local.php`` will automatically be passed to the smsapi constructor. In the example shown above, you should define two parameters in ``config.inc.local.php``:
+
+.. code-block:: php
+
+   $param1 = "value1";
+   $param2 = "value2";
+
 
 Bundled dependencies
 ~~~~~~~~~~~~~~~~~~~~
