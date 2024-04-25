@@ -1,4 +1,4 @@
-{if $result !== 'tokensent'}
+{if $result !== 'tokensent' and $result !== 'tokensent_ifexists'}
 {if $show_help}
     <div class="help alert shadow alert-warning"><i class="fa fa-fw fa-info-circle"></i>
         {if $mail_address_use_ldap}
