@@ -13,7 +13,7 @@
         "post-update-cmd": [
             "rm -rf htdocs/vendor/bootstrap",
             "cp -R vendor/twbs/bootstrap/dist htdocs/vendor/bootstrap",
-            "rm -rf htdocs/vendor/bootstrap/site htdocs/vendor/bootstrap/js htdocs/vendor/bootstrap/package-lock.json htdocs/vendor/bootstrap/scss",
+            "rm -rf htdocs/vendor/bootstrap/site htdocs/vendor/bootstrap/js/bootstrap.bundle* htdocs/vendor/bootstrap/js/bootstrap.esm* htdocs/vendor/bootstrap/js/bootstrap.js*  htdocs/vendor/bootstrap/package-lock.json htdocs/vendor/bootstrap/scss",
             "rm -rf vendor/twbs/bootstrap",
             "rm -rf htdocs/vendor/jquery",
             "cp -R vendor/components/jquery htdocs/vendor/jquery",
