@@ -73,10 +73,6 @@ You are now ready to install:
 CentOS / RedHat
 ---------------
 
-.. warning::  You must install the package `php-Smarty`_.You can get it from EPEL repositories.
-
-.. _php-Smarty: https://pkgs.org/download/php-Smarty
-
 Configure the yum repository:
 
 .. prompt:: bash #
