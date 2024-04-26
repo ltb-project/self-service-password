@@ -15,9 +15,6 @@ require_once("../conf/config.inc.php");
 #==============================================================================
 require_once("../vendor/autoload.php");
 require_once("../lib/functions.inc.php");
-if ($use_captcha) {
-    require_once("../lib/captcha.inc.php");
-}
 
 #==============================================================================
 # VARIABLES

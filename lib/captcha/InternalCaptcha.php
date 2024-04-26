@@ -21,6 +21,27 @@ TODO:
 class InternalCaptcha extends Captcha
 {
 
+    # Function for initializing the component
+    # loading libraries,...
+    function initialize(){
+    }
+
+    # Function that generate the captcha challenge (which format for return value?)
+    # Could be called by the backend, or by a call through a REST API to define
+    function generate_challenge(){
+    }
+
+    # Function that verify that the result sent by the user
+    # matches the captcha challenge
+    function verify_challenge(){
+    }
+
+    # Function that generate the HTML widget corresponding to the captcha
+    function generate_widget(){
+    }
+
+
+
     function check_captcha( $captcha_value, $user_value ) {
         return PhraseBuilder::comparePhrases($captcha_value,$user_value);
     }
@@ -36,7 +57,7 @@ class InternalCaptcha extends Captcha
             session_name("captcha");
             session_start();
             $captchaphrase = strval($_POST["captchaphrase"]);
-            if (!isset($_SESSION['phrase']) or !check_captcha($_SESSION['phrase'], $captchaphrase)) {
+            if (!isset($_SESSION['phrase']) or ! $this->check_captcha($_SESSION['phrase'], $captchaphrase)) {
                 $result = "badcaptcha";
             }
             unset($_SESSION['phrase']);
