@@ -7,8 +7,8 @@ Hashing
 You can use these schemes to hash the password before sending it to LDAP
 directory:
 
--  SHA
--  SSHA
+-  SHA, SHA256, SHA384, SHA512
+-  SSHA, SSHA256, SSHA384, SSHA512
 -  MD5
 -  SMD5
 -  CRYPT

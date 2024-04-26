@@ -15,25 +15,31 @@ The application can be used on standard LDAPv3 directories (OpenLDAP, OpenDS, Ap
 It has the following features:
 * Samba mode to change Samba passwords
 * Active directory mode
+* Password hashing (MD5, SHA, SHA2, Crypt, Argon2)
 * Local password policy:
   * Minimum/maximum length
   * Forbidden characters
   * Upper, Lower, Digit or Special characters counters
   * Reuse old password check
-  * Password same as login
+  * Password same as login or other LDAP attributes
   * Complexity (different class of characters)
+  * Forbidden words
+  * Usage of Have I been pawned API
+  * Entropy
 * Help messages
-* Reset by questions
+* Reset by security questions
 * Reset by mail challenge (token sent by mail)
 * Reset by SMS (trough external Email 2 SMS service or SMS API)
 * Change SSH Key in LDAP directory
+* Change mail and phone number in LDAP directory
 * Captcha (built-in)
 * Mail notification after password change
 * Hook script before and after password change
+* REST API
 
 ## Prerequisite
 
-* PHP (>=7)
+* PHP (>=7.4)
 * PHP extensions required:
   * php-curl (haveibeenpwned api)
   * php-gd (captcha)
@@ -41,10 +47,10 @@ It has the following features:
   * php-ldap
   * php-mbstring (reset mail)
   * php-openssl (token crypt, probably built-in)
-* Smarty 3
+* Smarty >= 3
 * strong cryptography functions available (for random_compat, PHP 7 or libsodium or /dev/urandom readable or php-mcrypt extension installed)
-* valid PHP mail server configuration (reset mail)
-* valid PHP session configuration (reset mail)
+* valid PHP mail server configuration
+* valid PHP session configuration
 
 ## Documentation
 
@@ -80,4 +86,4 @@ Debian and Red Hat repositories are also available, see [installation instructio
 
 ## Source code
 
-Source codes are available on https://github.com/ltb-project/self-service-password
+Source code is available on https://github.com/ltb-project/self-service-password

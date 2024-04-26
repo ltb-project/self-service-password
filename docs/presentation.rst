@@ -17,3 +17,4 @@ Features
 * Active Directory and Samba modes
 * Prehook/Posthook: a script can be launched before and after the password is changed
 * Mail notifications
+* REST API
