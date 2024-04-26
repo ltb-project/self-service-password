@@ -1,52 +1,39 @@
 <?php
-#==============================================================================
-# LTB Self Service Password
-#
-# Copyright (C) 2024 Clement OUDOT
-# Copyright (C) 2024 LTB-project.org
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# GPL License: http://www.gnu.org/licenses/gpl.txt
-#
-#==============================================================================
 
-require_once(__DIR__."/../vendor/autoload.php");
+# Load captcha
 
-use Gregwar\Captcha\PhraseBuilder;
+if(isset($use_captcha) && $use_captcha == true)
+{
+    if(file_exists(__DIR__ . "/../lib/captcha/" . $captcha_class . ".php"))
+    {
+        $captcha_fullclass = "captcha\\$captcha_class";
+        require_once(__DIR__ . "/../lib/captcha/" . $captcha_class . ".php");
+        error_log("Captcha module $captcha_class successfully loaded");
 
-function check_captcha( $captcha_value, $user_value ) {
-    return PhraseBuilder::comparePhrases($captcha_value,$user_value);
-}
+        # Inspect parameters of constructor
+        $reflection = new ReflectionClass($captcha_fullclass);
+        $constructorParams = $reflection->getConstructor()->getParameters();
 
-# see ../htdocs/captcha.php where captcha cookie and $_SESSION['phrase'] are set.
-function global_captcha_check() {
-    $result="";
-    if (isset($_POST["captchaphrase"]) and $_POST["captchaphrase"]) {
-        # captcha cookie for session
-        ini_set("session.use_cookies",1);
-        ini_set("session.use_only_cookies",1);
-        setcookie("captcha", '', time()-1000);
-        session_name("captcha");
-        session_start();
-        $captchaphrase = strval($_POST["captchaphrase"]);
-        if (!isset($_SESSION['phrase']) or !check_captcha($_SESSION['phrase'], $captchaphrase)) {
-            $result = "badcaptcha";
+        # Gather parameters to pass to the class: all config params to pass
+        $definedVariables = get_defined_vars(); # get all variables, including configuration
+        $params = [];
+        foreach ($constructorParams AS $param) {
+            if(!isset($definedVariables[$param->name]))
+            {
+                error_log("Error: Missing param $param->name for $captcha_class");
+                exit(1);
+            }
+            array_push($params, $definedVariables[$param->name]);
         }
-        unset($_SESSION['phrase']);
-        # write session to make sure captcha phrase is no more included in session.
-        session_write_close();
+
+        $captchaInstance = new $captcha_fullclass(...$params);
     }
-    else {
-        $result = "captcharequired";
+    else
+    {
+        error_log("Error: unable to load captcha class $captcha_class in " .
+                  __DIR__ . "/../lib/captcha/" . $captcha_class . ".php");
+        exit(1);
     }
-    return $result;
 }
+
+?>
