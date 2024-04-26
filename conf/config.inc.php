@@ -295,7 +295,14 @@ $use_sms = true;
 $sms_use_ldap = false;
 # SMS method (mail, api)
 $sms_method = "mail";
-$sms_api_lib = "lib/smsapi.inc.php";
+# path to SMS library to use
+# currently, 3 libraries are bundled:
+# - lib/smsapi-signal-cli.inc.php
+# - lib/smsapi-twilio.inc.php
+# - lib/smsovh/smsapi-ovh.inc.php
+# The last one needs php-ovh-sms dependency, do `composer update` in lib/smsovh
+# you can also write your own library
+$sms_api_lib = "";
 # GSM number attribute
 $sms_attributes = array( "mobile", "pager", "ipPhone", "homephone" );
 # Partially hide number
