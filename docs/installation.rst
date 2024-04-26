@@ -42,6 +42,16 @@ Adapt ownership of Smarty cache repositories so Apache user can write into them.
 Debian / Ubuntu
 ---------------
 
+.. warning:: Due to a `bug`_ in old Debian and Ubuntu `smarty3`_ package, you may face the error ``syntax error, unexpected token "class"``.
+   In this case, install a newer version of the package:
+
+   ``# wget http://ftp.us.debian.org/debian/pool/main/s/smarty3/smarty3_3.1.47-2_all.deb``
+
+   ``# dpkg -i smarty3_3.1.47-2_all.deb``
+
+.. _smarty3: https://packages.debian.org/sid/smarty3
+.. _bug: https://github.com/ltb-project/self-service-password/issues/681
+
 Configure the repository:
 
 .. prompt:: bash #
