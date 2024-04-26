@@ -29,6 +29,8 @@ Install files in ``/usr/share/``:
 .. prompt:: bash #
 
     mv ltb-project-self-service-password-* /usr/share/self-service-password
+    mkdir /usr/share/self-service-password/cache
+    mkdir /usr/share/self-service-password/templates_c
 
 Adapt ownership of Smarty cache repositories so Apache user can write into them. For example:
 
