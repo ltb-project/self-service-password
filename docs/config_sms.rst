@@ -96,13 +96,14 @@ If you choose API, you need to define which library will be called:
 
    $sms_api_lib = "lib/smsapi-<my-api>.inc.php";
 
-In this library, you must define a class with the ``send_sms_by_api`` function:
+In this library, you must define a class with a constructor (``__construct``)  and
+the ``send_sms_by_api`` function:
 
 .. code-block:: php
 
    <?php namespace smsapi;
 
-   class smsSignal
+   class smsExample
    {
 
        private $param1;
@@ -126,6 +127,7 @@ In this library, you must define a class with the ``send_sms_by_api`` function:
 
            return 1;
        }
+   }
 
 .. tip:: You have to define the properties ($param1, $param2,...) plus the
   constructor with the appropriate parameters you want to use in
