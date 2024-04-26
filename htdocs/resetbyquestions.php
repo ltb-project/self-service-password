@@ -84,7 +84,7 @@ if ( $result === "" ) {
 #==============================================================================
 # Check captcha
 #==============================================================================
-if ( ( $result === "" ) and $use_captcha) { $result = global_captcha_check();}
+if ( ( $result === "" ) and $use_captcha) { $result = $captchaInstance->verify_captcha_challenge();}
 
 # Should we pre-populate the question?
 #   This should ensure that $login is valid and everything else is empty.

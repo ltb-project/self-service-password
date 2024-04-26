@@ -24,6 +24,9 @@
        }
   </style>
 {/if}
+{if $captcha_css}
+  <style>{$captcha_css nofilter}</style>
+{/if}
 </head>
 <body>
 <div class="container">

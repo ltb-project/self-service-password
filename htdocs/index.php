@@ -15,9 +15,6 @@ require_once("../conf/config.inc.php");
 #==============================================================================
 require_once("../vendor/autoload.php");
 require_once("../lib/functions.inc.php");
-if ($use_captcha) {
-    require_once("../lib/captcha.inc.php");
-}
 
 #==============================================================================
 # VARIABLES
@@ -123,6 +120,11 @@ $ldapInstance = new \Ltb\Ldap(
                              );
 
 #==============================================================================
+# Captcha Config
+#==============================================================================
+require_once(__DIR__ . "/../lib/captcha.inc.php");
+
+#==============================================================================
 # Other default values
 #==============================================================================
 if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }
@@ -210,6 +212,19 @@ if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
 }
 
 #==============================================================================
+# Generate captcha
+#==============================================================================
+$captcha_html = '';
+$captcha_js   = '';
+$captcha_css  = '';
+if(isset($use_captcha) && $use_captcha == true)
+{
+    $captcha_html = $captchaInstance->generate_html_captcha($messages);
+    $captcha_js = $captchaInstance->generate_js_captcha();
+    $captcha_css = $captchaInstance->generate_css_captcha();
+}
+
+#==============================================================================
 # Smarty
 #==============================================================================
 require_once(SMARTY);
@@ -266,6 +281,9 @@ if(empty($change_custompwdfield)) {
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('sms_use_ldap', $sms_use_ldap);
 $smarty->assign('default_action', $default_action);
+$smarty->assign('captcha_html', $captcha_html);
+$smarty->assign('captcha_js', $captcha_js);
+$smarty->assign('captcha_css', $captcha_css);
 //$smarty->assign('',);
 
 if (isset($source)) { $smarty->assign('source', $source); }
