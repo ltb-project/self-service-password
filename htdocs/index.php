@@ -123,6 +123,27 @@ $ldapInstance = new \Ltb\Ldap(
                              );
 
 #==============================================================================
+# Captcha Config
+#==============================================================================
+if(isset($use_captcha) && $use_captcha == true)
+{
+    if(file_exists(__DIR__ . "/../lib/captcha/" . $captcha_class . ".php"))
+    {
+        require_once(__DIR__ . "/../lib/captcha/Captcha.php");
+        require_once(__DIR__ . "/../lib/captcha/" . $captcha_class . ".php");
+        error_log("Captcha module $captcha_class successfully loaded");
+
+        $captchaInstance = new $captcha_class();
+    }
+    else
+    {
+        error_log("Error: unable to load captcha class $captcha_class in " .
+                  __DIR__ . "/../lib/captcha/" . $captcha_class . ".php");
+        exit(1);
+    }
+}
+
+#==============================================================================
 # Other default values
 #==============================================================================
 if (!isset($ldap_login_attribute)) { $ldap_login_attribute = "uid"; }

@@ -59,7 +59,7 @@ if ( $result === "" ) {
 # Check captcha
 #==============================================================================
 if ( ( $result === "" ) and $use_captcha) {
-    $result = global_captcha_check();
+    $result = $captchaInstance->global_captcha_check();
 }
 
 #==============================================================================
