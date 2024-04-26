@@ -40,6 +40,7 @@ release = u''
 # ones.
 extensions = [
         'sphinx-prompt',
+        'sphinxcontrib.jquery',
         'sphinxcontrib.openapi'
 ]
 
