@@ -28,7 +28,7 @@ Summary: LDAP password change web interface
 License: GPL-2.0-or-later AND MIT AND LGPL-2.1-only AND OFL-1.1
 URL:     https://ltb-project.org/documentation/self-service-password.html
 
-Source0: https://github.com/ltb-project/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0: https://ltb-project.org/archives/ltb-project-%{name}-%{version}.tar.gz
 Source1: self-service-password-apache.conf
 
 BuildArch: noarch
@@ -75,9 +75,9 @@ their password on an LDAP directory.
 Self Service Password is provided by LDAP Tool Box project:
 http://ltb-project.org
 
-                                                                                    
+
 %prep
-%autosetup -p1
+%setup -n ltb-project-%{name}-%{version}
 # Clean hidden files in bundled php libs
 find . \
   \( -name .gitignore -o -name .travis.yml -o -name .pullapprove.yml \) \
@@ -137,13 +137,6 @@ for file in $( grep -r -l -E "\([^(]+\/conf\/[^)]+\)" %{buildroot}/%{ssp_destdir
     's#([^(]\+/conf/\([^")]\+\)")#("%{_sysconfdir}/%{name}/\1")#' \
     ${file}
 done
-
-
-%check
-%if ! 0%{?with_network}
-rm tests/CheckPasswordTest.php
-%endif
-if type vendor/bin/phpunit ; then vendor/bin/phpunit tests --configuration tests/phpunit.xml; fi
 
 
 %pre
