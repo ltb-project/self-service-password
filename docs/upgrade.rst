@@ -155,6 +155,14 @@ Now the cache is being cleaned-up during self-service-password upgrade / install
 
 This is intended to avoid smarty problems due to self-service-password templates upgrade, and possibly smarty upgrade itself.
 
+RPM GPG key
+~~~~~~~~~~~
+
+GPG key has changed for EL9, you need to import it before upgrade:
+
+.. prompt:: bash #
+
+    rpm --import https://ltb-project.org/documentation/_static/RPM-GPG-KEY-LTB-PROJECT-SECURITY
 
 Dependencies update
 ~~~~~~~~~~~~~~~~~~~
@@ -162,7 +170,7 @@ Dependencies update
 Packaged dependencies:
 
 * smarty is now a required package. self-service-password will work with either version 3 or 4.
-* php >= 7.3 is now required (previously version 5)
+* php >= 7.4 is now required (previously version 5)
 * sed is a now a required package
 * php-gd, php-ldap and php-mbstring have been kept as dependencies
 

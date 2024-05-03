@@ -106,9 +106,17 @@ Then update:
 
 Import repository key:
 
+* For EL7/EL8:
+
 .. prompt:: bash #
 
     rpm --import https://ltb-project.org/documentation/_static/RPM-GPG-KEY-LTB-project
+
+* For EL9:
+
+.. prompt:: bash #
+
+    rpm --import https://ltb-project.org/documentation/_static/RPM-GPG-KEY-LTB-PROJECT-SECURITY
 
 You are now ready to install:
 
