@@ -28,5 +28,10 @@
         "phpunit/phpunit": ">=8",
         "php-mock/php-mock-phpunit": "*",
         "mockery/mockery": ">=1.4"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
     }
 }
