@@ -213,15 +213,8 @@ characters in login with ``$login_forbidden_chars``:
 .. tip:: If no characters are configured in ``$login_forbidden_chars``,
    only alphanumeric characters are allowed.
 
-You can configure "obscure" messages, so that some errors are not
-displayed and replaced by a generic "bad credentials" error:
-
-.. code-block:: php
-
-   $obscure_failure_messages = array("mailnomatch");
-
-For the reset process via mail token and send sms token, there are also a specific parameters,
-enabled by default, to avoid account disclosure:
+For the reset process via mail token and send sms token, errors are hidden
+by default, to avoid account disclosure:
 
 .. code-block:: php
 
