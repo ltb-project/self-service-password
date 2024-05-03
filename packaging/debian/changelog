@@ -1,8 +1,86 @@
 ltb-project-self-service-password (1.6.0-1) unstable; urgency=high
 
-    * gh852: deb cleanup
+    * gh#165: Multiple SMS tokens could be requested if an attacker finds one username, leading to big expenses
+    * gh#193: Password Strength Meter
+    * gh#288: Page to set mail for use by "reset by token" feature
+    * gh#421: Why no logging for any actions taken by users?
+    * gh#634: Spec file clean up
+    * gh#674: Notify by mail code factorization
+    * gh#707: Improve code factorization
+    * gh#742: Update php version
+    * gh#751: feature: ability to change custom password fields
+    * gh#755: Host header poisoning
+    * gh#772: Remove obscure_failure_messages option
+    * gh#775: Update tr.inc.php
+    * gh#778: Docker container image labels
+    * gh#780: [question] Preset login username
+    * gh#781: Audit log
+    * gh#795: Use login_hint to prefill user login
+    * gh#797: Use LTB LDAP common PHP lib
+    * gh#799: Update phpunit
+    * gh#803: German Translation of some parts of the code
+    * gh#804: translated the line $messages['tokensent_ifexists'] into german
+    * gh#808: First implementation of a page to set mail and phone attributes
+    * gh#809: Cannot use signal as SMS method
+    * gh#815: Complete and fix pt-BR translation
+    * gh#817: RPM spec file cleanup
+    * gh#821: LDAP Tool Box Self Service Password v1.5.2 - Account takeover
+    * gh#824: add security remark about $reset_url parameter (#821)
+    * gh#828: Configuration parameter $allowed_lang is ignored
+    * gh#829: Filter allowed languages
+    * gh#830: add an indicator of entropy during password change
+    * gh#831: Docker: support volumes for configuration
+    * gh#833: Error handling when using the signal-cli api for sms
+    * gh#834: Update bootstrap library
+    * gh#835: clean useless function show_policy
+    * gh#837: Upgrade Bootstrap to 5.3
+    * gh#839: Update it.inc.php
+    * gh#841: Fix pt-BR translation for pwned password policy
+    * gh#842: remove useless show_policy function, now rendered by smarty template
+    * gh#843: 830 entropy
+    * gh#844: Added JS to prevent multiple submits
+    * gh#845: prevent multiple form submits (#844)
+    * gh#846: RPM spec file cleanup
+    * gh#847: Spec cleanup (#846)
+    * gh#848: update defuse-crypto library
+    * gh#849: Update bundled php/javascript libs versions
+    * gh#850: Update to smarty4
+    * gh#851: Securisation of reset by SMS token feature
+    * gh#852: deb cleanup
+    * gh#854: Password policy javascript checker
+    * gh#855: Remove criteria depending on old password when unavailable
+    * gh#856: Remove criteria depending on old password when unavailable (#855)
+    * gh#857: Avoid host header poisoning
+    * gh#858: deb cleanup (#852)
+    * gh#859: update bundled dependencies + mv them as composer managed dep (#849)
+    * gh#860: SMS sending option error when encryption is not activated
+    * gh#861: Bug in max_attempts for token in `sendsms`
+    * gh#864: feature: ability to change custom password fields
+    * gh#865: ability to change custom password fields, developped by @markus-96 (#864)
+    * gh#866: add docker image labels (#778) + update base image to php:8.2 + smarty to v4.4.1
+    * gh#868: pwd_diff_last_min_chars is not evaluated the same way in backend and in frontend
+    * gh#869: compute pwd_diff_last_min_chars the same way than at backend side (#868)
+    * gh#870: reinject default configuration file into conf directory (#831)
+    * gh#872: Ppolicy javascript applied to extra help div
+    * gh#873: Use a dedicated CSS class for ppolicy div
+    * gh#874: Test crypt_tokens parameter if SMS feature is enabled
+    * gh#878: use new ltb-ldap v0.2
+    * gh#879: use new ltb-ldap v0.2 and adapt method signatures (#878)
+    * gh#881: checkentropy js: use known path, ie when behind a reverse proxy
+    * gh#882: 878 use ltb ldap functions
+    * gh#884: Use POST instead of GET in check entropy module
+    * gh#885: Use POST instead of GET in check entropy module (#884)
+    * gh#887: fix uninitialized variable warnings in logs
+    * gh#888: fix warnings for uninitialized variables (#887)
+    * gh#889: refactor smsapi functions
+    * gh#891: remove global variables in sendsms.php (#889)
+    * gh#892: Corrected error introduced when adding obscure notifications
+    * gh#893: 674 notify by mail code factorization
+    * gh#896: Cannot build RPM from sources
+    * gh#897: With 1.6.0, composer requires PHP >= 8.1.0
+    * gh#899: Remove obscure_failure_messages option
 
- -- Clement Oudot <clem@ltb-project.org>  Mon, 11 Mar 2023 12:00:00 +0200
+ -- Clement Oudot <clem@ltb-project.org>  Fri, 03 May 2024 12:00:00 +0200
 
 ltb-project-self-service-password (1.5.4-1) unstable; urgency=high
 
