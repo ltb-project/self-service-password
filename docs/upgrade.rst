@@ -19,6 +19,16 @@ The default notification's behaviour for sms is obscured. To change this behavio
 
    $obscure_notfound_sendsms = false;
 
+Option obscure_failure_messages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The option obscure_failure_messages has been removed in favor of the specific options for Mail and SMS:
+
+.. code-block:: php
+
+   $obscure_usernotfound_sendtoken = true;
+   $obscure_notfound_sendsms = true;
+
 SMS API
 ~~~~~~~
 

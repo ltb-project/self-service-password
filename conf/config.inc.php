@@ -416,9 +416,6 @@ $use_restapi = false;
 #setlocale(LC_CTYPE, "en_US.UTF-8");
 
 # Hide some messages to not disclose sensitive information
-# These messages will be replaced by badcredentials error
-# by default mailnomatch is obscured since it can disclose account existence
-$obscure_failure_messages = array("mailnomatch");
 $obscure_usernotfound_sendtoken = true;
 $obscure_notfound_sendsms = true;
 

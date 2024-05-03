@@ -363,8 +363,6 @@ if (isset($usermail)) { $smarty->assign('usermail', $usermail); }
 if (isset($displayname[0])) { $smarty->assign('displayname', $displayname[0]); }
 if (isset($encrypted_sms_login)) { $smarty->assign('encrypted_sms_login', $encrypted_sms_login); }
 
-if (isset($obscure_failure_messages) && in_array($result, $obscure_failure_messages) ) { $result = "badcredentials"; }
-
 # Set error message, criticity and fa_class
 
 if ($result) {
