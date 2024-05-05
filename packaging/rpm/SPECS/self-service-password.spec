@@ -13,6 +13,7 @@
 
 %global ssp_destdir     %{_datadir}/%{name}
 %global ssp_cachedir    %{_localstatedir}/cache/%{name}
+%undefine __brp_mangle_shebangs
 
 Name: self-service-password
 Version: 1.6.0
