@@ -17,7 +17,7 @@
 
 Name: self-service-password
 Version: 1.6.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
 # All bundled php libs (vendor/*) but phpmailer are MIT
@@ -46,6 +46,7 @@ Requires: php-Smarty
 %if 0%{!?el7}
 Recommends: php-sodium
 %endif
+%{!?el7:%global __requires_exclude /usr/bin/python}
 
 Provides: bundled(fontawesome-fonts) = 6.5.1
 Provides: bundled(js-bootstrap) = 5.3.3
@@ -178,6 +179,9 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Mon May 06 2024 - Clement Oudot <clem@ltb-project.org> - 1.6.0-2
+- gh#904: Unable to install on RockyLinux 8
+
 * Fri May 03 2024 - Clement Oudot <clem@ltb-project.org> - 1.6.0-1
 - gh#165: Multiple SMS tokens could be requested if an attacker finds one username, leading to big expenses
 - gh#193: Password Strength Meter
