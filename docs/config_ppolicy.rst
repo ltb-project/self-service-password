@@ -172,3 +172,30 @@ software:
 
    $show_extended_error = true;
 
+Entropy
+-------
+
+When the user is typing his new password, you can enable an entropy bar,
+showing the strength of the password.
+
+.. code-block:: php
+
+    $pwd_display_entropy = true;
+
+You can also require the entropy bar to hit a minimum level for the
+password to be accepted:
+
+.. code-block:: php
+
+    # enforce password entropy check
+    $pwd_check_entropy = true;
+
+    # minimum entropy level required (when $pwd_check_entropy enabled)
+    $pwd_min_entropy = 3;
+
+``$pwd_min_entropy`` must be an integer between 0 (very risky) and 4 (very strong).
+
+.. tip:: The entropy check is computed by the
+         `zxcvbn library <https://github.com/dropbox/zxcvbn>`_
+
+
