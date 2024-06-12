@@ -192,6 +192,13 @@ array_push( $available_actions, "checkentropy" );
 # Ensure requested action is available, or fall back to default
 if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
 
+error_reporting(0);
+if ($debug) {
+    error_reporting(E_ALL);
+    # Set debug for LDAP
+    ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
+}
+
 if (file_exists($action.".php")) { require_once($action.".php"); }
 
 #==============================================================================
@@ -216,13 +223,6 @@ $smarty->setTemplateDir('../templates/');
 $smarty->setCompileDir($compile_dir);
 $smarty->setCacheDir($cache_dir);
 $smarty->debugging = $smarty_debug;
-
-error_reporting(0);
-if ($debug) {
-    error_reporting(E_ALL);
-    # Set debug for LDAP
-    ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
-}
 
 # Assign configuration variables
 $smarty->assign('ldap_params',array('ldap_url' => $ldap_url, 'ldap_starttls' => $ldap_starttls, 'ldap_binddn' => $ldap_binddn, 'ldap_bindpw' => $ldap_bindpw));
