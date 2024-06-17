@@ -228,6 +228,17 @@ if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
 }
 
 #==============================================================================
+# Generate captcha
+#==============================================================================
+$captcha_html = '';
+$captcha_js = '';
+if(isset($use_captcha) && $use_captcha == true)
+{
+    $captcha_html = $captchaInstance->generate_html_captcha($messages);
+    $captcha_js = $captchaInstance->generate_js_captcha();
+}
+
+#==============================================================================
 # Smarty
 #==============================================================================
 require_once(SMARTY);
@@ -284,6 +295,8 @@ if(empty($change_custompwdfield)) {
 $smarty->assign('mail_address_use_ldap', $mail_address_use_ldap);
 $smarty->assign('sms_use_ldap', $sms_use_ldap);
 $smarty->assign('default_action', $default_action);
+$smarty->assign('captcha_html', $captcha_html);
+$smarty->assign('captcha_js', $captcha_js);
 //$smarty->assign('',);
 
 if (isset($source)) { $smarty->assign('source', $source); }
