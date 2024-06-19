@@ -430,6 +430,7 @@ $obscure_notfound_sendsms = true;
 #$smarty_cache_dir = "/var/cache/self-service-password/cache";
 
 # Smarty debug mode - will popup debug information on web interface
+# and add many smarty debug messages in error logs
 $smarty_debug = false;
 
 ## Custom Password Fields
