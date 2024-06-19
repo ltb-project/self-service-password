@@ -216,6 +216,15 @@ $smarty->setTemplateDir('../templates/');
 $smarty->setCompileDir($compile_dir);
 $smarty->setCacheDir($cache_dir);
 $smarty->debugging = $smarty_debug;
+if(isset($smarty_debug) && $smarty_debug == true )
+{
+    $smarty->error_reporting = E_ALL;
+}
+else
+{
+    # Do not report smarty stuff unless $smarty_debug == true
+    $smarty->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
+}
 
 error_reporting(0);
 if ($debug) {
