@@ -189,7 +189,8 @@ This is also possible to enable Smarty debug, for web interface issues:
 
    $smarty_debug = true;
 
-.. tip:: Debug messages will appear on web interface.
+.. tip:: Debug messages will appear on web interface as a popup.
+   You will also have many more messages in error logs.
 
 .. _security:
 
