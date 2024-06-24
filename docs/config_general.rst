@@ -288,7 +288,19 @@ You should also define the captcha module to use.
 
 For ``$captcha_class``, you can select another captcha module. For now, only ``InternalCaptcha`` and ``FriendlyCaptcha`` are supported.
 
-You can also add your own Captcha module. (see :doc:`developpers` )
+If you want to set up ``FriendlyCaptcha``, you must also configure additional parameters:
+
+.. code-block:: php
+
+   $use_captcha = true;
+   $captcha_class = "FriendlyCaptcha";
+   $friendlycaptcha_apiurl  = "https://api.friendlycaptcha.com/api/v1/siteverify";
+   $friendlycaptcha_sitekey = "FC123456789";
+   $friendlycaptcha_secret  = "secret";
+
+See `FriendlyCaptcha documentation <https://docs.friendlycaptcha.com/>`_ for more information
+
+You can also integrate any other Captcha module by developping the corresponding plugin. (see :doc:`developpers` )
 
 
 .. |image0| image:: images/br.png
