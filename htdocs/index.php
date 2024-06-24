@@ -131,6 +131,7 @@ if(isset($use_captcha) && $use_captcha == true)
         error_log("Captcha module $captcha_class successfully loaded");
 
         $captchaInstance = new $captcha_class();
+        $captchaInstance->initialize();
     }
     else
     {
@@ -231,11 +232,13 @@ if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
 # Generate captcha
 #==============================================================================
 $captcha_html = '';
-$captcha_js = '';
+$captcha_js   = '';
+$captcha_css  = '';
 if(isset($use_captcha) && $use_captcha == true)
 {
     $captcha_html = $captchaInstance->generate_html_captcha($messages);
     $captcha_js = $captchaInstance->generate_js_captcha();
+    $captcha_css = $captchaInstance->generate_css_captcha();
 }
 
 #==============================================================================
@@ -297,6 +300,7 @@ $smarty->assign('sms_use_ldap', $sms_use_ldap);
 $smarty->assign('default_action', $default_action);
 $smarty->assign('captcha_html', $captcha_html);
 $smarty->assign('captcha_js', $captcha_js);
+$smarty->assign('captcha_css', $captcha_css);
 //$smarty->assign('',);
 
 if (isset($source)) { $smarty->assign('source', $source); }

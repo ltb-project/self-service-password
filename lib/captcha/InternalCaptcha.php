@@ -8,12 +8,6 @@ use Gregwar\Captcha\CaptchaBuilder;
 
 /*
 TODO:
-- add possibility to declare a new route to a "newcaptcha.php" endpoint, that will call the generate_captcha_challenge() method corresponding to the current captcha module
-- find a way to reload the captcha (without loading the whole page again), see #789 -> for this issue, we need to call a "verify_captcha" method through a REST API
-- decide where the following elements will reside as parameters in config.inc.php, as properties of the class InternalCaptcha or Captcha, or as values sent by a function in this class:
-  * extra css resource (online or local)
-  * extra js resource (online or local?)
-  * html to inject as the captcha
 - add unit test for each class
 - add audit logs for failed captcha actions
 */
@@ -26,9 +20,49 @@ class InternalCaptcha extends Captcha
     function initialize(){
     }
 
+    # Function that insert extra css
+    function generate_css_captcha(){
+        $captcha_css = '
+            #captcha-refresh{
+                margin-left: 10px;
+            }
+        ';
+
+        return $captcha_css;
+    }
+
     # Function that insert extra js
     function generate_js_captcha(){
-        $captcha_js = '';
+        $captcha_js = '
+            <script>
+                $(document).ready(function(){
+
+                    $("#captcha-refresh").on("click", function (event) {
+
+                        $.getJSON("newcaptcha.php", {
+                            format: "json"
+                        })
+                        .done(function(data) {
+                            challenge = data.challenge;
+                            if( challenge != null && challenge != "" )
+                            {
+                                $("#captcha-refresh").parent().find("img").attr("src", challenge);
+                                console.log( "New captcha loaded");
+                            }
+                            else
+                            {
+                                console.log( "Error while parsing json response in newcaptcha.php" );
+                            }
+                        })
+                        .fail(function( jqXHR, textStatus ) {
+                            console.log( "Error while loading captcha: " + textStatus );
+                        });
+
+                    });
+
+                });
+            </script>
+';
 
         return $captcha_js;
     }
@@ -40,7 +74,7 @@ class InternalCaptcha extends Captcha
         <div class="row mb-3">
             <div class="col-sm-4 col-form-label text-end captcha">
                 <img src="'.$this->generate_captcha_challenge().'" alt="captcha" />
-                <i class="fa fa-fw fa-refresh"></i>
+                <i id="captcha-refresh" class="fa fa-fw fa-refresh"></i>
             </div>
             <div class="col-sm-8">
                 <div class="input-group">
