@@ -28,12 +28,6 @@ class FriendlyCaptcha extends Captcha
          # Other stuff to initialize
     }
 
-
-    # Function for initializing the component
-    # loading libraries,...
-    function initialize(){
-    }
-
     # Function that insert extra css
     function generate_css_captcha(){
         $captcha_css = '
