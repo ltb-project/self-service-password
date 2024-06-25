@@ -147,7 +147,6 @@ if(isset($use_captcha) && $use_captcha == true)
         }
 
         $captchaInstance = new $captcha_class(...$params);
-        $captchaInstance->initialize();
     }
     else
     {
