@@ -6,7 +6,6 @@ require_once(__DIR__."/../../vendor/autoload.php");
 
 /*
 TODO:
-- make friendlycaptcha rest API URL, secret key, and sitekey configuration parameters (config.inc.php)
 - add unit test for each class
 - add audit logs for failed captcha actions
 - write configuration doc for FriendlyCaptcha
@@ -15,6 +14,20 @@ TODO:
 
 class FriendlyCaptcha extends Captcha
 {
+
+    private $friendlycaptcha_apiurl;
+    private $friendlycaptcha_sitekey;
+    private $friendlycaptcha_secret;
+
+    public function __construct($friendlycaptcha_apiurl, $friendlycaptcha_sitekey, $friendlycaptcha_secret)
+    {
+         $this->friendlycaptcha_apiurl  = $friendlycaptcha_apiurl;
+         $this->friendlycaptcha_sitekey = $friendlycaptcha_sitekey;
+         $this->friendlycaptcha_secret  = $friendlycaptcha_secret;
+
+         # Other stuff to initialize
+    }
+
 
     # Function for initializing the component
     # loading libraries,...
@@ -52,7 +65,7 @@ class FriendlyCaptcha extends Captcha
             <div class="col-sm-4 col-form-label text-end captcha">
             </div>
             <div class="col-sm-8">
-                <div class="frc-captcha" data-sitekey="<sitekey>"></div>
+                <div class="frc-captcha" data-sitekey="'.$this->friendlycaptcha_sitekey.'"></div>
             </div>
         </div>';
 
@@ -72,13 +85,10 @@ class FriendlyCaptcha extends Captcha
             $captchaphrase = strval($_POST["frc-captcha-solution"]);
 
             # Call to friendlycaptcha rest api
-            $friendly_captcha_url     = 'https://api.friendlycaptcha.com/api/v1/siteverify';
-            $friendly_captcha_secret  = '<secret>';
-            $friendly_captcha_sitekey = '<sitekey>';
             $data = [
                         'solution' => "$captchaphrase",
-                        'secret'   => "$friendly_captcha_secret",
-                        'sitekey'  => "$friendly_captcha_sitekey",
+                        'secret'   => $this->friendlycaptcha_secret,
+                        'sitekey'  => $this->friendlycaptcha_sitekey,
                     ];
             $options = [
                 'http' => [
@@ -88,21 +98,21 @@ class FriendlyCaptcha extends Captcha
                 ],
             ];
             $context = stream_context_create($options);
-            $response = file_get_contents($friendly_captcha_url, false, $context);
+            $response = file_get_contents($this->friendlycaptcha_apiurl, false, $context);
             if ($response === false) {
-                error_log("Error while reaching $friendly_captcha_url");
+                error_log("Error while reaching ".$this->friendlycaptcha_apiurl);
                 $result = "badcaptcha";
             }
             $json_response = json_decode($response);
             if( $json_response->success != true )
             {
-                error_log("Error while verifying captcha $captchaphrase on $friendly_captcha_url: ".var_export($json_response->errors, true));
+                error_log("Error while verifying captcha $captchaphrase on ".$this->friendlycaptcha_apiurl.": ".var_export($json_response->errors, true));
                 $result = "badcaptcha";
             }
             else
             {
                 // captcha verified successfully
-                error_log("Captcha verified successfully: $captchaphrase on $friendly_captcha_url: ".var_export($json_response, true));
+                error_log("Captcha verified successfully: $captchaphrase on ".$this->friendlycaptcha_apiurl.": ".var_export($json_response, true));
             }
 
         }
