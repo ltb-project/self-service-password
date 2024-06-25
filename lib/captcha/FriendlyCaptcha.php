@@ -1,4 +1,4 @@
-<?php
+<?php namespace captcha;
 
 # load the sms module
 include_once( __DIR__ . "/Captcha.php");
@@ -6,7 +6,6 @@ require_once(__DIR__."/../../vendor/autoload.php");
 
 /*
 TODO:
-- add unit test for each class
 - add audit logs for failed captcha actions
 - write configuration doc for FriendlyCaptcha
 - write doc about "how to write your custom captcha"
@@ -98,7 +97,7 @@ class FriendlyCaptcha extends Captcha
                 $result = "badcaptcha";
             }
             $json_response = json_decode($response);
-            if( $json_response->success != true )
+            if( $json_response->success != "true" )
             {
                 error_log("Error while verifying captcha $captchaphrase on ".$this->friendlycaptcha_apiurl.": ".var_export($json_response->errors, true));
                 $result = "badcaptcha";
