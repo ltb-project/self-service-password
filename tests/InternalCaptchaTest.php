@@ -38,7 +38,7 @@ class InternalCaptchaTest extends \PHPUnit\Framework\TestCase
         $messages = array("captcha" => "Captcha");
 
         $captchaMock = $this->getMockBuilder(captcha\InternalCaptcha::class)
-            ->setMethods(['generate_captcha_challenge'])
+            ->onlyMethods(['generate_captcha_challenge'])
             ->getMock();
         $captchaMock->expects($this->once())
                     ->method('generate_captcha_challenge')
