@@ -1,4 +1,4 @@
-<?php
+<?php namespace captcha;
 
 # load the sms module
 include_once( __DIR__ . "/Captcha.php");
