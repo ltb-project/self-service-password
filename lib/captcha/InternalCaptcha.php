@@ -6,12 +6,6 @@ require_once(__DIR__."/../../vendor/autoload.php");
 use Gregwar\Captcha\PhraseBuilder;
 use Gregwar\Captcha\CaptchaBuilder;
 
-/*
-TODO:
-- add unit test for each class
-- add audit logs for failed captcha actions
-*/
-
 class InternalCaptcha extends Captcha
 {
 
