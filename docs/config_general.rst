@@ -60,6 +60,7 @@ Language
 
 Available languages are:
 
+-  |image24| Arabic (ar)
 -  Basque (eu)
 -  |image0| Brazilian (pt-BR)
 -  |image1| Catalonia (ca)
@@ -303,4 +304,5 @@ To require a captcha, set ``$use_captcha``:
 .. |image21| image:: images/tr.png
 .. |image22| image:: images/ua.png
 .. |image23| image:: images/rs.png
+.. |image24| image:: images/ar.png
 
