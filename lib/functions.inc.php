@@ -90,7 +90,7 @@ function check_password_strength( $password, $oldpassword, $pwd_policy_config, $
 
     $result = "";
 
-    $length = strlen(utf8_decode($password));
+    $length = mb_strlen($password, mb_detect_encoding($password));
     preg_match_all("/[a-z]/", $password, $lower_res);
     $lower = count( $lower_res[0] );
     preg_match_all("/[A-Z]/", $password, $upper_res);
