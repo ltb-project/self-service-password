@@ -84,7 +84,7 @@ if ( $newcustompwd != $confirmcustompwd ) { $result="nomatch"; }
 #==============================================================================
 # Check captcha
 #==============================================================================
-if ( ( $result === "" ) and $use_captcha ) { $result = global_captcha_check();}
+if ( ( $result === "" ) and $use_captcha ) { $result = $captchaInstance->verify_captcha_challenge();}
 
 #==============================================================================
 # Default configuration

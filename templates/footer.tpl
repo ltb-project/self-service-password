@@ -12,6 +12,9 @@
          policy = JSON.parse(atob(json_policy));
 </script>
 <script src="js/ppolicy.js"></script>
+{if $captcha_js}
+{$captcha_js nofilter}
+{/if}
 {if ($questions_count > 1)}
 <script src="js/jquery.selectunique.js"></script>
 <script>$(document).ready(function() { $('.question').selectunique(); })</script>

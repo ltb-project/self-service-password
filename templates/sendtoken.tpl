@@ -35,7 +35,7 @@
     </div>
     {/if}
     {if ($use_captcha)}
-        {include file="captcha.tpl"}
+        {$captcha_html nofilter}
     {/if}
     <div class="row mb-3">
         <div class="offset-sm-4 col-sm-8">
