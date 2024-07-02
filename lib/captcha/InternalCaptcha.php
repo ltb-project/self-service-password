@@ -1,6 +1,5 @@
 <?php namespace captcha;
 
-# load the sms module
 include_once( __DIR__ . "/Captcha.php");
 require_once(__DIR__."/../../vendor/autoload.php");
 use Gregwar\Captcha\PhraseBuilder;
@@ -76,7 +75,7 @@ class InternalCaptcha extends Captcha
         return $captcha_html;
     }
 
-    # Function that generate the captcha challenge (which format for return value?)
+    # Function that generate the captcha challenge
     # Could be called by the backend, or by a call through a REST API to define
     function generate_captcha_challenge(){
 
