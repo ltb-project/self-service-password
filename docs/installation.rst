@@ -147,3 +147,20 @@ Start container, mounting that configuration file:
     docker run -p 80:80 \
         -v $PWD/ssp.conf.php:/var/www/conf/config.inc.local.php \
         -it docker.io/ltbproject/self-service-password:latest
+
+
+From git repository, for developpers only
+-----------------------------------------
+
+You can get the content of git repository
+
+Update composer dependencies:
+
+.. prompt:: bash
+
+   composer update
+
+Depending on your php version, this command will determine the versions of composer dependencies, and create a ``composer.lock`` file. Then it will download these dependencies and put them in vendor/ directory.
+
+Then you can follow the instructions from `From tarball`_, especially the prerequisites.
+
