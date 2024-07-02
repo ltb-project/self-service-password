@@ -79,7 +79,7 @@
             </div>
         </div>
         {if ($use_captcha)}
-             {include file="captcha.tpl"}
+            {$captcha_html nofilter}
         {/if}
         {if !$sms_use_ldap}
           <div class="row mb-3">

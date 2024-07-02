@@ -268,17 +268,40 @@ GET or POST parameter. This method does not require any configuration.
 
 Example: ``https://ssp.example.com/?actionresetbyquestions&login_hint=spiderman``
 
+.. _config_captcha:
+
 Captcha
 -------
 
-To require a captcha, set ``$use_captcha``:
+To enable captcha, set ``$use_captcha`` to ``true``.
+
+You should also define the captcha module to use.
+(By default, ``InternalCaptcha`` is defined in config.inc.php)
 
 .. code-block:: php
 
    $use_captcha = true;
+   $captcha_class = "InternalCaptcha";
 
 .. tip:: The captcha is used on every form in Self Service Password
-  (password change, token, questions, etc.)
+  (password change, token, questions,...)
+
+For ``$captcha_class``, you can select another captcha module. For now, only ``InternalCaptcha`` and ``FriendlyCaptcha`` are supported.
+
+If you want to set up ``FriendlyCaptcha``, you must also configure additional parameters:
+
+.. code-block:: php
+
+   $use_captcha = true;
+   $captcha_class = "FriendlyCaptcha";
+   $friendlycaptcha_apiurl  = "https://api.friendlycaptcha.com/api/v1/siteverify";
+   $friendlycaptcha_sitekey = "FC123456789";
+   $friendlycaptcha_secret  = "secret";
+
+See `FriendlyCaptcha documentation <https://docs.friendlycaptcha.com/>`_ for more information:
+
+You can also integrate any other Captcha module by developping the corresponding plugin. (see :doc:`developpers` )
+
 
 .. |image0| image:: images/br.png
 .. |image1| image:: images/catalonia.png
