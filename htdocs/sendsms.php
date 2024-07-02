@@ -129,7 +129,7 @@ if (!$crypt_tokens) {
     } elseif (isset($_REQUEST["encrypted_sms_login"])) {
         $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
         $login = $decrypted_sms_login[1];
-        [$result, $sms] = get_mobile_and_displayname(
+        [$result, $sms, $displayname, $userdn] = get_user_infos(
                                     $ldapInstance, $ldap_base, $ldap_filter,
                                     $ldap_fullname_attribute, $sms_attributes,
                                     $sms_sanitize_number, $sms_truncate_number,
@@ -155,7 +155,7 @@ if ( $result === "" and $use_captcha) {
 # Check sms
 #==============================================================================
 if ( $result === "" ) {
-    [$result, $sms, $displayname] = get_mobile_and_displayname(
+    [$result, $sms, $displayname, $userdn] = get_user_infos(
                                             $ldapInstance, $ldap_base, $ldap_filter,
                                             $ldap_fullname_attribute, $sms_attributes,
                                             $sms_sanitize_number, $sms_truncate_number,
@@ -285,7 +285,7 @@ if ($result === "buildtoken") {
 #==============================================================================
 if ($result === "redirect") {
 
-    $resetbytoken_url = $script_name . "?action=resetbytoken&source=sms&token=".urlencode($token)."&smstoken=".urlencode($smstoken);
+    $resetbytoken_url = $reset_url . "?action=resetbytoken&source=sms&token=".urlencode($token)."&smstoken=".urlencode($smstoken);
 
     if ( !empty($reset_request_log) ) {
         error_log("Redirect user to " . ( $debug ? "$resetbytoken_url" : "HIDDEN") . "\n\n", 3, $reset_request_log);
@@ -330,7 +330,8 @@ function truncate_number($phone_number){
   return $phone_number;
 }
 
-function get_mobile_and_displayname($ldapInstance, $ldap_base, $ldap_filter,
+# Function returning user's DN, displayname and sms
+function get_user_infos($ldapInstance, $ldap_base, $ldap_filter,
                                     $ldap_fullname_attribute, $sms_attributes,
                                     $sms_sanitize_number, $sms_truncate_number,
                                     $obscure_notfound_sendsms, $token,
@@ -396,5 +397,5 @@ function get_mobile_and_displayname($ldapInstance, $ldap_base, $ldap_filter,
             }
          }
     }
-    return [$result, $sms, $displayname];
+    return [$result, $sms, $displayname, $userdn];
 }
