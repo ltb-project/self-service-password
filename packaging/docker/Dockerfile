@@ -1,19 +1,173 @@
-FROM php:8.2-apache
-# Install PHP extensions and PECL modules.
-ENV BUILDDEP=" \
-        libbz2-dev \
-        libsasl2-dev \
-        libcurl4-gnutls-dev \
-	libfreetype6-dev \
-	libpng-dev \
-	libjpeg62-turbo-dev \
-	libwebp-dev \
-        libonig-dev \
-        git \
-        zip \
+ARG VERSION=latest
+
+ARG SMARTY_VERSION=4.4.1
+ARG SMARTY_DIR=/usr/share/php/smarty${SMARTY_VERSION%%.*}
+ARG SMARTY_URL=https://github.com/smarty-php/smarty/archive/refs/tags/v${SMARTY_VERSION}.tar.gz
+
+ARG COMPOSER_VERSION=lts
+ARG COMPOSER_IMAGE=composer/composer:${COMPOSER_VERSION}-bin
+
+ARG BASE_IMAGE=php:8.2-apache
+
+FROM ${COMPOSER_IMAGE} AS composer
+FROM ${BASE_IMAGE} AS base
+
+ARG MIRROR=
+ARG DEBIAN_MIRROR=${MIRROR:+${MIRROR}/debian}
+
+RUN [ -z "${DEBIAN_MIRROR}" ] || \
+    sed -e "s#https\?://\(:\?\(:\?deb\)\|\(:\?security\)\)\.debian\.org/debian#${DEBIAN_MIRROR}#g" \
+        -i \
+        $([ -e "/etc/apt/sources.list.d/debian.sources" ] && \
+            echo -n /etc/apt/sources.list.d/debian.sources || \
+            echo -n /etc/apt/sources.list)
+
+ARG RUNTIME_DEPS=" \
+        locales \
+        locales-all \
     "
+RUN set -ex; \
+    \
+    apt-get update; \
+    apt-get install -y --no-install-recommends ${RUNTIME_DEPS}; \
+    rm -rf /var/lib/apt/lists/*
+
+ARG LC_CTYPE=en_US.UTF-8
+ENV LC_CTYPE=${LC_CTYPE}
+
+ARG ADD_LOCALE_GEN="en_US.UTF-8 UTF-8"
+RUN [ -z "$ADD_LOCALE_GEN" ] || \
+    grep -x "$ADD_LOCALE_GEN" /etc/locale.gen || \
+        { echo "$ADD_LOCALE_GEN" >> /etc/locale.gen && /usr/sbin/locale-gen; }
+
+ARG BUILD_DEPS=" \
+        libbz2-dev \
+        libicu-dev \
+        libonig-dev \
+        libcurl4-gnutls-dev \
+        libzip-dev \
+        libfreetype6-dev \
+        libpng-dev \
+        libjpeg62-turbo-dev \
+        libwebp-dev \
+        libldap2-dev \
+    "
+RUN set -ex; \
+    \
+    savedAptMark="$(apt-mark showmanual)"; \
+    \
+    apt-get update; \
+    apt-get install -y --no-install-recommends ${BUILD_DEPS}; \
+    \
+    docker-php-source extract; \
+    docker-php-ext-install bcmath bz2 iconv intl mbstring opcache curl; \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/; \
+    docker-php-ext-install ldap gd; \
+    docker-php-source delete; \
+    a2enmod rewrite; \
+    \
+# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
+    apt-mark auto '.*' > /dev/null; \
+    apt-mark manual $savedAptMark; \
+    ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
+        | awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); print so }' \
+        | sort -u \
+        | xargs -r dpkg-query --search \
+        | cut -d: -f1 \
+        | sort -u \
+        | xargs -rt apt-mark manual; \
+    \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+    rm -rf /var/lib/apt/lists/*; \
+    ln -s "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"; \
+    :;
+
+FROM base AS build
+
+WORKDIR /build
+
+ARG SMARTY_VERSION
+ARG SMARTY_URL
+ARG SMARTY_DIR
+ARG COMPOSER_IMAGE
+
+COPY --from=composer /composer /usr/bin/composer
+
+RUN install --owner www-data --group www-data --directory -D "/rootfs${SMARTY_DIR}"
+ADD $SMARTY_URL ./
+RUN tar xzf *.tar.gz -C "/rootfs${SMARTY_DIR}" --strip-components=2 --verbose --owner www-data --group www-data
+
+RUN set -ex; \
+    \
+    apt-get update; \
+    apt-get install -y --no-install-recommends git unzip;
+
+ARG INSTALL_PATHS=" \
+    htdocs/ \
+    lang/ \
+    lib/ \
+    scripts/ \
+    templates/ \
+    vendor/ \
+    entrypoint.sh \
+    LICENCE \
+"
+
+ARG EXCLUDE_PATHS=" \
+    htdocs/vendor/.gitignore \
+"
+
+RUN --mount=type=cache,target=/root/.composer \
+    --mount=type=bind,target=/build/ssp,rw \
+    cd ssp && \
+    set -ex; \
+    composer update --no-dev; \
+    \
+    INSTALL_EXPR=; \
+    for p in ${INSTALL_PATHS}; do \
+        [ -z "${p##*/}" ] && p="\"./${p}*\"" || p="\"./$p\""; \
+        INSTALL_EXPR="${INSTALL_EXPR:+${INSTALL_EXPR} -or }-path $p"; \
+    done; \
+    \
+    EXCLUDE_EXPR=; \
+    for p in ${EXCLUDE_PATHS}; do \
+        [ -z "${p##*/}" ] && p="\"./${p}*\"" || p="\"./$p\""; \
+        EXCLUDE_EXPR="${EXCLUDE_EXPR:+${EXCLUDE_EXPR} -or }-path $p"; \
+    done; \
+    \
+    BIN_PATHS=$(eval "find -type d -name bin \( $INSTALL_EXPR \) -not \( $EXCLUDE_EXPR \)"); \
+    BIN_EXPR=; \
+    for p in ${BIN_PATHS}; do \
+        BIN_EXPR="${BIN_EXPR:+${BIN_EXPR} -or }-path \"$p/*\""; \
+    done; \
+    \
+    eval "find -type f \( $BIN_EXPR \) -exec install -p -m 755 --owner www-data --group www-data -D {} /rootfs/var/www/{} \;"; \
+    eval "find -type f \( $INSTALL_EXPR \) \
+        -not \( $EXCLUDE_EXPR \) \
+        -not \( $BIN_EXPR \) \
+        -exec install -p -m 644 --owner www-data --group www-data -D {} /rootfs/var/www/{} \;"; \
+    \
+    chmod a+x /rootfs/var/www/entrypoint.sh /rootfs/var/www/scripts/*; \
+    \
+    install --owner www-data --group www-data --directory -D \
+        "/rootfs/var/www/htdocs/vendor" "/rootfs/var/www/conf" "/rootfs/var/www/templates_c" \
+        ; \
+    sed -e "s#/usr/share/php/smarty3#${SMARTY_DIR}#g" conf/config.inc.php > /rootfs/var/www/conf/config.inc.php ; \
+    chown www-data:www-data /rootfs/var/www/conf/config.inc.php; \
+    ln -s conf/config.inc.php /rootfs/var/www/config.inc.php.orig; \
+    \
+    find /etc/apache2/sites-available/ -type f -name \*.conf -exec install -p -m 644 -D {} /rootfs{} \; ; \
+    sed -e "s#/var/www/html#/var/www/htdocs#g" -i /rootfs/etc/apache2/sites-available/*; \
+    :;
+
+FROM base
+
+ARG VERSION
+ARG BASE_IMAGE
+
 LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
-      org.opencontainers.image.base.name='docker.io/library/php:8.2-apache' \
+      org.opencontainers.image.base.name="${BASE_IMAGE}" \
       org.opencontainers.image.description='Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory' \
       org.opencontainers.image.url='https://ltb-project.org/documentation/self-service-password.html' \
       org.opencontainers.image.ref.name='self-service-password' \
@@ -21,48 +175,13 @@ LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
       org.opencontainers.image.title='self-service-password docker image' \
       org.opencontainers.image.source='https://github.com/ltb-project/self-service-password/' \
       org.opencontainers.image.vendor='LTB-project.org' \
-      org.opencontainers.image.version='1.6.0' \
+      org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.licenses='GPL-2+'
 
-RUN buildDeps="${BUILDDEP}" \
-    runtimeDeps=" \
-        curl \
-        libicu-dev \
-        libldap-common \
-        libldap2-dev \
-	libgd3 \
-	libjpeg62-turbo \
-	libpng16-16 \
-	libwebp7 \
-        libzip-dev \
-	locales \
-	locales-all \
-	sendmail \
-    " \
-    && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
-    && docker-php-ext-install bcmath bz2 iconv intl mbstring opcache curl \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-    && docker-php-ext-install ldap gd \
-    && echo en_US.UTF-8 UTF-8 >/etc/locale.gen \
-    && /usr/sbin/locale-gen \
-    && a2enmod rewrite
-RUN mkdir -p /usr/share/php/smarty4/ && \
-    curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.4.1.tar.gz | \
-    tar xzf - -C /usr/share/php/smarty4/ --strip-components=2
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY . /var/www
-RUN rmdir /var/www/html && \
-    mv /var/www/htdocs /var/www/html && \
-    mkdir -p /var/www/templates_c && \
-    chown -R www-data: /var/www/templates_c && \
-    sed -i 's/smarty3/smarty4/' /var/www/conf/config.inc.php && \
-    cp -a /var/www/conf/config.inc.php /var/www/config.inc.php.orig
-COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
-RUN cd /var/www && /usr/bin/composer install
-RUN buildDeps="${BUILDDEP}" \
-    && apt-get purge -y --auto-remove $buildDeps \
-    && rm -r /var/lib/apt/lists/*
-ENV LC_CTYPE=en_US.UTF-8
+COPY --from=build /rootfs /
+
+WORKDIR /var/www/htdocs
+
+VOLUME /var/www/templates_c
 EXPOSE 80
 CMD ["/var/www/entrypoint.sh"]

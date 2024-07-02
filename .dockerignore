@@ -1,7 +1,0 @@
- conf/config.inc.local.php
-.git
-github-issues-to-changelog.pl
-packaging
-README.md
-tests
-.travis.yml
