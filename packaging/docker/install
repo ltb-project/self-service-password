@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+set -ex
+
+INSTALL_PATHS=${INSTALL_PATHS:-" \
+    htdocs/ \
+    lang/ \
+    lib/ \
+    scripts/ \
+    templates/ \
+    vendor/ \
+    rest/ \
+    LICENCE \
+"}
+
+EXCLUDE_PATHS=${EXCLUDE_PATHS:-" \
+    htdocs/vendor/.gitignore \
+    rest/v1/doc/ \
+"}
+
+composer update --no-dev
+
+INSTALL_EXPR=
+
+for p in ${INSTALL_PATHS}; do \
+    [ -z "${p##*/}" ] && p="\"./${p}*\"" || p="\"./$p\""
+    INSTALL_EXPR="${INSTALL_EXPR:+${INSTALL_EXPR} -or }-path $p"
+done
+
+EXCLUDE_EXPR=
+for p in ${EXCLUDE_PATHS}; do \
+    [ -z "${p##*/}" ] && p="\"./${p}*\"" || p="\"./$p\""
+    EXCLUDE_EXPR="${EXCLUDE_EXPR:+${EXCLUDE_EXPR} -or }-path $p"
+done
+
+BIN_PATHS=$(eval "find -type d -name bin \( $INSTALL_EXPR \) -not \( $EXCLUDE_EXPR \)")
+BIN_EXPR=
+
+for p in ${BIN_PATHS}; do \
+    BIN_EXPR="${BIN_EXPR:+${BIN_EXPR} -or }-path \"$p/*\""
+done
+
+eval "find -type f \( $BIN_EXPR \) -exec install -p -m 755 -D {} /rootfs/var/www/{} \;"
+
+eval "find -type f \( $INSTALL_EXPR \) \
+    -not \( $EXCLUDE_EXPR \) \
+    -not \( $BIN_EXPR \) \
+    -exec install -p -m 644 -D {} /rootfs/var/www/{} \;"
+
+chmod a+x /rootfs/var/www/scripts/*
+install -m 755 packaging/docker/entrypoint.sh /rootfs/
+
+install --directory -D \
+    "/rootfs/var/www/htdocs/vendor" \
+    "/rootfs/var/www/conf" \
+    :
+
+install --owner www-data --group www-data --directory -D \
+    "/rootfs/var/www/templates_c" \
+    "/rootfs/var/www/cache" \
+    :
+
+sed conf/config.inc.php \
+    -e "s#/usr/share/php/smarty3#/usr/share/php/smarty${SMARTY_VERSION%%.*}#g" \
+    -e "s#config\.inc\.local\.php#conf/\0#g" \
+        > /rootfs/var/www/config.inc.php.orig
