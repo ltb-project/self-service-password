@@ -26,11 +26,12 @@ ARG RUNTIME_DEPS=" \
         locales \
         locales-all \
     "
-RUN set -ex; \
+RUN --mount=type=cache,target=/var/lib/apt/lists \
+    set -ex; \
     \
     apt-get update; \
     apt-get install -y --no-install-recommends ${RUNTIME_DEPS}; \
-    rm -rf /var/lib/apt/lists/*
+    :;
 
 ARG LC_CTYPE=en_US.UTF-8
 ENV LC_CTYPE=${LC_CTYPE}
@@ -43,16 +44,14 @@ RUN [ -z "$ADD_LOCALE_GEN" ] || \
 ARG BUILD_DEPS=" \
         libbz2-dev \
         libicu-dev \
-        libonig-dev \
-        libcurl4-gnutls-dev \
-        libzip-dev \
         libfreetype6-dev \
         libpng-dev \
         libjpeg62-turbo-dev \
         libwebp-dev \
         libldap2-dev \
     "
-RUN set -ex; \
+RUN --mount=type=cache,target=/var/lib/apt/lists \
+    set -ex; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
     \
@@ -60,10 +59,16 @@ RUN set -ex; \
     apt-get install -y --no-install-recommends ${BUILD_DEPS}; \
     \
     docker-php-source extract; \
-    docker-php-ext-install bcmath bz2 iconv intl mbstring opcache curl; \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/; \
-    docker-php-ext-install ldap gd; \
+    docker-php-ext-install -j "$(nproc)" \
+        bcmath \
+        bz2 \
+        intl \
+        opcache \
+        ldap \
+        gd \
+        ; \
     docker-php-source delete; \
     a2enmod rewrite; \
     \
@@ -79,7 +84,6 @@ RUN set -ex; \
         | xargs -rt apt-mark manual; \
     \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-    rm -rf /var/lib/apt/lists/*; \
     ln -s "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"; \
     :;
 
@@ -153,9 +157,11 @@ RUN --mount=type=cache,target=/root/.composer \
     install --owner www-data --group www-data --directory -D \
         "/rootfs/var/www/htdocs/vendor" "/rootfs/var/www/conf" "/rootfs/var/www/templates_c" \
         ; \
-    sed -e "s#/usr/share/php/smarty3#${SMARTY_DIR}#g" conf/config.inc.php > /rootfs/var/www/conf/config.inc.php ; \
-    chown www-data:www-data /rootfs/var/www/conf/config.inc.php; \
-    ln -s conf/config.inc.php /rootfs/var/www/config.inc.php.orig; \
+    sed \
+        -e "s#/usr/share/php/smarty3#${SMARTY_DIR}#g" \
+        -e "s#config\.inc\.local\.php#conf/\0#g" \
+        conf/config.inc.php > /rootfs/var/www/config.inc.php.orig; \
+    chown www-data:www-data /rootfs/var/www/config.inc.php.orig; \
     \
     find /etc/apache2/sites-available/ -type f -name \*.conf -exec install -p -m 644 -D {} /rootfs{} \; ; \
     sed -e "s#/var/www/html#/var/www/htdocs#g" -i /rootfs/etc/apache2/sites-available/*; \
@@ -182,6 +188,8 @@ COPY --from=build /rootfs /
 
 WORKDIR /var/www/htdocs
 
-VOLUME /var/www/templates_c
+VOLUME [ "/var/www/templates_c" , "/var/www/conf" ]
 EXPOSE 80
-CMD ["/var/www/entrypoint.sh"]
+
+ENTRYPOINT [ "/var/www/entrypoint.sh" ]
+CMD [ "apache2-foreground" ]

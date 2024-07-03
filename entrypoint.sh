@@ -1,9 +1,13 @@
-#!/bin/bash
+#!/bin/env bash
+set -e
 
-# Reinject default configuration configuration file
-if [ -f "/var/www/config.inc.php.orig" ] && [ -d "/var/www/conf" ];
-then
-  cp -a -f /var/www/config.inc.php.orig /var/www/conf/config.inc.php
+[ -d "/var/www/conf" ] && {
+  [ -L "/var/www/conf/config.inc.php" ] ||
+    ln -sb ../config.inc.php.orig /var/www/conf/config.inc.php
+}
+
+if [ "${1#-}" != "$1" ]; then
+  set -- apache2-foreground "$@"
 fi
 
-apache2-foreground
+exec "$@"
