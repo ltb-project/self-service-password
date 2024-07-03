@@ -375,6 +375,12 @@ $use_captcha = false;
 #$friendlycaptcha_sitekey = "secret";
 #$friendlycaptcha_secret  = "secret";
 
+#$captcha_class       = "ReCaptcha";
+#$recaptcha_url       = "https://www.google.com/recaptcha/api/siteverify";
+#$recaptcha_sitekey   = "sitekey";
+#$recaptcha_secretkey = "secretkey";
+#$recaptcha_minscore  = 0.5;
+
 ## Default action
 # change
 # sendtoken
