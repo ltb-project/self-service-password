@@ -286,7 +286,20 @@ You should also define the captcha module to use.
 .. tip:: The captcha is used on every form in Self Service Password
   (password change, token, questions,...)
 
-For ``$captcha_class``, you can select another captcha module. For now, only ``InternalCaptcha`` and ``FriendlyCaptcha`` are supported.
+For ``$captcha_class``, you can select another captcha module. For now, only ``InternalCaptcha``, ``FriendlyCaptcha`` and ``ReCaptcha`` are supported.
+
+If you want to set up ``ReCaptcha``, you must also configure additional parameters:
+
+.. code-block:: php
+
+   $use_captcha = true;
+   $captcha_class = "ReCaptcha";
+   $recaptcha_url       = "https://www.google.com/recaptcha/api/siteverify";
+   $recaptcha_sitekey   = "sitekey";
+   $recaptcha_secretkey = "secretkey";
+   $recaptcha_minscore  = 0.5;
+
+See `ReCaptcha documentation <https://developers.google.com/recaptcha/docs/v3>`_ for more information
 
 You can also add your own Captcha module. (see :doc:`developpers` )
 
