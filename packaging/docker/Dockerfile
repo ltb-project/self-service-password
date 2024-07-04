@@ -107,61 +107,13 @@ RUN set -ex; \
     apt-get update; \
     apt-get install -y --no-install-recommends git unzip;
 
-ARG INSTALL_PATHS=" \
-    htdocs/ \
-    lang/ \
-    lib/ \
-    scripts/ \
-    templates/ \
-    vendor/ \
-    LICENCE \
-"
+ARG INSTALL_PATHS=
+ARG EXCLUDE_PATHS=
 
-ARG EXCLUDE_PATHS=" \
-    htdocs/vendor/.gitignore \
-"
-
+WORKDIR /build/ssp
 RUN --mount=type=cache,target=/root/.composer \
     --mount=type=bind,target=/build/ssp,rw \
-    cd ssp && \
-    set -ex; \
-    composer update --no-dev; \
-    \
-    INSTALL_EXPR=; \
-    for p in ${INSTALL_PATHS}; do \
-        [ -z "${p##*/}" ] && p="\"./${p}*\"" || p="\"./$p\""; \
-        INSTALL_EXPR="${INSTALL_EXPR:+${INSTALL_EXPR} -or }-path $p"; \
-    done; \
-    \
-    EXCLUDE_EXPR=; \
-    for p in ${EXCLUDE_PATHS}; do \
-        [ -z "${p##*/}" ] && p="\"./${p}*\"" || p="\"./$p\""; \
-        EXCLUDE_EXPR="${EXCLUDE_EXPR:+${EXCLUDE_EXPR} -or }-path $p"; \
-    done; \
-    \
-    BIN_PATHS=$(eval "find -type d -name bin \( $INSTALL_EXPR \) -not \( $EXCLUDE_EXPR \)"); \
-    BIN_EXPR=; \
-    for p in ${BIN_PATHS}; do \
-        BIN_EXPR="${BIN_EXPR:+${BIN_EXPR} -or }-path \"$p/*\""; \
-    done; \
-    \
-    eval "find -type f \( $BIN_EXPR \) -exec install -p -m 755 --owner www-data --group www-data -D {} /rootfs/var/www/{} \;"; \
-    eval "find -type f \( $INSTALL_EXPR \) \
-        -not \( $EXCLUDE_EXPR \) \
-        -not \( $BIN_EXPR \) \
-        -exec install -p -m 644 --owner www-data --group www-data -D {} /rootfs/var/www/{} \;"; \
-    \
-    chmod a+x /rootfs/var/www/scripts/*; \
-    install -m 755 packaging/docker/entrypoint.sh /rootfs/; \
-    install --owner www-data --group www-data --directory -D \
-        "/rootfs/var/www/htdocs/vendor" "/rootfs/var/www/conf" "/rootfs/var/www/templates_c" \
-        ; \
-    sed \
-        -e "s#/usr/share/php/smarty3#${SMARTY_DIR}#g" \
-        -e "s#config\.inc\.local\.php#conf/\0#g" \
-        conf/config.inc.php > /rootfs/var/www/config.inc.php.orig; \
-    chown www-data:www-data /rootfs/var/www/config.inc.php.orig; \
-    \
+    packaging/docker/install; \
     find /etc/apache2/sites-available/ -type f -name \*.conf -exec install -p -m 644 -D {} /rootfs{} \; ; \
     sed -e "s#/var/www/html#/var/www/htdocs#g" -i /rootfs/etc/apache2/sites-available/*; \
     :;
