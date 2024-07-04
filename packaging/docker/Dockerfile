@@ -114,7 +114,6 @@ ARG INSTALL_PATHS=" \
     scripts/ \
     templates/ \
     vendor/ \
-    entrypoint.sh \
     LICENCE \
 "
 
@@ -152,8 +151,8 @@ RUN --mount=type=cache,target=/root/.composer \
         -not \( $BIN_EXPR \) \
         -exec install -p -m 644 --owner www-data --group www-data -D {} /rootfs/var/www/{} \;"; \
     \
-    chmod a+x /rootfs/var/www/entrypoint.sh /rootfs/var/www/scripts/*; \
-    \
+    chmod a+x /rootfs/var/www/scripts/*; \
+    install -m 755 packaging/docker/entrypoint.sh /rootfs/; \
     install --owner www-data --group www-data --directory -D \
         "/rootfs/var/www/htdocs/vendor" "/rootfs/var/www/conf" "/rootfs/var/www/templates_c" \
         ; \
@@ -191,5 +190,5 @@ WORKDIR /var/www/htdocs
 VOLUME [ "/var/www/templates_c" , "/var/www/conf" ]
 EXPOSE 80
 
-ENTRYPOINT [ "/var/www/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD [ "apache2-foreground" ]
