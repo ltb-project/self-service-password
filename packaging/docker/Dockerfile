@@ -53,5 +53,4 @@ RUN cd /var/www && /usr/bin/composer install
 ENV LC_CTYPE=en_US.UTF-8
 EXPOSE 80
 RUN cp -a -f /var/www/config.inc.php.orig /var/www/conf/config.inc.php
-ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
-#TODO ajust the ENTRYPOINT.sh
+ENTRYPOINT ["/var/www/entrypoint.sh"]
