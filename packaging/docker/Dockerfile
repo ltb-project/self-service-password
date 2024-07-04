@@ -1,19 +1,25 @@
-FROM php:8.2-apache
-# Install PHP extensions and PECL modules.
+FROM php:8.2-fpm-alpine
+
 ENV BUILDDEP=" \
-        libbz2-dev \
-        libsasl2-dev \
-        libcurl4-gnutls-dev \
-	libfreetype6-dev \
-	libpng-dev \
-	libjpeg62-turbo-dev \
-	libwebp-dev \
-        libonig-dev \
-        git \
-        zip \
+        php-ldap \
+        php-gd \
+        bash \
+        bzip2-dev \
+        icu-dev \
+        oniguruma-dev \
+        libldap \
+        openldap-dev \
+        curl \
+        curl-dev \
+        libpng-dev \
+        libwebp-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
+        openrc \
+        apache2 \
     "
 LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
-      org.opencontainers.image.base.name='docker.io/library/php:8.2-apache' \
+      org.opencontainers.image.base.name='docker.io/library/php:8.2-fpm-alpine' \
       org.opencontainers.image.description='Self Service Password is a simple PHP application that allows users to change their password on an LDAP directory' \
       org.opencontainers.image.url='https://ltb-project.org/documentation/self-service-password.html' \
       org.opencontainers.image.ref.name='self-service-password' \
@@ -24,29 +30,12 @@ LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
       org.opencontainers.image.version='1.6.0' \
       org.opencontainers.image.licenses='GPL-2+'
 
-RUN buildDeps="${BUILDDEP}" \
-    runtimeDeps=" \
-        curl \
-        libicu-dev \
-        libldap-common \
-        libldap2-dev \
-	libgd3 \
-	libjpeg62-turbo \
-	libpng16-16 \
-	libwebp7 \
-        libzip-dev \
-	locales \
-	locales-all \
-	sendmail \
-    " \
-    && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y $buildDeps $runtimeDeps \
-    && docker-php-ext-install bcmath bz2 iconv intl mbstring opcache curl \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+RUN apk update && apk add $BUILDDEP --no-cache \
+    && docker-php-ext-install bcmath bz2 intl mbstring opcache curl \
     && docker-php-ext-install ldap gd \
-    && echo en_US.UTF-8 UTF-8 >/etc/locale.gen \
-    && /usr/sbin/locale-gen \
-    && a2enmod rewrite
+    && docker-php-ext-enable ldap gd
+
+
 RUN mkdir -p /usr/share/php/smarty4/ && \
     curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.4.1.tar.gz | \
     tar xzf - -C /usr/share/php/smarty4/ --strip-components=2
@@ -59,10 +48,10 @@ RUN rmdir /var/www/html && \
     sed -i 's/smarty3/smarty4/' /var/www/conf/config.inc.php && \
     cp -a /var/www/conf/config.inc.php /var/www/config.inc.php.orig
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN cd /var/www && /usr/bin/composer install
-RUN buildDeps="${BUILDDEP}" \
-    && apt-get purge -y --auto-remove $buildDeps \
-    && rm -r /var/lib/apt/lists/*
 ENV LC_CTYPE=en_US.UTF-8
 EXPOSE 80
-CMD ["/var/www/entrypoint.sh"]
+RUN cp -a -f /var/www/config.inc.php.orig /var/www/conf/config.inc.php
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+#TODO ajust the ENTRYPOINT.sh

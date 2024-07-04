@@ -1,17 +1,20 @@
-#==============================================================================
 # Some notes on packaging Self Service Password
-#==============================================================================
 
-# 0 - Version update
-#==============================================================================
+ #==============================================================================
+
+## 0 - Version update
+
+ #==============================================================================
 
 Update version in following files:
+
 * htdocs/index.php
 * packaging/rpm/SPECS/self-service-password.spec
 * packaging/debian/changelog
 
-# 1 - Update dependencies and run tests
-#==============================================================================
+## 1 - Update dependencies and run tests
+
+ #==============================================================================
 
 From the self-service-password root directory, run:
 $ composer update
@@ -22,21 +25,21 @@ $ XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --configuration tests/
 After the tests, remove the useless dependencies:
 $ composer update --no-dev
 
+## 2 - Archive tar.gz
 
-# 2 - Archive tar.gz
-#==============================================================================
+ #==============================================================================
 
 From current directory, do:
-$ ./makedist VERSION
+$ ./makedist.sh VERSION
 
 with VERSION the current verion of the package
 
 For example:
-$ ./makedist 0.4
+$ ./makedist.sh 0.4
 
+## 3 - Debian
 
-# 3 - Debian
-#==============================================================================
+ #==============================================================================
 
 Form current directory, do:
 $ dpkg-buildpackage -b -kLTB
@@ -44,13 +47,15 @@ $ dpkg-buildpackage -b -kLTB
 If you do not have LTB GPG secret key, do:
 $ dpkg-buildpackage -b -us -uc
 
-# 4 - RPM (RHEL, CentOS, Fedora, ...)
-#==============================================================================
+## 4 - RPM (RHEL, CentOS, Fedora, ...)
+
+ #==============================================================================
 
 Prepare your build environment, for example in /home/clement/build.
 You should have a ~/.rpmmacros like this:
 
 ----
+
 %_topdir /home/clement/build
 %dist .el5
 %distribution .el5
@@ -74,8 +79,9 @@ $ rpmbuild -ba SPECS/self-service-password.spec
 Sign RPM:
 $ rpm --addsign RPMS/noarch/self-service-password*
 
-# 5 - Docker
-#==============================================================================
+## 5 - Docker
+
+ #==============================================================================
 
 From current directory, do:
 $ docker build -t self-service-password -f ./docker/Dockerfile ../
