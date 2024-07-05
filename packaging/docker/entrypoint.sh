@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 set -e
 
 [ -d "/var/www/conf" ] && {
@@ -7,7 +7,11 @@ set -e
 }
 
 if [ "${1#-}" != "$1" ]; then
-  set -- apache2-foreground "$@"
+  {
+    apache2-foreground -v 2>&1 1>/dev/null && set -- apache2-foreground "$@"
+  } || {
+    httpd-foreground -v 2>&1 1>/dev/null && set -- httpd-foreground "$@"
+  }
 fi
 
 exec "$@"
