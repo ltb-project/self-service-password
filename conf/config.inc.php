@@ -368,7 +368,7 @@ $login_forbidden_chars = "*()&|";
 
 ## Captcha
 $use_captcha = false;
-#$captcha_class = "InternalCaptcha";
+$captcha_class = "InternalCaptcha";
 
 #$captcha_class = "FriendlyCaptcha";
 #$friendlycaptcha_apiurl  = "https://api.friendlycaptcha.com/api/v1/siteverify";
