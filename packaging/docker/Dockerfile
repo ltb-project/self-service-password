@@ -1,6 +1,7 @@
 FROM php:8.2-fpm-alpine
 
 ENV BUILDDEP=" \
+        php-apache2 \
         php-ldap \
         php-gd \
         bash \
@@ -52,5 +53,5 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN cd /var/www && /usr/bin/composer install
 ENV LC_CTYPE=en_US.UTF-8
 EXPOSE 80
-RUN cp -a -f /var/www/config.inc.php.orig /var/www/conf/config.inc.php
+RUN sed -i 's|/var/www/localhost/htdocs|/var/www/html|g' /etc/apache2/httpd.conf
 ENTRYPOINT ["/var/www/entrypoint.sh"]
