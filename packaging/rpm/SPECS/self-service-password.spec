@@ -16,8 +16,8 @@
 %undefine __brp_mangle_shebangs
 
 Name: self-service-password
-Version: 1.6.0
-Release: 2%{?dist}
+Version: 1.6.1
+Release: 1%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
 # All bundled php libs (vendor/*) but phpmailer are MIT
@@ -179,6 +179,17 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Mon Jul 08 2024 - Clement Oudot <clem@ltb-project.org> - 1.6.1-1
+- gh#903: Missing documentation for entropy
+- gh#904: Unable to install on RockyLinux 8
+- gh#907: add documentation for entropy feature (#903, #830)
+- gh#909: PHP Warning:  Undefined array keys at 1.6.0
+- gh#919: remove smarty messages in error logs unless $smarty_debug is set to true (#909)
+- gh#920: warning: userdn variable uninitialized when using sendsms
+- gh#930: fix warning: userdn variable uninitialized when using sendsms (#920)
+- gh#931: fix utf8_decode deprecation
+- gh#933: remove utf8_decode function (#931)
+
 * Mon May 06 2024 - Clement Oudot <clem@ltb-project.org> - 1.6.0-2
 - gh#904: Unable to install on RockyLinux 8
 

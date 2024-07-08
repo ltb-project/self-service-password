@@ -1,3 +1,17 @@
+ltb-project-self-service-password (1.6.1-1) unstable; urgency=high
+
+    * gh#903: Missing documentation for entropy
+    * gh#904: Unable to install on RockyLinux 8
+    * gh#907: add documentation for entropy feature (#903, #830)
+    * gh#909: PHP Warning:  Undefined array keys at 1.6.0
+    * gh#919: remove smarty messages in error logs unless $smarty_debug is set to true (#909)
+    * gh#920: warning: userdn variable uninitialized when using sendsms
+    * gh#930: fix warning: userdn variable uninitialized when using sendsms (#920)
+    * gh#931: fix utf8_decode deprecation
+    * gh#933: remove utf8_decode function (#931)
+
+ -- Clement Oudot <clem@ltb-project.org>  Mon, 08 Jul 2024 12:00:00 +0200
+
 ltb-project-self-service-password (1.6.0-1) unstable; urgency=high
 
     * gh#165: Multiple SMS tokens could be requested if an attacker finds one username, leading to big expenses
