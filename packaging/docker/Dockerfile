@@ -4,6 +4,8 @@ ENV BUILDDEP=" \
         php-apache2 \
         php-ldap \
         php-gd \
+        php-iconv \
+        php-mbstring \
         bash \
         bzip2-dev \
         icu-dev \
@@ -18,6 +20,7 @@ ENV BUILDDEP=" \
         freetype-dev \
         openrc \
         apache2 \
+        ca-certificates \
     "
 LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
       org.opencontainers.image.base.name='docker.io/library/php:8.2-fpm-alpine' \
@@ -33,9 +36,9 @@ LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
 
 RUN apk update && apk add $BUILDDEP --no-cache \
     && docker-php-ext-install bcmath bz2 intl mbstring opcache curl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install ldap gd \
     && docker-php-ext-enable ldap gd
-
 
 RUN mkdir -p /usr/share/php/smarty4/ && \
     curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.4.1.tar.gz | \
