@@ -42,8 +42,9 @@ RUN apk add $BUILDDEP --no-cache \
 
 RUN mkdir -p /usr/share/php/smarty4/ && \
     curl -Lqs https://github.com/smarty-php/smarty/archive/refs/tags/v4.4.1.tar.gz | \
-    tar xzf - -C /usr/share/php/smarty4/ --strip-components=2
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+    tar xzf - -C /usr/share/php/smarty4/ --strip-components=2 \
+    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 COPY . /var/www
 RUN rmdir /var/www/html && \
     mv /var/www/htdocs /var/www/html && \
