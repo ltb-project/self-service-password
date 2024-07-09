@@ -34,7 +34,7 @@ LABEL org.opencontainers.image.authors='LTB-project.org, ltb-dev@ow2.org' \
       org.opencontainers.image.version='1.6.0' \
       org.opencontainers.image.licenses='GPL-2+'
 
-RUN apk update && apk add $BUILDDEP --no-cache \
+RUN apk add $BUILDDEP --no-cache \
     && docker-php-ext-install bcmath bz2 intl mbstring opcache curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install ldap gd \
