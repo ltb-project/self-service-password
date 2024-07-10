@@ -353,7 +353,7 @@ function get_user_infos($ldapInstance, $ldap_base, $ldap_filter,
 
         # Search for user
         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-        $search = ldap_search($ldap, $ldap_base, $ldap_filter, $search_attributes);
+        $search = $ldapInstance->search_with_scope($ldap_scope, $ldap_base, $ldap_filter, $search_attributes);
 
         $errno = ldap_errno($ldap);
         if ($errno) {

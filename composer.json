@@ -1,6 +1,6 @@
 {
     "require": {
-        "ltb-project/ltb-common": "v0.2.1",
+        "ltb-project/ltb-common": "dev-main",
         "bjeavons/zxcvbn-php": "^1.0",
         "twbs/bootstrap": "v5.3.3",
         "defuse/php-encryption": "2.4.0",

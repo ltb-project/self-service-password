@@ -45,7 +45,7 @@ fwrite(STDERR, "Connected to $ldap_url\n");
 
 # Search all users
 $ldap_filter = str_replace("{login}", "*", $ldap_filter);
-$search = ldap_search($ldap, $ldap_base, $ldap_filter);
+$search = $ldapInstance->search_with_scope($ldap_scope, $ldap_base, $ldap_filter);
 
 if (!$search) {
     $errno = ldap_errno($ldap);

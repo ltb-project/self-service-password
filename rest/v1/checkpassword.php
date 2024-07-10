@@ -25,7 +25,7 @@ if (isset($_POST["login"]) and $_POST["login"]) {
 
         # Search for user
         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-        $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+        $search = $ldapInstance->search_with_scope($ldap_scope, $ldap_base, $ldap_filter);
 
         $errno = ldap_errno($ldap);
         if ( $errno ) {

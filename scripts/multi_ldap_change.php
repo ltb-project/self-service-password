@@ -66,7 +66,7 @@ foreach ($secondaries_ldap as $s_ldap) {
     } else {
         $s_ldap_base = $ldap_base;
     }
-    $search = ldap_search($ldap, $s_ldap_base, $s_ldap_filter);
+    $search = $ldapInstance->search_with_scope($ldap_scope, $s_ldap_base, $s_ldap_filter);
 
     $errno = ldap_errno($ldap);
     if ( $errno ) {
