@@ -91,7 +91,7 @@ if ( $result === "" ) {
 
         # Search for user
         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
-        $search = ldap_search($ldap, $ldap_base, $ldap_filter);
+        $search = $ldapInstance->search_with_scope($ldap_scope, $ldap_base, $ldap_filter);
 
         $errno = ldap_errno($ldap);
         if ( $errno ) {
@@ -134,7 +134,7 @@ if ( !$result ) {
     }
 
     # Check objectClass presence and pull back previous answers.
-    $search = ldap_search($ldap, $userdn, "(objectClass=*)", array("objectClass", $answer_attribute) );
+    $search = $ldapInstance->search_with_scope($ldap_scope, $userdn, "(objectClass=*)", array("objectClass", $answer_attribute) );
 
     $errno = ldap_errno($ldap);
     if ( $errno ) {

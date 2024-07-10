@@ -143,6 +143,15 @@ The filter can be set in ``$ldap_filter``:
 
 .. tip:: The string ``{login}`` is replaced by submitted login.
 
+The scope can be set in ``$ldap_scope``:
+
+.. code-block:: php
+
+   $ldap_scope = "sub";
+
+.. tip:: sub is the default value. Possible values are sub, one, or base
+
+
 Extensions
 ----------
 
