@@ -1,7 +1,6 @@
 ARG VERSION=latest
 
 ARG SMARTY_VERSION=4.4.1
-ARG SMARTY_DIR=/usr/share/php/smarty${SMARTY_VERSION%%.*}
 ARG SMARTY_URL=https://github.com/smarty-php/smarty/archive/refs/tags/v${SMARTY_VERSION}.tar.gz
 
 ARG COMPOSER_VERSION=lts
@@ -216,14 +215,15 @@ WORKDIR /build
 
 ARG SMARTY_VERSION
 ARG SMARTY_URL
-ARG SMARTY_DIR
 ARG COMPOSER_IMAGE
 
 COPY --from=composer /composer /usr/bin/composer
 
-RUN install --owner www-data --group www-data --directory -D "/rootfs${SMARTY_DIR}"
-ADD $SMARTY_URL ./
-RUN tar xzf *.tar.gz -C "/rootfs${SMARTY_DIR}" --strip-components=2 --verbose --owner www-data --group www-data
+RUN set -ex; \
+    \
+    SMARTY_DIR=/usr/share/php/smarty${SMARTY_VERSION%%.*}; \
+    install --owner www-data --group www-data --directory -D "/rootfs${SMARTY_DIR}"; \
+    tar xzf *.tar.gz -C "/rootfs${SMARTY_DIR}" --strip-components=2 --verbose --owner www-data --group www-data;
 
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex; \
@@ -272,7 +272,12 @@ COPY --from=build /rootfs /
 
 WORKDIR /var/www/htdocs
 
-VOLUME [ "/var/www/templates_c" , "/var/www/conf" ]
+VOLUME [ \
+        "/var/www/templates_c" , \
+        "/var/www/conf" , \
+        "/var/www/cache" , \
+    ]
+
 EXPOSE 80
 
 ENTRYPOINT [ "/entrypoint.sh" ]
