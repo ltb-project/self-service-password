@@ -11,6 +11,14 @@ per login and per minute, and same for IP address:
 
    $use_ratelimit = true;
 
+
+.. tip:: rate limit feature use temporary files. So if you enable it,
+         self-service-password is not a stateless service any more.
+         If you have multiple instances of self-service-password,
+         you can set up a sticky-sessions system on your
+         high-availability equipment.
+
+
 Other possible options for rate limiting:
 
 .. code-block:: php
