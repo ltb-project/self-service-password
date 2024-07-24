@@ -140,11 +140,7 @@ COPY --from=build /rootfs /
 
 WORKDIR /var/www/htdocs
 
-VOLUME [ \
-        "/var/www/templates_c" , \
-        "/var/www/conf" , \
-        "/var/www/cache" , \
-    ]
+VOLUME [ "/var/www/templates_c", "/var/www/conf", "/var/www/cache" ]
 
 EXPOSE 80
 

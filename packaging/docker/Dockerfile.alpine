@@ -219,6 +219,7 @@ ARG COMPOSER_IMAGE
 
 COPY --from=composer /composer /usr/bin/composer
 
+ADD $SMARTY_URL ./
 RUN set -ex; \
     \
     SMARTY_DIR=/usr/share/php/smarty${SMARTY_VERSION%%.*}; \
@@ -272,11 +273,7 @@ COPY --from=build /rootfs /
 
 WORKDIR /var/www/htdocs
 
-VOLUME [ \
-        "/var/www/templates_c" , \
-        "/var/www/conf" , \
-        "/var/www/cache" , \
-    ]
+VOLUME [ "/var/www/templates_c", "/var/www/conf", "/var/www/cache" ]
 
 EXPOSE 80
 

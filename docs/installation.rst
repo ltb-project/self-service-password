@@ -148,6 +148,17 @@ Start container, mounting that configuration file:
         -v $PWD/ssp.conf.php:/var/www/conf/config.inc.local.php \
         -it docker.io/ltbproject/self-service-password:latest
 
+You can also add options that will be passed to the command line:
+
+.. prompt:: bash #
+
+    docker run -p 80:80 \
+        -v $PWD/ssp.conf.php:/var/www/conf/config.inc.local.php \
+        -it docker.io/ltbproject/self-service-password:latest
+        -e debug
+
+Here, `-e debug` will be passed to the apache server
+
 
 From git repository, for developpers only
 -----------------------------------------
