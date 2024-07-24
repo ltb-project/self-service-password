@@ -386,6 +386,7 @@ if (isset($questions_count)) { $smarty->assign('questions_count', $questions_cou
 if (isset($question)) { $smarty->assign('question', $question); }
 
 if (isset($login)) { $smarty->assign('login', $login); }
+if (isset($formtoken)) { $smarty->assign('formtoken', $formtoken); }
 if (isset($usermail)) { $smarty->assign('usermail', $usermail); }
 if (isset($displayname[0])) { $smarty->assign('displayname', $displayname[0]); }
 if (isset($encrypted_sms_login)) { $smarty->assign('encrypted_sms_login', $encrypted_sms_login); }

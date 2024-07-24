@@ -176,3 +176,5 @@ $messages['smsrequired'] = "رقم الرسائل القصيرة مطلوب.";
 $messages['smsnomatch'] = "رقم الرسائل القصيرة لا يتطابق مع اسم المستخدم.";
 $messages['sameasaccountpassword'] = "كلمة المرور الجديدة مطابقة لكلمة مرور تسجيل الدخول";
 $messages['policynoreusecustompwdfield'] = "لا يجب ان تكون كلمة المرور الجديدة هي نفسها كلمة مرور تسجيل الدخول";
+$messages['missingformtoken'] = "Missing token";
+$messages['invalidformtoken'] = "Invalid token";

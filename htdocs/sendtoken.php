@@ -32,6 +32,7 @@ $ldap = "";
 $userdn = "";
 $token = "";
 $usermail = "";
+$formtoken = "";
 
 if (!$mail_address_use_ldap) {
     if (isset($_POST["mail"]) and $_POST["mail"]) {
@@ -48,7 +49,26 @@ if (!$mail_address_use_ldap) {
 if (isset($_REQUEST["login"]) and $_REQUEST["login"]) { $login = strval($_REQUEST["login"]);}
 else { $result = "loginrequired";}
 
-if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) { $result = "emptysendtokenform"; }
+if ( $result === "" and ( ! isset($_REQUEST["formtoken"]) or ! $_REQUEST["formtoken"] )  ) {
+    $result = "missingformtoken";
+}
+
+if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) {
+
+    $result = "emptysendtokenform";
+
+    # Generate formtoken
+    ini_set("session.use_cookies",0);
+    ini_set("session.use_only_cookies",1);
+    ini_set("session.use_strict_mode",0);
+    session_name("formtoken");
+    session_id(session_create_id());
+    session_start();
+    $formtoken = session_id();
+    $_SESSION['formtoken'] = $formtoken;
+    error_log("generated token: " . $formtoken);
+    session_write_close();
+}
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
@@ -162,7 +182,34 @@ if ( !$result ) {
     } else {
         $token = session_id();
     }
+    session_write_close();
+}
 
+
+#==============================================================================
+# Check tokenform
+#==============================================================================
+
+if ( !$result ) {
+    $formtoken = strval($_REQUEST["formtoken"]);
+    ini_set("session.use_cookies",0);
+    ini_set("session.use_only_cookies",1);
+    ini_set("session.use_strict_mode",0);
+    session_name("formtoken");
+    session_id($formtoken);
+    session_start();
+    if( $_SESSION['formtoken'] == $formtoken )
+    {
+        # Remove session
+        session_unset();
+        session_destroy();
+    }
+    else
+    {
+        error_log("Invalid form token: sent: $formtoken, stored: " . $_SESSION['formtoken']);
+        $result = "invalidformtoken";
+    }
+    session_write_close();
 }
 
 #==============================================================================
