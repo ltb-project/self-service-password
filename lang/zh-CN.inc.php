@@ -176,3 +176,5 @@ $messages['smsrequired'] = "手机号码是必须的";
 $messages['smsnomatch'] = "用户名和手机号码不匹配";
 $messages['sameasaccountpassword'] = "Your new password is identical to your login password";
 $messages['policynoreusecustompwdfield'] = "Your new password may not be the same as your login password";
+$messages['missingformtoken'] = "Missing token";
+$messages['invalidformtoken'] = "Invalid token";

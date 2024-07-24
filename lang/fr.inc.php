@@ -176,3 +176,5 @@ $messages['smsrequired'] = "Vous devez indiquer votre numéro de téléphone.";
 $messages['smsnomatch'] = "Le numéro de téléphone ne correspond pas à l'identifiant donné.";
 $messages['sameasaccountpassword'] = "Votre nouveau mot de passe est identique à votre mot de passe de connexion";
 $messages['policynoreusecustompwdfield'] = "Votre nouveau mot de passe ne devrait pas être le même que le mot de passe de connexion";
+$messages['missingformtoken'] = "Jeton manquant";
+$messages['invalidformtoken'] = "Jeton invalide";

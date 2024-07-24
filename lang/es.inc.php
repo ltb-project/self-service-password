@@ -179,3 +179,5 @@ $messages['smsrequired'] = "Your SMS phone is required.";
 $messages['smsnomatch'] = "The SMS number does not match the submitted login.";
 $messages['sameasaccountpassword'] = "Your new password is identical to your login password";
 $messages['policynoreusecustompwdfield'] = "Your new password may not be the same as your login password";
+$messages['missingformtoken'] = "Missing token";
+$messages['invalidformtoken'] = "Invalid token";
