@@ -24,7 +24,7 @@ Description: LDAP password change web interface
  - php-guzzlehttp-guzzle = 7.8.1
  - php-guzzlehttp-promises = 2.0.2
  - php-guzzlehttp-psr7 = 2.6.2
- - php-ltb-project-ldap = 0.1.0
+ - php-ltb-project-ltb-common = 0.3.0
  - php-mxrxdxn-pwned-passwords = 2.1.0
  - php-phpmailer = 6.9.1
  - php-psr-http-client = 1.0.3
