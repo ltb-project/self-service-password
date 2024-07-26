@@ -59,7 +59,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
     \
     docker-php-source extract; \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
-    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/; \
+    docker-php-ext-configure ldap --with-libdir=lib/$(uname -m)-linux-gnu/; \
     docker-php-ext-install -j "$(nproc)" \
         bcmath \
         bz2 \
