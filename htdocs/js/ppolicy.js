@@ -7,6 +7,9 @@
 
   barWidth = new Map([["Err", "0"], ["0", "20"], ["1", "40"], ["2", "60"], ["3", "80"], ["4", "100"]]);
 
+  json_policy = $("#json-policy").data('policy');
+  var local_policy = JSON.parse(atob(json_policy));
+
   displayEntropyBar = function(level) {
     $("#entropybar div").removeClass();
     $("#entropybar div").addClass('progress-bar');
@@ -146,37 +149,37 @@
       // first consider the criteria as fullfilled
       report( true , feedback);
       // remove criteria from the list of ppolicy checks
-      delete window.policy[criteria];
+      delete local_policy[criteria];
       // remove the <li> tag parent to given feedback
       $( "#" + feedback ).parent().remove();
     };
 
 
     // Criteria checks
-    if (window.policy.pwd_min_length > 0) {
-      report(password.length >= window.policy.pwd_min_length, 'ppolicy-pwd_min_length-feedback');
+    if (local_policy.pwd_min_length > 0) {
+      report(password.length >= local_policy.pwd_min_length, 'ppolicy-pwd_min_length-feedback');
     }
 
-    if (window.policy.pwd_max_length > 0) {
-      report(password.length <= window.policy.pwd_max_length, 'ppolicy-pwd_max_length-feedback');
+    if (local_policy.pwd_max_length > 0) {
+      report(password.length <= local_policy.pwd_max_length, 'ppolicy-pwd_max_length-feedback');
     }
 
-    if (window.policy.pwd_min_upper > 0) {
+    if (local_policy.pwd_min_upper > 0) {
       upper = password.match(/[A-Z]/g);
-      report(upper && upper.length >= window.policy.pwd_min_upper, 'ppolicy-pwd_min_upper-feedback');
+      report(upper && upper.length >= local_policy.pwd_min_upper, 'ppolicy-pwd_min_upper-feedback');
     }
 
-    if (window.policy.pwd_min_lower > 0) {
+    if (local_policy.pwd_min_lower > 0) {
       lower = password.match(/[a-z]/g);
-      report(lower && lower.length >= window.policy.pwd_min_lower, 'ppolicy-pwd_min_lower-feedback');
+      report(lower && lower.length >= local_policy.pwd_min_lower, 'ppolicy-pwd_min_lower-feedback');
     }
 
-    if (window.policy.pwd_min_digit > 0) {
+    if (local_policy.pwd_min_digit > 0) {
       digit = password.match(/[0-9]/g);
-      report(digit && digit.length >= window.policy.pwd_min_digit, 'ppolicy-pwd_min_digit-feedback');
+      report(digit && digit.length >= local_policy.pwd_min_digit, 'ppolicy-pwd_min_digit-feedback');
     }
 
-    if (window.policy.pwd_no_reuse && window.policy.pwd_no_reuse == true) {
+    if (local_policy.pwd_no_reuse && local_policy.pwd_no_reuse == true) {
       if( $( "#oldpassword" ).length )
       {
         oldpassword = $( "#oldpassword" ).val();
@@ -188,7 +191,7 @@
       }
     }
 
-    if (window.policy.pwd_diff_login && window.policy.pwd_diff_login == true) {
+    if (local_policy.pwd_diff_login && local_policy.pwd_diff_login == true) {
       if( $( "#login" ).length )
       {
         login = $( "#login" ).val();
@@ -200,10 +203,10 @@
       }
     }
 
-    if (window.policy.pwd_diff_last_min_chars > 0) {
+    if (local_policy.pwd_diff_last_min_chars > 0) {
       if( $( "#oldpassword" ).length )
       {
-        minDiffChars = window.policy.pwd_diff_last_min_chars;
+        minDiffChars = local_policy.pwd_diff_last_min_chars;
         oldpassword = $( "#oldpassword" ).val();
 
         similarities = similar_text(oldpassword, password);
@@ -217,8 +220,8 @@
       }
     }
 
-    if (window.policy.pwd_forbidden_chars) {
-      forbiddenChars = window.policy.pwd_forbidden_chars;
+    if (local_policy.pwd_forbidden_chars) {
+      forbiddenChars = local_policy.pwd_forbidden_chars;
       forbidden = false;
       i = 0;
       while (i < password.length) {
@@ -230,9 +233,9 @@
       report( !forbidden, 'ppolicy-pwd_forbidden_chars-feedback' );
     }
 
-    if (window.policy.pwd_min_special > 0 && window.policy.pwd_special_chars) {
+    if (local_policy.pwd_min_special > 0 && local_policy.pwd_special_chars) {
       numspechar = 0;
-      var re = new RegExp("["+window.policy.pwd_special_chars+"]","");
+      var re = new RegExp("["+local_policy.pwd_special_chars+"]","");
       i = 0;
       while (i < password.length) {
         if (password.charAt(i).match(re)) {
@@ -240,21 +243,21 @@
         }
         i++;
       }
-      report(numspechar >= window.policy.pwd_min_special, 'ppolicy-pwd_min_special-feedback');
+      report(numspechar >= local_policy.pwd_min_special, 'ppolicy-pwd_min_special-feedback');
     }
 
-    if ( window.policy.pwd_no_special_at_ends &&
-         window.policy.pwd_no_special_at_ends == true &&
-         window.policy.pwd_special_chars ) {
-      var re_start = new RegExp("^["+window.policy.pwd_special_chars+"]","");
-      var re_end = new RegExp("["+window.policy.pwd_special_chars+"]$","");
+    if ( local_policy.pwd_no_special_at_ends &&
+         local_policy.pwd_no_special_at_ends == true &&
+         local_policy.pwd_special_chars ) {
+      var re_start = new RegExp("^["+local_policy.pwd_special_chars+"]","");
+      var re_end = new RegExp("["+local_policy.pwd_special_chars+"]$","");
       report( ( !password.match(re_start) && !password.match(re_end) ) , 'ppolicy-pwd_no_special_at_ends-feedback');
     }
 
-    if ( window.policy.pwd_complexity) {
+    if ( local_policy.pwd_complexity) {
       complexity = 0;
-      if (window.policy.pwd_special_chars) {
-        var re = new RegExp("["+window.policy.pwd_special_chars+"]","");
+      if (local_policy.pwd_special_chars) {
+        var re = new RegExp("["+local_policy.pwd_special_chars+"]","");
         if( password.match(re) ){
           complexity++;
         }
@@ -268,11 +271,11 @@
       if( password.match(/[0-9]/g) ){
         complexity++;
       }
-      report( complexity >= window.policy.pwd_complexity, 'ppolicy-pwd_complexity-feedback');
+      report( complexity >= local_policy.pwd_complexity, 'ppolicy-pwd_complexity-feedback');
     }
 
 
-    if ( window.policy.use_pwnedpasswords) {
+    if ( local_policy.use_pwnedpasswords) {
       setResult('ppolicy-use_pwnedpasswords-feedback', "info");
     }
 
@@ -360,7 +363,7 @@
     };
     return $(document).trigger(e, info);
   };
-  if ( (window.policy != null) && $('#newpassword').length) {
+  if ( (local_policy != null) && $('#newpassword').length) {
     checkpassword('');
     $('#newpassword').keyup(function(e) {
       checkpassword(e.target.value);
