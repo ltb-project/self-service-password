@@ -1,4 +1,13 @@
 $(document).ready(function(){
+
+    // set background image
+    background_url = $("#background_url").data('backgroundurl');
+    if (typeof background_url !== 'undefined' && background_url != "")
+    {
+         $("html, body").css("background", "url(" + background_url + ")");
+         $("html, body").css("background-size", "cover");
+    }
+
     // Menu links popovers
     $('[data-toggle="menu-popover"]').popover({
         trigger: 'hover',

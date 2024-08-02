@@ -16,17 +16,12 @@
 {/if}
     <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
     <link href="images/favicon.ico" rel="shortcut icon" />
-{if $background_image}
-     <style>
-       html, body {
-         background: url({$background_image}) no-repeat center fixed;
-         background-size: cover;
-       }
-  </style>
-{/if}
 {if $captcha_css}
   <style>{$captcha_css nofilter}</style>
 {/if}
 </head>
 <body>
+{if $background_image}
+<div id="background_url" data-backgroundurl='{$background_image}'></div>
+{/if}
 <div class="container">
