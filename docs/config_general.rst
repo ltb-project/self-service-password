@@ -74,6 +74,7 @@ Available languages are:
 -  |image10| Hungarian (hu)
 -  |image11| Italian (it)
 -  |image12| Japanese (ja)
+-  |flag_ko| Korean (ko)
 -  |image13| Norwegian bokmål (nb-NO)
 -  |image14| Polish (pl)
 -  |image15| Portuguese (pt-PT)
@@ -340,3 +341,4 @@ You can also integrate any other Captcha module by developping the corresponding
 .. |image21| image:: images/tr.png
 .. |image22| image:: images/ua.png
 .. |image23| image:: images/rs.png
+.. |flag_ko| image:: images/kr.png
