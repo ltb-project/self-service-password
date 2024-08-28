@@ -58,21 +58,36 @@ if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) {
     $result = "emptysendtokenform";
 
     # Generate formtoken
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
-    ini_set("session.use_strict_mode",0);
-    session_name("formtoken");
-    session_id(session_create_id());
-    session_start();
-    $formtoken = session_id();
-    $_SESSION['formtoken'] = $formtoken;
-    error_log("generated token: " . $formtoken);
-    session_write_close();
+    $formtoken = hash('sha256', bin2hex(random_bytes(16)));
+    $cachedToken = $sspCache->getItem($formtoken);
+    $cachedToken->set($formtoken);
+    $cachedToken->expiresAfter($cache_form_expiration);
+    $sspCache->save($cachedToken);
+    error_log("generated form token: " . $formtoken . " valid for $cache_form_expiration s");
 }
 
 # Check the entered username for characters that our installation doesn't support
 if ( $result === "" ) {
     $result = check_username_validity($login,$login_forbidden_chars);
+}
+
+#==============================================================================
+# Check tokenform
+#==============================================================================
+
+if ( !$result ) {
+    $formtoken = strval($_REQUEST["formtoken"]);
+    $cachedToken = $sspCache->getItem($formtoken);
+    if( $cachedToken->get() == $formtoken )
+    {
+        # Remove session
+        $sspCache->deleteItem($formtoken);
+    }
+    else
+    {
+        error_log("Invalid form token: sent: $formtoken, stored: " . $cachedToken->get());
+        $result = "invalidformtoken";
+    }
 }
 
 #==============================================================================
@@ -167,50 +182,23 @@ if ( $result === "" ) {
 #==============================================================================
 if ( !$result ) {
 
-    # Use PHP session to register token
-    # We do not generate cookie
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
-
-    session_name("token");
-    session_start();
-    $_SESSION['login'] = $login;
-    $_SESSION['time']  = time();
-
+    # Use cache to register token sent by mail
+    $token_session_id = hash('sha256', bin2hex(random_bytes(16)));
     if ( $crypt_tokens ) {
-        $token = encrypt(session_id(), $keyphrase);
+        $token = encrypt($token_session_id, $keyphrase);
     } else {
-        $token = session_id();
+        $token = $token_session_id();
     }
-    session_write_close();
+    $cached_token = $sspCache->getItem($token_session_id);
+    $cached_token->set([
+                         'login' => $login,
+                         'time' => time()
+                       ]);
+    $cached_token->expiresAfter($cache_token_expiration);
+    $sspCache->save($cached_token);
+    error_log("generated cache entry with id: " . $token_session_id. " for storing password reset by mail workflow, valid for $cache_token_expiration s");
 }
 
-
-#==============================================================================
-# Check tokenform
-#==============================================================================
-
-if ( !$result ) {
-    $formtoken = strval($_REQUEST["formtoken"]);
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
-    ini_set("session.use_strict_mode",0);
-    session_name("formtoken");
-    session_id($formtoken);
-    session_start();
-    if( $_SESSION['formtoken'] == $formtoken )
-    {
-        # Remove session
-        session_unset();
-        session_destroy();
-    }
-    else
-    {
-        error_log("Invalid form token: sent: $formtoken, stored: " . $_SESSION['formtoken']);
-        $result = "invalidformtoken";
-    }
-    session_write_close();
-}
 
 #==============================================================================
 # Send token by mail

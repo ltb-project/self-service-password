@@ -83,15 +83,16 @@ if (!$crypt_tokens) {
 
         $tokenid = decrypt($token, $keyphrase);
 
-        ini_set("session.use_cookies",0);
-        ini_set("session.use_only_cookies",1);
+        # Get session from cache
+        $cached_token = $sspCache->getItem($tokenid);
+        $cached_token_content = $cached_token->get();
 
-        session_id($tokenid);
-        session_name("smstoken");
-        session_start();
-        $login        = $_SESSION['login'];
-        $sessiontoken = $_SESSION['smstoken'];
-        $attempts     = $_SESSION['attempts'];
+        if($cached_token->isHit())
+        {
+            $login        = $cached_token_content['login'];
+            $sessiontoken = $cached_token_content['smstoken'];
+            $attempts     = $cached_token_content['attempts'];
+        }
 
         if (!$login or !$sessiontoken) {
             list($result, $token) = obscure_info_sendsms("tokenattempts",
@@ -99,11 +100,13 @@ if (!$crypt_tokens) {
                                                          $token,
                                                          $obscure_notfound_sendsms,
                                                          $keyphrase);
-            error_log("Unable to open session $smstokenid");
+            error_log("Unable to open session $tokenid");
         } elseif ($sessiontoken != $smstoken) {
             # To have only x tries and not x+1 tries
             if ($attempts < ($sms_max_attempts_token - 1)) {
-                $_SESSION['attempts'] = $attempts + 1;
+                $cached_token_content['attempts'] = $attempts + 1;
+                $cached_token->set($cached_token_content);
+                $sspCache->save($cached_token);
                 $result = "tokenattempts";
                 error_log("SMS token $smstoken not valid, attempt $attempts");
             } else {
@@ -111,19 +114,19 @@ if (!$crypt_tokens) {
                 error_log("SMS token $smstoken not valid");
             }
         } elseif (isset($token_lifetime)) {
-            $tokentime = $_SESSION['time'];
+            $tokentime = $cached_token_content['time'];
             if ( time() - $tokentime > $token_lifetime ) {
                 $result = "tokennotvalid";
                 error_log("Token lifetime expired");
             }
         }
         if ( $result === "tokennotvalid" ) {
-            $_SESSION = array();
-            session_destroy();
+            # Remove token
+            $sspCache->deleteItem($tokenid);
         }
         if ( $result === "" ) {
-            $_SESSION = array();
-            session_destroy();
+            # Remove token
+            $sspCache->deleteItem($tokenid);
             $result = "buildtoken";
         }
     } elseif (isset($_REQUEST["encrypted_sms_login"])) {
@@ -203,15 +206,17 @@ if ($result === "sendsms") {
     # Generate sms token
     $smstoken = generate_sms_token($sms_token_length);
     # Create temporary session to avoid token replay
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
-
-    session_name("smstoken");
-    session_start();
-    $_SESSION['login']    = $login;
-    $_SESSION['smstoken'] = $smstoken;
-    $_SESSION['time']     = time();
-    $_SESSION['attempts'] = 0;
+    $smstoken_session_id = hash('sha256', bin2hex(random_bytes(16)));
+    $smscached_token = $sspCache->getItem($smstoken_session_id);
+    $smscached_token->set([
+                           'login' => $login,
+                           'smstoken' => $smstoken,
+                           'time' => time(),
+                           'attempts' => 0
+                         ]);
+    $smscached_token->expiresAfter($cache_token_expiration);
+    $sspCache->save($smscached_token);
+    error_log("generated cache entry with id: " . $smstoken_session_id. " for storing step 'send sms' of password reset by sms workflow, valid for $cache_token_expiration s");
 
     $data = array( "sms_attribute" => $sms, "smsresetmessage" => $messages['smsresetmessage'], "smstoken" => $smstoken) ;
 
@@ -220,7 +225,7 @@ if ($result === "sendsms") {
 
     if ($sms_method === "mail") {
         if ($mailer->send_mail($smsmailto, $mail_from, $mail_from_name, $smsmail_subject, $sms_message, $data)) {
-            $token  = encrypt(session_id(), $keyphrase);
+            $token  = encrypt($smstoken_session_id, $keyphrase);
             $result = "smssent";
             if (!empty($reset_request_log)) {
                 error_log("Send SMS code $smstoken by $sms_method to $sms\n\n", 3, $reset_request_log);
@@ -244,7 +249,7 @@ if ($result === "sendsms") {
             $definedVariables = get_defined_vars(); // get all variables, including configuration
             $smsInstance = createSMSInstance($sms_api_lib, $definedVariables);
             if ($smsInstance->send_sms_by_api($sms, $sms_message)) {
-                $token  = encrypt(session_id(), $keyphrase);
+                $token  = encrypt($smstoken_session_id, $keyphrase);
                 $result = "smssent";
                 if ( !empty($reset_request_log) ) {
                     error_log("Send SMS code $smstoken by $sms_method to $sms\n\n", 3, $reset_request_log);
@@ -264,18 +269,18 @@ if ($result === "sendsms") {
 #==============================================================================
 if ($result === "buildtoken") {
 
-    # Use PHP session to register token
-    # We do not generate cookie
-    ini_set("session.use_cookies",0);
-    ini_set("session.use_only_cookies",1);
+    $smstoken_session_id = hash('sha256', bin2hex(random_bytes(16)));
+    $smscached_token = $sspCache->getItem($smstoken_session_id);
+    $smscached_token->set([
+                           'login' => $login,
+                           'time' => time(),
+                           'smstoken' => $smstoken
+                         ]);
+    $smscached_token->expiresAfter($cache_form_expiration);
+    $sspCache->save($smscached_token);
+    error_log("generated cache entry with id: " . $smstoken_session_id. " for storing step 'password change' of password reset by sms workflow, valid for $cache_form_expiration s");
 
-    session_name("token");
-    session_start();
-    $_SESSION['login'] = $login;
-    $_SESSION['time']  = time();
-    $_SESSION['smstoken'] = $smstoken;
-
-    $token = encrypt(session_id(), $keyphrase);
+    $token = encrypt($smstoken_session_id, $keyphrase);
 
     $result = "redirect";
 }

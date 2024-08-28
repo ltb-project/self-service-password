@@ -16,6 +16,8 @@ require_once("../conf/config.inc.php");
 require_once("../vendor/autoload.php");
 require_once("../lib/functions.inc.php");
 
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+
 #==============================================================================
 # VARIABLES
 #==============================================================================
@@ -118,6 +120,16 @@ $ldapInstance = new \Ltb\Ldap(
                                  null,
                                  isset($ldap_krb5ccname) ? $ldap_krb5ccname : null
                              );
+
+#==============================================================================
+# Cache Config
+#==============================================================================
+$sspCache = new FilesystemAdapter(
+    $namespace = 'sspCache',
+    $defaultLifetime = 0,
+    $directory = null
+);
+$sspCache->prune();
 
 #==============================================================================
 # Captcha Config

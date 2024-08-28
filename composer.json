@@ -7,7 +7,8 @@
         "gregwar/captcha": "v1.2.1",
         "mxrxdxn/pwned-passwords": "v2.1.0",
         "components/jquery": "v3.7.1",
-        "fortawesome/font-awesome": "6.5.1"
+        "fortawesome/font-awesome": "6.5.1",
+        "symfony/cache": "v5.4.42"
     },
     "scripts": {
         "post-update-cmd": [

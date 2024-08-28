@@ -247,6 +247,18 @@ $crypt_tokens = true;
 # Token lifetime in seconds
 $token_lifetime = "3600";
 
+## Cache
+# $cache_token_expiration: integer, duration in seconds of cached objects
+# each time a token is involved
+# (for example when sending a token by sms or by mail)
+# it is recommended to set a value >= $token_lifetime
+$cache_token_expiration = 3600;
+# $cache_form_expiration: integer, duration in seconds of cached objects
+# at some steps when a user has to validate a form
+# (for example when validating the email address before we send the mail)
+# it is recommended to set a value high enough for a user to fill a form
+$cache_form_expiration = 120;
+
 # Reset URL (mandatory)
 $reset_url = "http://ssp.example.com/";
 # If inside a virtual host

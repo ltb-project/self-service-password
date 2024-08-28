@@ -67,7 +67,15 @@ Provides: bundled(php-psr-http-message) = 2.0
 Provides: bundled(php-ralouphie-getallheaders) = 3.0.3
 Provides: bundled(php-symfony-deprecation-contracts) = 3.4.0
 Provides: bundled(php-symfony-finder) = 7.0.0
-Provides: bundled(php-symfony-polyfill) = 1.29.0
+Provides: bundled(php-symfony-polyfill) = v1.31.0
+Provides: bundled(php-symfony-deprecation-contracts) = v2.5.3
+Provides: bundled(php-symfony-var-exporter) = v5.4.40
+Provides: bundled(php-psr-container) = 1.1.2
+Provides: bundled(php-symfony-service-contracts) = v2.5.3
+Provides: bundled(php-psr-cache) = 1.0.1
+Provides: bundled(php-symfony-cache-contracts) = v2.5.3
+Provides: bundled(php-psr-log) = 1.1.4
+Provides: bundled(php-symfony-cache) = v5.4.42
 
 
 %description
