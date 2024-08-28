@@ -130,7 +130,7 @@ if (!$crypt_tokens) {
         $decrypted_sms_login = explode(':', decrypt($_REQUEST["encrypted_sms_login"], $keyphrase));
         $login = $decrypted_sms_login[1];
         [$result, $sms, $displayname, $userdn] = get_user_infos(
-                                    $ldapInstance, $ldap_base, $ldap_filter,
+                                    $ldapInstance, $ldap_base, $ldap_filter, $ldap_scope,
                                     $ldap_fullname_attribute, $sms_attributes,
                                     $sms_sanitize_number, $sms_truncate_number,
                                     $obscure_notfound_sendsms, $token,
@@ -156,7 +156,7 @@ if ( $result === "" and $use_captcha) {
 #==============================================================================
 if ( $result === "" ) {
     [$result, $sms, $displayname, $userdn] = get_user_infos(
-                                            $ldapInstance, $ldap_base, $ldap_filter,
+                                            $ldapInstance, $ldap_base, $ldap_filter, $ldap_scope,
                                             $ldap_fullname_attribute, $sms_attributes,
                                             $sms_sanitize_number, $sms_truncate_number,
                                             $obscure_notfound_sendsms, $token,
@@ -331,7 +331,7 @@ function truncate_number($phone_number){
 }
 
 # Function returning user's DN, displayname and sms
-function get_user_infos($ldapInstance, $ldap_base, $ldap_filter,
+function get_user_infos($ldapInstance, $ldap_base, $ldap_filter, $ldap_scope,
                                     $ldap_fullname_attribute, $sms_attributes,
                                     $sms_sanitize_number, $sms_truncate_number,
                                     $obscure_notfound_sendsms, $token,
