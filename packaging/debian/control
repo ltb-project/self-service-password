@@ -33,4 +33,12 @@ Description: LDAP password change web interface
  - php-ralouphie-getallheaders = 3.0.3
  - php-symfony-deprecation-contracts = 2.5.1
  - php-symfony-finder = 7.0.0
- - php-symfony-polyfill = 1.29.0
+ - php-symfony-polyfill = v1.31.0
+ - php-symfony-deprecation-contracts = v2.5.3
+ - php-symfony-var-exporter = v5.4.40
+ - php-psr-container = 1.1.2
+ - php-symfony-service-contracts = v2.5.3
+ - php-psr-cache = 1.0.1
+ - php-symfony-cache-contracts = v2.5.3
+ - php-psr-log = 1.1.4
+ - php-symfony-cache = v5.4.42

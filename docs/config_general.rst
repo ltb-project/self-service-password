@@ -316,6 +316,34 @@ See `FriendlyCaptcha documentation <https://docs.friendlycaptcha.com/>`_ for mor
 
 You can also integrate any other Captcha module by developping the corresponding plugin. (see :doc:`developpers` )
 
+.. _config_cache:
+
+Cache
+-----
+
+self-service-password rely on Symfony cache libraries.
+
+You can define the cache expiration for some objects:
+
+.. code-block:: php
+
+   $cache_token_expiration = 3600;
+
+``$cache_token_expiration`` (integer) is the duration in seconds of cached objects each time a token is involved.
+
+For example when sending a token by sms or by mail, it is the time granted to the user for entering the sms code or for clicking on the link in the mail.
+
+it is recommended to set a value >= ``$token_lifetime``
+
+.. code-block:: php
+
+   $cache_form_expiration = 120;
+
+``$cache_form_expiration`` (integer) is the duration in seconds of cached objects at some steps when a user has to validate a form.
+
+For example it is the time granted to a user for validating the email address before sending the mail. It is used mainly for avoiding form replay (by user mistake or by a hacker).
+
+it is recommended to set a value high enough for a user to fill a form.
 
 .. |image0| image:: images/br.png
 .. |image1| image:: images/catalonia.png

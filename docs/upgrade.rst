@@ -1,6 +1,37 @@
 Upgrade
 =======
 
+From 1.6 to 1.7
+---------------
+
+If you have configured ``$token_lifetime`` parameter, for example for reset by sms or reset by mail features, you should verify that the duration is coherent with the new cache parameters, and adapt these parameters in your local configuration file if needed:
+
+.. code-block:: php
+
+   # $cache_token_expiration: integer, duration in seconds of cached objects
+   # each time a token is involved
+   # (for example when sending a token by sms or by mail)
+   # it is recommended to set a value >= $token_lifetime
+   $cache_token_expiration = 3600;
+   # $cache_form_expiration: integer, duration in seconds of cached objects
+   # at some steps when a user has to validate a form
+   # (for example when validating the email address before we send the mail)
+   # it is recommended to set a value high enough for a user to fill a form
+   $cache_form_expiration = 120;
+
+
+New bundled dependencies have been added:
+
+* php-symfony-deprecation-contracts = v2.5.3
+* php-symfony-var-exporter = v5.4.40
+* php-psr-container = 1.1.2
+* php-symfony-service-contracts = v2.5.3
+* php-psr-cache = 1.0.1
+* php-symfony-cache-contracts = v2.5.3
+* php-psr-log = 1.1.4
+* php-symfony-cache = v5.4.42
+
+
 From 1.5 to 1.6
 ---------------
 

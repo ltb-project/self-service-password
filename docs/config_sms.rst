@@ -201,3 +201,12 @@ You can also configure the allowed attempts:
    $sms_max_attempts_token = 3;
 
 After these attempts, the sent token is no more valid.
+
+You should also set a token lifetime, so they are invalid after some time. The
+value is in seconds:
+
+.. code-block:: php
+
+   $token_lifetime = "3600";
+
+If you use tokens, you should also set :ref:`config_cache` parameters accordingly.

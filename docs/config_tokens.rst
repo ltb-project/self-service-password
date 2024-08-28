@@ -50,15 +50,14 @@ You can crypt tokens, to protect the session identifier:
 .. warning:: If you enable this option, you must change the default
   value of the security keyphrase.
 
-You should set a token lifetime, so they are deleted if unused. The
+You should set a token lifetime, so they are invalid after some time. The
 value is in seconds:
 
 .. code-block:: php
 
    $token_lifetime = "3600";
 
-.. warning:: Token deletion is managed by PHP session garbage
-  collector.
+If you use tokens, you should also set :ref:`config_cache` parameters accordingly.
 
 Log
 ---
