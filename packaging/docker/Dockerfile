@@ -83,6 +83,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
         | xargs -rt apt-mark manual; \
     \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+    apt-get purge -y linux-libc-dev gcc-12 cpp-12; \
     ln -s "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"; \
     :;
 
