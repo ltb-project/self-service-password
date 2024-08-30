@@ -2,3 +2,6 @@
 /htdocs/vendor/
 composer.lock
 tests/.phpunit.result.cache
+htdocs/js/ppolicy.js
+htdocs/css/ppolicy.css
+templates/policy.tpl
