@@ -1,6 +1,6 @@
 {
     "require": {
-        "ltb-project/ltb-common": "dev-main",
+        "ltb-project/ltb-common": "dev-36-add-password-policy",
         "bjeavons/zxcvbn-php": "^1.0",
         "twbs/bootstrap": "v5.3.3",
         "defuse/php-encryption": "2.4.0",
@@ -22,7 +22,10 @@
             "rm -rf htdocs/vendor/font-awesome",
             "cp -R vendor/fortawesome/font-awesome htdocs/vendor/font-awesome",
             "rm -rf htdocs/vendor/font-awesome/js htdocs/vendor/font-awesome/js-packages htdocs/vendor/font-awesome/less htdocs/vendor/font-awesome/metadata htdocs/vendor/font-awesome/otfs htdocs/vendor/font-awesome/scss htdocs/vendor/font-awesome/sprites htdocs/vendor/font-awesome/svgs",
-            "rm -rf vendor/fortawesome/font-awesome"
+            "rm -rf vendor/fortawesome/font-awesome",
+            "cp -f vendor/ltb-project/ltb-common/src/ppolicy/html/policy.tpl templates/policy.tpl",
+            "cp -f vendor/ltb-project/ltb-common/src/ppolicy/js/ppolicy.js htdocs/js/ppolicy.js",
+            "cp -f vendor/ltb-project/ltb-common/src/ppolicy/css/ppolicy.css htdocs/css/ppolicy.css"
         ]
     },
     "require-dev": {

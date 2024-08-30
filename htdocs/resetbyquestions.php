@@ -220,7 +220,7 @@ if ( !$result ) {
 
 # Check password strength
 if ( !$result ) {
-    $result = check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry_array, $change_custompwdfield );
+    $result = \Ltb\Ppolicy::check_password_strength( $newpassword, "", $pwd_policy_config, $login, $entry_array, $change_custompwdfield );
 }
 
 # Change password

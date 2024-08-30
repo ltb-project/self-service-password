@@ -315,64 +315,13 @@ if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
 if (isset($token)) { $smarty->assign('token', $token); }
 if (isset($use_captcha)) { $smarty->assign('use_captcha', $use_captcha); }
-// TODO : Make it clean function show_policy - START
-if (isset($pwd_show_policy_pos)) {
-    $smarty->assign('pwd_show_policy_pos', $pwd_show_policy_pos);
-    $smarty->assign('pwd_show_policy', $pwd_show_policy);
-    $smarty->assign('pwd_show_policy_onerror', true);
-    if ( $pwd_show_policy === "onerror" ) {
-        if ( !preg_match( "/tooshort|toobig|minlower|minupper|mindigit|minspecial|forbiddenchars|sameasold|notcomplex|sameaslogin|pwned|specialatends/" , $result) ) {
-            $smarty->assign('pwd_show_policy_onerror', false);
-        } else {
-            $smarty->assign('pwd_show_policy_onerror', true);
-        }
-    }
-    if (isset($pwd_min_length)) { $smarty->assign('pwd_min_length', $pwd_min_length); }
-    if (isset($pwd_max_length)) { $smarty->assign('pwd_max_length', $pwd_max_length); }
-    if (isset($pwd_min_lower)) { $smarty->assign('pwd_min_lower', $pwd_min_lower); }
-    if (isset($pwd_min_upper)) { $smarty->assign('pwd_min_upper', $pwd_min_upper); }
-    if (isset($pwd_min_digit)) { $smarty->assign('pwd_min_digit', $pwd_min_digit); }
-    if (isset($pwd_min_special)) { $smarty->assign('pwd_min_special', $pwd_min_special); }
-    if (isset($pwd_complexity)) { $smarty->assign('pwd_complexity', $pwd_complexity); }
-    if (isset($pwd_diff_last_min_chars)) { $smarty->assign('pwd_diff_last_min_chars', $pwd_diff_last_min_chars); }
-    if (isset($pwd_forbidden_chars)) { $smarty->assign('pwd_forbidden_chars', $pwd_forbidden_chars); }
-    if (isset($pwd_no_reuse)) { $smarty->assign('pwd_no_reuse', $pwd_no_reuse); }
-    if (isset($pwd_diff_login)) { $smarty->assign('pwd_diff_login', $pwd_diff_login); }
-    if (isset($pwd_display_entropy)) { $smarty->assign('pwd_display_entropy', $pwd_display_entropy); }
-    if (isset($pwd_check_entropy)) { $smarty->assign('pwd_check_entropy', $pwd_check_entropy); }
-    if (isset($pwd_min_entropy)) { $smarty->assign('pwd_min_entropy', $pwd_min_entropy); }
-    if (isset($use_pwnedpasswords)) { $smarty->assign('use_pwnedpasswords', $use_pwnedpasswords); }
-    if (isset($pwd_no_special_at_ends)) { $smarty->assign('pwd_no_special_at_ends', $pwd_no_special_at_ends); }
 
-    // send policy to a JSON object usable in javascript (window.policy.[parameter])
-    $smarty->assign('json_policy', base64_encode(json_encode(
-                                                array(
-                                                  "pwd_min_length" => $pwd_min_length,
-                                                  "pwd_max_length" => $pwd_max_length,
-                                                  "pwd_min_lower" => $pwd_min_lower,
-                                                  "pwd_min_upper" => $pwd_min_upper,
-                                                  "pwd_min_digit" => $pwd_min_digit,
-                                                  "pwd_min_special" => $pwd_min_special,
-                                                  "pwd_complexity" => $pwd_complexity,
-                                                  "pwd_diff_last_min_chars" => $pwd_diff_last_min_chars,
-                                                  "pwd_forbidden_chars" => $pwd_forbidden_chars,
-                                                  "pwd_no_reuse" => $pwd_no_reuse,
-                                                  "pwd_diff_login" => $pwd_diff_login,
-                                                  "pwd_display_entropy" => $pwd_display_entropy,
-                                                  "pwd_check_entropy" => $pwd_check_entropy,
-                                                  "pwd_min_entropy" => $pwd_min_entropy,
-                                                  "use_pwnedpasswords" => $use_pwnedpasswords,
-                                                  "pwd_no_special_at_ends" => $pwd_no_special_at_ends,
-                                                  "pwd_special_chars" => $pwd_special_chars
-                                                )
-                                              )));
-}
+\Ltb\Ppolicy::smarty_assign_ppolicy($smarty, $pwd_show_policy_pos, $pwd_show_policy, $result, $pwd_policy_config);
 
 if (isset($custompwdindex)) {
     $smarty->assign('custompwdindex', $custompwdindex);
     if (isset($change_custompwdfield[$custompwdindex]['msg_passwordchangedextramessage'])) { $smarty->assign('msg_passwordchangedextramessage', $change_custompwdfield[$custompwdindex]['msg_passwordchangedextramessage']); }
 }
-// TODO : Make it clean function show_policy - END
 if (isset($smsdisplay)) { $smarty->assign('smsdisplay', $smsdisplay); }
 // TODO : Make it clean $prehook_return/$posthook_return - START
 if (isset($prehook_return)) {

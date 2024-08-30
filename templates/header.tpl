@@ -11,6 +11,7 @@
     <!-- include v4-shims.min.css for compatibility with older icon names, typically: fa-check-square-o -->
     <link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/v4-shims.min.css" />
     <link rel="stylesheet" type="text/css" href="css/self-service-password.css" />
+    <link rel="stylesheet" type="text/css" href="css/ppolicy.css" />
 {if $custom_css}
     <link rel="stylesheet" type="text/css" href="{$custom_css}" />
 {/if}
