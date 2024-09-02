@@ -2,3 +2,4 @@
 /htdocs/vendor/
 composer.lock
 tests/.phpunit.result.cache
+/.idea
