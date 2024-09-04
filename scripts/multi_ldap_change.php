@@ -76,7 +76,10 @@ foreach ($secondaries_ldap as $s_ldap) {
 
     # Get user DN
     $entry = ldap_first_entry($ldap, $search);
-    $userdn = ldap_get_dn($ldap, $entry);
+    $userdn = null;
+    if ( $entry ) {
+        $userdn = ldap_get_dn($ldap, $entry);
+    }
 
     if( !$userdn ) {
         $result = "badcredentials";
