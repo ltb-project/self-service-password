@@ -1,6 +1,5 @@
 <?php namespace captcha;
 
-include_once( __DIR__ . "/Captcha.php");
 require_once(__DIR__."/../../vendor/autoload.php");
 
 
