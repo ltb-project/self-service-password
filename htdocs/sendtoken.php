@@ -57,13 +57,7 @@ if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) {
 
     $result = "emptysendtokenform";
 
-    # Generate formtoken
-    $formtoken = hash('sha256', bin2hex(random_bytes(16)));
-    $cachedToken = $sspCache->getItem($formtoken);
-    $cachedToken->set($formtoken);
-    $cachedToken->expiresAfter($cache_form_expiration);
-    $sspCache->save($cachedToken);
-    error_log("generated form token: " . $formtoken . " valid for $cache_form_expiration s");
+    $formtoken = generate_form_token($sspCache, $cache_form_expiration);
 }
 
 # Check the entered username for characters that our installation doesn't support
@@ -77,17 +71,7 @@ if ( $result === "" ) {
 
 if ( !$result ) {
     $formtoken = strval($_REQUEST["formtoken"]);
-    $cachedToken = $sspCache->getItem($formtoken);
-    if( $cachedToken->get() == $formtoken )
-    {
-        # Remove session
-        $sspCache->deleteItem($formtoken);
-    }
-    else
-    {
-        error_log("Invalid form token: sent: $formtoken, stored: " . $cachedToken->get());
-        $result = "invalidformtoken";
-    }
+    $result = verify_form_token($sspCache, $formtoken);
 }
 
 #==============================================================================

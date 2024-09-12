@@ -20,6 +20,7 @@
                 <p class="form-control-static">{$smsdisplay}</p>
             </div>
         </div>
+        <input type="hidden" name="formtoken" value="{$formtoken}" />
         <input type="hidden" name="encrypted_sms_login" value="{$encrypted_sms_login}" />
         <div class="row mb-3">
             <div class="offset-sm-4 col-sm-8">
@@ -82,6 +83,7 @@
             {$captcha_html nofilter}
         {/if}
         {if !$sms_use_ldap}
+          <input type="hidden" name="formtoken" value="{$formtoken}" />
           <div class="row mb-3">
           <label for="telephone" class="col-sm-4 col-form-label text-end">{$msg_phone}</label>
             <div class="col-sm-8">
