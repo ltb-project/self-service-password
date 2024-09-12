@@ -15,6 +15,7 @@ require_once("../conf/config.inc.php");
 #==============================================================================
 require_once("../vendor/autoload.php");
 require_once("../lib/functions.inc.php");
+require_once(__DIR__."/../lib/cache.php");
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
@@ -402,6 +403,7 @@ if (isset($formtoken)) { $smarty->assign('formtoken', $formtoken); }
 if (isset($usermail)) { $smarty->assign('usermail', $usermail); }
 if (isset($displayname[0])) { $smarty->assign('displayname', $displayname[0]); }
 if (isset($encrypted_sms_login)) { $smarty->assign('encrypted_sms_login', $encrypted_sms_login); }
+if (isset($formtoken)) { $smarty->assign('formtoken', $formtoken); }
 
 # Set error message, criticity and fa_class
 

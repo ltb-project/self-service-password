@@ -70,6 +70,10 @@ if (!$crypt_tokens) {
             $result = "loginrequired";
         }
         if ((!$login) and (!$phone)){
+            if(!$sms_use_ldap)
+            {
+                $formtoken = generate_form_token($sspCache, $cache_form_expiration);
+            }
             $result = "emptysendsmsform";
         }
     }
@@ -143,6 +147,10 @@ if (!$crypt_tokens) {
         $login = strval($_REQUEST["login"]);
         $result = check_username_validity($login,$login_forbidden_chars);
     }else{
+        if(!$sms_use_ldap)
+        {
+            $formtoken = generate_form_token($sspCache, $cache_form_expiration);
+        }
         $result = "emptysendsmsform";
     }
 }
@@ -186,6 +194,9 @@ if ( $result === "" ) {
             if ( $sms_partially_hide_number ) {
                 $smsdisplay = substr_replace($sms, '****', 4 , 4);
             }
+
+            $formtoken = generate_form_token($sspCache, $cache_form_expiration);
+
             $result = "smsuserfound";
         }
         if ($use_ratelimit) {
@@ -197,6 +208,17 @@ if ( $result === "" ) {
     }
 }
 
+#==============================================================================
+# Check formtoken
+#==============================================================================
+if ($result === "sendsms") {
+    $formtoken = strval($_REQUEST["formtoken"]);
+    $formtoken_result = verify_form_token($sspCache, $formtoken);
+    if($formtoken_result == "invalidformtoken")
+    {
+        $result = $formtoken_result;
+    }
+}
 
 #==============================================================================
 # Generate sms token and send by sms
