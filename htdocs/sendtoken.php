@@ -57,7 +57,7 @@ if (! isset($_POST["mail"]) and ! isset($_REQUEST["login"])) {
 
     $result = "emptysendtokenform";
 
-    $formtoken = generate_form_token($sspCache, $cache_form_expiration);
+    $formtoken = $sspCache->generate_form_token($cache_form_expiration);
 }
 
 # Check the entered username for characters that our installation doesn't support
@@ -71,7 +71,7 @@ if ( $result === "" ) {
 
 if ( !$result ) {
     $formtoken = strval($_REQUEST["formtoken"]);
-    $result = verify_form_token($sspCache, $formtoken);
+    $result = $sspCache->verify_form_token($formtoken);
 }
 
 #==============================================================================
@@ -167,20 +167,19 @@ if ( $result === "" ) {
 if ( !$result ) {
 
     # Use cache to register token sent by mail
-    $token_session_id = hash('sha256', bin2hex(random_bytes(16)));
+    $token_session_id = $sspCache->save_token(
+                            [
+                                'login' => $login,
+                                'time' => time()
+                            ],
+                            null,
+                            $cache_token_expiration
+                        );
     if ( $crypt_tokens ) {
         $token = encrypt($token_session_id, $keyphrase);
     } else {
         $token = $token_session_id();
     }
-    $cached_token = $sspCache->getItem($token_session_id);
-    $cached_token->set([
-                         'login' => $login,
-                         'time' => time()
-                       ]);
-    $cached_token->expiresAfter($cache_token_expiration);
-    $sspCache->save($cached_token);
-    error_log("generated cache entry with id: " . $token_session_id. " for storing password reset by mail workflow, valid for $cache_token_expiration s");
 }
 
 

@@ -54,9 +54,8 @@ if ( $result === "" ) {
 
     # select token in the cache
     # will gather login,time and smstoken values from session.
-    $cached_token = $sspCache->getItem($tokenid);
-    $cached_token_content = $cached_token->get();
-    if($cached_token->isHit())
+    $cached_token_content = $sspCache->get_token($tokenid);
+    if($cached_token_content)
     {
         $login = $cached_token_content['login'];
     }
@@ -178,7 +177,7 @@ if ( !$result ) {
 
 # Delete token if all is ok
 if ( $result === "passwordchanged" ) {
-    $sspCache->deleteItem($tokenid);
+    $sspCache->cache->deleteItem($tokenid);
 }
 
 #==============================================================================

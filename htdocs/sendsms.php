@@ -72,7 +72,7 @@ if (!$crypt_tokens) {
         if ((!$login) and (!$phone)){
             if(!$sms_use_ldap)
             {
-                $formtoken = generate_form_token($sspCache, $cache_form_expiration);
+                $formtoken = $sspCache->generate_form_token($cache_form_expiration);
             }
             $result = "emptysendsmsform";
         }
@@ -88,10 +88,9 @@ if (!$crypt_tokens) {
         $tokenid = decrypt($token, $keyphrase);
 
         # Get session from cache
-        $cached_token = $sspCache->getItem($tokenid);
-        $cached_token_content = $cached_token->get();
+        $cached_token_content = $sspCache->get_token($tokenid);
 
-        if($cached_token->isHit())
+        if($cached_token_content)
         {
             $login        = $cached_token_content['login'];
             $sessiontoken = $cached_token_content['smstoken'];
@@ -109,8 +108,7 @@ if (!$crypt_tokens) {
             # To have only x tries and not x+1 tries
             if ($attempts < ($sms_max_attempts_token - 1)) {
                 $cached_token_content['attempts'] = $attempts + 1;
-                $cached_token->set($cached_token_content);
-                $sspCache->save($cached_token);
+                $sspCache->save_token($cached_token_content, $tokenid);
                 $result = "tokenattempts";
                 error_log("SMS token $smstoken not valid, attempt $attempts");
             } else {
@@ -126,11 +124,11 @@ if (!$crypt_tokens) {
         }
         if ( $result === "tokennotvalid" ) {
             # Remove token
-            $sspCache->deleteItem($tokenid);
+            $sspCache->cache->deleteItem($tokenid);
         }
         if ( $result === "" ) {
             # Remove token
-            $sspCache->deleteItem($tokenid);
+            $sspCache->cache->deleteItem($tokenid);
             $result = "buildtoken";
         }
     } elseif (isset($_REQUEST["encrypted_sms_login"])) {
@@ -149,7 +147,7 @@ if (!$crypt_tokens) {
     }else{
         if(!$sms_use_ldap)
         {
-            $formtoken = generate_form_token($sspCache, $cache_form_expiration);
+            $formtoken = $sspCache->generate_form_token($cache_form_expiration);
         }
         $result = "emptysendsmsform";
     }
@@ -195,7 +193,7 @@ if ( $result === "" ) {
                 $smsdisplay = substr_replace($sms, '****', 4 , 4);
             }
 
-            $formtoken = generate_form_token($sspCache, $cache_form_expiration);
+            $formtoken = $sspCache->generate_form_token($cache_form_expiration);
 
             $result = "smsuserfound";
         }
@@ -213,7 +211,7 @@ if ( $result === "" ) {
 #==============================================================================
 if ($result === "sendsms") {
     $formtoken = strval($_REQUEST["formtoken"]);
-    $formtoken_result = verify_form_token($sspCache, $formtoken);
+    $formtoken_result = $sspCache->verify_form_token($formtoken);
     if($formtoken_result == "invalidformtoken")
     {
         $result = $formtoken_result;
@@ -227,18 +225,17 @@ if ($result === "sendsms") {
 
     # Generate sms token
     $smstoken = generate_sms_token($sms_token_length);
-    # Create temporary session to avoid token replay
-    $smstoken_session_id = hash('sha256', bin2hex(random_bytes(16)));
-    $smscached_token = $sspCache->getItem($smstoken_session_id);
-    $smscached_token->set([
-                           'login' => $login,
-                           'smstoken' => $smstoken,
-                           'time' => time(),
-                           'attempts' => 0
-                         ]);
-    $smscached_token->expiresAfter($cache_token_expiration);
-    $sspCache->save($smscached_token);
-    error_log("generated cache entry with id: " . $smstoken_session_id. " for storing step 'send sms' of password reset by sms workflow, valid for $cache_token_expiration s");
+
+    $smstoken_session_id = $sspCache->save_token(
+                               [
+                                 'login' => $login,
+                                 'smstoken' => $smstoken,
+                                 'time' => time(),
+                                 'attempts' => 0
+                               ],
+                               null,
+                               $cache_token_expiration
+                           );
 
     $data = array( "sms_attribute" => $sms, "smsresetmessage" => $messages['smsresetmessage'], "smstoken" => $smstoken) ;
 
@@ -291,16 +288,15 @@ if ($result === "sendsms") {
 #==============================================================================
 if ($result === "buildtoken") {
 
-    $smstoken_session_id = hash('sha256', bin2hex(random_bytes(16)));
-    $smscached_token = $sspCache->getItem($smstoken_session_id);
-    $smscached_token->set([
-                           'login' => $login,
-                           'time' => time(),
-                           'smstoken' => $smstoken
-                         ]);
-    $smscached_token->expiresAfter($cache_form_expiration);
-    $sspCache->save($smscached_token);
-    error_log("generated cache entry with id: " . $smstoken_session_id. " for storing step 'password change' of password reset by sms workflow, valid for $cache_form_expiration s");
+    $smstoken_session_id = $sspCache->save_token(
+                               [
+                                   'login' => $login,
+                                   'time' => time(),
+                                   'smstoken' => $smstoken
+                               ],
+                               null,
+                               $cache_form_expiration
+                           );
 
     $token = encrypt($smstoken_session_id, $keyphrase);
 
