@@ -321,9 +321,49 @@ You can also integrate any other Captcha module by developping the corresponding
 Cache
 -----
 
-self-service-password rely on Symfony cache libraries.
+self-service-password relies on Symfony cache libraries.
 
-You can define the cache expiration for some objects:
+First you must choose your cache adapter: File or Redis.
+
+Here are the parameters for File:
+
+.. code-block:: php
+
+   # cache type: File or Redis
+   $cache_type = "File";
+
+   # cache namespace: cache entries are grouped in this directory
+   $cache_namespace = "sspCache";
+
+   # cache directory: cache entries would be created in this extra
+   # directory inside namespace
+   $cache_directory = null;
+
+   # default lifetime for all cached entries
+   # not really usefull for now as each cache entry has a defined expiration
+   # (see cache_token_expiration and cache_form_expiration)
+   $cache_default_lifetime = 0;
+
+Here are the parameters for Redis:
+
+.. code-block:: php
+
+   # cache type: File or Redis
+   $cache_type = "Redis";
+
+   # Data Source Name (DSN) for accessing to Redis server
+   # See https://symfony.com/doc/current/components/cache/adapters/redis_adapter.html
+   $cache_redis_url = "redis:user:password@?host[redis1:6379]&timeout=5&dbindex=0";
+
+   # cache namespace: cache entries are prefixed by this namespace
+   $cache_namespace = "sspCache";
+
+   # default lifetime for all cached entries
+   # not really usefull for now as each cache entry has a defined expiration
+   # (see cache_token_expiration and cache_form_expiration)
+   $cache_default_lifetime = 0;
+
+You can then define the general parameters for any cache:
 
 .. code-block:: php
 

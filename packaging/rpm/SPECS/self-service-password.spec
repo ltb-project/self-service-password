@@ -76,6 +76,7 @@ Provides: bundled(php-psr-cache) = 1.0.1
 Provides: bundled(php-symfony-cache-contracts) = v2.5.3
 Provides: bundled(php-psr-log) = 1.1.4
 Provides: bundled(php-symfony-cache) = v5.4.42
+Provides: bundled(php-predis-predis) = v2.2.2
 
 
 %description

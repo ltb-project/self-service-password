@@ -42,3 +42,4 @@ Description: LDAP password change web interface
  - php-symfony-cache-contracts = v2.5.3
  - php-psr-log = 1.1.4
  - php-symfony-cache = v5.4.42
+ - php-predis-predis = v2.2.2

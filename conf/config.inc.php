@@ -247,7 +247,42 @@ $crypt_tokens = true;
 # Token lifetime in seconds
 $token_lifetime = "3600";
 
-## Cache
+## File cache parameters
+
+# cache type: File or Redis
+$cache_type = "File";
+
+# cache namespace: cache entries are grouped in this directory
+$cache_namespace = "sspCache";
+
+# cache directory: cache entries would be created in this extra
+# directory inside namespace
+$cache_directory = null;
+
+# default lifetime for all cached entry
+# not really usefull for now as each cache entry has a defined expiration
+# (see cache_token_expiration and cache_form_expiration)
+$cache_default_lifetime = 0;
+
+## Redis cache parameters
+
+# cache type: File or Redis
+#$cache_type = "Redis";
+
+# Data Source Name (DSN) for accessing to Redis server
+# See https://symfony.com/doc/current/components/cache/adapters/redis_adapter.html
+#$cache_redis_url = "redis:user:password@?host[redis1:6379]&timeout=5&dbindex=0";
+
+# cache namespace: cache entries are prefixed by this namespace
+#$cache_namespace = "sspCache";
+
+# default lifetime for all cached entries
+# not really usefull for now as each cache entry has a defined expiration
+# (see cache_token_expiration and cache_form_expiration)
+#$cache_default_lifetime = 0;
+
+## General cache parameters
+
 # $cache_token_expiration: integer, duration in seconds of cached objects
 # each time a token is involved
 # (for example when sending a token by sms or by mail)
