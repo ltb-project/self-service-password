@@ -122,7 +122,27 @@ $ldapInstance = new \Ltb\Ldap(
 #==============================================================================
 # Cache Config
 #==============================================================================
-$sspCache = new \Ltb\Cache( 'sspCache', 0, null );
+$cache_class = '\\Ltb\\Cache\\'.$cache_type.'Cache';
+switch($cache_type)
+{
+    case "File":
+        $sspCache = new $cache_class( $cache_namespace,
+                                      $cache_default_lifetime,
+                                      $cache_directory
+                                    );
+        break;
+
+    case "Redis":
+        $sspCache = new $cache_class( $cache_redis_url,
+                                      $cache_namespace,
+                                      $cache_default_lifetime
+                                    );
+        break;
+
+    default:
+        error_log("Error: unknown cache type: $cache_type");
+        exit(1);
+}
 
 #==============================================================================
 # Captcha Config

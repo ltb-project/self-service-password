@@ -4,7 +4,12 @@ Upgrade
 From 1.6 to 1.7
 ---------------
 
-If you have configured ``$token_lifetime`` parameter, for example for reset by sms or reset by mail features, you should verify that the duration is coherent with the new cache parameters, and adapt these parameters in your local configuration file if needed:
+Cache configuration
+~~~~~~~~~~~~~~~~~~~
+
+A new cache system has been introduced in version 1.7 of Self-Service-Password. Your version will be automatically migrated to this new cache system, with a ``File`` adapter. You can also define a ``Redis`` adapter. New cache parameters in ``config.inc.php`` will work as they are, but you can adapt them if needed. See the :ref:`cache configuration<config_cache>` for more information.
+
+If you have configured ``$token_lifetime`` parameter, for example for reset by sms or reset by mail features, you should verify that the duration is coherent with the new :ref:`cache parameters<config_cache>`, and adapt these parameters in your local configuration file if needed:
 
 .. code-block:: php
 
@@ -19,6 +24,8 @@ If you have configured ``$token_lifetime`` parameter, for example for reset by s
    # it is recommended to set a value high enough for a user to fill a form
    $cache_form_expiration = 120;
 
+New Dependencies
+~~~~~~~~~~~~~~~~
 
 New bundled dependencies have been added:
 
@@ -30,6 +37,7 @@ New bundled dependencies have been added:
 * php-symfony-cache-contracts = v2.5.3
 * php-psr-log = 1.1.4
 * php-symfony-cache = v5.4.42
+* php-predis-predis = v2.2.2
 
 
 From 1.5 to 1.6
