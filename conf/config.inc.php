@@ -48,6 +48,7 @@ $ldap_scope = "sub"; # possible values: sub, one, base
 $ldap_use_exop_passwd = false;
 $ldap_use_ppolicy_control = false;
 $ldap_network_timeout = 10;
+$ldap_page_size = 0;
 
 # Active Directory mode
 # true: use unicodePwd as password field

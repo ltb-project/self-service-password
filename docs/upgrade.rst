@@ -39,6 +39,16 @@ New bundled dependencies have been added:
 * php-symfony-cache = v5.4.42
 * php-predis-predis = v2.2.2
 
+New ldap parameter
+~~~~~~~~~~~~~~~~~~
+
+You can now retrieve users with a paged search, for example if your directory does not allow you to get all entries at once.
+
+You can enable this feature by setting a non-zero value to the page size parameter:
+
+.. code-block:: php
+
+   $ldap_page_size = 100;
 
 From 1.5 to 1.6
 ---------------

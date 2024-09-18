@@ -151,6 +151,14 @@ The scope can be set in ``$ldap_scope``:
 
 .. tip:: sub is the default value. Possible values are sub, one, or base
 
+You can retrieve users with a paged search, for example if your directory does not allow you to get all entries at once.
+You can enable this feature by setting a non-zero value to the page size parameter:
+
+.. code-block:: php
+
+   $ldap_page_size = 100;
+
+.. tip:: when setting a ``$ldap_page_size`` value > 0, self-service-password sends a ``LDAP_CONTROL_PAGEDRESULTS`` control along with the search, and loop for each page
 
 Extensions
 ----------
