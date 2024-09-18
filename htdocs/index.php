@@ -116,7 +116,8 @@ $ldapInstance = new \Ltb\Ldap(
                                  isset($ldap_network_timeout) ? $ldap_network_timeout : null,
                                  $ldap_base,
                                  null,
-                                 isset($ldap_krb5ccname) ? $ldap_krb5ccname : null
+                                 isset($ldap_krb5ccname) ? $ldap_krb5ccname : null,
+                                 isset($ldap_page_size) ? $ldap_page_size : 0
                              );
 
 #==============================================================================
