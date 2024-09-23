@@ -33,20 +33,20 @@ composer update --no-dev
 
 From current directory, do:
 ```
-./makedist VERSION
+./makedist.sh VERSION
 ```
 
 with VERSION the current verion of the package
 
 For example:
 ```
-./makedist 0.4
+./makedist 1.7.0
 ```
 
 
 ## 3 - Debian
 
-Form current directory, do:
+From current directory, do:
 
 ```
 dpkg-buildpackage -b -kLTB

@@ -16,7 +16,7 @@
 %undefine __brp_mangle_shebangs
 
 Name: self-service-password
-Version: 1.6.1
+Version: 1.7.0
 Release: 1%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
@@ -188,6 +188,35 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Tue Sep 24 2024 - Clement Oudot <clem@ltb-project.org> - 1.7.0-1
+- gh#943 Remove duplicate detectLanguage code
+- gh#948 Update ltb-common version to v0.3.0
+- gh#985 use new page_size parameter from ltb-common
+- gh#989 Arabic language support in documentation
+- gh#968 use password policy feature from ltb-common project
+- gh#982 improve cache modularity
+- gh#979 externalize cache functions into ltb-common
+- gh#763 [SMS API] "Rate Limit" and "max_attempts" is not working once captcha is submitted.
+- gh#954 use a lib for server side sessions
+- gh#914 Error 500 when clicking 'Send' on the password change screen
+- gh#973 Script multi_ldap_change.php is broken in 1.6
+- gh#970 Bad error catching in scripts/multi_ldap_change.php
+- gh#966 fix vulnerabilities in docker images
+- gh#957 UI Clarity improvement
+- gh#959 Create ko.inc.php
+- gh#401 Keep sending reset requests
+- gh#952 Bug: Making it possible to docker build both on M1/M2/M3 Mac and in an x86 VM
+- gh#951 Content-Security-Policy errors, crept back since 1.4
+- gh#934 lang: update cn and zh-CN
+- gh#925 Multible Findings with Trivy Scanner
+- gh#921 add a ldap_scope parameter
+- gh#944 update ltb-ldap library name to ltb-common
+- gh#789 Button for regenerate Captcha
+- gh#343 reCAPTCHA v3
+- gh#895 integrate friendly captcha
+- gh#894 refactor the captcha system for integrating external captcha
+- gh#913 fix: hide php notices from the end user in the web ui
+
 * Mon Jul 08 2024 - Clement Oudot <clem@ltb-project.org> - 1.6.1-1
 - gh#903: Missing documentation for entropy
 - gh#904: Unable to install on RockyLinux 8
