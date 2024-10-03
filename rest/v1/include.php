@@ -21,7 +21,6 @@ else { $source="unknown"; }
 #==============================================================================
 # Language
 #==============================================================================
-require_once("../../lib/detectbrowserlanguage.php");
 # Available languages
 $languages = array();
 if ($handle = opendir('../../lang')) {
@@ -32,7 +31,7 @@ if ($handle = opendir('../../lang')) {
     }
     closedir($handle);
 }
-$lang = detectLanguage($lang, $languages);
+$lang = \Ltb\Language::detectLanguage($lang, $languages);
 require_once("../../lang/$lang.inc.php");
 if (file_exists("../../conf/$lang.inc.php")) {
     require_once("../../conf/$lang.inc.php");
