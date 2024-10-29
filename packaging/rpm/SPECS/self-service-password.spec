@@ -16,7 +16,7 @@
 %undefine __brp_mangle_shebangs
 
 Name: self-service-password
-Version: 1.7.0
+Version: 1.7.1
 Release: 1%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
@@ -188,6 +188,9 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Tue Oct 29 2024 - Clement Oudot <clem@ltb-project.org> - 1.7.1-1
+- gh#997 Replace lib detectbrowserlanguage in REST file
+
 * Tue Sep 24 2024 - Clement Oudot <clem@ltb-project.org> - 1.7.0-1
 - gh#943 Remove duplicate detectLanguage code
 - gh#948 Update ltb-common version to v0.3.0
