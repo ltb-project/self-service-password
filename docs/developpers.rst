@@ -53,7 +53,7 @@ Here is a template example of such a captcha module:
        }
    
        # Function that generate the html part containing the captcha
-       function generate_html_captcha($messages){
+       function generate_html_captcha($messages, $lang){
    
            $captcha_html ='
            <div class="row mb-3">

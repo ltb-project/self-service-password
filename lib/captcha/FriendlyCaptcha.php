@@ -43,14 +43,14 @@ class FriendlyCaptcha
     }
 
     # Function that generate the html part containing the captcha
-    function generate_html_captcha($messages){
+    function generate_html_captcha($messages, $lang){
 
         $captcha_html ='
         <div class="row mb-3">
             <div class="col-sm-4 col-form-label text-end captcha">
             </div>
             <div class="col-sm-8">
-                <div class="frc-captcha" data-sitekey="'.$this->friendlycaptcha_sitekey.'"></div>
+                <div class="frc-captcha" data-sitekey="'.$this->friendlycaptcha_sitekey.'" data-lang="'.$lang.'"></div>
             </div>
         </div>';
 

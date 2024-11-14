@@ -44,7 +44,7 @@ class InternalCaptchaTest extends \PHPUnit\Framework\TestCase
                     ->method('generate_captcha_challenge')
                     ->will($this->returnValue("my-challenge"));
 
-        $html = $captchaMock->generate_html_captcha($messages);
+        $html = $captchaMock->generate_html_captcha($messages, "en");
 
         $this->assertMatchesRegularExpression('/<img src="my-challenge"/',$html, "dummy challenge in html code");
         $this->assertMatchesRegularExpression('/<input type="text" autocomplete="new-password" name="captchaphrase" id="captchaphrase" class="form-control" placeholder="Captcha"/',$html, "dummy captcha input box in html code");
