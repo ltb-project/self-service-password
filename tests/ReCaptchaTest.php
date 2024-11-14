@@ -54,7 +54,7 @@ class ReCaptchaTest extends \PHPUnit\Framework\TestCase
                                                  $recaptcha_secretkey,
                                                  $recaptcha_minscore);
 
-        $html = $captchaInstance->generate_html_captcha($messages);
+        $html = $captchaInstance->generate_html_captcha($messages, "en");
 
         $this->assertMatchesRegularExpression('/<input type="hidden" autocomplete="new-password" name="captchaphrase" id="captchaphrase" class="form-control"/',$html, "dummy challenge in html code");
     }

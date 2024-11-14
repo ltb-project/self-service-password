@@ -244,7 +244,7 @@ $captcha_js   = '';
 $captcha_css  = '';
 if(isset($use_captcha) && $use_captcha == true)
 {
-    $captcha_html = $captchaInstance->generate_html_captcha($messages);
+    $captcha_html = $captchaInstance->generate_html_captcha($messages, $lang);
     $captcha_js = $captchaInstance->generate_js_captcha();
     $captcha_css = $captchaInstance->generate_css_captcha();
 }

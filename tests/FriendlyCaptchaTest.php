@@ -48,9 +48,9 @@ class FriendlyCaptchaTest extends \PHPUnit\Framework\TestCase
                                                        $friendlycaptcha_sitekey,
                                                        $friendlycaptcha_secret);
 
-        $html = $captchaInstance->generate_html_captcha($messages);
+        $html = $captchaInstance->generate_html_captcha($messages, "en");
 
-        $this->assertMatchesRegularExpression('/<div class="frc-captcha" data-sitekey="'.$friendlycaptcha_sitekey.'">/',$html, "dummy challenge in html code");
+        $this->assertMatchesRegularExpression('/<div class="frc-captcha" data-sitekey="'.$friendlycaptcha_sitekey.'" data-lang="en">/',$html, "dummy challenge in html code");
     }
 
     public function test_verify_captcha_challenge_ok(): void
