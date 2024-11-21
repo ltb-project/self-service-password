@@ -91,6 +91,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         libjpeg-turbo-dev \
         libwebp-dev \
         openldap-dev \
+        cyrus-sasl-dev \
         argon2-dev \
         coreutils \
         curl-dev \
@@ -170,6 +171,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
         --enable-gd --with-freetype --with-jpeg --with-webp \
         --with-bz2 \
         --with-ldap \
+        --with-ldap-sasl \
         --with-apxs2 \
     ; \
     make -j "$(nproc)"; \
