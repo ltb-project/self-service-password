@@ -24,6 +24,7 @@ RUN [ -z "${DEBIAN_MIRROR}" ] || \
 ARG RUNTIME_DEPS=" \
         locales \
         locales-all \
+        libsasl2-modules-gssapi-mit \
     "
 RUN --mount=type=cache,target=/var/lib/apt/lists \
     set -ex; \
