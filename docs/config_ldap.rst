@@ -74,8 +74,16 @@ Configure DN and password in ``$ldap_bindn`` and ``$ldap_bindpw``, for example a
    $ldap_binddn = "cn=ssp,ou=dsa,dc=example,dc=com";
    $ldap_bindpw = "secret";
 
-.. tip:: You can leave these parameters empty to bind anonymously or using GSSAPI (see below). In
-  this case, the password modification must be done with user's
+.. tip:: You can leave these parameters empty to bind anonymously or using GSSAPI (see below).
+
+.. code-block:: php
+
+  $ldap_binddn = "";
+  $ldap_bindpw = "";
+
+.. tip::
+
+  In this case, the password modification must be done with user's
   credentials. But this will not work for password reset.
 
 If you want an SSP account to do this on behalf of the user set the value of ``$who_change_password`` to ``manager``. 
