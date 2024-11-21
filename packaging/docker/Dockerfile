@@ -48,6 +48,7 @@ ARG BUILD_DEPS=" \
         libjpeg62-turbo-dev \
         libwebp-dev \
         libldap2-dev \
+        libsasl2-dev \
     "
 RUN --mount=type=cache,target=/var/lib/apt/lists \
     set -ex; \
@@ -59,7 +60,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
     \
     docker-php-source extract; \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
-    docker-php-ext-configure ldap --with-libdir=lib/$(uname -m)-linux-gnu/; \
+    docker-php-ext-configure ldap --with-ldap-sasl --with-libdir=lib/$(uname -m)-linux-gnu/; \
     docker-php-ext-install -j "$(nproc)" \
         bcmath \
         bz2 \
