@@ -135,3 +135,10 @@ docker tag self-service-password:latest ltbproject/self-service-password:1.4.4
 docker tag self-service-password:latest ltbproject/self-service-password:1.4
 docker tag self-service-password:latest ltbproject/self-service-password:latest
 ```
+
+Tag the `alpine` image:
+```
+docker tag self-service-password-alpine:latest ltbproject/self-service-password:alpine-1.7.1
+docker tag self-service-password-alpine:latest ltbproject/self-service-password:alpine-1.7
+docker tag self-service-password-alpine:latest ltbproject/self-service-password:alpine-latest
+```
