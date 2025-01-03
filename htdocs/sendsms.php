@@ -54,7 +54,7 @@ if (!$crypt_tokens) {
                 $phone = sanitize_number($phone);
             }
             if ($sms_truncate_number) {
-                $phone = truncate_number($phone);
+                $phone = truncate_number($phone, $sms_truncate_number_length);
             }
         }else{
             $result = "smsrequired";
@@ -138,6 +138,7 @@ if (!$crypt_tokens) {
                                     $ldapInstance, $ldap_base, $ldap_filter, $ldap_scope,
                                     $ldap_fullname_attribute, $sms_attributes,
                                     $sms_sanitize_number, $sms_truncate_number,
+                                    $sms_truncate_number_length,
                                     $obscure_notfound_sendsms, $token,
                                     $keyphrase, $login);
         if (!$result) { $result = "sendsms"; }
@@ -168,6 +169,7 @@ if ( $result === "" ) {
                                             $ldapInstance, $ldap_base, $ldap_filter, $ldap_scope,
                                             $ldap_fullname_attribute, $sms_attributes,
                                             $sms_sanitize_number, $sms_truncate_number,
+                                            $sms_truncate_number_length,
                                             $obscure_notfound_sendsms, $token,
                                             $keyphrase, $login);
     if ($sms){
@@ -348,7 +350,7 @@ function sanitize_number($phone_number){
   return $phone_number;
 }
 
-function truncate_number($phone_number){
+function truncate_number($phone_number, $sms_truncate_number_length){
   $phone_number = substr($phone_number, -$sms_truncate_number_length);
   return $phone_number;
 }
@@ -357,6 +359,7 @@ function truncate_number($phone_number){
 function get_user_infos($ldapInstance, $ldap_base, $ldap_filter, $ldap_scope,
                                     $ldap_fullname_attribute, $sms_attributes,
                                     $sms_sanitize_number, $sms_truncate_number,
+                                    $sms_truncate_number_length,
                                     $obscure_notfound_sendsms, $token,
                                     $keyphrase, $login) {
 
@@ -407,7 +410,7 @@ function get_user_infos($ldapInstance, $ldap_base, $ldap_filter, $ldap_scope,
                         $sms = sanitize_number($sms);
                     }
                     if ($sms_truncate_number) {
-                        $sms = truncate_number($sms);
+                        $sms = truncate_number($sms, $sms_truncate_number_length);
                     }
                 }else{
                     list($result, $token) = obscure_info_sendsms("smssent_ifexists",
