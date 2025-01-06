@@ -52,12 +52,12 @@ install -m 755 packaging/docker/entrypoint.sh /rootfs/
 
 install --directory -D \
     "/rootfs/var/www/htdocs/vendor" \
-    "/rootfs/var/www/conf" \
     :
 
 install --owner www-data --group www-data --directory -D \
     "/rootfs/var/www/templates_c" \
     "/rootfs/var/www/cache" \
+    "/rootfs/var/www/conf" \
     :
 
 sed conf/config.inc.php \
