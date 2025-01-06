@@ -38,6 +38,11 @@ $token = "";
 $sessiontoken = "";
 $attempts = 0;
 
+if( isset($_REQUEST["formtoken"]) )
+{
+    $formtoken = strval($_REQUEST["formtoken"]);
+}
+
 #==============================================================================
 # Verify minimal information for treatment
 # Encryption needs to be activated
