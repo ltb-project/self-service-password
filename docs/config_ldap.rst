@@ -74,15 +74,7 @@ Configure DN and password in ``$ldap_bindn`` and ``$ldap_bindpw``, for example a
    $ldap_binddn = "cn=ssp,ou=dsa,dc=example,dc=com";
    $ldap_bindpw = "secret";
 
-.. tip:: You can leave these parameters empty to bind anonymously or using GSSAPI (see below).
-
-.. code-block:: php
-
-  $ldap_binddn = "";
-  $ldap_bindpw = "";
-
-.. tip::
-
+.. tip:: You can empty the bind DN ($ldap_binddn = null or $ldap_binddn = "") to bind anonymously or to bind using Kerberos via SASL (see below).
   In this case, the password modification must be done with user's
   credentials. But this will not work for password reset.
 
@@ -100,7 +92,7 @@ To instead use user's credentials when writing in LDAP directory, replace ``mana
   value is set in ``$who_change_password``.
 
 
-For Kerberos authentication (GSSAPI) comment out comment out ``$ldap_bind*`` and uncomment ``$ldap_krb5ccname`` lines
+For Kerberos authentication (GSSAPI), empty ``$ldap_bind*`` parameters (null or empty string) and uncomment ``$ldap_krb5ccname`` lines
 
 .. code-block:: php
 
