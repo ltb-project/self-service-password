@@ -16,7 +16,7 @@
 %undefine __brp_mangle_shebangs
 
 Name: self-service-password
-Version: 1.7.1
+Version: 1.7.2
 Release: 1%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
@@ -188,6 +188,22 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Thu Jan 09 2025 - Clement Oudot <clem@ltb-project.org> - 1.7.2-1
+- gh#1005: SMS Truncate option doesn't appear to be working
+- gh#1006: localize friendly captcha
+- gh#1007: localize friendly captcha (#1006)
+- gh#1008: PHP Fatal error:  Uncaught Error: Call to undefined function Ltb\\ldap_sasl_bind()
+- gh#1009: fix missing sasl dependency (#1008)
+- gh#1018: Invalid token after captcha fail
+- gh#1022: Container - config.inc.php.orig Permission Issues
+- gh#1026: Fixing sms number truncate bug.
+- gh#1028: fix invalid token after captcha fail (#1018)
+- gh#1029: fix permission issue on config.inc.php link when container run unprivileged (#1022)
+- gh#1030: Fix input-group on sendtoken (mail) page
+- gh#1032: Use ltb-common 0.5.0
+- gh#1034: update ltb-common to 0.5.0 (#1032)
+- gh#1036: Fix the border-radius of login input box on mail reset screen
+
 * Tue Oct 29 2024 - Clement Oudot <clem@ltb-project.org> - 1.7.1-1
 - gh#997 Replace lib detectbrowserlanguage in REST file
 
