@@ -69,11 +69,9 @@ if ( $result === "" ) {
 # Check tokenform
 #==============================================================================
 
-$check_tokenform = false;
 if ( !$result ) {
     $formtoken = strval($_REQUEST["formtoken"]);
     $result = $sspCache->verify_form_token($formtoken);
-    $check_tokenform = true;
 }
 
 #==============================================================================
@@ -164,11 +162,11 @@ if ( $result === "" ) {
 
 #==============================================================================
 # if:
-#  * form token has been checked previously (and thus erased) and
+#  * this is not the first time we load this form (not emptysendtokenform), and
 #  * something bad happened (bad captcha,...)
 # regenerate a form token
 #==============================================================================
-if( $check_tokenform && $result != "" )
+if( $result != "emptysendtokenform" && $result != "" )
 {
     $formtoken = $sspCache->generate_form_token($cache_form_expiration);
 }
