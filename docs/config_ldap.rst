@@ -56,6 +56,13 @@ the requirements of your server. For example:
 
    TLS_CIPHER_SUITE TLSv1+RSA
 
+Alternatively these configurations can be overriden directly in the
+``config.inc.local.php`` using the following configurations:
+
+::
+
+   putenv("LDAPTLS_REQCERT=allow");
+   putenv("LDAPTLS_CACERT=/etc/ssl/ca.crt");
 
 You can also define the ldap connection timeout:
 
