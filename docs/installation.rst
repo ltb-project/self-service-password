@@ -138,6 +138,15 @@ Prepare a local configuration file, for example ``ssp.conf.php``.
     <?php // My SSP configuration
     $keyphrase = "mysecret";
     $debug = true;
+    $ldap_url = "ldap://localhost";
+    # Uncomment if LDAPS is required
+    #$ldap_starttls = true;
+    #putenv("LDAPTLS_REQCERT=allow");
+    #putenv("LDAPTLS_CACERT=/etc/ssl/certs/ca-certificates.crt");
+    $ldap_binddn = "cn=manager,dc=example,dc=com";
+    $ldap_bindpw = 'secret';
+    $ldap_base = "dc=example,dc=com";
+    $ldap_login_attribute = "uid";
     ?>
 
 Start container, mounting that configuration file:
