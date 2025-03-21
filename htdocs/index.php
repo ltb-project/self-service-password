@@ -256,10 +256,11 @@ require_once(SMARTY);
 
 $compile_dir = isset($smarty_compile_dir) ? $smarty_compile_dir : "../templates_c/";
 $cache_dir = isset($smarty_cache_dir) ? $smarty_cache_dir : "../cache/";
+$tpl_dir = isset($custom_tpl_dir) ? array('../'.$custom_tpl_dir, '../templates/') : '../templates/';
 
 $smarty = new Smarty();
 $smarty->escape_html = true;
-$smarty->setTemplateDir('../templates/');
+$smarty->setTemplateDir($tpl_dir);
 $smarty->setCompileDir($compile_dir);
 $smarty->setCacheDir($cache_dir);
 $smarty->debugging = $smarty_debug;
