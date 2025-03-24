@@ -121,6 +121,8 @@ cp -a             htdocs/js      %{buildroot}/%{ssp_destdir}/htdocs
 cp -a             htdocs/vendor  %{buildroot}/%{ssp_destdir}/htdocs
 install -p -m 644 lang/*         %{buildroot}/%{ssp_destdir}/lang
 install -p -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
+cp -a             lib/smsovh     %{buildroot}/%{ssp_destdir}/lib
+cp -a             lib/captcha    %{buildroot}/%{ssp_destdir}/lib
 install -p -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
 install -p -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
 cp -a             vendor/*       %{buildroot}/%{ssp_destdir}/vendor
