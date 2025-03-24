@@ -4,8 +4,9 @@ $(document).ready(function(){
     background_url = $("#background_url").data('backgroundurl');
     if (typeof background_url !== 'undefined' && background_url != "")
     {
-         $("html, body").css("background", "url(" + background_url + ")");
-         $("html, body").css("background-size", "cover");
+         $("body").css("background", "transparent");
+         $("html").css("background", "url(" + background_url + ")");
+         $("html").css("background-size", "cover");
     }
 
     // Menu links popovers
