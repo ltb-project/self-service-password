@@ -131,21 +131,35 @@ Docker
 
 We provide an `official Docker image <https://hub.docker.com/r/ltbproject/self-service-password>`_.
 
-Prepare a local configuration file, for example ``ssp.conf.php``.
+Prepare a local configuration file, for example ``config.inc.local.php``.
 
 .. code-block:: php
 
     <?php // My SSP configuration
     $keyphrase = "mysecret";
     $debug = true;
+    $ldap_url = "ldap://localhost";
+    # Uncomment if LDAPS is required
+    #$ldap_starttls = true;
+    #putenv("LDAPTLS_REQCERT=allow");
+    #putenv("LDAPTLS_CACERT=/etc/ssl/certs/ca-certificates.crt");
+    $ldap_binddn = "cn=manager,dc=example,dc=com";
+    $ldap_bindpw = 'secret';
+    $ldap_base = "dc=example,dc=com";
+    $ldap_login_attribute = "uid";
     ?>
 
-Start container, mounting that configuration file:
+Place ``config.inc.local.php`` into directory to be mounted to the docker container.
+
+.. note::
+   Multi-tenant configurations can also be placed in this directory (See :ref:`config_general.html#multi-tenancy`)
+
+Start container, mounting the configuration directory:
 
 .. prompt:: bash #
 
     docker run -p 80:80 \
-        -v $PWD/ssp.conf.php:/var/www/conf/config.inc.local.php \
+        -v /path/to/config/directory/:/var/www/conf/ \
         -it docker.io/ltbproject/self-service-password:latest
 
 You can also add options that will be passed to the command line:
@@ -153,7 +167,7 @@ You can also add options that will be passed to the command line:
 .. prompt:: bash #
 
     docker run -p 80:80 \
-        -v $PWD/ssp.conf.php:/var/www/conf/config.inc.local.php \
+        -v /path/to/config/directory/:/var/www/conf/ \
         -it docker.io/ltbproject/self-service-password:latest
         -e debug
 

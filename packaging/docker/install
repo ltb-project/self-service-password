@@ -62,5 +62,5 @@ install --owner www-data --group www-data --directory -D \
 
 sed conf/config.inc.php \
     -e "s#/usr/share/php/smarty3#/usr/share/php/smarty${SMARTY_VERSION%%.*}#g" \
-    -e "s#config\.inc\.local\.php#conf/\0#g" \
+    -e "s#config\.inc#conf/\0#g" \
         > /rootfs/var/www/config.inc.php.orig

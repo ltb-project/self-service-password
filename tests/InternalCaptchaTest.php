@@ -42,7 +42,7 @@ class InternalCaptchaTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $captchaMock->expects($this->once())
                     ->method('generate_captcha_challenge')
-                    ->will($this->returnValue("my-challenge"));
+                    ->willReturn("my-challenge");
 
         $html = $captchaMock->generate_html_captcha($messages, "en");
 
