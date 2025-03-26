@@ -1,3 +1,17 @@
+ltb-project-self-service-password (1.7.3-1) unstable; urgency=high
+
+    * gh#1038: Missing token after form fail
+    * gh#1039: fix missing token after form fail (#1038)
+    * gh#1049: Conf bug/change for Version 1.7 +
+    * gh#1055: Captcha Scripts not included in el9 rpm
+    * gh#1056: Documenting fix for multi-tenant configuration
+    * gh#1057: Adding smsovh and captcha lib folders
+    * gh#1058: Background image jagged in CSS?
+    * gh#1059: Fix CSS background
+    * gh#1061: Updated norwegian language
+
+ -- Clement Oudot <clem@ltb-project.org>  Wed, 25 Mar 2025 12:00:00 +0200
+
 ltb-project-self-service-password (1.7.2-1) unstable; urgency=high
 
     * gh#1005: SMS Truncate option doesn't appear to be working
