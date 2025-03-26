@@ -16,7 +16,7 @@
 %undefine __brp_mangle_shebangs
 
 Name: self-service-password
-Version: 1.7.2
+Version: 1.7.3
 Release: 1%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
@@ -190,6 +190,17 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Wed Mar 26 2025 - Clement Oudot <clem@ltb-project.org> - 1.7.3-1
+- gh#1038: Missing token after form fail
+- gh#1039: fix missing token after form fail (#1038)
+- gh#1049: Conf bug/change for Version 1.7 +
+- gh#1055: Captcha Scripts not included in el9 rpm
+- gh#1056: Documenting fix for multi-tenant configuration
+- gh#1057: Adding smsovh and captcha lib folders
+- gh#1058: Background image jagged in CSS?
+- gh#1059: Fix CSS background
+- gh#1061: Updated norwegian language
+
 * Thu Jan 09 2025 - Clement Oudot <clem@ltb-project.org> - 1.7.2-1
 - gh#1005: SMS Truncate option doesn't appear to be working
 - gh#1006: localize friendly captcha
