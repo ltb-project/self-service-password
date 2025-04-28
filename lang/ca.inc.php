@@ -131,6 +131,7 @@ $messages['emptysetquestionsform'] = "Establiu les vostre preguntes de restablim
 $messages['emptysendsmsform'] = "Obteniu un codi de restabliment";
 $messages['sameaslogin'] = "La vostra nova contrasenya és idèntica al vostre usuari";
 $messages['policydifflogin'] = "La vostra nova contrasenya no pot ser la mateixa que el vostre usuari";
+$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['sshkeyrequired'] = "Es requereix una clau SSH";
 $messages['changesshkeysubject'] = "La seva clau de SSH s'ha canviat";
 $messages['emptysshkeychangeform'] = "Canvia la clau d'SSH";

@@ -137,6 +137,7 @@ $messages['emptysetquestionsform'] = "비밀번호 재설정 질문 설정";
 $messages['emptysendsmsform'] = "재설정 코드 받기";
 $messages['sameaslogin'] = "새 비밀번호가 로그인과 동일합니다.";
 $messages['policydifflogin'] = "새 비밀번호는 로그인과 동일할 수 없습니다.";
+$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['pwned'] = "새 비밀번호가 이미 유출된 적이 있으며, 사용 중인 다른 서비스에서 변경하는 것이 좋습니다.";
 $messages['policypwned'] = "새 비밀번호는 이전에 유출된 적이 없는 비밀번호여야 합니다.";
 $messages['throttle'] = "너무 빠릅니다! 나중에 다시 시도하십시오 (사람인 경우).";

@@ -126,6 +126,7 @@ $messages['emptysetquestionsform'] = "Parola sıfırlama sorularınızı belirle
 $messages['emptysendsmsform'] = "Sıfırlama kodu alın";
 $messages['sameaslogin'] = "Yeni parolanız kullanıcı adınız ile aynı";
 $messages['policydifflogin'] = "Yeni parolanız kullanıcı adınız ile aynı olamaz";
+$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Sayın {login}, \n\nSSH Anahtarınız değiştirildi. \n\nBu değişikliği başlatmadıysanız lütfen derhal yöneticinize başvurun.";
 $messages['menusshkey'] = "SSH Anahtarı";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSH Anahtarınızı değiştirin</a>";

@@ -137,6 +137,7 @@ $messages['emptysetquestionsform'] = "Podesite pitanja za reset lozinke";
 $messages['emptysendsmsform'] = "Preuzmite token za resetovanje";
 $messages['sameaslogin'] = "Vaša nova lozinka je identična Vašem korisničkim imenom";
 $messages['policydifflogin'] = "Vaša nova lozinka ne sme biti identična sa Vašim korisničkim imenom";
+$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['pwned'] = "Vaša nova lozinka je već objavljivana na spiskovima ukradenih lozinki, trebalo bi da je promenite na svim servisima na kojima je koristite";
 $messages['policypwned'] = "Vaša nova lozinka izgleda nije do sad objavljivana na spiskovima ukradenih lozinki";
 $messages['throttle'] = "Too fast! Please try again later (if ever you are human)";

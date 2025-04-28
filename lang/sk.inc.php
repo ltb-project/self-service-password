@@ -126,6 +126,7 @@ $messages['emptysetquestionsform'] = "Set your password reset questions";
 $messages['emptysendsmsform'] = "Get a reset code";
 $messages['sameaslogin'] = "Your new password is identical to your login";
 $messages['policydifflogin'] = "Your new password may not be the same as your login";
+$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Dobrý deň, {login} \n\nVaše SSH kľúč bol zmenený. \n\nAk ste nevzniesli túto zmenu, obráťte sa ihneď na svojho správcu.";
 $messages['menusshkey'] = "SSH kľúč";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Zmena SSH kľúče</a>";

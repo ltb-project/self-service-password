@@ -127,6 +127,7 @@ $messages['emptysetquestionsform'] = "Pasahitza berrezartzeko galdera aldatu";
 $messages['emptysendsmsform'] = "Berrezartzeko kodea eskuratu";
 $messages['sameaslogin'] = "Pasahitz berria eta erabiltzaile izena berdinak dira";
 $messages['policydifflogin'] = "Pasahitza eta erabiltzaile izena ezin dira berdinak izan";
+$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Kaixo {login}, \n\nZure SSH gakoa aldatu da. \n\nZuk ez baduzu aldaketa egin, hitzegin administrariarekin.";
 $messages['menusshkey'] = "SSH gakoa";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">SSH gakoa aldatu</a>";

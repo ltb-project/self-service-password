@@ -136,6 +136,7 @@ $messages['emptysetquestionsform'] = "设置您的密码重置问题";
 $messages['emptysendsmsform'] = "获取重置口令";
 $messages['sameaslogin'] = "您的新密码与您的用户名相同";
 $messages['policydifflogin'] = "您的新密码不能与您的用户名相同";
+$messages['policydiffnamesurname'] = "Your ne password may not contain neither your name nor your surname";
 $messages['pwned'] = "您提供的新密码在泄露的密码列表中，您应不应该在任何地方使用它";
 $messages['policypwned'] = "您提供的密码不应在泄漏的密码列表中";
 $messages['throttle'] = "太快了！请稍后再试（如果真的是您手动操作）";

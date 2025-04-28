@@ -135,6 +135,9 @@ $pwd_special_chars = "^a-zA-Z0-9";
 $pwd_no_reuse = true;
 # Check that password is different than login
 $pwd_diff_login = true;
+# Check that password contains neither name nor surname
+# use_restapi must be true
+$pwd_diff_namesurname = false;
 # Check new passwords differs from old one - minimum characters count
 $pwd_diff_last_min_chars = 0;
 # Forbidden words which must not appear in the password

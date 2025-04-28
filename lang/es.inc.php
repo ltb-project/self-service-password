@@ -127,6 +127,7 @@ $messages['emptysetquestionsform'] = "Cambie las preguntas de reseteo de su cont
 $messages['emptysendsmsform'] = "Obtener un código de reseteo";
 $messages['sameaslogin'] = "Su nueva contraseña es igual a su login";
 $messages['policydifflogin'] = "Su nueva contraseña no puede ser igual a su login";
+$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Hola {login}, \n\nSu clave SSH ha cambiado. \n\nSi no ha iniciado este cambio, comuníquese de inmediato con su administrador.";
 $messages['menusshkey'] = "Clave SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Cambie su clave SSH</a>";

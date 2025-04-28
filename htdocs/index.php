@@ -173,6 +173,7 @@ $pwd_policy_config = array(
     "pwd_no_reuse"              => $pwd_no_reuse,
     "pwd_diff_last_min_chars"   => $pwd_diff_last_min_chars,
     "pwd_diff_login"            => $pwd_diff_login,
+    "pwd_diff_namesurname"      => $pwd_diff_namesurname,
     "pwd_complexity"            => $pwd_complexity,
     "use_pwnedpasswords"        => $use_pwnedpasswords,
     "pwd_no_special_at_ends"    => $pwd_no_special_at_ends,
@@ -180,7 +181,8 @@ $pwd_policy_config = array(
     "pwd_forbidden_ldap_fields" => $pwd_forbidden_ldap_fields,
     "pwd_display_entropy"       => $pwd_display_entropy,
     "pwd_check_entropy"         => $pwd_check_entropy,
-    "pwd_min_entropy"           => $pwd_min_entropy
+    "pwd_min_entropy"           => $pwd_min_entropy,
+    "use_restapi"               => $use_restapi,
 );
 
 if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
@@ -285,6 +287,7 @@ $smarty->assign('show_help', $show_help);
 $smarty->assign('use_questions', $use_questions);
 $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
+$smarty->assign('use_restapi', $use_restapi);
 $smarty->assign('change_sshkey', $change_sshkey);
 if(empty($change_custompwdfield)) {
     $smarty->assign('change_custompwdfield', false);
