@@ -128,6 +128,7 @@ $messages['emptysetquestionsform'] = "Stel uw wachtwoord reset vragen in";
 $messages['emptysendsmsform'] = "Verstuur een reset code";
 $messages['sameaslogin'] = "Uw nieuwe wachtwoord is gelijk aan uw login";
 $messages['policydifflogin'] = "Uw nieuwe wachtwoord mag niet gelijk zijn aan uw loginnaam";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Hallo {login}, \n\nUw SSH sleutel is gewijzigd. \n\nAls u zelf heeft opgevraagd, neem dan direct contact op met de beheerder.";
 $messages['menusshkey'] = "SSH sleutel";

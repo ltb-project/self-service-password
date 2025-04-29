@@ -126,6 +126,7 @@ $messages['emptysetquestionsform'] = "Ορίστε τις ερωτήσεις α�
 $messages['emptysendsmsform'] = "Ζητήστε ένα μοναδικό αναγνωριστικό αλλαγής κωδικού";
 $messages['sameaslogin'] = "Ο νέος σας κωδικός είναι ίδιος με το όνομα χρήστη";
 $messages['policydifflogin'] = "Ο νέος σας κωδικός δεν πρέπει να είναι ίδιος με το όνομα χρήστη";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeysubject'] = "SSH κλειδί σας έχει αλλάξει";
 $messages['changesshkeyhelp'] = "Εισάγετε τον κωδικό σας και νέο κλειδί SSH.";

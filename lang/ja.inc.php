@@ -126,6 +126,7 @@ $messages['emptysetquestionsform'] = "秘密の質問の設定";
 $messages['emptysendsmsform'] = "SMSによるパスワードのリセット";
 $messages['sameaslogin'] = "パスワードとログインIDが同じです";
 $messages['policydifflogin'] = "ログインIDと異なる";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "こんにちは{login}、\n\nSSHキーが変更されました。\n\nこの変更を開始していない場合は、すぐに管理者に連絡してください。";
 $messages['menusshkey'] = "SSHキー";

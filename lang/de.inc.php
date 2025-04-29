@@ -129,6 +129,7 @@ $messages['emptysetquestionsform'] = "Wählen Sie Ihre Sicherheitsfrage";
 $messages['emptysendsmsform'] = "Erhalte einen Rücksetzungscode";
 $messages['sameaslogin'] = "Ihr neues Passwort ist identisch mit Ihrem Benutzernamen";
 $messages['policydifflogin'] = "Ihr neues Passwort darf nicht dasselbe wie Ihr Benutzername sein";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeyhelp'] = "Geben Sie Ihr Passwort und den neuen SSH-Schlüssel ein.";
 $messages['sshkeyerror'] = "SSH-Schlüssel wurde durch das LDAP-Verzeichnis abgelehnt";

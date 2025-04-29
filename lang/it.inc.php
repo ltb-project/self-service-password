@@ -126,6 +126,7 @@ $messages['emptysetquestionsform'] = "Imposta la domanda per il reset della pass
 $messages['emptysendsmsform'] = "Ottieni un codice di reset";
 $messages['sameaslogin'] = "La nuova password è identica allo username";
 $messages['policydifflogin'] = "La nuova password non può essere uguale allo username";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Ciao {login}, \n\nIl SSH Key è stato modificato. \n\nSe non sei l'autore questo cambiamento, contattare immediatamente l'amministratore.";
 $messages['menusshkey'] = "Chiave SSH";

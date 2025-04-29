@@ -139,6 +139,7 @@ $messages['emptysetquestionsform'] = "Seadista parooli lähtestamise küsimused"
 $messages['emptysendsmsform'] = "Saada lähtestamise kood";
 $messages['sameaslogin'] = "Uus parool kattub kasutajanimega";
 $messages['policydifflogin'] = "Uus parool ei tohi kattuda kasutajanimega";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['pwned'] = "Your new password has already been published on leaks, you should consider changing it on any other service that it is in use";
 $messages['policypwned'] = "Your new password may not be published on any previous public password leak from any site";

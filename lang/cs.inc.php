@@ -126,6 +126,7 @@ $messages['emptysetquestionsform'] = "Nastavte otázku pro obnovu hesla";
 $messages['emptysendsmsform'] = "Získat kód pro obnovu hesla";
 $messages['sameaslogin'] = "Vaše nové heslo je shodné s přihlašovacím jménem";
 $messages['policydifflogin'] = "Vaše nové heslo nesmí být stejné jako vaše přihlašovací jméno";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Dobrý den, {login}\n\nVaše SSH klíč byl změněn.\n\nPokud jste nevznesli tuto změnu, obraťte se ihned na svého správce.";
 $messages['sshkeyrequired'] = "SSH klíč je vyžadováno";

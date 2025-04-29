@@ -126,6 +126,7 @@ $messages['emptysetquestionsform'] = "Add meg a jelszóvisszaállításhoz a tit
 $messages['emptysendsmsform'] = "Kérj egy visszaállító kódot SMS-ben";
 $messages['sameaslogin'] = "Az új jelszavad megegyezik a felhasználóddal";
 $messages['policydifflogin'] = "Az új jelszavad nem egyezhet meg az előzővel";
+$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
 $messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Tisztelt {login}, \n\nA SSH kulcs megváltozott. \n\nHa nem Ön kezdeményezte ezt a változást, kérje a rendszergazda azonnal.";
 $messages['menusshkey'] = "SSH kulcs";
