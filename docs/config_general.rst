@@ -174,6 +174,17 @@ You can hide the footer bar:
 
     $display_footer = false;
 
+Custom templates
+^^^^^^^^^^^^^^^^
+
+If you need to do more changes on the interface, you can create a custom templates directory
+and override any of template file by copying it from ``templates/`` into the custom directory
+and adapt it to your needs:
+
+.. code-block:: php
+
+    $custom_tpl_dir = "templates_custom/";
+
 Debug
 -----
 

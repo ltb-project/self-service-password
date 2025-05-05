@@ -406,6 +406,9 @@ $background_image = "images/unsplash-space.jpeg";
 $custom_css = "";
 $display_footer = true;
 
+# Customized template directory: to ovverride some templates files
+$custom_tpl_dir = "";
+
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log
 #$reset_request_log = "/var/log/self-service-password";
