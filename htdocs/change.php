@@ -163,26 +163,6 @@ if ( !$result ) {
 }
 
 #==============================================================================
-# Check password doesn't contain name/surname
-#==============================================================================
-if( !$result && $pwd_diff_namesurname ) {
-    $attrib = array("sn", "givenname");
-    $filter = "(&(objectCategory=person)(objectClass=user)(sAMAccountName=" . $login . "))";
-
-    $ldap_connection = $ldapInstance->connect();
-    $ldap = $ldap_connection[0];
-
-    $search = ldap_search($ldap, $ldap_base, $filter, $attrib, 0, 0);
-    $resultArray = ldap_get_entries($ldap, $search);
-
-    $name = strtoupper($resultArray[0]["givenname"][0]);
-    $surname = strtoupper($resultArray[0]["sn"][0]);
-    $upperPwd = strtoupper($newpassword);
-
-    if(str_contains($upperPwd, $name) || str_contains($upperPwd, $surname)) $result = "sameasnamesurname";
-}
-
-#==============================================================================
 # Change password
 #==============================================================================
 if ( !$result ) {
