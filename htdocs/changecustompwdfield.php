@@ -116,7 +116,6 @@ $default_pwd_policy_config = [
         "pwd_no_reuse"                             => $pwd_no_reuse,
         "pwd_diff_last_min_chars"                  => $pwd_diff_last_min_chars,
         "pwd_diff_login"                           => $pwd_diff_login,
-        "pwd_diff_namesurname"                     => $pwd_diff_namesurname,
         "pwd_complexity"                           => $pwd_complexity,
         "use_pwnedpasswords"                       => $use_pwnedpasswords,
         "pwd_no_special_at_ends"                   => $pwd_no_special_at_ends,
