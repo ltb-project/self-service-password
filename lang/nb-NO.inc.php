@@ -126,8 +126,6 @@ $messages['emptysetquestionsform'] = "Angi dine sikkerhetsspørsmål";
 $messages['emptysendsmsform'] = "Få tilsendt engagspassord på SMS";
 $messages['sameaslogin'] = "Ditt nye passord er likt som ditt brukernavn";
 $messages['policydifflogin'] = "Ditt nye passord kan ikke være likt som ditt brukernavn";
-$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
-$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Hei {login} \n\nDin SSH Key er endret. \n\nOm du ikke ba om denne endringen, kontakt Helpdesk umiddelbart.";
 $messages['menusshkey'] = "SSH nøkkel";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Endre SSH nøkkel</a>";

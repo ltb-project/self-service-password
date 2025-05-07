@@ -126,8 +126,6 @@ $messages['emptysetquestionsform'] = "Enregistrez votre réponse";
 $messages['emptysendsmsform'] = "Obtenez un code de réinitialisation";
 $messages['sameaslogin'] = "Votre mot de passe est identique à votre identifiant";
 $messages['policydifflogin'] = "Votre nouveau mot de passe ne doit pas être identique à votre identifiant";
-$messages['sameasnamesurname'] = "Votre nouveau mot de passe contient votre nom ou votre prénom";
-$messages['policydiffnamesurname'] = "Votre nouveau mot de passe ne doit contenir ni votre nom ni votre prénom";
 $messages['changesshkeymessage'] = "Bonjour {login}, \n\nVotre clé SSH a été changée. \n\nSi vous n'avez pas initié cette modification, veuillez contacter votre administrateur immédiatement.";
 $messages['menusshkey'] = "Clé SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Changez votre clé SSH</a>";
@@ -149,7 +147,7 @@ $messages['checkdatabeforesubmit'] = "Merci de vérifier les informations avant 
 $messages['forbiddenwords'] = "Votre mot de passe contient des mots interdits";
 $messages['policyforbiddenwords'] = "Votre mot de passe ne doit pas contenir ::";
 $messages['forbiddenldapfields'] = "Votre mot de passe contient des valeurs de votre entrée LDAP";
-$messages['policyforbiddenldapfields'] = "Votre mot de passe ne doit pas contenir la valeur des attributs de votre entrée :";
+$messages['policyforbiddenldapfields'] = "Votre mot de passe ne doit pas contenir d'informations personnelles";
 $messages['policyentropy'] = "Force du mot de passe";
 $messages['ldap_cn'] = "nom complet";
 $messages['ldap_givenName'] = "prénom";

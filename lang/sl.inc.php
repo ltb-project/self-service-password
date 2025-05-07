@@ -126,8 +126,6 @@ $messages['emptysetquestionsform'] = "Nastavi vprašanja za ponastavitev gesla";
 $messages['emptysendsmsform'] = "Pridobi kodo za ponastavitev";
 $messages['sameaslogin'] = "Vaše novo geslo je enako uporabniškemu imenu";
 $messages['policydifflogin'] = "Vaše novo geslo ne sme biti enako vašemu uporabniškemu imenu";
-$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
-$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Pozdravljeni {login}, \n\nKo SSH ključ je bil spremenjen. \n\nČe ni sprožila te spremembe, se takoj obrnite na skrbnika.";
 $messages['menusshkey'] = "SSH ključ";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Spreminjanje SSH Key</a>";

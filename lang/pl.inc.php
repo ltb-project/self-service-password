@@ -128,8 +128,6 @@ $messages['emptysetquestionsform'] = "Ustaw pytania dotyczące resetowania hasł
 $messages['emptysendsmsform'] = "Uzyskaj kod resetowania";
 $messages['sameaslogin'] = "Twoje nowe hasło jest identyczne z loginem";
 $messages['policydifflogin'] = "Twoje nowe hasło nie powinno być takie samo jak login";
-$messages['sameasnamesurname'] = "Your new password contains either your name or surname";
-$messages['policydiffnamesurname'] = "Your new password may not contain neither your name nor your surname";
 $messages['changesshkeymessage'] = "Witaj {login}, \n\nTwoja SSH Key została zmieniona. \n\nW przypadku nie zainicjować tę zmianę, należy natychmiast skontaktować się z administratorem.";
 $messages['menusshkey'] = "Klucz SSH";
 $messages['changehelpsshkey'] = "<a href=\"?action=changesshkey\">Zmień swój klucz SSH</a>";
