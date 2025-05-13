@@ -282,6 +282,7 @@ $smarty->assign('version',$version);
 $smarty->assign('display_footer',$display_footer);
 $smarty->assign('show_menu', $show_menu);
 $smarty->assign('show_help', $show_help);
+$smarty->assign('show_pwd_eyes', $show_pwd_eyes);
 $smarty->assign('use_questions', $use_questions);
 $smarty->assign('use_tokens', $use_tokens);
 $smarty->assign('use_sms', $use_sms);
