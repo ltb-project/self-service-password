@@ -154,7 +154,7 @@ $messages['ldap_cn'] = "common name";
 $messages['ldap_givenName'] = "given name";
 $messages['ldap_sn'] = "surname";
 $messages['ldap_mail'] = "mail address";
-$messages["questionspopulatehint"] = "Enter only your login to retrieve the questions you've registered.";
+$messages["questionspopulatehint"] = "loginを入力してあなたが登録した質問を取得してください。";
 $messages['badquality'] = "低品質のパスワード";
 $messages['tooyoung'] = "パスワードの更新間隔が短すぎです";
 $messages['inhistory'] = "パスワードが過去のパスワード履歴にあるものと同じです";
@@ -168,7 +168,7 @@ $messages['sameascustompwd'] = "この新しいパスワードは他のパスワ
 $messages['attributesmoderror'] = "あなたの情報は更新されませんでした";
 $messages['attributeschanged'] = "あなたの情報は更新されました";
 $messages['setattributeshelp'] = "あなたはこの情報を更新してパスワードをリセットできます。loginとパスワードを入力してあなたの新しい詳細情報を設定してください。";
-$messages['phone'] = "Telephone number";
+$messages['phone'] = "電話番号";
 $messages['sendtokenhelpupdatemail'] = "あなたはメールアドレスを <a href=\"?action=setattributes\">このページで</a>更新できます。";
 $messages['sendsmshelpupdatephone'] = "あなたは電話番号を <a href=\"?action=setattributes\">このページで</a>更新できます。";
 $messages['sendsmshelp'] = "あなたはloginとSMS番号を入力してパスワードリセットトークンを入手してください。それから送信されたSMSのトークンを入力してづあさい。";
