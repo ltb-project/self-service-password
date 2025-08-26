@@ -186,8 +186,8 @@ function check_sshkey ( $sshkey, $valid_types ) {
             return false;
         }
 
-        $ealg = base64_encode($algorithm . " AAAA");
-        $check = preg_replace('/[\x00-\x1F\x7F]/u', '', base64_decode(substr($key, 0, strlen($ealg))));
+        $raw_key = base64_decode($key);
+        $check = substr($raw_key, 4, strlen($algorithm));
         if ((string) $check !== (string) $algorithm) {
             return false;
         }
