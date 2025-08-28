@@ -169,9 +169,6 @@ function check_sshkey ( $sshkey, $valid_types ) {
         if (count($key_parts) < 2) {
             return false;
         }
-        if (count($key_parts) > 3) {
-            return false;
-        }
 
         $algorithm = $key_parts[0];
         if (count($valid_types) > 0) {
