@@ -508,7 +508,7 @@ if (file_exists (__DIR__ . '/config.inc.local.php')) {
 
 # Smarty
 if (!defined("SMARTY")) {
-    define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
+    define("SMARTY", "/usr/share/php/smarty4/Smarty.class.php");
 }
 
 # Set preset login from HTTP header $header_name_preset_login
