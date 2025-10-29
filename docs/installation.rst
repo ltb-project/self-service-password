@@ -59,11 +59,22 @@ Configure the repository:
 
 .. prompt:: bash #
 
-    vi /etc/apt/sources.list.d/ltb-project.list
+    vi /etc/apt/sources.list.d/ltb-project.sources
 
 .. code-block:: ini
 
-    deb [arch=amd64 signed-by=/usr/share/keyrings/ltb-project-debian-keyring.gpg] https://ltb-project.org/debian/stable stable main
+    Types: deb
+    URIs: https://ltb-project.org/debian/stable
+    Suites: stable
+    Components: main
+    Signed-By: /usr/share/keyrings/ltb-project-debian-keyring.gpg
+    Architectures: amd64
+
+.. note::
+
+    You can also use the old-style source.list format. Edit ``ltb-project.list`` and add::
+
+        deb [arch=amd64 signed-by=/usr/share/keyrings/ltb-project-debian-keyring.gpg] https://ltb-project.org/debian/stable stable main
 
 Import repository key:
 
