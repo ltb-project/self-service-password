@@ -185,6 +185,23 @@ and adapt it to your needs:
 
     $custom_tpl_dir = "templates_custom/";
 
+    To define a custom template paramter, create a config parameter with ``tpl_`` prefix:
+
+.. code-block:: php
+
+    $tpl_mycustomparam = true;
+
+And then use it in template:
+
+.. code-block:: html
+
+   <div>
+   {if $mycustomparam}
+   <p>Display this</p>
+   {else}
+   <p>Display that</p>
+   {/if}
+
 Debug
 -----
 

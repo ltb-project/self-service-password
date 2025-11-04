@@ -347,6 +347,13 @@ if (isset($extended_error_msg)) { $smarty->assign('extended_error_msg', $extende
 if (isset($use_attributes) && $use_attributes && isset($attribute_mail)) { $smarty->assign('attribute_mail_update', true); }
 if (isset($use_attributes) && $use_attributes && isset($attribute_phone)) { $smarty->assign('attribute_phone_update', true); }
 
+# Assign custom template variables
+foreach (get_defined_vars() as $key => $value) {
+    if (preg_match('/^tpl_(.+)/', $key, $matches)) {
+        $smarty->assign($matches[1], $value);
+    }
+}
+
 # Assign messages
 $smarty->assign('lang',$lang);
 foreach ($messages as $key => $message) {
