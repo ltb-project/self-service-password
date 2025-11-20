@@ -33,6 +33,8 @@
 # false: log only errors and do not display them (use this in production)
 $debug = false;
 
+$debug_level = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
+
 # LDAP
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
