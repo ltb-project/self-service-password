@@ -1,5 +1,4 @@
 <?php
-
 #==============================================================================
 # Configuration
 #==============================================================================
@@ -31,7 +30,7 @@ if ($handle = opendir('../../lang')) {
     }
     closedir($handle);
 }
-$lang = \Ltb\Language::detectLanguage($lang, $languages);
+$lang = \Ltb\Language::detect_language($lang, $languages);
 require_once("../../lang/$lang.inc.php");
 if (file_exists("../../conf/$lang.inc.php")) {
     require_once("../../conf/$lang.inc.php");
