@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Install dependencies
       uses: php-actions/composer@v6
       with:
@@ -15,7 +15,7 @@ jobs:
         command: update
         php_extensions: ldap gd mbstring xdebug
     - name: PHPUnit Tests for php8.4
-      uses: php-actions/phpunit@v3
+      uses: php-actions/phpunit@v4
       env:
         XDEBUG_MODE: coverage
       with:
