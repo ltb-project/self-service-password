@@ -25,6 +25,7 @@ ARG RUNTIME_DEPS=" \
         locales \
         locales-all \
         libsasl2-modules-gssapi-mit \
+        sendmail \
     "
 RUN --mount=type=cache,target=/var/lib/apt/lists \
     set -ex; \
