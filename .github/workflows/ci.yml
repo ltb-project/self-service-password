@@ -20,7 +20,7 @@ jobs:
         XDEBUG_MODE: coverage
       with:
         configuration: tests/phpunit.xml
-        version: latest
+        version: composer
         php_version: 8.4
         php_extensions: ldap gd mbstring xdebug
         test_suffix: Test.php
