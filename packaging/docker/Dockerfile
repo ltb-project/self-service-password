@@ -26,12 +26,10 @@ ARG RUNTIME_DEPS=" \
         locales-all \
         libsasl2-modules-gssapi-mit \
     "
-RUN --mount=type=cache,target=/var/lib/apt/lists \
-    set -ex; \
-    \
+RUN set -ex; \
     apt-get update; \
-    apt-get install -y --no-install-recommends ${RUNTIME_DEPS}; \
-    :;
+    apt-get install -y --no-install-recommends ${RUNTIME_DEPS} && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG LC_CTYPE=en_US.UTF-8
 ENV LC_CTYPE=${LC_CTYPE}
@@ -51,13 +49,13 @@ ARG BUILD_DEPS=" \
         libldap2-dev \
         libsasl2-dev \
     "
-RUN --mount=type=cache,target=/var/lib/apt/lists \
-    set -ex; \
+RUN set -ex; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
     \
     apt-get update; \
-    apt-get install -y --no-install-recommends ${BUILD_DEPS}; \
+    apt-get install -y --no-install-recommends ${BUILD_DEPS} && \
+    rm -rf /var/lib/apt/lists/* \
     \
     docker-php-source extract; \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
@@ -85,7 +83,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
         | xargs -rt apt-mark manual; \
     \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-    apt-get purge -y linux-libc-dev gcc-12 cpp-12; \
+    apt-get purge -y linux-libc-dev; \
     ln -s "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"; \
     :;
 
