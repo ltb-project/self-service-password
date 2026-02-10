@@ -53,6 +53,9 @@
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
                     <input type="password" autocomplete="current-password" name="oldpassword" id="oldpassword" class="form-control" placeholder="{$msg_oldpassword}" />
+                    {if $show_pwd_eyes}
+                        <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -62,6 +65,9 @@
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
                     <input type="password" autocomplete="new-password" name="newpassword" id="newpassword" class="form-control" placeholder="{$msg_newpassword}" />
+                    {if $show_pwd_eyes}
+                        <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -71,6 +77,9 @@
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
                     <input type="password" autocomplete="new-password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="{$msg_confirmpassword}" />
+                    {if $show_pwd_eyes}
+                        <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -93,4 +102,7 @@
     <div class="result alert shadow alert-{$result_criticity}">
     <i class="fa fa-fw {$result_fa_class}" aria-hidden="true"></i> {$msg_passwordchangedextramessage|unescape: "html" nofilter}
     </div>
+{/if}
+{if $show_pwd_eyes}
+    <script src="js/show-password-input.js"></script>
 {/if}
