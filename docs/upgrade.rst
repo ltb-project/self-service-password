@@ -1,6 +1,27 @@
 Upgrade
 =======
 
+From 1.7 to 1.8
+---------------
+
+LDAP type options
+~~~~~~~~~~~~~~~~~
+
+Self-service-password is now using an interface allowing to abstract the type of LDAP directory.
+These functions are implemented in `ltb-common <https://github.com/ltb-project/ltb-common>`_ library, currently allowing 2 LDAP implementations :
+
+* OpenLDAP
+* ActiveDirectory
+
+You should adapt the following parameters in ``config.inc.local.php``:
+
+* ``$ad_mode`` parameter is not used anymore and must be removed.
+* If you had defined ``$ad_mode = true;``, you must replace it by the new parameter ``$ldap_type = "activedirectory";``. Otherwise, you could set ``$ldap_type = "openldap";``, or not define this parameter at all, as it is the default value.
+* If you used ``$ad_options`` parameter, you must rename it into ``$ldap_options``. The keys and values in this parameter are unchanged. Currently, ``$ldap_options`` are only used by Active Directory implementation, but could be taken into consideration for other LDAP directories in the future.
+
+For more information, see the complete reference for :ref:`ldap parameters<config_ldap>`
+
+
 From 1.6 to 1.7
 ---------------
 

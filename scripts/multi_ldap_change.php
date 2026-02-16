@@ -34,7 +34,18 @@ foreach ($secondaries_ldap as $s_ldap) {
     $s_ldap_krb5ccname = isset($s_ldap['ldap_krb5ccname']) ? $s_ldap['ldap_krb5ccname'] : $ldap_krb5ccname;
     $s_ldap_network_timeout = isset($s_ldap['ldap_network_timeout']) ? $s_ldap['ldap_network_timeout'] : $ldap_network_timeout;
     $s_ldap_login_attribute = isset($s_ldap['ldap_login_attribute']) ? $s_ldap['ldap_login_attribute'] : $ldap_login_attribute;
-    $s_ad_mode = isset($s_ldap['ad_mode']) ? $s_ldap['ad_mode'] : $ad_mode;
+    $s_ldap_type = isset($s_ldap['ldap_type']) ? $s_ldap['ldap_type'] : $ldap_type;
+
+    # Load specific directory settings
+    $s_directory;
+    switch($s_ldap_type) {
+      case "openldap":
+        $s_directory = new \Ltb\Directory\OpenLDAP();
+      break;
+      case "activedirectory":
+        $s_directory = new \Ltb\Directory\ActiveDirectory();
+      break;
+    }
 
     # Connect to LDAP
     $ldapInstance = new \Ltb\Ldap(
@@ -92,23 +103,32 @@ foreach ($secondaries_ldap as $s_ldap) {
         if ( $errno ) {
             fwrite($log_file, "LDAP $s_ldap_url - Bind user error $errno  (".ldap_error($ldap).")\n");
         }
-        if ( ($errno == 49) && $s_ad_mode ) {
-            if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
-                fwrite($log_file, "LDAP $s_ldap_url - Bind user extended_error $extended_error  (".ldap_error($ldap).")\n");
-                $extended_error = explode(', ', $extended_error);
-                if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
-                    fwrite($log_file, "LDAP $s_ldap_url - Bind user password needs to be changed\n");
-                    $who_change_password = "manager";
-                    $result = "";
-                }
-                if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
-                    fwrite($log_file, "LDAP $s_ldap_url - Bind user password is expired\n");
-                    $who_change_password = "manager";
-                    $result = "";
-                }
-                unset($extended_error);
-            }
+
+        $accountStatus = $s_directory->getAccountStatus($ldap, $errno);
+
+        if( !empty($accountStatus['EXTENDED_ERROR']) and
+            !empty($accountStatus['LDAP_ERROR']) )
+        {
+            fwrite($log_file, "LDAP $s_ldap_url - Bind user extended_error " .
+                              $accountStatus['EXTENDED_ERROR'] .
+                              "  (".$accountStatus['LDAP_ERROR'].")\n");
         }
+
+        if( !empty($accountStatus['PASSWORD_MUST_CHANGE']) )
+        {
+            fwrite($log_file, "LDAP $s_ldap_url - Bind user password needs to be changed\n");
+            $who_change_password = "manager";
+            $result = "";
+        }
+
+        if( !empty($accountStatus['PASSWORD_EXPIRED']) and
+            $ldap_options['change_expired_password'] )
+        {
+            fwrite($log_file, "LDAP $s_ldap_url - Bind user password is expired\n");
+            $who_change_password = "manager";
+            $result = "";
+        }
+
     }
     if ( !$result )  {
 
@@ -123,7 +143,7 @@ foreach ($secondaries_ldap as $s_ldap) {
         # Change password
         #==============================================================================
         if ( !$result ) {
-            $result = change_password($ldapInstance, $userdn, $newpassword, $s_ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control, false, "");
+            $result = change_password( $directory, $ldapInstance, $userdn, $newpassword, $ldap_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control, false, "");
             if ( $result !== "passwordchanged" ) {
                 fwrite($log_file, "Change on $s_ldap_url: KO\n");
             } else {

@@ -74,7 +74,7 @@ function get_fa_class( $msg) {
 
 # Change password
 # @return result code
-function change_password( $ldapInstance, $dn, $password, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control, $custom_pwd_field_mode, $custom_pwd_attribute ) {
+function change_password( $directory, $ldapInstance, $dn, $password, $ldap_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, $who_change_password, $oldpassword, $use_exop_passwd, $use_ppolicy_control, $custom_pwd_field_mode, $custom_pwd_attribute ) {
 
     $result = "";
     $error_code = "";
@@ -84,56 +84,31 @@ function change_password( $ldapInstance, $dn, $password, $ad_mode, $ad_options, 
     $time = time();
     $userdata = [];
 
-    if ( $custom_pwd_field_mode ) {
-        $pwd_attribute = $custom_pwd_attribute;
-    } else {
-        $pwd_attribute = "userPassword";
-    }
-
     # Set Samba password value
     if ( $samba_mode ) {
         $userdata = \Ltb\Password::set_samba_data($userdata, $samba_options, $password, $time);
     }
-
-    if (!$ad_mode && !$use_exop_passwd) {
-        if ($hash === "auto") {
-            $old_password_hashed = $ldapInstance->get_password_value($dn, "userPassword");
-            $hash = \Ltb\Password::get_hash_type($old_password_hashed);
-        }
-        $password = \Ltb\Password::make_password($password, $hash, $hash_options);
-    } elseif ($ad_mode) {
-        $password = \Ltb\Password::make_ad_password($password);
-    }
-
-    # Set password value
-    if ( $ad_mode ) {
-        $userdata = \Ltb\Password::set_ad_data($userdata, $ad_options, $password);
-    }
-
     $userdata = \Ltb\Password::set_shadow_data($userdata, $shadow_options, $time);
 
-    # Commit modification on directory
+    # Compute password value (hash the password if necessary)
+    $password = $directory->computePassword($ldapInstance, $dn, $password, $hash, $hash_options, $use_exop_passwd);
 
-    # Special case: AD mode with password changed as user
-    if ( $ad_mode and $who_change_password === "user" ) {
-        list($error_code, $error_msg) = $ldapInstance->change_ad_password_as_user($dn, $oldpassword, $password);
-    } elseif ($use_exop_passwd) {
-        list($error_code, $error_msg, $ppolicy_error_code) = $ldapInstance->change_password_with_exop($dn, $oldpassword, $password, $use_ppolicy_control);
-        if( $error_code == 0 )
-        {
-            list($error_code, $error_msg) = $ldapInstance->modify_attributes($dn, $userdata);
-        }
-    } else {
-        # Else just replace with new password
-        if (!$ad_mode) {
-            $userdata[$pwd_attribute] = $password;
-        }
-        if ( $use_ppolicy_control ) {
-            list($error_code, $error_msg, $ppolicy_error_code) = $ldapInstance->modify_attributes_using_ppolicy($dn, $userdata);
-        } else {
-            list($error_code, $error_msg) = $ldapInstance->modify_attributes($dn, $userdata);
-        }
-    }
+
+    # Commit modification on directory
+    list($error_code, $error_msg, $ppolicy_error_code) =
+        $directory->changePasswordData(
+                                           $ldapInstance,
+                                           $dn,
+                                           $userdata,
+                                           $password,
+                                           $oldpassword,
+                                           $who_change_password,
+                                           $use_exop_passwd,
+                                           $use_ppolicy_control,
+                                           $custom_pwd_field_mode,
+                                           $custom_pwd_attribute,
+                                           $ldap_options
+                                         );
 
     if ( !isset($error_code) ) {
         $result = "ldaperror";

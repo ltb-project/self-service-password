@@ -52,17 +52,15 @@ $ldap_use_ppolicy_control = false;
 $ldap_network_timeout = 10;
 $ldap_page_size = 0;
 
-# Active Directory mode
-# true: use unicodePwd as password field
-# false: LDAPv3 standard behavior
-$ad_mode = false;
-$ad_options=[];
+# LDAP type (openldap or activedirectory)
+$ldap_type = "openldap";
+$ldap_options=[];
 # Force account unlock when password is changed
-$ad_options['force_unlock'] = false;
+$ldap_options['force_unlock'] = false;
 # Force user change password at next login
-$ad_options['force_pwd_change'] = false;
+$ldap_options['force_pwd_change'] = false;
 # Allow user with expired password to change password
-$ad_options['change_expired_password'] = false;
+$ldap_options['change_expired_password'] = false;
 
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
@@ -92,7 +90,7 @@ $shadow_options['shadow_expire_days'] = -1;
 # ARGON2
 # clear (the default)
 # auto (will check the hash of current password)
-# This option is not used with ad_mode = true
+# This option is not used with when $ldap_type = activedirectory
 $hash = "clear";
 $hash_options=[];
 

@@ -120,4 +120,4 @@ You can then override any properties, for example:
    $secondaries_ldap[0]['ldap_filter'] = '(&(objectClass=user)(sAMAccountName={login}))';
    $secondaries_ldap[0]['ldap_login_attribute'] = 'sAMAccountName';
    $secondaries_ldap[0]['ldap_fullname_attribute'] = 'displayName';
-   $secondaries_ldap[0]['ad_mode'] = true;
+   $secondaries_ldap[0]['ldap_type'] = "activedirectory";
