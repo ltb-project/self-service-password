@@ -53,7 +53,7 @@ $dependency_check_results = array();
 if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }
 else {
     # Check ldap_modify_batch presence if AD mode and password change as user
-    if ( $ad_mode and $who_change_password === "user" and ! function_exists('ldap_modify_batch') ) { $dependency_check_results[] = "phpupgraderequired"; }
+    if ( $ldap_type === "activedirectory" and $who_change_password === "user" and ! function_exists('ldap_modify_batch') ) { $dependency_check_results[] = "phpupgraderequired"; }
     # Check ldap_exop_passwd if LDAP exop password modify enabled
     if ( $ldap_use_exop_passwd and ! function_exists('ldap_exop_passwd') ) { $dependency_check_results[] = "phpupgraderequired"; }
     # Check LDAP_CONTROL_PASSWORDPOLICYREQUEST if LDAP ppolicy control enabled
@@ -118,6 +118,23 @@ $ldapInstance = new \Ltb\Ldap(
                                  isset($ldap_krb5ccname) ? $ldap_krb5ccname : null,
                                  isset($ldap_page_size) ? $ldap_page_size : 0
                              );
+
+#==============================================================================
+# Directory instance
+#==============================================================================
+$directory;
+
+# Load specific directory settings
+switch($ldap_type) {
+  case "openldap":
+    $directory = new \Ltb\Directory\OpenLDAP();
+  break;
+  case "activedirectory":
+    $directory = new \Ltb\Directory\ActiveDirectory();
+  break;
+}
+
+$dnAttribute = $directory->getDnAttribute();
 
 #==============================================================================
 # Cache Config

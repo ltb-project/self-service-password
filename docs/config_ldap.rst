@@ -1,8 +1,22 @@
+.. _config_ldap:
+
 LDAP connection
 ===============
 
 Server address
 --------------
+
+You should first define the type of LDAP directory.
+Currently, 2 implementations are managed by the LDAP directory interface:
+
+* OpenLDAP (``openldap``), being the default value
+* ActiveDirectory (``activedirectory``)
+
+Set the desired implementation with the ``$ldap_type`` parameter:
+
+.. code-block:: php
+
+   $ldap_type = "openldap";
 
 Use an LDAP URI to configure the location of your LDAP server in
 ``$ldap_url``:
@@ -190,12 +204,12 @@ Active Directory
 ~~~~~~~~~~~~~~~~
 
 Password in Active Directory is not managed like in other LDAP
-directories. Use option ``$ad_mode`` to use ``unicodePwd`` as password
+directories. Use option ``$ldap_type`` to use ``unicodePwd`` as password
 field:
 
 .. code-block:: php
 
-   $ad_mode = true;
+   $ldap_type = "activedirectory";
 
 You must also use SSL on LDAP connection because AD refuses to change a
 password on a clear connection. See this
@@ -214,19 +228,21 @@ You can tune some options:
 
 .. code-block:: php
 
-   $ad_options['force_unlock'] = true;
+   $ldap_options['force_unlock'] = true;
 
 -  Force user to change password at next login:
 
 .. code-block:: php
 
-   $ad_options['force_pwd_change'] = true;
+   $ldap_options['force_pwd_change'] = true;
 
 -  Allow user to change password if password is expired (this will force the password to be changed as manager):
 
 .. code-block:: php
 
-   $ad_options['change_expired_password'] = true;
+   $ldap_options['change_expired_password'] = true;
+
+.. warning:: For now, $ldap_options are only taken into consideration for AD mode.
 
 You need to have an account on Active Directory with rights to change
 password of users. To set the minimum rights for this account, do the
