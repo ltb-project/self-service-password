@@ -97,18 +97,27 @@ To enable this option, you have to add the posthook :
 
     $posthook = "php /usr/share/self-service-password/scripts/multi_ldap_change.php";
 
-You need to add the list of your ldap backend :
+You need to add the list of your other LDAP directories:
 
 .. code-block:: php
 
     $secondaries_ldap[0]['ldap_url'] = 'ldap://ldap2.example.com';
     $secondaries_ldap[1]['ldap_url'] = 'ldap://ldap3.example.com';
 
-It's necessary to activate the base64 enconding for special characters.
-You can be enabled this option with this configuration line :
+You should activate base64 encoding to avoid any issue when adding the password value to the command line:
 
 .. code-block:: php
 
     $posthook_password_encodebase64 = true;
 
-.. warning:: This script suppose that you use the same credentials on all your backend.
+You can then override any properties, for example:
+
+.. code-block:: php
+
+   $secondaries_ldap[0]['ldap_binddn'] = 'CN=SSP,OU=Users,DC=example,DC=com';
+   $secondaries_ldap[0]['ldap_bindpw'] = 'ThisIS4secret';
+   $secondaries_ldap[0]['ldap_base'] = 'DC=example,DC=com'';
+   $secondaries_ldap[0]['ldap_filter'] = '(&(objectClass=user)(sAMAccountName={login}))';
+   $secondaries_ldap[0]['ldap_login_attribute'] = 'sAMAccountName';
+   $secondaries_ldap[0]['ldap_fullname_attribute'] = 'displayName';
+   $secondaries_ldap[0]['ad_mode'] = true;
