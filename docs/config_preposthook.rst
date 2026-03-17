@@ -95,7 +95,7 @@ To enable this option, you have to add the posthook :
 
 .. code-block:: php
 
-    $posthook = "php /usr/share/self-service-password/multi_ldap_change.php";
+    $posthook = "php /usr/share/self-service-password/scripts/multi_ldap_change.php";
 
 You need to add the list of your ldap backend :
 
