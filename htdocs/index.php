@@ -33,6 +33,9 @@ $languages = str_replace("../lang/", "", $languages);
 $lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
 require_once("../lang/$lang.inc.php");
 
+# Set timezone
+date_default_timezone_set(getenv('TZ') ?: 'UTC');
+
 # Remove default questions
 if (!$questions_use_default) {
     unset($messages['questions']['birthday']);
