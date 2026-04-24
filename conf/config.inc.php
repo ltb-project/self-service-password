@@ -397,7 +397,7 @@ $allowed_lang = array();
 $show_menu = true;
 
 # Display eyes to show password fields
-$show_pwd_eyes = false;
+$show_pwd = false;
 
 # Logo
 $logo = "images/ltb-logo.png";

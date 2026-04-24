@@ -36,6 +36,9 @@
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
                         <input type="password" autocomplete="new-password" name="newpassword" id="newpassword" class="form-control" placeholder="{$msg_newpassword}" />
+                        {if $show_pwd}
+                        <span class="input-group-text password-toggle-icon" role="button"><i class="fas fa-eye"></i></span>
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -45,6 +48,9 @@
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
                         <input type="password" autocomplete="new-password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="{$msg_confirmpassword}" />
+                        {if $show_pwd}
+                        <span class="input-group-text password-toggle-icon" role="button"><i class="fas fa-eye"></i></span>
+                        {/if}
                     </div>
                 </div>
             </div>

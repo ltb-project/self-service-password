@@ -14,5 +14,8 @@
 <script src="js/jquery.selectunique.js"></script>
 <script>$(document).ready(function() { $('.question').selectunique(); })</script>
 {/if}
+{if $show_pwd}
+<script src="js/show-password-input.js"></script>
+{/if}
 </body>
 </html>
