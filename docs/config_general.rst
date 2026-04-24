@@ -202,6 +202,15 @@ And then use it in template:
    <p>Display that</p>
    {/if}
 
+Show passwords
+^^^^^^^^^^^^^^
+
+You can add an icon on password fields that will allow user to see the cleartext password by clicking on it:
+
+.. code-block:: php
+
+    $show_pwd = true;
+
 Debug
 -----
 
