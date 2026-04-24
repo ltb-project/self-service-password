@@ -33,6 +33,8 @@
 # false: log only errors and do not display them (use this in production)
 $debug = false;
 
+$debug_level = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
+
 # LDAP
 $ldap_url = "ldap://localhost";
 $ldap_starttls = false;
@@ -50,17 +52,15 @@ $ldap_use_ppolicy_control = false;
 $ldap_network_timeout = 10;
 $ldap_page_size = 0;
 
-# Active Directory mode
-# true: use unicodePwd as password field
-# false: LDAPv3 standard behavior
-$ad_mode = false;
-$ad_options=[];
+# LDAP type (openldap or activedirectory)
+$ldap_type = "openldap";
+$ldap_options=[];
 # Force account unlock when password is changed
-$ad_options['force_unlock'] = false;
+$ldap_options['force_unlock'] = false;
 # Force user change password at next login
-$ad_options['force_pwd_change'] = false;
+$ldap_options['force_pwd_change'] = false;
 # Allow user with expired password to change password
-$ad_options['change_expired_password'] = false;
+$ldap_options['change_expired_password'] = false;
 
 # Samba mode
 # true: update sambaNTpassword and sambaPwdLastSet attributes too
@@ -90,7 +90,7 @@ $shadow_options['shadow_expire_days'] = -1;
 # ARGON2
 # clear (the default)
 # auto (will check the hash of current password)
-# This option is not used with ad_mode = true
+# This option is not used with when $ldap_type = activedirectory
 $hash = "clear";
 $hash_options=[];
 
@@ -408,6 +408,9 @@ $background_image = "images/unsplash-space.jpeg";
 # Path is relative to htdocs/html and the custom CSS file should be created in css/ directory. For example: "css/sample.css"
 $custom_css = "";
 $display_footer = true;
+
+# Customized template directory: to ovverride some templates files
+$custom_tpl_dir = "";
 
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log

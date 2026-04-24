@@ -47,7 +47,7 @@ $dependency_check_results = array();
 if ( ! function_exists('ldap_connect') ) { $dependency_check_results[] = "nophpldap"; }
 else {
     # Check ldap_modify_batch presence if AD mode and password change as user
-    if ( $ad_mode and $who_change_password === "user" and ! function_exists('ldap_modify_batch') ) { $dependency_check_results[] = "phpupgraderequired"; }
+    if ( $ldap_type === "activedirectory" and $who_change_password === "user" and ! function_exists('ldap_modify_batch') ) { $dependency_check_results[] = "phpupgraderequired"; }
     # Check ldap_exop_passwd if LDAP exop password modify enabled
     if ( $ldap_use_exop_passwd and ! function_exists('ldap_exop_passwd') ) { $dependency_check_results[] = "phpupgraderequired"; }
 }

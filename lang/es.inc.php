@@ -172,7 +172,7 @@ $messages['attributesmoderror'] = "Your information have not been updated";
 $messages['attributeschanged'] = "Your information have been updated";
 $messages['setattributeshelp'] = "You can update the information used to reset your password. Enter your login and password and set your new details.";
 $messages['phone'] = "Telephone number";
-$messages['sendtokenhelpupdatemail'] = "You can udate your email address on <a href=\"?action=setattributes\">this page</a>.";
+$messages['sendtokenhelpupdatemail'] = "You can update your email address on <a href=\"?action=setattributes\">this page</a>.";
 $messages['sendsmshelpupdatephone'] = "You can update your phone number on <a href=\"?action=setattributes\">this page</a>.";
 $messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['smsrequired'] = "Your SMS phone is required.";

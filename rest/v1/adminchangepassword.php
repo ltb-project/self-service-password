@@ -77,22 +77,30 @@ if ( $ldap ) {
                 if ( $errno ) {
                     error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
                 }
-                if ( ($errno == 49) && $ad_mode ) {
-                    if ( ldap_get_option($ldap, 0x0032, $extended_error) ) {
-                        error_log("LDAP - Bind user extended_error $extended_error  (".ldap_error($ldap).")");
-                        $extended_error = explode(', ', $extended_error);
-                        if ( strpos($extended_error[2], '773') or strpos($extended_error[0], 'NT_STATUS_PASSWORD_MUST_CHANGE') ) {
-                            error_log("LDAP - Bind user password needs to be changed");
-                            $who_change_password = "manager";
-                            $result = false;
-                        }
-                        if ( ( strpos($extended_error[2], '532') or strpos($extended_error[0], 'NT_STATUS_ACCOUNT_EXPIRED') ) and $ad_options['change_expired_password'] ) {
-                            error_log("LDAP - Bind user password is expired");
-                            $who_change_password = "manager";
-                            $result = false;
-                        }
-                        unset($extended_error);
-                    }
+
+                $accountStatus = $directory->getAccountStatus($ldap, $errno);
+
+                if( !empty($accountStatus['EXTENDED_ERROR']) and
+                    !empty($accountStatus['LDAP_ERROR']) )
+                {
+                    error_log("LDAP - Bind user extended_error ".
+                              $accountStatus['EXTENDED_ERROR'] . "  (" .
+                              $accountStatus['LDAP_ERROR'] . ")");
+                }
+
+                if( !empty($accountStatus['PASSWORD_MUST_CHANGE']) )
+                {
+                    error_log("LDAP - Bind user password needs to be changed");
+                    $who_change_password = "manager";
+                    $result = false;
+                }
+
+                if( !empty($accountStatus['PASSWORD_EXPIRED']) and
+                    $ldap_options['change_expired_password'] )
+                {
+                    error_log("LDAP - Bind user password is expired");
+                    $who_change_password = "manager";
+                    $result = false;
                 }
             }
             if ( !$result )  {
@@ -114,7 +122,7 @@ if ( $ldap ) {
                             exec($command, $prehook_output, $prehook_return);
                         }
                         if ( ! isset($prehook_return) || $prehook_return === 0 || $ignore_prehook_error ) {
-                            $result = change_password($ldapInstance, $userdn, $newpassword, $ad_mode, $ad_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control, false, "");
+                            $result = change_password( $directory, $ldapInstance, $userdn, $newpassword, $ldap_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control, false, "");
                             if ( $result === "passwordchanged" && isset($posthook) ) {
                                 $error_code = 0;
                                 $command = hook_command($posthook, $login, $newpassword, $oldpassword, $posthook_password_encodebase64);

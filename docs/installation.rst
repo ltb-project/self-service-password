@@ -42,6 +42,9 @@ Adapt ownership of Smarty cache repositories so Apache user can write into them.
 Debian / Ubuntu
 ---------------
 
+.. Important::
+    The GPG key for debian has been updated on August 2025. Take care to use the new one by following the instructions below.
+
 .. warning:: Due to a `bug`_ in old Debian and Ubuntu `smarty3`_ package, you may face the error ``syntax error, unexpected token "class"``.
    In this case, install a newer version of the package:
 
@@ -56,17 +59,28 @@ Configure the repository:
 
 .. prompt:: bash #
 
-    vi /etc/apt/sources.list.d/ltb-project.list
+    vi /etc/apt/sources.list.d/ltb-project.sources
 
 .. code-block:: ini
 
-    deb [arch=amd64 signed-by=/usr/share/keyrings/ltb-project.gpg] https://ltb-project.org/debian/stable stable main
+    Types: deb
+    URIs: https://ltb-project.org/debian/stable
+    Suites: stable
+    Components: main
+    Signed-By: /usr/share/keyrings/ltb-project-debian-keyring.gpg
+    Architectures: amd64
+
+.. note::
+
+    You can also use the old-style source.list format. Edit ``ltb-project.list`` and add::
+
+        deb [arch=amd64 signed-by=/usr/share/keyrings/ltb-project-debian-keyring.gpg] https://ltb-project.org/debian/stable stable main
 
 Import repository key:
 
 .. prompt:: bash #
 
-    wget -O - https://ltb-project.org/documentation/_static/RPM-GPG-KEY-LTB-project | gpg --dearmor | sudo tee /usr/share/keyrings/ltb-project.gpg >/dev/null
+    wget -O - https://ltb-project.org/documentation/_static/ltb-project-debian-keyring.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/ltb-project-debian-keyring.gpg >/dev/null
 
 Then update:
 

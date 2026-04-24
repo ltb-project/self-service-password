@@ -174,6 +174,34 @@ You can hide the footer bar:
 
     $display_footer = false;
 
+Custom templates
+^^^^^^^^^^^^^^^^
+
+If you need to do more changes on the interface, you can create a custom templates directory
+and override any of template file by copying it from ``templates/`` into the custom directory
+and adapt it to your needs:
+
+.. code-block:: php
+
+    $custom_tpl_dir = "templates_custom/";
+
+    To define a custom template paramter, create a config parameter with ``tpl_`` prefix:
+
+.. code-block:: php
+
+    $tpl_mycustomparam = true;
+
+And then use it in template:
+
+.. code-block:: html
+
+   <div>
+   {if $mycustomparam}
+   <p>Display this</p>
+   {else}
+   <p>Display that</p>
+   {/if}
+
 Debug
 -----
 
@@ -184,6 +212,13 @@ You can turn on debug mode with ``$debug``:
    $debug = true;
 
 .. tip:: Debug messages will be printed in server logs.
+
+You can adjust the debug level by using PHP predefined constants in ``$debug_level``:
+
+.. code-block:: php
+
+    $debug_level = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
+
 
 This is also possible to enable Smarty debug, for web interface issues:
 
