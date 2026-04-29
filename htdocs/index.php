@@ -249,6 +249,11 @@ if (file_exists($action.".php")) { require_once($action.".php"); }
 #==============================================================================
 # Audit
 #==============================================================================
+# Set default timezone
+if ( isset($date_timezone) && !empty($date_timezone) ) {
+    date_default_timezone_set($date_timezone);
+}
+
 if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
     require_once("../lib/audit.inc.php");
     auditlog($audit_log_file, $userdn, $login, $action, $result);
