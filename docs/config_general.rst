@@ -129,6 +129,19 @@ You can add extra messages by setting values in these parameters:
    $messages['passwordchangedextramessage'] = "Congratulations!";
    $messages['changehelpextramessage'] = "Contact us if you are lost...";
 
+Timezone
+--------
+
+You can adapt the default timezone for displaying all the dates (see the `complete list of timezones <https://www.php.net/manual/en/timezones.php>`_):
+
+.. code-block:: php
+
+    $date_timezone = "UTC";
+
+..note::
+    This attribute will override environment variable ``TZ`` which users can configure in containers.
+
+
 Graphics
 --------
 

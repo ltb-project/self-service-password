@@ -33,9 +33,6 @@ $languages = str_replace("../lang/", "", $languages);
 $lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
 require_once("../lang/$lang.inc.php");
 
-# Set timezone
-date_default_timezone_set(getenv('TZ') ?: 'UTC');
-
 # Remove default questions
 if (!$questions_use_default) {
     unset($messages['questions']['birthday']);
@@ -234,6 +231,11 @@ if (file_exists($action.".php")) { require_once($action.".php"); }
 #==============================================================================
 # Audit
 #==============================================================================
+# Set default timezone
+if ( isset($date_timezone) && !empty($date_timezone) ) {
+    date_default_timezone_set($date_timezone);
+}
+
 if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
     require_once("../lib/audit.inc.php");
     auditlog($audit_log_file, $userdn, $login, $action, $result);
