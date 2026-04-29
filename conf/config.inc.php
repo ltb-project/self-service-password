@@ -405,6 +405,9 @@ $logo = "images/ltb-logo.png";
 # Background image
 $background_image = "images/unsplash-space.jpeg";
 
+# Favicon
+$favicon = "images/favicon.ico";
+
 # Path is relative to htdocs/html and the custom CSS file should be created in css/ directory. For example: "css/sample.css"
 $custom_css = "";
 $display_footer = true;

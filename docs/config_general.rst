@@ -135,26 +135,38 @@ Graphics
 Logo
 ^^^^
 
-You change the default logo with your own. Set the path to your logo in
+You can change the default logo with your own. Set the path to your logo in
 ``$logo``:
 
 .. code-block:: php
 
    $logo = "images/ltb-logo.png";
 
-.. tip:: Comment this parameter to hide logo
+.. tip:: Comment this parameter in ``config.inc.php`` to hide logo
 
 Background
 ^^^^^^^^^^
 
-You change the background image with your own. Set the path to image in
+You can change the background image with your own. Set the path to image in
 ``$background_image``:
 
 .. code-block:: php
 
    $background_image = "images/unsplash-space.jpeg";
 
-.. tip:: Comment this parameter to falll back to default background color
+.. tip:: Comment this parameter to fall back to default background color
+
+Favicon
+^^^^^^^
+
+You can change the favicon to your own custom image. By setting the 
+``$favicon`` variable:
+
+.. code-block:: php
+
+   $favicon = "images/favicon.ico";
+
+.. tip:: Comment this parameter to fall back to default favicon image
 
 Custom CSS
 ^^^^^^^^^^
