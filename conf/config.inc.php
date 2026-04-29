@@ -190,7 +190,7 @@ $change_sshkey_attribute = "sshPublicKey";
 $change_sshkey_objectClass = "ldapPublicKey";
 
 # Ensure the SSH Key submitted uses a type we trust
-$ssh_valid_key_types = array('ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519');
+$ssh_valid_key_types = array('ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519', 'sk-ecdsa-sha2-nistp256@openssh.com', 'sk-ssh-ed25519@openssh.com');
 
 # Who changes the sshPublicKey attribute?
 # Also applicable for question/answer save
