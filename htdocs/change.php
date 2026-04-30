@@ -66,7 +66,7 @@ if ( ( $result === "" ) and $use_captcha) { $result = $captchaInstance->verify_c
 #==============================================================================
 if ( $result === "" ) {
 
-    if ( $ldap) {
+    if ( !isset($ldap_build_user_dn) ) {
         # Connect to LDAP
         $ldap_connection = $ldapInstance->connect();
 
