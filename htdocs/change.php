@@ -66,15 +66,13 @@ if ( ( $result === "" ) and $use_captcha) { $result = $captchaInstance->verify_c
 #==============================================================================
 if ( $result === "" ) {
 
-    # Connect to LDAP
-    $ldap_connection = $ldapInstance->connect();
+    if ( $ldap) {
+        # Connect to LDAP
+        $ldap_connection = $ldapInstance->connect();
 
-    $ldap = $ldap_connection[0];
-    $result = $ldap_connection[1];
+        $ldap = $ldap_connection[0];
+        $result = $ldap_connection[1];
 
-    if ($ldap) {
-
-        # Search for user
         $ldap_filter = str_replace("{login}", $login, $ldap_filter);
         $search = $ldapInstance->search_with_scope($ldap_scope, $ldap_base, $ldap_filter);
 
@@ -109,56 +107,71 @@ if ( $result === "" ) {
                 $userdn = ldap_get_dn($ldap, $entry);
                 $entry_array = ldap_get_attributes($ldap, $entry);
                 $entry_array['dn'] = $userdn;
-
-                # Bind with old password
-                $bind = ldap_bind($ldap, $userdn, $oldpassword);
-                if ( !$bind ) {
-                    $result = "badcredentials";
-                    $errno = ldap_errno($ldap);
-                    if ( $errno ) {
-                        error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
-                    }
-
-                    $accountStatus = $directory->getAccountStatus($ldap, $errno);
-
-                    if( !empty($accountStatus['EXTENDED_ERROR']) and
-                        !empty($accountStatus['LDAP_ERROR']) )
-                    {
-                        error_log("LDAP - Bind user extended_error ".
-                                  $accountStatus['EXTENDED_ERROR'] . "  (" .
-                                  $accountStatus['LDAP_ERROR'] . ")");
-                    }
-
-                    if( !empty($accountStatus['PASSWORD_MUST_CHANGE']) )
-                    {
-                        error_log("LDAP - Bind user password needs to be changed");
-                        $who_change_password = "manager";
-                        $result = "";
-                    }
-
-                    if( !empty($accountStatus['PASSWORD_EXPIRED']) and
-                        $ldap_options['change_expired_password'] )
-                    {
-                        error_log("LDAP - Bind user password is expired");
-                        $who_change_password = "manager";
-                        $result = "";
-                    }
-                }
-                if ( !$result )  {
-                    # Rebind as Manager if needed
-                    if ( $who_change_password == "manager" ) {
-                        $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
-                    }
-                }
             }
+        }
+    } else {
+        # Search for user
+        $userdn = str_replace("{login}", $login, $ldap_build_user_dn);
+        $entry_array['dn'] = $userdn;
+        $ldapInstance = new \Ltb\Ldap(
+                                 $ldap_url,
+                                 $ldap_starttls,
+                                 $userdn,
+                                 $oldpassword,
+                                 isset($ldap_network_timeout) ? $ldap_network_timeout : null,
+                                 $userdn,
+                                 null,
+                                 isset($ldap_krb5ccname) ? $ldap_krb5ccname : null,
+                                 isset($ldap_page_size) ? $ldap_page_size : 0
+                             );
+        $ldap_connection = $ldapInstance->connect();
+        $ldap = $ldap_connection[0];
+    }
+    # Bind with old password
+    $bind = ldap_bind($ldap, $userdn, $oldpassword);
+    if ( !$bind ) {
+        $result = "badcredentials";
+        $errno = ldap_errno($ldap);
+        if ( $errno ) {
+            error_log("LDAP - Bind user error $errno  (".ldap_error($ldap).")");
+        }
 
-            if ( $use_ratelimit ) {
-                if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
-                    $result = "throttle";
-                    error_log("LDAP - User $login too fast");
-                }
-            }
+        $accountStatus = $directory->getAccountStatus($ldap, $errno);
 
+        if( !empty($accountStatus['EXTENDED_ERROR']) and
+            !empty($accountStatus['LDAP_ERROR']) )
+        {
+            error_log("LDAP - Bind user extended_error ".
+                      $accountStatus['EXTENDED_ERROR'] . "  (" .
+                      $accountStatus['LDAP_ERROR'] . ")");
+        }
+
+        if( !empty($accountStatus['PASSWORD_MUST_CHANGE']) )
+        {
+            error_log("LDAP - Bind user password needs to be changed");
+            $who_change_password = "manager";
+            $result = "";
+        }
+
+        if( !empty($accountStatus['PASSWORD_EXPIRED']) and
+            $ldap_options['change_expired_password'] )
+        {
+            error_log("LDAP - Bind user password is expired");
+            $who_change_password = "manager";
+            $result = "";
+        }
+    }
+    if ( !$result )  {
+        # Rebind as Manager if needed
+        if ( $who_change_password == "manager" ) {
+            $bind = ldap_bind($ldap, $ldap_binddn, $ldap_bindpw);
+        }
+    }
+
+    if ( $use_ratelimit ) {
+        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+            $result = "throttle";
+            error_log("LDAP - User $login too fast");
         }
     }
 }

@@ -181,6 +181,12 @@ You can enable this feature by setting a non-zero value to the page size paramet
 
 .. tip:: when setting a ``$ldap_page_size`` value > 0, self-service-password sends a ``LDAP_CONTROL_PAGEDRESULTS`` control along with the search, and loop for each page
 
+You can configure users to change their password without the use of a service account, avoiding the need to configure `$ldap_binddn` and `$ldap_bindpw`.
+
+.. code-block:: php
+
+    $ldap_build_user_dn = "$ldap_login_attribute={login},ou=users,$ldap_base";
+
 Extensions
 ----------
 
