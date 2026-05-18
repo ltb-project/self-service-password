@@ -39,6 +39,9 @@ Adapt ownership of Smarty cache repositories so Apache user can write into them.
    chown apache:apache /usr/share/self-service-password/cache
    chown apache:apache /usr/share/self-service-password/templates_c
 
+.. Important:: When deploying using a custom user the permission should be consistent with php-fpm.
+   By default `www-data:www-data`_ is configured during the debian package installation.
+
 Debian / Ubuntu
 ---------------
 
