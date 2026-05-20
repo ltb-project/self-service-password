@@ -15,8 +15,8 @@
 {if $custom_css}
     <link rel="stylesheet" type="text/css" href="{$custom_css}" />
 {/if}
-    <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
-    <link href="images/favicon.ico" rel="shortcut icon" />
+    <link href="{$favicon}" rel="icon" type="image/x-icon" />
+    <link href="{$favicon}" rel="shortcut icon" />
 {if $captcha_css}
   <style>{$captcha_css nofilter}</style>
 {/if}
