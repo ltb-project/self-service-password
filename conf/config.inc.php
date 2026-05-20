@@ -44,6 +44,7 @@ $ldap_bindpw = 'secret';
 //$ldap_krb5ccname = "/path/to/krb5cc";
 $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
+#$ldap_build_user_dn = "$ldap_login_attribute={login},ou=users,$ldap_base";
 $ldap_fullname_attribute = "cn";
 $ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
 $ldap_scope = "sub"; # possible values: sub, one, base
