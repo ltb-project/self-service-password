@@ -142,8 +142,6 @@ You can change the default logo with your own. Set the path to your logo in
 
    $logo = "images/ltb-logo.png";
 
-.. tip:: Comment this parameter in ``config.inc.php`` to hide logo
-
 Background
 ^^^^^^^^^^
 
@@ -154,19 +152,15 @@ You can change the background image with your own. Set the path to image in
 
    $background_image = "images/unsplash-space.jpeg";
 
-.. tip:: Comment this parameter to fall back to default background color
-
 Favicon
 ^^^^^^^
 
-You can change the favicon to your own custom image. By setting the 
-``$favicon`` variable:
+You can change the favicon to your own custom image. Set the path to favicon in
+``$favicon``:
 
 .. code-block:: php
 
    $favicon = "images/favicon.ico";
-
-.. tip:: Comment this parameter to fall back to default favicon image
 
 Custom CSS
 ^^^^^^^^^^
