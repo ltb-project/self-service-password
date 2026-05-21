@@ -1,8 +1,8 @@
+setuptools==68.0.0
 sphinx==5.2.3
 sphinx-prompt
 sphinx-rtd-theme == 1.2.0
 sphinxcontrib-jquery
 sphinxcontrib.openapi==0.7.0
-setuptools
 mistune >= 3.2.1
 docutils==0.18.1
