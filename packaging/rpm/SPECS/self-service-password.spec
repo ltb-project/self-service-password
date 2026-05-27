@@ -108,6 +108,7 @@ mkdir -p %{buildroot}/%{ssp_destdir}/conf
 mkdir -p %{buildroot}/%{ssp_destdir}/htdocs
 mkdir -p %{buildroot}/%{ssp_destdir}/lang
 mkdir -p %{buildroot}/%{ssp_destdir}/lib
+mkdir -p %{buildroot}/%{ssp_destdir}/rest
 mkdir -p %{buildroot}/%{ssp_destdir}/scripts
 mkdir -p %{buildroot}/%{ssp_destdir}/templates
 mkdir -p %{buildroot}/%{ssp_destdir}/vendor
@@ -123,6 +124,7 @@ install -p -m 644 lang/*         %{buildroot}/%{ssp_destdir}/lang
 install -p -m 644 lib/*.php      %{buildroot}/%{ssp_destdir}/lib
 cp -a             lib/smsovh     %{buildroot}/%{ssp_destdir}/lib
 cp -a             lib/captcha    %{buildroot}/%{ssp_destdir}/lib
+cp -a             rest/*         %{buildroot}/%{ssp_destdir}/rest
 install -p -m 644 scripts/*      %{buildroot}/%{ssp_destdir}/scripts
 install -p -m 644 templates/*    %{buildroot}/%{ssp_destdir}/templates
 cp -a             vendor/*       %{buildroot}/%{ssp_destdir}/vendor
