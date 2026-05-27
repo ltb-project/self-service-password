@@ -243,6 +243,7 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 - gh#1133: Updated to latest php and alpine base images
 - gh#1134: Updating mistune v3.2.1
 - gh#1135: Permission clarification for cache and templates_c directories
+- gh#1137: Directory "rest/" is not provided in Debian/RPM packages
 
 * Wed Mar 26 2025 - Clement Oudot <clem@ltb-project.org> - 1.7.3-1
 - gh#1038: Missing token after form fail

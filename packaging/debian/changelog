@@ -50,6 +50,7 @@ ltb-project-self-service-password (1.8.0-1) unstable; urgency=high
     * gh#1133: Updated to latest php and alpine base images
     * gh#1134: Updating mistune v3.2.1
     * gh#1135: Permission clarification for cache and templates_c directories
+    * gh#1137: Directory "rest/" is not provided in Debian/RPM packages
 
  -- Clement Oudot <clem@ltb-project.org>  Wed, 27 May 2026 12:00:00 +0200
 
