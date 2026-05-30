@@ -378,7 +378,7 @@ If you want to set up ``FriendlyCaptcha``, you must also configure additional pa
 
 See `FriendlyCaptcha documentation <https://docs.friendlycaptcha.com/>`_ for more information
 
-You can also integrate any other Captcha module by developping the corresponding plugin. (see :doc:`developpers` )
+You can also integrate any other Captcha module by developing the corresponding plugin. (see :doc:`developers` )
 
 .. _config_cache:
 

@@ -1,4 +1,4 @@
-Developper's corner
+Developer's corner
 ===================
 
 LDAP Tool Box Self Service Password can be extended with your own code.
@@ -157,4 +157,3 @@ If you don't have the composer dependencies yet:
 ```
 composer update
 ```
-

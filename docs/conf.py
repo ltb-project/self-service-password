@@ -41,8 +41,13 @@ release = u''
 extensions = [
         'sphinx-prompt',
         'sphinxcontrib.jquery',
-        'sphinxcontrib.openapi'
+        'sphinxcontrib.openapi',
+        'sphinx_reredirects'
 ]
+
+redirects = {
+        'developpers': 'developers.html',
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
