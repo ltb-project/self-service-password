@@ -194,7 +194,7 @@ You can also add options that will be passed to the command line:
 Here, `-e debug` will be passed to the apache server
 
 
-From git repository, for developpers only
+From git repository, for developers only
 -----------------------------------------
 
 You can get the content of git repository
@@ -208,4 +208,3 @@ Update composer dependencies:
 Depending on your php version, this command will determine the versions of composer dependencies, and create a ``composer.lock`` file. Then it will download these dependencies and put them in vendor/ directory.
 
 Then you can follow the instructions from `From tarball`_, especially the prerequisites.
-
