@@ -195,7 +195,7 @@ Here, `-e debug` will be passed to the apache server
 
 
 From git repository, for developers only
------------------------------------------
+----------------------------------------
 
 You can get the content of git repository
 
