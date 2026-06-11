@@ -1,5 +1,5 @@
-Developper's corner
-===================
+Developer's corner
+==================
 
 LDAP Tool Box Self Service Password can be extended with your own code.
 

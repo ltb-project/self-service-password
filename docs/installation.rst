@@ -194,8 +194,8 @@ You can also add options that will be passed to the command line:
 Here, `-e debug` will be passed to the apache server
 
 
-From git repository, for developpers only
------------------------------------------
+From git repository, for developers only
+----------------------------------------
 
 You can get the content of git repository
 
