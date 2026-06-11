@@ -1,3 +1,12 @@
+ltb-project-self-service-password (1.8.1-1) unstable; urgency=high
+
+    * gh#1138: "developpers" typo in various docs
+    * gh#1140: Argument #2 could not be passed by reference
+    * gh#1142: multi_ldap_change.php: $directory should be $s_directory in change_password() call
+    * gh#1143: Fix call of change_password function insed multi-ldap-change script
+
+ -- Clement Oudot <clem@ltb-project.org>  Thu, 11 Jun 2026 12:00:00 +0200
+
 ltb-project-self-service-password (1.8.0-1) unstable; urgency=high
 
     * gh#984: Use ltb-common Directory module for password change

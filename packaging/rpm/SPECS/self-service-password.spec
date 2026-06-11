@@ -16,7 +16,7 @@
 %undefine __brp_mangle_shebangs
 
 Name: self-service-password
-Version: 1.8.0
+Version: 1.8.1
 Release: 1%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
@@ -192,6 +192,12 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Thu Jun 11 2025 - Clement Oudot <clem@ltb-project.org> - 1.8.1-1
+- gh#1138: "developpers" typo in various docs
+- gh#1140: Argument #2 could not be passed by reference
+- gh#1142: multi_ldap_change.php: $directory should be $s_directory in change_password() call
+- gh#1143: Fix call of change_password function insed multi-ldap-change script
+
 * Wed May 27 2025 - Clement Oudot <clem@ltb-project.org> - 1.8.0-1
 - gh#984: Use ltb-common Directory module for password change
 - gh#1035: transfer the AD specific code into the ltb-common Directory interface

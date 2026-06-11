@@ -143,7 +143,7 @@ foreach ($secondaries_ldap as $s_ldap) {
         # Change password
         #==============================================================================
         if ( !$result ) {
-            $result = change_password( $directory, $ldapInstance, $userdn, $newpassword, $ldap_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control, false, "");
+            $result = change_password( $s_directory, $ldapInstance, $userdn, $newpassword, $ldap_options, $samba_mode, $samba_options, $shadow_options, $hash, $hash_options, 'manager', $oldpassword, $ldap_use_exop_passwd, $ldap_use_ppolicy_control, false, "");
             if ( $result !== "passwordchanged" ) {
                 fwrite($log_file, "Change on $s_ldap_url: KO\n");
             } else {
