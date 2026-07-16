@@ -49,13 +49,13 @@ For example:
 From current directory, do:
 
 ```
-fakeroot dpkg-buildpackage -b -kLTB
+dpkg-buildpackage -b -k"LTB-Project Debian"
 ```
 
 If you do not have LTB GPG secret key, do:
 
 ```
-fakeroot dpkg-buildpackage -b -us -uc
+dpkg-buildpackage -b -us -uc
 ```
 
 ## 4 - RPM (RHEL, CentOS, Fedora,...)
