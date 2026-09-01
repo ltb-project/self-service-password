@@ -86,6 +86,9 @@ if ( $result === "" ) {
             error_log("Token lifetime expired");
         }
     }
+    if ( $result === "tokennotvalid" ) {
+        $sspCache->cache->deleteItem($tokenid);
+    }
 }
 
 #==============================================================================
