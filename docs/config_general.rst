@@ -158,12 +158,11 @@ You can change the default logo with your own. Set the path to your logo in
 Background
 ^^^^^^^^^^
 
-You can change the background image with your own. Set the path to image in
-``$background_image``:
+You can change the background design, either with you custom CSS code, either by configuring the path to an image file in ``$background_image``:
 
 .. code-block:: php
 
-   $background_image = "images/unsplash-space.jpeg";
+   $background_image = "images/custom-background.png";
 
 Favicon
 ^^^^^^^
@@ -174,6 +173,21 @@ You can change the favicon to your own custom image. Set the path to favicon in
 .. code-block:: php
 
    $favicon = "images/favicon.ico";
+
+Menu logo
+~~~~~~~~~
+
+To set which logo will be displayed in the main menu, edit this configuration item:
+
+.. code-block:: php
+
+    $logo_menu = "images/ltb-logo-menu.png";
+
+It is easy to use the favicon as menu logo:
+
+.. code-block:: php
+
+    $logo_menu = $favicon;
 
 Custom CSS
 ^^^^^^^^^^

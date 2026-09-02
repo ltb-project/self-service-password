@@ -1,6 +1,25 @@
 Upgrade
 =======
 
+From 1.8 to 1.9
+---------------
+
+Logo and background
+~~~~~~~~~~~~~~~~~~~
+
+You can now have a logo in the menu which is different from the main logo. We use by default the favicon as menu logo. You can use another one by configuring ``$logo_menu``.
+
+The sample background images have been removed:
+
+* unsplash-clouds.jpeg
+* unsplash-sky.jpeg
+* unsplash-space.jpeg
+* unsplash-stars.jpeg
+
+If you are using one of them, and want not to change, you can download it and install it in ``/usr/share/self-service-password/htdocs/images``.
+
+If you already configured a custom background image, you have nothing to do.
+
 From 1.7 to 1.8
 ---------------
 

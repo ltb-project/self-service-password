@@ -2,8 +2,8 @@
         <div class="navbar navbar-expand-lg bg-body-tertiary shadow" role="navigation">
           <div class="container-fluid">
             <a class="navbar-brand" href="index.php{if $default_action != 'change'}?action=change{/if}">
-              {if $logo}
-              <img src="{$logo}" alt="Logo" class="menu-logo me-2 img-fluid" />
+              {if $logo_menu}
+              <img src="{$logo_menu}" alt="Logo" class="menu-logo me-2 img-fluid" />
               {/if}
               {$msg_title}
             </a>
