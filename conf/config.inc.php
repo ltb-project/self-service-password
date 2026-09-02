@@ -403,16 +403,11 @@ $show_menu = true;
 # Display eyes to show password fields
 $show_pwd = false;
 
-# Logo
-$logo = "images/ltb-logo.png";
-
-# Background image
-$background_image = "images/unsplash-space.jpeg";
-
-# Favicon
-$favicon = "images/favicon.ico";
-
-# Path is relative to htdocs/html and the custom CSS file should be created in css/ directory. For example: "css/sample.css"
+# Graphics
+$logo = "images/ltb_ssp_logo.png";
+#$background_image = "images/custom-background.png";
+$favicon = "images/ltb_ssp_icon.png";
+$logo_menu = $favicon;
 $custom_css = "";
 $display_footer = true;
 
