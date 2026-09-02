@@ -8,7 +8,7 @@ You can enable audit to log all actions done through Self Service Password.
 The items provided in the audit log are:
 
 * Date
-* IP of connected user
+* IP of connected user (IP field can be configured in ``$client_ip_header``)
 * DN of account being updated (user DN, can be empty if error occurs before finding the DN)
 * Who has done the action (user login)
 * Action

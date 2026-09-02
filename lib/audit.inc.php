@@ -1,8 +1,8 @@
 <?php
-function auditlog($file, $dn, $admin, $action, $result) {
+function auditlog($file, $ip, $dn, $admin, $action, $result) {
   $log = array (
     "date" => date_format(date_create(), "D, d M Y H:i:s"),
-    "ip" => $_SERVER['REMOTE_ADDR'],
+    "ip" => $ip,
     "user_dn" => $dn,
     "done_by" => $admin,
     "action" => $action,
