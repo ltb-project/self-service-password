@@ -256,7 +256,7 @@ if ( isset($date_timezone) && !empty($date_timezone) ) {
 
 if ($audit_log_file and !preg_match("/empty.*form/", $result)) {
     require_once("../lib/audit.inc.php");
-    auditlog($audit_log_file, $userdn, $login, $action, $result);
+    auditlog($audit_log_file, $_SERVER[$client_ip_header], $userdn, $login, $action, $result);
 }
 
 #==============================================================================
