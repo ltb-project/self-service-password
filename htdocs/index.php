@@ -104,6 +104,11 @@ $mailer = new \Ltb\Mail(
                            $mail_smtp_timeout
                        );
 
+# Embedded images
+$mailer->AddEmbeddedImage($logo, "logo");
+$mailer->AddEmbeddedImage($favicon, "favicon");
+$mailer->AddEmbeddedImage($logo_menu, "logo_menu");
+
 #==============================================================================
 # LDAP Config
 #==============================================================================
@@ -215,38 +220,6 @@ $rrl_config = array(
 if (isset($_REQUEST["login_hint"]) and $_REQUEST["login_hint"]) { $presetLogin = strval($_REQUEST["login_hint"]); }
 
 #==============================================================================
-# Route to action
-#==============================================================================
-$result = "";
-$action = "change";
-if (isset($default_action)) { $action = $default_action; }
-if (isset($_GET["action"]) and $_GET['action']) { $action = $_GET["action"]; }
-
-# Available actions
-$available_actions = array();
-if ( $use_change ) { array_push( $available_actions, "change"); }
-if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
-if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
-if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
-if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
-if ( !empty($change_custompwdfield) ) { array_push( $available_actions, "changecustompwdfield"); }
-if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
-array_push( $available_actions, "checkentropy" );
-
-# Ensure requested action is available, or fall back to default
-if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
-
-# By default, only display error logs and not the other levels
-error_reporting(0);
-if ($debug) {
-    error_reporting($debug_level);
-    # Set debug for LDAP
-    ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
-}
-
-if (file_exists($action.".php")) { require_once($action.".php"); }
-
-#==============================================================================
 # Audit
 #==============================================================================
 # Set default timezone
@@ -296,6 +269,38 @@ else
     # Do not report smarty stuff unless $smarty_debug == true
     $smarty->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
 }
+#==============================================================================
+# Route to action
+#==============================================================================
+$result = "";
+$action = "change";
+if (isset($default_action)) { $action = $default_action; }
+if (isset($_GET["action"]) and $_GET['action']) { $action = $_GET["action"]; }
+
+# Available actions
+$available_actions = array();
+if ( $use_change ) { array_push( $available_actions, "change"); }
+if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
+if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
+if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
+if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
+if ( !empty($change_custompwdfield) ) { array_push( $available_actions, "changecustompwdfield"); }
+if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
+array_push( $available_actions, "checkentropy" );
+
+# Ensure requested action is available, or fall back to default
+if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
+
+# By default, only display error logs and not the other levels
+error_reporting(0);
+if ($debug) {
+    error_reporting($debug_level);
+    # Set debug for LDAP
+    ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
+}
+
+if (file_exists($action.".php")) { require_once($action.".php"); }
+
 
 # Assign configuration variables
 $smarty->assign('ldap_params',array('ldap_url' => $ldap_url, 'ldap_starttls' => $ldap_starttls, 'ldap_binddn' => $ldap_binddn, 'ldap_bindpw' => $ldap_bindpw));
