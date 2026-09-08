@@ -227,7 +227,8 @@ if ( !$result ) {
 if ($result === "passwordchanged") {
     if ($mail and $notify_on_change) {
         $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-        $smarty->assign("html_data", $data);
+        $smarty->assign("mail_data", $data);
+        $smarty->assign("mail_signature", $mail_signature);
         $html_body = $smarty->fetch('mails/passwordchanged.tpl');
         if ( !$mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"]. $mail_signature, $data, $html_body) ) {
             error_log("Error while sending change email to $mail (user $login)");

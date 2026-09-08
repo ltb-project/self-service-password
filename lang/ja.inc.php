@@ -178,3 +178,5 @@ $messages['sameasaccountpassword'] = "あなたの新しいパスワードはあ
 $messages['policynoreusecustompwdfield'] = "あなたの新しいパスワードはログインパスワードと同じであってはなりません。";
 $messages['missingformtoken'] = "トークン紛失";
 $messages['invalidformtoken'] = "妥当ではないトークン";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";

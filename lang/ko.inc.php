@@ -179,3 +179,5 @@ $messages['sameasaccountpassword'] = "새 비밀번호가 로그인 비밀번호
 $messages['policynoreusecustompwdfield'] = "새 비밀번호는 로그인 비밀번호와 동일할 수 없습니다.";
 $messages['missingformtoken'] = "누락된 토큰";
 $messages['invalidformtoken'] = "유효하지 않은 토큰";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";

@@ -269,6 +269,21 @@ else
     # Do not report smarty stuff unless $smarty_debug == true
     $smarty->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
 }
+
+# Assign custom template variables
+foreach (get_defined_vars() as $key => $value) {
+    if (preg_match('/^tpl_(.+)/', $key, $matches)) {
+        $smarty->assign($matches[1], $value);
+    }
+}
+
+# Assign messages
+$smarty->assign('lang',$lang);
+foreach ($messages as $key => $message) {
+    $smarty->assign('msg_'.$key,$message);
+}
+
+
 #==============================================================================
 # Route to action
 #==============================================================================
@@ -341,7 +356,6 @@ $smarty->assign('default_action', $default_action);
 $smarty->assign('captcha_html', $captcha_html);
 $smarty->assign('captcha_js', $captcha_js);
 $smarty->assign('captcha_css', $captcha_css);
-//$smarty->assign('',);
 
 if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
@@ -373,23 +387,9 @@ if (isset($display_prehook_error)) { $smarty->assign('display_prehook_error', $d
 if (isset($display_posthook_error)) { $smarty->assign('display_posthook_error', $display_posthook_error); }
 if (isset($show_extended_error)) { $smarty->assign('show_extended_error', $show_extended_error); }
 if (isset($extended_error_msg)) { $smarty->assign('extended_error_msg', $extended_error_msg); }
-//if (isset($var)) { $smarty->assign('var', $var); }
 
 if (isset($use_attributes) && $use_attributes && isset($attribute_mail)) { $smarty->assign('attribute_mail_update', true); }
 if (isset($use_attributes) && $use_attributes && isset($attribute_phone)) { $smarty->assign('attribute_phone_update', true); }
-
-# Assign custom template variables
-foreach (get_defined_vars() as $key => $value) {
-    if (preg_match('/^tpl_(.+)/', $key, $matches)) {
-        $smarty->assign($matches[1], $value);
-    }
-}
-
-# Assign messages
-$smarty->assign('lang',$lang);
-foreach ($messages as $key => $message) {
-    $smarty->assign('msg_'.$key,$message);
-}
 
 
 $smarty->assign('action', $action);
