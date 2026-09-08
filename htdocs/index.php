@@ -105,9 +105,9 @@ $mailer = new \Ltb\Mail(
                        );
 
 # Embedded images
-$mailer->AddEmbeddedImage($logo, "logo");
-$mailer->AddEmbeddedImage($favicon, "favicon");
-$mailer->AddEmbeddedImage($logo_menu, "logo_menu");
+foreach ($mail_embedded_images as $img_key => $img_path) {
+    $mailer->AddEmbeddedImage($img_path, $img_key);
+}
 
 #==============================================================================
 # LDAP Config
