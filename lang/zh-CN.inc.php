@@ -178,3 +178,7 @@ $messages['sameasaccountpassword'] = "Your new password is identical to your log
 $messages['policynoreusecustompwdfield'] = "Your new password may not be the same as your login password";
 $messages['missingformtoken'] = "Missing token";
 $messages['invalidformtoken'] = "Invalid token";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";

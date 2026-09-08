@@ -180,3 +180,5 @@ $messages['sameasaccountpassword'] = "Ваш новий пароль ідент�
 $messages['policynoreusecustompwdfield'] = "Ваш новий пароль може не збігатися з паролем для входу";
 $messages['missingformtoken'] = "Відсутній жетон";
 $messages['invalidformtoken'] = "Недійсний жетон";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";

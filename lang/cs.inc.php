@@ -178,3 +178,5 @@ $messages['sameasaccountpassword'] = "Vaše nové heslo je shodné s heslem k va
 $messages['policynoreusecustompwdfield'] = "Vaše nové heslo nesmí být stejné jako vaše přihlašovací heslo";
 $messages['missingformtoken'] = "Chybí token";
 $messages['invalidformtoken'] = "Neplatný token";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";

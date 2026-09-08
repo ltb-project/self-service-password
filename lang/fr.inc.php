@@ -178,3 +178,5 @@ $messages['sameasaccountpassword'] = "Votre nouveau mot de passe est identique �
 $messages['policynoreusecustompwdfield'] = "Votre nouveau mot de passe ne devrait pas être le même que le mot de passe de connexion";
 $messages['missingformtoken'] = "Jeton manquant";
 $messages['invalidformtoken'] = "Jeton invalide";
+$messages['hello'] = "Bonjour";
+$messages['modificationcontactadministrator'] = "Si vous n'avez pas initié cette modification, veuillez contacter votre administrateur immédiatement.";

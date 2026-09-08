@@ -178,3 +178,5 @@ $messages['sameasaccountpassword'] = "Det nye passordet ditt er identisk med på
 $messages['policynoreusecustompwdfield'] = "Det nye passordet ditt kan ikke være det samme som påloggingspassordet ditt";
 $messages['missingformtoken'] = "Manglende token";
 $messages['invalidformtoken'] = "Ugyldig token";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";

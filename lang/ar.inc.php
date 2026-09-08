@@ -178,3 +178,5 @@ $messages['sameasaccountpassword'] = "كلمة المرور الجديدة مط�
 $messages['policynoreusecustompwdfield'] = "لا يجب ان تكون كلمة المرور الجديدة هي نفسها كلمة مرور تسجيل الدخول";
 $messages['missingformtoken'] = "Missing token";
 $messages['invalidformtoken'] = "Invalid token";
+$messages['hello'] = "Hello";
+$messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";
