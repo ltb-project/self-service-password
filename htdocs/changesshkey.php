@@ -137,7 +137,7 @@ if ($result === "sshkeychanged") {
         $smarty->assign("mail_data", $data);
         $smarty->assign("mail_signature", $mail_signature);
         $html_body = $smarty->fetch('mails/sshkeychanged.tpl');
-        if ( !$mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"]. $mail_signature, $data, $html_body) ) {
+        if ( !$mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["changesshkeysubject"], $messages["changesshkeymessage"], $mail_signature, $data, $html_body) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }
