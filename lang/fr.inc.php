@@ -180,3 +180,6 @@ $messages['missingformtoken'] = "Jeton manquant";
 $messages['invalidformtoken'] = "Jeton invalide";
 $messages['hello'] = "Bonjour";
 $messages['modificationcontactadministrator'] = "Si vous n'avez pas initié cette modification, veuillez contacter votre administrateur immédiatement.";
+$messages['clickhere'] = "Cliquez ici";
+$messages['toresetpassword'] = "pour réinitialiser votre mot de passe";
+$messages['requestignore'] = "Si vous n'êtes pas à l'origine de cette demande, merci de l'ignorer.";

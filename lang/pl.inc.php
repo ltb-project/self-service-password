@@ -182,3 +182,6 @@ $messages['missingformtoken'] = "Brak tokenu";
 $messages['invalidformtoken'] = "Niepoprawny token";
 $messages['hello'] = "Hello";
 $messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";
+$messages['clickhere'] = "Click here";
+$messages['toresetpassword'] = "to reset your password";
+$messages['requestignore'] = "If you didn't request a password reset, please ignore this email.";

@@ -181,3 +181,6 @@ $messages['missingformtoken'] = "누락된 토큰";
 $messages['invalidformtoken'] = "유효하지 않은 토큰";
 $messages['hello'] = "Hello";
 $messages['modificationcontactadministrator'] = "If you didn't initiate this change, please contact your administrator immediately.";
+$messages['clickhere'] = "Click here";
+$messages['toresetpassword'] = "to reset your password";
+$messages['requestignore'] = "If you didn't request a password reset, please ignore this email.";
