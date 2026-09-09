@@ -207,9 +207,12 @@ if ( !$result ) {
     }
 
     $data = array( "login" => $login, "mail" => $mail, "url" => $reset_url ) ;
+    $smarty->assign("mail_data", $data);
+    $smarty->assign("mail_signature", $mail_signature);
+    $html_body = $smarty->fetch('mails/reset.tpl');
 
     # Send message
-    if ( $mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data) ) {
+    if ( $mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["resetsubject"], $messages["resetmessage"].$mail_signature, $data, $html_body) ) {
         $result = $obscure_usernotfound_sendtoken ? "tokensent_ifexists" : "tokensent";
     } else {
         $result = "tokennotsent";
