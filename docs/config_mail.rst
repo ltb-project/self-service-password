@@ -64,3 +64,27 @@ You can set all parameters for PHPMailer:
 
 .. tip:: See https://github.com/PHPMailer/PHPMailer for more
   information
+
+HTML content
+------------
+
+Mails are in HTML and text format.
+
+To embed images in HTML content:
+
+.. code-block:: php
+
+   $mail_embedded_images = array( 'logo' => $logo, 'myimage' => 'images/myimage.png');
+
+Text content can be changed by overriding messages in your custom lang file:
+
+.. code-block:: php
+
+   $messages['resetmessage'] = "Hello {login},\n\nClick here to reset your password:\n{url}\n\nIf you didn't request a password reset, please ignore this email.";
+   $messages['resetsubject'] = "Reset your password";
+   $messages['changemessage'] = "Hello {login},\n\nYour password has been changed.\n\nIf you didn't request a password reset, please contact your administrator immediately.";
+   $messages['changesubject'] = "Your password has been changed";
+   $messages['changesshkeymessage'] = "Hello {login},\n\nYour SSH Key has been changed.\n\nIf you didn't initiate this change, please contact your administrator immediately.";
+   $messages['changesshkeysubject'] = "Your SSH Key has been changed";
+
+HTML templates for mail are in templates/mails/. Included message can be changed in custom lang file, and if HTML template needs to be overriden, you can use a custom skin.
