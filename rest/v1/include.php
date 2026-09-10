@@ -22,17 +22,12 @@ else { $source="unknown"; }
 # Language
 #==============================================================================
 # Available languages
-$languages = array();
-if ($handle = opendir('../../lang')) {
-    while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
-             array_push($languages, str_replace(".inc.php", "", $entry));
-        }
-    }
-    closedir($handle);
-}
-$lang = \Ltb\Language::detectLanguage($lang, $languages);
+$files = glob("../../lang/*.php");
+$languages = str_replace(".inc.php", "", $files);
+$languages = str_replace("../lang/", "", $languages);
+$lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
 require_once("../../lang/$lang.inc.php");
+
 if (file_exists("../../conf/$lang.inc.php")) {
     require_once("../../conf/$lang.inc.php");
 }
@@ -68,28 +63,31 @@ if ( ( ( $use_tokens and $crypt_tokens ) or $use_sms or $crypt_answers ) and ( e
 #==============================================================================
 # Email Config
 #==============================================================================
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-$mailer = new PHPMailer;
-$mailer->Priority      = $mail_priority;
-$mailer->CharSet       = $mail_charset;
-$mailer->ContentType   = $mail_contenttype;
-$mailer->WordWrap      = $mail_wordwrap;
-$mailer->Sendmail      = $mail_sendmailpath;
-$mailer->Mailer        = $mail_protocol;
-$mailer->SMTPDebug     = $mail_smtp_debug;
-$mailer->Debugoutput   = $mail_debug_format;
-$mailer->Host          = $mail_smtp_host;
-$mailer->Port          = $mail_smtp_port;
-$mailer->SMTPSecure    = $mail_smtp_secure;
-$mailer->SMTPAutoTLS   = $mail_smtp_autotls;
-$mailer->SMTPAuth      = $mail_smtp_auth;
-$mailer->Username      = $mail_smtp_user;
-$mailer->Password      = $mail_smtp_pass;
-$mailer->SMTPKeepAlive = $mail_smtp_keepalive;
-$mailer->SMTPOptions   = $mail_smtp_options;
-$mailer->Timeout       = $mail_smtp_timeout;
+$mailer = new \Ltb\Mail(
+                           $mail_priority,
+                           $mail_charset,
+                           $mail_contenttype,
+                           $mail_wordwrap,
+                           $mail_sendmailpath,
+                           $mail_protocol,
+                           $mail_smtp_debug,
+                           $mail_debug_format,
+                           $mail_smtp_host,
+                           $mail_smtp_port,
+                           $mail_smtp_secure,
+                           $mail_smtp_autotls,
+                           $mail_smtp_auth,
+                           $mail_smtp_user,
+                           $mail_smtp_pass,
+                           $mail_smtp_keepalive,
+                           $mail_smtp_options,
+                           $mail_smtp_timeout
+);
+
+# Embedded images
+foreach ($mail_embedded_images as $img_key => $img_path) {
+    $mailer->AddEmbeddedImage("../../htdocs/".$img_path, $img_key);
+}
 
 #==============================================================================
 # LDAP Config
@@ -104,6 +102,23 @@ $ldapInstance = new \Ltb\Ldap(
                                  null,
                                  isset($ldap_krb5ccname) ? $ldap_krb5ccname : null
                              );
+
+#==============================================================================
+# Directory instance
+#==============================================================================
+$directory;
+
+# Load specific directory settings
+switch($ldap_type) {
+  case "openldap":
+    $directory = new \Ltb\Directory\OpenLDAP();
+  break;
+  case "activedirectory":
+    $directory = new \Ltb\Directory\ActiveDirectory();
+  break;
+}
+
+$dnAttribute = $directory->getDnAttribute();
 
 #==============================================================================
 # Other default values
@@ -144,3 +159,42 @@ if (!isset($pwd_show_policy_pos)) { $pwd_show_policy_pos = "above"; }
 if (!$use_restapi) {
     die("Rest API disabled");
 }
+
+#==============================================================================
+# Smarty
+#==============================================================================
+require_once(SMARTY);
+
+$compile_dir = isset($smarty_compile_dir) ? $smarty_compile_dir : "../../templates_c/";
+$cache_dir = isset($smarty_cache_dir) ? $smarty_cache_dir : "../../cache/";
+$tpl_dir = isset($custom_tpl_dir) ? array('../../'.$custom_tpl_dir, '../../templates/') : '../../templates/';
+
+$smarty = new Smarty();
+$smarty->escape_html = true;
+$smarty->setTemplateDir($tpl_dir);
+$smarty->setCompileDir($compile_dir);
+$smarty->setCacheDir($cache_dir);
+$smarty->debugging = $smarty_debug;
+if(isset($smarty_debug) && $smarty_debug == true )
+{
+    $smarty->error_reporting = E_ALL;
+}
+else
+{
+    # Do not report smarty stuff unless $smarty_debug == true
+    $smarty->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
+}
+
+# Assign custom template variables
+foreach (get_defined_vars() as $key => $value) {
+    if (preg_match('/^tpl_(.+)/', $key, $matches)) {
+        $smarty->assign($matches[1], $value);
+    }
+}
+
+# Assign messages
+$smarty->assign('lang',$lang);
+foreach ($messages as $key => $message) {
+    $smarty->assign('msg_'.$key,$message);
+}
+

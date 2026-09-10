@@ -4,6 +4,13 @@ Upgrade
 From 1.8 to 1.9
 ---------------
 
+HTML emails
+~~~~~~~~~~~
+
+Mails are now in HTML format. If you customize the mail content, you need to report these changes to HTML template.
+
+See :doc:`config_mail`.
+
 Logo and background
 ~~~~~~~~~~~~~~~~~~~
 

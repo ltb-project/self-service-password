@@ -104,6 +104,11 @@ $mailer = new \Ltb\Mail(
                            $mail_smtp_timeout
                        );
 
+# Embedded images
+foreach ($mail_embedded_images as $img_key => $img_path) {
+    $mailer->AddEmbeddedImage($img_path, $img_key);
+}
+
 #==============================================================================
 # LDAP Config
 #==============================================================================
@@ -215,38 +220,6 @@ $rrl_config = array(
 if (isset($_REQUEST["login_hint"]) and $_REQUEST["login_hint"]) { $presetLogin = strval($_REQUEST["login_hint"]); }
 
 #==============================================================================
-# Route to action
-#==============================================================================
-$result = "";
-$action = "change";
-if (isset($default_action)) { $action = $default_action; }
-if (isset($_GET["action"]) and $_GET['action']) { $action = $_GET["action"]; }
-
-# Available actions
-$available_actions = array();
-if ( $use_change ) { array_push( $available_actions, "change"); }
-if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
-if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
-if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
-if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
-if ( !empty($change_custompwdfield) ) { array_push( $available_actions, "changecustompwdfield"); }
-if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
-array_push( $available_actions, "checkentropy" );
-
-# Ensure requested action is available, or fall back to default
-if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
-
-# By default, only display error logs and not the other levels
-error_reporting(0);
-if ($debug) {
-    error_reporting($debug_level);
-    # Set debug for LDAP
-    ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
-}
-
-if (file_exists($action.".php")) { require_once($action.".php"); }
-
-#==============================================================================
 # Audit
 #==============================================================================
 # Set default timezone
@@ -297,6 +270,53 @@ else
     $smarty->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
 }
 
+# Assign custom template variables
+foreach (get_defined_vars() as $key => $value) {
+    if (preg_match('/^tpl_(.+)/', $key, $matches)) {
+        $smarty->assign($matches[1], $value);
+    }
+}
+
+# Assign messages
+$smarty->assign('lang',$lang);
+foreach ($messages as $key => $message) {
+    $smarty->assign('msg_'.$key,$message);
+}
+
+
+#==============================================================================
+# Route to action
+#==============================================================================
+$result = "";
+$action = "change";
+if (isset($default_action)) { $action = $default_action; }
+if (isset($_GET["action"]) and $_GET['action']) { $action = $_GET["action"]; }
+
+# Available actions
+$available_actions = array();
+if ( $use_change ) { array_push( $available_actions, "change"); }
+if ( $change_sshkey ) { array_push( $available_actions, "changesshkey"); }
+if ( $use_questions ) { array_push( $available_actions, "resetbyquestions", "setquestions"); }
+if ( $use_tokens ) { array_push( $available_actions, "resetbytoken", "sendtoken"); }
+if ( $use_sms ) { array_push( $available_actions, "resetbytoken", "sendsms"); }
+if ( !empty($change_custompwdfield) ) { array_push( $available_actions, "changecustompwdfield"); }
+if ( $use_attributes ) { array_push( $available_actions, "setattributes" ); }
+array_push( $available_actions, "checkentropy" );
+
+# Ensure requested action is available, or fall back to default
+if ( ! in_array($action, $available_actions) ) { $action = $default_action; }
+
+# By default, only display error logs and not the other levels
+error_reporting(0);
+if ($debug) {
+    error_reporting($debug_level);
+    # Set debug for LDAP
+    ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
+}
+
+if (file_exists($action.".php")) { require_once($action.".php"); }
+
+
 # Assign configuration variables
 $smarty->assign('ldap_params',array('ldap_url' => $ldap_url, 'ldap_starttls' => $ldap_starttls, 'ldap_binddn' => $ldap_binddn, 'ldap_bindpw' => $ldap_bindpw));
 $smarty->assign('logo',$logo);
@@ -336,7 +356,6 @@ $smarty->assign('default_action', $default_action);
 $smarty->assign('captcha_html', $captcha_html);
 $smarty->assign('captcha_js', $captcha_js);
 $smarty->assign('captcha_css', $captcha_css);
-//$smarty->assign('',);
 
 if (isset($source)) { $smarty->assign('source', $source); }
 if (isset($login)) { $smarty->assign('login', $login); }
@@ -368,23 +387,9 @@ if (isset($display_prehook_error)) { $smarty->assign('display_prehook_error', $d
 if (isset($display_posthook_error)) { $smarty->assign('display_posthook_error', $display_posthook_error); }
 if (isset($show_extended_error)) { $smarty->assign('show_extended_error', $show_extended_error); }
 if (isset($extended_error_msg)) { $smarty->assign('extended_error_msg', $extended_error_msg); }
-//if (isset($var)) { $smarty->assign('var', $var); }
 
 if (isset($use_attributes) && $use_attributes && isset($attribute_mail)) { $smarty->assign('attribute_mail_update', true); }
 if (isset($use_attributes) && $use_attributes && isset($attribute_phone)) { $smarty->assign('attribute_phone_update', true); }
-
-# Assign custom template variables
-foreach (get_defined_vars() as $key => $value) {
-    if (preg_match('/^tpl_(.+)/', $key, $matches)) {
-        $smarty->assign($matches[1], $value);
-    }
-}
-
-# Assign messages
-$smarty->assign('lang',$lang);
-foreach ($messages as $key => $message) {
-    $smarty->assign('msg_'.$key,$message);
-}
 
 
 $smarty->assign('action', $action);

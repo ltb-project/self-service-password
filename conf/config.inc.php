@@ -335,6 +335,7 @@ $mail_contenttype = 'text/plain';
 $mail_wordwrap = 0;
 $mail_charset = 'utf-8';
 $mail_priority = 3;
+$mail_embedded_images = array( 'logo' => $logo);
 
 ## SMS
 # Use sms

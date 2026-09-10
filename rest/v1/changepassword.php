@@ -54,7 +54,7 @@ if ( $ldap ) {
 
             # Get user email for notification
             if ( $notify_on_change ) {
-                $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry);
+                $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $entry, $mail_attributes);
             }
 
             # Check objectClass to allow samba and shadow updates
@@ -112,7 +112,7 @@ if ( $ldap ) {
                 }
 
                 if ( !$result ) {
-                    $result = check_password_strength($newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield);
+                    $result = \Ltb\Ppolicy::check_password_strength($newpassword, $oldpassword, $pwd_policy_config, $login, $entry_array, $change_custompwdfield);
 
                     #==============================================================================
                     # Change password
@@ -148,7 +148,10 @@ if ( $ldap ) {
 if ($result === "passwordchanged") {
     if ($mail and $notify_on_change) {
         $data = array( "login" => $login, "mail" => $mail, "password" => $newpassword);
-        if ( !send_mail($mailer, $mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"].$mail_signature, $data) ) {
+        $smarty->assign("mail_data", $data);
+        $smarty->assign("mail_signature", $mail_signature);
+        $html_body = $smarty->fetch('mails/passwordchanged.tpl');
+        if ( !$mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["changesubject"], $messages["changemessage"]. $mail_signature, $data, $html_body) ) {
             error_log("Error while sending change email to $mail (user $login)");
         }
     }
