@@ -31,6 +31,7 @@ $files = glob("../lang/*.php");
 $languages = str_replace(".inc.php", "", $files);
 $languages = str_replace("../lang/", "", $languages);
 $lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
+require_once("../lang/en.inc.php");
 require_once("../lang/$lang.inc.php");
 
 # Remove default questions
