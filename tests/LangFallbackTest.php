@@ -38,4 +38,39 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
             }
         }
     }
+
+    public function testMissingLocaleFileFallsBackToEnglish()
+    {
+        $tmpDir = sys_get_temp_dir() . '/ssp-lang-test-' . bin2hex(random_bytes(8));
+        mkdir($tmpDir, 0700, true);
+        $englishFile = $tmpDir . '/en.inc.php';
+        $localeFile = $tmpDir . '/missing.inc.php';
+
+        try {
+            file_put_contents($englishFile, "<?php\n\$messages['title'] = 'English title';\n\$messages['questions']['color'] = 'What is your favorite color?';\n");
+
+            $messages = array();
+            require $englishFile;
+            $englishMessages = $messages;
+
+            $messages = array();
+            if (file_exists($localeFile)) {
+                require $localeFile;
+            }
+            $messages = array_replace_recursive($englishMessages, $messages);
+
+            $this->assertSame('English title', $messages['title']);
+            $this->assertSame('What is your favorite color?', $messages['questions']['color']);
+        } finally {
+            if (file_exists($englishFile)) {
+                unlink($englishFile);
+            }
+            if (file_exists($localeFile)) {
+                unlink($localeFile);
+            }
+            if (is_dir($tmpDir)) {
+                rmdir($tmpDir);
+            }
+        }
+    }
 }

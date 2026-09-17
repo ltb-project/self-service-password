@@ -36,7 +36,10 @@ require("../lang/en.inc.php");
 $englishMessages = $messages;
 
 $messages = array();
-require("../lang/$lang.inc.php");
+$langFile = "../lang/$lang.inc.php";
+if (file_exists($langFile)) {
+    require($langFile);
+}
 
 $messages = array_replace_recursive($englishMessages, $messages);
 
