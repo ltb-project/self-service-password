@@ -116,21 +116,24 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidLanguageFallsBackToEnglish()
     {
+        require_once __DIR__ . '/../lib/language.inc.php';
+
         $languageFiles = array();
         foreach (glob(__DIR__ . '/../lang/*.inc.php') as $langFilePath) {
             $languageFiles[basename($langFilePath, '.inc.php')] = $langFilePath;
         }
+        $availableLanguages = array_keys($languageFiles);
 
-        $lang = '../../etc/passwd';
-        if (!array_key_exists($lang, $languageFiles)) {
-            $lang = 'en';
-        }
+        $lang = resolve_language_code('../../etc/passwd', $availableLanguages, $languageFiles);
         $this->assertSame('en', $lang);
 
-        $lang = 'zz';
-        if (!array_key_exists($lang, $languageFiles)) {
-            $lang = 'en';
-        }
+        $lang = resolve_language_code('zz', $availableLanguages, $languageFiles);
         $this->assertSame('en', $lang);
+
+        $lang = resolve_language_code('fr', array('fr'), $languageFiles);
+        $this->assertSame('fr', $lang);
+
+        $lang = resolve_language_code('fr', array('de'), $languageFiles);
+        $this->assertSame('de', $lang);
     }
 }

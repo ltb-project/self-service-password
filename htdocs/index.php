@@ -15,6 +15,7 @@ require_once("../conf/config.inc.php");
 #==============================================================================
 require_once("../vendor/autoload.php");
 require_once("../lib/functions.inc.php");
+require_once("../lib/language.inc.php");
 
 #==============================================================================
 # VARIABLES
@@ -32,10 +33,9 @@ foreach (glob("../lang/*.inc.php") as $lang_file_path) {
     $language_files[basename($lang_file_path, '.inc.php')] = $lang_file_path;
 }
 $languages = array_keys($language_files);
-$lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
-if (!array_key_exists($lang, $language_files)) {
-    $lang = "en";
-}
+$available_languages = $allowed_lang ? array_values(array_intersect($languages,$allowed_lang)) : $languages;
+$lang = \Ltb\Language::detect_language($lang, $available_languages);
+$lang = resolve_language_code($lang, $available_languages, $language_files);
 $messages = array();
 require("../lang/en.inc.php");
 $englishMessages = $messages;
