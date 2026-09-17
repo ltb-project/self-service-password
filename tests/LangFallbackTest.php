@@ -2,6 +2,21 @@
 
 class LangFallbackTest extends \PHPUnit\Framework\TestCase
 {
+    private function flattenMessages(array $messages, string $prefix = ''): array
+    {
+        $flat = array();
+        foreach ($messages as $key => $value) {
+            $fullKey = ($prefix === '') ? (string) $key : $prefix . '.' . (string) $key;
+            if (is_array($value)) {
+                $flat = array_merge($flat, $this->flattenMessages($value, $fullKey));
+            } else {
+                $flat[$fullKey] = $value;
+            }
+        }
+
+        return $flat;
+    }
+
     public function testFallbackToEnglishMessages()
     {
         $tmpDir = sys_get_temp_dir() . '/ssp-lang-test-' . bin2hex(random_bytes(8));
@@ -72,5 +87,21 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
                 rmdir($tmpDir);
             }
         }
+    }
+
+    public function testRealLanguageMergeKeepsEnglishKeyCoverage()
+    {
+        $messages = array();
+        require __DIR__ . '/../lang/en.inc.php';
+        $englishMessages = $messages;
+
+        $messages = array();
+        require __DIR__ . '/../lang/de.inc.php';
+        $mergedMessages = array_replace_recursive($englishMessages, $messages);
+
+        $englishFlat = $this->flattenMessages($englishMessages);
+        $mergedFlat = $this->flattenMessages($mergedMessages);
+
+        $this->assertEmpty(array_diff_key($englishFlat, $mergedFlat));
     }
 }

@@ -31,6 +31,9 @@ $files = glob("../lang/*.php");
 $languages = str_replace(".inc.php", "", $files);
 $languages = str_replace("../lang/", "", $languages);
 $lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
+if (!in_array($lang, $languages, true)) {
+    $lang = "en";
+}
 $messages = array();
 require("../lang/en.inc.php");
 $englishMessages = $messages;
