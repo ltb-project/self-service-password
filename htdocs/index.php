@@ -15,7 +15,6 @@ require_once("../conf/config.inc.php");
 #==============================================================================
 require_once("../vendor/autoload.php");
 require_once("../lib/functions.inc.php");
-require_once("../lib/language.inc.php");
 
 #==============================================================================
 # VARIABLES
@@ -28,24 +27,12 @@ else { $source="unknown"; }
 # Language
 #==============================================================================
 # Available languages
-$language_files = array();
-foreach (glob("../lang/*.inc.php") as $lang_file_path) {
-    $language_files[basename($lang_file_path, '.inc.php')] = $lang_file_path;
-}
-$languages = array_keys($language_files);
-$available_languages = $allowed_lang ? array_values(array_intersect($languages,$allowed_lang)) : $languages;
-$lang = \Ltb\Language::detect_language($lang, $available_languages);
-$lang = resolve_language_code($lang, $available_languages, $language_files);
-$messages = array();
-require("../lang/en.inc.php");
-$englishMessages = $messages;
-
-$messages = array();
-if (array_key_exists($lang, $language_files)) {
-    require($language_files[$lang]);
-}
-
-$messages = array_replace_recursive($englishMessages, $messages);
+$files = glob("../lang/*.php");
+$languages = str_replace(".inc.php", "", $files);
+$languages = str_replace("../lang/", "", $languages);
+$lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
+require_once("../lang/en.inc.php");
+require_once("../lang/$lang.inc.php");
 
 # Remove default questions
 if (!$questions_use_default) {
