@@ -33,8 +33,9 @@ function load_messages(string $file): array
 $reference = load_messages($langDir . '/en.inc.php');
 $referenceCount = count($reference);
 
-echo "Language report (reference: en, keys: $referenceCount)\n\n";
-echo str_pad("Language", 12) . str_pad("Translated", 12) . str_pad("Missing", 10) . "Completion\n";
+echo "Language report (reference: en, keys: $referenceCount)\n";
+echo "Translated % is based on keys whose value differs from English.\n\n";
+echo str_pad("Language", 12) . str_pad("Translated", 12) . str_pad("Missing", 10) . "Translated %\n";
 echo str_repeat("-", 44) . "\n";
 
 foreach ($files as $file) {
