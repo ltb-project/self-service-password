@@ -40,7 +40,8 @@ $reference = load_messages($referenceFile);
 $referenceCount = count($reference);
 
 echo "Language report (reference: en, keys: $referenceCount)\n";
-echo "Translated % is based on keys whose value differs from English.\n\n";
+echo "Translated % is an approximation based on keys whose value differs from English.\n";
+echo "It may undercount valid translations when English and local values are intentionally identical.\n\n";
 echo str_pad("Language", 12) . str_pad("Translated", 12) . str_pad("Missing", 10) . str_pad("Extra", 8) . "Translated %\n";
 echo str_repeat("-", 52) . "\n";
 

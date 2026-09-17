@@ -14,7 +14,11 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
 
         $messages = array();
         require $englishFile;
+        $englishMessages = $messages;
+
+        $messages = array();
         require $localeFile;
+        $messages = array_replace_recursive($englishMessages, $messages);
 
         unlink($englishFile);
         unlink($localeFile);

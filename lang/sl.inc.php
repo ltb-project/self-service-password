@@ -23,7 +23,7 @@
 # Slovenian
 #==============================================================================
 $messages['answer'] = "Odgovor";
-$messages['answerchanged'] = "Vaš odgovor ni bil registriran";
+$messages['answerchanged'] = "Vaš odgovor je bil registriran";
 $messages['answermoderror'] = "Vaš odgovor ni bil registriran";
 $messages['answernomatch'] = "Vaš odgovor ni pravilen";
 $messages['answerrequired'] = "Niste podali odgovora";
