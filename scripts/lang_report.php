@@ -41,8 +41,8 @@ $referenceCount = count($reference);
 
 echo "Language report (reference: en, keys: $referenceCount)\n";
 echo "Translated % is based on keys whose value differs from English.\n\n";
-echo str_pad("Language", 12) . str_pad("Translated", 12) . str_pad("Missing", 10) . "Translated %\n";
-echo str_repeat("-", 44) . "\n";
+echo str_pad("Language", 12) . str_pad("Translated", 12) . str_pad("Missing", 10) . str_pad("Extra", 8) . "Translated %\n";
+echo str_repeat("-", 52) . "\n";
 
 foreach ($files as $file) {
     $lang = basename($file, '.inc.php');
@@ -53,6 +53,7 @@ foreach ($files as $file) {
     $messages = load_messages($file);
     $translated = 0;
     $missing = array();
+    $extra = array();
 
     foreach ($reference as $key => $englishValue) {
         if (!array_key_exists($key, $messages)) {
@@ -64,15 +65,26 @@ foreach ($files as $file) {
         }
     }
 
+    foreach ($messages as $key => $value) {
+        if (!array_key_exists($key, $reference)) {
+            $extra[] = $key;
+        }
+    }
+
     $missingCount = count($missing);
+    $extraCount = count($extra);
     $percent = $referenceCount > 0 ? ($translated / $referenceCount) * 100 : 0;
 
     echo str_pad($lang, 12)
         . str_pad((string) $translated, 12)
         . str_pad((string) $missingCount, 10)
+        . str_pad((string) $extraCount, 8)
         . number_format($percent, 1) . "%\n";
 
     if ($missingCount > 0) {
         echo "  Missing keys: " . implode(', ', $missing) . "\n";
+    }
+    if ($extraCount > 0) {
+        echo "  Extra keys: " . implode(', ', $extra) . "\n";
     }
 }
