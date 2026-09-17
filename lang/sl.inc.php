@@ -100,7 +100,6 @@ $messages['resetmessage'] = "Pozdravljeni, {login},\\n\\nKliknite tukaj, da pona
 $messages['resetsubject'] = "Ponastavite geslo";
 $messages['sameaslogin'] = "Vaše novo geslo je enako uporabniškemu imenu";
 $messages['sameasold'] = "Vaše novo geslo je enako prejšnjemu";
-$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['sendsmshelpnosms'] = "Vnesite uporabniško ime, da dobite žeton za ponastavitev gesla. Potem vnesite žeton v poslani SMS.";
 $messages['sendtokenhelp'] = "Za ponastavitev gesla vnesite uporabniško ime in e-naslov. Ko dobite sporočilo, kliknite na povezavo.";
 $messages['sendtokenhelpnomail'] = "Za ponastavitev gesla vnesite uporabniško ime. Ko dobite sporočilo, kliknite na povezavo.";

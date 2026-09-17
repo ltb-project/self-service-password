@@ -125,8 +125,6 @@ $messages['question'] = "Pytanie";
 $messages['questionrequired'] = "Nie wybrano pytania";
 $messages['questions']['birthday'] = "Kiedy są Twoje urodziny?";
 $messages['questions']['color'] = "Jaki jest Twój ulubiony kolor?";
-$messages['questions']['pet'] = "Jakie jest imię Twojego ulubionego zwierzęcia?";
-$messages['questions']['wifehusband'] = "Jak ma na imię Twoja żona/Twój mąż?";
 $messages['questionspopulatehint'] = "Wpisz swoją nazwę użytkownika aby wyświetlić zarejestrowane pytania";
 $messages['resetbyquestionshelp'] = "Wybierz pytanie oraz odpowiedź w celu ponownego ustawienia Twojego hasła. Ta opcja wymaga wcześniejszej <a href=\"?action=setquestions\">rejestracji odpowiedzi</a>.";
 $messages['resetbysmshelp'] = "Token wysłany smsem umożliwia zresetowanie twojego hasła. Aby otrzymać nowy token, <a href=\"?action=sendsms\"> kliknij tutaj </a>.";

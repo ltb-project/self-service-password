@@ -90,7 +90,6 @@ $messages['resetbytokenhelp'] = "Odkaz poslaný e-mailom Vám umožní resetova�
 $messages['resetmessage'] = "Dobrý deň {login},\\n\\nKliknite sem pre resetovanie vášho hesla:\\n{url}\\n\\nAk ste nežiadali o zmenu hesla, prosím ignorujte tento e-mail.";
 $messages['resetsubject'] = "Zmena Vášho hesla";
 $messages['sameasold'] = "Vaše nové heslo je rovnaké ako vaše staré heslo";
-$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['sendsmshelpnosms'] = "Zadajte Vaše prihlasovacie meno pre získanie tokenu pre zmenu hesla. Potom zadajte token v odoslanej SMS.";
 $messages['sendtokenhelp'] = "Zadajte Vaše prihlasovacie meno a e-mail pre resetovanie hesla. Keď dostanete e-mail, kliknite na odkaz v e-maily pre dokončenie zmeny hesla.";
 $messages['sendtokenhelpnomail'] = "Zadajte Vaše prihlasovacie meno pre resetovanie hesla. Keď dostanete e-mail, kliknite na odkaz v e-maily pre dokončenie zmeny hesla.";

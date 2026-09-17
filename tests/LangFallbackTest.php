@@ -105,10 +105,12 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
 
             $messages = array();
             require $langFile;
+            $localeFlat = $this->flattenMessages($messages);
             $mergedMessages = array_replace_recursive($englishMessages, $messages);
             $mergedFlat = $this->flattenMessages($mergedMessages);
 
             $this->assertEmpty(array_diff_key($englishFlat, $mergedFlat), basename($langFile));
+            $this->assertEmpty(array_diff_key($localeFlat, $englishFlat), basename($langFile));
         }
     }
 }

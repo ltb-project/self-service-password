@@ -86,8 +86,6 @@ $messages['resetbytokenhelp'] = "Присланный в электронном 
 $messages['resetmessage'] = "Привет {login},\\n\\nКликните здесь для сброса пароля:\\n{url}\\n\\nЕсли Вы ошибочно выбрали, можете проигнорировать эти строки.";
 $messages['resetsubject'] = "Сбросьте Ваш пароль";
 $messages['sameasold'] = "Ваш новый пароль совпадает со старым";
-$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
-$messages['sendsmshelpnosms'] = "Enter your login to get password reset token. Then type token in sent SMS.";
 $messages['sendtokenhelp'] = "Введите Ваш логин и Ваш электронный адрес для сброса пароля. Затем кликните на ссылке в полученном электронном письме.";
 $messages['sendtokenhelpnomail'] = "Введите Ваш логин для сброса пароля. Затем кликните на ссылке в полученном электронном письме.";
 $messages['setquestionshelp'] = "Введите или измените контрольный вопрос/ответ. Затем Вы можете сбросить Ваш пароль <a href=\"?action=resetbyquestions\">here</a>.";

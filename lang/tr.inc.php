@@ -124,7 +124,6 @@ $messages['resetmessage'] = "Merhaba {login},\\n\\nParolanızı sıfırlamak iç
 $messages['resetsubject'] = "Parolanızı sıfırlayın";
 $messages['sameaslogin'] = "Yeni parolanız kullanıcı adınız ile aynı";
 $messages['sameasold'] = "Yeni parolanız ile eski parolanız aynı";
-$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['sendsmshelpnosms'] = "SMS almak için kullanıcı adınızı, sonrasında da SMS ile yollanan belirteci girin.";
 $messages['sendsmshelpupdatephone'] = "Telefon numaranızı <a href=\"?action=setattributes\">bu sayfada</a> güncelleyebilirsiniz.";
 $messages['sendtokenhelp'] = "Parolanızı sıfırlamak için kullanıcı adınızı ve e-posta adresinizi girin. İşlemi tamamlamak için e-postanın içindeki linke tıklayın.";

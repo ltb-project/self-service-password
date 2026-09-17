@@ -101,7 +101,6 @@ $messages['resetmessage'] = "{login} 您好，\\n\\n點選以下連結重新設�
 $messages['resetsubject'] = "重新設定您的密碼";
 $messages['sameaslogin'] = "您的新密碼與您的帳號相同";
 $messages['sameasold'] = "您的新密碼與舊密碼相同";
-$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['sendsmshelpnosms'] = "輸入您的帳號讀取密碼重新設定簡訊。然後輸入簡訊中的金鑰。";
 $messages['sendtokenhelp'] = "輸入您的帳號和信箱重新設定您的密碼。收到郵件後，點選連結完成重新設定密碼。";
 $messages['sendtokenhelpnomail'] = "輸入您的帳號重新設定您的密碼。收到郵件後，點選連結完成重新設定密碼。";

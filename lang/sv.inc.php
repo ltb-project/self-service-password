@@ -101,7 +101,6 @@ $messages['resetmessage'] = "Hej {login},\\n\\nKlicka här för att byta löseno
 $messages['resetsubject'] = "Byt ditt lösenord";
 $messages['sameaslogin'] = "Ditt nya lösenord är lika som ditt användarnamn";
 $messages['sameasold'] = "Ditt nya lösenord är identisk med ditt gamla lösenord";
-$messages['sendsmshelp'] = "Enter your login and your SMS number to get password reset token. Then type token in sent SMS.";
 $messages['sendsmshelpnosms'] = "Ange användarnamn för att får en Lösenkod. Ange sedan Lösenkoden som står i SMSet.";
 $messages['sendtokenhelp'] = "Ange ditt användarnamn och epostadress. Du kommer att får ett epostmeddelande med en länk för att byta lösenordet.";
 $messages['sendtokenhelpnomail'] = "Ange ditt användarnamn. Du kommer att får ett epostmeddelande med en länk för att byta lösenordet.";
