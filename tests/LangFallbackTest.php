@@ -94,14 +94,21 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
         $messages = array();
         require __DIR__ . '/../lang/en.inc.php';
         $englishMessages = $messages;
-
-        $messages = array();
-        require __DIR__ . '/../lang/de.inc.php';
-        $mergedMessages = array_replace_recursive($englishMessages, $messages);
-
         $englishFlat = $this->flattenMessages($englishMessages);
-        $mergedFlat = $this->flattenMessages($mergedMessages);
+        $langFiles = glob(__DIR__ . '/../lang/*.inc.php');
+        sort($langFiles, SORT_STRING);
 
-        $this->assertEmpty(array_diff_key($englishFlat, $mergedFlat));
+        foreach ($langFiles as $langFile) {
+            if (basename($langFile) === 'en.inc.php') {
+                continue;
+            }
+
+            $messages = array();
+            require $langFile;
+            $mergedMessages = array_replace_recursive($englishMessages, $messages);
+            $mergedFlat = $this->flattenMessages($mergedMessages);
+
+            $this->assertEmpty(array_diff_key($englishFlat, $mergedFlat), basename($langFile));
+        }
     }
 }
