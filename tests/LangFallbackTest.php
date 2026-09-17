@@ -113,4 +113,23 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
             $this->assertEmpty(array_diff_key($localeFlat, $englishFlat), basename($langFile));
         }
     }
+
+    public function testInvalidLanguageFallsBackToEnglish()
+    {
+        $files = glob(__DIR__ . '/../lang/*.inc.php');
+        $languages = str_replace('.inc.php', '', $files);
+        $languages = str_replace(__DIR__ . '/../lang/', '', $languages);
+
+        $lang = '../../etc/passwd';
+        if (!in_array($lang, $languages, true) || !preg_match('/^[a-z]{2}(?:-[A-Z]{2})?$/', $lang)) {
+            $lang = 'en';
+        }
+        $this->assertSame('en', $lang);
+
+        $lang = 'zz';
+        if (!in_array($lang, $languages, true) || !preg_match('/^[a-z]{2}(?:-[A-Z]{2})?$/', $lang)) {
+            $lang = 'en';
+        }
+        $this->assertSame('en', $lang);
+    }
 }

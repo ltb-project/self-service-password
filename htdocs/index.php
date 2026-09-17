@@ -31,7 +31,7 @@ $files = glob("../lang/*.php");
 $languages = str_replace(".inc.php", "", $files);
 $languages = str_replace("../lang/", "", $languages);
 $lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
-if (!in_array($lang, $languages, true)) {
+if (!in_array($lang, $languages, true) || !preg_match('/^[a-z]{2}(?:-[A-Z]{2})?$/', $lang)) {
     $lang = "en";
 }
 $messages = array();
