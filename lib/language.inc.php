@@ -19,5 +19,10 @@ function resolve_language_code($lang, $available_languages, $language_files) {
         return "en";
     }
 
-    return array_key_first($language_files);
+    $firstLanguage = array_key_first($language_files);
+    if ($firstLanguage !== null) {
+        return $firstLanguage;
+    }
+
+    return "en";
 }

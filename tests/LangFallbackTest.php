@@ -17,6 +17,25 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
         return $flat;
     }
 
+    private function assertCompatibleTypes(array $reference, array $locale, string $prefix = ''): void
+    {
+        foreach ($locale as $key => $value) {
+            if (!array_key_exists($key, $reference)) {
+                continue;
+            }
+
+            $currentKey = ($prefix === '') ? (string) $key : $prefix . '.' . (string) $key;
+            $referenceValue = $reference[$key];
+
+            if (is_array($referenceValue)) {
+                $this->assertIsArray($value, $currentKey);
+                $this->assertCompatibleTypes($referenceValue, $value, $currentKey);
+            } else {
+                $this->assertFalse(is_array($value), $currentKey);
+            }
+        }
+    }
+
     public function testFallbackToEnglishMessages()
     {
         $tmpDir = sys_get_temp_dir() . '/ssp-lang-test-' . bin2hex(random_bytes(8));
@@ -105,12 +124,14 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
 
             $messages = array();
             require $langFile;
+            $localeMessages = $messages;
             $localeFlat = $this->flattenMessages($messages);
             $mergedMessages = array_replace_recursive($englishMessages, $messages);
             $mergedFlat = $this->flattenMessages($mergedMessages);
 
             $this->assertEmpty(array_diff_key($englishFlat, $mergedFlat), basename($langFile));
             $this->assertEmpty(array_diff_key($localeFlat, $englishFlat), basename($langFile));
+            $this->assertCompatibleTypes($englishMessages, $localeMessages, basename($langFile));
         }
     }
 
@@ -135,5 +156,11 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
 
         $lang = resolve_language_code('fr', array('de'), $languageFiles);
         $this->assertSame('de', $lang);
+
+        $lang = resolve_language_code('fr', array(), $languageFiles);
+        $this->assertSame('en', $lang);
+
+        $lang = resolve_language_code('fr', array(), array());
+        $this->assertSame('en', $lang);
     }
 }
