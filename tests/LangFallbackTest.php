@@ -4,7 +4,7 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
 {
     public function testFallbackToEnglishMessages()
     {
-        $tmpDir = sys_get_temp_dir() . '/ssp-lang-test-' . uniqid();
+        $tmpDir = sys_get_temp_dir() . '/ssp-lang-test-' . bin2hex(random_bytes(8));
         mkdir($tmpDir, 0700, true);
         $englishFile = $tmpDir . '/en.inc.php';
         $localeFile = $tmpDir . '/xx.inc.php';
