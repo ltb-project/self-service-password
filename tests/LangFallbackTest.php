@@ -4,55 +4,24 @@ class LangFallbackTest extends \PHPUnit\Framework\TestCase
 {
     public function testFallbackToEnglishMessages()
     {
-        $messages = array();
-        require __DIR__ . '/../lang/en.inc.php';
-        $english = $messages;
+        $tmpDir = sys_get_temp_dir() . '/ssp-lang-test-' . uniqid();
+        mkdir($tmpDir, 0700, true);
+        $englishFile = $tmpDir . '/en.inc.php';
+        $localeFile = $tmpDir . '/xx.inc.php';
 
-        $langFiles = glob(__DIR__ . '/../lang/*.inc.php');
-        sort($langFiles, SORT_STRING);
-        $selectedLangFile = null;
-        $missingKey = null;
-        $translatedKey = null;
-
-        foreach ($langFiles as $langFile) {
-            if (basename($langFile) === 'en.inc.php') {
-                continue;
-            }
-
-            $messages = array();
-            require $langFile;
-
-            $candidateMissing = array_diff_key($english, $messages);
-            if (empty($candidateMissing)) {
-                continue;
-            }
-
-            $candidateTranslated = array();
-            foreach ($messages as $key => $value) {
-                if (array_key_exists($key, $english) && $value !== $english[$key]) {
-                    $candidateTranslated[] = $key;
-                }
-            }
-
-            if (empty($candidateTranslated)) {
-                continue;
-            }
-
-            $selectedLangFile = $langFile;
-            $missingKey = array_key_first($candidateMissing);
-            $translatedKey = $candidateTranslated[0];
-            break;
-        }
-
-        $this->assertNotNull($selectedLangFile, 'No language file with both missing and translated keys was found.');
-        $this->assertNotNull($missingKey, 'Missing key could not be determined.');
-        $this->assertNotNull($translatedKey, 'Translated key could not be determined.');
+        file_put_contents($englishFile, "<?php\n\$messages['title'] = 'English title';\n\$messages['mail'] = 'Mail';\n\$messages['questions']['birthday'] = 'When is your birthday?';\n");
+        file_put_contents($localeFile, "<?php\n\$messages['title'] = 'Titre local';\n\$messages['questions']['birthday'] = 'Quelle est votre date de naissance ?';\n");
 
         $messages = array();
-        require __DIR__ . '/../lang/en.inc.php';
-        require $selectedLangFile;
+        require $englishFile;
+        require $localeFile;
 
-        $this->assertSame($english[$missingKey], $messages[$missingKey]);
-        $this->assertNotSame($english[$translatedKey], $messages[$translatedKey]);
+        unlink($englishFile);
+        unlink($localeFile);
+        rmdir($tmpDir);
+
+        $this->assertSame('Mail', $messages['mail']);
+        $this->assertSame('Titre local', $messages['title']);
+        $this->assertSame('Quelle est votre date de naissance ?', $messages['questions']['birthday']);
     }
 }

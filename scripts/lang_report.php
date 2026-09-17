@@ -9,6 +9,12 @@ if (empty($files)) {
     exit(1);
 }
 
+$referenceFile = $langDir . '/en.inc.php';
+if (!file_exists($referenceFile)) {
+    fwrite(STDERR, "Missing reference language file: $referenceFile\n");
+    exit(1);
+}
+
 function flatten_messages(array $messages, string $prefix = ''): array
 {
     $flat = array();
@@ -30,7 +36,7 @@ function load_messages(string $file): array
     return flatten_messages($messages);
 }
 
-$reference = load_messages($langDir . '/en.inc.php');
+$reference = load_messages($referenceFile);
 $referenceCount = count($reference);
 
 echo "Language report (reference: en, keys: $referenceCount)\n";
