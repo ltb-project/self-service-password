@@ -27,11 +27,13 @@ else { $source="unknown"; }
 # Language
 #==============================================================================
 # Available languages
-$files = glob("../lang/*.php");
-$languages = str_replace(".inc.php", "", $files);
-$languages = str_replace("../lang/", "", $languages);
+$language_files = array();
+foreach (glob("../lang/*.inc.php") as $lang_file_path) {
+    $language_files[basename($lang_file_path, '.inc.php')] = $lang_file_path;
+}
+$languages = array_keys($language_files);
 $lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
-if (!in_array($lang, $languages, true) || !preg_match('/^[a-z]{2}(?:-[A-Z]{2})?$/', $lang)) {
+if (!array_key_exists($lang, $language_files)) {
     $lang = "en";
 }
 $messages = array();
@@ -39,9 +41,8 @@ require("../lang/en.inc.php");
 $englishMessages = $messages;
 
 $messages = array();
-$langFile = "../lang/$lang.inc.php";
-if (file_exists($langFile)) {
-    require($langFile);
+if (array_key_exists($lang, $language_files)) {
+    require($language_files[$lang]);
 }
 
 $messages = array_replace_recursive($englishMessages, $messages);
