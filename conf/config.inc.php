@@ -46,7 +46,8 @@ $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 #$ldap_build_user_dn = "$ldap_login_attribute={login},ou=users,$ldap_base";
 $ldap_fullname_attribute = "cn";
-$ldap_filter = "(&(objectClass=person)($ldap_login_attribute={login}))";
+$ldap_user_filter = "(objectClass=inetOrgPerson)";
+$ldap_filter = "(&$ldap_user_filter($ldap_login_attribute={login}))";
 $ldap_scope = "sub"; # possible values: sub, one, base
 $ldap_use_exop_passwd = false;
 $ldap_use_ppolicy_control = false;
@@ -316,6 +317,9 @@ $mail_from_name = "Self Service Password";
 $mail_signature = "";
 # Notify users anytime their password is changed
 $notify_on_change = false;
+# Notify users of password expiration (requires periodic execution of the script)
+$notify_password_expiration = true;
+$notify_password_expiration_days = array(1, 5, 10, 30);
 # PHPMailer configuration (see https://github.com/PHPMailer/PHPMailer)
 $mail_sendmailpath = '/usr/sbin/sendmail';
 $mail_protocol = 'smtp';
