@@ -365,7 +365,7 @@ You should also define the captcha module to use.
 .. tip:: The captcha is used on every form in Self Service Password
   (password change, token, questions,...)
 
-For ``$captcha_class``, you can select another captcha module. For now, only ``InternalCaptcha``, ``FriendlyCaptcha`` and ``ReCaptcha`` are supported.
+For ``$captcha_class``, you can select another captcha module. For now, only ``InternalCaptcha``, ``FriendlyCaptcha``, ``FriendlyCaptcha2``  and ``ReCaptcha`` are supported.
 
 If you want to set up ``ReCaptcha``, you must also configure additional parameters:
 
@@ -380,13 +380,17 @@ If you want to set up ``ReCaptcha``, you must also configure additional paramete
 
 See `ReCaptcha documentation <https://developers.google.com/recaptcha/docs/v3>`_ for more information
 
-If you want to set up ``FriendlyCaptcha``, you must also configure additional parameters:
+If you want to set up ``FriendlyCaptcha`` (v1 or v2) , you must also configure additional parameters:
 
 .. code-block:: php
 
    $use_captcha = true;
-   $captcha_class = "FriendlyCaptcha";
-   $friendlycaptcha_apiurl  = "https://api.friendlycaptcha.com/api/v1/siteverify";
+   # v1
+   #$captcha_class = "FriendlyCaptcha";
+   #$friendlycaptcha_apiurl  = "https://api.friendlycaptcha.com/api/v1/siteverify";
+   # v2
+   $captcha_class = "FriendlyCaptcha2";
+   $friendlycaptcha_apiurl  = "https://global.frcapi.com/api/v2/captcha/siteverify";
    $friendlycaptcha_sitekey = "FC123456789";
    $friendlycaptcha_secret  = "secret";
 
