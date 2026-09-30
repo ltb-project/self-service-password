@@ -1,3 +1,16 @@
+ltb-project-self-service-password (1.8.2-1) unstable; urgency=high
+
+    * gh#1123: Uncaught TypeError: LDAP value must be of type string|int|bool, float given
+    * gh#1146: Polish the Polish language translations in lang/pl.inc.php
+    * gh#1153: Ownership of `/var/cache/self-service-password/**` wrong in DEBs since 1.8
+    * gh#1154: Bump guzzlehttp/guzzle from 7.4.5 to 7.15.1 in /lib
+    * gh#1155: Bump guzzlehttp/psr7 from 2.11.0 to 2.13.0 in /lib
+    * gh#1158: Bump guzzlehttp/guzzle from 7.15.1 to 7.15.2 in /lib
+    * gh#1172: Rate limiter unreachable for failed answer attempts
+    * gh#1173: Missing SMS token attempt limiter
+
+ -- Clement Oudot <clem@ltb-project.org>  Wed, 30 Sep 2026 12:00:00 +0200
+
 ltb-project-self-service-password (1.8.1-1) unstable; urgency=high
 
     * gh#1138: "developpers" typo in various docs

@@ -16,7 +16,7 @@
 %undefine __brp_mangle_shebangs
 
 Name: self-service-password
-Version: 1.8.1
+Version: 1.8.2
 Release: 1%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
@@ -192,13 +192,23 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
-* Thu Jun 11 2025 - Clement Oudot <clem@ltb-project.org> - 1.8.1-1
+* Wed Sep 30 2026 - Clement Oudot <clem@ltb-project.org> - 1.8.2-1
+- gh#1123: Uncaught TypeError: LDAP value must be of type string|int|bool, float given
+- gh#1146: Polish the Polish language translations in lang/pl.inc.php
+- gh#1153: Ownership of `/var/cache/self-service-password/**` wrong in DEBs since 1.8
+- gh#1154: Bump guzzlehttp/guzzle from 7.4.5 to 7.15.1 in /lib
+- gh#1155: Bump guzzlehttp/psr7 from 2.11.0 to 2.13.0 in /lib
+- gh#1158: Bump guzzlehttp/guzzle from 7.15.1 to 7.15.2 in /lib
+- gh#1172: Rate limiter unreachable for failed answer attempts
+- gh#1173: Missing SMS token attempt limiter
+
+* Thu Jun 11 2026 - Clement Oudot <clem@ltb-project.org> - 1.8.1-1
 - gh#1138: "developpers" typo in various docs
 - gh#1140: Argument #2 could not be passed by reference
 - gh#1142: multi_ldap_change.php: $directory should be $s_directory in change_password() call
 - gh#1143: Fix call of change_password function insed multi-ldap-change script
 
-* Wed May 27 2025 - Clement Oudot <clem@ltb-project.org> - 1.8.0-1
+* Wed May 27 2026 - Clement Oudot <clem@ltb-project.org> - 1.8.0-1
 - gh#984: Use ltb-common Directory module for password change
 - gh#1035: transfer the AD specific code into the ltb-common Directory interface
 - gh#1037: Ukrainian translation corrected
