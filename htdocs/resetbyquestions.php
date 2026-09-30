@@ -196,19 +196,18 @@ if ( $result === ""  || $populate_questions) {
                     $entry_array = ldap_get_attributes($ldap, $entry);
                     $entry_array['dn'] = $userdn;
                 }
+
+                if ( $use_ratelimit ) {
+                    if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
+                        $result = "throttle";
+                        error_log("LDAP - User $login too fast");
+                    }
+                }
+
             }
     }
 }
 
-
-if ( !$result ) {
-    if ( $use_ratelimit ) {
-        if ( ! allowed_rate($login,$_SERVER[$client_ip_header],$rrl_config) ) {
-            $result = "throttle";
-            error_log("LDAP - User $login too fast");
-        }
-    }
-}
 
 #==============================================================================
 # Check and register new passord
