@@ -46,11 +46,12 @@ $ldap_base = "dc=example,dc=com";
 $ldap_login_attribute = "uid";
 #$ldap_build_user_dn = "$ldap_login_attribute={login},ou=users,$ldap_base";
 $ldap_fullname_attribute = "cn";
-$ldap_user_filter = "(objectClass=inetOrgPerson)";
+$ldap_user_filter = "(objectClass=person)";
 $ldap_filter = "(&$ldap_user_filter($ldap_login_attribute={login}))";
 $ldap_scope = "sub"; # possible values: sub, one, base
 $ldap_use_exop_passwd = false;
 $ldap_use_ppolicy_control = false;
+#$ldap_default_ppolicy = "cn=default,ou=ppolicy,dc=example,dc=com";
 $ldap_network_timeout = 10;
 $ldap_page_size = 0;
 
