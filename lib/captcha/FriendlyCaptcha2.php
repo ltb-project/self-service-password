@@ -93,7 +93,7 @@ class FriendlyCaptcha2
                 $result = "badcaptcha";
             } else {
                 $json_response = json_decode($response);
-                if( $json_response->success !== "true" )
+                if( $json_response->success !== true )
                 {
                     error_log("Error while verifying captcha $captchaphrase on ".$this->friendlycaptcha_apiurl.": ".var_export($json_response->error ?? ($json_response->errors ?? null), true));
                     $result = "badcaptcha";

@@ -59,7 +59,7 @@ class FriendlyCaptcha2Test extends \PHPUnit\Framework\TestCase
         $friendlycaptcha_apiurl = 'http://127.0.0.1/';
         $friendlycaptcha_sitekey = 'FC12345';
         $friendlycaptcha_secret = 'secret';
-        $http_response = '{"success": "true"}';
+        $http_response = '{"success": true}';
 
         $captchaInstance = new captcha\FriendlyCaptcha2($friendlycaptcha_apiurl,
                                                        $friendlycaptcha_sitekey,
