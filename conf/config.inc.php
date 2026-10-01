@@ -433,6 +433,11 @@ $captcha_class = "InternalCaptcha";
 #$friendlycaptcha_sitekey = "secret";
 #$friendlycaptcha_secret  = "secret";
 
+#$captcha_class = "FriendlyCaptcha2";
+#$friendlycaptcha_apiurl  = "https://global.frcapi.com/api/v2/captcha/siteverify";
+#$friendlycaptcha_sitekey = "secret";
+#$friendlycaptcha_secret  = "secret";
+
 #$captcha_class       = "ReCaptcha";
 #$recaptcha_url       = "https://www.google.com/recaptcha/api/siteverify";
 #$recaptcha_sitekey   = "sitekey";
