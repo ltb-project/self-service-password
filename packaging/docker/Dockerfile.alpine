@@ -6,7 +6,7 @@ ARG SMARTY_URL=https://github.com/smarty-php/smarty/archive/refs/tags/v${SMARTY_
 ARG COMPOSER_VERSION=lts
 ARG COMPOSER_IMAGE=composer/composer:${COMPOSER_VERSION}-bin
 
-ARG ALPINE_VERSION=3.23
+ARG ALPINE_VERSION=3.24
 ARG PHP_VERSION=8.5
 
 ARG PHP_IMAGE=php:${PHP_VERSION}-alpine${ALPINE_VERSION}
