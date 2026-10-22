@@ -30,8 +30,10 @@ LDAP ObjectClass
 ----------------
 
 Set the LDAP objectClass that defines the attribute. If the objectClass is specified,
-it is added to the user record if it does not already exist.
-If the object class is not specified, no check is made - default value is ``ldapPublicKey``:
+it is added to the user record if it does not already exist. The presence check is
+case-insensitive, and the value is added exactly as written here, so use the spelling
+from your directory schema.
+Set it to an empty string to disable the check - default value is ``ldapPublicKey``:
 
 .. code-block:: php
 
