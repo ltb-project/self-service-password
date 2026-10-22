@@ -6,7 +6,7 @@ ARG SMARTY_URL=https://github.com/smarty-php/smarty/archive/refs/tags/v${SMARTY_
 ARG COMPOSER_VERSION=lts
 ARG COMPOSER_IMAGE=composer/composer:${COMPOSER_VERSION}-bin
 
-ARG BASE_IMAGE=php:8.5.6-apache-trixie
+ARG BASE_IMAGE=php:8.5.12-apache-trixie
 
 FROM ${COMPOSER_IMAGE} AS composer
 FROM ${BASE_IMAGE} AS base
