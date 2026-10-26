@@ -174,61 +174,50 @@ function check_sshkey ( $sshkey, $valid_types ) {
 function change_sshkey( $ldap, $dn, $objectClass, $attribute, $sshkey ) {
 
     $result = "";
-    $keys = preg_split('/\n|\r\n?/', $sshkey);
-    $userdata[$attribute] = $keys[0];
+    $keys = array();
+    foreach ( preg_split('/\n|\r\n?/', (string) $sshkey) as $line ) {
+        if ( preg_match('/^[ \t]*$/', $line) ) {
+            continue;
+        }
+        $keys[] = $line;
+    }
+    $keys = array_values(array_unique($keys));
+    $modifs[0] = array(
+        "attrib" => $attribute,
+        "modtype" => LDAP_MODIFY_BATCH_REPLACE,
+         "values"  => $keys,
+    );
 
     # check for required objectclass, if configured
     if ($objectClass !== "") {
-        # Check objectClass presence and pull back previous answers.
-        $search = ldap_search($ldap, $dn, "(objectClass=*)", array("objectClass") );
+        $search = ldap_search($ldap, $dn, "(objectClass=".$objectClass.")", array("1.1") );
 
         $errno = ldap_errno($ldap);
         if ( $errno ) {
             $result = "ldaperror";
             error_log("LDAP - Search error $errno (".ldap_error($ldap).")");
         } else {
-
-            # Get objectClass values from user entry
-            $entry = ldap_first_entry($ldap, $search);
-            $ocValues = ldap_get_values($ldap, $entry, "objectClass");
-
-            # Remove 'count' key
-            unset($ocValues["count"]);
-
-            if (! in_array( $objectClass, $ocValues ) ) {
-                # Answer objectClass is not present, add it
-                array_push($ocValues, $objectClass );
-                $ocValues = array_values( $ocValues );
-                $userdata["objectClass"] = $ocValues;
+            if ( ldap_count_entries($ldap, $search) == 0 ) {
+                # Entry not found, add objectClass
+                $modifs[1] = array(
+                    "attrib" => "objectClass",
+                    "modtype" => LDAP_MODIFY_BATCH_ADD,
+                    "values"  => [$objectClass],
+                );
             }
         }
     }
 
     # Commit modification on directory
-    $replace = ldap_mod_replace($ldap, $dn, $userdata);
+    $modify = ldap_modify_batch($ldap, $dn, $modifs);
 
     $errno = ldap_errno($ldap);
 
-    if ( $errno ) {
+    if ( !$modify or $errno ) {
         $result = "sshkeyerror";
         error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
     } else {
-        for ($c = 1; $c < count($keys); $c++) {
-            if (preg_match('/^[ \t]*$/', $keys[$c])) {
-                continue;
-            }
-            $userdata[$attribute] = $keys[$c];
-            $add = ldap_mod_add($ldap, $dn, $userdata);
-            $errno = ldap_errno($ldap);
-            if ( $errno ) {
-                $result = "sshkeyerror";
-                error_log("LDAP - Modify $attribute error $errno (".ldap_error($ldap).")");
-                break;
-            }
-        }
-        if ($result === "") {
-            $result = "sshkeychanged";
-        }
+        $result = "sshkeychanged";
     }
 
     return $result;
