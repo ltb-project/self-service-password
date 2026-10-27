@@ -75,6 +75,20 @@ switch($ldap_type) {
 }
 
 #==============================================================================
+# Statistics
+#==============================================================================
+$stats = array(
+    'total_entries' => 0,
+    'expired_entries' => 0,
+    'will_expire_later_entries' => 0,
+    'never_expire_entries' => 0
+);
+
+foreach ($notify_password_expiration_days as $days) {
+    $stats['will_expire_entries'][$days] = 0;
+}
+
+#==============================================================================
 # Search accounts
 #==============================================================================
 $ldap_connection = $ldapInstance->connect();
@@ -110,10 +124,62 @@ list($passwordPolicies, $userPolicies) = $directory->getPwdPolicies(
 
 foreach($entries as $entry_key => $entry) {
 
-    if ($debug) {
-        fwrite(STDOUT, "Check entry ".$entry['dn']."\n");
-    }
+    $stats['total_entries']++;
 
+    # Get password policy configuration
+    $pwdPolicyConfiguration = $userPolicies[$entry['dn']];
+    if (isset($ldap_password_max_age) and $ldap_password_max_age) { $pwdPolicyConfiguration['password_max_age'] = $ldap_password_max_age; }
+
+    $isExpired = $directory->isPasswordExpired($entry, $pwdPolicyConfiguration);
+    $expirationDate = $directory->getPasswordExpirationDate($entry, $pwdPolicyConfiguration);
+
+    if ( $isExpired === true ) {
+        if ($debug) {
+            fwrite(STDOUT, $entry['dn']." -> EXPIRED\n");
+        }
+        $stats['expired_entries']++;
+        unset($entries[$entry_key]);
+        continue;
+    }
+    if ($expirationDate) {
+        foreach ($notify_password_expiration_days as $days) {
+            $expirationDateClone = clone $expirationDate;
+            $willExpireDate = date_sub( $expirationDateClone, new DateInterval('P'.$days.'D'));
+            $time = time();
+            if ( $time >= $willExpireDate->getTimestamp() and ($time < $willExpireDate->getTimestamp() + 86400) ) {
+                if ($debug) {
+                    fwrite(STDOUT, $entry['dn']." -> WILL EXPIRE IN $days DAYS\n");
+                }
+                $stats['will_expire_entries'][$days]++;
+                unset($entries[$entry_key]);
+                continue 2;
+            }
+        }
+    } else {
+        if ($debug) {
+            fwrite(STDOUT, $entry['dn']." -> WILL NEVER EXPIRE\n");
+        }
+        unset($entries[$entry_key]);
+        $stats['never_expire_entries']++;
+    }
 }
+
+foreach($entries as $entry_key => $entry) {
+    if ($debug) {
+        fwrite(STDOUT, $entry['dn']." -> WILL EXPIRE LATER\n");
+    }
+    $stats['will_expire_later_entries']++;
+}
+
+
+# Display statistics
+fwrite(STDOUT, "[LTB Self Service Password] Notify password expiration\n");
+fwrite(STDOUT, "- Total entries read: ".$stats['total_entries']."\n");
+fwrite(STDOUT, "- Expired entries: ".$stats['expired_entries']."\n");
+fwrite(STDOUT, "- Never expire entries: ".$stats['never_expire_entries']."\n");
+foreach ($notify_password_expiration_days as $days) {
+    fwrite(STDOUT, "- Entries expiring in $days days: ".$stats['will_expire_entries'][$days]."\n");
+}
+fwrite(STDOUT, "- Will expire later entries: ".$stats['will_expire_later_entries']."\n");
 
 exit(0);
