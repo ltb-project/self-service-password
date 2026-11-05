@@ -1,4 +1,25 @@
 <?php
+
+#==============================================================================
+# Script options
+#==============================================================================
+$options = getopt("hnv");
+
+$help = isset($options["h"]);
+$dryrun = isset($options["n"]);
+$verbose = isset($options["v"]);
+
+#==============================================================================
+# Help
+#==============================================================================
+if ($help) {
+    fwrite(STDOUT, "Usage: ".basename(__FILE__)." -h -n -v\n");
+    fwrite(STDOUT, "-h: this help message\n");
+    fwrite(STDOUT, "-n: dry-run (do not send mails)\n");
+    fwrite(STDOUT, "-v: verbose mode\n");
+    exit(0);
+}
+
 #==============================================================================
 # Includes
 #==============================================================================
@@ -11,7 +32,7 @@ if (!$notify_password_expiration) {
     exit(1);
 }
 
-if ($debug) {
+if ($verbose) {
     fwrite(STDOUT, "Launching notify password expiration job\n");
 }
 
@@ -136,7 +157,7 @@ foreach($entries as $entry_key => $entry) {
     $expirationDate = $directory->getPasswordExpirationDate($entry, $pwdPolicyConfiguration);
 
     if ( $isExpired === true ) {
-        if ($debug) {
+        if ($verbose) {
             fwrite(STDOUT, $entry['dn']." -> EXPIRED\n");
         }
         $stats['expired_entries']++;
@@ -149,7 +170,7 @@ foreach($entries as $entry_key => $entry) {
             $willExpireDate = date_sub( $expirationDateClone, new DateInterval('P'.$days.'D'));
             $time = time();
             if ( $time >= $willExpireDate->getTimestamp() and ($time < $willExpireDate->getTimestamp() + 86400) ) {
-                if ($debug) {
+                if ($verbose) {
                     fwrite(STDOUT, $entry['dn']." -> WILL EXPIRE IN $days DAYS\n");
                 }
                 $stats['will_expire_entries'][$days]++;
@@ -159,15 +180,22 @@ foreach($entries as $entry_key => $entry) {
                 $ldap_entry = ldap_first_entry($ldap, $search);
                 $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $ldap_entry, $mail_attributes);
                 $data = array("name" =>  $entry['cn'][0], "days" => $days, "url" => $reset_url);
-                if ($mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["notifyexpirationsubject"], $messages["notifyexpirationmessage"], $data)) {
-                    $stats['mail_sent']++;
-                    if ($debug) {
-                        fwrite(STDOUT, $entry['dn']." -> Mail sent to $mail\n");
+
+                if ($dryrun) {
+                    if ($verbose) {
+                        fwrite(STDOUT, $entry['dn']." -> Dry-run mode; mail should have been sent to $mail\n");
                     }
                 } else {
-                    $stats['mail_in_error']++;
-                    if ($debug) {
-                        fwrite(STDOUT, $entry['dn']." -> Error, mail not sent to $mail\n");
+                    if ($mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["notifyexpirationsubject"], $messages["notifyexpirationmessage"], $data)) {
+                        $stats['mail_sent']++;
+                        if ($verbose) {
+                            fwrite(STDOUT, $entry['dn']." -> Mail sent to $mail\n");
+                        }
+                    } else {
+                        $stats['mail_in_error']++;
+                        if ($verbose) {
+                            fwrite(STDOUT, $entry['dn']." -> Error, mail not sent to $mail\n");
+                        }
                     }
                 }
 
@@ -175,7 +203,7 @@ foreach($entries as $entry_key => $entry) {
             }
         }
     } else {
-        if ($debug) {
+        if ($verbose) {
             fwrite(STDOUT, $entry['dn']." -> WILL NEVER EXPIRE\n");
         }
         unset($entries[$entry_key]);
@@ -184,7 +212,7 @@ foreach($entries as $entry_key => $entry) {
 }
 
 foreach($entries as $entry_key => $entry) {
-    if ($debug) {
+    if ($verbose) {
         fwrite(STDOUT, $entry['dn']." -> WILL EXPIRE LATER\n");
     }
     $stats['will_expire_later_entries']++;
