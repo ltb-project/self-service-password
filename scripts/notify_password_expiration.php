@@ -77,7 +77,7 @@ $mailer = new \Ltb\Mail(
 
 # Embedded images
 foreach ($mail_embedded_images as $img_key => $img_path) {
-    $mailer->AddEmbeddedImage($img_path, $img_key);
+    $mailer->AddEmbeddedImage(__DIR__."/../htdocs/".$img_path, $img_key);
 }
 
 #==============================================================================
