@@ -37,6 +37,21 @@ if ($verbose) {
 }
 
 #==============================================================================
+# Language
+#==============================================================================
+# Available languages
+$files = glob(__DIR__."/../lang/*.php");
+$languages = str_replace(".inc.php", "", $files);
+$languages = str_replace(__DIR__."/../lang/", "", $languages);
+$lang = \Ltb\Language::detect_language($lang, $allowed_lang ? array_intersect($languages,$allowed_lang) : $languages);
+require_once(__DIR__."/../lang/en.inc.php");
+require_once(__DIR__."/../lang/$lang.inc.php");
+
+if (file_exists(__DIR__."/../conf/$lang.inc.php")) {
+    require_once(__DIR__."/../conf/$lang.inc.php");
+}
+
+#==============================================================================
 # Email Config
 #==============================================================================
 $mailer = new \Ltb\Mail(
@@ -93,6 +108,44 @@ switch($ldap_type) {
   case "activedirectory":
     $directory = new \Ltb\Directory\ActiveDirectory();
   break;
+}
+
+#==============================================================================
+# Smarty
+#==============================================================================
+require_once(SMARTY);
+
+$compile_dir = isset($smarty_compile_dir) ? $smarty_compile_dir : __DIR__."/../templates_c/";
+$cache_dir = isset($smarty_cache_dir) ? $smarty_cache_dir : __DIR__."/../cache/";
+$tpl_dir = isset($custom_tpl_dir) ? array(__DIR__.'/../'.$custom_tpl_dir, __DIR__.'/../templates/') : __DIR__.'/../templates/';
+
+$smarty = new Smarty();
+$smarty->escape_html = true;
+$smarty->setTemplateDir($tpl_dir);
+$smarty->setCompileDir($compile_dir);
+$smarty->setCacheDir($cache_dir);
+$smarty->debugging = $smarty_debug;
+if(isset($smarty_debug) && $smarty_debug == true )
+{
+    $smarty->error_reporting = E_ALL;
+}
+else
+{
+    # Do not report smarty stuff unless $smarty_debug == true
+    $smarty->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING;
+}
+
+# Assign custom template variables
+foreach (get_defined_vars() as $key => $value) {
+    if (preg_match('/^tpl_(.+)/', $key, $matches)) {
+        $smarty->assign($matches[1], $value);
+    }
+}
+
+# Assign messages
+$smarty->assign('lang',$lang);
+foreach ($messages as $key => $message) {
+    $smarty->assign('msg_'.$key,$message);
 }
 
 #==============================================================================
@@ -180,13 +233,16 @@ foreach($entries as $entry_key => $entry) {
                 $ldap_entry = ldap_first_entry($ldap, $search);
                 $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $ldap_entry, $mail_attributes);
                 $data = array("name" =>  $entry['cn'][0], "days" => $days, "url" => $reset_url);
+                $smarty->assign("mail_data", $data);
+                $smarty->assign("mail_signature", $mail_signature);
+                $html_body = $smarty->fetch('mails/passwordexpiration.tpl');
 
                 if ($dryrun) {
                     if ($verbose) {
                         fwrite(STDOUT, $entry['dn']." -> Dry-run mode; mail should have been sent to $mail\n");
                     }
                 } else {
-                    if ($mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["notifyexpirationsubject"], $messages["notifyexpirationmessage"], $data)) {
+                    if ($mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["notifyexpirationsubject"], $messages["notifyexpirationmessage"], $data, $html_body)) {
                         $stats['mail_sent']++;
                         if ($verbose) {
                             fwrite(STDOUT, $entry['dn']." -> Mail sent to $mail\n");
