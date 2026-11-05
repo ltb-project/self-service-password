@@ -81,7 +81,9 @@ $stats = array(
     'total_entries' => 0,
     'expired_entries' => 0,
     'will_expire_later_entries' => 0,
-    'never_expire_entries' => 0
+    'never_expire_entries' => 0,
+    'mail_sent' => 0,
+    'mail_in_error' => 0
 );
 
 foreach ($notify_password_expiration_days as $days) {
@@ -152,6 +154,23 @@ foreach($entries as $entry_key => $entry) {
                 }
                 $stats['will_expire_entries'][$days]++;
                 unset($entries[$entry_key]);
+
+                $search = $ldapInstance->search_with_scope("base", $entry['dn'], "(objectClass=*)");
+                $ldap_entry = ldap_first_entry($ldap, $search);
+                $mail = \Ltb\AttributeValue::ldap_get_mail_for_notification($ldap, $ldap_entry, $mail_attributes);
+                $data = array("name" =>  $entry['cn'][0], "days" => $days, "url" => $reset_url);
+                if ($mailer->send_mail($mail, $mail_from, $mail_from_name, $messages["notifyexpirationsubject"], $messages["notifyexpirationmessage"], $data)) {
+                    $stats['mail_sent']++;
+                    if ($debug) {
+                        fwrite(STDOUT, $entry['dn']." -> Mail sent to $mail\n");
+                    }
+                } else {
+                    $stats['mail_in_error']++;
+                    if ($debug) {
+                        fwrite(STDOUT, $entry['dn']." -> Error, mail not sent to $mail\n");
+                    }
+                }
+
                 continue 2;
             }
         }
@@ -173,7 +192,7 @@ foreach($entries as $entry_key => $entry) {
 
 
 # Display statistics
-fwrite(STDOUT, "[LTB Self Service Password] Notify password expiration\n");
+fwrite(STDOUT, "[LTB Self Service Password] Notify password expiration statistics\n");
 fwrite(STDOUT, "- Total entries read: ".$stats['total_entries']."\n");
 fwrite(STDOUT, "- Expired entries: ".$stats['expired_entries']."\n");
 fwrite(STDOUT, "- Never expire entries: ".$stats['never_expire_entries']."\n");
@@ -181,5 +200,7 @@ foreach ($notify_password_expiration_days as $days) {
     fwrite(STDOUT, "- Entries expiring in $days days: ".$stats['will_expire_entries'][$days]."\n");
 }
 fwrite(STDOUT, "- Will expire later entries: ".$stats['will_expire_later_entries']."\n");
+fwrite(STDOUT, "- Mails succesfully sent: ".$stats['mail_sent']."\n");
+fwrite(STDOUT, "- Mails in error: ".$stats['mail_in_error']."\n");
 
 exit(0);
