@@ -25,7 +25,7 @@ Multi tenancy
 -------------
 
 You can load a specific configuration file by passing a HTTP header.
-This feature is disable by default. In ``config.in.local.php`` add the following
+This feature is disabled by default. In ``config.inc.local.php`` add the following
  to enable it:
 
 .. code-block:: php
