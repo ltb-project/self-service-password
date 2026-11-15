@@ -23,6 +23,7 @@ LDAP Tool Box Self Service Password documentation
    config_custompwdfield.rst
    config_rate_limit.rst
    webservices.rst
+   health.rst
    audit.rst
    set_attributes.rst
    developers.rst

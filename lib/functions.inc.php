@@ -115,8 +115,8 @@ function change_password( $directory, $ldapInstance, $dn, $password, $ldap_optio
     } elseif ( $error_code > 0 ) {
         $result = "passworderror";
         error_log("LDAP - Modify password error $error_code ($error_msg)");
-        if ( $ppolicy_error_code != false && $ppolicy_error_code > 4 ) { 
-            $result = \Ltb\Ldap::PPOLICY_ERROR_CODE_TO_RESULT_MAPPER[$ppolicy_error_code]; 
+        if ( $ppolicy_error_code != false && $ppolicy_error_code > 4 ) {
+            $result = \Ltb\Ldap::PPOLICY_ERROR_CODE_TO_RESULT_MAPPER[$ppolicy_error_code];
         }
     } else {
         $result = "passwordchanged";
@@ -415,4 +415,26 @@ function allowed_rate($login,$ip_addr,$rrl_config) {
         }
     }
     return true;
+}
+
+/* @function bool array_callback_value_is_ok(string $value, mixed $key)
+ * String comparison callback for array items. Compares the given value of an array iteration against
+ * the literal string value "ok".
+ * @param $value array value to compare
+ * @param $key array key (ignored, but required to match the array callback signature requirements)
+ * @return bool true if the value matches the literal string "ok"
+ */
+function array_callback_value_is_ok(mixed $value, mixed $key): bool {
+    return $value === "ok";
+}
+
+/* @function render_api_response(mixed $response, int $statusCode = 200)
+ * Helper function to render the provided data as JSON reply.
+ * @param $response payload to render
+ * @param $statusCode HTTP status code to set
+ */
+function render_api_response(mixed $response, int $statusCode = 200) {
+    http_response_code($statusCode);
+    header("Content-Type: application/json");
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
 }
