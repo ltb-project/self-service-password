@@ -44,6 +44,16 @@ if (file_exists("../conf/$lang.inc.php")) {
     require_once("../conf/$lang.inc.php");
 }
 
+if (isset($header_name_extra_config)) {
+    $extraConfigKey = "HTTP_".strtoupper(str_replace('-','_',$header_name_extra_config));
+    if (array_key_exists($extraConfigKey, $_SERVER)) {
+        $extraConfig = preg_replace("/[^a-zA-Z0-9-_]+/", "", htmlspecialchars($_SERVER[$extraConfigKey]));
+        if (strlen($extraConfig) > 0 && file_exists ("../conf/$lang.inc.$extraConfig.php")) {
+            require_once  "../conf/$lang.inc.$extraConfig.php";
+        }
+    }
+}
+
 #==============================================================================
 # PHP modules
 #==============================================================================
