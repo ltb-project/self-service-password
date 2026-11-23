@@ -110,12 +110,17 @@ function change_password( $directory, $ldapInstance, $dn, $password, $ldap_optio
                                            $ldap_options
                                          );
 
+    # A ppolicy error code is only returned when the server rejected the
+    # change, even if the PHP LDAP layer reported error code 0
+    # (ldap_exop_passwd() with controls does not set ldap_errno())
+    $has_ppolicy_error = ( $ppolicy_error_code !== false && $ppolicy_error_code !== null );
+
     if ( !isset($error_code) ) {
         $result = "ldaperror";
-    } elseif ( $error_code > 0 ) {
+    } elseif ( $error_code > 0 || $has_ppolicy_error ) {
         $result = "passworderror";
-        error_log("LDAP - Modify password error $error_code ($error_msg)");
-        if ( $ppolicy_error_code != false && $ppolicy_error_code > 4 ) { 
+        error_log("LDAP - Modify password error $error_code ($error_msg), ppolicy error code: " . var_export($ppolicy_error_code, true));
+        if ( $has_ppolicy_error && $ppolicy_error_code > 4 ) { 
             $result = \Ltb\Ldap::PPOLICY_ERROR_CODE_TO_RESULT_MAPPER[$ppolicy_error_code]; 
         }
     } else {
