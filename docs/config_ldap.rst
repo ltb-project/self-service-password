@@ -156,11 +156,12 @@ You can set the base of the search in ``$ldap_base``:
 
    $ldap_base = "dc=example,dc=com";
 
-The filter can be set in ``$ldap_filter``:
+Configure the filter to search all user accounts, and the filter to get the entry matching the login of the user:
 
 .. code-block:: php
 
-   $ldap_filter = "(&(objectClass=person)(uid={login}))";
+   $ldap_user_filter = "(objectClass=person)";
+   $ldap_filter = "(&$ldap_user_filter($ldap_login_attribute={login}))";
 
 .. tip:: The string ``{login}`` is replaced by submitted login.
 

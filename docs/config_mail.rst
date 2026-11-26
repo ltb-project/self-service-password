@@ -26,16 +26,6 @@ You can change the default ``From`` header and add a signature:
    $mail_from_name = "Self Service Password administrator";
    $mail_signature = "";
 
-Change password notification
-----------------------------
-
-Use this option to send a confirmation mail to the user, just after a
-successful mail change:
-
-.. code-block:: php
-
-   $notify_on_change = true;
-
 PHPMailer
 ---------
 

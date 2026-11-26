@@ -25,4 +25,5 @@ LDAP Tool Box Self Service Password documentation
    webservices.rst
    audit.rst
    set_attributes.rst
+   notifications.rst
    developers.rst
