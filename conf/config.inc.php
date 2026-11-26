@@ -305,6 +305,17 @@ $reset_url = "http://ssp.example.com/";
 # If behind a reverse proxy with a virtual host
 #$reset_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . "://" . $_SERVER['HTTP_X_FORWARDED_HOST'] . $_SERVER['SCRIPT_NAME'];
 
+# Graphics
+$logo = "images/ltb_ssp_logo.png";
+#$background_image = "images/custom-background.png";
+$favicon = "images/ltb_ssp_icon.png";
+$logo_menu = $favicon;
+$custom_css = "";
+$display_footer = true;
+
+# Customized template directory: to override some templates files
+$custom_tpl_dir = "";
+
 ## Mail
 # LDAP mail attribute
 $mail_attributes = array( "mail", "gosaMailAlternateAddress", "proxyAddresses" );
@@ -408,17 +419,6 @@ $show_menu = true;
 
 # Display eyes to show password fields
 $show_pwd = false;
-
-# Graphics
-$logo = "images/ltb_ssp_logo.png";
-#$background_image = "images/custom-background.png";
-$favicon = "images/ltb_ssp_icon.png";
-$logo_menu = $favicon;
-$custom_css = "";
-$display_footer = true;
-
-# Customized template directory: to ovverride some templates files
-$custom_tpl_dir = "";
 
 # Where to log password resets - Make sure apache has write permission
 # By default, they are logged in Apache log
