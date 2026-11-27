@@ -17,7 +17,7 @@
 
 Name: self-service-password
 Version: 1.8.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: LDAP password change web interface
 # Self-service-password is GPLv2+
 # All bundled php libs (vendor/*) but phpmailer are MIT
@@ -42,7 +42,7 @@ Requires: php(language) >= 7.3
 Requires: php-gd
 Requires: php-ldap
 Requires: php-mbstring
-Requires: php-Smarty
+Requires: (php-smarty4 or php-Smarty)
 %if 0%{!?el7}
 Recommends: php-sodium
 %endif
@@ -136,7 +136,7 @@ install -p -m 644 %{SOURCE1} \
 
 # Adapt Smarty paths
 sed -i \
-  -e 's:/usr/share/php/smarty3:/usr/share/php/Smarty:' \
+  -e 's:/usr/share/php/smarty3:/usr/share/php/smarty4:' \
   -e 's:^#$smarty_cache_dir.*:$smarty_cache_dir = "'%{ssp_cachedir}/cache'";:' \
   -e 's:^#$smarty_compile_dir.*:$smarty_compile_dir = "'%{ssp_cachedir}/templates_c'";:' \
   conf/config.inc.php
@@ -192,6 +192,9 @@ rm -rf %{ssp_cachedir}/{cache,templates_c}/*
 
 
 %changelog
+* Fri Nov 27 2026 Xavier Bachelot <xavier.bachelot@worteks.com> - 1.8.2-2
+- Switch to smarty4
+
 * Wed Sep 30 2026 - Clement Oudot <clem@ltb-project.org> - 1.8.2-1
 - gh#1123: Uncaught TypeError: LDAP value must be of type string|int|bool, float given
 - gh#1146: Polish the Polish language translations in lang/pl.inc.php
