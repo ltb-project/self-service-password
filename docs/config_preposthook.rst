@@ -54,6 +54,18 @@ if it fails, but still try to update password in the directory.
 
     $ignore_prehook_error = true;
 
+When the password is owned by another system than the LDAP directory, the prehook can be the password change itself.
+For example, with a Kerberos KDC as the owner (the directory only points at it, ``userPassword: {SASL}user@REALM``), the
+script runs ``kpasswd``. The old password is still checked with an LDAP bind, but the directory is not modified:
+
+.. code-block:: php
+
+    $prehook_only = true;
+
+The change succeeds only if the script returns 0, whatever ``$ignore_prehook_error`` says; a failure is displayed like
+any prehook failure (``$display_prehook_error``). The post hook, if any, runs after a successful change. This applies to
+the standard password change only: a reset has no old password to give to the script.
+
 Here is an example of a simple hook script:
 
 .. code-block:: bash
