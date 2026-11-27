@@ -4,6 +4,30 @@ Upgrade
 From 1.8 to 1.9
 ---------------
 
+Smarty4
+~~~~~~~
+
+Smarty dependency has been upgraded to version 4.
+
+Smarty4 is widely available on most of supported linux distributions, like:
+
+* EL8
+* EL9
+* EL10
+* debian 12
+* debian 13
+
+If you are using an old distribution not owning smarty4, or if you have modified by hand the smarty library in your local configuration ``config.inc.local.php``, you must update it to the correct path:
+
+``config.inc.local.php``
+
+.. code-block:: php
+
+    if (!defined("SMARTY")) {
+        define("SMARTY", "/usr/share/php/smarty4/Smarty.class.php");
+    }
+
+
 HTML emails
 ~~~~~~~~~~~
 
