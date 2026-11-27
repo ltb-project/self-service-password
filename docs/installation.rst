@@ -14,7 +14,7 @@ Prerequisites:
 * php-ldap
 * php-mbstring (reset mail)
 * php-openssl (token crypt, probably built-in)
-* smarty (3 or 4)
+* smarty4 (can still work with smarty3 on old systems)
 
 Tarball can be downloaded from `LTB project website <https://ltb-project.org/download.html>`_.
 
@@ -50,16 +50,6 @@ Debian / Ubuntu
 
 .. Important::
     The GPG key for debian has been updated on August 2025. Take care to use the new one by following the instructions below.
-
-.. warning:: Due to a `bug`_ in old Debian and Ubuntu `smarty3`_ package, you may face the error ``syntax error, unexpected token "class"``.
-   In this case, install a newer version of the package:
-
-   ``# wget http://ftp.us.debian.org/debian/pool/main/s/smarty3/smarty3_3.1.47-2_all.deb``
-
-   ``# dpkg -i smarty3_3.1.47-2_all.deb``
-
-.. _smarty3: https://packages.debian.org/sid/smarty3
-.. _bug: https://github.com/ltb-project/self-service-password/issues/681
 
 Configure the repository:
 
