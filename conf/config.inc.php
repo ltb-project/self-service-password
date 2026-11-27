@@ -482,6 +482,9 @@ $use_restapi = false;
 #$prehook_password_encodebase64 = false;
 # Ignore prehook error. This will allow to change password even if prehook script fails.
 #$ignore_prehook_error = true;
+# The prehook is the password change: the directory is not modified (standard change only). For passwords owned by
+# another system, e.g. a prehook running kpasswd against a Kerberos KDC. The change succeeds only if the script returns 0.
+#$prehook_only = true;
 
 ## Post Hook
 # Launch a posthook script after successful password change
